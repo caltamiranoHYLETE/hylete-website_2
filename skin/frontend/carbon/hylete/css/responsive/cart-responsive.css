@@ -1,0 +1,149 @@
+@media (min-width: 768px) {
+    .discount-giftcard {
+        display: block !important;
+    }
+
+    .mobile-product-qty {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    #recently-added-container .header {
+        height: 65px !important;
+    }
+
+    .minicart-is-open .headercart-filter {
+        border-top: 65px solid #000 !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .discounts .giftcard .validation-advice {
+        padding-left: 3px;
+    }
+}
+
+
+@media (max-width: 991px) {
+    .cart .page-title {
+        border-top: none;
+    }
+    
+    .discounts input {
+        width: 200px;
+    }
+
+    .checkout-cart-index .cart .totals {
+        border-top: 1px #e5e5e5 solid;
+        margin: 20px 0;
+        padding: 15px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .cart-collaterals-col {
+        float: left;
+        margin-top: 20px;
+    }
+
+    .cart .totals {
+        margin-bottom: 20px;
+    }
+
+    .cart-table .mobile-product-price {
+        font-size: 14px;
+        vertical-align: bottom;
+        padding: 0 0 26px;
+        text-align: right;
+    }
+
+    .cart-table td {
+        vertical-align: top;
+    }
+
+    .cart-table tr {
+        position: relative;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .cart-table tr.first {
+        border-top: 1px solid #ccc;
+    }
+
+    .cart-table td.remove {
+        position: absolute;
+        right: 4px;
+        width: 15px;
+        padding-left: 0;
+        padding-top: 20px;
+    }
+        
+    .cart-table .product-name.has-options {
+        margin-top: 0;
+    }
+
+    .cart-table .product-qty-change {
+        margin-left: 12px;
+        color: #ccc;
+    }
+
+    .cart-table th {
+        padding: 0 0 5px;
+    }
+
+    .cart-table tfoot .a-right.last {
+        text-align: right;
+    }
+
+    .cart-table tfoot button {
+        margin-bottom: 10px;
+    }
+
+    .cart-table .th-title {
+        padding-left: 15px;
+    }
+    
+    .checkout-cart-index .col-main .cart {
+        padding: 0 10px;
+    }
+
+    .discounts .rewards-box-spend-minicart {
+        margin: 24px 0;
+    }
+
+    .discounts .discount,
+    .discounts .giftcard {
+        margin-bottom: 24px;
+    }
+
+    .discounts h2 {
+        margin: 0 0 6px;
+    }
+
+    .discounts input {
+        width: 230px;
+    }
+
+    .discounts .tbt-reward.active .icon-angle-right:before{
+        content: "\f107";
+    }
+    
+    .checkout-cart-index .cart .page-title {
+        border-top: none;
+    }
+
+    .checkout-cart-index .cart .totals {
+        border: none;
+        margin: 0;
+    }
+
+    .checkout-cart-index .col-main >.page-title,
+    .checkout-cart-index .cart-empty {
+        margin: 0 10px;
+    }
+
+    #shopping-cart-table thead {
+        display: none;
+    }
+}

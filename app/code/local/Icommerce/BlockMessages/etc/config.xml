@@ -1,0 +1,30 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_BlockMessages>
+            <version>0.1.3</version>
+        </Icommerce_BlockMessages>
+    </modules>
+
+    <global>
+        <models>
+            <blockmessages>
+                <class>Icommerce_BlockMessages_Model</class>
+            </blockmessages>
+            <adminnotification>
+                <rewrite>
+                    <feed>Icommerce_BlockMessages_Model_Feed</feed>
+                </rewrite>
+            </adminnotification>
+        </models>
+        <helpers>
+            <blockmessages>
+                <class>Icommerce_BlockMessages_Helper</class>
+            </blockmessages>
+            <adminnotification>
+                <rewrite>
+                    <data>Icommerce_BlockMessages_Helper_Data</data>
+                </rewrite>
+            </adminnotification>
+        </helpers>
+    </global>
+</config>

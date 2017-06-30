@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <BSS_FastOrder>
+            <version>1.0.0</version>
+        </BSS_FastOrder>
+    </modules>
+    
+    <frontend>
+    	<routers>
+            <fastorder>
+                <use>standard</use>
+                <args>
+                    <module>BSS_FastOrder</module>
+                    <frontName>fastorder</frontName>
+                </args>
+            </fastorder>
+        </routers>
+        <layout>
+            <updates>
+                <fastorder>
+                    <file>bss/fastorder.xml</file>
+                </fastorder>
+            </updates>
+        </layout>  
+        <translate>
+        	<modules>
+        		<BSS_FastOrder>
+        			<files>
+                        <default>BSS_FastOrder.csv</default>
+        			</files>
+        		</BSS_FastOrder>
+        	</modules>
+        </translate>
+    </frontend>
+    
+    <global>
+        <blocks>
+            <fastorder>
+                    <class>BSS_FastOrder_Block</class>
+            </fastorder>
+            <checkout>
+                <rewrite>                                 
+                    <cart_item_renderer>BSS_FastOrder_Block_Checkout_Cart_Item_Renderer</cart_item_renderer>
+                </rewrite>
+            </checkout>            
+    	</blocks>
+    	<helpers>
+            <fastorder>
+                    <class>BSS_FastOrder_Helper</class>
+            </fastorder>
+    	</helpers>
+    </global>
+    
+    <adminhtml>
+      	<acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <bss_fastorder>
+                                            <title>BSS Fast Order</title>
+                                        </bss_fastorder>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>    
+    </adminhtml>
+    
+    <default>
+    	<bss_fastorder>
+    		<general_settings>
+                    <min_autocomplete translate="label">3</min_autocomplete>
+                    <max_results translate="label">10</max_results>
+                    <allowed_characters translate="label"><![CDATA[azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN1234567890]]></allowed_characters>
+                    <lines translate="label">3</lines>
+					<fastorder_subproduct_enable translate="label">1</fastorder_subproduct_enable>
+					<fastorder_namesearch_enable translate="label">1</fastorder_namesearch_enable>
+    		</general_settings>
+    	</bss_fastorder>
+    </default>
+	
+                    
+</config>

@@ -1,0 +1,58 @@
+
+<?php /* Tabs for product page */ ?>
+
+<div id="tabs">
+	<ul>
+		<li><a href="#description"><?php echo $this->__('Description') ?></a></li>
+		<li><a href="#additional"><?php echo $this->__('Additional') ?></a></li>
+		<li><a href="#reviews"><?php echo $this->__('Reviews') ?></a></li>
+		<li><a href="#accessories"><?php echo $this->__('Accessories') ?></a></li>
+	</ul>
+	<div id="description">
+        <?php if ($_description = $this->getChildHtml('description')) :?>
+		<?php echo $_description; endif;?>
+	</div>
+	<div id="additional">
+		<?php if ($_additional = $this->getChildHtml('additional')):?>
+		<?php echo $_additional; endif;?>
+	</div>
+	<div id="reviews">
+		<?php echo $this->getChildHtml('reviews') ?>
+		<?php echo $this->getChildHtml('review_form') ?>
+	</div>
+	<div id="accessories">
+		<?php echo $this->getChildHtml('upsell_products_tab') ?>
+	</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function($){
+        
+        var tabs;
+        
+        if ($.address.value() == '') {
+            $.address.value( $('#tabs ul:first a:first').attr('href').split('#')[1] );
+        }
+		
+        // Address handler
+        $.address.init(function(event) {
+        
+            // Adds the ID in a lazy manner to prevent scrolling
+            $('#tabs div:first').attr('id', $('#tabs ul:first a:first').attr('href').split('#')[1]);
+            
+            // Tabs setup
+            tabs = $('#tabs').tabs();
+            
+            // Enables the plugin for all the tab links
+            $('#tabs ul:first a').address();
+        
+        }).externalChange(function(event) {
+            // Select the proper tab
+            tabs.tabs('select', $('a[href=#' + event.value + ']').attr('href'));
+            
+        }).history(true);
+	
+	});
+//]]>
+</script>

@@ -1,0 +1,26 @@
+<?php
+$_product = $this->getProduct();
+$_helperBlog = Mage::helper('blog');
+?>
+<?php if ($_helperBlog->isShowPublishDateActive() && $_product->getBlogPublishDate() != ''): ?>
+    <?php echo $_helperBlog->__('Posted'); ?> <span
+        class="date"><?php echo $_helperBlog->getPublishDate($_product, 'd MMMM Y'); ?></span>
+<?php endif; ?>
+<?php if ($_helperBlog->isAuthorActive() && $_product->getBlogAuthor() != ''): ?> <?php echo $_helperBlog->__('by'); ?> <?php echo $this->htmlEscape(Icommerce_Default::getOptionValue($_product, 'blog_author')); ?><?php endif; ?>
+
+<?php $_subjects = $_helperBlog->getSubjects($_product); ?>
+
+<?php if ($_numSubjects = $_subjects->count()): ?>
+    | <?php echo $_helperBlog->__('Tags:'); ?>
+<?php endif; ?>
+
+<?php $_j = 0; ?>
+<?php foreach ($_subjects as $_subject): ?>
+    <?php $_j++; ?>
+    <?php if ($_subject->getLevel() > 2): ?>
+        <a class="blog-link" href="<?php echo $_subject->getUrl() ?>"><?php echo $_subject->getName() ?></a>
+        <?php if ($_j < $_numSubjects): ?>
+            ,
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endforeach; ?>

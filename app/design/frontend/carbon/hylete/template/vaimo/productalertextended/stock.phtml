@@ -1,0 +1,32 @@
+<?php
+$_helper = Mage::helper('hylete');
+$_email = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+$_product = Mage::registry("current_product");
+$_superattribute = $_helper->getConfigurableSuperAttribute($_product);
+$_nonSalableSimples = $_helper->getSimples($_product, 'nonsalable');
+?>
+
+<div data-togglecontent="getnotified" data-togglegroup="productpage" class="getnotified clearfix">
+    <form id="notify_data" class="configurable" method="post" action="<?php echo Mage::getUrl("productalertextended/index/add/") ?>">
+        <a data-togglelink="getnotified" data-togglegroup="productpage" class="underline"><?php echo $this->__('close');?></a>
+        
+        <?php if (count($_nonSalableSimples) > 0):?>
+            <select name="product_id" class="required-entry">
+                <option value=""><?php echo $this->__('select size');?></option>
+                <?php foreach ($_nonSalableSimples as $_simple):?>
+                    <option value="<?php echo $_simple->getId();?>"><?php echo $_simple->getAttributeText($_superattribute['attribute_code']);?></option>
+                <?php endforeach;?>
+            </select>
+            
+        <?php else:?>
+            <input type="hidden" name="product_id" class="input-text required-entry" value="<?php echo $_product->getId();?>" />
+        <?php endif;?>
+        
+        <div>
+            <input type="email" name="email" class="input-text required-entry validate-email" placeholder="<?php echo $this->__("enter your email"); ?>" value="<?php echo $_email; ?>" />
+        </div>
+        <button type="submit"><?php echo $this->__('notify me');?></button>
+        <p class="msg"></p>
+    </form>
+</div>
+

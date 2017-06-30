@@ -1,0 +1,6 @@
+.vcms-webkit-edit-fix,
+.vcms-webkit-edit-fix p,
+.vcms-webkit-edit-fix span,
+.vcms-webkit-edit-fix li {
+    line-height: inherit;
+}

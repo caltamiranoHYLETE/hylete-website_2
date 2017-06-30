@@ -1,0 +1,28 @@
+<?php
+/**
+ * @see Ebizmarts_BakerlooRestful_Block_Adminhtml_System_Config_Fieldset_Conflict
+ */
+?>
+
+<?php $conflicts = $this->getConflictList(); if(!empty($conflicts)): ?>
+<div class="bakerloo-notice" style="background:#EAF0EE;border:1px solid #CCCCCC;margin-bottom:10px;padding:11px 0 0 10px;">
+    <h5><?php echo $this->__('Please fix the following conflicts before you continue to use this module:')?></h5>
+
+    <div>
+        <?php foreach($conflicts as $original => $overrides): ?>
+
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr><td><strong><?php echo $original; ?></strong></td></tr>
+                    <?php foreach($overrides as $override): ?>
+                        <tr><td><?php echo $override; ?></td></tr>
+                    <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>

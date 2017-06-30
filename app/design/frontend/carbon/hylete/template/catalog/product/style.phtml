@@ -1,0 +1,104 @@
+<?php $_styleProduct = $this->getProduct();?>
+<?php $_helper = Mage::helper('hylete');?>
+<?php $_styleHelper = Mage::helper('style');?>
+<?php $_imageHelper = $this->helper('catalog/image');?>
+<?php $_styleProductItems = $_styleHelper->getStyleProductItems($_styleProduct);?>
+
+<script type="text/javascript">
+    var priceFormat = <?php echo Mage::helper('tax')->getPriceFormat();?>;
+</script>
+
+<?php echo $this->getChildHtml('breadcrumbs') ?>
+
+<div class="style product">
+    <div class="style-image">
+        <img class="visible-xs visible-sm" src="<?php echo $_imageHelper->init($_styleProduct, 'image')->keepFrame(false)->resize(767, 550);?>" alt="" />
+        <img class="hidden-xs hidden-sm" src="<?php echo $_imageHelper->init($_styleProduct, 'image')->keepFrame(false)->resize(1170);?>" />
+    </div>
+    
+    <div class="products-grid">
+        <h1><?php echo $_styleProduct->getName();?></h1>
+        
+        <form id="style_data" class="style-products row clearfix" action="<?php echo $this->getUrl('style/cart/addMultiple'); ?>" method="post" id="product_addtocart"<?php if ($_styleProduct->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <input type="hidden" name="styleProduct" value="<?php echo $_styleProduct->getId(); ?>">
+            
+            <div class="row top">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 sum">
+                            <p class="count"><strong></strong> (<?php echo count($_styleProductItems);?>) <?php echo $this->__('items selected');?></p>
+                            <p class="total"><?php echo $this->__('total');?>: <strong></strong></p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 add-to-cart">
+                            <button type="submit" class="button"><?php echo $this->__('add to cart');?></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <p class="error"><?php echo $this->__('please select an option for all selected products');?></p>
+                </div>
+            </div>
+            
+            <?php foreach($_styleProductItems as $_product):?>
+                <?php $_status = ($_product->getComingSoon()) ? 'coming-soon' : ((!$_product->isSaleable()) ? 'out-of-stock' : '');?>
+                <?php $_superAttribute = $_helper->getConfigurableSuperAttribute($_product);?>
+
+                <div class="item <?php echo $_status;?>">
+                    <input type="hidden" id="addToCartProducts" name="addToCartProducts[]" value="<?php echo $_product->getId();?>" />
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 badges">
+                            <div class="badges">
+                                <?php if ($_product->getBadgeLabel() && $_badgeLabelText = $_product->getAttributeText('badge_label')):?>
+                                    <div class="badge"><?php echo $this->escapeHtml($_badgeLabelText) ?></div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 image">
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(130); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                            </a>
+                        </div>
+                        
+                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 info">                        
+                            <h5><a href="<?php echo $_product->getProductUrl();?>"><?php echo $_product->getName();?></a></h5>
+                            <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
+                            <?php if ($_product->isSaleable() && !$_product->getComingSoon()):?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if (count($_product['option']) > 0):?>
+                                    <select name="super_attribute[<?php echo $_product->getId(); ?>][<?php echo $_superAttribute['attribute_id']; ?>]">
+                                        <option value=""><?php echo $this->__('select %s', strtolower($_superAttribute['label']));?></option>
+                                        <?php foreach($_product['option'] as $_option): ?>
+                                            <option value="<?php echo $_option['_oid:' . $_superAttribute['attribute_code']]; ?>" <?php echo (!$_option['stock_status']) ? 'disabled' : '';?>><?php echo $_option[$_superAttribute['attribute_code']]; ?><?php echo (!$_option['stock_status']) ? ' - ' . $this->__('out of stock') : '';?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                <?php endif;?>
+                                
+                                <input type="checkbox" id="checkbox-<?php echo $_product->getId();?>" name="chosen" value="1" checked />
+                                <label for="checkbox-<?php echo $_product->getId();?>"></label>
+                                <div class="hidden" data-price="<?php echo $_product->getFinalPrice();?>"></div>
+                                
+                                <p class="required"><?php echo $this->__('please choose an option');?></p>
+                            <?php else:?>
+                                <p class="status-message">
+                                    <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
+                                </p>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach;?>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    "use strict";
+    (function ($, document) {
+        $(document).ready(function () {
+            $('.style').vaimoStyle();
+        });
+    })(jQuery, document);
+</script>

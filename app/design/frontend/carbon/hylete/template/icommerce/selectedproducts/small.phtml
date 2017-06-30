@@ -1,0 +1,110 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Icommerce Featured Products on Front Page Template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ * Category ID is set in XML or CMS
+ */
+?>
+
+<?php
+$_productCollection = $this->getCollection();
+$_baseUrl = Mage::getBaseUrl();
+?>
+
+<div class="selected-products">
+    <?php if (!$_productCollection->count()): ?>
+        <div class="note-msg">
+            <?php echo $this->__('There are no products matching the selection.') ?>
+        </div>
+        
+    <?php else: ?>
+        <?php $imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image' ?>
+        
+        <?php if ($listTitle = $this->getCollectionTitle()): ?>
+            <div class="head">
+                <h4><?php echo $this->__($listTitle) ?></h4>
+            </div>
+        <?php endif ?>
+        
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = $this->getNumGet(); ?>
+        <?php $i = 0; ?>
+        <ol class="products-grid row">
+            <?php foreach ($_productCollection as $_product): ?>
+                <?php 
+                $_bootstrapClass = ($this->hasListDirection() == 'horizontal') ? 'col-xs-12 col-sm-3 col-md-3 col-lg-3' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12';
+                $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
+                $_img = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(220);
+                $_imgMobile = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(500);
+                ?>
+                
+                <li class="item <?php echo $_bootstrapClass;?> <?php echo $_status;?>">
+                    <div class="badges">
+                        <?php if ($_product->getBadgeLabel() && $_badgeLabelText = $_product->getAttributeText('badge_label')):?>
+                            <div class="badge"><?php echo $this->escapeHtml($_badgeLabelText) ?></div>
+                        <?php endif ?>
+                    </div>
+                    
+                    <a href="<?php echo $_product->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, $imageAttribute)) ?>">
+                        <picture>
+                            <source srcset="<?php echo $_imgMobile; ?>" media="(max-width: 768px)">
+                            <img srcset="<?php echo $_img;?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, $imageAttribute)) ?>">
+                        </picture>
+                    </a>
+    
+                    <?php if (!$this->hasShowPriceAndName() || $this->getShowPriceAndName()): ?>
+                        <h5>
+                            <a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a>
+                        </h5>
+                        <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
+                        
+                        <?php if ($_product->isSaleable()):?>
+                            <?php echo $this->getPriceHtml($_product, true) ?>
+                        <?php else:?>
+                            <p class="status-message">
+                                <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
+                            </p>
+                        <?php endif;?>
+                    <?php endif ?>
+                    
+                    <?php if ($this->getShowBuyButton()): ?>
+                        <?php if ($_product->getTypeId() == 'configurable' || !$_product->isSaleable()): ?>
+                            <button type="button" title="<?php echo $this->__('More info') ?>" class="button btn-cart hidden-phone"
+                                    onclick="setLocation('<?php echo $_baseUrl . $_product->getUrlKey() ?>')"><span><span><?php echo $this->__('More info') ?></span></span></button>
+                            <?php else: ?>
+                            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart hidden-phone"
+                                    onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach ?>
+        </ol>
+    <?php endif ?>
+</div>

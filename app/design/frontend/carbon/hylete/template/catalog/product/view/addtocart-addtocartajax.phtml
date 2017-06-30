@@ -1,0 +1,63 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+?>
+
+<?php $_product = $this->getProduct() ?>
+<?php $_backitHelper = Mage::helper('hylete/backit'); ?>
+<?php
+if ($_backitHelper->isBackItProduct($_product)) {
+    $_buttonLabel = $this->__('Back It');
+} elseif ($_backitHelper->isPreOrderProduct($_product)) {
+    $_buttonLabel = $this->__('pre-order');
+} else {
+    $_buttonLabel = $this->__('Add to Cart');
+}
+?>
+<?php if ($_product->isSaleable()): ?>
+    <fieldset class="add-to-cart">
+        <?php if (!$_product->isGrouped()): ?>
+            <input type="text" class="input-text qty hidden" name="qty" id="qty" maxlength="12"
+                   value="<?php if ($this->getMinimalQty($_product)) {
+                       echo $this->getMinimalQty($_product);
+                   } else {
+                       echo '1';
+                   } ?>"/>
+        <?php endif; ?>
+
+        <?php if ($_product->getOptions()): ?>
+            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"
+                    onclick="productAddToCartForm.submit(this)"><?php echo $_buttonLabel; ?></button>
+        <?php else: ?>
+            <button type="button" class="button"
+                    onclick="addToCartAjax.add(this, '<?php echo $_product->getID(); ?>');"><?php echo $_buttonLabel; ?></button>
+        <?php endif; ?>
+
+        <?php
+        if (Mage::helper('addtocartajax')->productCheckoutButton()) {
+            echo Icommerce_Layout::getBlockHtml("core/template", "addtocartajax/checkoutbutton.phtml");
+        }
+        ?>
+    </fieldset>
+<?php endif; ?>

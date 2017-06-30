@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Talkable SocialReferrals for Magento
+ *
+ * @package     Talkable_SocialReferrals
+ * @author      Talkable (http://www.talkable.com/)
+ * @copyright   Copyright (c) 2015 Talkable (http://www.talkable.com/)
+ * @license     MIT
+ */
+-->
+<config>
+    <modules>
+        <Talkable_SocialReferrals>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Talkable_SocialReferrals>
+    </modules>
+</config>

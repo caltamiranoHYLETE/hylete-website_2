@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ebizmarts_BakerlooReports>
+            <version>1.0.2</version>
+        </Ebizmarts_BakerlooReports>
+    </modules>
+    <default>
+        <pos_reports>
+            <pos_orders>
+                <report_name>Orders</report_name>
+                <report_model>bakerloo_reports/default_orders</report_model>
+            </pos_orders>
+            <totals_by_user>
+                <report_name>Sales Totals by User</report_name>
+                <report_model>bakerloo_reports/default_userTotals</report_model>
+            </totals_by_user>
+            <daily_totals>
+                <report_name>Daily Totals</report_name>
+                <report_model>bakerloo_reports/default_dailyTotals</report_model>
+            </daily_totals>
+            <payment_type>
+                <report_name>Payment Type</report_name>
+                <report_model>bakerloo_reports/default_paymentType</report_model>
+            </payment_type>
+        </pos_reports>
+        <pos_columns>
+            <optional>
+                <store_id>
+                    <label>Store ID</label>
+                    <value>store_id</value>
+                    <definition>smallint(5) unsigned</definition>
+                    <source><model>bakerloo_restful/order</model><field>store_id</field></source>
+                    <hidden>0</hidden>
+                </store_id>
+                <salesperson>
+                    <label>Sales Agent</label>
+                    <value>salesperson</value>
+                    <definition>varchar(255) default ''</definition>
+                    <source><model>bakerloo_restful/order</model><field>salesperson</field></source>
+                    <hidden>0</hidden>
+                </salesperson>
+                <admin_user>
+                    <label>Administrator</label>
+                    <value>admin_user</value>
+                    <definition>varchar(255) default ''</definition>
+                    <source><model>bakerloo_restful/order</model><field>admin_user</field></source>
+                    <hidden>0</hidden>
+                </admin_user>
+                <!--<payment_method>-->
+                    <!--<label>Payment method</label>-->
+                    <!--<value>payment_method</value>-->
+                    <!--<definition>varchar(255) default ''</definition>-->
+                    <!--<source>-->
+                        <!--<model>jsonPayload</model>-->
+                        <!--<field>-->
+                            <!--<path>payment</path>-->
+                            <!--&lt;!&ndash;<path>method</path>&ndash;&gt;-->
+                        <!--</field>-->
+                    <!--</source>-->
+                    <!--<hidden>0</hidden>-->
+                    <!--<after>total_tax</after>-->
+                    <!--<renderer>bakerloo_reports/adminhtml_widget_grid_column_renderer_orderPaymentMethod</renderer>-->
+                    <!--<filter>0</filter>-->
+                    <!--<sortable>0</sortable>-->
+                <!--</payment_method>-->
+                <device_order_id>
+                    <label>Device Order ID</label>
+                    <value>device_order_id</value>
+                    <definition>varchar(255)</definition>
+                    <source><model>bakerloo_restful/order</model><field>device_order_id</field></source>
+                    <hidden>0</hidden>
+                    <after>order_date</after>
+                </device_order_id>
+                <order_date>
+                    <label>Order Date</label>
+                    <value>order_date</value>
+                    <definition>datetime</definition>
+                    <source><model>bakerloo_restful/order</model><field>order_date</field></source>
+                    <hidden>0</hidden>
+                    <type>datetime</type>
+                </order_date>
+                <customer_id>
+                    <label>Customer ID</label>
+                    <value>customer_id</value>
+                    <definition>int(11)</definition>
+                    <source><model>sales/order</model><field>customer_id</field><searchby>entity_id</searchby></source>
+                    <hidden>1</hidden>
+                    <after>device_order_id</after>
+                    <!--<renderer>bakerloo_reports/adminhtml_widget_grid_column_renderer_customerId</renderer>-->
+                    <!--<filter>0</filter>-->
+                    <!--<sortable>0</sortable>-->
+                </customer_id>
+                <customer_name>
+                    <label>Customer name</label>
+                    <value>customer_name</value>
+                    <definition>varchar(255)</definition>
+                    <source><model>sales/order</model><field>customer_lastname</field><searchby>entity_id</searchby></source>
+                    <hidden>0</hidden>
+                    <after>customer_id</after>
+                    <renderer>bakerloo_reports/adminhtml_widget_grid_column_renderer_customerName</renderer>
+                    <filter>0</filter>
+                    <sortable>0</sortable>
+                </customer_name>
+                <total_to_gross>
+                    <label>Total to Gross</label>
+                    <value>total_to_gross</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source></source>
+                    <hidden>0</hidden>
+                    <type>currency</type>
+                </total_to_gross>
+                <currency_code>
+                    <label>Currency Code</label>
+                    <value>currency_code</value>
+                    <definition>varchar(3)</definition>
+                    <source><model>bakerloo_restful/order</model><field>currency_code</field></source>
+                    <hidden>0</hidden>
+                </currency_code>
+                <order_qty>
+                    <label>Order Quantity</label>
+                    <value>order_qty</value>
+                    <definition>int(11)</definition>
+                    <source></source>
+                    <hidden>0</hidden>
+                </order_qty>
+                <grand_total>
+                    <label>Total</label>
+                    <value>grand_total</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>grand_total</field></source>
+                    <hidden>0</hidden>
+                </grand_total>
+                <subtotal>
+                    <label>Subtotal</label>
+                    <value>subtotal</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>subtotal</field></source>
+                    <hidden>0</hidden>
+                </subtotal>
+                <tax_amount>
+                    <label>Tax Amount</label>
+                    <value>tax_amount</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>tax_amount</field></source>
+                    <hidden>0</hidden>
+                </tax_amount>
+                <base_grand_total>
+                    <label>Base Total</label>
+                    <value>base_grand_total</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>base_grand_total</field></source>
+                    <hidden>1</hidden>
+                </base_grand_total>
+                <base_subtotal>
+                    <label>Base Subtotal</label>
+                    <value>base_subtotal</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>base_subtotal</field></source>
+                    <hidden>1</hidden>
+                </base_subtotal>
+                <base_tax_amount>
+                    <label>Base Tax Amount</label>
+                    <value>base_tax_amount</value>
+                    <definition>decimal(12,4) default '0.0000'</definition>
+                    <source><model>bakerloo_restful/order</model><field>base_tax_amount</field></source>
+                    <hidden>1</hidden>
+                </base_tax_amount>
+                <base_currency_code>
+                    <label>Base Currency Code</label>
+                    <value>base_currency_code</value>
+                    <definition>varchar(3)</definition>
+                    <source><model>bakerloo_restful/order</model><field>base_currency_code</field></source>
+                    <hidden>1</hidden>
+                </base_currency_code>
+            </optional>
+        </pos_columns>
+    </default>
+    <global>
+        <blocks>
+            <bakerloo_reports>
+                <class>Ebizmarts_BakerlooReports_Block</class>
+            </bakerloo_reports>
+        </blocks>
+        <helpers>
+            <bakerloo_reports>
+                <class>Ebizmarts_BakerlooReports_Helper</class>
+            </bakerloo_reports>
+        </helpers>
+        <models>
+            <bakerloo_reports>
+                <class>Ebizmarts_BakerlooReports_Model</class>
+                <resourceModel>bakerloo_reports_mysql4</resourceModel>
+            </bakerloo_reports>
+            <bakerloo_reports_mysql4>
+                <class>Ebizmarts_BakerlooReports_Model_Mysql4</class>
+                <entities>
+                    <report>
+                        <table>bakerloo_reports</table>
+                    </report>
+                </entities>
+            </bakerloo_reports_mysql4>
+        </models>
+        <resources>
+            <bakerloo_reports_setup>
+                <setup>
+                    <module>Ebizmarts_BakerlooReports</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </bakerloo_reports_setup>
+        </resources>
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <bakerloo_reports_generateDefault>
+                        <type>model</type>
+                        <class>bakerloo_reports/observer</class>
+                        <method>generateDefault</method>
+                    </bakerloo_reports_generateDefault>
+                </observers>
+            </adminhtml_block_html_before>
+            <controller_action_predispatch>
+                <observers>
+                    <profilerequestpre>
+                        <class>bakerloo_reports/observer</class>
+                        <method>profilePre</method>
+                    </profilerequestpre>
+                </observers>
+            </controller_action_predispatch>
+            <controller_action_postdispatch>
+                <observers>
+                    <profilerequestpost>
+                        <class>bakerloo_reports/observer</class>
+                        <method>profilePost</method>
+                    </profilerequestpost>
+                </observers>
+            </controller_action_postdispatch>
+        </events>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Ebizmarts_BakerlooReports>
+                    <files>
+                        <default>Ebizmarts_BakerlooReports.csv</default>
+                    </files>
+                </Ebizmarts_BakerlooReports>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <bakerloo_reports>
+                    <file>bakerloo_reports.xml</file>
+                </bakerloo_reports>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <bakerloo_reports after="Mage_Adminhtml">Ebizmarts_BakerlooReports_Adminhtml</bakerloo_reports>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <routers>
+            <bakerloo_reports>
+                <use>standard</use>
+                <args>
+                    <module>Ebizmarts_BakerlooReports</module>
+                    <frontName>pos_reports</frontName>
+                </args>
+            </bakerloo_reports>
+        </routers>
+    </frontend>
+    <crontab>
+        <jobs>
+            <bakerloo_reports_update_all>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>bakerloo_reports/generator::updateAll</model></run>
+            </bakerloo_reports_update_all>
+        </jobs>
+    </crontab>
+</config>

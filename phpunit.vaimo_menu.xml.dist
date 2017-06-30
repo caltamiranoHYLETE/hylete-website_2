@@ -1,0 +1,57 @@
+<?xml version="1.0"?><!--
+**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Menu
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ *
+-->
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./app/code/local/Vaimo/Menu/Test/bootstrap.php"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    <testsuites>
+        <testsuite name="Vaimo_Menu">
+            <directory>./app/code/local/Vaimo/Menu/Test</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app/code/local/Vaimo/Menu</directory>
+            <exclude>
+                <directory suffix=".php">./app/code/local/Vaimo/Menu/Test</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <!-- Uncomment this line if you want to have coverage report generated every test run
+        <log type="coverage-html" target="var/phpunit/coverage" charset="UTF-8"
+              yui="true" highlight="false"
+              lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="var/phpunit/coverage.xml"/>
+        <log type="junit" target="var/phpunit/junit.xml" logIncompleteSkipped="false"/> -->
+    </logging>
+</phpunit>

@@ -1,0 +1,41 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php /* @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Related */ ?>
+<?php if ($this->hasItems()): ?>
+    <div class="morecolors">
+        <h2><?php echo $this->__('more colors');?></h2>
+        <ul class="row">
+            <?php foreach($this->getItemCollection() as $_item): ?>
+                <li class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+                    <a href="<?php echo $_item->getProductUrl() ?>" class="product-image">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(70)->setQuality(100) ?>" width="70" height="70" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" />
+                    </a>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+<?php endif;?>

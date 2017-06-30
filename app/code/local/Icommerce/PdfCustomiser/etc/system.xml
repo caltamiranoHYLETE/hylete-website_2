@@ -1,0 +1,425 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <sales_email>
+            <groups>
+                <order>
+                    <fields>
+                        <attachpdf translate="label">
+                            <label>Attach Order as PDF</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </attachpdf>
+                    </fields>
+                </order>
+            </groups>
+        </sales_email>
+        <sales_pdf>
+            <groups>
+                <all translate="label comment">
+                    <label>PDF Customiser by Icommerce</label>
+                    <sort_order>1</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <alllogo translate="label">
+                            <label>Logo for the PDF Print-outs</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">pdf-printouts</upload_dir>
+                            <base_url type="media" scope_info="1">pdf-printouts</base_url>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </alllogo>
+                        <all_max_logo_height>
+                            <label>Maximum Logo Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </all_max_logo_height>
+                        <allowneraddress translate="label">
+                            <label>Store Address</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowneraddress>
+                        <alladdressformat translate="label">
+                            <label>Customer Address Format</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_addressFormatOptions</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </alladdressformat>
+                        <displayboth translate="label">
+                            <label>Display Base and Order Currency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </displayboth>
+                        <allpagesize translate="label">
+                            <label>Page Size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_pagesizes</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allpagesize>
+                        <allthemetranslation translate="label">
+                            <label>Use theme translation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allthemetranslation>
+                        <allmargintop translate="label">
+                            <label>Top Margin</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allmargintop>
+                        <allmarginbottom translate="label">
+                            <label>Bottom Margin</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allmarginbottom>
+                        <allmarginsides translate="label">
+                            <label>Side Margins</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allmarginsides>
+                        <allfont translate="label">
+                            <label>Font</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_fonts</source_model>
+                            <comment>Choose Helvetica, Times or Courier for smaller filesizes. Choose the Dejavu-Variants to support more characters (UTF-8).</comment>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allfont>
+                        <allfontsize translate="label">
+                            <label>Font Size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_fontsizes</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allfontsize>
+                        <allqtyasint translate="label">
+                            <label>Display Quantity as full number</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allqtyasint>
+                        <allprintcomments translate="label">
+                            <label>Print Order History with Comments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>86</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allprintcomments>
+                        <allsign translate="label">
+                            <label>Digitally Sign PDF</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allsign>
+                        <allsigncertificate translate="label">
+                            <label>Signature</label>
+                            <frontend_type>textarea</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <comment>Copy the contents of your certificate/signature file including your private key here. Include everything from -----BEGIN RSA PRIVATE KEY-----
+                                to -----END CERTIFICATE-----
+                            </comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allsigncertificate>
+                        <allsignpassword translate="label">
+                            <label>Password of Signature</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allsignpassword>
+                    </fields>
+                </all>
+                <order translate="label">
+                    <label>Order</label>
+                    <sort_order>5</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <ordertitle translate="label">
+                            <label>Order Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ordertitle>
+                        <orderaddresses translate="label">
+                            <label>Customer Addresses</label>
+                            <comment>Which addresses should appear on the order? Please note that downloadable product orders don't have a shipping address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_addressOptions</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </orderaddresses>
+                        <ordercustom translate="label">
+                            <label>Custom Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>Add your custom comments here to appear at the bottom of the Order Print-out.</comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ordercustom>
+                    </fields>
+                </order>
+                <invoice translate="label">
+                    <sort_order>8</sort_order>
+                    <fields>
+                        <invoicetitle translate="label">
+                            <label>Invoice Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoicetitle>
+                        <invoicetaxnumber translate="label">
+                            <label>Tax Details</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoicetaxnumber>
+                        <invoiceaddresses translate="label">
+                            <label>Customer Addresses</label>
+                            <comment>Which addresses should appear on the invoice? Please note that downloadable product orders don't have a shipping address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_addressOptions</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoiceaddresses>
+                        <invoicedeliverydate translate="label">
+                            <label>Display Delivery Date</label>
+                            <comment>Displays the date of the invoice again. Needed in some jurisdictions.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoicedeliverydate>
+                        <renderbarcode translate="label">
+                            <label>Render Barcode</label>
+                            <comment>Displays a barcode of the order-id on the invoice</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </renderbarcode>
+                        <!--
+                        <invoicecustom translate="label">
+                            <label>Custom Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>Add your custom comments here to appear at the bottom of the Invoice Print-out. You could for example include bank account number and terms of payment.</comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoicecustom>
+                        -->
+                        <invoice_footer_1 translate="label">
+                            <label>Footer Column 1</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment></comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_1>
+                        <invoice_footer_2 translate="label">
+                            <label>Footer Column 2</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment></comment>
+                            <sort_order>101</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_2>
+                        <invoice_footer_3 translate="label">
+                            <label>Footer Column 3</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment></comment>
+                            <sort_order>102</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_3>
+                        <invoice_footer_4 translate="label">
+                            <label>Footer Column 4</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment></comment>
+                            <sort_order>103</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_4>
+                        <invoice_footer_box_height translate="label">
+                            <label>Footer box height (bordered)</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Set to zero if you don't want to have it</comment>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_box_height>
+                        <invoice_footer_box_bordersingle translate="label">
+                            <label>Footer box upper border-line</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_box_bordersingle>
+                        <invoice_footer_box_fontsize translate="label">
+                            <label>Footer box font size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_fontsizes</source_model>
+                            <comment></comment>
+                            <sort_order>95</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invoice_footer_box_fontsize>
+                    </fields>
+                </invoice>
+                <shipment translate="label">
+                    <fields>
+                        <shipmenttitle translate="label">
+                            <label>Shipment Title</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>String title OR extra logo to right side from media-folder. for example: {{pdf-printouts/default/mm_porto.jpg}}</comment>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipmenttitle>
+                        <shipmentaddresses translate="label">
+                            <label>Customer Addresses</label>
+                            <comment>Which addresses should appear on the packing slip? Please note that downloadable product orders don't have a shipping address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_addressOptions</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipmentaddresses>
+                        <shipmentdisplay translate="label">
+                            <label>Display</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_shipmentDisplay</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipmentdisplay>
+                        <shipmentcustom translate="label">
+                            <label>Custom Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>Add your custom comments here to appear at the bottom of the Shipment Print-out</comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipmentcustom>
+                    </fields>
+                </shipment>
+                <creditmemo translate="label">
+                    <fields>
+                        <creditmemotitle translate="label">
+                            <label>Credit Memo Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </creditmemotitle>
+                        <creditmemoaddresses translate="label">
+                            <label>Customer Addresses</label>
+                            <comment>Which addresses should appear on the Credit Memo? Please note that downloadable product orders don't have a shipping address.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pdfcustomiser/system_addressOptions</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </creditmemoaddresses>
+                        <creditmemocustom translate="label">
+                            <label>Custom Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>Add your custom comments here to appear at the bottom of the Creditmemo Print-out</comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </creditmemocustom>
+                    </fields>
+                </creditmemo>
+            </groups>
+        </sales_pdf>
+    </sections>
+</config>

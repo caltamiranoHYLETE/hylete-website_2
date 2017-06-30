@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<prisfiloptions>
+    <store_id>1</store_id>
+    <extra_attributes>
+        <ean_code label='EAN'/>
+    </extra_attributes>
+    <stock_options>
+        <algo>use-qty</algo>
+        <configurable>one-or-more</configurable>
+    </stock_options>
+    <products>
+        <configurable>
+             <include-invisible-simple />   <!-- Also show configurable child products-->
+             <rewrite-urls-of-simple /> <!-- Rewrite simple products urls incase of configurable products -->
+        </configurable>
+    </products>
+    <filters>
+        <tax_class_id>
+            <condition>eq</condition>
+            <value>1</value>
+        </tax_class_id>
+        <price>
+            <condition>gteq</condition>
+            <value>10000</value>
+        </price>
+    </filters>
+</prisfiloptions>

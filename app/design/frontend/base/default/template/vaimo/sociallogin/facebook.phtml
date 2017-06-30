@@ -1,0 +1,50 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_SocialLogin
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ */
+?>
+<?php
+$_configuration = $this->getInitialConfiguration();
+?>
+<script>
+    ;(function ($, window, undefined) {
+        if (typeof $.vaimo !== 'undefined' && typeof $.vaimo.socialLogin !== 'undefined') {
+            $.widget('vaimo.socialLogin', $.vaimo.socialLogin, {
+                configuration: {
+                    appId: '<?php echo $_configuration->getAppId(); ?>',
+                    xfbml: <?php echo ($_configuration->getXfbml() == '1' ? 'true' : 'false') ?>,
+                    version: '<?php echo $_configuration->getApiVersion() == 1 ? '' : 'v2.3' ?>',
+                    apiUrl: '<?php echo $_configuration->getApiUrl(); ?>',
+                    status: true,
+                    cookie: true,
+                    oauth: true,
+                    locale: '<?php echo $_configuration->getLocale(); ?>',
+                    scope: '<?php echo $_configuration->getScope(); ?>',
+                    loginUrl: '<?php echo $_configuration->getLoginUrl(); ?>',
+                    loginUrlChromeIOS: '<?php echo $_configuration->getLoginUrlChromeIos(); ?>',
+                    lazyInit: <?php echo ($_configuration->getLazyInit() ? 'true' : 'false') ?>
+                }
+            });
+        }
+    })(jQuery, window);
+</script>

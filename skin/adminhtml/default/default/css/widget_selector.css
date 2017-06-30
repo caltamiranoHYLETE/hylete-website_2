@@ -1,0 +1,16 @@
+.btn-widget  {
+    margin-right: 5px;
+}
+
+.adminhtml-catalog-category-edit #loading-mask {
+    z-index: 100000;
+}
+
+.btn-widget-label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.widget-attribute {
+    display: none;
+}

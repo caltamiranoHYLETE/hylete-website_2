@@ -1,0 +1,46 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $rows =  $this->getRows(); ?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Copy slideshow: ').$item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="addslideshow_form" enctype="multipart/form-data" name="addslideshow_form" method="post" action="<?php echo $this->getUrl('*/*/saveslideshow')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="addslideshowform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+        <input name="addslideshowform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="addslideshowform[row_id]" type="hidden" value="<?php echo $item['row_id'] ?>" />
+        <input name="addslideshowform[title]" type="hidden" value="<?php echo $item['title'] ?>" />
+        <input name="addslideshowform[slideshow]" type="hidden" value="<?php echo $item['slideshow'] ?>" />
+        <input name="addslideshowform[status]" type="hidden" value="<?php echo $item['status'] ?>" />
+        <input name="addslideshowform[position]" type="hidden" value="<?php echo $item['position'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Copy slideshow')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Choose row to copy to')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addslideshowform[row_id]">
+                    		<?php $i = 0; foreach($rows as $key => $title): ?>
+	                    		<option value="<?php echo $title['id']?>"><?php echo $this->__('Row ').($i+1).' ('.$this->__('Type: ').$helper->getRowTypeName($title['type']).')' ?></option>
+                    		<?php $i++; endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>            
+        	</table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addslideshowform = new varienForm('addslideshow_form');
+</script>

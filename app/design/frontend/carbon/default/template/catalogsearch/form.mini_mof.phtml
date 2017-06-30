@@ -1,0 +1,58 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Core_Block_Template */
+/* @var $_hlp Mage_Catalogsearch_Helper_Data */
+$_hlp =  $this->helper('catalogsearch');
+?>
+<form id="search_mini_form" action="<?php echo $_hlp->getResultUrl() ?>" method="get">
+    <div class="input-wrapper">
+        <label for="search" class="icon-search"><span class="sr-only"><?php echo $this->__('Search'); ?></span></label>
+        <input id="search" type="search" name="<?php echo $_hlp->getQueryParamName() ?>" value="<?php echo $_hlp->getEscapedQueryText() ?>" class="input-search" maxlength="<?php echo $_hlp->getMaxQueryLength();?>" />
+    </div>
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script>
+        var mof_search_instruction = '<?php echo $this->__('Enter search keyword'); ?>';
+        <?php if (!Mage::getStoreConfigFlag("multioptionfilter/settings/ajax_search_layered")): ?>
+        <?php // Note that this logic comes from MOF module standard form.mini_mof - presented in a different way ?>
+        Varien.searchForm = Class.create(Varien.searchForm, {
+            initAutocomplete: function(url, name) {
+                return this.constructor.superclass.prototype.initAutocomplete.apply('', name);
+            }
+        });
+        <?php else: ?>
+        //<![CDATA[
+        var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search') ?>');
+        searchForm.initAutocomplete('<?php echo $_hlp->getSuggestUrl() ?>', 'search_autocomplete');
+        //]]>
+        <?php endif; ?>
+    </script>
+    <?php if( 0 && ($q=$this->helper('catalogsearch')->getQueryText()) ): ?>
+        <ul><li>
+                <a href='<?php echo Mage::getBaseUrl() ."?". Mage::helper("multioptionfilter")->getQueryStringWithDelta("q","___ALL___") ?>'>
+                    <?php echo $this->__("Clear search for: ") . "<strong>$q</strong>"?></a>
+            </li></ul>
+    <?php endif; ?>
+</form>

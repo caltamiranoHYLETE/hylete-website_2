@@ -1,0 +1,289 @@
+<?php
+$model = Mage::getModel('dibs/dibs');
+$helper = Mage::helper('dibs');
+?>
+<fieldset class="form-list">
+    <?php $_code=$this->getMethodCode() ?>
+    <?php if ($model->getConfigData('window_type')==2): ?>
+	    <input type="hidden" name="payment[dibs_force_redirect]"/>
+    <?php endif; ?>
+    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
+        <li>
+            <?php echo $this->__("Once you have completed your order, you will be transferred to the DIBS payment system.") . ' ' . $this->__("Here you need to process your payment.") . ' ' . $this->__("Once payment is completed, you will automatically be returned to our shop.") ?>
+            <?php
+            	if ($model->showTrustedList() && $helper->displayLogos()) {
+				        ?>
+				        <br/><br/>
+				        <?php
+				        //
+				        // Show trusted logos
+				        //
+				        $logoArray = explode(',', $model->getConfigData('showlogos'));
+				        foreach($logoArray as $item) {
+				        	switch ($item) {
+				        		case 'DIBS': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/dibslogo.gif') ?>" style="border: none;" title="DIBS | Secure Payment Services (www.dibspayment.com)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'VISA_SECURE': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/verified_visa.gif') ?>" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MC_SECURE': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/mc_securecode.gif') ?>" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'JCB_SECURE': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/jcbsecure.gif') ?>" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'PCI': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/pci.gif') ?>" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        	}
+				        }
+				      }
+
+				      if ($model->showCardsList()) {
+				        ?>
+			        	<br/><br/>
+				        <?php echo $this->__('You can pay with the following payment cards:') ?>
+				        <br/>
+				        <?php
+				        //
+				        // Show card logos
+				        //
+				        $logoArray = explode(',', $model->getConfigData('showlogos'));
+				        foreach($logoArray as $item) {
+				        	switch ($item) {
+				        		case 'AMEX': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/amex.gif') ?>" style="border: none;" title="American Express" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'BAX': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/bax.gif') ?>" style="border: none;" title="BankAxess" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DIN': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/diners.gif') ?>" style="border: none;" title="Diners Club" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/dankort.gif') ?>" style="border: none;" title="Dankort" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'FFK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/forbrugforeningen.gif') ?>" style="border: none;" title="Forbrugsforeningen Card" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'JCB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/jcb.gif') ?>" style="border: none;" title="JCB (Japan Credit Bureau)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MC': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/mastercard.gif') ?>" style="border: none;" title="MasterCard" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MTRO': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/maestro.gif') ?>" style="border: none;" title="Maestro" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MOCA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/mobilcash.gif') ?>" style="border: none;" title="Mobilcash" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'VISA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/visa.gif') ?>" style="border: none;" title="Visa" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ELEC': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/visaelectron.gif') ?>" style="border: none;" title="Visa Electron" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'AKTIA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/aktia.gif') ?>" style="border: none;" title="Aktia Web Payment" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DNB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/danskenetbetaling.gif') ?>" style="border: none;" title="Danske Netbetaling (Danske Bank)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'EDK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/edankort.gif') ?>" style="border: none;" title="eDankort" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ELV': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/bankeinzug.gif') ?>" style="border: none;" title="Bank Einzug (eOLV)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'EW': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/ewire.gif') ?>" style="border: none;" title="eWire" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'FSB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/swedbank.gif') ?>" style="border: none;" title="Swedbank Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'GIT': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/getitcard.gif') ?>" style="border: none;" title="Getitcard" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ING': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/ideal.gif') ?>" style="border: none;" title="ING iDeal Payment" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SEB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/seb.gif') ?>" style="border: none;" title="SEB Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SHB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/shb.gif') ?>" style="border: none;" title="SHB Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SOLO': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/nordea.gif') ?>" style="border: none;" title="Nordea" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'VAL': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/valus.gif') ?>" style="border: none;" title="Valus" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        	}
+				        }
+				      }
+				      ?>
+        </li>
+        <?php $fees = $this->getDibsFees(); ?>
+        <?php if (sizeof($fees)>1): // Do not show if only default is available ?>
+            <?php foreach ($fees as $fee): ?>
+            <li>
+                <input class="input-radio" type="radio" name="payment[fees]" id="fees[<?php echo $fee['card']; ?>]" value="<?php echo $fee['id']; ?>" <?php if ($fee['card']=="") echo(' checked="checked" ');?> >
+                    <?php
+                        // Horrible to have almost the same large switch in the same phtml file... but, what the...
+				        $logoArray = explode(',', $fee['showlogos']);
+				        foreach($logoArray as $item) {
+				        	switch ($item) {
+				        		case 'AMEX': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/amex.gif') ?>" height="15" style="border: none;" size=" title="American Express" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'BAX': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/bax.gif') ?>" height="15" style="border: none;" title="BankAxess" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DIN': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/diners.gif') ?>" height="15" style="border: none;" title="Diners Club" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/dankort.gif') ?>" height="15" style="border: none;" title="Dankort" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'FFK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/forbrugforeningen.gif') ?>" height="15" style="border: none;" title="Forbrugsforeningen Card" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'JCB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/jcb.gif') ?>" height="15" style="border: none;" title="JCB (Japan Credit Bureau)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MC': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/mastercard.gif') ?>" height="15" style="border: none;" title="MasterCard" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MTRO': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/maestro.gif') ?>" height="15" style="border: none;" title="Maestro" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'MOCA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/mobilcash.gif') ?>" height="15" style="border: none;" title="Mobilcash" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'VISA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/visa.gif') ?>" height="15" style="border: none;" title="Visa" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ELEC': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/visaelectron.gif') ?>" height="15" style="border: none;" title="Visa Electron" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'AKTIA': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/aktia.gif') ?>" height="15" style="border: none;" title="Aktia Web Payment" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'DNB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/danskenetbetaling.gif') ?>" height="15" style="border: none;" title="Danske Netbetaling (Danske Bank)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'EDK': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/edankort.gif') ?>" height="15" style="border: none;" title="eDankort" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ELV': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/bankeinzug.gif') ?>" height="15" style="border: none;" title="Bank Einzug (eOLV)" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'EW': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/ewire.gif') ?>" height="15" style="border: none;" title="eWire" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'FSB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/swedbank.gif') ?>" height="15" style="border: none;" title="Swedbank Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'GIT': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/getitcard.gif') ?>" height="15" style="border: none;" title="Getitcard" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'ING': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/ideal.gif') ?>" height="15" style="border: none;" title="ING iDeal Payment" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SEB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/seb.gif') ?>" height="15" style="border: none;" title="SEB Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SHB': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/shb.gif') ?>" height="15" style="border: none;" title="SHB Direktbetalning" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'SOLO': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/nordea.gif') ?>" height="15" style="border: none;" title="Nordea" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+				        		case 'VAL': {
+				        			?><img src="<?php echo $this->getSkinUrl('images/dibs/valus.gif') ?>" height="15" style="border: none;" title="Valus" alt="" />&nbsp;&nbsp;<?php
+				        			break;
+				        		}
+                                case 'DIBS': {
+                                    ?><img src="<?php echo $this->getSkinUrl('images/dibs/dibslogo.gif') ?>" height="15" style="border: none;" title="DIBS | Secure Payment Services (www.dibspayment.com)" alt="" />&nbsp;&nbsp;<?php
+                                    break;
+                                }
+                                case 'VISA_SECURE': {
+                                    ?><img src="<?php echo $this->getSkinUrl('images/dibs/verified_visa.gif') ?>" height="15" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+                                    break;
+                                }
+                                case 'MC_SECURE': {
+                                    ?><img src="<?php echo $this->getSkinUrl('images/dibs/mc_securecode.gif') ?>" height="15" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+                                    break;
+                                }
+                                case 'JCB_SECURE': {
+                                    ?><img src="<?php echo $this->getSkinUrl('images/dibs/jcbsecure.gif') ?>" height="15" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+                                    break;
+                                }
+                                case 'PCI': {
+                                    ?><img src="<?php echo $this->getSkinUrl('images/dibs/pci.gif') ?>" height="15" style="border: none;" alt="" />&nbsp;&nbsp;<?php
+                                    break;
+                                }
+				        	}
+			        	}
+				?>
+                <label for="fees[<?php echo $fee['card']; ?>]"><?php echo $fee['description'] ?></label>
+
+            </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </ul>
+</fieldset>
+

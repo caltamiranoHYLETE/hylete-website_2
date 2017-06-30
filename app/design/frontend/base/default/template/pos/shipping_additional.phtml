@@ -1,0 +1,123 @@
+<?php
+/**
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) Ebizmarts Corp. (https://pos.ebizmarts.com)
+ */
+?>
+<style>
+    /* @TODO: Move this to the header with a proper CSS file */
+    div#pos-store-pickup {
+        margin-left: 17px;
+    }
+    div.pos-store-pickup-options label {
+        display: block;
+        line-height: 1.7em;
+    }
+    div.pos-store-pickup-options {
+        width: 200px;
+        float: left;
+    }
+</style>
+
+<div id="pos-store-pickup" style="display: none;">
+    <div class="pos-store-pickup-options">
+        <?php if($this->getConfig('render_as') == 'radio'): ?>
+
+            <?php foreach($this->getEnabledStores() as $_store): ?>
+                <label><input type="radio" name="pos_store_pickup_store" value="<?php echo $_store->getValue(); ?>" /> <?php echo $_store->getName(); ?></label>
+            <?php endforeach; ?>
+
+        <?php elseif($this->getConfig('render_as') == 'select'): ?>
+
+            <label for="pos-store-pickup-stores"><?php echo $this->__('Location'); ?>:</label>
+
+            <select name="pos_store_pickup_store" id="pos-store-pickup-stores">
+                <option value=""></option>
+                <?php foreach($this->getEnabledStores() as $_store): ?>
+                    <option value="<?php echo $_store->getValue(); ?>"><?php echo $_store->getName(); ?></option>
+                <?php endforeach; ?>
+            </select>
+
+        <?php endif; ?>
+    </div>
+    <div id="pos-store-pickup-address" class="pos-store-pickup-options" style="display: none;">
+        <strong><?php echo $this->__('Address'); ?>:</strong>
+        <p></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var POSStoresData             = <?php echo $this->getStoresJson(); ?>;
+    var POSInStorePickupInput     = $('s_method_bakerloo_store_pickup_bakerloo_store_pickup');
+    var POSInStorePickupContainer = $('pos-store-pickup');
+
+    function POSHandleShippingMethodClick(event) {
+        if(this.readAttribute('id') == 's_method_bakerloo_store_pickup_bakerloo_store_pickup') {
+            POSInStorePickupContainer.show();
+        }
+        else {
+            POSInStorePickupContainer.hide();
+        }
+    }
+
+    function getStoreAddress(storeId) {
+        var address = "";
+
+        for (var i=0;i<POSStoresData.length;i++) {
+            if(POSStoresData[i].id == storeId) {
+                address = POSStoresData[i].address;
+                break;
+            }
+        }
+
+        return address;
+    }
+
+    function POSHandleShippingStorePick(event) {
+
+        $('pos-store-pickup-address').hide();
+
+        if(this.tagName.toLowerCase() == 'select') {
+            var storeId = '';
+            this.descendants().each(function(element, index){
+                if(element.selected) {
+                    storeId = element.value.split('_')[1];
+                }
+            });
+        }
+        else {
+            var storeId = this.readAttribute('value').split('_')[1];
+        }
+
+        var storeAddress = getStoreAddress(storeId);
+        if(storeAddress) {
+            $$('div#pos-store-pickup-address p').first().update(storeAddress);
+            $('pos-store-pickup-address').show();
+        }
+
+    }
+
+    $$('dl.sp-methods input[type=radio]').invoke('observe', 'click', POSHandleShippingMethodClick);
+
+    if(POSInStorePickupInput.checked) {
+        POSInStorePickupContainer.show();
+    }
+
+    var POSRadios = $$('input[name=pos_store_pickup_store]');
+
+    if(POSRadios.length) {
+        //Radio buttons
+        POSRadios.invoke('observe', 'click', POSHandleShippingStorePick);
+    }
+    else {
+        //Select
+        var mySelect = $('pos-store-pickup-stores');
+
+        if(null != mySelect) {
+            mySelect.observe('change', POSHandleShippingStorePick);
+        }
+    }
+
+</script>

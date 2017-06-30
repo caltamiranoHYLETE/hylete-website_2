@@ -1,0 +1,35 @@
+<?php
+
+$payrouter = $this->getPayrouterData();
+
+echo $this->getMethod()->getTitle();
+
+if(!is_null($payrouter) and is_object($payrouter)): ?>
+	<ul>
+        <?php if($this->getInfo()->getCcOwner()): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Cardholder Name") , ": </strong>", $this->getInfo()->getCcOwner(); ?></li>
+        <?php
+        endif; ?>
+
+        <?php if(isset($payrouter->TransactionID)): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Transaction ID") , ": </strong>", (string)$payrouter->TransactionID; ?></li>
+        <?php endif; ?>
+
+        <?php if(isset($payrouter->CardNumber)): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("CC Number") , ": </strong>", (string)$payrouter->CardNumber; ?></li>
+        <?php endif; ?>
+
+        <?php if(isset($payrouter->AuthorizationCode)): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Auth. Code") , ": </strong>", (string)$payrouter->AuthorizationCode; ?></li>
+        <?php endif; ?>
+
+        <?php if(isset($payrouter->AVSResponse)): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("AVSResponse") , ": </strong>", (string)$payrouter->AVSResponse; ?></li>
+        <?php endif; ?>
+
+        <?php if(isset($payrouter->Message)): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("System Message") , ": </strong>", (string)$payrouter->Message; ?></li>
+        <?php endif; ?>
+	</ul>
+<?php
+endif;

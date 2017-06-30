@@ -1,0 +1,67 @@
+<?php $page = $this->getPage(); ?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?=$this->__('Edit page: ').$page['name'];?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="add_form" name="add_form" method="post" action="<?=$this->getUrl('*/*/update')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<input name="addform[page_id]" type="hidden" value="<?php echo $page['id'] ?>" />
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Page information')?></h4>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=$this->__('Name')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addform[name]" value="<?php echo $page['name'] ?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addform[status]">
+                    		<?php $statuses = Mage::helper('pagemanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?=$key?>"<?php echo ''.($page['status'] == $key ? ' selected="selected"' : '') ?>><?=$this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="addform[position]" value="<?php echo $page['position'] ?>" style="width:30px;" /></td>
+                </tr>
+                <?php if(Mage::getStoreConfig("pagemanager/settings/show_quickview_setting", 0) == 1) { ?>
+                <tr>
+                    <td class="label"><?=$this->__('Use QuickView')?></td>
+                    <td class="value">
+                        <select name="addform[quickview_enabled]">
+                            <option value="1"<?php echo ''.($page['quickview_enabled'] == 1 ? ' selected="selected"' : '') ?>><?php echo $this->__("Yes")?></option>
+                            <option value="0"<?php echo ''.($page['quickview_enabled'] == 0 ? ' selected="selected"' : '') ?>><?php echo $this->__("No")?></option>
+                        </select>
+                    </td>
+                </tr>
+                <?php } ?>
+            </table>
+        </fieldset>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Use this code to include this collection of rows and blocks within a page or static block')?></h4>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+	        <table cellspacing="0" class="form-list">
+				<tr>
+					<td class="value">
+						{{block type="pagemanager/page" page_id="<?php echo $page['id'] ?>" template="icommerce/pagemanager/page.phtml"}}
+					</td>
+				</tr>  
+			</table>
+		</fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addForm = new varienForm('add_form');
+</script>
+
+<?php echo $this->getChildHtml('rows')?>

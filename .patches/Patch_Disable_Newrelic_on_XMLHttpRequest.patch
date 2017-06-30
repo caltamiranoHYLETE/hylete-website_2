@@ -1,0 +1,16 @@
+--- app/bootstrap-o.php	2016-02-17 13:25:56.000000000 +0000
++++ app/bootstrap.php	2016-03-28 18:31:37.000000000 +0000
+@@ -32,3 +32,12 @@
+ if (function_exists('libxml_disable_entity_loader')) {
+     libxml_disable_entity_loader(false);
+ }
++/**
++ * https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-api
++ * Prevents the output filter from attempting to insert the JavaScript for page load timing
++ */
++if (isset($_GET['isAjax'])
++    && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'
++    && extension_loaded('newrelic')) {
++    newrelic_disable_autorum();
++}
+\ No newline at end of file

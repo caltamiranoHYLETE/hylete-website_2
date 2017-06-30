@@ -1,0 +1,72 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ * @author      Tobias Wiking
+ */
+?>
+<?php
+$_helperHylete = $this->helper('hylete');
+$_productCategory = $_helperHylete->getCategory();
+$_subCategories = $_productCategory->getChildrenCategories();
+?>
+<div class="social-links">
+    <h2><?php echo $this->__('join the conversation') ?></h2>
+
+    <div class="content follow-us">
+        <a href="http://instagram.com/trainhylete" target="_blank"><span class="fa icon-instagram"></span></a>
+        <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa icon-twitter"></span></a>
+        <a href="http://www.facebook.com/hylete" target="_blank"><span class="fa icon-facebook"></span></a>
+        <a href="http://www.youtube.com/trainHYLETE" target="_blank"><span class="fa icon-youtube"></span></a>
+    </div>
+</div>
+
+<div class="categories">
+    <h2><?php echo $this->__('categories') ?></h2>
+    <ul class="category-list">
+        <li>
+            <a href="<?php echo $_productCategory->getURL() ?>" alt="<?php echo $_productCategory->getName(); ?>">
+                <?php echo $_productCategory->getName(); ?>
+            </a>
+        </li>
+        <?php if (count($_subCategories) > 0) : ?>
+            <?php foreach ($_subCategories as $_subCategory) : ?>
+                <?php if ($_subCategory->getIsActive()) : ?>
+                    <li>
+                        <a href="<?php echo $_subCategory->getURL() ?>" alt="<?php echo $_subCategory->getName(); ?>">
+                            <?php echo $_subCategory->getName(); ?>
+                        </a>
+                    </li>
+                <?php endif ?>
+            <?php endforeach ?>
+        <?php endif ?>
+    </ul>
+</div>
+<div class="popular-posts">
+    <h2><?php echo $this->__('popular posts') ?></h2>
+    <?php echo $this->getChildHtml('blog.popular.post') ?>
+</div>
+
+<div class="instagram-feed">
+    <h2><?php echo $_productCategory->getName() ?></h2>
+    <?php echo $this->getChildHtml('blog.instagram') ?>
+</div>

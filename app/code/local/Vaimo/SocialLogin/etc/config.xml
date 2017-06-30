@@ -1,0 +1,149 @@
+<?xml version="1.0" ?><!--
+/**
+* Copyright (c) 2009-2013 Vaimo AB
+*
+* Vaimo reserves all rights in the Program as delivered. The Program
+* or any portion thereof may not be reproduced in any form whatsoever without
+* the written consent of Vaimo, except as provided by licence. A licence
+* under Vaimo's rights in the Program may be available directly from
+* Vaimo.
+*
+* Disclaimer:
+* THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+* THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+* IN THE PROGRAM.
+*
+* @category Vaimo
+* @package  Vaimo_SocialLogin
+* @copyright Copyright (c) 2009-2013 Vaimo AB
+*/
+--><config>
+    <modules>
+        <Vaimo_SocialLogin>
+            <version>0.1.53</version>
+        </Vaimo_SocialLogin>
+    </modules>
+    <frontend>
+        <secure_url>
+            <sociallogin>/sociallogin/</sociallogin>
+        </secure_url>
+        <routers>
+            <sociallogin>
+                <use>standard</use>
+                <args>
+                    <module>Vaimo_SocialLogin</module>
+                    <frontName>sociallogin</frontName>
+                </args>
+            </sociallogin>
+        </routers>
+        <layout>
+            <updates>
+                <sociallogin>
+                    <file>vaimo_sociallogin.xml</file>
+                </sociallogin>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Vaimo_SocialLogin>
+                    <files>
+                        <default>Vaimo_SocialLogin.csv</default>
+                    </files>
+                </Vaimo_SocialLogin>
+            </modules>
+        </translate>
+    </frontend>
+    <global>
+        <models>
+            <sociallogin>
+                <class>Vaimo_SocialLogin_Model</class>
+                <resourceModel>sociallogin_resource</resourceModel>
+            </sociallogin>
+            <sociallogin_resource>
+                <class>Vaimo_SocialLogin_Model_Resource</class>
+                <entities>
+                    <login>
+                        <table>vaimo_sociallogin</table>
+                    </login>
+                </entities>
+            </sociallogin_resource>
+        </models>
+        <resources>
+            <sociallogin_setup>
+                <setup>
+                    <module>Vaimo_SocialLogin</module>
+                    <class>Vaimo_SocialLogin_Model_Resource_Setup</class>
+                </setup>
+            </sociallogin_setup>
+        </resources>
+        <helpers>
+            <sociallogin>
+                <class>Vaimo_SocialLogin_Helper</class>
+            </sociallogin>
+        </helpers>
+        <blocks>
+            <sociallogin>
+                <class>Vaimo_SocialLogin_Block</class>
+            </sociallogin>
+        </blocks>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <sociallogin>
+                                            <title>Basic Settings</title>
+                                        </sociallogin>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <sociallogin>
+                    <file>Vaimo_SocialLogin.xml</file>
+                </sociallogin>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <sociallogin>
+            <facebook>
+                <scope>email</scope>
+                <xfbml>1</xfbml>
+                <emailmatch>0</emailmatch>
+                <redirecttolastpage>0</redirecttolastpage>
+                <api_version>1</api_version>
+                <lazyinit>1</lazyinit>
+            </facebook>
+            <google>
+                <emailmatch>0</emailmatch>
+            </google>
+            <twitter>
+                <emailmatch>0</emailmatch>
+            </twitter>
+            <general>
+                <toplinks>1</toplinks>
+                <myaccount>1</myaccount>
+            </general>
+            <developer>
+                <log>1</log>
+                <is_core_session_error>0</is_core_session_error>
+            </developer>
+        </sociallogin>
+    </default>
+</config>

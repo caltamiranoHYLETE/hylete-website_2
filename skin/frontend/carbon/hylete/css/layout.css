@@ -1,0 +1,74 @@
+.page {
+    margin: 0 auto;
+    padding: 0;
+    text-align: left;
+    width: 960px;
+}
+
+.page-print {
+    background: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+.page-empty {
+    background: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+.page-popup {
+    padding: 20px;
+    text-align: left;
+}
+
+div.vaimo-cms.row >div {
+    padding: 1px;
+}
+
+div.vaimo-cms.row .vcms-nested-structure-row {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+div.vaimo-cms.row .vcms-nested-structure-row.row:first-child >div {
+    padding-top: 0;
+}
+
+div.vaimo-cms.row .vcms-nested-structure-row.row:last-child >div {
+    padding-bottom: 0;
+}
+
+
+.cms-index-index >.container {
+    margin-top: -1px;
+}
+
+.vaimo-cms .widget-static-block p {
+    max-width: 100%;
+    padding: 15px;
+}
+
+.vaimo-cms h1,
+.vaimo-cms h2,
+.vaimo-cms h3,
+.vaimo-cms h4,
+.vaimo-cms h5 {
+    margin: 0;
+    padding: 20px 0;
+}
+
+body.cms-index-index >.container {
+    border: none;
+    padding: 0;
+}
+
+.col2-left-layout {
+    margin-top: 15px;
+}
+
+@media (max-width: 767px) {
+    div.vaimo-cms.row >div {
+        padding: 1px 0;
+    }
+}

@@ -1,0 +1,65 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @see Mage_Page_Block_Template_Links
+ */
+?>
+<?php $_links = $this->getLinks(); ?>
+<?php $hlp = Mage::helper("sociallogin"); ?>
+<?php if(count($_links)>0): ?>
+<ul class="links"<?php if($this->getName()): ?> id="<?php echo $this->getName() ?>"<?php endif;?>>
+    <?php foreach($_links as $_link): ?>
+        <?php if ($_link instanceof Mage_Core_Block_Abstract):?>
+            <?php echo $_link->toHtml() ?>
+        <?php else: ?>
+            <li<?php if($_link->getIsFirst()||$_link->getIsLast()): ?> class="<?php if($_link->getIsFirst()): ?>first<?php endif; ?><?php if($_link->getIsLast()): ?><?php endif; ?>"<?php endif; ?> <?php echo $_link->getLiParams() ?>><?php echo $_link->getBeforeText() ?><a href="<?php echo $_link->getUrl() ?>" title="<?php echo $_link->getTitle() ?>" <?php echo $_link->getAParams() ?>><?php echo $_link->getLabel() ?></a><?php echo $_link->getAfterText() ?></li>
+        <?php endif;?>
+    <?php endforeach; ?>
+
+    <?php
+    if ($hlp->isFacebookEnabled()==true):
+        $fbId = Mage::getBlockSingleton('sociallogin/facebook')->checkFbUser();
+        if(Mage::getSingleton('customer/session')->isLoggedIn() && $fbId): ?>
+            <li class="last sl_facebook"><a href="#"><?php echo $this->__('Facebook Connected') ?></a> <img src="https://graph.facebook.com/<?php echo $fbId ?>/picture"></li>
+        <?php else: ?>
+            <li class="last sl_facebook"><i></i><a href="#" onClick="return facebookPopup();" title="<?php echo $this->__("Facebook"); ?>"><?php echo $this->__("Facebook Connect"); ?></a></li>
+        <?php endif; ?>
+    <?php endif; ?>
+
+    <?php
+    if ($hlp->isGoogleEnabled()==true):
+        $GoogleId = Mage::getBlockSingleton('sociallogin/google')->checkGoogleUser();
+        if(Mage::getSingleton('customer/session')->isLoggedIn() && $GoogleId): ?>
+            <li class="last sl_facebook"><a href="#"><?php echo $this->__('Google+ Connected') ?></a> <img src="https://developers.google.com/+/images/branding/sign-in-buttons/Red-signin_Short_base_44dp.png/"></li>
+        <?php else: ?>
+            <li class="last sl_facebook"><i></i><a href="<?php echo $this->getUrl('sociallogin/google/login'); ?>" title="<?php echo $this->__("Google+"); ?>"><?php echo $this->__("Google+ Connect"); ?></a></li>
+        <?php endif; ?>
+    <?php endif; ?>
+
+</ul>
+<?php endif; ?>

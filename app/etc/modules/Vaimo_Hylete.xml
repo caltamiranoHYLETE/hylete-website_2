@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Vaimo_Hylete>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Icommerce_SlideshowManager />
+                <Vaimo_GoogleAddons />
+            </depends>
+        </Vaimo_Hylete>
+    </modules>
+</config>

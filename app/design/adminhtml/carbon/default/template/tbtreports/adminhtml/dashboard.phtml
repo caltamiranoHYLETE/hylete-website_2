@@ -1,0 +1,129 @@
+<?php if (Mage::helper('rewards')->storeHasRewardRules()): ?>
+    <?php
+    /**
+     * @var $this TBT_Reports_Block_Adminhtml_Dashboard
+     */
+        $calculationStartDate = $this->getDateTimeHelper()->xDaysAgo(30, false, true); // 30 days ago
+        $periodLabel = $this->__('in the past 30 days');
+    ?>
+
+    <?php /* should not really be here */ ?>
+    <!--[if gte IE 9]>
+        <style type="text/css">
+            .gradient {
+                filter: none;
+            }
+        </style>
+    <![endif]-->
+
+    <div class="tbtreports-dashboard">
+        <?php if (!$this->isSummaryReady()): ?>
+            <ul class="messages">
+                <li class="error-msg">
+                    <ul>
+                        <li>
+                            <span><?php echo $this->getNotReadyNotification(); ?></span>
+                        </li>
+                    </ul>
+                </li>
+                <?php echo $this->getChildHtml('lastLaunch'); ?>
+            </ul>
+            <br />
+        <?php endif; ?>
+        
+        <div class="metrics">
+            <?php if ($this->getMainMetrics()): ?>
+                <div class="metrics-row">
+                    <?php foreach ($this->getMainMetrics() as $metric): ?>
+                        <?php
+                            /**
+                             * @var $metric TBT_Reports_Model_Metrics_Abstract
+                             */
+                        ?>
+                        <div class="metrics-cell">
+                            <div class="metrics-box big gradient">
+                                <div class="metrics-box-label">
+                                    <div class="metric-name"><?php echo $metric->getMetricName(); ?></div>
+                                    <!--<div class="metric-description"></div>-->
+                                    <div class="metric-info"><?php echo $metric->getMetricInfo(); ?></div>
+                                </div>
+                                <div class="metrics-box-contents">
+                                    <div class="numbers">
+                                        <div class="metric-value" title="<?php echo $metric->getFormattedValue($calculationStartDate); ?>">
+                                            <?php echo $metric->getFormattedValue($calculationStartDate); ?>
+                                        </div>
+                                        <div class="metric-units"><?php echo $periodLabel; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="metrics-column left-column">
+                <div class="metrics-group">
+                    <?php foreach ($this->getGroupMetrics(1) as $metric): ?>
+                        <div class="metrics-cell">
+                            <div class="metrics-box gradient">
+                                <div class="metrics-box-label">
+                                    <div class="metric-name"><?php echo $metric->getMetricName(); ?></div>
+                                    <div class="metric-info"><?php echo $metric->getMetricInfo(); ?></div>
+                                </div>
+                                <div class="metrics-box-contents">
+                                    <div class="numbers">
+                                        <div class="metric-value"><?php echo $metric->getFormattedValue($calculationStartDate); ?></div>
+                                        <div class="metric-units"><?php echo $periodLabel; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="metrics-column right-column">
+                <div class="metrics-group">
+                    <?php foreach ($this->getGroupMetrics(1) as $metric): ?>
+                        <div class="metrics-cell">
+                            <div class="metrics-box gradient">
+                                <div class="metrics-box-label">
+                                    <div class="metric-name"><?php echo $metric->getMetricName(); ?></div>
+                                    <div class="metric-info"><?php echo $metric->getMetricInfo(); ?></div>
+                                </div>
+                                <div class="metrics-box-contents">
+                                    <div class="numbers">
+                                        <div class="metric-value"><?php echo $metric->getFormattedValue($calculationStartDate); ?></div>
+                                        <div class="metric-units"><?php echo $periodLabel; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php /* JavaScript should really be in here either */ ?>
+    <script type="text/javascript">
+
+        document.observe("dom:loaded", function()
+        {
+            $$('.metric-info').each(function (metricInfoTag) {
+                new Opentip(metricInfoTag, metricInfoTag.innerHTML, {
+                    style:          'dark',
+                    tipJoint:       'top',
+                    targetJoint:    'bottom',
+                    background:     'black',
+                    borderColor:    'white',
+                    borderWidth:    2,
+                    shadow:         false,
+                    fixed:          true,
+                    offset:         [0, 15],
+                    escapeContent:  false
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

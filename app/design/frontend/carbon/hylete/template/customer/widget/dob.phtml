@@ -1,0 +1,66 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+
+/**
+ * @see Mage_Customer_Block_Widget_Dob
+ */
+?>
+<label for="<?php echo $this->getFieldId('month')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php echo $this->__('Date of Birth') ?><?php if ($this->isRequired()) echo '<em>*</em>' ?></label>
+<div class="input-box customer-dob">
+<?php
+    $this->setDateInput('d',
+        '<span class="dob-day">
+             <label for="' . $this->getFieldId('day') . '">' . $this->__('DD') . '</label>
+             <input type="text" id="' . $this->getFieldId('day') . '" name="' . $this->getFieldName('day') . '" value="' . $this->getDay() . '" title="' . $this->__('Day') . '" class="input-text validate-custom" ' . $this->getFieldParams() . ' />
+         </span>'
+    );
+
+    $this->setDateInput('m',
+        '<span class="dob-month">
+             <label for="' . $this->getFieldId('month') . '">' . $this->__('MM')  . '</label>
+             <input type="text" id="' . $this->getFieldId('month') . '" name="' . $this->getFieldName('month') . '" value="' . $this->getMonth()  . '" title="' . $this->__('Month')  . '" class="input-text validate-custom" ' . $this->getFieldParams()  . ' />
+         </span>'
+    );
+
+    $this->setDateInput('y',
+        '<span class="dob-year">
+            <label for="' . $this->getFieldId('year') . '">' . $this->__('YYYY')  . '</label>
+             <input type="text" id="' . $this->getFieldId('year') . '" name="' . $this->getFieldName('year') . '" value="' . $this->getYear()  . '" title="' . $this->__('Year')  . '" class="input-text validate-custom" ' . $this->getFieldParams()  . ' />
+             
+         </span>'
+    );
+?>
+    <?php echo $this->getSortedDateInputs() ?>
+    <span class="dob-full" style="display:none;">
+        <input type="hidden" id="<?php echo $this->getFieldId('full')?>" name="<?php echo $this->getFieldName('dob')?>" />
+    </span>
+
+    <div class="validation-advice" id="<?php echo $this->getFieldId('date-advice')?>" style="opacity:0.999999; display:none;"></div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var customer_dob = new Varien.DateElement('id', '<?php echo $this->getFieldId('')?>', <?php echo ($this->isRequired() ? 'true' : 'false'); ?>, '<?php echo $this->getDateFormat() ?>');
+//]]>
+</script>

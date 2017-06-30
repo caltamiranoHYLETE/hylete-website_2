@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+    <name>talkable</name>
+    <version>1.2.3</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/mit-license.php">MIT License</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Talkable (http://www.talkable.com) integration for Magento</summary>
+    <description>Talkable enables your Magento store to attract new customers by offering them special deals in exchange for sharing with their friends.&#xD;
+&#xD;
+This extension provides links for them to share their purchase on Facebook, Twitter, and Email and encourages them to bring in new customers for you.&#xD;
+&#xD;
+Using Talkable, you help your customers drive more referral sales per dollar than traditional marketing and advertising.&#xD;
+&#xD;
+See more at Talkable.com</description>
+    <notes>Extension provides:&#xD;
+- Invite Integration&#xD;
+- Post Purchase Integration&#xD;
+- Advocate Dashboard Integration&#xD;
+- Floating Widget Popup Integration&#xD;
+&#xD;
+Note: Extension version 1.2 works with Talkable Integration library version 2.2 or higher.</notes>
+    <authors><author><name>Talkable</name><user>talkable</user><email>sub@talkable.com</email></author></authors>
+    <date>2016-06-09</date>
+    <time>20:09:50</time>
+    <contents><target name="magecommunity"><dir name="Talkable"><dir name="SocialReferrals"><dir name="Block"><dir name="Multishipping"><file name="Purchase.php" hash="6eaab3557bdf97f40a77c7b6e040e483"/></dir><file name="Purchase.php" hash="5cd37269372b88cec4657bf85077c1a4"/></dir><dir name="Helper"><file name="Data.php" hash="f503ec6764c4a2bfcca84f0e0398f922"/></dir><dir name="Model"><file name="Observer.php" hash="b9e5a92a24b018b14ccc64658326e92e"/></dir><dir name="controllers"><dir name="Customer"><file name="DashboardController.php" hash="3f715ff823d8b2709d3b6ee106685513"/></dir><file name="IndexController.php" hash="c08758b6a50bbc95ce09773818a6a7c4"/></dir><dir name="etc"><file name="adminhtml.xml" hash="3f86a3e4bf980fa36aba8c0e33737e59"/><file name="config.xml" hash="359ec78072c91266c7d6156425e7c650"/><file name="system.xml" hash="e3ef9c8b74fff498a9dc42db1a86a21c"/></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><dir name="talkable"><file name="socialreferrals.xml" hash="c4731fc832bf3cdbe4fec6f6cd336549"/></dir></dir><dir name="template"><dir name="talkable"><dir name="socialreferrals"><file name="advocate_dashboard.phtml" hash="03011cd0bc0feaf6e1830f2137b60cf9"/><file name="floating_widget_popup.phtml" hash="a6609c2958561fd67c17b1654fcb8115"/><file name="head.phtml" hash="8e840da2a95bf27301eabc57ffd57250"/><file name="invite.phtml" hash="443f021936f8583885e08fe444eb4693"/><file name="post_purchase.phtml" hash="755faddb0bc9b0ccceac03569348d4d3"/></dir></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Talkable_SocialReferrals.xml" hash="ed1152e3c169ac8e9d33219e5ec9fb47"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

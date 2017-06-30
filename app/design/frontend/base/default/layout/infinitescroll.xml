@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout>
+    <catalog_category_layered>
+        <update handle="infinite_product_list" />
+    </catalog_category_layered>
+
+    <catalog_category_default>
+        <update handle="infinite_product_list" />
+    </catalog_category_default>
+
+    <catalogsearch_result_index>
+        <update handle="infinite_product_list" />
+    </catalogsearch_result_index>
+
+    <infinite_product_list>
+        <reference name="head" ifconfig="infinitescroll/settings/enabled">
+            <action method="addItem"><type>skin_js</type><name>js/infinitescroll/loadmore.js</name></action>
+            <action method="removeItem"><type>skin_js</type><name>js/vaimo/ajaxproductlist.init.js</name></action>
+        </reference>
+    </infinite_product_list>
+</layout>

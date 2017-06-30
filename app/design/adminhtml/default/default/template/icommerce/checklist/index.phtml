@@ -1,0 +1,99 @@
+<?php
+/**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Checklist
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Manage checklist')?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+	<div class="entry-edit">
+		
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Here are all the projects')?></h4>
+	
+		<?php echo $this->getChildHtml('massupdate') ?>
+	
+		<form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/massUpdate')?>">
+			<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+			<div class="grid">
+				<table cellspacing="0">
+					<thead>
+					<tr class="headings">
+						<th class="a-center" style="width:70px;">&nbsp;</th>
+						<th><?php echo $this->__('ID') ?></th>
+						<th><?php echo $this->__('Name') ?></th>
+						<th><?php echo $this->__('Project manager') ?></th>
+						<th><?php echo $this->__('Customer email') ?></th>
+						<th><?php echo $this->__('Status') ?></th>
+						<th><?php echo $this->__('Position') ?></th>
+						<th><?php echo $this->__('Action') ?></th>
+					</tr>
+					</thead>
+					<tbody>
+					
+						<?php $i = 0; ?>
+						
+						<?php $projects = $this->getProjects(); ?>
+
+						<?php if(count($projects) < 1): ?>
+							<?php echo $this->getChildHtml('empty'); ?>
+						<?php else: ?>
+							
+							<?php foreach($projects as $project): ?>
+									
+									<tr class="<?php echo ''.($i%2 == 0 ? 'even ' : '')?>">
+										<td class="a-center" width="20"><input type="checkbox" name="edit_form[mass_update_id][]" class="mass_update_checkbox" value="<?php echo $project['id']?>" /></td>
+										<td class="a-center" width="20"><?php echo $project['id']?></td>
+										<td><?php echo $project['name'] ?></td>
+										<td><?php echo $project['pm_email'] ?></td>
+										<td><?php echo $project['customer_email'] ?></td>
+										<td><?php echo ''.($project['status'] == '1' ? $this->__('Active') : $this->__('Inactive')) ?></td>
+										<td width="20"><input type="text" class="input-text" name="edit_form[position][<?php echo $project['id']?>]" value="<?php echo  $project['position'] ?>"></td>
+										<td width="20"><a  href="<?php echo $this->getRowUrl( $project['id'] )?>"><?php echo $this->__('Edit')?></a></td>
+									</tr>
+							
+							<?php $i++; ?>
+							<?php endforeach;?>	
+							
+						<?php endif; ?>						
+						
+					</tbody>
+			   </table>
+			</div>
+			<input type="hidden" name="edit_form[mass_update_action]" id="mass_update_action" value="" />
+		</form>
+		
+	</div>
+	<script type="text/javascript">
+		var editForm = new varienForm('edit_form');
+	</script>
+

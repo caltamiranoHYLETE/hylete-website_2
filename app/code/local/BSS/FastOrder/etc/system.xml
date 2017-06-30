@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+   <tabs>
+        <bss translate="label">
+            <label><![CDATA[BSS Group]]></label>
+            <sort_order>200</sort_order>
+        </bss>
+    </tabs>
+    <sections>
+    	<bss_fastorder translate="label">
+            <label>Fast Order</label>
+            <tab>bss</tab>
+            <sort_order>99</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general_settings translate="label">
+                    <label>General settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>                            
+                    <fields>
+                        <min_autocomplete translate="label">
+                                <label>Autocomplete minimum characters</label>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                                <comment><![CDATA[Minimum number of characters before displaying the results.]]></comment>
+                        </min_autocomplete>
+                        <max_results translate="label">
+                                <label>Max results to show</label>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                                <comment><![CDATA[Number of results in the automplete box.]]></comment>
+                        </max_results>
+                        <allowed_characters translate="label">
+                                <label>Allowed characters</label>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                                <comment><![CDATA[Allowed characters for SKU, the customer won't be able to type other characters in the search field.]]></comment>
+                        </allowed_characters>
+                        <lines translate="label">
+                                <label>Number of lines</label>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>10</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                                <comment><![CDATA[Number of lines showed in the "Quick add several products" tab.]]></comment>
+                        </lines>
+						<fastorder_subproduct_enable translate="label">
+								<label>Show sub-products</label>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>10</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+								<comment><![CDATA[List all grouped, bundle and configurable sub products (simple products attached), even if they are not visible in catalog]]></comment>
+						</fastorder_subproduct_enable>						
+						<fastorder_namesearch_enable translate="label">
+								<label>Also search by name</label>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>10</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+								<comment><![CDATA[The autocomplete feature will search for SKU and NAME corresponding to the query]]></comment>
+						</fastorder_namesearch_enable>						
+                    </fields>
+                </general_settings>
+            </groups>
+    	</bss_fastorder>
+    </sections>
+</config>

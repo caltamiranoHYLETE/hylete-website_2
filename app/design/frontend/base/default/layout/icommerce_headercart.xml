@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout>
+	<default>
+		<reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/headercart.css</name><params/></action>
+			<action method="addItem"><type>skin_js</type><name>js/headercart.js</name><params/></action>
+		</reference>
+		<reference name="header">
+            <block type="headercart/cartContainer" name="headerCart" template="checkout/cart/headercart-container.phtml">
+                <block type="checkout/cart_sidebar" name="headerCartInner" template="checkout/cart/header.phtml">
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                </block>
+			</block>
+        </reference>
+	</default>
+</layout>

@@ -1,0 +1,104 @@
+<?xml version="1.0" ?><config>
+    <modules>
+      <Icommerce_JsonProductInfo>
+        <version>0.1.93</version>
+      </Icommerce_JsonProductInfo>
+    </modules>
+    
+    <global>
+      <models>
+        <jsonproductinfo>
+          <class>Icommerce_JsonProductInfo_Model</class>
+        </jsonproductinfo>  
+      </models>
+
+      <blocks>
+        <jsonproductinfo>
+          <class>Icommerce_JsonProductInfo_Block</class>
+        </jsonproductinfo>  
+      </blocks>
+
+      <helpers>
+          <jsonproductinfo>
+            <class>Icommerce_JsonProductInfo_Helper</class>
+          </jsonproductinfo>
+      </helpers>
+
+      <resources>
+            <jsonproductinfo>
+                <setup>
+                    <class>Icommerce_JsonProductInfo_Model_Setup</class>
+                    <module>Icommerce_JsonProductInfo</module>
+                </setup>
+            </jsonproductinfo>
+      </resources>
+
+      <events>
+             <adminhtml_catalog_product_attribute_edit_prepare_form>
+                <observers>
+                    <icommerce_jsonproductinfo_attributeform_observer>
+                        <type>singleton</type>
+                        <class>jsonproductinfo/attributeForm_observer</class>
+                        <method>onPrepareForm</method>
+                    </icommerce_jsonproductinfo_attributeform_observer>
+                </observers>
+            </adminhtml_catalog_product_attribute_edit_prepare_form>
+
+            <imagebinder_bind_product_after>
+                <observers>
+                    <jsonproductinfo>
+                        <class>jsonproductinfo/observer</class>
+                        <method>onBindProductImage</method>
+                    </jsonproductinfo>
+                </observers>
+            </imagebinder_bind_product_after>
+
+      </events>
+    </global>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <jsonproductinfo>
+                                            <title>Basic Settings</title>
+                                        </jsonproductinfo>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <jsonproductinfo>
+            <settings>
+                <lifetime>3600</lifetime>
+                <lifetime_stock>360</lifetime_stock>
+                <!-- This will mean that all stock related information will be added -->
+                <use_stock_qty>1</use_stock_qty>
+                <use_media_gallery>0</use_media_gallery>
+                <additional_stockinfo/>
+                <use_stock_red_yellow>0</use_stock_red_yellow>
+                <thumbnail_image_width>100</thumbnail_image_width>
+                <keep_frame_thumbnail>0</keep_frame_thumbnail>
+                <main_image_width>339</main_image_width>
+                <keep_frame_main>0</keep_frame_main>
+                <full_image_width>800</full_image_width>
+                <keep_frame_full>0</keep_frame_full>
+            </settings>
+        </jsonproductinfo>
+    </default>
+
+  </config>

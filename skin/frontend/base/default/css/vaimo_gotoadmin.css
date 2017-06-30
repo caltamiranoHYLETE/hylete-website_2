@@ -1,0 +1,58 @@
+#gotoadmin {
+    background: #081f22;
+	background: linear-gradient(135deg,  #081f22 0%,#3a565e 100%);
+	border:1px #5f767e solid;
+    bottom: 0px;
+	color: #ffffff;
+    height: 22px;
+	left: 50%;
+	line-height: 22px;
+	margin-left: -90px;
+	padding: 0;
+	text-align: center;
+	z-index: 10000;
+    position: fixed;
+    width: auto;
+}
+
+#gotoadmin,
+#gotoadmin a,
+#gotoadmin a:link {
+    color: #fff;
+    display: block;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 100;
+    text-decoration: none;
+}
+
+#gotoadmin a:hover {
+    text-decoration: underline;
+}
+
+#gotoadmin:hover {
+    height: auto;
+    padding: 10px 20px 5px 20px;
+    text-align: left;
+    z-index: 10000000;
+}
+
+#gotoadmin:hover .hoverhide {
+    display: none;
+}
+
+#gotoadmin li ul {
+    background: #081f22;
+	background: linear-gradient(135deg,  #081f22 0%,#3a565e 100%);
+	border:1px #5f767e solid;
+    bottom: 10px;
+    display: none;
+    left: 50%;
+    margin-left: 40px;
+    padding: 10px 20px;
+    position: fixed;
+}
+
+#gotoadmin li:hover ul {
+    display: block;;
+}

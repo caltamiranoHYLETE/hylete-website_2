@@ -1,0 +1,29 @@
+<?php $payments = $this->getAllPayments(); ?>
+
+<?php echo $this->getMethod()->getTitle() ?>
+
+<?php if(is_array($payments) and !empty($payments)): ?>
+
+    <?php foreach($payments as $_payment): ?>
+        <ul class="multiple-payment-item">
+            <li><strong><?php echo $this->helper("bakerloo_payment")->__("Name"); ?>:</strong> <?php echo $_payment['label']; ?></li>
+            <li><strong><?php echo $this->helper("bakerloo_payment")->__("Amount"); ?>:</strong> <?php echo $_payment['amount']; ?></li>
+            <?php if(!empty($_payment['comments'])): ?>
+                <li><strong><?php echo $this->helper("bakerloo_payment")->__("Comments"); ?>:</strong> <?php echo nl2br($_payment['comments']); ?></li>
+            <?php endif; ?>
+        </ul>
+    <?php endforeach; ?>
+
+
+<style type="text/css">
+    ul.multiple-payment-item {
+        padding: 5px;
+        margin: 0 0 6px 0;
+        border: 1px solid #ccc;
+    }
+    ul.multiple-payment-item li {
+        list-style-type:none;
+    }
+</style>
+<?php
+endif;

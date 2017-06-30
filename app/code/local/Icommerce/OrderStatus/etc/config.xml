@@ -1,0 +1,148 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_OrderStatus>
+            <version>0.2.8</version>
+            <depends>
+                <Mage_Payment/>
+            </depends>
+        </Icommerce_OrderStatus>
+    </modules>
+    <global>
+        <models>
+            <orderstatus>
+                <class>Icommerce_OrderStatus_Model</class>
+            </orderstatus>
+        </models>
+        <helpers>
+            <orderstatus>
+                <class>Icommerce_OrderStatus_Helper</class>
+            </orderstatus>
+        </helpers>
+        <resources>
+            <orderstatus_setup>
+                <setup>
+                    <module>Icommerce_OrderStatus</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </orderstatus_setup>
+        </resources>
+        <sales>
+            <order>
+                <statuses>
+                    <pay_pending translate="label">
+                        <label>Pending Third Party Payment</label>
+                    </pay_pending>
+                    <captured translate="label">
+                        <label>Payment Captured</label>
+                    </captured>
+                    <reserved translate="label">
+                        <label>Payment Reserved</label>
+                    </reserved>
+                    <pay_failed translate="label">
+                        <label>Payment Failed</label>
+                    </pay_failed>
+                    <pay_aborted translate="label">
+                        <label>Payment Aborted</label>
+                    </pay_aborted>
+                    <holded_prepayment translate="label">
+                        <label>On Hold - Prepayment</label>
+                    </holded_prepayment>
+                    <holded_supplier translate="label">
+                        <label>On Hold - Await Delivery</label>
+                    </holded_supplier>
+                </statuses>
+                <states>
+                    <new>
+                        <statuses>
+                            <reserved/>
+                        </statuses>
+                    </new>
+                    <pending_payment>
+                        <statuses>
+                            <pay_pending/>
+                        </statuses>
+                    </pending_payment>
+                    <processing>
+                        <statuses>
+                            <reserved/>
+                            <captured/>
+                        </statuses>
+                    </processing>
+                    <holded>
+                        <statuses>
+                            <holded_prepayment/>
+                            <holded_supplier/>
+                        </statuses>
+                    </holded>
+                    <canceled>
+                        <statuses>
+                            <pay_failed/>
+                            <pay_aborted/>
+                        </statuses>
+                    </canceled>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <orderstatus>
+                                            <title>Icommerce OrderStatus</title>
+                                        </orderstatus>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Icommerce_OrderStatus>
+                    <files>
+                        <default>Icommerce_OrderStatus.csv</default>
+                    </files>
+                </Icommerce_OrderStatus>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+    	<translate>
+            <modules>
+                <Icommerce_OrderStatus>
+                    <files>
+                        <default>Icommerce_OrderStatus.csv</default>
+                    </files>
+                </Icommerce_OrderStatus>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <orderstatus>
+            <settings>
+                <cancel_old_pending_orders>0</cancel_old_pending_orders>
+                <max_age_of_pending_orders>60</max_age_of_pending_orders>
+                <allow_void_cancel>0</allow_void_cancel>
+                <max_age_of_pending_orders>0</max_age_of_pending_orders>
+            </settings>
+        </orderstatus>
+    </default>
+    <crontab>
+        <jobs>
+            <clean_old_orders>
+                <run><model>orderstatus/observer::cancelOrdersPendingThirdPartyPayment</model></run>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+            </clean_old_orders>
+        </jobs>
+    </crontab>
+</config>

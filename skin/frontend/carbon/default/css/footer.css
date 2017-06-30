@@ -1,0 +1,82 @@
+/* Footer ================================================================================ */
+
+#footer {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 10px solid #333;
+}
+
+#footer h5.heading {
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 20px;
+}
+
+#footer h5.heading i {
+    display: none;
+}
+
+#footer a:hover {
+    text-decoration: none;
+}
+
+/* Customer service */
+#footer .content ul {
+    margin-top: 10px;
+}
+
+#footer .row li {
+    margin: 0 0 5px 0;
+}
+
+#newsletter-validate-detail p {
+    margin: 6px 0;
+}
+
+#newsletter {
+    width: 200px;
+    margin-right: 10px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    font-size: 11px;
+}
+
+#copyright {
+    padding: 10px 15px 0 0;
+}
+
+#copyright,
+#footer-bottom-menu,
+#footer-bottom-menu li,
+#footer-bottom-menu li a {
+    float: left;
+}
+
+#footer-bottom-menu a {
+    padding: 10px;
+}
+
+#footer-bottom-menu li:last-child a {
+    background: none;
+}
+
+/* Vaimo link */
+#vaimo {
+    float: right;
+    color: #d2d2d2;
+    padding: 10px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+#vaimo a {
+    color: #d2d2d2;
+}
+
+#vaimo a:hover {
+    color: #666;
+}

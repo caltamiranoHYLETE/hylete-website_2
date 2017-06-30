@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Vaimo_AppApi>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Vaimo_AppApi>
+    </modules>
+</config>

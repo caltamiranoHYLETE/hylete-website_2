@@ -1,0 +1,37 @@
+<!--@subject {{var instance}} - {{var operation.label}}: {{var history.message}} @-->
+<!--@vars
+{"var operation":"Operation",
+"var history":"History",
+"var instance":"Instance"}
+@-->
+<table>
+    <tr>
+        <th style="text-align: left">Instance</th>
+        <td style="padding-left: 20px">{{var instance}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Task</th>
+        <td style="padding-left: 20px">{{var operation.label}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Status</th>
+        <td style="padding-left: 20px">{{var operation.status_html}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Started</th>
+        <td style="padding-left: 20px">{{var history.created_at}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Finished</th>
+        <td style="padding-left: 20px">{{var history.finished_at}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Result</th>
+        <td style="padding-left: 20px">{{var operation.last_status_html}}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left">Message</th>
+        <td style="padding-left: 20px">{{var history.message}}</td>
+    </tr>
+</table>
+<pre>{{var history.result}}</pre>

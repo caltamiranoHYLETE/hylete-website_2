@@ -1,0 +1,19 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Vaimo_AutoCleanMergedFiles>
+            <version>0.2.0</version>
+        </Vaimo_AutoCleanMergedFiles>
+    </modules>
+    <global>
+        <models>
+            <autocleanmergedfiles>
+                <class>Vaimo_AutoCleanMergedFiles_Model</class>
+            </autocleanmergedfiles>
+            <core>
+                <rewrite>
+                    <design_package>Vaimo_AutoCleanMergedFiles_Model_Package</design_package>
+                </rewrite>
+            </core>
+        </models>
+    </global>
+</config>

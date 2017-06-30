@@ -1,0 +1,26 @@
+--- app/code/core/Mage/Catalog/Model/Product/Type/Abstract-org.php	2009-07-17 17:55:30.000000000 +0200
++++ app/code/core/Mage/Catalog/Model/Product/Type/Abstract.php	2009-10-28 09:45:06.000000000 +0100
+@@ -166,11 +166,20 @@
+      * @param Mage_Catalog_Model_Product $product
+      * @return array
+      */
++    static $_attributes_cache = array();
+     public function getSetAttributes($product = null)
+     {
+-        return $this->getProduct($product)->getResource()
+-            ->loadAllAttributes($this->getProduct($product))
+-            ->getSortedAttributes($this->getProduct($product)->getAttributeSetId());
++    	$product = $this->getProduct($product);
++    	$key = $product->getData("type_id").$product->getData("attribute_set_id");
++    	if( array_key_exists($key,self::$_attributes_cache) ){
++    		return self::$_attributes_cache[$key];
++    	}
++    	else {
++    		$attributes = $product->getResource()->loadAllAttributes($product)->
++    						getSortedAttributes($product->getAttributeSetId());
++    		self::$_attributes_cache[$key] = $attributes;
++    		return $attributes;
++    	}
+     }
+ 
+     /**

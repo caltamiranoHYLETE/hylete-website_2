@@ -1,0 +1,145 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_SlideshowManager>
+            <version>0.2.7</version>
+        </Icommerce_SlideshowManager>
+    </modules>
+
+    <global>
+        <models>
+            <slideshowmanager>
+                <class>Icommerce_SlideshowManager_Model</class>
+                <resourceModel>slideshowmanager_resource</resourceModel>
+            </slideshowmanager>
+            <slideshowmanager_resource>
+                <class>Icommerce_SlideshowManager_Model_Resource</class>
+                <entities>
+                    <slideshow>
+                        <table>icommerce_slideshow</table>
+                    </slideshow>
+                    <item>
+                        <table>icommerce_slideshow_item</table>
+                    </item>
+                </entities>
+            </slideshowmanager_resource>
+        </models>
+
+        <blocks>
+            <slideshowmanager>
+                <class>Icommerce_SlideshowManager_Block</class>
+            </slideshowmanager>
+        </blocks>
+
+        <helpers>
+            <slideshowmanager>
+                <class>Icommerce_SlideshowManager_Helper</class>
+            </slideshowmanager>
+        </helpers>
+
+        <resources>
+            <slideshowmanager_setup>
+                <setup>
+                    <module>Icommerce_SlideshowManager</module>
+                    <class>Icommerce_SlideshowManager_Model_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </slideshowmanager_setup>
+            <slideshowmanager_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </slideshowmanager_write>
+            <slideshowmanager_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </slideshowmanager_read>
+        </resources>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <slideshowmanager before="Mage_Adminhtml">Icommerce_SlideshowManager_Adminhtml</slideshowmanager>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Icommerce_SlideshowManager>
+                    <files>
+                        <slideshowmanager>Icommerce_SlideshowManager.csv</slideshowmanager>
+                    </files>
+                </Icommerce_SlideshowManager>
+            </modules>
+        </translate>
+
+        <menu>
+            <cms>
+                <children>
+                    <slideshowmanager_adminform module="slideshowmanager" translate="title">
+                        <title>Slideshow Manager</title>
+                        <action>adminhtml/slideshowmanager</action>
+                    </slideshowmanager_adminform>
+                </children>
+            </cms>
+        </menu>
+
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <cms>
+                            <children>
+                                <slideshowmanager_adminform>
+                                    <title>Slideshow Manager</title>
+                                </slideshowmanager_adminform>
+                            </children>
+                        </cms>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <slideshowmanager>
+                                            <title>Icommerce Slideshow Manager</title>
+                                        </slideshowmanager>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+        <layout>
+            <updates>
+                <slideshowmanager>
+                    <file>icommerce_slideshowmanager.xml</file>
+                </slideshowmanager>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <!-- module defaults -->
+    <default>
+        <!-- config values -->
+        <slideshowmanager>
+            <settings>
+                <easy_active>0</easy_active>
+                <html_active>0</html_active>
+                <layered_html_active>0</layered_html_active>
+                <responsive_imagetext>0</responsive_imagetext>
+                <product_active>0</product_active>
+            </settings>
+        </slideshowmanager>
+    </default>
+</config>

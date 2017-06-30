@@ -1,0 +1,165 @@
+<?php
+	$helper = Mage::helper('slideshowmanager');
+?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Edit image: ')?><?php echo $item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edit_form" enctype="multipart/form-data" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/update')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<input name="editform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+		<input name="editform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Edit the image information below')?></h4></div>
+        <fieldset id="my-fieldset"  class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+            		<td><?php echo $this->__('Existing image')?></td>
+            		<td class="value"><img src="<?php echo $helper->getImageUrl($item) ?>" height="100" /></td>
+            	</tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Choose new image')?></td>
+                    <td class="value"><input class="input-file" type="file" name="file" /></td>
+                </tr>
+
+                <?php if ($imageTablet = $helper->getBackgroundImageTabletUrl($item)): ?>
+                    <tr>
+                        <td><?php echo $this->__('Existing image (tablet)')?></td>
+                        <td class="value"><img src="<?php echo $imageTablet ?>" height="100" /></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Choose new image (tablet)')?></td>
+                        <td class="value"><input class="input-file" type="file" name="backgroundimage_tablet" /></td>
+                    </tr>
+                <?php else: ?>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Image (tablet)')?> </td>
+                        <td class="value"><input class="input-file" type="file" name="backgroundimage_tablet" /></td>
+                    </tr>
+                <?php endif; ?>
+
+                <?php if ($imageMobile = $helper->getBackgroundImageMobileUrl($item)): ?>
+                    <tr>
+                        <td><?php echo $this->__('Existing image (mobile)')?></td>
+                        <td class="value"><img src="<?php echo $imageMobile ?>" height="100" /></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Choose new image (mobile)')?></td>
+                        <td class="value"><input class="input-file" type="file" name="backgroundimage_mobile" /></td>
+                    </tr>
+                <?php else: ?>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Image (mobile)')?> </td>
+                        <td class="value"><input class="input-file" type="file" name="backgroundimage_mobile" /></td>
+                    </tr>
+                <?php endif; ?>
+
+                <tr>
+                    <td class="label"><?php echo $this->__('Title')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="editform[title]" value="<?php echo $item['title']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Image text')?></td>
+                    <td class="value"><textarea id="slideshow_textarea" class="input-text" name="editform[image_text]" style="width:200px;height:100px;"><?php echo $item['image_text']?></textarea></td>
+                </tr>
+
+                <tr <?php if(!$helper->isResponsiveImagetext()): ?>style="display:none"<?php endif; ?>>
+                    <td class="label"><?php echo $this->__('Image text tablet')?></td>
+                    <td class="value"><textarea id="slideshow_textarea_2" class="input-text" name="editform[image_text_tablet]" style="width:200px;height:100px;"><?php echo $item['image_text_tablet']?></textarea></td>
+                </tr>
+                <tr <?php if(!$helper->isResponsiveImagetext()): ?>style="display:none"<?php endif; ?>>
+                    <td class="label"><?php echo $this->__('Image text phone')?></td>
+                    <td class="value"><textarea id="slideshow_textarea_3" class="input-text" name="editform[image_text_phone]" style="width:200px;height:100px;"><?php echo $item['image_text_phone']?></textarea></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Alt-text')?></td>
+                    <td class="value"><input class="input-text" name="editform[image_alt]" value="<?php echo $item['image_alt']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Link')?></td>
+                    <td class="value"><input class="input-text" name="editform[link]" value="<?php echo $item['link']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Link target')?></td>
+                    <td class="value">
+                    	<select name="editform[link_target]">
+                    		<option value="" <?php echo ''.($item['link_target'] == '' ? 'selected="selected"' : '') ?>><?php echo $this->__('Same window'); ?></option>
+                    		<option value="_blank" <?php echo ''.($item['link_target'] == '_blank' ? 'selected="selected"' : '') ?>><?php echo $this->__('New window'); ?></option>
+                    	</select>
+                   	</td>
+                </tr>
+                <tr>
+            		<td><?php echo $this->__('Hotspots')?></td>
+            		<td class="value">
+                        <div class="hotspot-image">
+                             <img src="<?php echo $helper->getImageUrl($item) ?>" height="400" width="auto" />
+                            <!-- Print out the already existing hotspots -->
+                            <?php
+                            $hotspots = $item['hotspots'];
+                            $hotspots = explode(';', $hotspots);
+
+                            foreach ($hotspots as $hotspot){
+                                $hot = Zend_Json::decode($hotspot);
+                                if (isset($hot['id']) && $hot['id'] != "") {
+                                    $numberId = explode("_", $hot['id']);
+                                    $numberIdInt = $numberId[1];
+                                    ?>
+                                    <div class="hotspot <?php echo $hot['id']; ?>" style="top: <?php echo $hot['yoffset']; ?>%; left: <?php echo $hot['xoffset']; ?>%;">
+                                        <div class="hotspot-icon">+</div>
+                                        <div class="editbox <?php echo $hot['id']; ?>" style="display: none;">
+                                            <div class="entry-edit-head">
+                                                <h4>Edit Hotspot : <?php echo $numberIdInt; ?></h4>
+                                            </div>
+                                            <div class="data">
+                                                <p>Product ID</p>
+                                                <input type="text" id="hotspot_product_id" name="hotspot_product_id" value="<?php if ($hot['type']=="product") { echo $hot['value']; }?>">
+                                                <p>CMS Block ID</p>
+                                                <input type="text" id="hotspot_cms_id" name="hotspot_cms_id" value="<?php if ($hot['type']=="cms") { echo $hot['value']; }?>">
+                                                <div class="form-button hotspot-button save" data-hotspot="<?php echo $hot['id']; ?>">
+                                                    <span>Save</span>
+                                                </div>
+                                                <div class="form-button hotspot-button delete" data-hotspot="<?php echo $hot['id']; ?>">
+                                                    <span>Delete</span>
+                                                </div>
+                                                <input type="hidden" id="<?php echo $hot['id']; ?>" class="hotspot-input <?php echo $hot['id']; ?>" data-type="<?php echo $hot['type']; ?>" data-yoffset="<?php echo $hot['yoffset']; ?>" data-xoffset="<?php echo $hot['xoffset']; ?>" value="<?php echo $hot['value']; ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                            }
+                            ?>
+                        </div>
+            		</td>
+            		<td class="value"><input type="hidden" id="hotspots_master" name="editform[hotspots]" value="" /></td>
+            	</tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="editform[status]">
+                    		<?php $statuses = Mage::helper('slideshowmanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+								<option value="<?php echo $key?>"<?php echo ''.($item['status'] == $key ? ' selected="selected"' : '') ?>><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="editform[position]" value="<?php echo $item['position']?>" style="width:30px;" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var editform = new varienForm('edit_form');
+</script>

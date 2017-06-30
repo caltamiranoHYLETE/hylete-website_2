@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+?>
+<?php /* @var $this Mage_Catalog_Block_Product_View_Abstract */?>
+<?php
+$_product = $this->getProduct();
+$_backitHelper = Mage::helper('hylete/backit');
+$_backitHelper->setProduct($_product);
+$_yotpoReviewsHelper = $this->helper('yotpo');
+?>
+
+<?php echo $this->getPriceHtml($_product) ?>
+
+<?php if (!$_backitHelper->isPreOrderProduct() && !$_backitHelper->isBackItProduct()): ?>
+    <div class="yotpo-reviews__hylete clearfix">
+        <?php $_yotpoReviewsHelper->showBottomline($this, $_product); ?>
+        <?php $_yotpoReviewsHelper->showQABottomline($this, $_product); ?>
+    </div>
+<?php endif; ?>

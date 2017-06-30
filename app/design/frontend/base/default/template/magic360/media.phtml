@@ -1,0 +1,65 @@
+<?php
+
+$magicToolboxHelper = Mage::helper('magic360/settings');
+
+$templateFilename = $magicToolboxHelper->getTemplateFilename('product.info.media');
+
+$tool = $magicToolboxHelper->loadTool('product');
+
+if($tool->params->checkValue('enable-effect', 'No')) {
+    require($templateFilename);
+    return;
+}
+
+$productModel = $this->getProduct();
+$productId = $productModel->getId();
+
+$magic360Images = Mage::registry('magic360Images');
+
+if(!$magic360Images || !count($magic360Images)) {
+    $tool->params->setValue('enable-effect', 'No');
+    require($templateFilename);
+    return;
+}
+
+$magic360ImagesData = array();
+$baseDir = Mage::getBaseDir('media').DS.'magictoolbox'.DS.'magic360';
+$createSquareImages = $tool->params->checkValue('square-images', 'Yes');
+
+foreach($magic360Images as $magic360Image) {
+
+    if(!file_exists($baseDir.$magic360Image['file'])) {
+        continue;
+    }
+
+    $bigImage = $this->helper('magic360/image')->init($magic360Image['file'])->__toString();
+
+    //NOTE: for speed up (issue #75916)
+    //$imageSize = $this->helper('magic360/image')->getOriginalSizeArray();
+    $imageSize = getimagesize($baseDir.$magic360Image['file']);
+
+    if($createSquareImages) {
+        $bigImageSize = ($imageSize[0] > $imageSize[1]) ? $imageSize[0] : $imageSize[1];
+        $bigImage = $this->helper('magic360/image')->setWatermarkFile(null)->resize($bigImageSize)->__toString();
+    }
+
+    list($w, $h) = $magicToolboxHelper->magicToolboxGetSizes('thumb', $imageSize);
+    $mediumImage = $this->helper('magic360/image')->setWatermarkFile(null)->resize($w, $h)->__toString();
+
+    $magic360ImagesData[] = array(
+        'img' => $bigImage,
+        'medium' => $mediumImage
+    );
+}
+
+if(!count($magic360ImagesData)) {
+    $tool->params->setValue('enable-effect', 'No');
+    require($templateFilename);
+    return;
+}
+
+echo '<div class="MagicToolboxContainer">'.$tool->getMainTemplate($magic360ImagesData, array('id' => 'productMagic360')).'</div>';
+
+echo '<img id="image" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" class="invisible" />';
+
+?>

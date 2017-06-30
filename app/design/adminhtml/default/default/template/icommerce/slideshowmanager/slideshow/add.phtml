@@ -1,0 +1,98 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Add Slideshow')?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="add_form" name="add_form" method="post" action="<?php echo $this->getUrl('*/*/save')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Enter the slideshow information below')?></h4>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?php echo $this->__('Name')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addform[name]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Width')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addform[width]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Height')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addform[height]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Thumbnails')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addform[thumbnails]">
+	                    		<option value="0"><?php echo $this->__('No')?></option>
+	                    		<option value="1"><?php echo $this->__('Yes')?></option>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addform[status]">
+                    		<?php $statuses = Mage::helper('slideshowmanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?php echo $key?>"><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="addform[position]" style="width:30px;" /></td>
+                </tr>
+                </tr>
+                <tr>
+                <td class="label"><label for="valid_from">Valid from</label></td>
+                <td class="value">
+                <input type="text" style="width:110px !important;" class=" input-text" title="Valid from" value="" id="valid_from" name="addform[valid_from]">
+
+                <img style="" title="Select Date" id="valid_from_button" class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>">
+                <script type="text/javascript">
+                 //<![CDATA[
+                Calendar.setup({
+                inputField: "valid_from",
+                ifFormat: "%m/%e/%y",
+                showsTime: false,
+                button: "valid_from_button",
+                align: "Bl",
+                singleClick : true
+                });
+                //]]>
+                </script>            </td>
+                </tr>
+                <tr>
+                <td class="label"><label for="valid_to">Valid to</label></td>
+                <td class="value">
+                <input type="text" style="width:110px !important;" class=" input-text" title="Valid to" value="" id="valid_to" name="addform[valid_to]">
+
+                <img style="" title="Select Date" id="valid_to_button" class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>">
+                <script type="text/javascript">
+                //<![CDATA[
+               Calendar.setup({
+               inputField: "valid_to",
+               ifFormat: "%m/%e/%y",
+               showsTime: false,
+               button: "valid_to_button",
+               align: "Bl",
+               singleClick : true
+               });
+               //]]>
+                </script></td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addForm = new varienForm('add_form');
+</script>

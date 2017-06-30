@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Talkable SocialReferrals for Magento
+ *
+ * @package     Talkable_SocialReferrals
+ * @author      Talkable (http://www.talkable.com/)
+ * @copyright   Copyright (c) 2015 Talkable (http://www.talkable.com/)
+ * @license     MIT
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="core/template" name="talkable.socialreferrals.head" template="talkable/socialreferrals/head.phtml" />
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="core/template" name="talkable.socialreferrals.floating_widget_popup" template="talkable/socialreferrals/floating_widget_popup.phtml" />
+        </reference>
+    </default>
+
+    <checkout_onepage_success>
+        <remove name="talkable.socialreferrals.floating_widget_popup" />
+
+        <reference name="before_body_end">
+            <block type="socialreferrals/purchase" name="talkable.socialreferrals.post_purchase" template="talkable/socialreferrals/post_purchase.phtml" />
+        </reference>
+    </checkout_onepage_success>
+
+    <checkout_multishipping_success>
+        <remove name="talkable.socialreferrals.floating_widget_popup" />
+
+        <reference name="before_body_end">
+            <block type="socialreferrals/multishipping_purchase" name="talkable.socialreferrals.post_purchase" template="talkable/socialreferrals/post_purchase.phtml" />
+        </reference>
+    </checkout_multishipping_success>
+
+    <socialreferrals_index_index>
+        <remove name="talkable.socialreferrals.floating_widget_popup" />
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+
+        <reference name="content">
+            <block type="core/template" name="talkable.socialreferrals.invite" template="talkable/socialreferrals/invite.phtml" />
+        </reference>
+    </socialreferrals_index_index>
+
+    <customer_dashboard_index>
+        <remove name="talkable.socialreferrals.floating_widget_popup" />
+        <update handle="customer_account"/>
+
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="talkable.socialreferrals.advocate_dashboard" template="talkable/socialreferrals/advocate_dashboard.phtml" />
+        </reference>
+    </customer_dashboard_index>
+
+    <customer_dashboard_handle>
+        <reference name="customer_account_navigation">
+            <action method="addLink" module="customer">
+                <name>customer_dashboard</name>
+                <path>customer/dashboard/</path>
+                <label>Referral Dashboard</label>
+            </action>
+        </reference>
+    </customer_dashboard_handle>
+</layout>

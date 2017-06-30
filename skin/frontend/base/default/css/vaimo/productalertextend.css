@@ -1,0 +1,48 @@
+.popup-parent {
+	display: none;
+	position: absolute;
+	z-index: 15;
+	background-color: white;
+	border-radius: 5px;
+	border: 1px solid #e57f7f;
+}
+
+#notify_me_stock {
+	margin-bottom: 15px;
+	display: block;
+}
+
+#notify_data {
+	display: block;
+}
+
+#notify_data > input,
+#notify_data > p {
+	margin-top: 15px;
+	width: 80%;
+	margin-left: 10px;
+	margin-bottom: 0px;
+}
+
+#product-options-for-notification {
+	padding: 5px 10px 10px;
+}
+
+#product-options-for-notification .attribute-button-text:hover {
+	cursor: pointer;
+}
+
+#notify_data .validation-advice {
+	margin-left: 10px;
+}
+
+#notify_data #advice-required-entry-product_id {
+	display: none;
+}
+
+#notify_data button.button {
+	margin-left: 10px;
+	top: -20px;
+	position: relative;
+}
+

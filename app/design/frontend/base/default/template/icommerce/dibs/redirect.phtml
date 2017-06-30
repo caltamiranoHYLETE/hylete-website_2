@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+	<div style="text-align: center; height: 400px; vertical-align: middle; padding-top: 140px;">
+		<div style="font-family: Arial; font-size: 11px; margin-bottom: 20px;"><?php echo $this->__('You will be redirected to DIBS in a few seconds.') ?></div>
+		<img style="border: 0px;" src="<?php echo $this->getSkinUrl('images/dibs/redirect-loader.gif') ?>">
+  </div>
+
+<?php
+	$dibsmodel = $this->getDibs();
+	$formfields =$dibsmodel->getCheckoutFormFields();
+	// Add everything needed for dibs to the form.
+	echo '<form action="' . $dibsmodel->getUrl() . '" method="POST" name="dibs_checkout" id="dibs_checkout" accept-charset="UTF-8">' . "\n";
+	foreach ($formfields as $field=>$value) {
+		echo '<input type="hidden" name="' . $field . '" value="' . $value . '" />' . "\r\n";
+	}
+	echo '<input type="hidden" name="HTTP_COOKIE" value="' . $this->htmlEscape($this->getHttpCookie()) . '">';
+	echo '</form>';
+?>
+
+	<script type="text/javascript">
+		var t = setTimeout('document.getElementById("dibs_checkout").submit()',1000);
+	</script>
+</body></html>

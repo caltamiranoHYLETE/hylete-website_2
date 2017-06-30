@@ -1,0 +1,15 @@
+<ul id="js-phone-menu" class="phone-menu visible-xs">
+    <li class="my-account"><a href="<?php echo $this->getUrl('customer/account'); ?>" title="<?php echo $this->__('My Account') ?>"><span class="icon-user"></span></a></li>
+    <li class="to-cart"><a href="<?php echo $this->getUrl('checkout/cart'); ?>" title="<?php echo $this->__('To Cart') ?>"><span class="icon-shopping-cart"></span></a></li>
+    <li class="toggle-search"><a href="#" id="js-toggle-search" title="<?php echo $this->__('Search') ?>"><span class="icon-search"></span></a></li>
+    <li>
+        <a href="#" id="toggle-nav" class="visible-xs" title="<?php echo $this->__('Category Menu') ?>">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="hamburger">
+                <span class="bread"></span>
+                <span class="bread"></span>
+                <span class="bread"></span>
+            </span>
+        </a>
+    </li>
+</ul>

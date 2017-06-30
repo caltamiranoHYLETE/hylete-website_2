@@ -1,0 +1,35 @@
+"Cannot add product to cart, this product does not exist.", "Produkten finns inte."
+"%s was added to your shopping cart.", "%s placerades i din varukorg."
+"This product has mandatory options, please wait while redirecting to product page...", "Den här produkten har obligatoriska val, vänligen vänta medan du skickas vidare till produktsidan..."
+"Can not add item to shopping cart", "Det gick inte att placera varan i varukorgen"
+"It was not possible to add the desired quantity to shopping cart.", "Det gick inte att lägga önskat antal i varukorgen."
+"Item was removed successfully.", "Produkten togs bort ur varukorgen."
+"Cannot remove the item.", "Kan inte ta bort produkten."
+"Your cart has been emptied. Please wait...", "Din varukorg är tom. Vänligen vänta..."
+"Adding to cart...","Lägger i varukorgen..."
+"Removing from cart...", "Tar bort varan ur varukorgen..."
+"Continue shopping", "Fortsätt handla"
+"Go to cart", "Gå till varukorgen"
+
+"Settings", "Inställningar"
+
+"Enter redirect url relative to the base url. Example values: checkout/onepage/ or checkout/cart/", "Ange omdirigerings-url relativ till bas-url:en. Exempelvärde: checkout/onepage/ eller checkout/cart/"
+"Enter the hexadecimal color code. Leave empty to disable background overlay. Example value: #000000", "Ange en hexadecimal färgkod. Lämna tom för att inaktivera bakgrundstoningen. Exempelvärde: #000000"
+"Enter the opacity for the overlay. Example value: .50", "Ange värdet för genomskinligheten av bakgrundstoningen. Exempelvärde: .50"
+"Enter the number of seconds before the popup closes itself. Example value: 10.0", "Ange ett antal sekunder innan popupen stänger sig själv. Exempelvärde: 10.0"
+"Enter the popup fadeout duration in seconds. Example value: 0.5", "Ange tiden det ska ta för popupen att tona ut. Exempelvärde: 0.5"
+"If set to yes, a checkout button will appear on the product page after adding the product to the cart.", "Om satt till Ja kommer en knapp som leder till omdirigerings-urlen att dyka upp på produktsidan när man lagt något i varukorgen."
+
+"Yes", "Ja"
+"No", "Nej"
+"Enter how wide you want the popup in pixels. Example value: 250", "Ange hur bred du vill att popupen ska vara i pixlar."
+
+"It was not possible to add the desired quantity to shopping cart for product %s since minimum quantity is %s.", "Det gick inte att lägga det önskade antalet av produkten %s i varukorgen då minsta tillåtna antal är %s."
+"It was not possible to add the desired quantity to shopping cart for product %s since maximum quantity is %s.", "Det gick inte att lägga det önskade antalet av produkten %s då maximalt antal är %s"
+
+"No wishlist was found.", "Ingen önskelista hittades."
+"Item id is missing.", "Artikel-id saknas."
+"Item was not found in the wishlist.", "Artikeln hittades inte i din önskelista."
+"Cannot add item to shopping cart.", "Det gick inte att lägga varan i varukorgen."
+
+"%s Products", "%s Produkter"

@@ -1,0 +1,316 @@
+<?xml version="1.0" ?><!--
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_IntegrationBase
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ * @author      Urmo Schmidt <urmo.schmidt@vaimo.com>
+ * @author      Allan Paiste <allan.paiste@vaimo.com>
+--><config>
+    <modules>
+        <Vaimo_IntegrationBase>
+            <version>0.1.140</version>
+        </Vaimo_IntegrationBase>
+    </modules>
+    <global>
+        <models>
+            <integrationbase>
+                <class>Vaimo_IntegrationBase_Model</class>
+                <resourceModel>integrationbase_resource</resourceModel>
+            </integrationbase>
+            <integrationbase_resource>
+                <class>Vaimo_IntegrationBase_Model_Resource</class>
+                <entities>
+                    <product>
+                        <table>vaimo_integration_base_product</table>
+                    </product>
+                    <stock>
+                        <table>vaimo_integration_base_stock</table>
+                    </stock>
+                    <price>
+                        <table>vaimo_integration_base_price</table>
+                    </price>
+                    <shipment>
+                        <table>vaimo_integration_base_shipment</table>
+                    </shipment>
+                    <shipment_item>
+                        <table>vaimo_integration_base_shipment_item</table>
+                    </shipment_item>
+                    <shipment_track>
+                        <table>vaimo_integration_base_shipment_track</table>
+                    </shipment_track>
+                    <invoice>
+                        <table>vaimo_integration_base_invoice</table>
+                    </invoice>
+                    <invoice_item>
+                        <table>vaimo_integration_base_invoice_item</table>
+                    </invoice_item>
+                    <invoice_comment>
+                        <table>vaimo_integration_base_invoice_comment</table>
+                    </invoice_comment>
+                    <creditmemo>
+                        <table>vaimo_integration_base_creditmemo</table>
+                    </creditmemo>
+                    <creditmemo_item>
+                        <table>vaimo_integration_base_creditmemo_item</table>
+                    </creditmemo_item>
+                    <queue>
+                        <table>vaimo_integration_base_queue</table>
+                    </queue>
+                    <process>
+                        <table>vaimo_integration_base_process</table>
+                    </process>
+                    <attribute>
+                        <table>vaimo_integration_base_attribute</table>
+                    </attribute>
+                    <link>
+                        <table>vaimo_integration_base_link</table>
+                    </link>
+                    <file>
+                        <table>vaimo_integration_base_file</table>
+                    </file>
+                </entities>
+            </integrationbase_resource>
+        </models>
+        <resources>
+            <integrationbase_setup>
+                <setup>
+                    <module>Vaimo_IntegrationBase</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </integrationbase_setup>
+        </resources>
+        <blocks>
+            <integrationbase>
+                <class>Vaimo_IntegrationBase_Block</class>
+            </integrationbase>
+        </blocks>
+        <helpers>
+            <integrationbase>
+                <class>Vaimo_IntegrationBase_Helper</class>
+            </integrationbase>
+        </helpers>
+        <scheduler_operations>
+            <integrationbase_import_products>
+                <label>Integration Base | Import Products</label>
+                <trigger>trigger/integrationbase/importProducts.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of products to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_products>
+            <integrationbase_import_prices>
+                <label>Integration Base | Import Prices</label>
+                <trigger>trigger/integrationbase/importPrices.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of prices to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_prices>
+            <integrationbase_import_stock>
+                <label>Integration Base | Import Stock</label>
+                <trigger>trigger/integrationbase/importStock.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of stock levels to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_stock>
+            <integrationbase_import_links>
+                <label>Integration Base | Import Links</label>
+                <trigger>trigger/integrationbase/importLinks.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of links to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_links>
+            <integrationbase_import_shipment>
+                <label>Integration Base | Import Shipments</label>
+                <trigger>trigger/integrationbase/importShipments.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of shipments to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_shipment>
+            <integrationbase_import_creditmemo>
+                <label>Integration Base | Import Credit Memos</label>
+                <trigger>trigger/integrationbase/importCreditmemos.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of credit memos to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_creditmemo>
+            <integrationbase_import_attribute>
+                <label>Integration Base | Import Attributes</label>
+                <trigger>trigger/integrationbase/importAttributes.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of attributes to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_attribute>
+            <integrationbase_import_files>
+                <label>Integration Base | Import Files</label>
+                <trigger>trigger/integrationbase/importFiles.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of files to import with one go]]></comment>
+                    </max_count>
+                </fields>
+            </integrationbase_import_files>
+            <integrationbase_export_queue>
+                <label>Integration Base | Export Queue</label>
+                <trigger>trigger/integrationbase/exportQueue.php</trigger>
+                <fields>
+                    <max_count>
+                        <label>Maximum Count</label>
+                        <comment><![CDATA[Maximum number of items to process with one go]]></comment>
+                    </max_count>
+                    <export_filter>
+                        <label>Target exports/processes</label>
+                        <frontend_type>multiselect</frontend_type>
+                        <source_model>integrationbase/system_config_source_export</source_model>
+                        <comment><![CDATA[Process only items with following type. If none are select, process all types.]]></comment>
+                    </export_filter>
+                </fields>
+            </integrationbase_export_queue>
+            <integrationbase_reindex_data>
+                <label>Integration Base | Reindex Data</label>
+                <trigger>trigger/integrationbase/reindexData.php</trigger>
+                <fields>
+                    <process_id>
+                        <label>Process</label>
+                        <frontend_type>multiselect</frontend_type>
+                        <source_model>integrationbase/system_config_source_index_process</source_model>
+                    </process_id>
+                </fields>
+            </integrationbase_reindex_data>
+        </scheduler_operations>
+        <events>
+            <ic_order_success>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addOrderToQueue</method>
+                    </integrationbase>
+                </observers>
+            </ic_order_success>
+            <m2epro_order_place_success>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addM2EProOrderToQueue</method>
+                    </integrationbase>
+                </observers>
+            </m2epro_order_place_success>
+            <customer_save_after>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addCustomerToQueue</method>
+                    </integrationbase>
+                </observers>
+            </customer_save_after>
+            <sales_order_invoice_save_after>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addInvoiceToQueue</method>
+                    </integrationbase>
+                </observers>
+            </sales_order_invoice_save_after>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addShipmentToQueue</method>
+                    </integrationbase>
+                </observers>
+            </sales_order_shipment_save_after>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addCreditmemoToQueue</method>
+                    </integrationbase>
+                </observers>
+            </sales_order_creditmemo_save_after>
+            <sales_order_payment_save_after>
+                <observers>
+                    <integrationbase>
+                        <type>singleton</type>
+                        <class>integrationbase/observer</class>
+                        <method>addPaymentToQueue</method>
+                    </integrationbase>
+                </observers>
+            </sales_order_payment_save_after>
+        </events>
+    </global>
+    <frontend>
+        <routers>
+            <integrationbase>
+                <use>standard</use>
+                <args>
+                    <module>Vaimo_IntegrationBase</module>
+                    <frontName>integrationbase</frontName>
+                </args>
+            </integrationbase>
+        </routers>
+    </frontend>
+    <default>
+        <integrationbase>
+            <settings>
+                <allow_observers>0</allow_observers>
+            </settings>
+            <apply_rules>
+                <apply_to_types/>
+                <apply_after_product_import>0</apply_after_product_import>
+                <apply_after_attribute_import>0</apply_after_attribute_import>
+                <apply_after_price_import>0</apply_after_price_import>
+                <apply_on_zero_price>0</apply_on_zero_price>
+            </apply_rules>
+        </integrationbase>
+    </default>
+    <phpunit>
+        <suite>
+            <modules>
+                <Vaimo_IntegrationBase/>
+            </modules>
+        </suite>
+    </phpunit>
+</config>

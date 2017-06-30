@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui.widget.min.js</file></action>
+
+            <action method="addItem"><type>skin_css</type><name>css/slideshow-bootstrap.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/slideshow-hotspots.css</name><params/></action>
+
+            <action method="addItem"><type>skin_js</type><name>js/slideshow-bootstrap.js</name><params/></action>
+
+            <action method="addJs"><script>vaimo/slideshowbootstrap/loader.js</script></action>
+            <action method="addJs"><script>vaimo/slideshowbootstrap/hotspot.js</script></action>
+        </reference>
+    </default>
+</layout>

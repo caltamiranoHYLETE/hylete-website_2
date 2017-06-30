@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright (c) 2009-2012 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_SlideshowBootstrap
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ */
+?>
+<?php
+$sbHelper = Mage::helper('slideshowbootstrap');
+$helper = Mage::helper('slideshowmanager');
+$slideshowId = $this->getSlideshowId();
+$items = $this->getSlideshowItems($slideshowId);
+$slideshowHtmlId = 'myCarousel_' . $this->getSlideshowId() . '_' . md5(time() + microtime() + rand(1, 1000));
+$carouselSelector = '#' . $slideshowHtmlId;
+?>
+
+<div id="<?php echo $slideshowHtmlId ?>" class="carousel slide">
+    <div class="carousel-inner">
+        <?php foreach($items as $index => $item): ?>
+            <?php if ($item['type'] == 'html'): ?>
+                <div class="item<?php if ($index == 0): ?> active<?php endif; ?>">
+                    <?php echo Icommerce_Cms::processBlockDirectives($item['slideshow_content']); ?>
+                </div>
+            <?php elseif ($item['type'] == 'layeredhtml'): ?>
+                <figure class="item<?php if ($index == 0): ?> active<?php endif; ?>"<?php if ($sbHelper->getPause()): ?> data-pause="hover"<?php endif; ?>>
+                    <img src="<?php echo $helper->getBackgroundImageUrl($item) ?>" alt="<?php echo $this->escapeHtml($item['title']) ?>" />
+                    <figcaption class="carousel-caption">
+                        <h4><?php echo $this->escapeHtml($item['title']); ?></h4>
+                        <?php echo Icommerce_Cms::processBlockDirectives($item['slideshow_content']); ?>
+                    </figcaption>
+                </figure>
+            <?php else: ?>
+                <figure class="item<?php if ($index == 0): ?> active<?php endif; ?>"<?php if ($sbHelper->getPause()): ?> data-pause="hover"<?php endif; ?>>
+                    <?php if (!empty($item['link'])): ?><a href="<?php echo $item['link'] ?>"<?php if ($item['link_target'] == '_blank'): ?> target="_blank"<?php endif; ?>><?php endif; ?>
+                        <img src="<?php echo $helper->getImageUrl($item) ?>" alt="<?php echo $this->escapeHtml($item['image_alt']) ?>" />
+                        <?php if (!empty($item['link'])): ?></a><?php endif; ?>
+                    <?php foreach($this->getHotSpotsForItem($item) as $spot): ?>
+                        <div class="hotspot" id="<?php echo $spot->getId() ?>" style="left:<?php echo $spot->getX() ?>;top:<?php echo $spot->getY() ?>">
+                            <?php if ($spot->hasEntity()):?>
+                                <a href="<?php echo $spot->getEntity()->getRequestPath() ?>"><span class="hotspot-icon icon-zoom-in"></span></a>
+                            <?php else:?>
+                                <span class="hotspot-icon icon-comment"></span>
+                                <div class="hotspot-content"><?php echo $spot->getContent() ?></div>
+                            <?php endif;?>
+                        </div>
+                    <?php endforeach ?>
+                    <?php if ($item['image_text'] != ''): ?>
+                        <figcaption class="carousel-caption">
+                            <p><?php echo $this->escapeHtml($item['image_text']); ?></p>
+                        </figcaption>
+                    <?php endif; ?>
+                </figure>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php if ($sbHelper->showNavControls()): ?>
+        <a class="carousel-control left" href="#<?php echo $slideshowHtmlId ?>" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#<?php echo $slideshowHtmlId ?>" data-slide="next">&rsaquo;</a>
+    <?php endif; ?>
+
+    <?php if ($sbHelper->showNavBullets() && count($items) > 1): ?>
+        <div class="carousel-nav">
+            <?php foreach($items as $index => $item): ?>
+                <a href="#<?php echo $slideshowHtmlId ?>" <?php if ($index == 0): ?>class="active-bullet"<?php endif; ?> data-to="<?php echo $index ?>">&#149;</a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('<?php echo $carouselSelector ?>').SlideShow({
+            interval: '<?php echo $sbHelper->getInterval() ?>'
+        });
+    });
+</script>

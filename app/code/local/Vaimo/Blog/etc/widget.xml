@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+**
+* Copyright (c) 2009-2013 Vaimo AB
+*
+* Vaimo reserves all rights in the Program as delivered. The Program
+* or any portion thereof may not be reproduced in any form whatsoever without
+* the written consent of Vaimo, except as provided by licence. A licence
+* under Vaimo's rights in the Program may be available directly from
+* Vaimo.
+*
+* Disclaimer:
+* THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+* THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+* IN THE PROGRAM.
+*
+* @category    Vaimo
+* @package     Vaimo_Blog
+* @copyright   Copyright (c) 2009-2013 Vaimo AB
+*
+-->
+<widgets>
+    <!-- FIXME should this be in this module? -->
+    <ql_catalog_product_link type="blog/product_widget_link" translate="name description" module="catalog">
+        <name>QL Catalog Product Link</name>
+        <description>Quicklook Link to a Specified Product</description>
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <id_path translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Product</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_product_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Product...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </id_path>
+            <anchor_text translate="label description">
+                <visible>1</visible>
+                <label>Anchor Custom Text</label>
+                <description>If empty, the Product Name will be used</description>
+                <type>text</type>
+            </anchor_text>
+            <title translate="label">
+                <visible>1</visible>
+                <label>Anchor Custom Title</label>
+                <type>text</type>
+            </title>
+            <template translate="label">
+                <label>Template</label>
+                <visible>1</visible>
+                <type>select</type>
+                <value>vaimo/blog/catalog/product/widget/link/link_block_ql.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>vaimo/blog/catalog/product/widget/link/link_block_ql.phtml</value>
+                        <label>QuickLook Product Link Block Template</label>
+                    </default>
+                </values>
+            </template>
+        </parameters>
+    </ql_catalog_product_link>
+    <blog_latest_posts type="blog/posts_latest" translate="name description" module="blog">
+        <name>Blog latest entries</name>
+        <description>List of latest blog entries</description>
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <products_count translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <value>5</value>
+                <label>Number of Posts to Display</label>
+                <type>text</type>
+            </products_count>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>vaimo/blog/block-latest-list.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>vaimo/blog/block-latest-list.phtml</value>
+                        <label>Latest list template</label>
+                    </default>
+                </values>
+            </template>
+            <cache_lifetime translate="label description">
+                <label>Cache Lifetime (Seconds)</label>
+                <description>86400 by default, if not set. To refresh instantly, Clear the Blocks HTML Output Cache.</description>
+                <visible>1</visible>
+                <type>text</type>
+            </cache_lifetime>
+        </parameters>
+    </blog_latest_posts>
+</widgets>

@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WDCA - Sweet Tooth
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * License, which extends the Open Software License (OSL 3.0).
+ * The Sweet Tooth License is available at this URL:
+ *     https://www.sweettoothrewards.com/terms-of-service
+ * The Open Software License is available at this URL:
+ *      http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * By adding to, editing, or in any way modifying this code, WDCA is
+ * not held liable for any inconsistencies or abnormalities in the
+ * behaviour of this code.
+ * By adding to, editing, or in any way modifying this code, the Licensee
+ * terminates any agreement of support offered by WDCA, outlined in the
+ * provided Sweet Tooth License.
+ * Upon discovery of modified code in the process of support, the Licensee
+ * is still held accountable for any and all billable time WDCA spent
+ * during the support process.
+ * WDCA does not guarantee compatibility with any other framework extension.
+ * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * behaviour of this code if caused by other framework extension.
+ * If you did not receive a copy of the license, please send an email to
+ * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
+ * immediately.
+ *
+ * @category   [TBT]
+ * @package    [TBT_Rewards]
+ * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<layout version="0.1.0">
+
+    <rewards_customer_index>
+        <reference name="rewards.customer">
+	        <block type="rewards/customer_transfers_spendings" name="customer.spendings" as="spendings" />
+	        <block type="rewards/customer_redeemcatalog" name="customer.redeemcatalog" as="redeemcatalog"
+	                template="rewards/customer/redeemcatalog.phtml" />
+        </reference>
+    </rewards_customer_index>
+
+    <!-- point slider -->
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addCss" ifconfig="rewards/general/layoutsactive">
+                <stylesheet>css/rewards/slider.css</stylesheet>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/util.js</script>
+            </action>
+           <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/catalog/product/view/redeemer.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/scriptaculous/SmoothSlider.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/points/RedemptionSlider.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/catalog/product/view/PointsSlider.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="js_points_captions" template="rewards/js/captions.phtml" />
+            <block type="core/template" name="js_points_redemption_validation" template="rewards/product/view/validationjs.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <!-- @nelkaake BEGIN Points Amount in Product Info Page for Product Points -->
+    <catalog_product_view>
+        <reference name="rewards.integrated.product.view.points">
+	        <block type="rewards/product_view_points_redeemed" name="rewards.product.view.points.redeemed" as="points_redeemed"
+	            template="rewards/product/view/points_redeemed.phtml" >
+	            <block type="rewards/points_slider" name="rewards.product.view.points.slider" as="points_slider"
+	                template="rewards/product/view/slider.phtml" />
+	            <block type="rewards/points_slider" name="rewards.product.view.points.slider.js" as="points_slider_js"
+	                template="rewards/product/view/slider_js.phtml" />
+	        </block>
+        </reference>
+        <reference name="rewards.product.view.points">
+	        <block type="rewards/product_view_points_redeemed" name="rewards.product.view.points.redeemed" as="points_redeemed"
+	            template="rewards/product/view/points_redeemed.phtml" >
+	            <block type="rewards/points_slider" name="rewards.product.view.points.slider" as="points_slider"
+	                template="rewards/product/view/slider.phtml" />
+	            <block type="rewards/points_slider" name="rewards.product.view.points.slider.js" as="points_slider_js"
+	                template="rewards/product/view/slider_js.phtml" />
+	        </block>
+        </reference>
+    </catalog_product_view>
+    <!-- @nelkaake END Points Amount in Product Info Page for Product Points -->
+
+
+    <!-- @nelkaake BEGIN Shopping cart autointegrated content  -->
+    <checkout_cart_index>
+        <!-- Mage_Checkout -->
+        <update handle="rewards_slider_head" />
+        <reference name="checkout.cart.coupon">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>cart-points-spender discount</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/cart.phtml" />
+            </block>
+        </reference>
+    </checkout_cart_index>
+    <!-- @nelkaake END Shopping cart autointegrated content -->
+
+    <checkout_cart_index>
+        <reference name="checkout_cart_item_points">
+            <block type="rewards/checkout_cart_item_points_spending" name="checkout_cart_item_points_spending"
+                    template="rewardsspend/checkout/cart/item/points.phtml">
+                <action method="setPriority">
+                    <value>10</value>
+                </action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+
+    <rewards_cart_redeem_changepointsspending>
+        <update handle="rewards_update_methods" />
+        <reference name="root">
+            <action method="setTemplate">
+                <template></template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/cart_totals" name="checkout.cart.totals" template="checkout/cart/totals.phtml"/>
+        </reference>
+    </rewards_cart_redeem_changepointsspending>
+
+    <rewards_cart_redeem_cartadd>
+        <update handle="rewards_update_methods" />
+    </rewards_cart_redeem_cartadd>
+    
+    <rewards_cart_redeem_cartremove>
+        <update handle="rewards_update_methods" />
+    </rewards_cart_redeem_cartremove>
+    
+    <checkout_onepage_index>
+        <update handle="rewards_slider_head" />
+        <reference name="checkout.onepage.review">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender</value>
+                </action>
+                <action method="setData">
+                    <name>element_that_has_to_be_visible</name>
+                    <value>checkout-step-review</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/onepage.phtml" />
+            </block>
+        </reference>
+    </checkout_onepage_index>
+    
+    <onestepcheckout_index_index>
+        <update handle="rewards_slider_head" />
+        <reference name="onestepcheckout.summary" before="-">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender onestepcheckout-points-spender</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/onestepcheckout.phtml" />
+            </block>
+        </reference>
+    </onestepcheckout_index_index>
+        
+    <gomage_checkout_onepage_index>
+        <update handle="rewards_slider_head" />
+        <remove name="rewards_points_cart_minibox" />
+        <reference name="gomage.rewards.points">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender gomage-points-spender</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/gomage-lightcheckout.phtml" />
+            </block>
+        </reference>
+    </gomage_checkout_onepage_index>
+    
+    <firecheckout_index_index>
+        <update handle="rewards_slider_head" />
+    </firecheckout_index_index>
+    
+    <rewards_slider_head>
+        <reference name="head">
+            <action method="addCss" ifconfig="rewards/general/layoutsactive">
+                <stylesheet>css/rewards/slider.css</stylesheet>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/util.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/catalog/product/view/redeemer.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/scriptaculous/SmoothSlider.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/points/RedemptionSlider.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/catalog/product/view/PointsSlider.js</script>
+            </action>
+            <action method="addJs" ifconfig="rewards/general/layoutsactive">
+                <script>tbt/rewards/slider.js</script>
+            </action>
+        </reference>
+    </rewards_slider_head>
+
+    <rewards_update_methods>
+        <reference name="checkout.cart">
+            <action method="setTemplate">
+                <template>rewards/checkout/cart/methods.phtml</template>
+            </action>
+        </reference>
+    </rewards_update_methods>
+
+    <default>
+        <reference name="rewards_catalog_product_list_predictpoints">
+            <block type="rewards/product_list_optimizedprice" template="rewardsspend/product/list/optimizedprice.phtml" name="optimizedprice"  priority="10" />
+        </reference>
+    </default>
+
+</layout>

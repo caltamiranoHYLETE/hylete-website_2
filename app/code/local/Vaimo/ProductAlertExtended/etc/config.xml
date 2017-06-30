@@ -1,0 +1,99 @@
+<?xml version="1.0" ?><config>
+
+	<modules>
+		<Vaimo_ProductAlertExtended>
+			<version>0.1.15</version>
+		</Vaimo_ProductAlertExtended>
+	</modules>
+
+	<global>
+		<blocks>
+			<productalertextended>
+				<class>Vaimo_ProductAlertExtended_Block</class>
+			</productalertextended>
+		</blocks>
+		<helpers>
+			<productalertextended>
+				<class>Vaimo_ProductAlertExtended_Helper</class>
+			</productalertextended>
+		</helpers>
+		<models>
+			<productalertextended>
+				<class>Vaimo_ProductAlertExtended_Model</class>
+				<resourceModel>productalertextended_resource</resourceModel>
+			</productalertextended>
+			<productalertextended_resource>
+				<class>Vaimo_ProductAlertExtended_Model_Resource</class>
+				<entities>
+					<stock>
+						<table>product_alert_extended_stock</table>
+					</stock>
+				</entities>
+			</productalertextended_resource>
+		</models>
+		<resources>
+			<productalertextended_setup>
+				<setup>
+					<module>Vaimo_ProductAlertExtended</module>
+				</setup>
+			</productalertextended_setup>
+		</resources>
+        <scheduler_operations>
+            <productalertextended_process>
+                <label>Product Alert Extended | Process</label>
+                <trigger>trigger/productalertextended/process.php</trigger>
+            </productalertextended_process>
+        </scheduler_operations>
+	</global>
+
+	<frontend>
+		<translate>
+			<modules>
+				<Vaimo_ProductAlertExtended>
+					<files>
+						<default>Vaimo_ProductAlertExtended.csv</default>
+					</files>
+				</Vaimo_ProductAlertExtended>
+			</modules>
+		</translate>
+		<layout>
+			<updates>
+				<productalertextended>
+					<file>vaimo/productalertextended.xml</file>
+				</productalertextended>
+			</updates>
+		</layout>
+		<routers>
+			<productalertextended>
+				<use>standard</use>
+				<args>
+					<module>Vaimo_ProductAlertExtended</module>
+					<frontName>productalertextended</frontName>
+				</args>
+			</productalertextended>
+		</routers>
+	</frontend>
+
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<productalertextended after="Mage_Adminhtml">Vaimo_ProductAlertExtended_Adminhtml</productalertextended>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+		<layout>
+			<updates>
+				<productalertextended>
+					<file>vaimo/productalertextended.xml</file>
+				</productalertextended>
+			</updates>
+		</layout>
+	</admin>
+
+	<!-- <crontab> <jobs> <productalertextended_check_all> <schedule> <cron_expr>0,15,30,45 
+		* * * *</cron_expr> </schedule> <run> <model>productalertextended/observer::process</model> 
+		</run> </productalertextended_check_all> </jobs> </crontab> -->
+</config>

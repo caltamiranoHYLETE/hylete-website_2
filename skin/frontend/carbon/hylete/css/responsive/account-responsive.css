@@ -1,0 +1,157 @@
+@media (max-width: 1199px) {
+    .customer-address-form .sod_select {
+        width: 70%;
+    }
+}
+
+/* Extra small devices / Small devices */
+@media (max-width: 991px) {
+    .page-title {
+        margin-top: 15px;
+    }
+    .customer-account-index .main-container {
+        margin-top: 0;
+    }
+    .toggle-account-nav {
+        background: #f0f0f0;
+        border: 1px solid #a1a1a1;
+        padding: 10px;
+        margin: 7px 0 15px 0;
+    }
+    .toggle-account-nav i {
+        float: right;
+    }
+    .main-container .col-main .block-account {
+        display: block;
+        paddding: 0;
+        border: none;
+        margin: 15px 0;
+    }
+    .my-account .data-table td.last a {
+        display: block;
+    }
+    .my-account .my-wishlist .separator {
+        display: none;
+    }
+    .order-hidden {
+        visibility: hidden;
+    }
+    .my-account .my-wishlist .last .btn-cart {
+        min-width: 120px;
+    }
+    .my-account .data-table td.last .separator {
+        display: none;
+    }
+    .block-account .block-title {
+        padding-bottom: 0;
+    }
+    .block-account .block-content {
+        border: none;
+    }
+    .block-account .block-content ul li {
+        font-size: 12px;
+    }
+    #my-orders-table {
+        font-size: 12px;
+    }
+
+    .account-login .page-title {
+        display: none;
+    }
+    
+    #login-form {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+    }
+
+    #login-form .registered-users {
+        order: 3;
+    }
+
+    #login-form .registered-users .button {
+        width: 70%;
+        margin-right: 3px;
+    }
+
+    #login-form .new-users {
+        order: 1;
+    }
+
+    #login-form .new-users .hyletenation-btn {
+        float: none;
+        width: 100%;
+        max-width: 500px;
+        display: block;
+        margin: 20px auto 15px auto;
+    }
+
+    #login-form .new-users .links {
+        padding: 0 0 10px;
+        border-bottom: 1px dashed #bbb;
+    }
+
+    .account-login .login-container {
+        order: 2;
+        padding: 5px 15px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .customer-account-login form, .customer-account-create form {
+        margin: 0;
+    }
+    .customer-account-login .registered-users, .customer-account-login .new-users, .customer-account-create .col-md-6, .customer-account-create .buttons-set, .account-login .login-container {
+        padding: 0;
+    }
+    .customer-account-create .signup-widget .buttons-set {
+        padding: 15px 0;
+    }
+    .customer-account-login .account-login, .customer-account-create .account-create, .customer-account-forgotpassword .col-main, .customer-account-resetpassword .col-main, .customer-account-index .main-container, .customer-account-edit .main-container, .customer-address-index .main-container, .sales-order-history .main-container, .customer-address-form .main-container, .monkey-customer-account-index .main-container, .customer-account-logoutsuccess .main-container, .sales-order-view .main-container, .cms-index-noroute .main-container, .checkout-index-failure .main-container {
+        padding: 0 15px 5px 15px;
+    }
+    .main-container .left-box {
+        padding-right: 0;
+    }
+    .main-container .right-box {
+        padding-left: 0;
+    }
+
+    table#transfers_earnings_table tr th:nth-of-type(3), table#transfers_earnings_table tr td:nth-of-type(3),
+    table#transfers_earnings_table tr th:nth-of-type(4), table#transfers_earnings_table tr td:nth-of-type(4),
+    table#transfers_spendings_table tr th:nth-of-type(3), table#transfers_spendings_table tr td:nth-of-type(3),
+    table#transfers_spendings_table tr th:nth-of-type(4), table#transfers_spendings_table tr td:nth-of-type(4) {
+        display: none;
+    }
+
+    #login-form .toggle-login-container {
+        padding: 15px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .sign-up-widget .sod_select {
+        width: 100%;
+    }
+    .customer-address-form .sod_select {
+        width: 100%;
+    }
+
+    #login-form .registered-users .buttons-set {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+    }
+
+    #login-form .registered-users .button {
+        width: 100%;
+        margin: 0 0 10px;
+        order: 1;
+    }
+
+    #login-form .registered-users .forgot-password {
+        order: 2;
+    }
+}

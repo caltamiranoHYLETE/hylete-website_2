@@ -1,0 +1,5 @@
+# This array is the end result after unserializing and adjusting what is in the fixture
+params:
+  -
+    custom_1: custom_1_value
+    custom_2: custom_2_value

@@ -1,0 +1,7 @@
+models:
+  Icommerce_Adwords_Model_Remarketing_Vertical: adwords/remarketing_vertical
+  Icommerce_Adwords_Model_Remarketing_Vertical_Retail: adwords/remarketing_vertical_retail
+  # Icommerce_Adwords_Model_Remarketing_Vertical_Abstract: adwords/remarketing_vertical_abstract # Cannot instantiate abstract classes
+  Icommerce_Adwords_Model_Adminhtml_System_Config_Backend_Googletagparams: adwords/adminhtml_system_config_backend_googletagparams
+  Icommerce_Adwords_Model_Adminhtml_System_Config_Source_Verticals: adwords/adminhtml_system_config_source_verticals
+resource_models: [] # No resource models

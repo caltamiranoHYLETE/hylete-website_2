@@ -1,0 +1,188 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Matrixratesmodifier
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?>
+
+<?php $has_code = Icommerce_Db::columnExists("shipping_matrixrate", "code"); ?>
+<?php $has_freightcat = Icommerce_Default_Helper_Data::isModuleActive('Icommerce_MatrixrateExtended') && Icommerce_Db::columnExists('shipping_matrixrate', 'freightcat'); ?>
+
+<div class="content-header matrixratesmodifier rates">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td>
+            	<h3><?php echo $this->__('Matrix Rates Modifier')?></h3>
+            	<div class="clear"></div>
+             	<p><?php echo $this->__('In this view you can see all of your shipping rates.')?></p>
+             </td>
+            <td class="a-right">
+                <button onclick="setLocation('<?php echo Mage::helper("adminhtml")->getUrl("adminhtml_matrixratesmodifier_rates/add/")?>')" class="add" type="button">
+                	<span><?php echo $this->__('Add')?></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit matrixratesmodifier rates">
+
+    <form id="view_form" name="view_form" method="post" action="<?php echo $this->getFormAction(); ?>">
+    	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    	<div class="grid">
+
+    		<?php $rates = $this->getRates(); ?>
+    		<?php if(count($rates) < 1): ?>
+    			<?php echo $this->__("No rates where found.") ?>
+    		<?php else:?>
+
+    		<table cellspacing="0">
+    			<thead>
+    			<tr class="headings">
+    				<th>
+    					<a class="<?php echo $this->getSortClass('pk')?>" title="<?php echo $this->getSortTitle()?>" name="pk"
+    						href="<?php echo $this->getSortOrderUrl('pk') ?>">
+							<span class="sort-title"><?php echo $this->__('ID') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('website_id')?>" title="<?php echo $this->getSortTitle()?>" name="website_id"
+    						href="<?php echo $this->getSortOrderUrl('website_id') ?>">
+							<span class="sort-title"><?php echo $this->__('Web Site') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('dest_country_id')?>" title="<?php echo $this->getSortTitle()?>" name="dest_country_id"
+    						href="<?php echo $this->getSortOrderUrl('dest_country_id') ?>">
+							<span class="sort-title"><?php echo $this->__('Country') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('dest_region_id')?>" title="<?php echo $this->getSortTitle()?>" name="dest_region_id"
+    						href="<?php echo $this->getSortOrderUrl('dest_region_id') ?>">
+							<span class="sort-title"><?php echo $this->__('Region') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('dest_zip')?>" title="<?php echo $this->getSortTitle()?>" name="dest_zip"
+    						href="<?php echo $this->getSortOrderUrl('dest_zip') ?>">
+							<span class="sort-title"><?php echo $this->__('Zip From') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('dest_zip_to')?>" title="<?php echo $this->getSortTitle()?>" name="dest_zip_to"
+    						href="<?php echo $this->getSortOrderUrl('dest_zip_to') ?>">
+							<span class="sort-title"><?php echo $this->__('Zip To') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('condition_name')?>" title="<?php echo $this->getSortTitle()?>" name="condition_name"
+    						href="<?php echo $this->getSortOrderUrl('condition_name') ?>">
+							<span class="sort-title"><?php echo $this->__('Condition') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('condition_from_value')?>" title="<?php echo $this->getSortTitle()?>" name="condition_from_value"
+    						href="<?php echo $this->getSortOrderUrl('condition_from_value') ?>">
+							<span class="sort-title"><?php echo $this->__('Condition From') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('condition_to_value')?>" title="<?php echo $this->getSortTitle()?>" name="condition_to_value"
+    						href="<?php echo $this->getSortOrderUrl('condition_to_value') ?>">
+							<span class="sort-title"><?php echo $this->__('Condition To') ?></span>
+						</a>
+    				</th>
+                    <?php if($has_code): ?>
+                        <th>
+                            <a class="<?php echo $this->getSortClass('code')?>" title="<?php echo $this->getCodeTitle()?>" name="code"
+                                href="<?php echo $this->getSortOrderUrl('code') ?>">
+                                <span class="sort-title"><?php echo $this->__('Code') ?></span>
+                            </a>
+                        </th>
+                    <?php endif; ?>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('price')?>" title="<?php echo $this->getSortTitle()?>" name="price"
+    						href="<?php echo $this->getSortOrderUrl('price') ?>">
+							<span class="sort-title"><?php echo $this->__('Price') ?></span>
+						</a>
+    				</th>
+    				<th>
+    					<a class="<?php echo $this->getSortClass('delivery_type')?>" title="<?php echo $this->getSortTitle()?>" name="delivery_type"
+    						href="<?php echo $this->getSortOrderUrl('delivery_type') ?>">
+							<span class="sort-title"><?php echo $this->__('Type') ?></span>
+						</a>
+    				</th>
+                    <?php if($has_freightcat): ?>
+                    <th>
+                        <a class="<?php echo $this->getSortClass('freightcat')?>" title="<?php echo $this->getSortTitle()?>" name="freightcat"
+                            href="<?php echo $this->getSortOrderUrl('freightcat') ?>">
+                            <span class="sort-title"><?php echo $this->__('Freight Category') ?></span>
+                        </a>
+                    </th>
+                    <?php endif; ?>
+    				<th class="no-link last">
+    					<?php echo $this->__('Actions') ?>
+    				</th>
+    			</tr>
+    			</thead>
+
+
+
+    			<tbody>
+    				<?php $i=0; foreach($rates as $rate): $id = $rate['pk']; ?>
+    					<tr class="<?php echo ''.($i%2 == 0 ? 'even ' : '')?>">
+    					    <td class="a-center" width="20"><?php echo $id ?></td>
+    					    <td><?php echo $this->getWebsiteName($rate['website_id'])." (id: ".$rate['website_id'].")"; ?></td>
+    					    <td><?php echo ($rate['dest_country_id'] ? $rate['dest_country_id'] : "*"); ?></td>
+    					    <td><?php echo ($rate['dest_region_id'] ? $rate['dest_region_id'] : "*"); ?></td>
+    					    <td><?php echo ($rate['dest_zip'] ? $rate['dest_zip'] : "*"); ?></td>
+    					    <td><?php echo ($rate['dest_zip_to'] ? $rate['dest_zip_to'] : "*"); ?></td>
+    					    <td><?php echo $rate['condition_name']; ?></td>
+    					    <td><?php echo $rate['condition_from_value']; ?></td>
+    					    <td><?php echo $rate['condition_to_value']; ?></td>
+                            <?php if($has_code): ?>
+                                <td><?php echo $rate['code']; ?></td>
+                            <?php endif; ?>
+    					    <td><?php echo $rate['price']; ?></td>
+                            <td><?php echo $rate['delivery_type']; ?></td>
+                            <?php if($has_freightcat): ?>
+                                <td><?php echo $rate['freightcat']; ?></td>
+                            <?php endif; ?>
+    					    <td>
+    					    	<a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml_matrixratesmodifier_rates/delete/",array("id"=>$id, "sort"=>$this->getSort(), "order"=>$this->getOrder()));?>"><?php echo $this->__('Delete')?></a>
+    					    	|
+    					    	<a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml_matrixratesmodifier_rates/edit/",array("id"=>$id));?>"><?php echo $this->__('Edit')?></a>
+    					    </td>
+    					</tr>
+    				<?php $i++; endforeach;?>
+
+    			</tbody>
+    	   </table>
+    	   <?php endif;?>
+    	</div>
+    </form>
+
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('view_form');
+</script>
+

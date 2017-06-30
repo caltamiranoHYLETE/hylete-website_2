@@ -1,0 +1,83 @@
+#vertical-nav .block-title {
+    border: none;
+}
+
+.vertnav {
+	margin: 0;
+    padding: 0;
+}
+
+.vertnav li {
+    overflow: hidden;
+}
+
+.vertnav li a {
+    text-transform: uppercase;
+}
+
+.block .vertnav li.even {
+    overflow: hidden;
+    background: #fff;
+}
+
+.vertnav ul li {
+ 	border-bottom: none;
+	text-transform: none;
+    position: relative;
+}
+
+/* This controls the indent for each sublist */
+.vertnav ul {
+    padding: 0;
+    margin: 0;
+    clear: both;
+}
+
+.vertnav ul ul {
+    padding: 5px 0 0 10px;
+}
+
+.vertnav .vertnavlink {
+    padding: 6px 0px 6px 10px;
+    margin: 0;
+    display: inline-block;
+}
+
+/* Provide space for our own "bullet" inside the link */
+.vertnav .expandlink {
+    color: #666;
+    font-size: 6px;
+    margin-left: 6px;
+    padding: 3px 10px 3px 4px;
+    vertical-align: top;
+    display: inline-block;
+}
+
+/* Show "bullets" in the links, depending on the class of the
+   LI that the link's in */
+.vertnav .open .expandlink:before {
+    content: "\2212";
+}
+
+.vertnav .closed .expandlink:before {
+    content: "\2b";;
+}
+
+.vertnav .open > .vertnavlink,
+.vertnav .active > .vertnavlink{
+    background: #e5e5e5;
+}
+
+.vertnav .open .active > a {
+    background: transparent;
+    font-weight: bold;
+}
+
+/* Actually show and hide sublists */
+.vertnav .open ul {
+    display: block;
+}
+
+.vertnav .closed ul {
+    display: none;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<menu>
+		<report>
+			<children>
+				<customers>
+					<children>
+						<alerts translate="title" module="reports">
+							<title>Registered for back in stock alerts</title>
+							<action>adminhtml/report_alert/all</action>
+						</alerts>
+					</children>
+				</customers>
+			</children>
+		</report>
+	</menu>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<report>
+						<children>
+							<customers>
+								<children>
+									<alerts>
+										<title>Registered for back in stock alerts</title>
+									</alerts>
+								</children>
+							</customers>
+						</children>
+					</report>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

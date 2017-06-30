@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <report translate="title">
+            <children>
+                <pos translate="title" module="bakerloo_reports">
+                    <sort_order>700</sort_order>
+                    <title>POS Reports</title>
+                    <action>adminhtml/pos_reports</action>
+                </pos>
+            </children>
+        </report>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <report>
+                        <children>
+                            <pos translate="title">
+                                <title>POS Reports</title>
+                            </pos>
+                        </children>
+                    </report>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

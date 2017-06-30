@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<!--
+ Copyright (c) 2009-2016 Vaimo AB
+
+ Vaimo reserves all rights in the Program as delivered. The Program
+ or any portion thereof may not be reproduced in any form whatsoever without
+ the written consent of Vaimo, except as provided by licence. A licence
+ under Vaimo's rights in the Program may be available directly from
+ Vaimo.
+
+ Disclaimer:
+ THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ IN THE PROGRAM.
+
+ @category    Vaimo
+ @package     Vaimo_MultiOptionFilter
+ @copyright   Copyright (c) 2009-2016 Vaimo AB
+-->
+<layout version="0.1.0">
+    <mof_components>
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui.widget.min.js</file></action>
+            <action method="addJs"><file>vaimo/multioptionfilter/optionSelector.js</file></action>
+            <action method="addJs"><file>vaimo/multioptionfilter/instantSelector.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="multioptionfilter/layer_filter_option_selector" name="mof.option.selector">
+                <ajax script="1">product_list</ajax>
+            </block>
+        </reference>
+    </mof_components>
+
+    <mof_in_content>
+        <reference name="left">
+            <action method="unsetChild"><alias>enterprisecatalog.leftnav</alias></action>
+            <action method="unsetChild"><alias>enterprisesearch.leftnav</alias></action>
+            <action method="unsetChild"><alias>catalog.leftnav</alias></action>
+            <action method="unsetChild"><alias>catalogsearch.leftnav</alias></action>
+        </reference>
+
+        <reference name="content">
+            <block type="core/text_list" name="mof.horizontal_wrapper" before="-">
+                <action method="insert"><blockName>enterprisecatalog.leftnav</blockName><before>-</before></action>
+                <action method="insert"><blockName>enterprisesearch.leftnav</blockName><before>-</before></action>
+                <action method="insert"><blockName>catalog.leftnav</blockName><before>-</before></action>
+                <action method="insert"><blockName>catalogsearch.leftnav</blockName><before>-</before></action>
+            </block>
+        </reference>
+    </mof_in_content>
+
+    <mof_horizontal>
+        <update handle="mof_in_content"/>
+
+        <reference name="root">
+            <action method="addBodyClass"><classname>mof-horizontal</classname></action>
+        </reference>
+
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/horizontal-multioptionfilter-mobile.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/horizontal-multioptionfilter-tablet-desktop.css</name></action>
+            <action method="addJs"><file>vaimo/multioptionfilter/horizontalFilter.js</file></action>
+        </reference>
+    </mof_horizontal>
+
+    <catalog_category_layered>
+        <update handle="mof_components"/>
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <update handle="mof_components"/>
+    </catalogsearch_result_index>
+</layout>

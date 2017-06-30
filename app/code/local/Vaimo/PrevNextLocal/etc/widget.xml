@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Vaimo
+ * @package     Vaimo_PrevNextLocal
+ * @copyright   Copyright (c) 2015 Vaimo
+ * @license     Property of Vaimo
+ * @author      Peter Lembke peter.lembke@vaimo.com
+ */
+-->
+<widgets>
+    <prevnextlocal_list type="prevnextlocal/list" translate="name description" module="prevnextlocal">
+        <name>Vaimo PrevNextLocal | Image list</name>
+        <description type="desc">Show a list with products from the collection</description>
+        <parameters>
+            <spread translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Spread</label>
+                <type>text</type>
+                <sort_order>10</sort_order>
+            </spread>
+        </parameters>
+    </prevnextlocal_list>
+    <prevnextlocal_detail type="prevnextlocal/detail" translate="name description" module="prevnextlocal">
+        <name>Vaimo PrevNextLocal | Product details</name>
+        <description type="desc">Show product details from the image list</description>
+    </prevnextlocal_detail>
+</widgets>

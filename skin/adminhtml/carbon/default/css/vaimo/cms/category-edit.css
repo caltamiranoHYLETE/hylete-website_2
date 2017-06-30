@@ -1,0 +1,17 @@
+
+.x-tree-node .vcms-icon-startpage .x-tree-node-icon {
+    background: transparent url(../../../images/vaimo/cms/icon_startpage.png) no-repeat 0 50%;
+}
+
+.x-tree-node .vcms-icon-content .x-tree-node-icon {
+    background: transparent url(../../../images/vaimo/cms/icon_content.png) no-repeat 0 50%;
+}
+
+.vcms-toolbar {
+    margin-bottom: 10px;
+}
+
+.page-type-label {
+    font-size: 14px;
+    margin-right:10px
+}

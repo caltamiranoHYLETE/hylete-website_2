@@ -1,0 +1,161 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+--><config>
+    <modules>
+        <Icommerce_AdminFeed>
+            <version>0.2.4</version>
+        </Icommerce_AdminFeed>
+    </modules>
+    <global>
+        <helpers>
+            <adminfeed>
+                <class>Icommerce_AdminFeed_Helper</class>
+            </adminfeed>
+        </helpers>
+        <blocks>
+            <adminfeed>
+                <class>Icommerce_AdminFeed_Block</class>
+            </adminfeed>
+            <adminhtml>
+                <rewrite>
+                    <template>Icommerce_AdminFeed_Block_Adminhtml_Template</template>
+                </rewrite>
+                <rewrite>
+                    <notification_toolbar>Icommerce_AdminFeed_Block_Adminhtml_Notification_Toolbar</notification_toolbar>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <adminfeed>
+                <class>Icommerce_AdminFeed_Model</class>
+            </adminfeed>
+        </models>
+        <resources>
+            <adminfeed_setup>
+                <setup>
+                    <module>Icommerce_AdminFeed</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </adminfeed_setup>
+            <adminfeed_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </adminfeed_write>
+            <adminfeed_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </adminfeed_read>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <icommerce_adminfeed before="Mage_Adminhtml">Icommerce_AdminFeed_Adminhtml</icommerce_adminfeed>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <icommerce module="adminfeed" translate="title">
+                <title>Vaimo</title>
+                <sort_order>999</sort_order>
+                <children>
+                    <checklists module="adminfeed" translate="title">
+                        <title>My Checklists</title>
+                        <action>adminhtml/checklists</action>
+                        <sort_order>40</sort_order>
+                    </checklists>
+                </children>
+            </icommerce>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Admin Feed</title>
+                </all>
+                <admin>
+                    <children>
+                        <icommerce>
+                            <title>Vaimo</title>
+                            <sort_order>10</sort_order>
+                            <children>
+                                <checklists>
+                                    <title>Manage Checklists</title>
+                                    <sort_order>0</sort_order>
+                                </checklists>
+                                <tickets>
+                                    <title>Manage Support Tickets</title>
+                                    <sort_order>1</sort_order>
+                                </tickets>
+                            </children>
+                        </icommerce>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <adminfeed>
+                                            <title>Admin Feed</title>
+                                        </adminfeed>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Icommerce_AdminFeed>
+                    <files>
+                        <adminfeed>Icommerce_AdminFeed.csv</adminfeed>
+                    </files>
+                </Icommerce_AdminFeed>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <adminfeed>
+                    <file>icommerce_adminfeed.xml</file>
+                </adminfeed>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <adminfeed>
+            <settings>
+                <active>1</active>
+            </settings>
+        </adminfeed>
+    </default>
+</config>

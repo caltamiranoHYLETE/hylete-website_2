@@ -1,0 +1,157 @@
+<?xml version="1.0" ?><config>
+    <modules>
+      <Icommerce_Style>
+        <version>0.2.30</version>
+      </Icommerce_Style>
+        <depends>
+            <Icommerce_JsonProductInfo/>
+        </depends>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Icommerce_Style before="Mage_Adminhtml">Icommerce_Style</Icommerce_Style>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <global>
+      <models>
+        <style>
+            <class>Icommerce_Style_Model</class>
+        </style>
+      </models>
+        <helpers>
+            <style>
+                <class>Icommerce_Style_Helper</class>
+            </style>
+        </helpers>
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <icommerce_style_observer>
+                        <type>singleton</type>
+                        <class>Icommerce_Style_Model_Observer</class>
+                        <method>update_defaultstyle</method>
+                    </icommerce_style_observer>
+                </observers>
+            </catalog_product_save_after>
+            <catalog_product_prepare_save>
+                <observers>
+                    <icommerce_style_observer>
+                        <type>singleton</type>
+                        <class>Icommerce_Style_Model_Observer</class>
+                        <method>save_product_arguments</method>
+                    </icommerce_style_observer>
+                </observers>
+            </catalog_product_prepare_save>
+        </events>
+
+
+    <blocks>
+        <style>
+            <class>Icommerce_Style_Block</class>
+        </style>
+        <adminhtml>
+            <rewrite>
+                 <catalog_product_edit_tabs>Icommerce_Style_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
+             </rewrite>
+       </adminhtml>
+    </blocks>
+
+    <catalog>
+        <product>
+            <type>
+                <style module="style" translate="label">
+                    <label>Style Product</label>
+                    <model>style/product_type_style</model>
+                    <!--<price_model>style/product_price</price_model>-->
+                    <index_data_retreiver>catalogindex/data_simple</index_data_retreiver>
+                    <composite>1</composite>
+                    <allowed_selection_types>
+                        <simple/>
+                        <bundled/>
+                        <configurable/>
+                    </allowed_selection_types>
+                    <is_qty>1</is_qty>
+                </style>
+            </type>
+        </product>
+    </catalog>
+
+      <resources>
+            <style_setup>
+                <setup>
+                    <module>Icommerce_Style</module>
+                    <class>Icommerce_Style_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </style_setup>
+            <style_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </style_write>
+            <style_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </style_read>
+      </resources>
+
+    </global>
+    <frontend>
+        <routers>
+            <style>
+                <use>standard</use>
+                <args>
+                    <module>Icommerce_Style</module>
+                    <frontName>style</frontName>
+                </args>
+            </style>
+        </routers>
+        <layout>
+            <updates>
+                <style>
+                    <file>style.xml</file>
+                </style>
+            </updates>
+        </layout>
+    </frontend>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <icommerce_style module="style" translate="title">
+                                            <title>Icommerce Style</title>
+                                        </icommerce_style>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <icommerce_style>
+            <settings>
+                <use_default_style_id>1</use_default_style_id>
+            </settings>
+        </icommerce_style>
+    </default>
+</config>

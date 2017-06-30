@@ -1,0 +1,39 @@
+<?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_QuickCheckout')): ?>
+	<?php
+		// QuickCheckout is active and we generate a password for the user.
+
+		$_i = 0;
+		$_password = "";
+		$_possibleChars = "0123456789bcdfghjkmnpqrstvwxyz";
+
+		while($_i < 6){
+			$_char = substr($_possibleChars, mt_rand(0, strlen($_possibleChars)-1), 1);
+
+			if (!strstr($_password, $_char)) {
+				$_password .= $_char;
+				$_i++;
+			}
+		}
+	?>
+	<li id="register-customer-password" class="no-display">
+        <input type="hidden" name="billing[customer_password]" value="<?php echo $_password ?>" id="billing:customer_password" class="required-entry validate-password" />
+        <input type="hidden" name="billing[confirm_password]" value="<?php echo $_password ?>" id="billing:confirm_password" class="required-entry validate-password" />
+	</li>
+<?php else: ?>
+	<li id="register-customer-password">
+		<div class="input-box">
+			<label for="billing:customer_password">
+				<?php echo $this->__('Password') ?> <span class="required">*</span>
+			</label><br/>
+            <input type="password" name="billing[customer_password]" title="<?php echo $this->__('Password') ?>"
+                id="billing:customer_password" class="required-entry validate-password input-text" />
+		</div>
+		<div class="input-box">
+            <label for="billing:confirm_password">
+            	<?php echo $this->__('Confirm Password') ?> <span class="required">*</span>
+           	</label><br/>
+            <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>"
+            	id="billing:confirm_password" class="required-entry validate-password input-text" />
+		</div>
+	</li>
+<?php endif; ?>

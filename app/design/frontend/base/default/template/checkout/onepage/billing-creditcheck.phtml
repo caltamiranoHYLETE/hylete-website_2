@@ -1,0 +1,56 @@
+<?php
+
+?>
+
+<!-- Icommerce Credit Check -->
+        <?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_Creditcheck')): ?>
+            <input type="hidden" name="billing[ccidnr]" value="<?php echo $this->getCCIDNr() ?>" id="billing:ccidnr" />
+            <li class="creditcheck">
+                <div class="input-box">
+                    <?php if ($this->showCreditcheckOptions()): ?>
+                    <input type="radio" name="billing[idtype]" id="billing:idtype_person" value="0" <?php if ($this->getIDType()==0) {?>checked="checked" <?php }?>;" />&nbsp;<label for="billing:idtype_company"><?php echo  $this->__('Personal ID') ?></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="billing[idtype]" id="billing:idtype" value="1" <?php if ($this->getIDType()==1) {?>checked="checked" <?php }?>;" />&nbsp;<label for="billing:idtype"><?php echo $this->__('Company reg. no.') ?></label>
+                    <?php else: ?>
+                        <?php if ($this->getTheOption()==0): ?>
+                            <input type="hidden" name="billing[idtype]" id="billing:idtype_person" value="0" checked="checked"/>
+                            <input type="hidden" name="billing[idtype]" id="billing:idtype" value="1"/>
+                            <label for="billing:idtype_company"><?php echo  $this->__('Personal ID') ?>
+                        <?php else: ?>
+                            <input type="hidden" name="billing[idtype]" id="billing:idtype_person" value="0"/>
+                            <input type="hidden" name="billing[idtype]" id="billing:idtype" value="1" checked="checked"/>
+                            <label for="billing:idtype_person"><?php echo $this->__('Company reg. no.') ?></label>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <input type="text" id="billing:idnr" name="billing[idnr]" ONCHANGE="billing.getCreditcheckData(document.getElementById('billing:idtype_person').checked,document.getElementById('billing:idnr').value);" value="<?php echo $this->htmlEscape($this->getIDNr()) ?>" title="<?php echo $this->__('Personal ID') ?>" class="input-text" />
+                </div>
+                <div class="input-box">
+                    <br/>
+                    <button class="form-button" type="button" onclick="billing.getCreditcheckData(document.getElementById('billing:idtype_person').checked,document.getElementById('billing:idnr').value);">
+                        <span><?php echo $this->__('Identify me') ?></span>
+                    </button>
+                    <span id="identifyme-please-wait"  style="display:none;" class="opc-please-wait">
+                         &nbsp;<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Identifying...') ?> &nbsp;
+                    </span>
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_CreditSafe')): ?>
+            <li class="ssn">
+                <label for="billing[personid]"><?php echo $this->__('ID number') ?></label>
+                <input type="text" id="billing:personid" name="billing[personid]" ONCHANGE="getCreditSafeAddress(document.getElementById('billing:personid').value,false);" value="<?php echo $this->htmlEscape($this->getPersonId()) ?>" title="<?php echo $this->__('Company registration number or social security number') ?>" class="input-text" />
+                <?php if (Mage::helper('creditsafe')->DemandPostCode()): ?>
+                    </li>
+                    <li class="ssn">
+                    <label for="billing[creditsafe-postcode]"><?php echo $this->__('Postcode') ?></label>
+                    <input type="text" id="creditsafe-postcode" name="billing[creditsafe-postcode]" ONCHANGE="getCreditSafeAddress(document.getElementById('billing:personid').value,false);" value="<?php echo $this->htmlEscape($this->getPersonId()) ?>" title="<?php echo $this->__('Postcode, required for address search') ?>" class="input-text" />
+                <?php endif; ?>
+                <button class="form-button" type="button" onclick="getCreditSafeAddress(document.getElementById('billing:personid',true).value);">
+                    <span><?php echo $this->__('Identify me') ?></span>
+                </button>
+                <span id="identifyme-please-wait"  style="display:none;" class="opc-please-wait">
+                     &nbsp;<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Identifying...') ?> &nbsp;
+                </span>
+            </li>
+        <?php endif; ?>
+<!-- Icommerce Credit Check End -->

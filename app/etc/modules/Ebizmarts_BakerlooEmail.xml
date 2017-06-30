@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ebizmarts_BakerlooEmail>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Ebizmarts_BakerlooRestful />
+            </depends>
+        </Ebizmarts_BakerlooEmail>
+    </modules>
+</config>

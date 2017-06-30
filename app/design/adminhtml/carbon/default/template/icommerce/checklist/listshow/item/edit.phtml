@@ -1,0 +1,48 @@
+<?php 
+	$helper = Mage::helper('checklist');
+?>
+<?php $list = $this->getItem(); ?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Edit list: ').$list['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edit_form" enctype="multipart/form-data" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/update')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<input name="editform[id]" type="hidden" value="<?php echo $list['id'] ?>" />
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Edit the list information below')?></h4>
+        <fieldset id="my-fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?php echo $this->__('Name')?></td>
+                    <td><input class="input-text required-entry" name="editform[name]" value="<?php echo $list['name']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td>
+                    	<select name="editform[status]">
+                    		<?php $statuses = Mage::helper('checklist')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+								<option value="<?php echo $key?>"<?php echo ''.($list['status'] == $key ? ' selected="selected"' : '') ?>><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td><input class="input-text" name="editform[position]" value="<?php echo $list['position']?>" style="width:30px;" /></td>
+                </tr>            
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var editform = new varienForm('edit_form');
+</script>

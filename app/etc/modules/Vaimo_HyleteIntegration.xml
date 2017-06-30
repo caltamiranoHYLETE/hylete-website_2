@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Vaimo_HyleteIntegration>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Vaimo_IntegrationBase />
+                <Vaimo_IntegrationBaseStandard />
+            </depends>
+        </Vaimo_HyleteIntegration>
+    </modules>
+</config>

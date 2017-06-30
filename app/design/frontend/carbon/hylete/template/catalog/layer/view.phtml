@@ -1,0 +1,91 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php if($this->canShowBlock()): ?>
+    <?php $selectedFilters = array();?>
+    <?php $hlp = Mage::helper("multioptionfilter"); ?>
+    
+    
+    <div class="block block-layered-nav">
+        <h3 class="visible-xs visible-sm show-mobile-filter"><?php echo $this->__('filter and sort'); ?> <span class="fa icon-angle-down"></span></h3>
+        <ul id="narrow-by-list" class="filter">
+            <li class="hidden-inline-block-xs hidden-inline-block-sm"><h3><?php echo $this->__('filter by'); ?>:</h3></li>
+
+            <?php if($this->canShowOptions()): ?>
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                    <?php if($_filter->getType() != 'catalog/layer_filter_category' ): ?>
+                        <?php if($_filter->getItemsCount()): ?>
+                            <?php 
+                            $_selectedOptions = Mage::helper('multioptionfilter')->getSelectedLayerOptions($_filter);
+                            $_count = count($_selectedOptions['selected']);
+                            $_count = ($_count > 0) ? ' (' . $_count . ')' : '';
+                            ?>
+                            <li data-togglelink="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter" data-togglespeed="0">
+                                <span><?php echo $this->__($_filter->getName()) ?></span><?php echo $_count;?><span class="fa icon-angle-down"></span></i>
+                            </li>
+                            <div data-togglecontent="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter"><?php echo $_filter->getHtml() ?></div>
+                        <?php endif ?>
+                    <?php endif ?>
+                <?php endforeach ?>
+            <?php endif ?>
+            
+            <?php
+            $_filteredList = $this->getLayout()->getBlockSingleton('catalog/product_list')->getLoadedProductCollection();
+            $_toolbar = Mage::app()->getLayout()->createBlock('catalog/product_list')->getToolbarBlock();
+            $_toolbar->setCollection($_filteredList);    
+            ?>
+            
+            <?php if ($this->getLayer()->getState()->getFilters() || $_toolbar->getCurrentOrder() != 'position'): ?>
+                <li><a class="clear-all" href="<?php echo $this->getUrl('*/*/*', array('_use_rewrite' => true, '_forced_secure' => false, '_query' => array('order' => 'position')));?>"><?php echo $this->__('clear all') ?> <span class="icon-remove-circle"></span></a></li>
+            <?php endif ?>
+                        
+            <li class="sort-by">
+                <?php echo $_toolbar->toHtml();?>
+            </li>
+        </ul>
+        
+        <div class="content">
+            <?php if($this->canShowOptions()): ?>
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                    <?php if($_filter->getType() != 'catalog/layer_filter_category' ): ?>
+                        <?php if($_filter->getItemsCount()): ?>
+                            <div data-togglecontent="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter"><?php echo $_filter->getHtml() ?></div>
+                        <?php endif ?>
+                    <?php endif ?>
+                <?php endforeach ?>
+            <?php endif ?>
+        </div>
+    </div>
+<?php endif ?>

@@ -1,0 +1,181 @@
+.carousel {
+    position: relative;
+    -ms-touch-action: none;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.carousel-inner > .item {
+    display: none;
+    position: relative;
+    -webkit-transition: 0.6s ease-in-out left;
+    transition: 0.6s ease-in-out left;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    line-height: 1;
+}
+
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+    display: block;
+}
+
+.carousel-inner > .active {
+    left: 0;
+}
+
+.carousel-inner > .next,
+.carousel-inner > .prev {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.carousel-inner > .next {
+    left: 100%;
+}
+
+.carousel-inner > .prev {
+    left: -100%;
+}
+
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+    left: 0;
+    float: none;
+}
+
+.carousel-inner > .active.left {
+    left: -100%;
+    float: none;
+}
+
+.carousel-inner > .active.right {
+    left: 100%;
+    float: none;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 8%;
+    text-align: center;
+}
+
+.carousel-control.left {
+}
+
+.carousel-control.right {
+    left: auto;
+    right: 0;
+}
+
+.carousel-control:hover,
+.carousel-control:focus {
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+.carousel-control .icon-chevron-left,
+.carousel-control .icon-chevron-right {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 5;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 18px;
+    margin-top: -15px;
+    padding: 4px 5px 7px 5px;
+    background: #fff;
+    color: #333;
+    opacity: 0.6;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.carousel-control:hover .icon-chevron-left,
+.carousel-control:hover .icon-chevron-right {
+    opacity: 1;
+}
+
+.carousel-control .icon-chevron-right {
+    right: 0;
+    left: auto;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    margin-left: -30%;
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    background-color: #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.carousel-indicators .active {
+    background-color: #000;
+}
+
+.carousel-caption {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    bottom: 20px;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.carousel-caption .btn {
+    text-shadow: none;
+}
+
+.carousel-indicators {
+    bottom: -28px;
+}
+
+@media screen and (min-width: 768px) {
+    .carousel-caption {
+        left: 20%;
+        right: 20%;
+        padding-bottom: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .carousel-control {
+        display: none;
+    }
+}

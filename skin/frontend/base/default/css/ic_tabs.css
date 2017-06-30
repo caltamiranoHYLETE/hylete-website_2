@@ -1,0 +1,102 @@
+
+/* Icommerce_Tabs CSS 
+-------------------------------------------------------- */ 
+
+/* General */ 
+
+#tabs { overflow: hidden; }
+.ui-tabs-nav { float: left; margin: 0; padding: 0;}
+.ui-tabs-nav li { float:left; margin: 0 2px 0 0; padding: 0; }
+.ui-tabs-nav li a { 
+	display:block; 
+	float:left; 
+	margin: 0; 
+	padding: 7px 15px 5px 15px; 
+	background: #efefef;
+	border: 1px solid #E7E7E7;
+	border-bottom: none;
+}
+.ui-tabs-nav li.ui-state-active a { 
+	background: #fff;
+	position:relative;
+	z-index: 3;
+}
+.ui-tabs-panel { 
+	display: block;
+	clear:both; 
+	padding: 10px;
+	background: #fff;
+	border: 1px solid #E7E7E7;
+	border-top: 1px solid #E7E7E7; 
+	position: relative;
+	top: -1px;
+	z-index: 2;
+}
+.ui-tabs-hide { display:none; }
+
+
+/* Product page tabs*/ 
+
+.ui-tabs-panel .add-review .form-list input, 
+.ui-tabs-panel .add-review .form-list textarea,
+.ui-tabs-panel .add-review .buttons-set{
+	width: 98%;
+}
+.ui-tabs-panel .add-review .buttons-set{
+	margin: 10px 0 0 0;
+}
+.ui-tabs-panel .reviews-text td.value{
+	width: 10px;
+	overflow: hidden;
+}
+.ui-tabs-panel .add-review .data-table{
+	width: 400px;
+}
+.ui-tabs-panel .add-review .form-list{
+	margin: 10px 0 0 0;
+}
+.ui-tabs-panel .reviews .data-table, 
+.ui-tabs-panel .reviews .data-table th{
+	border: 0;
+}
+.ui-tabs-panel .reviews .data-table td {
+	border-bottom:0;
+	border-left:0;
+	border-right:0;
+	width: 10px;
+}
+.ui-tabs-panel .reviews .data-table td.label, 
+.ui-tabs-panel .reviews-text .data-table th.label {
+	background-color:#ffffff;
+	font-weight:bold;
+}
+
+.ui-tabs-panel .reviews .data-table th {
+	border-bottom:0;
+	border-left:0;
+	border-right:0 !important;
+	border-top:0;
+	color:#333333;
+	padding:2px 0;
+	white-space:nowrap;
+}
+.ui-tabs-panel .reviews .review-title{
+	font-weight: bold;
+	color: #888;
+}
+.ui-tabs-panel .rating-box {
+	background:url(../images/product_rating_blank_star.gif) repeat-x;
+	float:left;
+	font-size:0.9em;
+	height:13px;
+	margin-right:5px;
+	position:relative;
+	width:69px;
+}
+.ui-tabs-panel .rating-box .rating {
+	background:url(../images/product_rating_full_star.gif) repeat-x;
+	height:13px;
+	left:0;
+	position:absolute;
+	top:0;
+}

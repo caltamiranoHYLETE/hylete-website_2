@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */-->
+
+<widgets>
+    <hylete_category type="hylete/widgets_category" translate="label description" module="hylete">
+        <name>Hylete | Category (including blog categories)</name>
+        <description>Link to a category with image and text</description>
+        <parameters>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>0</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>vaimo/hylete/widgets/category.phtml</value>
+            </template>
+
+            <image_type translate="label">
+                <label>Image type</label>
+                <type>select</type>
+                <visible>1</visible>
+                <required>0</required>
+                <sort_order>5</sort_order>
+                <value>thumbnail</value>
+                <default>thumbnail</default>
+                <values>
+                    <thumbnail translate="label">
+                        <value>thumbnail</value>
+                        <label>Thumbnail</label>
+                    </thumbnail>
+                    <normal translate="label">
+                        <value>fullwidth</value>
+                        <label>Full width (desktop/tablet/mobile)</label>
+                    </normal>
+                </values>
+            </image_type>
+
+            <category_id translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Category</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_category_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Category...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </category_id>
+
+            <full_link translate="label">
+                <label>Link entire image to the category.</label>
+                <type>select</type>
+                <visible>1</visible>
+                <required>0</required>
+                <sort_order>5</sort_order>
+                <description>Do not use this if you plan to have a link/button in the description.</description>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>30</sort_order>
+            </full_link>
+
+            <description translate="label">
+                <label>Description</label>
+                <type>editor</type>
+                <visible>1</visible>
+                <required>0</required>
+                <sort_order>40</sort_order>
+                <description><![CDATA[
+                    &lt;h2&gt;top text&lt;/h2&gt;<br>
+                    &lt;h3&gt;header&lt;/h3&gt;<br>
+                    &lt;p&gt;paragraph&lt;/p&gt;<br>
+                    &lt;a href="<em>url</em>"&gt;link/button&lt;/a&gt;<br>
+                    <nobr>use this pattern for urls: {{store url='men/bottoms/shorts'}}</nobr>
+                ]]></description>
+            </description>
+
+            <text_placement>
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Text placement</label>
+                <type>select</type>
+                <default>0</default>
+                <description>Only used on 'normal' image type. Its always centered with 'thumbnail' and in mobile views.</description>
+                <sort_order>60</sort_order>
+                <value>left</value>
+                <default>left</default>
+                <values>
+                    <left translate="label">
+                        <value>left</value>
+                        <label>Left</label>
+                    </left>
+                    <center translate="label">
+                        <value>center</value>
+                        <label>Center</label>
+                    </center>
+                    <right translate="label">
+                        <value>right</value>
+                        <label>Right</label>
+                    </right>
+                </values>
+            </text_placement>
+
+            <align_text>
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Align text</label>
+                <type>select</type>
+                <default>0</default>
+                <description>Only used on 'normal' image type. Its always centered with 'thumbnail' and in mobile views.</description>
+                <sort_order>65</sort_order>
+                <value>left</value>
+                <default>left</default>
+                <values>
+                    <left translate="label">
+                        <value>left</value>
+                        <label>Left</label>
+                    </left>
+                    <center translate="label">
+                        <value>center</value>
+                        <label>Center</label>
+                    </center>
+                    <right translate="label">
+                        <value>right</value>
+                        <label>Right</label>
+                    </right>
+                </values>
+            </align_text>
+
+            <invert>
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Invert colors</label>
+                <type>select</type>
+                <default>0</default>
+                <sort_order>70</sort_order>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+            </invert>
+        </parameters>
+    </hylete_category>
+
+    <hylete_product type="hylete/widgets_product" translate="label description" module="hylete">
+        <name>Hylete | Product (including looks and blog posts)</name>
+        <description>Link to a product with image and text (widget size should be either 1/2 or 1/3)</description>
+        <parameters>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>0</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>vaimo/hylete/widgets/product.phtml</value>
+            </template>
+
+            <product_id translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Product</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_product_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select product...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </product_id>
+
+            <full_link translate="label">
+                <label>Link entire image to the product.</label>
+                <type>select</type>
+                <visible>1</visible>
+                <required>0</required>
+                <sort_order>5</sort_order>
+                <description>Do not use this if you plan to have a link/button in the description.</description>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>30</sort_order>
+            </full_link>
+
+            <description translate="label">
+                <label>Description</label>
+                <type>editor</type>
+                <visible>1</visible>
+                <required>0</required>
+                <sort_order>40</sort_order>
+                <description><![CDATA[
+                    &lt;h2&gt;top text&lt;/h2&gt;<br>
+                    &lt;h3&gt;header&lt;/h3&gt;<br>
+                    &lt;p&gt;paragraph&lt;/p&gt;<br>
+                    &lt;a href="<em>url</em>"&gt;link/button&lt;/a&gt;<br>
+                    <nobr>use this pattern for urls: {{store url='men/bottoms/shorts'}}</nobr>
+                ]]></description>
+            </description>
+
+            <invert>
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Invert colors?</label>
+                <type>select</type>
+                <default>0</default>
+                <sort_order>60</sort_order>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+            </invert>
+        </parameters>
+    </hylete_product>
+
+    <hylete_signup type="hylete/widgets_signup" translate="label description" module="hylete">
+        <name>Hylete | Sign up-form</name>
+        <description>Include a form that is connected to a customer group</description>
+        <parameters>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>0</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>vaimo/hylete/widgets/signup.phtml</value>
+            </template>
+
+            <customer_group_id translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Customer group</label>
+                <type>select</type>
+                <default>0</default>
+                <sort_order>60</sort_order>
+                <source_model>adminhtml/system_config_source_customer_group</source_model>
+            </customer_group_id>
+        </parameters>
+    </hylete_signup>
+
+    <hylete_signup_extended type="hylete/widgets_signup_extended"
+                                translate="label description" module="hylete">
+        <name>Hylete | Extended sign up-form</name>
+        <description>Include a form that has custom content</description>
+        <parameters>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>0</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>vaimo/hylete/widgets/signup-extended.phtml</value>
+            </template>
+
+            <customer_group_id translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <value>0</value>
+                <label>Customer group</label>
+                <type>select</type>
+                <default>0</default>
+                <sort_order>60</sort_order>
+                <source_model>adminhtml/system_config_source_customer_group</source_model>
+            </customer_group_id>
+        </parameters>
+    </hylete_signup_extended>
+</widgets>

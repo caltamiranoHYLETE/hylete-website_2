@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <cataloginventory><!-- first part of the path -->
+            <groups>
+                <item_options><!-- second part of the path -->
+                    <fields>
+                        <min_qty><!-- third part of the path -->
+                            <label>Qty for Item's Status to Become Out of Stock</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <backend_model>cataloginventory/system_config_backend_minqty</backend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </min_qty>
+                    </fields>
+                </item_options>
+            </groups>
+        </cataloginventory>
+    </sections>
+</config>

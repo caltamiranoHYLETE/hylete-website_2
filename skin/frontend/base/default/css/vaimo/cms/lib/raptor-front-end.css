@@ -1,0 +1,108 @@
+.vcms-white {
+  color: #ffffff;
+}
+
+.vcms-black {
+  color: #000000;
+}
+
+.vcms-blue {
+  color: #4f81bd;
+}
+
+.vcms-red {
+  color: #c0504d;
+}
+
+.vcms-green {
+  color: #9bbb59;
+}
+
+.vcms-purple {
+  color: #8064a2;
+}
+
+.vcms-orange {
+  color: #f79646;
+}
+
+.vcms-grey {
+  color: #999;
+}
+
+.vcms-float-left {
+  float: left;
+}
+
+.vcms-float-right {
+  float: right;
+}
+
+.vcms-font-arial {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.vcms-font-palatino {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.vcms-font-georgia {
+  font-family: Georgia, serif;
+}
+
+.vcms-font-times {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.vcms-font-comic-sans {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.vcms-font-impact {
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+.vcms-font-courier {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.vcms-center {
+  text-align: center;
+}
+
+.vcms-left {
+  text-align: left;
+}
+
+.vcms-right {
+  text-align: right;
+}
+
+.vcms-justify {
+  text-align: justify;
+}
+
+.vcms-bold {
+  font-weight: bold;
+}
+
+.vcms-italic {
+  font-style: italic;
+}
+
+.vcms-strike {
+  text-decoration: line-through;
+}
+
+.vcms-bold {
+  font-weight: bold;
+}
+
+.vcms-underline {
+  text-decoration: underline;
+}
+
+.vcms-table td {
+    border: 1px solid #d2d2d2;
+    padding: 2px;
+}

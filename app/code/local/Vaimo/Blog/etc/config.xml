@@ -1,0 +1,236 @@
+<?xml version="1.0" ?><!--
+**
+* Copyright (c) 2009-2013 Vaimo AB
+*
+* Vaimo reserves all rights in the Program as delivered. The Program
+* or any portion thereof may not be reproduced in any form whatsoever without
+* the written consent of Vaimo, except as provided by licence. A licence
+* under Vaimo's rights in the Program may be available directly from
+* Vaimo.
+*
+* Disclaimer:
+* THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+* THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+* IN THE PROGRAM.
+*
+* @category    Vaimo
+* @package     Vaimo_Blog
+* @copyright   Copyright (c) 2009-2013 Vaimo AB
+*
+--><config>
+    <modules>
+        <Vaimo_Blog>
+            <version>0.1.62</version>
+        </Vaimo_Blog>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Vaimo_Blog before="Mage_Adminhtml">Vaimo_Blog</Vaimo_Blog>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <page>
+            <layouts>
+                <blog_view_list module="blog" translate="label">
+                    <label>Blog Posts</label>
+                    <template>page/2columns-left.phtml</template>
+                </blog_view_list>
+            </layouts>
+        </page>
+        <blocks>
+            <blog>
+                <class>Vaimo_Blog_Block</class>
+            </blog>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit>Vaimo_Blog_Block_Adminhtml_Product_Edit</catalog_product_edit>
+                    <catalog_product_add>Vaimo_Blog_Block_Adminhtml_Product_Edit</catalog_product_add>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <blog>
+                <class>Vaimo_Blog_Model</class>
+                <resourceModel>blog_mysql4</resourceModel>
+            </blog>
+            <blog_mysql4>
+                <class>Vaimo_Blog_Model_Mysql4</class>
+                <entities>
+                    <comment>
+                        <table>vaimo_blog_comment</table>
+                    </comment>
+                </entities>
+            </blog_mysql4>
+        </models>
+        <helpers>
+            <blog>
+                <class>Vaimo_Blog_Helper</class>
+            </blog>
+        </helpers>
+        <catalog>
+            <product>
+                <type>
+                    <blog module="catalog" translate="label">
+                        <label>Blog Product</label>
+                        <model>blog/product_type_blog</model>
+                        <composite>1</composite>
+                        <index_data_retreiver>catalogindex/data_simple</index_data_retreiver>
+                        <allow_product_types>
+                            <simple/>
+                            <blog/>
+                            <virtual/>
+                        </allow_product_types>
+                    </blog>
+                </type>
+            </product>
+        </catalog>
+        <resources>
+            <blog_setup>
+                <setup>
+                    <class>Vaimo_Blog_Model_Setup</class>
+                    <module>Vaimo_Blog</module>
+                </setup>
+            </blog_setup>
+        </resources>
+        <scheduler_operations>
+            <vaimo_blog_trigger>
+                <label>Blog post activate by publish-date</label>
+                <trigger>triggerActivateBlogPostByPublishDate.php</trigger>
+            </vaimo_blog_trigger>
+        </scheduler_operations>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <blog before="Mage_Adminhtml">Vaimo_Blog_Adminhtml</blog>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Vaimo_Blog>
+                    <files>
+                        <default>Vaimo_Blog.csv</default>
+                    </files>
+                </Vaimo_Blog>
+            </modules>
+        </translate>
+        <events>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <vaimo_blog_tabs>
+                        <type>singleton</type>
+                        <class>blog/observer</class>
+                        <method>editTabs</method>
+                    </vaimo_blog_tabs>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+            <catalog_product_save_before>
+                <observers>
+                    <blog_catalog_product_save_before>
+                        <type>singleton</type>
+                        <class>blog/observer</class>
+                        <method>onCatalogProductSaveBefore</method>
+                    </blog_catalog_product_save_before>
+                </observers>
+            </catalog_product_save_before>
+            <controller_action_layout_render_before_adminhtml_catalog_product_edit>
+                <observers>
+                    <blog_set_active_menu>
+                        <type>singleton</type>
+                        <class>blog/observer</class>
+                        <method>onProductAddOrEdit</method>
+                    </blog_set_active_menu>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_catalog_product_edit>
+            <controller_action_layout_render_before_adminhtml_catalog_product_new>
+                <observers>
+                    <blog_set_active_menu>
+                        <type>singleton</type>
+                        <class>blog/observer</class>
+                        <method>onProductAddOrEdit</method>
+                    </blog_set_active_menu>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_catalog_product_new>
+        </events>
+    </adminhtml>
+    <frontend>
+        <routers>
+            <blog>
+                <use>standard</use>
+                <args>
+                    <module>Vaimo_Blog</module>
+                    <frontName>blog</frontName>
+                </args>
+            </blog>
+        </routers>
+        <layout>
+            <updates>
+                <blog>
+                    <file>vaimo_blog.xml</file>
+                </blog>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <blog_observer>
+                        <class>blog/observer</class>
+                        <method>addHandles</method>
+                    </blog_observer>
+                </observers>
+            </controller_action_layout_load_before>
+            <catalog_product_collection_apply_limitations_after>
+                <observers>
+                    <blog_sort_order_observer>
+                        <class>blog/observer</class>
+                        <method>productCollection</method>
+                    </blog_sort_order_observer>
+                </observers>
+            </catalog_product_collection_apply_limitations_after>
+        </events>
+        <translate>
+            <modules>
+                <Vaimo_Blog>
+                    <files>
+                        <default>Vaimo_Blog.csv</default>
+                    </files>
+                </Vaimo_Blog>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <blog>
+            <settings>
+                <product_type>blog</product_type>
+                <related_products>1</related_products>
+                <crosssell>0</crosssell>
+                <upsell>0</upsell>
+                <publish_date>1</publish_date>
+                <author>1</author>
+            </settings>
+            <blog_settings>
+                <comments>facebook</comments>
+                <excerpt>summary</excerpt>
+                <summary_number_of_characters>500</summary_number_of_characters>
+                <summary_suffix><![CDATA[ [...]]]></summary_suffix>
+            </blog_settings>
+        </blog>
+    </default>
+</config>

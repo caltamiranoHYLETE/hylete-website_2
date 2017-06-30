@@ -1,0 +1,98 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_blank
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Shoping cart sidebar
+ *
+ * @see Mage_Checkout_Block_Cart_Sidebar
+ */
+
+$totalNumOfCartItem = Mage::helper('checkout/cart')->getCart()->getItemsCount();
+
+$totalPrices = Mage::helper('checkout/cart')->getCart()->getQuote()->getTotals();
+
+$subtotalPrice = $totalPrices['subtotal'];
+$subtotalPrice = $subtotalPrice->getData('value');
+
+$grandTotal = $totalPrices['grand_total'];
+$grandTotal = $grandTotal->getData('value');
+
+$_cartQty = $this->getSummaryCount();
+
+if($_cartQty == ''){
+	$_cartQty = 0;
+}
+$_cartUrl = $this->getUrl('checkout/cart');
+/** @var Mage_Core_Model_Store $quoteStore */
+$quoteStore = $this->helper('checkout')->getQuote()->getStore();
+?>
+ <div class="headercart"<?php if($_cartQty > 0){ echo ' id="headercart"'; } ?>>
+	<div class="summary-wrapper">
+		<ul class="summary">
+		<li class="title">
+			<?php echo $this->__('Varukorg:') ?>
+		</li>
+    	<li class="sum">
+    		<?php if(isset($grandTotal)) { echo $quoteStore->formatPrice($grandTotal, false); } else { echo Mage::helper('core')->currency('0', true, false); } ?>
+    	</li>
+    	<li class="items">
+    		<?php if(isset ($totalNumOfCartItem)) { echo $totalNumOfCartItem; } else { echo '0'; } ?> <?php echo $this->__('St') ?></li>
+    	<li class="cart-link">
+    		<button type="button" class="button headercart-button" onclick="setLocation('<?php echo $_cartUrl ?>')"><span><?php echo $this->__('To checkout') ?></span></button>
+		</li>
+    	</ul>
+	</div>
+    <div id="recently-added-container" class="showcart" style="display:none;">
+    	<div class="inner" id="recently-added-container-inner">
+			<?php $_items = $this->getRecentItems() ?>
+    		<?php if(count($_items)): ?>
+    		<h5><?php echo $this->__('Recently added item(s)') ?></h5>
+    		<ol id="cart-sidebar" class="mini-products-list">
+    			<?php foreach($_items as $_item): ?>
+        			<?php echo $this->getItemHtml($_item) ?>
+    			<?php endforeach; ?>
+   	 		</ol>
+    		<?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+
+    		<p class="sum">
+    			<?php echo $this->__('Total:') ?> <span class="price"><?php if(isset($grandTotal)) { echo $quoteStore->formatPrice($grandTotal, false); } else { echo Mage::helper('core')->currency('0', true, false); } ?></span>
+    		</p>
+
+    		<div class="actions">
+        		<button class="button" type="button" onclick="setLocation('<?php echo $_cartUrl ?>')">
+        			<span><?php echo $this->__('Checkout') ?></span>
+        		</button>
+    		</div>
+
+    		<?php endif ?>
+    		<?php else: ?>
+        		<p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+    		<?php endif ?>
+
+    	</div>
+    	<div class="bottom">&nbsp;</div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+--- app/code/local/Webshopapps/Shippingoverride2/Model/Mysql4/Shippingoverride2-org.php	2016-05-19 11:18:37.000000000 +0200
++++ app/code/local/Webshopapps/Shippingoverride2/Model/Mysql4/Shippingoverride2.php	2016-05-19 12:25:17.000000000 +0200
+@@ -805,6 +805,7 @@
+ 				break;
+ 			}
+ 			
++			$product['special_shipping_group'] = intval($product['special_shipping_group']);
+ 			$specialShippingGroup = $product->getAttributeText('special_shipping_group');
+ 			$found=false;
+ 	

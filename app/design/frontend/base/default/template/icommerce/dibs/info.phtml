@@ -1,0 +1,10 @@
+<?php $arr = $this->getPaymentInfo() ?>
+<p>
+    <?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?>
+    <?php if (isset($arr['transactionNumber'])) echo "(" . $arr['transactionNumber'] . ")" . '<br>'; ?>
+    <?php if(!empty($arr['transactionCardType']) && !empty($arr['transactionCardNumber'])): ?>
+        <?php echo $arr['transactionCardType'] . ' ' . $arr['transactionCardNumber'] . '<br>'; ?>
+    <?php elseif (!empty($arr['transactionType'])): ?>
+        <?php echo $arr['transactionType'] . '<br>'; ?>
+    <?php endif; ?>
+</p>

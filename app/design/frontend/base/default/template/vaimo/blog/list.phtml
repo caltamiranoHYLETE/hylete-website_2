@@ -1,0 +1,106 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ */
+?>
+<?php
+$_productCollection=$this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$_helperBlog = $this->helper('blog');
+$_baseUrl = Mage::getBaseUrl();
+?>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('There are no blog posts in this category.') ?></p>
+<?php else: ?>
+<section class="blog blog-list row">
+    <div class="toolbar-top<?php if($_helperBlog->isForceSortPublishDateActive()):?> sort-by-publish-date<?php endif; ?>">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <?php $_columnCount = $this->getColumnCount(); ?>
+        <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php $i++; ?>
+        <article class="col-xs-12 col-sm-9">
+            <header>
+                <h1><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h1>
+                <aside class="post-meta">
+                    <?php echo $this->getChild('blog.list.meta')->setProduct($_product)->toHtml(); ?>
+                </aside>
+            </header>
+            <div class="content<?php if ($_helperBlog->getExcerptConfig() == 'summary'):?> summary<?php endif; ?>">
+                <?php if($_product->getSmallImage() != '' && $_product->getSmallImage() != 'no_selection'): ?>
+                    <?php $_imageSize = $_helperBlog->getExcerptConfig() == 'summary' ? 100 : 220; ?>
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="blog-image">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->keepFrame(false)->resize($_imageSize); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                    </a>
+                <?php endif; ?>
+                <?php $content = $_helper->productAttribute($_product, $_product->getBlogContent(), 'blog_content') ?>
+                <?php if ($_helperBlog->getExcerptConfig() == 'summary'): ?>
+                    <?php echo Icommerce_Utils::truncateHtml($content, $_helperBlog->getSummaryNbrOfCharsConfig(), $_helperBlog->getSummarySuffixConfig(), true); ?>
+                <?php else: ?>
+                    <?php echo $content; ?>
+                <?php endif; ?>
+            </div>
+            <aside class="post-comments">
+                <a href="<?php echo $_product->getProductUrl() ?>" class="blog-link"><?php echo $this->__('Read more'); ?></a>
+                <?php if ($_helperBlog->getCommentsConfig() == 'facebook'): ?>
+                    <span class="sep">&#8226;</span>  <a href="<?php echo $_product->getProductUrl() ?>#comments" class="blog-link"><?php echo $this->__('Comments:'); ?> <fb:comments-count href=<?php echo $_product->getProductUrl() ?>></fb:comments-count></a>
+                <?php elseif ($_helperBlog->getCommentsConfig() == 'disqus'): ?>
+                    <span class="sep">&#8226;</span>  <a class="blog-link" href="<?php echo $_product->getProductUrl() ?>#disqus_thread" data-disqus-identifier="<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>_disqus_<?php echo $_product->getID(); ?>"><?php echo $this->__('0 Comments'); ?></a>
+                <?php endif; ?>
+            </aside>
+        </article>
+        <?php endforeach ?>
+
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+</section>
+<?php endif; ?>

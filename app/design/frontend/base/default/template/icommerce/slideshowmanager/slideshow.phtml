@@ -1,0 +1,38 @@
+<?php
+  /** @var Icommerce_SlideshowManager_Helper_Data $helper */
+  $helper = Mage::helper('slideshowmanager');
+
+	// Load images
+  $items = $this->getSlideshowItems($this->getSlideshowId());
+?>
+
+<?php if(is_array($items) && count($items) > 0): ?>
+<ul>
+<?php
+
+	/** The $item variable contains the following keys
+	 * ------------------------------------------------
+	 * $item['id']
+	 * $item['slideshow_id']
+	 * $item['filename']
+	 * $item['image_alt']
+	 * $item['title']
+	 * $item['image_text']
+	 * $item['link']
+	 * $item['link_target']
+	 * $item['status']
+	 * $item['created_on']
+	 * $item['created_by']
+	 * $item['position']
+	*/
+
+	foreach($items as $item):
+		if($item['type'] == 'html'):
+			echo '<li>'.Icommerce_Cms::processBlockDirectives($item['slideshow_content']).'</li>';
+		else:
+			echo '<li><img src="'.$helper->getImageUrl($item).'" alt="'.$item['image_alt'].'" /></li>';
+		endif;
+	endforeach;
+?>
+</ul>
+<?php endif; ?>

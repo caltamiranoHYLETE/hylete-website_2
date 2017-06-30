@@ -1,0 +1,232 @@
+#atca-popup-container {
+    background: #fff;
+    border: 1px solid #000;
+    left: 50%;
+    margin-left: -175px !important;
+    padding: 25px 20px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 200;
+    width: 350px !important;
+    z-index: 999999;
+}
+
+#atca-overlay {
+    z-index: 99999 !important; /* override z-index set by javascript */
+}
+
+#atca-popup-container button {
+    min-width: 70px;
+    padding-top: 8px;
+}
+
+#atca-message-container {
+    border-bottom: 1px dashed #c2c2c2;
+    padding-bottom: 10px;
+}
+
+#atca-message-container #atca-message-text-related {
+    padding: 20px 0 0 0;
+    background-position: center left;
+    display: inline-block;
+    background-repeat: no-repeat;
+    *background-position: top left; /* notice the * before the property - shows in IE7 and below */
+}
+
+#atca-popup-container #atca-message-image-related,
+#atca-popup-container #atca-please-wait-image-related {
+    width: 41px;
+    height: 42px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+#atca-popup-container #atca-please-wait-image-related {
+    background-image: url(../images/addtocartajax/ajax-loader.gif);
+}
+
+#atca-popup-container #atca-message-container #atca-please-wait {
+    background-image: url(../images/addtocartajax/ajax-loader.gif);
+    background-position: center left;
+    display: inline-block;
+    background-repeat: no-repeat;
+    padding: 0 0 0 22px;
+}
+
+#atca-popup-container #atca-message-image-related#atca-please-wait-remove {
+    background-image: url(../images/addtocartajax/ajax-loader.gif);
+}
+
+#atca-popup-container #atca-message-image-related.atca-success,
+#atca-popup-container #atca-message-text.atca-success {
+    background-image: url(../images/addtocartajax/success-msg-icon.gif);
+}
+
+#atca-popup-container #atca-message-image-related.atca-error,
+#atca-popup-container #atca-message-text.atca-error {
+    background-image: url(../images/addtocartajax/error-msg-icon.gif);
+}
+
+#atca-popup-container #atca-message-image-related.atca-notice,
+#atca-popup-container #atca-message-text.atca-notice {
+    background-image: url(../images/addtocartajax/notice-msg-icon.gif);
+}
+
+#atca-popup-container #atca-message-text {
+    background-position: center left;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+
+#atca-popup-container #atca-message-text.atca-notice {
+    background-image: url(../images/addtocartajax/notice-msg-icon.gif);
+}
+
+/* Buttons */
+#atca-button-container {
+    margin: 20px 0 0 0;
+}
+
+#atca-continue-btn {
+    float: left;
+}
+
+#atca-redirect-btn {
+    float: right;
+
+}
+
+#atca-yes-btn {
+    float: right;
+    margin-right: 40px;
+}
+
+#atca-no-btn {
+    float: left;
+    margin-left: 40px;
+}
+
+#atca-checkoutbutton {
+    display: none;
+}
+
+/* Related products in addtocartajax */
+#atca-related-container {
+    overflow: hidden;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+#atca-related-container .box-related li {
+    width: 223px;
+    border: 1px solid #cccccc;
+    float: left;
+    margin-right: 20px;
+    position: relative;
+}
+
+#atca-related-container .box-related li.last {
+    margin-right: 0;
+}
+
+#atca-related-container .box-related .product-name {
+    padding: 0 0 10px;
+    margin: 10px;
+    padding: 0;
+    text-align: left;
+}
+
+#atca-related-container .box-related .product-name a {
+    text-decoration: none;
+}
+
+#atca-related-container .box-related .product-image {
+    display: block;
+    margin: 0;
+    position: relative;
+    width: 223px;
+    cursor: pointer !important;
+}
+
+#atca-related-container .box-related .price-box {
+    text-align: left;
+    clear: both;
+    float: left;
+    margin: 10px 10px 5px;
+    width: 203px;
+}
+
+#atca-related-container .box-related .price {
+    color: #444444;
+}
+
+#atca-related-container .box-related .link-learn {
+    float: left;
+    line-height: 32px;
+    margin-left: 10px;
+}
+
+#atca-related-container .box-related button {
+    float: right;
+    margin-right: 10px;
+}
+
+#atca-message-text-related-container {
+    display: block;
+    height: 331px;
+    position: absolute;
+    top: 0;
+    width: 223px;
+    background: url(../images/addtocartajax/addtocartajax-related-overlay.png) repeat;
+}
+
+#atca-message-image-related,
+#atca-please-wait-image-related {
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    float: left;
+    margin: 140px 10px 0;
+    overflow: hidden;
+    padding: 0 0 0 22px;
+    text-align: left;
+}
+
+#atca-message-image-related,
+#atca-please-wait-image-related {
+    padding: 0;
+    margin: 130px 0 0 108px;
+}
+
+#atca-message-text-related,
+#atca-please-wait-related {
+    margin: 180px 0 0 0;
+    display: block;
+    padding: 0 10px;
+}
+
+#atca-message-text {
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding: 0 0 5px 0;
+    margin: 0 0 0px 0;
+}
+
+#atca-related-container .block-content {
+    margin: 0 0 10px 0;
+}
+
+#atca-related-container .box-title {
+    display: block;
+    margin: 0 0 15px 0;
+    text-align: left;
+}
+
+#atca-related-container .box-title span {
+    width: 100%;
+}

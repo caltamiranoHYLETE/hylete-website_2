@@ -1,0 +1,89 @@
+<?php
+	$helper = Mage::helper('pagemanager');
+?>
+
+<div class="content-header" style="border-bottom: none;padding: 0;margin: 0;">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Blocks in this page')?></h4></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="entry-edit">
+
+	<?php echo $this->getChildHtml('massupdate') ?>
+
+	<form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/pageitem/massUpdate')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <div class="grid">
+            <table cellspacing="0">
+            	<thead>
+            	<tr class="headings">
+            		<th class="a-center" style="width:70px;">&nbsp;</th>
+					<th><?php echo $this->__('ID') ?></th>
+            		<th><?php echo $this->__('Image') ?></th>
+            		<th><?php echo $this->__('Name') ?></th>
+            		<th><?php echo $this->__('Status') ?></th>
+            		<th><?php echo $this->__('Position') ?></th>
+					<th><?php echo $this->__('Action') ?></th>
+            	</tr>
+            	</thead>
+            	<tbody>
+					<?php $items = $this->getItems(); ?>
+
+            		<?php if(count($items) < 1): ?>
+						<?php echo $this->getChildHtml('empty'); ?>
+					<?php else: ?>
+
+						<?php $i = 0; ?>
+
+						<?php foreach($items as $item): ?>
+
+				                <tr class="<?php echo ''.($i%2 == 0 ? 'even ' : '')?>">
+				                    <td class="a-center" width="20"><input type="checkbox" name="edit_form[mass_update_id][]" class="mass_update_checkbox" value="<?php echo $item['id']?>" /></td>
+									<td class="a-center" width="20"><?php echo $item['id']?></td>
+				                    <td width="50">
+
+				                    	<?php /* Type: Image */ ?>
+				                    	<?php if($item['type'] == 'image'): ?>
+				                    		<img src="<?php echo $helper->getImageUrl($item) ?>" width="50" height="50" />
+				                    	<?php /* Type: HTML */ ?>
+				                    	<?php else: ?>
+				                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-html.png') ?>" width="50" height="50" />
+				                    	<?php endif; ?>
+
+				                    </td>
+				                    <td><?php echo $item['title'] ?></td>
+                                    <td><?php echo $item['status'] == '1' ? $this->__("Active") : $this->__("Inactive"); ?></td>
+				                    <td width="20"><input type="text" class="input-text" name="edit_form[position][<?php echo $item['id']?>]" value="<?php echo  $item['position'] ?>"></td>
+				                    <td width="20">
+
+					                    <?php /* Type: Image */ ?>
+					                    <?php if($item['type'] == 'image'): ?>
+					                    	<a  href="<?php echo $this->getRowUrl( $item['id'] )?>"><?php echo $this->__('Edit')?></a>
+					                    <?php /* Type: HTML */ ?>
+					                    <?php else: ?>
+					                    	<a  href="<?php echo $this->getHtmlRowUrl( $item['id'] )?>"><?php echo $this->__('Edit')?></a>
+					                    <?php endif; ?>
+
+				                    </td>
+				                </tr>
+
+	            		<?php $i++; ?>
+	            		<?php endforeach;?>
+
+            		<?php endif; ?>
+                </tbody>
+           </table>
+        </div>
+        <input type="hidden" name="edit_form[mass_update_action]" id="mass_update_action" value="" />
+    </form>
+
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

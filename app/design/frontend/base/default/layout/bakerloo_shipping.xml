@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <checkout_onepage_additional>
+        <remove name="right"/>
+        <remove name="left"/>
+        <!-- @TODO: Check this, it overwrites other additional directives -->
+        <!-- ifconfig ENABLED -->
+        <block type="bakerloo_shipping/onepage_shipping_method_additional" name="root" output="toHtml" template="pos/shipping_additional.phtml" />
+    </checkout_onepage_additional>
+</layout>

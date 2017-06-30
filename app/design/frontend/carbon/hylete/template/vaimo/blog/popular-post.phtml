@@ -1,0 +1,60 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+?>
+<?php
+
+/** @var Mage_Catalog_Helper_Output $_helper */
+$_helper = $this->helper('catalog/output');
+/** @var Vaimo_Blog_Helper_Data $_helperBlog */
+$_helperBlog = $this->helper('blog');
+/** @var Vaimo_Hylete_Helper_Data $_helperHylete */
+$_helperHylete = $this->helper('hylete');
+
+$_blogCollection = $_helperHylete->getMostViewedProducts($_helperHylete->getCategory(),$this->getLimit());
+$_collectionSize = $_blogCollection->getSize();
+
+?>
+<?php if ($_collectionSize > 0): ?>
+    <ul class="post">
+<?php foreach($_blogCollection as $post) : ?>
+<?php $productName = $_helper->productAttribute($post, $post->getName(), 'name'); ?>
+    <li>
+    <div class="content left-content">
+    <a href="<?php echo $post->getProductUrl() ?>" title="<?php echo $productName ?>"><img src="<?php echo $this->helper('catalog/image')->init($post, 'small_image')->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(170); ?>"/></a>
+    </div>
+    <div class="content right-content">
+        <p><a href="<?php echo $post->getProductUrl() ?>" title="<?php echo $productName ?>"><?php echo $productName ?></a></p>
+        <label class="date-label"><?php echo $_helperBlog->getPublishDate($post, "MMM d, YYYY") ?>
+            <?php if ($_helperBlog->getCommentsConfig() == 'facebook'): ?>
+                <span class="comment-count"><a href="<?php echo $post->getProductUrl() ?>#comments">
+                        <fb:comments-count href=<?php echo $post->getProductUrl() ?>></fb:comments-count>&nbsp;<?php echo $this->__('comments'); ?></a>
+        </span>
+            <?php endif ?>
+        </label>
+    </div>
+    </li>
+<?php endforeach ?>
+    </ul>
+<?php endif ?>

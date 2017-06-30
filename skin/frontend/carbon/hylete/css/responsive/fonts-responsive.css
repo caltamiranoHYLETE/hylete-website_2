@@ -1,0 +1,66 @@
+@media (max-width: 991px) {
+    #nav a {
+        font-family: 'Eurostile';
+        font-weight: normal;
+    }
+    
+    ul#nav ul a {
+        font-size: 13px;
+    }
+    
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .category-title .hylete-widget .description h1,
+    .category-title .hylete-widget .description h2,
+    .category-title .hylete-widget .description h3,
+    .category-title .hylete-widget .description p,
+    .category-title .hylete-widget .description a,
+    .category-title .hylete-widget .description {
+        color: #000;
+        text-align: center;
+    }
+
+    .carousel .hylete-widget .description h1,
+    .carousel .hylete-widget .description h2,
+    .carousel .hylete-widget .description h3,
+    .carousel .hylete-widget .description p,
+    .carousel .hylete-widget .description a,
+    .carousel .hylete-widget .description {
+        color: #fff;
+    }
+
+    .carousel .hylete-widget.inverted .description h1,
+    .carousel .hylete-widget.inverted .description h2,
+    .carousel .hylete-widget.inverted .description h3,
+    .carousel .hylete-widget.inverted .description p,
+    .carousel .hylete-widget.inverted .description a,
+    .carousel .hylete-widget.inverted .description {
+        color: #000;
+    }
+
+    .hylete-widget .description a:hover {
+        color: #fff;
+    }
+}
+
+@media (max-width: 767px) {
+    .carousel .hylete-widget.fullwidth .description h1,
+    .carousel .hylete-widget.fullwidth .description h2,
+    .carousel .hylete-widget.fullwidth .description h3,
+    .carousel .hylete-widget.fullwidth .description p,
+    .carousel .hylete-widget.fullwidth .description a,
+    .carousel .hylete-widget.fullwidth .description {
+        color: #000;
+        text-align: center;
+    }
+
+    .carousel .hylete-widget.fullwidth .description h1,
+    .carousel .hylete-widget.fullwidth .description h2 {
+        border-bottom: 1px #000 solid;
+    }
+}

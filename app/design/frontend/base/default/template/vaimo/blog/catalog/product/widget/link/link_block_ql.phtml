@@ -1,0 +1,9 @@
+<?php
+$product = Mage::getModel('catalog/product')->load($this->getProductId());
+$imgSrc  = $this->helper('catalog/image')->init($product, 'small_image')->keepFrame(FALSE)->resize(230);
+?>
+<div class="quicklook-product">
+    <a href="<?php echo $product->getProductUrl(); ?>" onclick="quickView.load('<?php echo $product->getId(); ?>', 'listing-type-grid'); return false;">
+        <img id="image-<?php echo $product->getId(); ?>" src="<?php echo $imgSrc ?>" />
+    </a>
+</div>

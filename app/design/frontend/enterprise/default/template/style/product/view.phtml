@@ -1,0 +1,298 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php
+   $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct();
+    $currentUrl = $this->helper('core/url')->getCurrentUrl();
+?>
+
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you   to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<div class="product-view">
+	<div class="round-top product"></div>
+	<div class="product-view-inner">
+
+		<!-- col1 -->
+		<div class="product-view-col col1">
+			<div class="product-img-box"><?php echo $this->getChildHtml('media') ?></div>
+		</div>
+
+		<!-- col2 -->
+		<div class="product-view-col col2">
+	        <div class="product-essential">
+                <div class="product-shop">
+                    <div class="product-main-info">
+                        <div class="product-name">
+                            <?php echo Icommerce_Layout::getBlockHtml('core/template', 'catalog/product/view/heading.phtml', array('product' => $_product)) ?>
+                        </div>
+
+
+                        <?php echo $this->getChildHtml('product_type_data') ?>
+                    </div>
+                    <?php echo $this->getChildHtml('extrahint') ?>
+                    <div class="product-collateral">
+                            <?php  if ($_description = $this->getChildHtml('description')):?>
+                                <div class="description">
+                                    <?php echo $_description ?>
+                                </div>
+                            <?php endif;?>
+
+                            <?php echo $this->getChildHtml('product_additional_data') ?>
+                        </div>
+
+				    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+				        <div class="no-display">
+				            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+				            <input type="hidden" name="related_product" id="related-products-field" value="" />
+				        </div>
+				        <div class="clearer"></div>
+				        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
+				            <div class="options-container-big">
+				                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+				            </div>
+				        <?php endif;?>
+                        </form>
+
+                    <?php if ($_product->getShortDescription()):?>
+                        <div class="short-description std">
+                            <h2><?php echo $this->__('Quick Overview') ?></h2>
+                            <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                        </div>
+                    <?php endif;?>
+
+                    <?php echo $this->getChildHtml('other');?>
+                </div>
+                <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                <input type="hidden" name="styleProduct" value="<?php echo $_product->getId(); ?>">
+                <div class="product-style">
+                    <?php
+                    $iteration = 0;
+                    $productsInLine = 2;
+
+                    $relatedProducts = Mage::helper('style')->getStyleProductItems($_product);
+                    foreach($relatedProducts as $childProd):
+                        $iteration++;
+
+                        if($iteration == 1) {
+                            $className = 'first';
+                        } elseif($iteration == $productsInLine) {
+                            $className = 'last';
+                            $iteration = 0;
+                        } else {
+                            $className = '';
+                        }
+
+                        $productId = key($childProd['option']);
+                    ?>
+                        <div class="product-style product<?php echo ' '.$className; ?>">
+                            <div class="product-style image"><img src="<?php echo $childProd['thumbnail']; ?><"></div>
+                            <li><?php echo $childProd['name']; ?></li>
+                            <li><?php echo Mage::helper('core')->currency($childProd['option'][$productId]['price'],true,false); ?></li>
+                            <div class="product-style options">
+                                <select id="addToCartProducts" name="addToCartProducts[]">
+                                <option value="0"><?php echo $this->__('Size'); ?></option>
+                                    <?php
+                                    foreach($childProd['option'] as $option):
+                                    ?>
+                                    <option value="<?php echo $option['id']; ?>"><?php echo $option['size']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div><br><br>
+                    <button type="button" onclick="addToCartAjax.prototype.addMultipleToCart(this.form, '<?php echo $_product->getID(); ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                    <?php
+                        if(Mage::helper('addtocartajax')->productCheckoutButton()){
+                            echo Icommerce_Layout::getBlockHtml("core/template","addtocartajax/checkoutbutton.phtml");
+                        }
+                    ?>
+
+            </div>
+
+	        <div class="product-collateral">
+
+                <div class="product-description" style="display: inline">
+                    <?php echo $this->getChildHtml('additional') ?>
+
+                </div>
+
+
+	        </div>
+
+
+		</div> <!-- end .col2 -->
+        </form>
+		<div class="product-view-col col3">
+			<?php $brand = Icommerce_Default::getOptionValue( $_product, 'brand' ); ?>
+				<?php if($brand): ?>
+					<?php $path = "media/brand_logos/".Icommerce_Default::urlify($brand).".png"; ?>
+					<?php if( Icommerce_Default::siteFileExists($path) ): ?>
+						<?php
+                            list($width, $height, $type, $attr) = @getimagesize($path);
+
+                             $size = '';
+
+                             if($height > 220) {
+                                 $size = "height=\"220\" ";
+                             }
+                             elseif($width > 130) {
+                                 $size = "width=\"130\" ";
+                             }
+						?>
+			<div class="brand-logos">
+				<img class="label_logo" src="<?php echo Mage::getBaseUrl('media') . "brand_logos/" . Icommerce_Default::urlify($brand) . ".png"; ?>" <?php echo $size; ?> alt="<?php echo $brand; ?>" />
+			</div>
+					<?php endif; ?>
+				<?php endif; ?>
+			<?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
+
+		</div>
+
+		<div class="clearBoth"></div>
+
+        <?php echo $this->getChildHtml('additional') ?>
+	</div> <!-- end .product-view-inner -->
+</div>
+
+<div id="product-view-facebook-comment">
+    <?php echo Icommerce_Layout::getBlockHtml("share/facebook_comments_view","icommerce/share/facebook/ic_facebook_comments.phtml"); ?>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var productAddToCartForm = new VarienForm('product_addtocart_form');
+    var productAddUrl = '<?php echo $this->getUrl('style/cart/addMultiple'); ?>';
+    //addToCartAjax.extend({
+   // addMultipleCart: function(form, productId) {
+    var addMultipleTffoCart = function addMultfffipleToCart (form, productId) {
+            var formf = $('product_addtocart').serialize(true);
+
+            new Ajax.Request(productAddUrl,
+            {
+             method:'post',
+             parameters: formf,
+             onSuccess: this.onSuccess.bind(this),
+             onFailure: this.onFailure.bind(this)
+            });
+
+
+    }
+
+    document.observe("dom:loaded", function() {
+    addToCartAjax.prototype = Object.extend({
+      // redefine the speak method
+        addMultipleToCart: function (form, productId) {
+                    var formf = $('product_addtocart').serialize(true);
+                    this.isLoading = true;
+
+                    addToCartAjax.resetPopup();
+                    if(addToCartAjax.options.showPopupWhenAdding == '1'){
+                        addToCartAjax.showPopup();
+                    }
+                    new Ajax.Request(productAddUrl,
+                    {
+                     method:'post',
+                     parameters: formf,
+                     onSuccess: addToCartAjax.onSuccess.bind(this),
+                     onFailure: addToCartAjax.onFailure(this)
+                    })
+        }
+    });
+
+    });
+
+    productAddToCartForm.submitLight = function(button, url){
+        if(this.validator) {
+            var nv = Validation.methods;
+            delete Validation.methods['required-entry'];
+            delete Validation.methods['validate-one-required'];
+            delete Validation.methods['validate-one-required-by-name'];
+            if (this.validator.validate()) {
+                if (url) {
+                    this.form.action = url;
+                }
+                this.form.submit();
+            }
+            Object.extend(Validation.methods, nv);
+        }
+    }.bind(productAddToCartForm);
+//]]>
+</script>
+
+<script type="text/javascript">
+
+</script>
+
+
+    </div>
+	<div class="clear"></div>
+</div>

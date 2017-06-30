@@ -1,0 +1,24 @@
+<?php
+/*
+  Icommerce addition for AddToCartAjax
+*/
+?>
+
+<div id="atca-please-wait-wrapper" style="display:none;">
+
+	<div id="atca-message-container">
+		<span id="atca-please-wait" style="display:none;">
+			<?php echo $this->helper('addtocartajax')->__('Adding to cart...') ?>
+		</span>
+		<span id="atca-please-wait-remove" style="display:none;">
+			<?php echo $this->helper('addtocartajax')->__('Removing from cart...') ?>
+		</span>
+
+		<span id="atca-message-text" style="display:none;"></span>
+	</div>
+
+	<div id="atca-button-container" style="display:none">
+		<button id="atca-continue-btn" class="button" onclick="addToCartAjaxClosePopup();"><span><span><?php echo $this->__('Continue shopping') ?></span></span></button>
+		<button id="atca-redirect-btn" class="button" onclick="addToCartAjaxRedirect('<?php echo Mage::getBaseUrl().Mage::helper('addtocartajax')->getRedirectUrl()?>');"><span><span><?php echo $this->__('Go to cart') ?></span></span></button>
+	</div>
+</div>

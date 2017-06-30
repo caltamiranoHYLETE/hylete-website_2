@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Vaimo_HyleteIntegration>
+            <version>0.1.0</version>
+        </Vaimo_HyleteIntegration>
+    </modules>
+    <global>
+        <helpers>
+            <hyleteintegration>
+                <class>Vaimo_HyleteIntegration_Helper</class>
+            </hyleteintegration>
+        </helpers>
+        <models>
+            <hyleteintegration>
+                <class>Vaimo_HyleteIntegration_Model</class>
+                <resourceModel>hyleteintegration_resource</resourceModel>
+            </hyleteintegration>
+            <hyleteintegration_resource>
+                <class>Vaimo_HyleteIntegration_Model_Resource</class>
+            </hyleteintegration_resource>
+            <integrationbase>
+                <rewrite>
+                    <import_stock>Vaimo_HyleteIntegration_Model_Integration_Base_Import_Stock</import_stock>
+                </rewrite>
+
+            </integrationbase>
+            <integrationbasestandard>
+                <rewrite>
+                    <import_stock>Vaimo_HyleteIntegration_Model_Integration_Base_Standard_Import_Stock</import_stock>
+                </rewrite>
+            </integrationbasestandard>
+        </models>
+        <resources>
+            <hyleteintegration_setup>
+                <setup>
+                    <module>Vaimo_HyleteIntegration</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </hyleteintegration_setup>
+        </resources>
+    </global>
+</config>

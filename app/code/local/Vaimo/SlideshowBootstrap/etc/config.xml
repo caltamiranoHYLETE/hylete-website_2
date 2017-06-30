@@ -1,0 +1,95 @@
+<?xml version="1.0" ?><!--
+**
+ * Copyright (c) 2009-2012 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_SlideshowBootstrap
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ *
+--><config>
+    <modules>
+        <Vaimo_SlideshowBootstrap> 
+            <version>0.5.0</version>
+            <depends>
+                <Icommerce_SlideshowManager/>
+            </depends>
+        </Vaimo_SlideshowBootstrap> 
+    </modules>
+    <global> 
+        <blocks>
+            <slideshowbootstrap> 
+                <class>Vaimo_SlideshowBootstrap_Block</class>
+            </slideshowbootstrap>
+        </blocks>
+        <helpers>
+            <slideshowbootstrap>
+                <class>Vaimo_SlideshowBootstrap_Helper</class>
+            </slideshowbootstrap>
+        </helpers>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <slideshowbootstrap>
+                                            <title>Slideshow Bootstrap</title>
+                                        </slideshowbootstrap>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Vaimo_SlideshowBootstrap>
+                    <files>
+                        <default>Vaimo_SlideshowBootstrap.csv</default>
+                    </files>
+                </Vaimo_SlideshowBootstrap>
+            </modules>
+        </translate>
+    </adminhtml> 
+    <frontend>
+        <layout>
+            <updates>
+            <slideshowbootstrap>
+                <file>vaimo_slideshowbootstrap.xml</file>
+            </slideshowbootstrap>
+            </updates>
+        </layout>
+    </frontend>
+    <default>
+        <slideshowbootstrap>
+            <settings>
+                <nav_controls>1</nav_controls>
+                <nav_bullets>1</nav_bullets>
+                <interval>5000</interval>
+                <pause>1</pause>
+            </settings>
+        </slideshowbootstrap> 
+    </default>
+</config>

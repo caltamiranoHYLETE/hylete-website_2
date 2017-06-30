@@ -1,0 +1,23 @@
+<?php
+	$_helper = Mage::helper('addtocartajax');
+    $_getUrlParams = array('_secure' => Mage::app()->getFrontController()->getRequest()->isSecure());
+?>
+<script type="text/javascript">
+//<![CDATA[
+	var addToCartAjax = new AddToCartAjax({
+			addUrl: '<?php echo $this->getUrl('addtocartajax/index/add', $_getUrlParams) ?>',
+			addFromWishlistUrl: '<?php echo $this->getUrl('addtocartajax/index/addFromWishlist', $_getUrlParams) ?>',
+			removeUrl: '<?php echo $this->getUrl('addtocartajax/index/remove', $_getUrlParams) ?>',
+			redirectUrl: '<?php echo $_helper->getRedirectUrl(true) ?>',
+			confirmDeleteMessage: '<?php echo $_helper->__('Are you sure you would like to remove this item from the shopping cart?')?>',
+            showPopupWhenDeleting: <?php echo $_helper->getShowPopupWhenDeleting() ?>,
+			overlayHexColorCode: '<?php echo $_helper->getOverlayHexColorCode() ?>',
+			overlayOpacity: '<?php echo $_helper->getOverlayOpacity() ?>',
+			popupTimeout: '<?php echo $_helper->getPopupTimeout() ?>',
+			popupFadeoutDuration: '<?php echo $_helper->getPopupFadeoutDuration() ?>',
+			popupWidth: '<?php echo $_helper->getPopupWidth() ?>',
+			afterCartUpdateFunc: null,
+			showPopupWhenAdding: '<?php echo $_helper->getShowPopupWhenAdding() ?>'
+	});
+//]]>
+</script>

@@ -1,0 +1,20 @@
+--- app/code/core/Mage/Core/Model/Abstract-o.php	2014-01-09 17:35:02.000000000 +0200
++++ app/code/core/Mage/Core/Model/Abstract.php	2014-01-09 17:37:21.000000000 +0200
+@@ -342,6 +342,9 @@
+     {
+         Mage::dispatchEvent('model_save_commit_after', array('object'=>$this));
+         Mage::dispatchEvent($this->_eventPrefix.'_save_commit_after', $this->_getEventData());
++        // ELVIN@VAIMO > move from _afterSave() into here - lfeels to be more proper place.
++        $this->cleanModelCache();
++        //~
+         return $this;
+     }
+ 
+@@ -461,7 +464,6 @@
+      */
+     protected function _afterSave()
+     {
+-        $this->cleanModelCache();
+         Mage::dispatchEvent('model_save_after', array('object'=>$this));
+         Mage::dispatchEvent($this->_eventPrefix.'_save_after', $this->_getEventData());
+         return $this;

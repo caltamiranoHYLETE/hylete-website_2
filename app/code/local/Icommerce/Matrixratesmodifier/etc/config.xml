@@ -1,0 +1,137 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Matrixratesmodifier
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+--><config>
+	<modules>
+		<Icommerce_Matrixratesmodifier>
+			<version>0.1.36</version>
+		</Icommerce_Matrixratesmodifier>
+	</modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <matrixratesmodifier before="Mage_Adminhtml">Icommerce_Matrixratesmodifier_Adminhtml</matrixratesmodifier>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                	<matrixratesmodifier_adminform module="matrixratesmodifier" translate="title">
+                    	<title>Matrix Rates Modifier</title>
+                    	<sort_order>999</sort_order>
+                        <action>adminhtml/matrixratesmodifier_matrixratesmodifier</action>
+                    </matrixratesmodifier_adminform>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                            	<matrixratesmodifier_adminform>
+                            	    <title>Icommerce Matrixratesmodifier</title>
+                            	</matrixratesmodifier_adminform>
+                                <config>
+                                    <children>
+                                        <matrixratesmodifier>
+                                            <title>Matrix Rates Modifier</title>
+                                        </matrixratesmodifier>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Icommerce_Matrixratesmodifier>
+                    <files>
+                        <matrixratesmodifier>Icommerce_Matrixratesmodifier.csv</matrixratesmodifier>
+                    </files>
+                </Icommerce_Matrixratesmodifier>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+        <models>
+            <matrixratesmodifier>
+                <class>Icommerce_Matrixratesmodifier_Model</class>
+                <resourceModel>matrixratesmodifier_mysql4</resourceModel>
+            </matrixratesmodifier>
+            <matrixratesmodifier_mysql4>
+                <class>Icommerce_Matrixratesmodifier_Model_Mysql4</class>
+                <entities>
+                    <matrixratesmodifier>
+                        <table>shipping_matrixrate</table>
+                    </matrixratesmodifier>
+                </entities>
+            </matrixratesmodifier_mysql4>
+        </models>
+        <resources>
+            <matrixratesmodifier_setup>
+                <setup>
+                    <module>Icommerce_Matrixratesmodifier</module>
+                    <class>Icommerce_Matrixratesmodifier_Model_Resource_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </matrixratesmodifier_setup>
+            <matrixratesmodifier_write>
+                <connection><use>core_write</use></connection>
+            </matrixratesmodifier_write>
+            <matrixratesmodifier_read>
+                <connection><use>core_read</use></connection>
+            </matrixratesmodifier_read>
+        </resources>
+        <blocks>
+            <matrixratesmodifier>
+                <class>Icommerce_Matrixratesmodifier_Block</class>
+            </matrixratesmodifier>
+        </blocks>
+        <helpers>
+            <matrixratesmodifier>
+                <class>Icommerce_Matrixratesmodifier_Helper</class>
+            </matrixratesmodifier>
+        </helpers>
+    </global>
+    <default>
+        <matrixratesmodifier>
+            <settings>
+                <show_cost_field>0</show_cost_field>
+                <show_logo_field>0</show_logo_field>
+            </settings>
+        </matrixratesmodifier>
+    </default>
+</config>

@@ -1,0 +1,9 @@
+#css-editor {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.head-adminhtml-customcss {
+    background-image: url('images/customcss_icon.png');
+}

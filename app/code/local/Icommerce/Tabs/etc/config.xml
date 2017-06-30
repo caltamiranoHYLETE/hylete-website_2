@@ -1,0 +1,16 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_Tabs>
+            <version>0.1.7</version>
+        </Icommerce_Tabs>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <tabs>
+                    <file>ic_tabs.xml</file>
+                </tabs>
+            </updates>
+        </layout>
+    </frontend> 
+</config>

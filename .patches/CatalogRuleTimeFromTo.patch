@@ -1,0 +1,32 @@
+Version: Magento Enterprise 1.14.2.2
+Description: When catalog rules are applied, and there is either from date, to date or both defined,
+then it doesn't check correctly timezone settings, and therefore rule might not apply correctly
+on the day that it is needed to.
+===================================================================
+--- app/code/core/Mage/CatalogRule/Model/Resource/Rule.php	(revision )
++++ app/code/core/Mage/CatalogRule/Model/Resource/Rule.php	(revision )
+@@ -209,18 +209,17 @@
+ 
+         $customerGroupIds = $rule->getCustomerGroupIds();
+ 
+-        $fromTime = (int) strtotime($rule->getFromDate());
+-        $toTime = (int) strtotime($rule->getToDate());
+-        $toTime = $toTime ? ($toTime + self::SECONDS_IN_DAY - 1) : 0;
+-
+         /** @var Mage_Core_Model_Date $coreDate */
+         $coreDate  = $this->_factory->getModel('core/date');
++
++        $fromTime = $rule->getFromDate() ? $coreDate->gmtTimestamp($rule->getFromDate() . '00:00:00') : 0;
++        $toTime = $rule->getToDate() ? $coreDate->gmtTimestamp($rule->getToDate() . '23:59:59') : 0;
+         $timestamp = $coreDate->gmtTimestamp('Today');
+-        if ($fromTime > $timestamp
+-            || ($toTime && $toTime < $timestamp)
+-        ) {
++
++        if (($fromTime && $fromTime > $timestamp) || ($toTime && $toTime < $timestamp)) {
+             return;
+         }
++
+         $sortOrder = (int) $rule->getSortOrder();
+         $actionOperator = $rule->getSimpleAction();
+         $actionAmount = (float) $rule->getDiscountAmount();

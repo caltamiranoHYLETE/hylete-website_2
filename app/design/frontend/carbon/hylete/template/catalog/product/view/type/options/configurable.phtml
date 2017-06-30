@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php
+$_product    = $this->getProduct();
+$_helper = Mage::helper('hylete');
+$_superattribute = $_helper->getConfigurableSuperAttribute($_product);
+$_attributes = $_helper->getSimples($_product);
+?>
+
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <select name="super_attribute[<?php echo $_superattribute['attribute_id'] ?>]" class="required-entry">
+        <option value=""><?php echo $this->__('select %s', strtolower($_superattribute['label'])) ?></option>
+        <?php foreach($_attributes as $_attribute): ?>    
+            <option value="<?php echo $_attribute->getData($_superattribute['attribute_code']);?>" <?php echo (!$_attribute->isSalable()) ? 'disabled' : '';?>>
+                <?php echo $_attribute->getAttributeText($_superattribute['attribute_code']);?><?php echo (!$_attribute->isSalable()) ? ' - ' . $this->__('out of stock') : '';?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+<?php endif;?>

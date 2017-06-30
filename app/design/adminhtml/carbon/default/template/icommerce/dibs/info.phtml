@@ -1,0 +1,22 @@
+<p><?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?></p>
+
+<?php
+
+$temp = $this->getPaymentInfo();
+
+if(!empty($temp['transactionNumber'])) echo $this->__("DIBS Order ID")  . ' ' . $temp['transactionNumber'] . '<br>';
+if(!empty($temp['transactionName'])) echo $this->__("Name")  . ' ' . $temp['transactionName'] . '<br>';
+if(!empty($temp['transactionPhone'])) echo $this->__("Phone")  . ' ' . $temp['transactionPhone'] . '<br>';
+if(!empty($temp['transactionEmail'])) echo $this->__("E-mail")  . ' ' . $temp['transactionEmail'] . '<br>';
+if(!empty($temp['transactionCardType']) && !empty($temp['transactionCardNumber'])) {
+    echo $temp['transactionCardType'] . ' ' . $temp['transactionCardNumber'] . '<br>';
+} elseif (!empty($temp['transactionType'])) {
+    echo $this->__("Method")  . ' ' . $temp['transactionType'] . '<br>';
+}
+if(!empty($temp['errorMessage'])) {
+	echo $temp['errorMessage'] . '<br>';
+	echo $this->__("Raw data of payment information") . ': ' . $this->getInfo()->getAdditionalData() . '<br>';
+}
+
+echo '<br>';
+?>

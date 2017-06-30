@@ -1,0 +1,124 @@
+/* Class: std - styles for admin-controlled content ================================================================================ */
+.std .subtitle {
+    padding: 0;
+}
+
+.std a {
+    text-decoration: underline;
+    text-transform: none;
+}
+
+.std a:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+.std ol.ol {
+    list-style: decimal outside;
+    padding-left: 16px;
+}
+
+.std ul.disc {
+    list-style: disc outside;
+    padding-left: 18px;
+    margin: 0 0 10px;
+}
+
+.std dl dt {
+    font-weight: bold;
+}
+
+.std dl dd {
+    margin: 0 0 10px;
+}
+
+.std ul,
+.std ol,
+.std dl,
+.std p,
+.std address,
+.std blockquote {
+    margin: 0 0 15px 0;
+    padding: 0;
+}
+
+.std ul {
+    list-style: disc outside;
+    padding: 0 0 0 40px;
+}
+
+.std ol {
+    list-style: decimal outside;
+    padding: 0 0 0 40px;
+}
+
+.std ul ul {
+    list-style-type: circle;
+}
+
+.std ul ul,
+.std ol ol,
+.std ul ol,
+.std ol ul {
+    margin: .5em 0;
+}
+
+.std dt {
+    font-weight: bold;
+}
+
+.std dd {
+    padding: 0 0 0 16px;
+}
+
+.std blockquote {
+    font-style: italic;
+    padding: 0 0 0 16px;
+}
+
+.std address {
+    font-style: normal;
+}
+
+.std b,
+.std strong {
+    font-weight: bold;
+}
+
+.std i,
+.std em {
+    font-style: italic;
+}
+
+/* Headings */
+.std h2 {
+    margin-bottom: 10px;
+}
+
+.std h3 {
+    margin-bottom: 8px;
+}
+
+.std h4 {
+    margin-bottom: 6px;
+}
+
+.std h5 {
+    margin-bottom: 4px;
+}
+
+.std h6 {
+    margin-bottom: 2px;
+}
+
+/* Tables */
+.std table {
+    border: 1px solid #ccc;
+}
+.std table th,
+.std table td {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+/* ================================================================================ */

@@ -1,0 +1,16 @@
+--- app/code/core/Mage/Adminhtml/Block/Catalog/Product/Grid-org.php	2012-07-05 12:49:11.000000000 +0200
++++ app/code/core/Mage/Adminhtml/Block/Catalog/Product/Grid.php	2013-03-09 17:33:18.000000000 +0100
+@@ -61,6 +61,13 @@
+             ->addAttributeToSelect('attribute_set_id')
+             ->addAttributeToSelect('type_id');
+ 
++        if (Icommerce_Default::isModuleActive('Vaimo_Blog')) {
++            $blogType = Mage::getStoreConfig("blog/settings/product_type");
++            if ($blogType != '') {
++                $collection->addAttributeToFilter('type_id' , array('neq' => $blogType));
++            }
++        }
++
+         if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+             $collection->joinField('qty',
+                 'cataloginventory/stock_item',

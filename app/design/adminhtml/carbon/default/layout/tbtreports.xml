@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <!-- ==== common handles ==== -->
+    <skin_css>
+        <reference name="head">
+            <action method="addCss">
+                <file>tbtreports/css/skin.css</file>
+            </action>
+        </reference>
+    </skin_css>
+
+    <opentip_js>
+        <reference name="head">
+            <action method="addJs">
+                <file>tbt/reports/opentip-prototype-excanvas.min.js</file>
+            </action>
+            <action method="addCss">
+                <file>tbtreports/css/opentip.css</file>
+            </action>
+        </reference>
+    </opentip_js>
+
+
+    <!-- ==== controllers ==== -->
+    <!-- main magento dashboard -->
+    <adminhtml_dashboard_index>
+        <update handle="skin_css"/>
+        <reference name="rewards_dashboard_widget">
+            <block type="tbtreports/adminhtml_dashboard_widget_summary"
+                   after="rewards_dashboard_widget_notifications"
+                   name="tbtreports_dashboard_widget_summary">
+            </block>
+        </reference>
+    </adminhtml_dashboard_index>
+    
+    <adminhtml_rewardsdashboard_index>
+        <update handle="skin_css"/>
+        <update handle="opentip_js"/>
+        <reference name="rewards_dashboard">
+            <block type="tbtreports/adminhtml_dashboard" name="tbtreports_dashboard" template="tbtreports/adminhtml/dashboard.phtml" />
+        </reference> 
+    </adminhtml_rewardsdashboard_index>
+</layout>

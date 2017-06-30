@@ -1,0 +1,111 @@
+<?xml version="1.0" ?><!--
+ Copyright (c) 2009-2012 Vaimo AB
+
+ Vaimo reserves all rights in the Program as delivered. The Program
+ or any portion thereof may not be reproduced in any form whatsoever without
+ the written consent of Vaimo, except as provided by licence. A licence
+ under Vaimo's rights in the Program may be available directly from
+ Vaimo.
+
+ Disclaimer:
+ THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ IN THE PROGRAM.
+
+ @category    Vaimo
+ @package     Vaimo_Carbon
+ @copyright   Copyright (c) 2009-2012 Vaimo AB
+ @comment     Complementary module to theme_carbon
+--><config>
+    <modules>
+        <Vaimo_Carbon>
+            <version>0.1.17</version>
+        </Vaimo_Carbon>
+    </modules>
+    <global>
+        <helpers>
+            <carbon>
+                <class>Vaimo_Carbon_Helper</class>
+            </carbon>
+        </helpers>
+        <blocks>
+            <carbon>
+                <class>Vaimo_Carbon_Block</class>
+            </carbon>
+            <wishlist>
+                <rewrite>
+                    <links>Vaimo_Carbon_Block_Links</links>
+                </rewrite>
+            </wishlist>
+            <bundle>
+                <rewrite>
+                    <catalog_product_view_type_bundle_option_radio>Vaimo_Carbon_Block_Bundle_Catalog_Product_View_Type_Bundle_Option_Radio</catalog_product_view_type_bundle_option_radio>
+                </rewrite>
+            </bundle>            
+            <catalog>
+                <rewrite>
+                    <product_list>Vaimo_Carbon_Block_Catalog_Product_List</product_list>
+                </rewrite>
+            </catalog>
+        </blocks>
+        <models>
+            <carbon>
+                <class>Vaimo_Carbon_Model</class>
+            </carbon>
+        </models>
+        <resources>
+            <carbon_setup>
+                <setup>
+                    <module>Vaimo_Carbon</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </carbon_setup>
+        </resources>
+    </global>
+    <frontend>
+       <layout>
+            <updates>
+                <directory>
+                    <file>vaimo_carbon.xml</file>
+                </directory>
+                <carbon>
+                    <file>directory.xml</file>
+                </carbon>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Vaimo_Carbon>
+                    <files>
+                        <carbon>Vaimo_Carbon.csv</carbon>
+                    </files>
+                </Vaimo_Carbon>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <carbon>
+            <settings>
+                <enable_responsive>0</enable_responsive>
+                <icons>glyph</icons>
+                <tablet_view>1</tablet_view>
+            </settings>
+        </carbon>
+        <design>
+            <head>
+                <meta_author>www.vaimo.com</meta_author>
+            </head>
+            <footer>
+                <disclaimer>Webshop by *Vaimo*</disclaimer>
+                <home_url/>
+            </footer>
+        </design>
+    </default>
+</config>

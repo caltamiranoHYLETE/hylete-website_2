@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2009-2014 Vaimo AB
+
+Vaimo reserves all rights in the Program as delivered. The Program
+or any portion thereof may not be reproduced in any form whatsoever without
+the written consent of Vaimo, except as provided by licence. A licence
+under Vaimo's rights in the Program may be available directly from
+Vaimo.
+
+Disclaimer:
+THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+IN THE PROGRAM.
+
+@category    Vaimo
+@package     Vaimo_Menu
+@copyright   Copyright (c) 2009-2014 Vaimo AB
+-->
+
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <!-- Container for only light styling related CSS -->
+            <action method="addItem"><type>skin_css</type><name>css/vaimo_menu.css</name></action>
+
+            <action method="addItem"><type>skin_js</type><name>js/vaimo_menu.js</name></action>
+
+            <action method="removeItem"><type>js</type><name>varien/menu.js</name></action>
+            <action method="addItem"><type>js</type><name>vaimo/menu/varien-menu.js</name></action>
+        </reference>
+        <reference name="top.menu">
+            <action method="unsetChild"><name>catalog.topnav</name></action>
+            <block type="vaimo_menu/navigation_type_configuration_container" name="catalog.topnav" template="vaimo/menu/top.phtml">
+                <label attributes="menu_widget">Top Menu</label>
+                <action method="setMenuType"><type helper="vaimo_menu/getTopMenuType"/></action>
+                <action method="setItemTemplate"><file>vaimo/menu/top_item.phtml</file></action>
+                <action method="setGroupTemplate"><file>vaimo/menu/item_group.phtml</file></action>
+                <action method="setStartLevel"><start_level>2</start_level></action>
+                <action method="setDisplayLevels"><display_levels>4</display_levels></action>
+                <block type="core/text_list" name="menu.item.after.link">
+                    <action method="setDefaultComponentLevel"><level>-1</level></action>
+                    <block type="vaimo_menu/navigation_component_parent" name="menu.item.image" template="vaimo/menu/menu_image.phtml" />
+                </block>
+            </block>
+        </reference>
+    </default>
+
+    <vaimomenu_vertnav>
+        <reference name="left">
+            <action method="unsetChild"><name>left.vertnav</name></action>
+            <block type="vaimo_menu/navigation" name="left.vertnav" template="vaimo/menu/vertical.phtml" before="-">
+                <action method="setStartLevel"><start_level>2</start_level></action>
+                <action method="setDisplayLevels"><display_levels>4</display_levels></action>
+                <action method="setExtraAttributes"><extra_attributes><!--attribute1,attribute2--></extra_attributes></action>
+                <action method="setItemTemplate"><item_template>vaimo/menu/vertical_item.phtml</item_template></action>
+                <!-- <action method="setCustomRootFromActiveItemsAncestorAtLevel"><level>2</level></action> -->
+                <!-- <action method="setCustomRootId"><category>6</category></action> -->
+                <action method="setOnlySkipIfInCurrentPath"><bool>1</bool></action>
+            </block>
+        </reference>
+    </vaimomenu_vertnav>
+
+    <catalog_category_layered>
+        <update handle="vaimomenu_vertnav"/>
+    </catalog_category_layered>
+
+    <catalog_category_default>
+        <update handle="vaimomenu_vertnav"/>
+    </catalog_category_default>
+</layout>

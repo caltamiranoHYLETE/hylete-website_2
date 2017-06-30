@@ -1,0 +1,77 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ * @author      Tobias Wiking
+ */
+?>
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct();
+    $currentUrl = $this->helper('core/url')->getCurrentUrl();
+    $_helperBlog = $this->helper('blog');
+?>
+<div class="row">
+    <div class="col-xs-12 col-sm-9">
+        <article class="blog blog-post">
+            <header>
+                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                <aside class="post-meta">
+                    <?php $this->getChild('blog.view.meta')->setProduct($_product) ?>
+                    <?php echo $this->getChildHtml('blog.view.meta') ?>
+                </aside>
+            </header>
+
+            <?php if($_product->getImage() != '' && $_product->getImage() != 'no_selection'): ?>
+                <div class="blog-images">
+                    <?php echo $this->getChildHtml('media') ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="content">
+                <?php echo $_helper->productAttribute($_product, $_product->getBlogContent(), 'blog_content') ?>
+            </div>
+            <?php if ($_helperBlog->getCommentsConfig() == 'facebook'): ?>
+                <aside class="blog-comments--fb" id="comments">
+                    <div class="fb-comments" data-href="<?php echo $_product->getProductUrl() ?>" data-width="700" data-num-posts="10"></div>
+                </aside>
+            <?php elseif ($_helperBlog->getCommentsConfig() == 'disqus'): ?>
+                <aside class="blog-comments--disqus" id="comments">
+                    <div class="blog-disqus" id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = '<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>';
+                        var disqus_identifier = '<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>_disqus_<?php echo $_product->getID(); ?>';
+                        var disqus_title = '<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>';
+                        var disqus_url = '<?php echo $_product->getProductUrl() ?>';
+
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                </aside>
+            <?php endif; ?>
+        </article>
+    </div>
+</div>

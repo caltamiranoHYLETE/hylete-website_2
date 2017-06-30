@@ -1,0 +1,13 @@
+<html><head></head><body>
+
+	<div style="text-align: center; height: 400px; vertical-align: middle; padding-top: 140px;">
+		<div style="font-family: Arial; font-size: 11px; margin-bottom: 20px;"><?php echo $this->__('Payment successfully received.') ?></div>
+		<img style="border: 0px;" src="<?php echo $this->getSkinUrl('images/dibs/redirect-loader.gif') ?>">
+  </div>
+
+  <script language="javascript">
+  	// Redirect to successful payment.
+  	this.parent.parent.window.location = '<?php echo $this->getDibs()->getFinalSuccessUrl() ?>';
+  </script>
+
+</body></html>

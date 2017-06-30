@@ -1,0 +1,103 @@
+/* FUNCTION-CRITICAL CSS (note that Vanilla Magento uses #nav, so we can't get rid of that one :S) */
+#nav ul {
+    left: 0;
+}
+
+.parent > .menu-vlist {
+    position: absolute;
+    display: none;
+}
+
+.menu-link {
+    white-space: nowrap;
+}
+
+.menu-vlist {
+    z-index: 999;
+}
+
+.parent > .menu-children-nested.menu-vlist,
+.parent > .shown-sub {
+    display: block;
+}
+
+.menu-bp-wrapper {
+    display: table;
+    width: auto; /** Remove this if you want the menu to be 100% of the content **/
+    table-layout: fixed;
+}
+
+/** column within a column correct fixed-cell sizing */
+.menu-bp-column .menu-bp-wrapper {
+    width: 100%;
+}
+
+.level0.menu-vlist {
+    left: 0;
+}
+
+.level0.parent > .menu-vlist {
+    top: 29px;
+}
+
+#nav .menu-bp-items,
+#nav .shown-sub .menu-children-nested.menu-children-nested {
+    position: relative;
+    left: 0;
+    border: 0;
+    top: 0;
+    padding: 0;
+}
+
+#nav li {
+    text-align: left;
+    position: relative;
+}
+
+.toggle-sub-menu {
+    display: none;
+}
+
+/** NON-CRITICAL */
+#header #nav .menu-bp-row {
+    clear: both;
+}
+
+.menu-image {
+    margin: 5px 0;
+}
+
+.menu-multilevel-slideout .parent > .menu-vlist,
+.menu-standard-navigation .parent > .menu-vlist {
+    width: 220px;
+}
+
+#nav .level0 .menu-bp-wrapper {
+    min-width: 180px;
+}
+
+/** Will deterine the size of the widget in the menu */
+.menu-bp-column.widget-column .widget {
+    display: block;
+    width: 200px;
+}
+
+.menu-image {
+    max-width: 160px; /*IE fix*/
+}
+
+.menu-vlist .menu-image.menu-image {
+    display: inline;
+}
+
+#nav .widget-static-block h1,
+#nav .widget-static-block h2,
+#nav .widget-static-block h3,
+#nav .widget-static-block h4,
+#nav .widget-static-block h5 {
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}

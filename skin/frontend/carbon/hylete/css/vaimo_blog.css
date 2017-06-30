@@ -1,0 +1,364 @@
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+
+.category-blog h1 {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.product-blog h1 {
+    margin-top: 0;
+    text-align: left;
+}
+
+body.category-blog > .container {
+    border-top: 1px #000000 solid;
+}
+
+.category-blog .category-blog-post-list {
+    padding-top: 38px;
+}
+
+.full-img {
+    width: 100%;
+}
+
+.half-img {
+    width: 100%;
+}
+
+.large-image {
+    display: block;
+}
+
+.small-image{
+    display:none;
+}
+
+.category-blog .category-products .products-grid {
+    margin: 0 -15px;
+}
+
+.category-blog .category-products {
+    font-size: 0;
+}
+
+.category-blog .category-products .loadmore {
+    font-size: 12px;
+}
+
+.category-blog .category-products .item {
+    display: inline-block;
+    float: none;
+    font-size: 12px;
+    vertical-align: top;
+    padding-top: 38px;
+    text-align: left;
+    margin: 0 1.88%;
+}
+
+.blog-full-length {
+    width: 100%;
+    clear: both;
+}
+
+.category-blog .category-products .blog-full-length {
+    width: 96.24%;
+    clear: both;
+}
+
+.blog-full-length h2 {
+    font-size: 22px;
+    margin-top: 13px;
+}
+
+
+.blog-half-length {
+    width: 46.14%;
+    float: left;
+}
+
+.category-blog .parent .item.blog-half-length:nth-of-type(2n+1) {
+    clear: left;
+}
+
+.blog-half-length h2 {
+    margin-top: 13px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.date-label {
+    font-size: 10px;
+    color: #535151;
+    margin-top: 18px;
+}
+
+.comment-count {
+    padding-left: 15px;
+}
+
+.blog-full-length .blog-content {
+    margin-top: 2px;
+}
+
+.blog-half-length .blog-content {
+    margin-top: 8px;
+}
+
+.blog-full-length .post-content img{
+    height: 248px;
+}
+
+.right-col {
+    padding: 38px 0 0 20px;
+}
+
+.left-col{
+    padding: 0 10px 0 0;
+}
+
+.right-col h2{
+    font-size: 14px;
+    border-bottom: 1px #000000 solid;
+    padding-bottom: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: 14px;
+}
+
+.right-col .follow-us{
+    padding-top: 16px;
+}
+
+.right-col .categories {
+    margin-top: 16px;
+}
+
+.right-col .category-list li {
+   padding-top: 16px;
+   font-size: 12px;
+}
+
+.right-col .popular-posts {
+    padding-top: 52px;
+}
+
+.popular-posts .post img{
+    max-width: 170px;
+    width: 100%;
+}
+
+.popular-posts .post .content {
+    width: 50%;
+    float: left;
+}
+
+.popular-posts .post p {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.popular-posts .post .date-label {
+    font-size: 10px;
+    color: #535151;
+    margin-top: 7px;
+}
+
+.popular-posts .post li {
+    padding-top: 20px;
+    clear: both;
+}
+
+.right-col .instagram-feed {
+    padding-top: 38px;
+    clear: both;
+}
+
+
+.product-blog .blog-full-length,.product-blog .right-col{
+    padding-top: 23px;
+}
+
+.product-blog .breadcrumbs {
+    border-top: none;
+}
+
+
+.blog-related-products h2 {
+    font-size: 22px;
+    text-align: left;
+}
+
+.product-blog #comments {
+    padding-top: 58px;
+    border-top: 1px #000000 solid;
+    clear: both;
+}
+
+.product-blog .fb-comments,.product-blog .fb-comments iframe[style],.product-blog .fb-like-box,.product-blog .fb-like-box iframe[style] {
+    width: 100% !important;
+}
+.product-blog .fb-comments span,.product-blog .fb-comments iframe span[style],.product-blog .fb-like-box span,.product-blog .fb-like-box iframe span[style] {
+    width: 100% !important;
+}
+
+.category-blog .loadmore {
+    display: block;
+}
+
+
+/* Responsive CSS */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .popular-posts .post img{
+        max-width: 140px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 991px) {
+
+    .right-col {
+        padding: 13px 10px 0 10px;
+        clear: both;
+    }
+
+    .left-col{
+        padding-right: 0px;
+    }
+
+    .category-blog > .container {
+        border-top: none;
+    }
+
+    body.category-blog > .container {
+        border-top: none;
+    }
+
+}
+
+@media (max-width: 767px) {
+    .product-blog h1 {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .blog-full-length {
+        width: 100%;
+        float: none;
+    }
+
+    .category-blog .category-products .blog-full-length {
+        width: 100%;
+    }
+
+    .blog-half-length {
+        width: 100%;
+        float: none;
+    }
+    .full-img {
+        width: 100%;
+        /*height: 230px;*/
+    }
+
+    .half-img {
+        width: 100%;
+        /*height: 160px;*/
+    }
+
+    .category-blog .left-half {
+        padding-right: 0px;
+    }
+
+    .category-blog .right-half {
+        padding-left: 0px;
+    }
+
+    .category-blog .post-content, .product-blog .post-content {
+        padding: 0 10px;
+    }
+
+    .blog-related-products h2 {
+        text-align: center;
+    }
+
+    .blog-full-length h2, .blog-half-length h2 {
+        margin-top: 9px;
+    }
+
+
+    .category-blog .instagram-feed, .product-blog .instagram-feed {
+        margin-bottom: 3px;
+    }
+
+    .right-col .popular-posts {
+        padding-top: 38px;
+        overflow: auto;
+        margin-bottom: 10px;
+    }
+
+    .category-blog .category-products .products-grid {
+        margin: 0;
+    }
+
+    .category-blog .category-products .item {
+        margin:0;
+    }
+
+    .blog-full-length .post-content iframe{
+        width:calc(100% + 20px);
+        max-width:calc(100% + 20px);
+        height: 182px;
+        margin: 0 -10px;
+    }
+
+    .blog-full-length .post-content img{
+        width:calc(100% + 20px);
+        max-width:calc(100% + 20px);
+        height: 160px;
+        margin: 0 -10px;
+    }
+
+}
+
+@media (max-width: 380px){
+    .popular-posts .post img{
+        max-width: 140px;
+        width: 100%;
+        height: 106px;
+    }
+
+    .product-blog .prevnext {
+        margin: 15px 10px 0 0;
+    }
+
+    .large-image {
+        display: none;
+    }
+
+    .small-image{
+        display:block;
+    }
+}

@@ -1,0 +1,39 @@
+.vcms-wysiwyg-actions .vcms-wysiwyg-edit {
+    background: #00ACD6 url(../../../images/vaimo_cms/icon-edit.png) no-repeat 50% 50%;
+    background-size: 20px;
+    border-radius: 3px;
+    z-index: 110;
+    position: relative;
+}
+
+.vcms-wysiwyg-actions {
+    z-index: 10;
+    position: relative;
+    display:inline-block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.vcms-wysiwyg-actions button {
+    border: none;
+    height: 30px;
+    width: 30px;
+    outline: none;
+}
+
+.widget-static-block iframe {
+    pointer-events: none;
+}
+
+.widget-static-block.raptor-editing iframe {
+    pointer-events: all;
+}
+
+.raptor-layout-hover-panel .raptor-ui-click-button-to-edit {
+    display: none;
+}
+
+.raptor-editable-block-hover {
+    background: none !important;
+}

@@ -1,0 +1,91 @@
+<?php $itemType = $this->getItemType() ?>
+<?php
+	$helper = Mage::helper('slideshowmanager');
+?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+        	<?php
+        		$slideshow = Mage::getModel('slideshowmanager/slideshow')->getSlideshow($_SESSION['slideshow_id']);
+        	?>
+            <td><h3><?php echo $this->__('Add image in slideshow: ').$slideshow['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="add_form" enctype="multipart/form-data" name="add_form" method="post" action="<?php echo $this->getUrl('*/*/save')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="addform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Enter the image information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?php echo $this->__('Image')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-file required-entry" type="file" name="file" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Image (tablet)')?> </td>
+                    <td class="value"><input class="input-file" type="file" name="backgroundimage_tablet" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Image (mobile)')?> </td>
+                    <td class="value"><input class="input-file" type="file" name="backgroundimage_mobile" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Title')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addform[title]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Image text')?></td>
+                    <td class="value"><textarea id="slideshow_textarea" class="input-text" name="addform[image_text]" style="width:200px;height:100px;"></textarea></td>
+                </tr>
+                <tr <?php if(!$helper->isResponsiveImagetext()): ?>style="display:none"<?php endif; ?>>
+                    <td class="label"><?php echo $this->__('Image text tablet')?></td>
+                    <td class="value"><textarea id="slideshow_textarea_2" class="input-text" name="addform[image_text_tablet]" style="width:200px;height:100px;"></textarea></td>
+                </tr>
+                <tr <?php if(!$helper->isResponsiveImagetext()): ?>style="display:none"<?php endif; ?>>
+                    <td class="label"><?php echo $this->__('Image text phone')?></td>
+                    <td class="value"><textarea id="slideshow_textarea_3" class="input-text" name="addform[image_text_phone]" style="width:200px;height:100px;"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Alt-text')?></td>
+                    <td class="value"><input class="input-text" name="addform[image_alt]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Link')?></td>
+                    <td class="value"><input class="input-text" name="addform[link]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Link target')?></td>
+                    <td class="value">
+                    	<select name="addform[link_target]">
+                    		<option value=""><?php echo $this->__('Same window'); ?></option>
+                    		<option value="_blank"><?php echo $this->__('New window'); ?></option>
+                    	</select>
+                   	</td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addform[status]">
+                    		<?php $statuses = Mage::helper('slideshowmanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?php echo $key?>"><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="addform[position]" style="width:30px;" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addForm = new varienForm('add_form');
+</script>

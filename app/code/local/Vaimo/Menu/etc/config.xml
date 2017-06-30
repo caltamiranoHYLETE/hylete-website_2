@@ -1,0 +1,218 @@
+<?xml version="1.0" ?><!--
+ Copyright (c) 2009-2014 Vaimo AB
+
+ Vaimo reserves all rights in the Program as delivered. The Program
+ or any portion thereof may not be reproduced in any form whatsoever without
+ the written consent of Vaimo, except as provided by licence. A licence
+ under Vaimo's rights in the Program may be available directly from
+ Vaimo.
+
+ Disclaimer:
+ THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ IN THE PROGRAM.
+
+ @category    Vaimo
+ @package     Vaimo_Menu
+ @copyright   Copyright (c) 2009-2014 Vaimo AB
+--><config>
+    <modules>
+        <Vaimo_Menu>
+            <version>1.2.1</version>
+        </Vaimo_Menu>
+    </modules>
+    <global>
+        <blocks>
+            <vaimo_menu>
+                <class>Vaimo_Menu_Block</class>
+            </vaimo_menu>
+        </blocks>
+        <helpers>
+            <vaimo_menu>
+                <class>Vaimo_Menu_Helper</class>
+            </vaimo_menu>
+        </helpers>
+        <models>
+            <vaimo_menu>
+                <class>Vaimo_Menu_Model</class>
+                <resourceModel>vaimo_menu_resource</resourceModel>
+            </vaimo_menu>
+            <vaimo_menu_resource>
+                <class>Vaimo_Menu_Model_Resource</class>
+            </vaimo_menu_resource>
+        </models>
+        <resources>
+            <vaimo_menu_setup>
+                <setup>
+                    <module>Vaimo_Menu</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </vaimo_menu_setup>
+        </resources>
+        <cache>
+            <types>
+                <vaimo_menu module="vaimo_menu" translate="label,description">
+                    <label>Menu Structure</label>
+                    <description>Category structure collection that is used to render the menu.</description>
+                    <tags>VAIMO_MENU</tags>
+                </vaimo_menu>
+            </types>
+        </cache>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <vaimo_menu>
+                    <file>vaimo_menu.xml</file>
+                </vaimo_menu>
+                <vaimo_menu_types>
+                    <file>vaimo_menu_types.xml</file>
+                </vaimo_menu_types>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/observer</class>
+                        <method>onControllerActionLayoutLoadBefore</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_layout_load_before>
+            <controller_action_layout_generate_xml_before>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/observer</class>
+                        <method>onControllerActionLayoutGenerateXmlBefore</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_layout_generate_xml_before>
+        </events>
+        <vaimo_menu>
+            <default>
+                <groups>
+                    <main><label>Main</label></main>
+                    <footer><label>Footer</label></footer>
+                </groups>
+            </default>
+            <backwards_compatibility>
+                <label>COMPATIBILITY MODE</label>
+                <type>vaimo_menu/navigation</type>
+                <description><![CDATA[Backwards compatibility mode. Multiple levels, each in a separate drop-downs.<br/><br/><b>Footer, widgets, breakpoints NOT supported</b>]]></description>
+            </backwards_compatibility>
+            <simple_dropdown>
+                <label>Single level in drop-down</label>
+                <type>vaimo_menu/navigation_type_SimpleDropDown</type>
+                <description><![CDATA[Single level in a drop-down (no extra drop-downs). Column breakpoint are ignored]]></description>
+            </simple_dropdown>
+            <simple_dropdown_columns>
+                <label>Single level in drop-down (columns)</label>
+                <type>vaimo_menu/navigation_type_SimpleDropDownColumns</type>
+                <description><![CDATA[Single level in a drop-down presented as user-defined columns. Note that columns are defined with category breakpoints]]></description>
+            </simple_dropdown_columns>
+            <multilevel_slideout>
+                <label>Multilevel in multiple drop-downs</label>
+                <type>vaimo_menu/navigation_type_MultilevelSlideOut</type>
+                <description><![CDATA[Multiple levels, each in a separate drop-downs. Breakpoints and widgets are ignored. Footer items are displayed as main group.]]></description>
+            </multilevel_slideout>
+            <simple_nested_dropdown>
+                <label>Nested levels in drop-down</label>
+                <type>vaimo_menu/navigation_type_SimpleNestedDropDown</type>
+                <description><![CDATA[Multiple levels in a drop-down. Column breakpoints are ignored]]></description>
+            </simple_nested_dropdown>
+            <simple_nested_dropdown_columns>
+                <label>Nested levels drop-down (columns on first level)</label>
+                <type>vaimo_menu/navigation_type_SimpleNestedDropDownColumns</type>
+                <description><![CDATA[Multiple levels in a drop-down where first sub-level supports user-defined columns. Note that columns are defined with category breakpoints]]></description>
+            </simple_nested_dropdown_columns>
+            <simple_nested_dropdown_multilevel_columns>
+                <label>Nested levels drop-down (columns on multiple levels)</label>
+                <type>vaimo_menu/navigation_type_SimpleNestedDropDownMultiLevelColumns</type>
+                <description><![CDATA[Multiple levels in a drop-down where all sub-levels have user-defined columns. Note that columns are defined with category breakpoints]]></description>
+            </simple_nested_dropdown_multilevel_columns>
+            <simple_nested_dropdown_columns_with_image>
+                <label>Nested levels drop-down (columns + image)</label>
+                <type>vaimo_menu/navigation_type_SimpleNestedDropDownImageColumns</type>
+                <description><![CDATA[Multiple levels in a drop-down where first sub-level supports user-defined columns and category image that is presented before nested items listing. Note that columns are defined with category breakpoints. <b>The image is taken from nested menu item parent</b>]]></description>
+            </simple_nested_dropdown_columns_with_image>
+        </vaimo_menu>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <vaimo_menu>
+                    <file>vaimo_menu.xml</file>
+                </vaimo_menu>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/adminhtml_observer</class>
+                        <method>onAdminControllerActionLayoutLoadBefore</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_layout_load_before>
+            <controller_action_layout_render_before_adminhtml_catalog_category_edit>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/adminhtml_observer</class>
+                        <method>onControllerActionLayoutRenderBeforeAdminhtmlCatalogCategoryEdit</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_catalog_category_edit>
+            <controller_action_postdispatch_adminhtml_catalog_category_categoriesJson>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/adminhtml_observer</class>
+                        <method>onControllerActionPostdispatchAdminhtmlCatalogCategoryCategoriesJson</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_postdispatch_adminhtml_catalog_category_categoriesJson>
+            <controller_action_postdispatch_adminhtml_catalog_category_tree>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/adminhtml_observer</class>
+                        <method>onControllerActionPostdispatchAdminhtmlCatalogCategoryTree</method>
+                    </vaimo_menu>
+                </observers>
+            </controller_action_postdispatch_adminhtml_catalog_category_tree>
+            <category_prepare_ajax_response>
+                <observers>
+                    <vaimo_menu>
+                        <type>singleton</type>
+                        <class>vaimo_menu/adminhtml_observer</class>
+                        <method>onCategoryPrepareAjaxResponse</method>
+                    </vaimo_menu>
+                </observers>
+            </category_prepare_ajax_response>
+        </events>
+    </adminhtml>
+    <default>
+        <vaimo_menu>
+            <settings>
+                <type>backwards_compatibility</type>
+                <cache_clean_on_category_save>1</cache_clean_on_category_save>
+                <!-- ONLY DEPRECATED OPTIONS AFTER THIS COMMENT: here for backwards compatibility, but are no longer used -->
+                <start_level>2</start_level>
+                <display_levels>3</display_levels>
+                <item_template>vaimo/menu/vertical_item.phtml</item_template>
+            </settings>
+        </vaimo_menu>
+    </default>
+</config>

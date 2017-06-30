@@ -1,0 +1,278 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_PageManager>
+            <version>0.1.111</version>
+        </Icommerce_PageManager>
+    </modules>
+
+    <global>
+
+        <models>
+            <pagemanager>
+                <class>Icommerce_PageManager_Model</class>
+                <resourceModel>pagemanager_resource</resourceModel>
+            </pagemanager>
+            <pagemanager_resource>
+                <class>Icommerce_PageManager_Model_Resource</class>
+                <entities>
+                    <page>
+                        <table>icommerce_pagemanager</table>
+                    </page>
+                    <item>
+                        <table>icommerce_pagemanager_item</table>
+                    </item>
+                    <row>
+                        <table>icommerce_pagemanager_row</table>
+                    </row>
+                </entities>
+            </pagemanager_resource>
+        </models>
+
+        <blocks>
+            <pagemanager>
+                <class>Icommerce_PageManager_Block</class>
+            </pagemanager>
+        </blocks>
+
+        <helpers>
+            <pagemanager>
+                <class>Icommerce_PageManager_Helper</class>
+            </pagemanager>
+        </helpers>
+
+	    <resources>
+			<pagemanager_setup>
+	        	<setup>
+	          		<module>Icommerce_PageManager</module>
+                    <class>Icommerce_PageManager_Model_Resource_Eav_Mysql4_Setup</class>
+	        	</setup>
+	        	<connection>
+	          		<use>core_setup</use>
+	        	</connection>
+	      	</pagemanager_setup>
+	      	<pagemanager_write>
+	        	<connection>
+	          		<use>core_write</use>
+	       		</connection>
+	      	</pagemanager_write>
+	      	<pagemanager_read>
+	        	<connection>
+	          		<use>core_read</use>
+	        	</connection>
+	      	</pagemanager_read>
+	    </resources>
+
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <pagemanager before="Mage_Adminhtml">Icommerce_PageManager_Adminhtml</pagemanager>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Icommerce_PageManager>
+                    <files>
+                        <pagemanager>Icommerce_PageManager.csv</pagemanager>
+                    </files>
+                </Icommerce_PageManager>
+            </modules>
+        </translate>
+
+        <menu>
+            <cms>
+                <children>
+                    <pagemanager_adminform module="pagemanager" translate="title">
+                        <title>Page Manager</title>
+                        <action>adminhtml/pagemanager</action>
+                    </pagemanager_adminform>
+                </children>
+            </cms>
+        </menu>
+
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <cms>
+                            <children>
+                                <pagemanager_adminform>
+                                    <title>Page Manager</title>
+                                </pagemanager_adminform>
+                            </children>
+                        </cms>
+                        <system>
+							<children>
+								<config>
+									<children>
+										<pagemanager>
+											<title>Icommerce Page Manager</title>
+										</pagemanager>
+									</children>
+								</config>
+							</children>
+						</system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+        <layout>
+            <updates>
+                <pagemanager>
+                    <file>icommerce_pagemanager.xml</file>
+                </pagemanager>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <frontend>
+        <layout>
+            <updates>
+                <pagemanager>
+                    <file>ic_pagemanager.xml</file>
+                </pagemanager>
+            </updates>
+        </layout>
+    </frontend>
+
+    <!-- module defaults -->
+	<default>
+		<!-- config values -->
+		<pagemanager>
+			<settings>
+				<html_active>0</html_active>
+                <!-- Enable/disable in your site specific module config -->
+                <use_row_classnames>0</use_row_classnames>
+                <predefined_row_classes/><!-- Comma separated string-->
+                <show_quickview_setting>0</show_quickview_setting>
+			</settings>
+		</pagemanager>
+	</default>
+    <!-- default pagemanager content types - extend in your own module config by adding in same namespace
+    Example:
+    <pagemanager>
+         <headings>
+            <h7></h7>
+         </headings>
+    </pagemanager>
+    -->
+
+    <pagemanager>
+        <itemtypes>
+            <image><label>Image</label></image>
+            <imagewithoverlay><label>Image with Overlay</label></imagewithoverlay>
+            <html><label>HTML</label></html>
+            <slideshow><label>Slideshow</label></slideshow>
+            <toplist><label>Toplist</label></toplist>
+            <category><label>Category</label></category>
+            <heading><label>Heading</label></heading>
+            <widget><label>Widget</label></widget>
+        </itemtypes>
+        <rowtypes>
+            <one-block>
+                <id>1</id>
+                <label>One block</label>
+                <image>row-with-one-block.png</image>
+            </one-block>
+            <two-blocks>
+                <id>2</id>
+                <label>Two blocks</label>
+                <image>row-with-two-blocks.png</image>
+            </two-blocks>
+            <three-blocks>
+                <id>3</id>
+                <label>Three blocks</label>
+                <image>row-with-three-blocks.png</image>
+            </three-blocks>
+            <four-blocks>
+                <id>4</id>
+                <label>Four blocks</label>
+                <image>row-with-four-blocks.png</image>
+            </four-blocks>
+            <five-blocks>
+                <id>5</id>
+                <label>Five blocks</label>
+                <image>row-with-five-blocks.png</image>
+            </five-blocks>
+            <six-blocks>
+                <id>6</id>
+                <label>Six blocks</label>
+                <image>row-with-six-blocks.png</image>
+            </six-blocks>
+        </rowtypes>
+        <headings>
+            <h1><label>H1 (Only one per page and preferably at the top of the page)</label></h1>
+            <h2><label>H2</label></h2>
+            <h3><label>H3</label></h3>
+            <h4><label>H4</label></h4>
+            <h5><label>H5</label></h5>
+            <h6><label>H6</label></h6>
+        </headings>
+        <sort_options>
+            <views_count>
+                <label>Views count</label>
+            </views_count>
+            <ordered_qty>
+                <label>Ordered qty</label>
+            </ordered_qty>
+            <random>
+                <label>Random</label>
+            </random>
+            <new>
+                <label>New products</label>
+            </new>
+            <old>
+                <label>Oldest added products</label>
+            </old>
+            <review_best>
+                <label>Best reviews</label>
+            </review_best>
+            <review_most>
+                <label>Most reviews</label>
+            </review_most>
+            <in_pricerule>
+                <label>In pricerule</label>
+            </in_pricerule>
+            <suggested_related>
+                <label>Suggested related</label>
+            </suggested_related>
+            <cat_index_position>
+                <label>Category position</label>
+            </cat_index_position>
+            <manual_products>
+                <label>Manual products</label>
+            </manual_products>
+        </sort_options>
+        <toplist_options>
+            <horizontal_with_images>
+                <label>Horizontal with text and images</label>
+                <filename>horizontal_with_images.phtml</filename>
+            </horizontal_with_images>
+            <vertical_with_images>
+                <label>Vertical with text and images</label>
+                <filename>vertical_with_images.phtml</filename>
+            </vertical_with_images>
+            <vertical_productname>
+                <label>Vertical, only product name</label>
+                <filename>vertical_productname.phtml</filename>
+            </vertical_productname>
+        </toplist_options>
+    </pagemanager>
+    <!-- settings can be removed with <remove />
+    Example:
+    <pagemanager>
+        <itemtypes>
+            <imagewithoverlay><label>Image with Overlay</label><remove /></imagewithoverlay>
+        </itemtypes>
+    </pagemanager>
+    -->
+</config>

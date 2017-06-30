@@ -1,0 +1,11 @@
+--- app/code/core/Enterprise/Search/Model/Catalog/Layer/Filter/Attribute-org.php	2014-07-08 10:31:55.000000000 +0200
++++ app/code/core/Enterprise/Search/Model/Catalog/Layer/Filter/Attribute.php	2014-07-08 10:32:00.000000000 +0200
+@@ -59,7 +59,7 @@
+             ) {
+                 $data[] = array(
+                     'label' => $option['label'],
+-                    'value' => $option['label'],
++                    'value' => $option['value'],
+                     'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0,
+                 );
+             }

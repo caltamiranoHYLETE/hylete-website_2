@@ -1,0 +1,20 @@
+<?php
+/*
+  Icommerce addition for AddToCartAjax
+*/
+?>
+<?php
+$_product = $this->getProduct();
+?>
+
+<button class="form-button" onclick="addToCartAjax.add(this, '<?php echo $_product->getID(); ?>');"><span><?php echo $this->__('Add to Cart') ?></span></button>
+
+<?php /*<div id="atca-please-wait-wrapper-<?php echo $_product->getID(); ?>" class="atca-please-wait-wrapper" style="display:none;">
+	<span id="atca-please-wait-<?php echo $_product->getID(); ?>" style="display:none;">
+		<?php echo $this->__('The items are being added to your cart.') ?><br />
+		<img src="<?php echo $this->getSkinUrl('images/addtocartajax/ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->helper('addtocartajax')->__('Adding to cart...') ?> &nbsp;
+	</span>
+	<span id="atca-success-text-<?php echo $_product->getID(); ?>" style="display:none;"></span>
+	<span id="atca-failed-text-<?php echo $_product->getID(); ?>" style="display:none;"></span>
+</div>
+*/?>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <icommerce_adminhtml_style_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="icommerce/adminhtml_style_grid" name="icommerce/adminhtml_style" />
+        </block>
+    </icommerce_adminhtml_style_grid>
+</layout>

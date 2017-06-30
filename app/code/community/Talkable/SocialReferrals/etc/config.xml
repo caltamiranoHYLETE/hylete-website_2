@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Talkable SocialReferrals for Magento
+ *
+ * @package     Talkable_SocialReferrals
+ * @author      Talkable (http://www.talkable.com/)
+ * @copyright   Copyright (c) 2015 Talkable (http://www.talkable.com/)
+ * @license     MIT
+ */
+-->
+<config>
+    <modules>
+        <Talkable_SocialReferrals>
+            <version>1.2.3</version>
+        </Talkable_SocialReferrals>
+    </modules>
+
+    <global>
+        <blocks>
+            <socialreferrals>
+                <class>Talkable_SocialReferrals_Block</class>
+            </socialreferrals>
+        </blocks>
+
+        <helpers>
+            <socialreferrals>
+                <class>Talkable_SocialReferrals_Helper</class>
+            </socialreferrals>
+        </helpers>
+
+        <models>
+            <socialreferrals>
+                <class>Talkable_SocialReferrals_Model</class>
+            </socialreferrals>
+        </models>
+    </global>
+
+    <frontend>
+        <routers>
+            <socialreferrals>
+                <use>standard</use>
+                <args>
+                    <module>Talkable_SocialReferrals</module>
+                    <frontName>share</frontName>
+                </args>
+            </socialreferrals>
+
+            <customer>
+                <args>
+                    <modules>
+                        <socialreferrals before="Mage_Customer">Talkable_SocialReferrals_Customer</socialreferrals>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <socialreferrals_controller_action_layout_load_before>
+                        <type>singleton</type>
+                        <class>socialreferrals/observer</class>
+                        <method>customerDashboardLink</method>
+                    </socialreferrals_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+
+        <layout>
+            <updates>
+                <socialreferrals>
+                    <file>talkable/socialreferrals.xml</file>
+                </socialreferrals>
+            </updates>
+        </layout>
+    </frontend>
+
+    <default>
+        <socialreferrals>
+            <general>
+                <site_id></site_id>
+            </general>
+
+            <campaigns>
+                <post_purchase>1</post_purchase>
+                <invite>1</invite>
+                <advocate_dashboard>0</advocate_dashboard>
+                <floating_widget_popup>1</floating_widget_popup>
+            </campaigns>
+        </socialreferrals>
+    </default>
+</config>

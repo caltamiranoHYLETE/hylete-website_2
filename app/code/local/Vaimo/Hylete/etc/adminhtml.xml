@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <vaimo_hylete>
+                                        <title>Hylete configuration module</title>
+                                    </vaimo_hylete>
+                                    <header_cart_dropdown>
+                                        <title>Hylete - header cart settings</title>
+                                    </header_cart_dropdown>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

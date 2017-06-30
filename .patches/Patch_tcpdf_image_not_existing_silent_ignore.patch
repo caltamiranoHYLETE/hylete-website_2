@@ -1,0 +1,14 @@
+--- lib/tcpdf/tcpdf-o.php	Wed Dec 16 15:38:53 2015 +0000
++++ lib/tcpdf/tcpdf.php	Mon Dec 21 09:13:57 2015 +0000
+@@ -6881,7 +6881,10 @@
+ 				$ph = $this->getHTMLUnitToUnits($h, 0, $this->pdfunit, true) * $this->imgscale * $this->k;
+ 				$imsize = array($pw, $ph);
+ 			} else {
+-				$this->Error('[Image] Unable to get the size of the image: '.$file);
++				// VAIMO silent ignore - do not die neither throw exception on this
++				//$this->Error('[Image] Unable to get the size of the image: '.$file);
++				error_log(__METHOD__ . ' [Image] Unable to get the size of the image: ' . $file);
++				return;
+ 			}
+ 		}
+ 		// file hash

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Icommerce_Style>
+            <codePool>local</codePool>
+            <active>true</active>
+            <depends>
+                <Icommerce_JsonProductInfo />
+            </depends>
+        </Icommerce_Style>
+    </modules>
+</config>

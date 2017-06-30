@@ -1,0 +1,12 @@
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+            <action method="addItem" ifconfig="gotoadmin/general/active"><type>skin_css</type><name>css/vaimo_gotoadmin.css</name></action>    		
+			<action method="addItem" ifconfig="gotoadmin/general/active"><type>skin_js</type><name>js/vaimo_gotoadmin.js</name></action>
+		</reference>
+		
+		<reference name="before_body_end">
+            <block type="gotoadmin/gotoadmin" name="gotoadmin" template="vaimo/gotoadmin/gotoadmin.phtml" />
+		</reference>
+	</default>
+</layout>

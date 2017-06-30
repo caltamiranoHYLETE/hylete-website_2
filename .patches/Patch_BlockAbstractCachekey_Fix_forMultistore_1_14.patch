@@ -1,0 +1,15 @@
+--- app/code/core/Mage/Core/Block/Abstract-o.php	2015-05-20 21:01:15.000000000 +0000
++++ app/code/core/Mage/Core/Block/Abstract.php	2015-05-20 21:04:50.000000000 +0000
+@@ -1276,8 +1276,11 @@
+      */
+     public function getCacheKeyInfo()
+     {
++        $store = Mage::app()->getStore();
+         return array(
+-            $this->getNameInLayout()
++            $this->getNameInLayout(),
++            'i' . (int)$store->getId(),
++            's' . (int)$store->isCurrentlySecure(),
+         );
+     }
+ 

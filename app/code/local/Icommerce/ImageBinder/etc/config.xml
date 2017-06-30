@@ -1,0 +1,75 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_ImageBinder>
+            <version>0.1.76</version>
+        </Icommerce_ImageBinder>
+    </modules>
+    <global>
+        <blocks>
+            <imagebinder>
+                <class>Icommerce_ImageBinder_Block</class>
+            </imagebinder>
+        </blocks>
+        <models>
+            <imagebinder>
+                <class>Icommerce_ImageBinder_Model</class>
+                <resourceModel>imagebinder_resource</resourceModel>
+            </imagebinder>
+            <imagebinder_resource>
+                <class>Icommerce_ImageBinder_Model_Resource</class>
+            </imagebinder_resource>
+        </models>
+        <helpers>
+            <imagebinder>
+                <class>Icommerce_ImageBinder_Helper</class>
+            </imagebinder>
+        </helpers>
+        <scheduler_operations>
+            <imagebinder>
+                <label>Image Binder</label>
+                <trigger>trigger/imagebinder/bindall.php</trigger>
+            </imagebinder>
+        </scheduler_operations>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <imagebinder>
+                                            <title>Image Binder</title>
+                                        </imagebinder>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <imagebinder>
+            <settings>
+                <orig_mode>0</orig_mode>
+                <regex><![CDATA[^([^_]*)(_([0-9]+))?(_([A-Za-z]+))?$]]></regex>
+                <attribute_field>1</attribute_field>
+                <attribute_code>sku</attribute_code>
+                <attribute_match_mode>0</attribute_match_mode>
+                <sortorder_field>3</sortorder_field>
+                <imagetype_field>5</imagetype_field>
+                <only_bind_unbound>0</only_bind_unbound>
+                <remove_before_import>1</remove_before_import>
+                <move_failsuccess_path>0</move_failsuccess_path>
+                <import_path>media/import</import_path>
+            </settings>
+        </imagebinder>
+        <!-- Set import base path [defaults to /home/ftp/<instance>/] -->
+        <!-- Offset from default path needed (or an absoulte path) -->
+        <!-- <image_base_path></image_base_path> -->
+    </default>
+</config>

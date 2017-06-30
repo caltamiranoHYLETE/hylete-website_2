@@ -1,0 +1,55 @@
+--- app/code/core/Mage/Core/Model/Session/Abstract/Varien.php	(revision )
++++ app/code/core/Mage/Core/Model/Session/Abstract/Varien.php	(revision )
+@@ -141,29 +141,29 @@
+
+         session_start();
+
+-        if (Mage::app()->getFrontController()->getRequest()->isSecure() && empty($cookieParams['secure'])) {
+-            // secure cookie check to prevent MITM attack
+-            $secureCookieName = $sessionName . '_cid';
+-            if (isset($_SESSION[self::SECURE_COOKIE_CHECK_KEY])
+-                && $_SESSION[self::SECURE_COOKIE_CHECK_KEY] !== md5($cookie->get($secureCookieName))
+-            ) {
+-                session_regenerate_id(false);
+-                $sessionHosts = $this->getSessionHosts();
+-                $currentCookieDomain = $cookie->getDomain();
+-                foreach (array_keys($sessionHosts) as $host) {
+-                    // Delete cookies with the same name for parent domains
+-                    if (strpos($currentCookieDomain, $host) > 0) {
+-                        $cookie->delete($this->getSessionName(), null, $host);
+-                    }
+-                }
+-                $_SESSION = array();
+-            }
+-            if (!isset($_SESSION[self::SECURE_COOKIE_CHECK_KEY])) {
+-                $checkId = Mage::helper('core')->getRandomString(16);
+-                $cookie->set($secureCookieName, $checkId, null, null, null, true);
+-                $_SESSION[self::SECURE_COOKIE_CHECK_KEY] = md5($checkId);
+-            }
+-        }
++//        if (Mage::app()->getFrontController()->getRequest()->isSecure() && empty($cookieParams['secure'])) {
++//            // secure cookie check to prevent MITM attack
++//            $secureCookieName = $sessionName . '_cid';
++//            if (isset($_SESSION[self::SECURE_COOKIE_CHECK_KEY])
++//                && $_SESSION[self::SECURE_COOKIE_CHECK_KEY] !== md5($cookie->get($secureCookieName))
++//            ) {
++//                session_regenerate_id(false);
++//                $sessionHosts = $this->getSessionHosts();
++//                $currentCookieDomain = $cookie->getDomain();
++//                foreach (array_keys($sessionHosts) as $host) {
++//                    // Delete cookies with the same name for parent domains
++//                    if (strpos($currentCookieDomain, $host) > 0) {
++//                        $cookie->delete($this->getSessionName(), null, $host);
++//                    }
++//                }
++//                $_SESSION = array();
++//            }
++//            if (!isset($_SESSION[self::SECURE_COOKIE_CHECK_KEY])) {
++//                $checkId = Mage::helper('core')->getRandomString(16);
++//                $cookie->set($secureCookieName, $checkId, null, null, null, true);
++//                $_SESSION[self::SECURE_COOKIE_CHECK_KEY] = md5($checkId);
++//            }
++//        }
+
+         /**
+         * Renew cookie expiration time if session id did not change

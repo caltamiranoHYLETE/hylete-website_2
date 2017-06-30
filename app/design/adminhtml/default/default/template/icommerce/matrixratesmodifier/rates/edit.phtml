@@ -1,0 +1,155 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Matrixratesmodifier
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?>
+<?php
+$id = $this->getRequest()->getParam('id');
+$rate = $this->getRate($id);
+$has_code = Icommerce_Db::columnExists("shipping_matrixrate", "code");
+?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Edit rate #'). $id?></h3></td>
+            <td class="a-right">
+            	<button onclick="setLocation('<?php echo Mage::helper("adminhtml")->getUrl("adminhtml_matrixratesmodifier_rates/index/")?>')" class="back" type="button">
+                	<span><?php echo $this->__('Back')?></span>
+                </button>
+            	<button onclick="editForm.submit()" class="save" type="button">
+                	<span><?php echo $this->__('Save')?></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/update')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="editform[pk]" type="hidden" value="<?php echo $id ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Update the rate information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?php echo $this->__('Web Site')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select class="required-entry" name="editform[website_id]" style="width:135px">
+                    		<?php foreach($this->getWebsites() as $site): ?>
+	                    		<option value="<?php echo $site->getId(); ?>" <?php if($site->getId() == $rate['website_id']) {echo 'selected="selected"';} ?>><?php echo $site->getName(); ?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                    	<?php echo $this->__('Country')?> <span class="required">*</span>
+                    </td>
+                    <td class="value">
+                    	<select name="editform[dest_country_id]" class="required-entry" style="width:135px">
+                    		<?php $countryCode = $rate['dest_country_id']; foreach($this->getCountries() as $country): ?>
+	                    		<option value="<?php echo $country->getId(); ?>" <?php if($country->getId() == $countryCode) {echo 'selected="selected"';} ?>>
+	                    			<?php echo $country->getName(); ?>
+	                    		</option>
+                    		<?php endforeach; ?>
+							<option value="0" <?php if(!$countryCode) {echo 'selected="selected"';}?>><?php echo $this->__('Worldwide')?></option>
+                    	</select>
+                    	<br />
+                    	<?php echo $this->__("You can find 'Worldwide' <br />at the bottom of the list")?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Region')?></td>
+                    <td class="value"><input class="input-text" name="editform[dest_region_id]" value="<?php echo $rate['dest_region_id']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Zip From')?></td>
+                    <td class="value"><input class="input-text" name="editform[dest_zip]" value="<?php echo $rate['dest_zip']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Zip To')?></td>
+                    <td class="value"><input class="input-text" name="editform[dest_zip_to]" value="<?php echo $rate['dest_zip_to']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Condition')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="editform[condition_name]" class="required-entry" style="width:135px">
+                    		<?php foreach($this->getConditions() as $condition => $key): ?>
+	                    		<option value="<?php echo $key?>" <?php if($key == $rate['condition_name']) {echo 'selected="selected"';} ?>><?php echo $this->__($condition) ?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Condition From')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="editform[condition_from_value]" value="<?php echo $rate['condition_from_value']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Condition To')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="editform[condition_to_value]" value="<?php echo $rate['condition_to_value']?>" /></td>
+                </tr>
+                <?php if($has_code): ?>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Code')?> </td>
+                        <td class="value"><input class="input-text" name="editform[code]" value="<?php echo $rate['code']?>" /></td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><?php echo $this->__('Price')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="editform[price]" value="<?php echo $rate['price']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Method name')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<input class="input-text required-entry" name="editform[delivery_type]" value="<?php echo $rate['delivery_type']?>" />
+                    	<br />
+                    	<?php echo $this->__('This name will be displayed in the checkout') ?>
+                    </td>
+                </tr>
+                <?php if( Icommerce_Default_Helper_Data::isModuleActive( 'Icommerce_MatrixrateExtended' ) ): ?>
+                    <tr>
+                        <td class="label"><?php echo $this->__('Freight Category')?></td>
+                        <td class="value"><input class="input-text" name="editform[freightcat]" value="<?php echo $rate['freightcat']?>" /></td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><?php echo $this->__('Description')?></td>
+                    <td class="value">
+                    	<textarea class="input-text" name="editform[description]"><?php echo $rate['description']?></textarea>
+                    	<br />
+                    	<?php echo $this->__('Description will be displayed in the checkout.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Short description')?></td>
+                    <td class="value">
+                        <input type="text" class="input-text" name="editform[short_description]" value="<?php echo $rate['short_description']?>" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

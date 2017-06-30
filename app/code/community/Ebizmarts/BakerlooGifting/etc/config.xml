@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ebizmarts_BakerlooGifting>
+            <version>1.0.0</version>
+        </Ebizmarts_BakerlooGifting>
+    </modules>
+    <global>
+        <helpers>
+            <bakerloo_gifting>
+                <class>Ebizmarts_BakerlooGifting_Helper</class>
+            </bakerloo_gifting>
+        </helpers>
+        <models>
+            <bakerloo_gifting>
+                <class>Ebizmarts_BakerlooGifting_Model</class>
+            </bakerloo_gifting>
+        </models>
+        <events>
+            <!--<sales_quote_product_add_after>-->
+                <!--<observers>-->
+                    <!--<bakerloo_gifting_quoteProductAddAfter>-->
+                        <!--<type>model</type>-->
+                        <!--<class>bakerloo_gifting/observer</class>-->
+                        <!--<method>quoteProductAddAfter</method>-->
+                    <!--</bakerloo_gifting_quoteProductAddAfter>-->
+                <!--</observers>-->
+            <!--</sales_quote_product_add_after>-->
+            <!--<sales_convert_quote_item_to_order_item>-->
+                <!--<observers>-->
+                    <!--<bakerloo_gifting_quoteProductAddAfter>-->
+                        <!--<type>model</type>-->
+                        <!--<class>bakerloo_gifting/observer</class>-->
+                        <!--<method>quoteItemToOrderItem</method>-->
+                    <!--</bakerloo_gifting_quoteProductAddAfter>-->
+                <!--</observers>-->
+            <!--</sales_convert_quote_item_to_order_item>-->
+            <sales_order_place_after>
+                <observers>
+                    <bakerloo_gifting_order_save_after>
+                        <type>model</type>
+                        <class>bakerloo_gifting/observer</class>
+                        <method>orderPlaceAfter</method>
+                    </bakerloo_gifting_order_save_after>
+                </observers>
+            </sales_order_place_after>
+            <admin_system_config_changed_section_bakerloorestful>
+                <observers>
+                    <bakerloo_gifting_config>
+                        <type>model</type>
+                        <class>bakerloo_gifting/observer</class>
+                        <method>configChange</method>
+                    </bakerloo_gifting_config>
+                </observers>
+            </admin_system_config_changed_section_bakerloorestful>
+        </events>
+    </global>
+    <default>
+        <bakerloo_gifting>
+            <integrations>
+                <Enterprise_GiftCardAccount><![CDATA[Magento Enterprise]]></Enterprise_GiftCardAccount>
+                <AW_Giftcard><![CDATA[aheadWorks Gift Card/Certificate]]></AW_Giftcard>
+                <Magestore_Giftvoucher><![CDATA[magestore Gift Card]]></Magestore_Giftvoucher>
+            </integrations>
+        </bakerloo_gifting>
+    </default>
+</config>

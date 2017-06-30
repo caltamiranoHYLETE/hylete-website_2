@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2017 Vaimo AB
+ */
+?>
+
+<?php
+// REWARDSONLY BEGIN
+$helper                  = Mage::helper('rewards/version');
+$isPointsOnly            = $this->getIsPointsOnly();
+$itemPointsPrice         = $this->getItemPointsPrice();
+$itemSubtotalPointsPrice = $this->getItemSubtotalPointsPrice();
+// REWARDSONLY END
+
+// include specific template
+if (Mage::helper('rewards/theme')->getPackageName() === "rwd" && $helper->isMageVersionAtLeast('1.9.1.0')) {
+    include 'default_rwd.phtml';
+} elseif ($helper->isMageVersionAtLeast('1.8.1.0')) {
+    include 'default_m1810.phtml';
+} elseif ($helper->isMageVersionAtLeast('1.8.0.0')) {
+    include 'default_m1800.phtml';
+} elseif ($helper->isMageVersionAtLeast('1.6.0.0')) {
+    include 'default_m1600.phtml';
+} elseif ($helper->isMageVersionAtLeast('1.5.1.0')) {
+    include 'default_m1510.phtml';
+} elseif ($helper->isMageVersionAtLeast('1.5.0.1')) {
+    include 'default_m1501.phtml';
+} else {
+    include 'default_m1420.phtml';
+}
+
+?>

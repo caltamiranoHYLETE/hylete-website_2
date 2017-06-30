@@ -1,0 +1,14 @@
+--- app/code/local/Vaimo/IntegrationBaseStandard/Model/Import/Products.php	(revision )
++++ app/code/local/Vaimo/IntegrationBaseStandard/Model/Import/Products.php	(revision )
+@@ -177,6 +177,10 @@
+             }
+         }
+ 
++        if (isset($parentProduct['category_ids'])) {
++            $productData['category_ids'] = explode(',', $parentProduct['category_ids']);
++        }
++
+         $product->setProductData($productData);
+         $product->setRawData($parentProduct);
+         $product->setRowStatus(Vaimo_IntegrationBase_Helper_Data::ROW_STATUS_IMPORT);
+\ No newline at end of file

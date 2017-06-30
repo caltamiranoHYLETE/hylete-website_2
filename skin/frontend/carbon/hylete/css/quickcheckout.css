@@ -1,0 +1,376 @@
+/* QuickCheckout ======================================================================================= */
+.checkout-onepage-payment-additional-customerbalance {
+    display: none;
+}
+
+.show-store-credit .checkout-onepage-payment-additional-customerbalance {
+    display: block;
+}
+
+.checkout-onepage-index #atca-cart {
+    display: none !important;
+}
+
+.checkout-onepage-index #recently-added-container {
+    display: none !important;
+}
+
+.checkout-container h1 {
+    margin: 30px 0;
+}
+
+.one-page-checkout .input-box-hide {
+    display: none;
+}
+
+.one-page-checkout li {
+    margin-bottom: 12px;
+}
+
+#checkout-step-billing .button-set {
+    display: none;
+}
+
+#opc-shipping_method dt {
+    margin-bottom: 10px;
+}
+
+#checkout-review-load {
+    margin-bottom: 20px;
+}
+
+.checkout-onepage-index h2,
+#checkoutSteps h3 {
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px;
+}
+
+#checkoutSteps h3 {
+	font-size: 18px;
+	padding-bottom: 15px;
+}
+
+.payment-methods dd {
+    margin-left: 20px;
+}
+
+.payment-methods dt label {
+    font-weight: bold;
+    display: inline-block !important; /* prevent external cdn scripts to disable payment labels */
+}
+
+#checkout-review-table {
+    margin-top: 30px;
+    text-transform: lowercase;
+}
+
+.sp-methods .price,
+#checkout-review-table .price {
+    font-size: inherit;
+}
+
+#checkout-review-loader {
+    margin: 20px 0;
+}
+
+#checkout-review-loader {
+    text-transform: lowercase;
+}
+
+#checkout-review-table .last td {
+    border-top-width: 1px;
+}
+
+#checkout-payment-method-loader,
+#checkout-shipping-method-loader {
+    margin-bottom: 20px;
+}
+
+.one-page-checkout .badge-success:after {
+	content: ".";
+}
+
+/* Responsive fixes */
+
+#opc-review tbody dd {
+	margin: 0;
+    display: inline;
+}
+
+.one-page-checkout .section {
+	margin-bottom: 40px;
+}
+
+.one-page-checkout table td {
+	border-color: #f5f5f5;
+}
+
+.one-page-checkout table th {
+	font-weight:normal;
+    padding: 5px 15px
+}
+
+.one-page-checkout table tbody td {
+    padding: 5px 15px;
+}
+
+.one-page-checkout table tbody .product-image {
+    min-width: 80px;
+    text-align: center;
+}
+
+.one-page-checkout table td.first,
+.one-page-checkout table th.first{
+    padding-left: 0;
+}
+
+.one-page-checkout table td.last,
+.one-page-checkout table th.last{
+    padding-right: 0;
+}
+
+.one-page-checkout table tbody td dl {
+	margin: 0px;
+    display: inline;
+}
+
+.one-page-checkout table tbody td dt {
+	font-weight: normal;
+	margin-left: 20px;
+    display: inline;
+}
+
+.one-page-checkout table tbody td dd {
+	font-weight: bold;
+	margin-left: 20px;
+}
+
+.one-page-checkout table tfoot td:first-child {
+	text-align: left;
+}
+
+.one-page-checkout table tfoot td:last-child {
+	text-align: right;
+}
+
+
+.one-page-checkout table tfoot .grand-total-incl td {
+	border-bottom: 1px #f5f5f5 solid;
+	padding-top: 20px;
+}
+
+#co-billing-form select {
+	margin-bottom: 12px;
+}
+
+.one-page-checkout .ssn input {
+	width: 185px;
+}
+
+.one-page-checkout dd {
+	margin-left: 0;
+	margin-bottom: 20px;
+}
+
+#checkout-review-submit #review-buttons-container {
+    display: none;
+}
+
+#checkoutSteps .section:after {
+    content: '';
+    width: 1px;
+    background: #ccc;
+    top: 0;
+    height: 100%;
+    bottom: 0;
+    position: absolute;
+    margin: 0 0 0 -15px;
+    z-index: 1
+}
+
+#checkoutSteps .section:first-child:after {
+    display: none;
+}
+
+#checkoutSteps {
+    position: relative;
+}
+
+#checkoutSteps .section {
+    padding: 0 15px;
+    position: static;
+}
+
+.checkout-step__title {
+    background: #000;
+    margin: 0 -15px 25px -15px;
+    padding: 10px 15px;
+}
+
+#place-order-button {
+    height: 40px;
+    padding-top: 7px;
+    width: 100%;
+}
+
+.one-page-checkout label,
+.one-page-checkout input,
+.one-page-checkout select,
+.one-page-checkout .input-text,
+.one-page-checkout .input-box {
+    width: 100%;
+}
+
+.one-page-checkout input[type="radio"] {
+    margin: 3px 12px 3px 0;
+    width: auto;
+    float: left;
+}
+
+.one-page-checkout .v-fix {
+    margin-right: 15px;
+}
+
+.one-page-checkout .price.points-amount {
+    white-space: nowrap;
+}
+
+.one-page-checkout .cvv {
+    max-width: 150px;
+}
+
+.checkout-onepage-index >.container {
+    border: none;
+    padding: 0;
+}
+
+.checkout-onepage-index .continue-shopping {
+    display: inline-block;
+    float: right;
+    position: relative;
+}
+
+.qc-shipping-choice label {
+    margin-top: 10px;
+}
+
+.checkout-links {
+    text-align: right;
+}
+
+#checkout-review-table-products .product-information {
+    padding: 0;
+}
+
+#checkout-review-table-products .product-information p {
+    margin: 3px 0;
+}
+
+.paypapl-logo {
+    margin: 0px 0 5px 0;
+    width: 90px;
+}
+
+.gift-messages {
+    margin-top: 40px;
+}
+
+.cvv-what-is-this {
+    text-transform: lowercase;
+}
+
+#allow-gift-messages-for-items-container .product-name {
+    margin-top: 0;
+}
+
+#co-payment-form .form-alt {
+    text-transform: lowercase;
+}
+
+.one-page-checkout .adresses input:nth-of-type(n+2){
+    margin-top: 10px;
+}
+
+.one-page-checkout button,
+.one-page-checkout .button,
+.one-page-checkout .input-text,
+.one-page-checkout select,
+.one-page-checkout .sod_select {
+    height: 30px;
+}
+
+.one-page-checkout button,
+.one-page-checkout .button {
+    padding: 3px 12px 10px;
+}
+
+.one-page-checkout .input-text {
+    padding: 6px 8px;
+}
+
+.one-page-checkout .sod_select {
+    padding-top: 5px;
+}
+
+.one-page-checkout .sod_select:after {
+    top: 5px;
+}
+
+.one-page-checkout .shipping-radio {
+    display: inline-block;
+    width: auto;
+}
+
+@media (max-width: 1199px) {
+    .one-page-checkout .section:nth-child(2n+1) {
+        clear: both;
+    }
+
+    #checkoutSteps .section:nth-child(2n+1):after {
+        display: none;
+    }
+
+    .checkout-step__title {
+        background: #000;
+        margin: 0 0 15px 0;
+        padding: 10px 15px;
+    }
+
+    .checkout-container h1 {
+        margin-left: 15px;
+    }
+
+    .checkout-onepage-index .continue-shopping {
+        margin-right: 15px;
+    }
+
+    .checkout-container {
+        margin: 0 -15px;
+    }
+}
+
+@media (min-width: 992px) {
+    #nav,
+    #js-phone-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991px) {
+    #header {
+        height: 50px;
+    }
+}
+
+@media (max-width: 767px) {
+    .checkout-container {
+        margin: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .checkout-onepage-success .main-container  {
+        margin-top: 10px;
+        padding: 0 15px;
+    }
+}

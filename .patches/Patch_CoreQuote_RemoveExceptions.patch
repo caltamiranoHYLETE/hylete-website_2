@@ -1,0 +1,12 @@
+--- app/code/core/Mage/Sales/Model/Quote/Item.old.php	2017-02-15 10:07:45.000000000 +0100
++++ app/code/core/Mage/Sales/Model/Quote/Item.php	2017-02-15 10:08:12.000000000 +0100
+@@ -495,7 +495,8 @@
+                 $optionValue = $option->getValue();
+ 
+                 // dispose of some options params, that can cramp comparing of arrays
+-                if (is_string($itemOptionValue) && is_string($optionValue)) {
++                if (is_string($itemOptionValue) && is_string($optionValue)
++                && strpos($itemOptionValue, ':') !== false && strpos($optionValue, ':') !== false) {
+                     try {
+                         /** @var Unserialize_Parser $parser */
+                         $parser = Mage::helper('core/unserializeArray');

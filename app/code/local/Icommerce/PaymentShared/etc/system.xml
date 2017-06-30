@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <vaimo_addons translate="label" module="paymentshared">
+            <label><![CDATA[<div style="background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyRkZDRTNGOTYzQjExMUUyOUQ4MEU5N0ZDOTI1Qzc4MiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyRkZDRTNGQTYzQjExMUUyOUQ4MEU5N0ZDOTI1Qzc4MiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJGRkNFM0Y3NjNCMTExRTI5RDgwRTk3RkM5MjVDNzgyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJGRkNFM0Y4NjNCMTExRTI5RDgwRTk3RkM5MjVDNzgyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+l8WArQAAAvxJREFUeNpsVD1oFUEQntnbe7/5IZgoGIPwFCIIaqHBylYstBGDQiwVE7UIaCG2FmoawSBiKwYkNqIBRZSkkiAoNoJBu6SIGH28vMe7d3e747d39+JLdGFud292vpn5ZnY5nNlNJJQOZmLPcwsiTxP7RXJKiQL8UliaLorjKRFzgqzEJKIgeRy6qzOU/Th5GfZVbBVmh/YSuoXUgXJfn0h9IeUNscARW2BYImudrgC3ngtgDzOPJ2sFI+UhOO8aDtwDyCT7BWDKY7JmyOnEGgAYYgfEdgznnnA0O9xO6ykOjbJywBAvnTmXPwb/kQ2D95QBuCgysFl4GE3M4+eHMoIQOvMKuBlIABSCzefBj6yQiYVzapeErY1o8A80yE7YNZ2x5nwpw5EI/Jwlpd+6aNgDbqmb4m9fByWOyK/sTehkEwMIPCtvrA2SAZWpY7xDVFNI8TqVeslWfwiZddDFJOtV4d5+lqAOIO8h/swl1W0X3C6eps0DbnXhA8XBYbv8GWs/rVockNpWwb68RKY1vMWINFLZgoNKKP8IF7wJNdA7idIYcIGmKOXILz0i698hGyU9txnIEbcVyCKqogp5e1koNpIAaY00y3WpgSNj0jbZDBT/C2TCRWmEI1T7CYNCSoVBdxe6p8noi+jwg1kj/gWSRnUzP6xusQ5GqNiHQAbFrn5n51117RBQBbLXDqCK96G82pmeluZ6J85RpHCTTA5ltqClBxOqGrSI+opsG7/Qmlib6IqY6BW8zm1ULXq2ryMa7zvrXCW5sK6PCmVkQavSqMWsEV6riX3WRyaquZBhWE8jCoM26AP2dMVdRDaaRJuki1WhdEE4WraNxkfHnzhObXJZewA0A7tTzlgRuhZyHNUbhxesQ5IYV8GlELXe2Hr1hTTrn6C7LVEIfVY1SV6Nk5DzadWILkGmEy9Qiiu9QlTW1pHGuTTlJOIbcPYa8xlXQ4grWz9kqQ2E1qXfEPdQueRxU+0CnpwJFrWWeFacPnbM89jP03/GHwEGAP9rgkhyCTZNAAAAAElFTkSuQmCC) no-repeat; height: 18px; display: inline-block; padding: 1px 0 0 23px; margin-top: 2px;">Vaimo Modules</div>]]></label>
+            <sort_order>999</sort_order>
+        </vaimo_addons>
+    </tabs>
+    <sections>
+        <paymentshared translate="label" module="paymentshared">
+            <tab>vaimo_addons</tab>
+            <label>Payment Shared</label>
+            <sort_order>160010</sort_order>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <payments translate="label" module="paymentshared">
+                    <label>Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <use_lightbox_in_pay_win translate="label">
+                            <label>Use lightbox for payment windows</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_lightbox_in_pay_win>
+                        <save_pno_with_billing translate="label">
+                            <label>Save social security number in checkout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>This requires that Klarna is available in the checkout</comment>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </save_pno_with_billing>
+                    </fields>
+                </payments>
+            </groups>
+        </paymentshared>
+    </sections>
+</config>

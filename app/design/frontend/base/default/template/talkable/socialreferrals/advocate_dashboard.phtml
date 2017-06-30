@@ -1,0 +1,31 @@
+<?php
+/**
+ * Talkable SocialReferrals for Magento
+ *
+ * @package     Talkable_SocialReferrals
+ * @author      Talkable (http://www.talkable.com/)
+ * @copyright   Copyright (c) 2015 Talkable (http://www.talkable.com/)
+ * @license     MIT
+ */
+?>
+
+<?php $_helper = $this->helper("socialreferrals") ?>
+
+<?php if ($_helper->isAdvocateDashboardEnabled()): ?>
+    <!-- Begin Talkable integration code -->
+
+    <?php if ($_helper->getSiteId() == ""): ?>
+        <!-- Talkable Site ID is blank, check your Talkable extension settings -->
+    <?php else: ?>
+        <div id="talkable-dashboard"></div>
+        <script type="text/javascript">
+        //<![CDATA[
+          _talkableq.push(["register_affiliate", {
+            campaign_template: "dashboard"
+          }]);
+        //]]>
+        </script>
+    <?php endif ?>
+
+    <!-- End Talkable integration code -->
+<?php endif ?>

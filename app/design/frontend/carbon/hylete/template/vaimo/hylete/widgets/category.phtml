@@ -1,0 +1,49 @@
+<?php $_category = $this->getCategory();?>
+
+<?php if ($_category):?>
+    <?php
+    $_categoryName = $_category->getName();
+    $_imageType = $this->getImageType();
+    $_fullLink = $this->getFullLink();
+    $_description = $this->getDescription();
+    $_textPlacement = 'placement-' . $this->getTextPlacement();
+    $_alignText = 'align-' . $this->getAlignText();
+    $_inverted = ($this->getinvert()) ? 'inverted' : '';
+    $_imageBaseUrl = Mage::getBaseUrl('media') . 'catalog/category/';
+    $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
+    
+    $_img = $_category->getImage();
+    $_imgTablet = $_category->getImageTablet();
+    $_imgMobile = $_category->getImageMobile();
+    $_imgThumbnail = $_category->getImageThumbnail();
+    
+    $_imgMobile = ($_imgMobile) ? $_imgMobile : $_img;
+    $_imgTablet = ($_imgTablet) ? $_imgTablet : $_img;
+    ?>
+    
+    <div class="hylete-widget category <?php echo $_imageType;?> <?php echo $_inverted;?> <?php echo $_alignText;?> <?php echo $_textPlacement;?>">
+        <?php if ($_fullLink):?>
+            <a href="<?php echo $_category->getUrl();?>">
+        <?php endif;?>
+        
+            <?php if ($_imageType == 'fullwidth'):?>
+                <picture>
+                    <source srcset="<?php echo $_imageBaseUrl . $_imgMobile; ?>" media="(max-width: 768px)">
+                    <source srcset="<?php echo $_imageBaseUrl . $_imgTablet ?>" media="(max-width: 992px)">
+                    <img srcset="<?php echo $_imageBaseUrl . $_img;?>" alt="<?php echo htmlspecialchars($_categoryName); ?>">
+                </picture>
+            <?php else:?>
+                <img src="<?php echo $_imageBaseUrl . $_imgThumbnail;?>" />
+            <?php endif;?>
+            
+            <?php if ($_description):?>
+                <div class="description">
+                    <?php echo $_templateProcessor->filter($_description);?>
+                </div>
+            <?php endif;?>
+            
+        <?php if ($_fullLink):?>
+            </a>
+        <?php endif;?>
+    </div>
+<?php endif;?>

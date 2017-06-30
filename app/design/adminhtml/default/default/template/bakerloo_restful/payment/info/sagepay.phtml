@@ -1,0 +1,14 @@
+<?php $payrouter = $this->getPayrouterData(); ?>
+
+<?php echo $this->getMethod()->getTitle() ?>
+<?php if(!is_null($payrouter)): ?>
+	<ul>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Message") , ": </strong>", (string)$payrouter->Message; ?></li>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Payment Reference") , ": </strong>", (string)$payrouter->PaymentReference; ?></li>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Operator ID") , ": </strong>", (string)$payrouter->OperatorId; ?></li>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Department ID") , ": </strong>", (string)$payrouter->DepartmentId; ?></li>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Card Scheme") , ": </strong>", (string)$payrouter->CardScheme; ?></li>
+		<li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Auth. Code") , ": </strong>", (string)$payrouter->AuthCode; ?></li>
+	</ul>
+<?php
+endif;

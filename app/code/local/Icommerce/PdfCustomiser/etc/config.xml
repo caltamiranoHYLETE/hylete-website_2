@@ -1,0 +1,214 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_PdfCustomiser
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+--><config>
+    <modules>
+        <Icommerce_PdfCustomiser>
+            <version>2.1.2</version>
+            <depends>
+            </depends>
+        </Icommerce_PdfCustomiser>
+    </modules>
+
+    <global>
+        <rewrite>
+            <icommerce_pdfcustomiser_adminhtml_sales_creditmemos>
+                <from><![CDATA[#^/([^/]+)/sales_creditmemo/pdfcreditmemos#]]></from>
+                <to>/$1/pdfCustomiser_sales_creditmemo/pdfcreditmemos/</to>
+            </icommerce_pdfcustomiser_adminhtml_sales_creditmemos>
+        </rewrite>
+        <models>
+            <pdfcustomiser>
+                <class>Icommerce_PdfCustomiser_Model</class>
+            </pdfcustomiser>
+            <core>
+                <rewrite>
+                    <!-- override Icommerce_EmailAttachments rewrite -->
+                    <email_template>Icommerce_PdfCustomiser_Model_Email_Template</email_template>
+                </rewrite>
+            </core>
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>Icommerce_PdfCustomiser_Model_Invoice</order_pdf_invoice>
+                </rewrite>
+                <rewrite>
+                    <order_pdf_shipment>Icommerce_PdfCustomiser_Model_Shipment</order_pdf_shipment>
+                </rewrite>
+                <rewrite>
+                    <order_pdf_creditmemo>Icommerce_PdfCustomiser_Model_Creditmemo</order_pdf_creditmemo>
+                </rewrite>
+            </sales>
+        </models>
+        <helpers>
+            <pdfcustomiser>
+                <class>Icommerce_PdfCustomiser_Helper</class>
+            </pdfcustomiser>
+        </helpers>
+        <pdfcustomiser><!-- config values --></pdfcustomiser>
+        <customer>
+            <address>
+                <formats>
+                    <european module="customer" translate="title">
+                        <title>European</title>
+                        <defaultFormat><![CDATA[
+{{depend company}}{{var company}}<br/>{{/depend}}
+{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}<br/>
+{{var street1}}<br/>
+{{depend street2}}{{var street2}}<br/>{{/depend}}
+{{depend street3}}{{var street3}}<br/>{{/depend}}
+{{depend street4}}{{var street4}}<br/>{{/depend}}
+{{var postcode}}  {{depend city}}{{var city}}{{/depend}} <br/>
+{{var country}}
+                        ]]></defaultFormat>
+                    </european>
+                    <us module="customer" translate="title">
+                        <title>US</title>
+                        <defaultFormat><![CDATA[
+{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}<br/>
+{{depend company}}{{var company}}<br />{{/depend}}
+{{var street1}}<br />
+{{depend street2}}{{var street2}}<br />{{/depend}}
+{{depend street3}}{{var street3}}<br />{{/depend}}
+{{depend street4}}{{var street4}}<br />{{/depend}}
+{{depend city}}{{var city}},  {{/depend}}{{depend region}}{{var region}}, {{/depend}}{{var postcode}}<br/>
+{{var country}}<br/>
+{{depend telephone}}T: {{var telephone}}{{/depend}}
+{{depend fax}}<br/>F: {{var fax}}{{/depend}}
+                        ]]></defaultFormat>
+                    </us>
+                </formats>
+            </address>
+        </customer>
+    </global>
+
+    <adminhtml>
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <icommerce_pdfcustomiser>
+                        <type>singleton</type>
+                        <class>pdfcustomiser/adminhtml_observer</class>
+                        <method>onAdminhtmlBlockHtmlBefore</method>
+                    </icommerce_pdfcustomiser>
+                </observers>
+            </adminhtml_block_html_before>
+        </events>
+        <translate>
+            <modules>
+                <Icommerce_PdfCustomiser>
+                    <files>
+                        <default>Icommerce_PdfCustomiser.csv</default>
+                    </files>
+                </Icommerce_PdfCustomiser>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <frontend>
+        <translate>
+            <modules>
+                <Icommerce_PdfCustomiser>
+                    <files>
+                        <default>Icommerce_PdfCustomiser.csv</default>
+                    </files>
+                </Icommerce_PdfCustomiser>
+            </modules>
+        </translate>
+        <routers>
+            <icommerce_pdfcustomiser>
+                <use>standard</use>
+                <args>
+                    <module>Icommerce_PdfCustomiser</module>
+                    <frontName>pdf</frontName>
+                </args>
+            </icommerce_pdfcustomiser>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <icommerce_pdfcustomiser before="Mage_Adminhtml">Icommerce_PdfCustomiser_Adminhtml</icommerce_pdfcustomiser>
+                        <icommerce_pdfcustomiser before="Icommerce_EmailAttachments">Icommerce_PdfCustomiser_Adminhtml</icommerce_pdfcustomiser>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <sales_pdf>
+            <all>
+                <alllogo/>
+                <all_max_logo_height>25</all_max_logo_height>
+                <allowneraddress/>
+                <allpagesize>A4</allpagesize>
+                <displayboth>0</displayboth>
+                <alladdressformat>us</alladdressformat>
+                <allthemetranslation>1</allthemetranslation>
+                <allmargintop>15</allmargintop>
+                <allmarginbottom>25</allmarginbottom>
+                <allmarginsides>5</allmarginsides>
+                <allfont/>
+                <allfontsize>12</allfontsize>
+                <allqtyasint>1</allqtyasint>
+                <allprintcomments>0</allprintcomments>
+                <allsign>0</allsign>
+                <allsigncertificate/>
+                <allsignpassword/>
+            </all>
+            <order>
+                <ordertitle>ORDER CONFIRMATION</ordertitle>
+                <orderaddresses>both</orderaddresses>
+                <ordercustom/>
+            </order>
+            <invoice>
+                <invoicetitle>TAX INVOICE</invoicetitle>
+                <invoicedeliverydate>0</invoicedeliverydate>
+                <renderbarcode>0</renderbarcode>
+                <invoicetaxnumber/>
+                <invoiceaddresses>both</invoiceaddresses>
+                <invoicecustom/>
+                <invoiceintegratedlabels>0</invoiceintegratedlabels>
+                <invoice_footer_box_height>20</invoice_footer_box_height>
+                <invoice_footer_box_fontsize>8</invoice_footer_box_fontsize>
+                <invoice_footer_box_bordersingle>0</invoice_footer_box_bordersingle>
+            </invoice>
+            <shipment>
+                <shipmenttitle>PACKING SLIP</shipmenttitle>
+                <shipmentaddresses>both</shipmentaddresses>
+                <shipmentdisplay>none</shipmentdisplay>
+                <shipmentcustom/>
+            </shipment>
+            <creditmemo>
+                <creditmemotitle>CREDIT MEMO</creditmemotitle>
+                <creditmemoaddresses>both</creditmemoaddresses>
+                <creditmemocustom/>
+            </creditmemo>
+            <fonts_dir>fonts</fonts_dir>
+            <tcpdf_class_name>Icommerce_PdfCustomiser_MYPDF</tcpdf_class_name>
+        </sales_pdf>
+    </default>
+
+</config>

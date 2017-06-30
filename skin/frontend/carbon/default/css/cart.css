@@ -1,0 +1,275 @@
+/* Shopping Cart ========================================================================= */
+
+.cart h2 {
+    font-size: 16px;
+}
+
+/* Checkout Types */
+.cart .checkout-types {
+    float: right;
+    text-align: right;
+}
+
+.cart .title-buttons .checkout-types li {
+    float: left;
+    margin: 0 0 5px 5px;
+}
+
+.cart .checkout-types .paypal-or {
+    margin: 0 8px;
+    line-height: 2.3;
+}
+
+.cart .totals .checkout-types .paypal-or {
+    clear: both;
+    display: block;
+    padding: 3px 55px 8px 0;
+    line-height: 1.0;
+    font-size: 11px;
+}
+
+/* Shopping Cart Table */
+.cart-table {
+    margin: 10px 0;
+}
+
+.cart-table .item-msg {
+    font-size: 10px;
+}
+
+.cart-table thead {
+    background: transparent;
+}
+
+.cart-table th {
+    border: none;
+    font-weight: normal;
+    padding: 0 15px 5px 15px;
+    border-bottom: 1px solid #ccc;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.cart-table tr.last {
+    border-bottom: none;
+}
+
+.cart-table td {
+    border: none;
+    padding: 15px;
+}
+
+.cart-table td.remove {
+    padding-right: 0;
+}
+
+.cart-table tfoot td {
+    padding: 15px 0 0 0;
+    border-top: 1px solid #ccc;
+}
+
+.cart-table tfoot button {
+    margin-bottom: 3px;
+}
+
+.cart-table .backlink {
+    float: left;
+    text-transform: uppercase;
+}
+
+.cart-table .btn-remove2 {
+    margin: 0;
+}
+
+.cart-table .link-wishlist {
+    margin: 25px 0 0 0;
+    display: block;
+}
+
+.cart-table .product-image img {
+    max-width: none;
+}
+
+.cart-table .product-name {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.cart-table .product-name.has-options {
+    margin: 10px 0 0 0;
+}
+
+.cart-table .item-options {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.cart-table .cart-price {
+    display: block;
+    text-align: center;
+}
+
+.cart-table .qty {
+    text-align: center;
+    width: 38px;
+}
+
+/* Shopping Cart Collateral boxes */
+
+.cart .crosssell h2 {
+    margin-top: 0;
+    text-transform: uppercase;
+}
+
+.cart .crosssell .product-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: inherit;
+    margin-bottom: 5px;
+}
+
+.cart .crosssell .button {
+    margin: 0 0 10px 0;
+}
+
+.cart .crosssell .old-price,
+.cart .crosssell .special-price {
+    margin-bottom: 5px;
+}
+
+.cart .crosssell .add-to-links {
+    text-transform: uppercase;
+}
+
+/* Discount Codes & Estimate Shipping and Tax Boxes */
+.cart .discount h2 {
+    margin-top: 0;
+    text-transform: uppercase;
+}
+
+.cart .discount label,
+.cart .giftcard label {
+    margin: 0 0 5px 0;
+    display: block;
+}
+
+.cart .discount .input-box,
+.cart .giftcard .input-box {
+    float: left;
+    margin: 0 0 10px 0;
+}
+
+.cart .discount .input-text,
+.cart .giftcard .input-text {
+    width: 147px;
+    margin: 0 10px 0 0;
+    padding: 7px 10px;
+}
+
+.cart .check-gc-status {
+    margin-top: 10px;
+}
+
+/* Shopping Cart Totals */
+.cart .totals {
+    text-transform: uppercase;
+}
+
+.cart .totals h2 {
+    margin-top: 0;
+}
+
+.cart .totals .content {
+    background: #e5e5e5;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.cart .totals .checkout-types {
+    margin: 10px 0 0 0;
+}
+
+.cart .totals strong {
+    font-weight: normal;
+}
+
+.cart .totals .grand-total-incl strong,
+.cart .totals .grand-total-excl strong {
+    font-weight: bold;
+}
+
+.cart .totals table {
+    width: 100%;
+}
+
+.cart .totals .grand-total-incl {
+    border-top: 1px solid #fff;
+}
+
+.cart .totals table th,
+.cart .totals table td {
+    padding: 5px 0;
+}
+
+.cart .totals table th {
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Options Tool Tip */
+.cart .item-options dt {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.cart .item-options dd {
+    padding-left: 10px;
+}
+
+.truncated {
+    cursor: help;
+}
+
+.truncated a.dots {
+    cursor: help;
+}
+
+.truncated a.details {
+    cursor: help;
+}
+
+.truncated .truncated_full_value {
+    position: relative;
+    z-index: 999;
+}
+
+.truncated .truncated_full_value .item-options {
+    position: absolute;
+    top: -99999em;
+    left: -99999em;
+    z-index: 999;
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f6f6f6;
+}
+
+.truncated .truncated_full_value .item-options > p {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.truncated .show .item-options {
+    top: -20px;
+    left: 50%;
+}
+
+.col-left .truncated .show .item-options {
+    left: 30px;
+    top: 7px;
+}
+
+.col-right .truncated .show .item-options {
+    left: -240px;
+    top: 7px;
+}

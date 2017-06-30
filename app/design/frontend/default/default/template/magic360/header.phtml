@@ -1,0 +1,21 @@
+<?php
+
+$magicToolboxHelper = Mage::helper('magic360/settings');
+
+$tool = $magicToolboxHelper->loadTool();
+$tool->params->resetProfile();
+
+$force = $tool->params->checkValue('include-headers-on-all-pages', 'Yes', 'default');
+
+$magic360ClassName = Mage::registry('magic360ClassName');
+if(!$magic360ClassName && !$force) return;
+
+$page = $this->getPageType();
+
+
+if($force ||
+   ($tool->params->profileExists($page) && !$tool->params->checkValue('enable-effect', 'No', $page))) {
+    echo $tool->getHeadersTemplate(str_replace('/magic360.js', '', $this->getSkinUrl('js/magic360.js')), str_replace('/magic360.css', '', $this->getSkinUrl('css/magic360/magic360.css')));
+}
+
+?>

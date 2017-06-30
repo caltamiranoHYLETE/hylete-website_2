@@ -1,0 +1,34 @@
+<?php
+
+?>
+
+<!-- Icommerce Kreditor -->
+		<?php if (Mage::helper('paymentshared')->CanSearchForAddress()): ?>
+		<?php if (!Icommerce_Default_Helper_Data::isModuleActive('Icommerce_Creditcheck') && !Icommerce_Default_Helper_Data::isModuleActive('Icommerce_CreditSafe')): ?>
+		<?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_Kreditor')): ?>
+		<li class="ssn">
+			<label for="billing[personid]"><?php echo $this->__('SSN for address search') ?></label>
+			<input type="text" name="billing[personid]" id="billing[personid]" onchange="billing.getAddressData(document.getElementById('billing[personid]').value);" />
+			<button class="form-button" type="button" onclick="billing.getAddressData(document.getElementById('billing[personid]').value);">
+				<span><?php echo $this->__('Get address') ?></span>
+			</button>
+			<span id="identifyme-please-wait"  style="display:none;" class="opc-please-wait">
+				&nbsp;<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Identifying...') ?> &nbsp;
+			</span>
+		</li>
+		<?php endif; ?>
+		<?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_Klarna') && $helper = Mage::helper('kreditor')): ?>
+		<li class="ssn">
+			<label for="billing[personid]"><?php echo $helper->__('SSN for address search') ?></label>
+			<input type="text" name="billing[personid]" id="billing[personid]" onchange="billing.getAddressData14(document.getElementById('billing[personid]').value);" />
+			<button class="form-button" type="button" onclick="billing.getAddressData14(document.getElementById('billing[personid]').value);">
+				<span><?php echo $helper->__('Get address') ?></span>
+			</button>
+			<span id="identifyme-please-wait"  style="display:none;" class="opc-please-wait">
+				&nbsp;<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $helper->__('Identifying...') ?> &nbsp;
+			</span>
+		</li>
+		<?php endif; ?>
+		<?php endif; ?>
+		<?php endif; ?>
+<!-- Icommerce Kreditor End -->

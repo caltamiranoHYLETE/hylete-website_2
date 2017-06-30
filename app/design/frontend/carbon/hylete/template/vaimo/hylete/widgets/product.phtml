@@ -1,0 +1,28 @@
+<?php $_product = $this->getProduct();?>
+
+<?php if ($_product):?>
+    <?php
+    $_fullLink = $this->getFullLink();
+    $_description = $this->getDescription();
+    $_inverted = ($this->getinvert()) ? 'inverted' : '';
+    $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
+    ?>
+    
+    <div class="hylete-widget product thumbnail <?php echo $_inverted;?>">
+        <?php if ($_fullLink):?>
+            <a href="<?php echo $_product->getProductUrl();?>">
+        <?php endif;?>
+        
+            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(580); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true) ?>" />
+            
+            <?php if ($_description):?>
+                <div class="description">
+                    <?php echo $_templateProcessor->filter($_description);?>
+                </div>
+            <?php endif;?>
+            
+        <?php if ($_fullLink):?>
+            </a>
+        <?php endif;?>
+    </div>
+<?php endif;?>

@@ -1,0 +1,168 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Checklist
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ */
+-->
+<config>
+    <modules>
+        <Icommerce_Checklist>
+            <version>0.2.3</version>
+        </Icommerce_Checklist>
+    </modules>
+
+    <frontend>
+        <routers>
+            <checklist>
+                <use>standard</use>
+                <args>
+                    <module>Icommerce_Checklist</module>
+                    <frontName>checklist</frontName>
+                </args>
+            </checklist>
+        </routers>
+        <layout>
+            <updates>
+                <checklist>
+                    <file>icommerce_checklist.xml</file>
+                </checklist>
+            </updates>
+        </layout>
+
+        <translate>
+            <modules>
+                <Icommerce_Checklist>
+                    <files>
+                        <checklist>Icommerce_Checklist.csv</checklist>
+                    </files>
+                </Icommerce_Checklist>
+            </modules>
+        </translate>
+    </frontend>
+
+    <global>
+        <models>
+            <checklist>
+                <class>Icommerce_Checklist_Model</class>
+            </checklist>
+        </models>
+
+        <blocks>
+            <checklist>
+                <class>Icommerce_Checklist_Block</class>
+            </checklist>
+        </blocks>
+
+        <helpers>
+            <checklist>
+                <class>Icommerce_Checklist_Helper</class>
+            </checklist>
+        </helpers>
+
+        <resources>
+            <checklist_setup>
+                <setup>
+                    <module>Icommerce_Checklist</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </checklist_setup>
+            <checklist_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </checklist_write>
+            <checklist_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </checklist_read>
+        </resources>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <icommerce_checklist before="Mage_Adminhtml">Icommerce_Checklist_Adminhtml</icommerce_checklist>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Icommerce_Checklist>
+                    <files>
+                        <checklist>Icommerce_Checklist.csv</checklist>
+                    </files>
+                </Icommerce_Checklist>
+            </modules>
+        </translate>
+
+        <menu>
+            <system>
+                <children>
+                    <icommerce translate="title">
+                        <title>Vaimo</title>
+                        <sort_order>999</sort_order>
+                        <children>
+                            <checklist_adminform module="checklist" translate="title">
+                                <title>Checklist</title>
+                                <action>adminhtml/checklist_listshow</action>
+                            </checklist_adminform>
+                        </children>
+                    </icommerce>
+                </children>
+            </system>
+        </menu>
+
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <checklist_adminform>
+                                    <title>Icommerce Checklist</title>
+                                </checklist_adminform>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+        <layout>
+            <updates>
+                <checklist>
+                    <file>icommerce_checklist.xml</file>
+                </checklist>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>

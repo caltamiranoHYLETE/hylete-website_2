@@ -1,0 +1,29 @@
+--- app/code/community/Webshopapps/Wsalogger/etc/config.xml	2016-08-01 15:15:36.000000000 +0200
++++ app/code/community/Webshopapps/Wsalogger/etc/config-new.xml	2016-08-01 15:15:25.000000000 +0200
+@@ -89,16 +89,16 @@
+ 		 	</email>     
+ 		 </template> 
+     </global>
+-      <admin>
+-	    <routers>
+-			<wsalogger>
+-				<use>admin</use>
+-				<args>
+-					<module>Webshopapps_Wsalogger</module>
+-					<frontName>wsalogger</frontName>
+-				</args>
+-			</wsalogger>
+-	    </routers>
++    <admin>
++        <routers>
++            <adminhtml>
++                <args>
++                    <modules>
++                        <wsalogger after="Mage_Adminhtml">Webshopapps_Wsalogger_Adminhtml</wsalogger>
++                    </modules>
++                </args>
++            </adminhtml>
++        </routers>
+     </admin>
+      <adminhtml>
+         <translate>

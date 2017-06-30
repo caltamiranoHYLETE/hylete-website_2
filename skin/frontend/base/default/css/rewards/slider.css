@@ -1,0 +1,148 @@
+.sweettooth-point-spender a.sliderHandle
+{
+    background: url("../../images/rewards/slider/slider_handle.gif") no-repeat;
+    height: 17px;
+    width: 11px;
+    position: absolute;
+    cursor: pointer;
+    border: none;
+}
+.sweettooth-point-spender .sliderRail   
+{
+    position: relative;
+    background: url("../../images/rewards/slider/slider_rail.gif") repeat-x;
+    height: 17px;
+    position: relative;
+    width: 192px;
+    margin-top: 16px;
+}
+.sweettooth-point-spender .sliderCaption
+{
+    margin-bottom: 12px;
+    margin-left: 12px;
+    margin-top: 10px;
+    width: 128px;
+}
+
+.sweettooth-point-spender .enterpriseSliderCaption
+{
+    margin-bottom: 12px;
+    margin-left: -45px;
+    margin-top: -5px;
+    width: 128px;
+}
+.sweettooth-catalog-slider .sliderCaption 
+{
+    margin-bottom: 0;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+.sweettooth-point-spender .slider
+{
+    margin-bottom: 6px;
+}
+.sweettooth-point-spender .sliderHandle-sliding
+{
+    cursor: e-resize;
+}
+.sweettooth-point-spender .sliderRail-sliding
+{
+    cursor: e-resize;
+}
+.sweettooth-point-spender .cartSlider_caption
+{
+    position: relative;
+    text-align: center;
+    top: -4px;
+}
+.sweettooth-point-spender .cartSlider_cell
+{
+    vertical-align: bottom;
+    width: 16px;
+    height: 38px;
+}
+.sweettooth-point-spender .cartSlider .sliderRail
+{
+    width: 222px;
+}
+.sweettooth-point-spender .maximize-points {
+    margin-bottom: 8px;
+}
+.sweettooth-point-spender .cartSlider_cell {
+    width: 20px;
+}
+.sweettooth-point-spender #slider-wait {
+    margin: 0 0 3px 3px;
+}
+.sweettooth-point-spender .box-content label {
+    display: inline;
+}
+.sweettooth-point-spender .rewards-slider-refreshing-checkbox-rule {
+    background: url(../../images/rewards/loading/loading1.gif) no-repeat;
+    padding-left: 20px;
+    color: #AAA;
+    cursor: wait;
+}
+.sweettooth-point-spender .no-slider-message {
+    display: inline-block;
+    padding-bottom: 10px; 
+}
+.cart-points-spender #sliderCaption {
+    text-align: center;
+}
+.checkout-points-spender {
+    border-bottom: 1px solid silver;
+    padding-bottom: 30px;
+}
+.checkout-points-spender,
+.checkout-points-spender .box-content,
+.checkout-points-spender #sliderCaption,
+.checkout-points-spender .maximize-points,
+.checkout-points-spender .cart_redemption_item {
+    padding-left: 20px;
+}
+.checkout-points-spender .maximize-points {
+    padding-bottom: 20px; 
+}
+.checkout-points-spender .slider table {
+    margin: 0;
+}
+.checkout-points-spender h2 {
+    font-size: larger;
+    font-weight: bold;
+}
+.checkout-points-spender .more-ways-to-spend-header,
+.checkout-points-spender .minicart-slider-header {
+    font-size: 12px;
+}
+.checkout-points-spender .minicart-slider-header {
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+.checkout-points-spender .cartSlider {
+    margin-top: -5px;
+}
+#firecheckout-form .firecheckout-points-spender {
+    padding: 15px 5px;
+    border-bottom: 0;
+}
+.gomage-points-spender {
+    padding-left: 0;
+    border-bottom: 0;
+    padding-bottom: 10px;
+}
+.gomage-points-spender td img {
+    max-width: initial;
+}
+.onestepcheckout-points-spender.points-spender-theme-default,
+.onestepcheckout-points-spender.points-spender-theme-enterprise {
+    padding-left: 0;
+}
+.onestepcheckout-points-spender.points-spender-theme-default .cart_redemption_item,
+.onestepcheckout-points-spender.points-spender-theme-enterprise .cart_redemption_item {
+    padding-top: 7px;
+}
+.onestepcheckout-points-spender.points-spender-theme-default .rewards-slider-refreshing-checkbox-rule,
+.onestepcheckout-points-spender.points-spender-theme-enterprise .rewards-slider-refreshing-checkbox-rule {
+    display: block;
+}

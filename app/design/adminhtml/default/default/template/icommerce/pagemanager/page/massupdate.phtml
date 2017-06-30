@@ -1,0 +1,123 @@
+<div id="productGrid_massaction">
+    <table cellspacing="0" cellpadding="0" class="massaction">
+        <tbody>
+            <tr>
+            	<td>
+            		<a href="#" id="select_all"><?php echo $this->__('Select All') ?></a>
+            		<span class="separator">|</span>
+            		<a href="#" id="unselect_all"><?php echo $this->__('Unselect All') ?></a>
+            	</td>
+                <td>
+                    <div class="right">
+                        <div class="entry-edit">
+                            <form method="post" id="productGrid_massaction-form" action="" name="productGrid_massaction-form">
+                                <div>
+									<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                                </div>
+
+                                <fieldset>
+                                    <span class="field-row">
+                                    	<label><?php echo $this->__('Actions') ?></label> 
+                                    
+                                   		<select class="required-entry select absolute-advice local-validation" id="massaction-select">
+                                        	<option value="delete"><?php echo $this->__('Delete') ?></option>
+                                        	<option value="enable"><?php echo $this->__('Enable') ?></option>
+                                			<option value="disable"><?php echo $this->__('Disable') ?></option>
+                                        	<option value="update"><?php echo $this->__('Update position') ?></option>
+                                        
+                                    	</select>
+                                    </span> 
+                                   	<span id="productGrid_massaction-form-hiddens" class="outer-span"></span> 
+                                   	<span id="productGrid_massaction-form-additional" class="outer-span"></span> 
+                                   	<span class="field-row">
+                                   		<button style="" id="mass_update_button" class="scalable" type="button" id="id_ebff5c9129195641db7b24487f3de3f5">
+                                   			<span class="field-row"><span><?php echo $this->__('Send') ?></span></span>
+                                   		</button>
+                                   	</span>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                        <div class="no-display">
+                            <div id="productGrid_massaction-item-delete-block"></div>
+
+                            <div id="productGrid_massaction-item-status-block">
+                                <div class="entry-edit">
+                                    <span class="field-row"><label for="visibility">Status</label> 
+                                    	<select class="required-entry absolute-advice select" name="status" id="visibility">
+                                        	<option value="1">
+                                            	<?php echo $this->__('Active') ?>
+                                        	</option>
+                                        	<option value="0">
+                                            	<?php echo $this->__('Disabled') ?>
+                                        	</option>
+                                    	</select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div id="productGrid_massaction-item-attributes-block"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+	Event.observe(window, 'load', function(e){
+	
+		$('mass_update_button').observe('click', function(e){
+			
+			if($$('.mass_update_checkbox').size() < 1){
+				alert('<?php echo $this->__('There are no items that can me updated.')?>');
+				return false;
+			}
+
+
+			if($('massaction-select').value != 'update'){
+				var error = true;
+				
+				$$('.mass_update_checkbox').each(function(checkbox){
+					if(checkbox.checked){
+						error = false;
+					}
+				});
+				
+				if(error){
+					alert('<?php echo $this->__('Please select one or more items.') ?>');
+					return false;
+				}
+			}
+			
+			$('mass_update_action').value = $('massaction-select').value;
+			
+			if($('mass_update_action').value == 'delete'){
+				if(confirm('<?php echo $this->__('Are you sure?') ?>')){
+					$('edit_form').submit();
+				}
+			}
+			else {
+				$('edit_form').submit();
+			}
+			
+		});
+		
+    	$('select_all').observe('click', function(e){
+    		$$('.mass_update_checkbox').each(function(checkbox){
+				checkbox.checked = true;
+			});
+    	});
+    	
+    	$('unselect_all').observe('click', function(e){
+    		$$('.mass_update_checkbox').each(function(checkbox){
+				checkbox.checked = false;
+			});
+    	});
+
+		
+	});
+	
+</script>

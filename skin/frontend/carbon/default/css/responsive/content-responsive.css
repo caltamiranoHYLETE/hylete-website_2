@@ -1,0 +1,44 @@
+/* Small devices */
+@media (min-width: 768px) and (max-width: 991px) {
+    .contacts-index-index #contactForm .form-list .wide textarea {
+        width: 340px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 767px) {
+    .cms-index-index ul.products-grid {
+        margin-left: -20px;
+    }
+
+    .catalogsearch-result-index h1,
+    .catalogsearch-advanced-result h1 {
+        position: inherit;
+    }
+
+    .advanced-search label {
+        float: none;
+    }
+
+    .catalogsearch-advanced-index .buttons-set {
+        width: 220px;
+    }
+
+    .advanced-search .form-list .input-box,
+    .advanced-search .form-list .input-range {
+        margin-left: 0;
+    }
+
+    .contacts-index-index #contactForm .form-list .wide textarea {
+        width: 210px;
+    }
+
+    div.pagemanager .four-blocks li.item {
+        margin-left: 4%;
+        width: 48%;
+    }
+
+    div.pagemanager .four-blocks li.item:nth-child(2n+1) {
+        margin-left: 0;
+    }
+}

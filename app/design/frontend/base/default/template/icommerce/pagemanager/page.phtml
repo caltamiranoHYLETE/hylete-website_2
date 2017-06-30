@@ -1,0 +1,191 @@
+<?php
+
+  $helper = Mage::helper('pagemanager');
+
+	// Load rows
+    if($this->getPageId() == null && $this->getPageName() != null){
+        $this->setPageId(Mage::helper("pagemanager")->getPageIdFromName($this->getPageName()));
+    }
+  $rows = $this->getPageRows($this->getPageId());
+?>
+
+<?php if(is_array($rows) && count($rows) > 0): ?>
+<?php
+
+	/** The $row variable contains the following keys
+	 * ------------------------------------------------
+	 * $item['id']
+	 * $item['page_id']
+	 * $item['status']
+	 * $item['created_on']
+	 * $item['created_by']
+	 * $item['position']
+	 * $item['type']
+
+	*/
+
+	/** The $item variable contains the following keys
+	 * ------------------------------------------------
+	 //For All
+	 * $item['id']
+	 * $item['page_id']
+	 * $item['row_id']
+	 * $item['type']
+	 * $item['status']
+	 * $item['created_on']
+	 * $item['created_by']
+	 * $item['position']
+	 * $item['visibility']
+
+	 //For Image
+	 * $item['filename']
+	 * $item['image_alt']
+	 * $item['title']
+	 * $item['image_text']
+	 * $item['link']
+	 * $item['link_target']
+
+	 //For HTML
+	 * $item['page_content']
+
+	 //For Toplist
+	 * $item['category_id']
+	 * $item['products_per_row']
+	 * $item['total_products']
+	 * $item['sort_by']
+	 * $item['toplist']
+
+	 //For Slideshow
+	 * $item['slideshow']
+
+	*/
+
+   	$rowIterator = 0;
+    echo '<div class="pagemanager page-id-'. $this->getPageId() .'">';
+	foreach($rows as $row):
+
+		// Load items
+		$items = $this->getPageItems($row['id']);
+
+		// Get row type
+		$rowtype = $row['type'];
+
+        // Row classes
+        $rowClassnames = '';
+        if ($helper->useRowClassnames()) {
+            $rowClassnames = ' ' . $row['classnames'];
+        }
+
+		if(is_array($items) && count($items) > 0):
+
+			$firstRowClass = ''; if($rowIterator == 0): $firstRowClass = ' first'; endif;
+			$lastRowClass = ''; if($rowIterator == count($rows)-1): $lastRowClass = ' last'; endif;
+
+			echo '<ul class="row-'.$rowIterator.' '.$helper->getRowTypeClass($rowtype).' '.$firstRowClass.$lastRowClass.$rowClassnames.'">';
+
+			$itemIterator = 0;
+			foreach($items as $item):
+				if($rowtype > $itemIterator):
+					$target = "";
+					if($item['link_target'] != ""){
+						$target = "target=" . $item['link_target'];
+					}
+
+					$firstClass = ''; if($itemIterator == 0): $firstClass = ' first'; endif;
+					$lastClass = ''; if($rowtype == ($itemIterator+1)): $lastClass = ' last'; endif;
+
+					echo '<li class="'.$item['type'].' item'.$firstClass.$lastClass.'">';
+					// If HTML
+					if($item['type'] == 'html' || $item['type'] == 'widget'):
+						echo Icommerce_Cms::processBlockDirectives($item['page_content']);
+
+					// If Image
+					elseif($item['type'] == 'image'):
+
+						if(!empty($item['link'])):
+                            $storeUrl = "";
+                            $store = Mage::app()->getStore();
+                            if (Mage::getStoreConfig('pagemanager/settings/use_store_for_image_urls', $store->getId())) {
+                                $storeUrl = $store->getUrl();
+                            }
+
+                            echo '<a href="' .$storeUrl . $item['link'] .'"' . $target .'>';
+	                    endif;
+
+	                    echo '<img src="' . $helper->getImageUrl($item) . '" alt="' .$item['image_alt']. '" />';
+
+	                    if(!empty($item['link'])):
+	                        echo '</a>';
+	                    endif;
+
+	                // If Image with overlay
+					elseif($item['type'] == 'imagewithoverlay'):
+
+						if(!empty($item['filename_big'])):
+	                        echo '<a class="openimageoverlay" href="' . $helper->getBigImageUrl($item) .'">';
+	                    endif;
+
+	                    echo '<img src="' . $helper->getImageUrl($item) . '" alt="' .$item['image_alt']. '" />';
+
+	                    if(!empty($item['filename_big'])):
+	                        echo '</a>';
+	                    endif;
+	                    echo '<p>'.$item['image_text'].'</p>';
+	                    if($item['link'] == '1'):
+	                    	echo '<a class="download-link" href="' . $helper->getBigImageUrl($item) .'"' . $target .'>'.$this->__("Download").'</a>';
+	                    endif;
+
+					// If Toplist
+					elseif($item['type'] == 'toplist'):
+
+						$toplistArray = array(	"category_id" => $item['category_id'],
+												"num_get" => $item['total_products'],
+												"attrib_sort" => $item['sort_by'],
+												"attribs_select" => "*",
+                                                "page_content" => $item['page_content']
+                        );
+
+						echo Icommerce_Layout::getBlockHtml("selectedproducts/collection","selectedproducts/".$helper->getToplistTemplate($item['toplist']),$toplistArray);
+            $test = $helper->getToplistTemplate($item['toplist']);
+
+                    // If Category
+                    elseif($item['type'] == 'category'):
+
+                        $toplistArray = array(	"category_id" => $item['category_id'],
+                            "attribs_select" => "*" );
+
+                        echo Icommerce_Layout::getBlockHtml("selectedproducts/collection", "selectedproducts/category.phtml", $toplistArray);
+
+            		// If Slideshow
+					elseif($item['type'] == 'slideshow'):
+						if(Mage::getStoreConfig('design/package/name') != "carbon")
+						{
+							echo Icommerce_Layout::getBlockHtml("slideshow/view","slideshow/view.phtml",array(
+            "slideshow_id" => $item['slideshow'], "name" => "slideshow"));
+						}
+						else
+						{
+							echo Icommerce_Layout::getBlockHtml("slideshowbootstrap/slideshow","vaimo/slideshowbootstrap/slideshow.phtml",array(
+            "slideshow_id" => $item['slideshow'], "name" => "slideshow"));
+            			}
+
+            		// If Heading
+					elseif($item['type'] == 'heading'):
+						echo '<'.$item['heading'].'>'.$item['title'].'</'.$item['heading'].'>';
+					endif;
+					echo '</li>';
+
+				endif;
+			$itemIterator++;
+			endforeach;
+
+			echo "</ul>";
+
+		$rowIterator++;
+		endif;
+
+	endforeach;
+	echo '</div>';
+?>
+
+<?php endif; ?>

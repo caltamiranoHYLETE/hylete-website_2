@@ -1,0 +1,578 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <pos translate="label" module="bakerloo_restful">
+            <label>POS by Ebizmarts</label>
+            <sort_order>400</sort_order>
+        </pos>
+    </tabs>
+    <sections>
+        <!-- Fix for 11696143111358 -->
+        <tax>
+            <groups>
+                <calculation>
+                    <fields>
+                        <based_on>
+                            <show_in_store>1</show_in_store>
+                        </based_on>
+                    </fields>
+                </calculation>
+            </groups>
+        </tax>
+        <general>
+            <groups>
+                <store_information>
+                    <fields>
+                        <!--telephone translate="label">
+                             <label>Store Telephone</label>
+                             <frontend_type>text</frontend_type>
+                             <sort_order>100</sort_order>
+                             <show_in_default>1</show_in_default>
+                             <show_in_website>1</show_in_website>
+                             <show_in_store>1</show_in_store>
+                         </telephone-->
+                        <postal_code translate="label">
+                            <label>Store Postal Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </postal_code>
+                        <region_id translate="label">
+                            <label>Store Region</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_allregion</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </region_id>
+                    </fields>
+                </store_information>
+            </groups>
+        </general>
+        <bakerloorestful translate="label" module="bakerloo_restful">
+            <label>General</label>
+            <tab>pos</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>169</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <hint>
+                    <frontend_model>bakerloo_restful/adminhtml_system_config_fieldset_hint</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </hint>
+                <conflicts>
+                    <frontend_model>bakerloo_restful/adminhtml_system_config_fieldset_conflict</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                </conflicts>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </debug>
+                        <!--<webhooks_enabled translate="label">
+                            <label>Enable Webhooks</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </webhooks_enabled>-->
+                        <allow_ips translate="label comment">
+                            <label>Allowed IPs (comma separated)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Leave empty for access from any location.</comment>
+                        </allow_ips>
+                        <fixed_url translate="label comment">
+                            <label>Fixed POS URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Leave empty to use default url. Make sure the url ends with '/'.</comment>
+                        </fixed_url>
+                        <api_key translate="label comment">
+                            <label>API Key</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <frontend_model>bakerloo_restful/adminhtml_system_config_form_apikey</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>The API key is used to authenticate the connection with your shop.</comment>
+                        </api_key>
+                        <api_key_gen translate="button_label">
+                            <label></label>
+                            <button_label>Reset API Key</button_label>
+                            <frontend_model>bakerloo_restful/adminhtml_system_config_apikeygen</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </api_key_gen>
+                        <activation_key_gen translate="button_label">
+                            <label>Activation Key</label>
+                            <button_label>Generate Activation Key</button_label>
+                            <frontend_model>bakerloo_restful/adminhtml_system_config_activationkeygen</frontend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Generate activation key to connect your POS Backend with your magento.</comment>
+                        </activation_key_gen>
+                        <filesmode_bypass translate="label comment">
+                            <label>Allow files mode bypass</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[If set to Yes, data will be retrieved from DB.]]></comment>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </filesmode_bypass>
+                        <filter_customers translate="label">
+                            <label>Filter customer results by Website</label>
+                            <comment><![CDATA[If set to Yes, devices will only get customers from specific WebsiteId and Admin, not from every website.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </filter_customers>
+                        <simple_configurable_prices translate="label comment">
+                            <label>Simple Configurable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Set to Yes if you want configurable price to be calculated based on simple products.]]></comment>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </simple_configurable_prices>
+                        <filter_tax_rates translate="label comment">
+                            <label>(experimental) Filter tax rates</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Use with <strong>caution</strong>. This setting is only to be used with stores with over 500 tax rates and before going live need to test TAX on POS and Magento is consistent.]]></comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </filter_tax_rates>
+                    </fields>
+                </general>
+                <catalog translate="label">
+                    <label>Catalog</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <additional_attributes translate="label comment">
+                            <label>Additional Attributes</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_attribute</source_model>
+                            <comment><![CDATA[If this is changed you need to regenerate static files and do a full synchronization.]]></comment>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </additional_attributes>
+                        <product_code translate="label comment">
+                            <label>Attribute(s) code used on search (barcode)</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_searchableattribute</source_model>
+                            <comment><![CDATA[Search is performed by SKU, ID and Name in addition to the attribues you choose here.]]></comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_code>
+                        <description translate="label">
+                            <label>Description Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_description</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </description>
+                        <show_savings_badge translate="label">
+                            <label>Show savings badge</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Show save badge on products with special price.]]></comment>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_savings_badge>
+                        <simple_tap_addtobasket translate="label">
+                            <label>Simple products tap add to basket</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Add simple product to basket on picture tap or show product information screen.]]></comment>
+                            <sort_order>38</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </simple_tap_addtobasket>
+                        <deltas_pagesize translate="label comment">
+                            <label>Products and inventory page size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_pagesize</source_model>
+                            <sort_order>50</sort_order>
+                            <comment>For deltas sync</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </deltas_pagesize>
+                        <allow_backorders translate="label">
+                            <label>Backorders</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow_backorders>
+                        <category_thumbnails translate="label">
+                            <label>Category thumbnails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_categoryThumbnail</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </category_thumbnails>
+                    </fields>
+                </catalog>
+                <customer translate="label">
+                    <label>Customer</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>22</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <search_by_online translate="label comment">
+                            <label>Search By (Online)</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_customerAttributeOnline</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </search_by_online>
+                        <search_by translate="label comment">
+                            <label>Search By</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_customerAttribute</source_model>
+                            <comment><![CDATA[If this is changed you need to regenerate static files and do a full synchronization.]]></comment>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </search_by>
+                        <additional_attributes translate="label comment">
+                            <label>Additional Attributes</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_customerAttribute</source_model>
+                            <comment><![CDATA[If this is changed you need to regenerate static files and do a full synchronization.]]></comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </additional_attributes>
+                        <editable_attributes translate="label comment">
+                            <label>Editable Attributes</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_customerEditableAttribute</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </editable_attributes>
+                    </fields>
+                </customer>
+                <checkout translate="label">
+                    <label>Checkout</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>25</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <newsletter_subscribe_checked translate="label">
+                            <label>Newsletter subscription ON by default</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_subscribe_checked>
+                        <create_customer translate="label comment">
+                            <label>Create customer account</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>If set to YES a customer account will be created for GUEST checkouts with an email different to the stores one.</comment>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </create_customer>
+                        <sales_attribution translate="label comment">
+                            <label>Sales attribution</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_salesperson</source_model>
+                            <comment>Options to be shown during checkout to assign sale to sales person.</comment>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sales_attribution>
+                        <always_in_stock translate="label comment">
+                            <label>Skip stock check</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>If set to Yes stock checking will be off when placing the order.</comment>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </always_in_stock>
+                        <stock_availability translate="label comment">
+                            <label>Update Stock Availability</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>If set to Yes will update out_of_stock status on credit memo creation.</comment>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>0</can_be_empty>
+                        </stock_availability>
+                    </fields>
+                </checkout>
+                <pos_coupon translate="label">
+                    <label>Coupons</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>28</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <length translate="label">
+                            <label>Coupon Length</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_length</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </length>
+                        <identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity>
+                        <template translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template>
+                    </fields>
+                </pos_coupon>
+                <pos_receipt translate="label">
+                    <label>Receipt emails</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <receipts translate="label">
+                            <label>Email Receipts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bakerloo_restful/adminhtml_system_config_source_receipts</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </receipts>
+                        <identity translate="label">
+                            <label>Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity>
+                        <template translate="label">
+                            <label>Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template>
+                    </fields>
+                </pos_receipt>
+                <new_customer_account translate="label">
+                    <label>New customer account</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <allow_customer_group_selection translate="label">
+                            <label>Allow customer group selection</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow_customer_group_selection>
+                        <send_welcome_email translate="label">
+                            <label>Send welcome email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_welcome_email>
+                        <identity translate="label">
+                            <label>Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity>
+                        <template translate="label">
+                            <label>Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template>
+                        <confirmation_template translate="label">
+                            <label>Account Confirmation Key Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </confirmation_template>
+                    </fields>
+                </new_customer_account>
+                <integrations translate="label">
+                    <label>Integrations</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                    </fields>
+                </integrations>
+                <custom_discount_email translate="label">
+                    <label>Custom discount email</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Notify me when a custom discount is entered</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <minimum_percent translate="label">
+                            <label>Notify on discount percent greater than</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-digits</validate>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </minimum_percent>
+                    </fields>
+                </custom_discount_email>
+            </groups>
+        </bakerloorestful>
+    </sections>
+</config>

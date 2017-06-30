@@ -1,0 +1,186 @@
+.carousel {
+    position: relative;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-inner > .item {
+    display: none;
+    position: relative;
+    -webkit-transition: 0.6s ease-in-out left;
+    transition: 0.6s ease-in-out left;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    line-height: 1;
+    width: 100%;
+}
+
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+    display: block;
+}
+
+.carousel-inner > .active {
+    left: 0;
+}
+
+.carousel-inner > .next,
+.carousel-inner > .prev {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.carousel-inner > .next {
+    left: 100%;
+}
+
+.carousel-inner > .prev {
+    left: -100%;
+}
+
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+    left: 0;
+    float: none;
+}
+
+.carousel-inner > .active.left {
+    left: -100%;
+    float: none;
+}
+
+.carousel-inner > .active.right {
+    left: 100%;
+    float: none;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 8%;
+    text-align: center;
+}
+
+.carousel-control.right {
+    left: auto;
+    right: 0;
+}
+
+.carousel-control:hover,
+.carousel-control:focus {
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 1;
+}
+
+.carousel-control .fa {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    left: 0;
+    z-index: 5;
+    display: inline-block;
+    margin-top: -20px;
+    padding: 4px 5px 7px 5px;
+    color: #fff;
+}
+
+.carousel-control .fa.icon-angle-right {
+    right: 0;
+    left: auto;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    margin-left: -30%;
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.carousel-indicators li {
+    border: 1px #000 solid;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    background-color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.carousel-indicators .active {
+    background-color: #000;
+}
+
+.carousel-indicators {
+    bottom: 10px;
+}
+
+.carousel .hotspot {
+    display: block;
+    position: absolute;
+    z-index: 1;
+}
+
+.carousel .hotspot .fa {
+    color: #fff;
+    font-size: 24px;
+    text-shadow: 1px 1px 0px #000;
+}
+
+.carousel .hotspot-popup {
+    background: #fff;
+    border: 1px #000 solid;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    width: 200px;
+}
+
+.carousel .hotspot-popup img {
+    width: 100px;
+}
+
+.carousel .hotspot-popup a {
+    text-decoration: none;
+}
+
+.carousel .hotspot-popup h4,
+.carousel .hotspot-popup p {
+    margin: 5px 0;
+}
+
+.carousel .hotspot:hover .hotspot-popup {
+    display: block;
+}
+
+@media screen and (max-width: 991px) {
+    .carousel .hotspot {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .carousel-control {
+        display: none;
+    }
+}

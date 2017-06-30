@@ -1,0 +1,270 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
+
+@font-face {
+	font-family: 'Eurostile';
+    src: url('../fonts/eurosti.eot');
+    src: url('../fonts/eurosti.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/eurosti.woff') format('woff'),
+         url('../fonts/eurosti.ttf') format('truetype'),
+         url('../fonts/eurosti.svg') format('svg');
+}
+
+@font-face{
+    font-family: 'EurostileExtended';
+    src: url('../fonts/eurosmnext.eot?#iefix');
+    src: url('../fonts/eurosmnext.eot?#iefix') format('eot'),
+         url('../fonts/eurosmnext.woff') format('woff'),
+         url('../fonts/eurosmnext.ttf') format('truetype'),
+         url('../fonts/eurosmnext.svg#903952a9-66c5-4768-a9d2-6bad23ff69b2') format('svg');
+}
+
+
+
+
+/* font-family, weight, letter-spacing
+------------------------------- */
+#nav a,
+#footer,
+#header a,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+#nav .level0 > a,
+#nav li.level1 > a,
+#nav h3,
+#nav .menu-group-footer a,
+.hylete-widget h3,
+.hylete-widget p,
+.hylete-widget a,
+.selected-products h4,
+button,
+.button,
+label,
+.checkout-step__title,
+.one-page-checkout td,
+.one-page-checkout th,
+.points-amount,
+.checkout-onepage-index .continue-shopping {
+    font-family: 'Eurostile';
+    font-weight: normal;
+    letter-spacing: 0.05em;
+}
+
+#nav .mobile-menu-top a,
+.block-layered-nav h3,
+.product-essential .description,
+.product-essential [data-togglecontent],
+.std,
+.cms-page-view .col-main,
+.content p,
+.facebook-login,
+input,
+.dashboard,
+.price {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    letter-spacing: 0.05em;
+}
+
+.hylete-widget h1,
+.hylete-widget h2 {
+    font-family: 'EurostileExtended';
+    font-weight: normal;
+    letter-spacing: 0.05em;
+}
+
+#header .cart.not-empty .top,
+.headercart .mini-products-list .product-name,
+.products-grid h5,
+.status-message,
+.carousel .hotspot-popup h4,
+.products-grid .badge,
+.tabs [data-togglelink],
+.special-price .price,
+button,
+.button,
+#nav .bold,
+.vco-step-col .tab-index,
+.vco-step-col dt,
+#checkout-review-table-products .qty {
+    font-weight: bold;
+}
+
+.products-grid .out-of-stock h5 {
+    font-weight: normal;
+}
+
+
+/* font-size
+------------------------------- */
+.breadcrumbs span {
+    font-size: 9px;
+    line-height: 13px;
+}
+
+.breadcrumbs {
+    font-size: 10px;
+    line-height: 14px;
+}
+
+.products-grid .badge,
+.shipping-cms {
+    font-size: 11px;
+    line-height: 16px;
+}
+
+body,
+#nav .mobile-menu-top a,
+#header a,
+#header #recently-added-container a,
+.products-grid h5,
+.carousel .hotspot-popup *,
+.block-layered-nav h3,
+.block-layered-nav li,
+.block-layered-nav .sort-by label,
+.morecolors h2,
+#nav a,
+#footer,
+input,
+input[type="submit"],
+textarea,
+.checkout-onepage-index .continue-shopping {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+#footer h5.heading,
+.hylete-widget a,
+.product-shop .status-message,
+.headercart #recently-added-container .button,
+.checkout-index-index .vco-continue-shopping,
+#nav ul .menu-link,
+.gift-messages h4,
+.catalog-product-view .product-shop .color,
+.blog-half-length h2 {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#nav h3,
+#nav li.level1 > a,
+#nav .menu-group-footer a {
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.hylete-widget .description h3,
+.checkout-step__title,
+#nav .level0 > a,
+#nav .level0 > a .label {
+    font-size: 18px;
+    line-height: 26px;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.selected-products h4,
+.catalog-product-view .product-shop h1 {
+    font-size: 22px;
+    line-height: 28px;
+}
+
+h1, {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.hylete-widget .description h1,
+.hylete-widget .description h2,
+.category-blog h1 {
+    font-size: 28px;
+    line-height: 40px;
+}
+
+.carousel .hylete-widget .description h1,
+.carousel .hylete-widget .description h2 {
+    border-bottom: 1px #fff solid;
+    display: inline-block;
+    margin: 0 0 9px 0;
+    padding-bottom: 7px;
+}
+
+.carousel .hylete-widget.inverted .description h1,
+.carousel .hylete-widget.inverted .description h2 {
+    border-color: #000;
+}
+
+/* color
+------------------------------- */
+body,
+a,
+a:link,
+a:hover,
+a:active,
+#header [data-togglecontent],
+#header [data-togglecontent] a,
+#header .showcart a,
+.hylete-widget .description a:hover,
+.hylete-widget.inverted h1,
+.hylete-widget.inverted h2,
+.hylete-widget.inverted h3,
+.hylete-widget.inverted,
+.hylete-widget.inverted .description p,
+.hylete-widget.inverted .description a,
+.carousel .hotspot-popup,
+.carousel .hotspot-popup h4,
+button.inverted:hover,
+button.inverted:focus,
+.button.inverted:hover,
+.button.inverted:focus,
+#nav ul .disabled-link:hover {
+    color: #000;
+}
+
+.products-grid .coming-soon h5 a,
+.products-grid .coming-soon .color,
+.products-grid .out-of-stock h5 a,
+.products-grid .out-of-stock .color,
+.old-price .price {
+    color: #999;
+}
+
+#header a:hover,
+#nav li a:hover,
+#footer a:hover {
+    color: #aaa;
+}
+
+.sod_select .sod_option.disabled,
+input[disabled],
+[disabled] {
+    color: #ccc;
+}
+
+#header a,
+input[type="submit"]:hover,
+button:hover,
+button:focus,
+.button:hover,
+.button:focus,
+.button.inverted,
+#header .cart.not-empty .top:hover a,
+.hylete-widget,
+.hylete-widget .description
+.hylete-widget h1,
+.hylete-widget h2,
+.hylete-widget h3,
+.hylete-widget .description p,
+.hylete-widget .description a,
+.hylete-widget.inverted .description a:hover,
+.facebook-login,
+.facebook-login:hover,
+.checkout-step__title {
+    color: #fff;
+}

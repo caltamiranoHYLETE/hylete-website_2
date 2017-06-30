@@ -1,0 +1,73 @@
+<?php
+/**
+ * WDCA - Sweet Tooth
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * License, which extends the Open Software License (OSL 3.0).
+ *
+ * The Open Software License is available at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * By adding to, editing, or in any way modifying this code, WDCA is
+ * not held liable for any inconsistencies or abnormalities in the
+ * behaviour of this code.
+ * By adding to, editing, or in any way modifying this code, the Licensee
+ * terminates any agreement of support offered by WDCA, outlined in the
+ * provided Sweet Tooth License.
+ * Upon discovery of modified code in the process of support, the Licensee
+ * is still held accountable for any and all billable time WDCA spent
+ * during the support process.
+ * WDCA does not guarantee compatibility with any other framework extension.
+ * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * behaviour of this code if caused by other framework extension.
+ * If you did not receive a copy of the license, please send an email to
+ * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
+ * immediately.
+ *
+ * @category   [TBT]
+ * @package    [TBT_RewardsOnly]
+ * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Checkout Onepage
+ *
+ * @category   design
+ * @package    deafult
+ * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
+ */
+ 
+ 
+$_item = $this->getItem();
+$_product = $_item->getProduct();
+?>
+<tr>
+    <td class="product-image"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(53, 77); ?>" width="53" height="77" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td class="product-information">
+        <p class="qty"><?php echo $_item->getQty() ?> x</p>
+        <p><?php echo $this->escapeHtml($this->getProductName()) ?></p>
+
+        <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
+        <?php if ($_options = $this->getOptionList()):?>
+            <ul class="item-options">
+                <?php foreach ($_options as $_option) : ?>
+                    <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+                    <li><?php echo $this->htmlEscape($_option['label']) ?>: <?php echo $_formatedOptionValue['value'] ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif;?>
+        <?php if ($_product->getCheckoutDisclaimer()): ?>
+            <p class="checkout-disclaimer">
+                <?php echo $_product->getCheckoutDisclaimer(); ?>
+            </p>
+        <?php endif;?>
+        <?php if ($addtInfoBlock = $this->getProductAdditionalInformationBlock()): ?>
+            <?php echo $addtInfoBlock->setItem($_item)->toHtml(); ?>
+        <?php endif; ?>
+    </td>
+</tr>

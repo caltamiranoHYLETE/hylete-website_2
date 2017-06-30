@@ -1,0 +1,96 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php
+$_product        = $this->getProduct();
+$_helper         = $this->helper('catalog/output');
+$_imageHelper    = $this->helper('catalog/image');
+$_mainImageLabel = $this->getImageLabel();
+$_mainImageFile  = $_product->getImage();
+?>
+<div class="product-image-wrapper">
+    <?php if (count($this->getGalleryImages()) > 1): ?>
+            <div class="nav-arrow left-arrow visible-xs">
+                <span class="icon-chevron-left"></span>
+            </div>
+            <div class="nav-arrow right-arrow visible-xs">
+                <span class="icon-chevron-right"></span>
+            </div>
+    <?php endif; ?>
+        <p class="product-image" id="main-image-default">
+            <a href="<?php echo $_imageHelper->init($_product, 'image')->resize(800) ?>" rel="group">
+                <?php
+                $_img = '<img src="'.$_imageHelper->init($_product, 'image')->resize(480).'" alt="'.$this->htmlEscape($_mainImageLabel)
+                        .'" title="'.$this->htmlEscape($_mainImageLabel).'" itemprop="image" />';
+                echo $_helper->productAttribute($_product, $_img, 'image');
+                ?>
+            </a>
+        </p>
+    <?php if (count($this->getGalleryImages()) > 1): ?>
+        <?php foreach ($this->getGalleryImages() as $_image): ?>
+            <?php $_imageLabel = $this->htmlEscape($_image->getLabel()); ?>
+            <?php $_imageFile  = $_image->getFile(); ?>
+            <?php if($_mainImageFile != $_imageFile): ?>
+                <p class="product-image hidden" id="main-image-<?php echo $_image->getId(); ?>">
+                    <a href="<?php echo $_imageHelper->init($_product, 'image', $_imageFile)->resize(800) ?>" rel="group">
+                        <?php
+                        $_img = '<img src="'.$_imageHelper->init($_product, 'image', $_imageFile)->resize(480).'"alt="'
+                                .$this->htmlEscape($_imageLabel).'" title="'.$this->htmlEscape($_imageLabel).'" />';
+                        echo $_helper->productAttribute($_product, $_img, 'image');
+                        ?>
+                    </a>
+                </p>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+<?php if (count($this->getGalleryImages()) > 1): ?>
+<div class="more-views">
+    <ul class="row thumbnail-dots-wrapper">
+        <?php $_i = 0; ?>
+        <?php foreach ($this->getGalleryImages() as $_image): ?>
+            <?php $_thumbnailLabel = $this->htmlEscape($_image->getLabel()); ?>
+            <?php $_thumbnailFile  = $_image->getFile(); ?>
+                <li class="span1" id="thumbnail-image-<?php echo $_image->getId(); ?>">
+                    <div class="hidden-xs">
+                        <a href="javascript:void(0);" rel="group" title="<?php echo $_thumbnailLabel; ?>">
+                            <img src="<?php echo $_imageHelper->init($_product, 'thumbnail', $_thumbnailFile)->resize(100); ?>"
+                                 width="100" height="100" alt="<?php echo $_thumbnailLabel; ?>" />
+                        </a>
+                    </div>
+                    <div class="thumbnail-dot visible-xs"></div>
+                </li>
+            <?php $_i++; ?>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php endif; ?>

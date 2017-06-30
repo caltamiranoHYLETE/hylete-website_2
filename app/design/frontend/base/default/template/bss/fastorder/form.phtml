@@ -1,0 +1,98 @@
+<?php
+/**
+ 
+ * @category	BSS
+ * @package	BSS_Fastorder
+
+ */
+?>
+<script type="text/javascript">
+  jQuery(function() {
+    jQuery(".fastorder-multiple-form > div:nth-child(odd)").addClass("odd-row");
+  });
+  var fastorder_minAutocomplete = <?php echo $this->getMinAutocomplete(); ?>;
+  var fastorder_maxResults = <?php echo $this->getMaxResults(); ?>;
+  var fastorder_ajax_url = '<?php echo $this->getUrl('fastorder/ajax/index'); ?>';
+  var fastorder_ajax_add_url = '<?php echo $this->getUrl('fastorder/ajax/add'); ?>';
+  var fastorder_ajax_cart_url = '<?php echo $this->getUrl('fastorder/ajax/cart'); ?>';
+  var fastorder_allowed_character = "<?php echo $this->getAllowedCharacters(); ?>";
+  var fastorder_translate_ref = "<?php echo $this->__('SKU: '); ?>";
+  var fastorder_translate_no_results = "<?php echo $this->__('No results for this SKU'); ?>";
+  var fastorder_translate_close = "<?php echo $this->__('Close'); ?>";
+  var fastorder_ajax_add_cart = '<?php echo $this->getUrl('fastorder/ajax/add'); ?>';
+</script>
+
+<div class="page-title">
+  <h1>Fast Order</h1>
+</div>
+<div id="fastorder">
+
+ <form id="fastorder_form">
+  <div class="fastorder-multiple-form">
+
+
+    <div class="fastorder-row" id="fastorder-0">
+      <div class="fastorder-row-ref">
+        <span><?php echo $this->__('Search') ?></span>
+      </div>
+      <div class="fastorder-row-image">
+        <span><?php echo $this->__('Image') ?></span>
+      </div>
+      <div class="fastorder-row-name">
+        <span><?php echo $this->__('Product Name') ?></span>
+      </div>
+      <div class="fastorder-row-qty">
+        <span><?php echo $this->__('Qty') ?></span>
+      </div>
+      <div class="fastorder-row-add">
+        <span><?php echo $this->__('Action') ?></span>
+      </div>
+    </div>
+
+
+    <?php if($this->getLines()>0): ?>
+      <?php for($i=1;$i<=$this->getLines();$i++) : ?>
+       <div class="fastorder-row" id="fastorder-<?php echo $i; ?>">
+        <div class="fastorder-row-ref">
+         <div class="input-box">
+          <input type="text" class="input-text" value="" id="fastorder-ref-<?php echo $i; ?>" name="fastorder-ref-<?php echo $i; ?>" />
+          <!--<button value="<?php echo $this->__('OK'); ?>" id="fastorder-<?php echo $i; ?>-search" class="button btn-ok" title="<?php echo $this->__('OK'); ?>" type="button"><span><span><?php echo $this->__('OK'); ?></span></span></button>-->
+        </div>
+        <div class="fastorder_autocomplete" id="fastorder_autocomplete_<?php echo $i; ?>"><ul></ul></div>
+      </div>
+      <div class="fastorder-row-image">
+       &nbsp;
+     </div>
+     <div class="fastorder-row-name">
+       &nbsp;
+     </div>
+     <div class="fastorder-row-qty">
+       <input maxlength="12" class="input-text qty validate-digits" title="<?php echo $this->__('Qty'); ?>" size="4" value="1" name="fastorder-ref-<?php echo $i; ?>" />
+       <input type="hidden" class="sku" value="" name="sku[]" />
+     </div>
+     <div class="fastorder-row-add">
+       <button value="<?php echo $this->__('OK'); ?>" id="fastorder-add-<?php echo $i; ?>" class="button btn-ok disabled" title="<?php echo $this->__('OK'); ?>" type="button"><span><span><?php echo $this->__('Reset'); ?></span></span></button>
+     </div>
+     <div class="row-loader-bg"></div>
+     <div class="row-loader"></div>
+   </div>
+ <?php endfor; ?>
+<?php endif; ?>
+</div>
+<br/>
+<button class="submit" type="submit" onclick='fastorder_sendform()'>
+  <span><span><?php echo $this->__('Add to Cart') ?></span></span>
+</button>
+</form>
+<div class='fastorder-thumbnail-container'></div>
+<button class='add-rows' onclick="fastorder_create()"><span><span><?php echo $this->__('Add New line +') ?></span></span></button>
+</div>
+<div style="clear:both"></div>
+<br>
+
+<script>
+  var form = jQuery('.fastorder-multiple-form div#fastorder-1').html();
+  var customForm = new VarienForm('fastorder_form');
+  var error4 = '<?php echo $this->__("Please insert at least 1 products") ?>';
+  var error3 = '<?php echo $this->__("Qty must be number larger than 1") ?>';
+</script>

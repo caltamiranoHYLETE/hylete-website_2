@@ -1,0 +1,30 @@
+<?php
+$_currentUrl = $this->getCurrentUrl();
+$_cmsBlocks = $this->getCmsBlocks();
+?>
+
+
+<div id="gotoadmin">
+    <ul>
+        <?php if ($_currentUrl):?>
+            <li class="hoverhide"><a target="_blank" href="<?php echo $_currentUrl[1];?>"><?php echo $this->__('Go to:');?> <?php echo $_currentUrl[0];?></a></li>
+        <?php endif;?>
+        
+        <li><a target="_blank" href="<?php echo $this->getDashboardUrl();?>"><?php echo $this->__('Go to:');?> Admin</a></li>
+        <li><a target="_blank" href="<?php echo $this->getSystemConfigurationUrl();?>"><?php echo $this->__('Go to:');?> System > Configuration</a></li>
+        <li><a target="_blank" href="<?php echo $this->getProductListUrl();?>"><?php echo $this->__('Go to:');?> Productlist</a></li>
+        <?php if (count($_cmsBlocks) > 0):?>
+            <li> Go to: Static Blocks:
+                <ul>
+                    <?php foreach($_cmsBlocks as $_cmsBlock):?>
+                        <li><a target="_blank" href="<?php echo $this->getCmsBlockUrl($_cmsBlock);?>"><?php echo $_cmsBlock;?></a></li>
+                    <?php endforeach;?>
+                </ul>
+            </li>
+        <?php endif;?>
+        
+        <?php if ($_currentUrl):?>
+            <li><a target="_blank" href="<?php echo $_currentUrl[1];?>"><?php echo $this->__('Go to:');?> <?php echo $_currentUrl[0];?></a></li>
+        <?php endif;?>
+    </ul>
+</div>

@@ -1,0 +1,60 @@
+<?php $transactionDetails = $this->getTransactionDetails(); ?>
+
+<?php echo $this->getMethod()->getTitle() ?>
+<br />
+
+<?php if(is_null($transactionDetails)): ?>
+	<strong><?php echo $this->helper("bakerloo_payment")->__("Unique Transaction ID:"); ?></strong>&nbsp;<?php echo $this->getTxId(); ?>
+<?php else: ?>
+	<table>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Receiver Email:"); ?></td>
+			<td><?php echo $transactionDetails['RECEIVEREMAIL']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Payer ID:"); ?></td>
+			<td><?php echo $transactionDetails['PAYERID']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Payer Email:"); ?></td>
+			<td><?php echo $transactionDetails['EMAIL']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Payer Status:"); ?></td>
+			<td><?php echo $transactionDetails['PAYERSTATUS']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Payer Address Status:"); ?></td>
+			<td><?php echo $transactionDetails['ADDRESSSTATUS']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Buyer's country of residence:"); ?></td>
+			<td><?php echo $transactionDetails['COUNTRYCODE']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Payment Status:"); ?></td>
+			<td><?php echo $transactionDetails['PAYMENTSTATUS']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Currency Code:"); ?></td>
+			<td><?php echo $transactionDetails['CURRENCYCODE']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Receipt ID:"); ?></td>
+			<td><?php echo $transactionDetails['RECEIPTID']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Invoice Number:"); ?></td>
+			<td><?php echo $transactionDetails['INVNUM']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Last Correlation ID:"); ?></td>
+			<td><?php echo $transactionDetails['CORRELATIONID']; ?></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->helper("bakerloo_payment")->__("Last Transaction ID:"); ?></td>
+			<td><?php echo $transactionDetails['TRANSACTIONID']; ?></td>
+		</tr>
+	</table>
+<?php
+endif;

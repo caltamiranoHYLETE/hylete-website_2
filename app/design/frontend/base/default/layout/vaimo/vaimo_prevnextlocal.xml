@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout>
+    <vaimo_prevnextlocal_list>
+        <reference name="head">
+            <label>Vaimo PrevNextLocal | Image list</label>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/vaimo/vaimo_prevnextlocal.css</name>
+                <params/>
+            </action>
+        </reference>
+    </vaimo_prevnextlocal_list>
+    <vaimo_prevnextlocal_detail>
+        <reference name="head">
+            <label>Vaimo PrevNextLocal | Product Details</label>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/vaimo/vaimo_prevnextlocal.css</name>
+                <params/>
+            </action>
+        </reference>
+    </vaimo_prevnextlocal_detail>
+
+    <cms_page_view>
+        <update handle="vaimo_prevnextlocal_list"/>
+    </cms_page_view>
+</layout>

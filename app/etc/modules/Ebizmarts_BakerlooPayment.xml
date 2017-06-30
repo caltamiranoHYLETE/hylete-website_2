@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ebizmarts_BakerlooPayment>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Ebizmarts_BakerlooRestful />
+            </depends>
+        </Ebizmarts_BakerlooPayment>
+    </modules>
+</config>

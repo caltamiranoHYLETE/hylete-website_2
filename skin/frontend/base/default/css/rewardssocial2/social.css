@@ -1,0 +1,227 @@
+.sweettooth-social-buttons {
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 100;
+}
+
+.nav-container {
+    z-index: 101;
+}
+
+.sweettooth-default-theme .sweettooth-social-button {
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px 15px 0px 0px;
+}
+
+.sweettooth-default-theme .social-btn {
+    font-size: 11px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 20px;
+    max-width: 100%;
+    position: relative;
+    display: inline-block;
+    zoom: 1;
+    background-color: #f8f8f8;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#dedede));
+    background-image: -moz-linear-gradient(top,#fff,#dedede);
+    background-image: -o-linear-gradient(top,#fff,#dedede);
+    background-image: -ms-linear-gradient(top,#fff,#dedede);
+    background-image: linear-gradient(top,#fff,#dedede);
+    border: #ccc solid 1px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #333;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.sweettooth-default-theme .social-btn:focus, .sweettooth-default-theme .social-btn:hover, .sweettooth-default-theme .social-btn:active {
+    border-color: #bbb;
+    background-color: #f8f8f8;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#f8f8f8),to(#d9d9d9));
+    background-image: -moz-linear-gradient(top,#f8f8f8,#d9d9d9);
+    background-image: -o-linear-gradient(top,#f8f8f8,#d9d9d9);
+    background-image: -ms-linear-gradient(top,#f8f8f8,#d9d9d9);
+    background-image: linear-gradient(top,#f8f8f8,#d9d9d9);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.sweettooth-default-theme .sweettooth-facebook-share i {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    margin-top: -7px;
+    width: 14px;
+    height: 14px;
+    background: transparent url('../../images/rewardssocial2/facebook/facebook-icon.png') 0 0 no-repeat;
+    background-image: url('../../images/rewardssocial2/facebook/facebook-icon.png');
+}
+
+.sweettooth-default-theme .sweettooth-refer-friends i {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    width: 16px;
+    height: 14px;
+    background: transparent url('../../images/rewardssocial2/referral/tell-a-friend.png') 0 0 no-repeat;
+    background-image: url('../../images/rewardssocial2/referral/tell-a-friend.png');
+}
+
+.sweettooth-default-theme .social-btn .label {
+    display: block;
+    vertical-align: top;
+    zoom: 1;
+    padding: 2px 4px 0 23px;
+    white-space: nowrap;
+}
+
+#sweettooth-refer-friends .rewards-modal-mask {
+    position: fixed;
+    opacity: 0.7;
+    z-index: 2000;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: black;
+}
+
+#sweettooth-refer-friends .rewards-modal {
+    display: block;
+    position: fixed;
+    z-index: 2001;
+    left: 50%;
+    top: 50%;
+    max-width: 565px; 
+    width: 90%;
+    -ms-transform: translate(-50%, -50%); /* IE 9 */
+    -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+    transform: translate(-50%, -50%);   
+    background: white;
+    border: darkgrey 2px solid;
+}
+ 
+#sweettooth-refer-friends .rewards-modal .block-title {	
+    border-bottom: 1px solid #ddd;
+    padding: 2px 9px;
+    overflow: auto;
+}
+
+body:not(.customer-account) #sweettooth-refer-friends .rewards-modal.block:first-child .block-title {
+    padding-top: 3px;
+}
+
+#sweettooth-refer-friends .rewards-modal .block-title .btn-remove {
+    float: right;
+    height: 16px;
+}
+
+#sweettooth-refer-friends .rewards-modal .block-title .btn-remove:after {
+    height: 16px;
+    line-height: 16px;
+    margin-top: -1px;
+    display: block;	
+}
+
+#sweettooth-refer-friends .rewards-modal .content {
+    padding: 10px;
+}
+
+#sweettooth-refer-friends .rewards-modal .content .message {
+    text-align: left;
+    margin-top: 10px;
+    color: #FF0000;
+    font-weight: bold;
+    display: none;
+}
+
+#sweettooth-refer-friends .rewards-modal .content .modal-step {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#sweettooth-refer-friends .my_referrals-urlcode_group {
+    padding: 5px 10px;
+    margin: 0;
+}
+
+#sweettooth-refer-friends .my_referrals-urlcode_group ul li {
+    padding-bottom: 15px;
+}
+
+#sweettooth-refer-friends .social-widgets {
+    text-align: right;
+}
+
+#sweettooth-refer-friends .urlcode_comment {
+    font-size: 8pt;
+    font-style: italic;
+    margin: 0 0 5px 0;
+}
+
+#sweettooth-refer-friends .urlcode-input-box input {
+    width: 98%;
+    padding: 5px;
+}
+
+#sweettooth-refer-friends .content {
+    padding: 10px;
+}
+
+#sweettooth-refer-friends .sweettooth-sharing-buttons {
+    height: 60px;
+}
+
+#sweettooth-refer-friends .sweettooth-sharing-buttons .sweettooth-twitter-tweet iframe, 
+#sweettooth-refer-friends .sweettooth-sharing-buttons .sweettooth-facebook-share iframe {
+    visibility: inherit !important;
+}
+
+#sweettooth-refer-friends .sweettooth-social-messages {
+    line-height: 35px;
+}
+
+.sweettooth-social-messages {
+    display: inline;
+    line-height: 40px;
+}
+
+.checkout-purchase-share .sweettooth-social-messages {
+    display: block;
+    line-height: 20px;
+}
+
+.checkout-purchase-share .products-grid .actions {
+    min-height: 120px;
+    position: static;
+}
+
+.checkout-purchase-share .page-title {
+    margin: 10px 0 !important;
+}
+
+.checkout-purchase-share .products-grid {
+    margin: 0;
+    background: none;
+    width: 100%;
+}
+.checkout-purchase-share .products-grid .item {
+    padding-bottom: 0;
+    min-width: 30%;
+    float: left;
+}

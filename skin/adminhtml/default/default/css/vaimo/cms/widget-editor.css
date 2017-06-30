@@ -1,0 +1,48 @@
+.top.table_window,
+.content-header,
+.cancel_button {
+    display: none;
+}
+
+#ext-gen5 {
+    background-color: #fff;
+}
+
+.magento_buttons {
+    padding-left: 40%;
+}
+
+.magento_buttons .ok_button {
+    width: 100px;
+    border-radius: 3px;
+}
+
+#widget_options_form .entry-edit-head {
+    background-color: #03303A;
+    border-radius: 4px 4px 0 0;
+}
+
+#widget_options_form .entry-edit .fieldset {
+    border-radius:  0 0 4px 4px;
+}
+
+#widget_options_form .box,
+#widget_options_form .entry-edit fieldset,
+#widget_options_form .entry-edit .fieldset {
+    padding: 3px 15px;
+    margin-bottom: 5px;
+}
+
+#browser_window_content .content-header {
+    display:block;
+}
+
+.dialog {
+     position: static;
+     overflow-x: hidden;
+     overflow-y: auto;
+ }
+
+#overlay_modal {
+    display: none !important;
+}

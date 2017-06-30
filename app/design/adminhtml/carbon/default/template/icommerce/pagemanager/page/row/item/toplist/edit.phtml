@@ -1,0 +1,90 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Edit toplist: ').$item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edittoplist_form" enctype="multipart/form-data" name="edittoplist_form" method="post" action="<?php echo $this->getUrl('*/*/updatetoplist')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="edittoplistform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+        <input name="edittoplistform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="edittoplistform[row_id]" type="hidden" value="<?php echo $item['row_id'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Edit the toplist information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Title')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="edittoplistform[title]" value="<?php echo $item['title']?>" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Category id')?></td>
+                    <td class="value"><input class="input-text" name="edittoplistform[category_id]" value="<?php echo $item['category_id']?>"/></td>
+                </tr>
+                <?php /*<tr>
+                    <td class="label"><?php echo $this->__('Number of products per row')?></td>
+                    <td class="value"><input class="input-text" name="edittoplistform[products_per_row]" value="<?php echo $item['products_per_row']?>"/></td>
+                </tr> */ ?>
+                <tr>
+                    <td class="label"><?php echo $this->__('Total number of products')?></td>
+                    <td class="value"><input class="input-text" name="edittoplistform[total_products]" value="<?php echo $item['total_products']?>"/></td>
+                </tr>
+                <tr>
+                	<td class="label"><?php echo $this->__('Choose toplist style')?> <span class="required">*</span></td>
+                	<td class="value">
+	                   	<select name="edittoplistform[toplist]">
+	                    	<?php $toplistOptions = Mage::helper('pagemanager')->getToplistOptions(); ?>
+	                    	<?php foreach($toplistOptions as $key => $title): ?>
+		                    	<option value="<?php echo $title['value']?>"<?php echo ''.($item['toplist'] == $title['value'] ? ' selected="selected"' : '') ?>><?php echo $this->__($title['label'])?></option>
+	                    	<?php endforeach; ?>
+	                    </select>
+                    </td>
+                </tr>                
+                <tr>
+                	<td class="label"><?php echo $this->__('Sort by')?> <span class="required">*</span></td>
+                	<td class="value">
+	                   	<select name="edittoplistform[sort_by]">
+	                    	<?php $sortOptions = Mage::helper('pagemanager')->getSortOptions(); ?>
+	                    	<?php foreach($sortOptions as $key => $title): ?>
+		                    	<option value="<?php echo $title['value']?>"<?php echo ''.($item['sort_by'] == $title['value'] ? ' selected="selected"' : '') ?>><?php echo $this->__($title['label'])?></option>
+	                    	<?php endforeach; ?>
+	                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="edittoplistform[status]">
+                    		<?php $statuses = Mage::helper('pagemanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?php echo $key?>"<?php echo ''.($item['status'] == $key ? ' selected="selected"' : '') ?>><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="edittoplistform[position]" style="width:30px;" value="<?php echo $item['position']?>"/></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Manual products ids')?></td>
+                    <td class="value"><input class="input-text" name="edittoplistform[product_ids]" style="width:30px;" value="<?php echo $item['page_content']?>"/>
+                        <br>Select "sort by" manual products. Add comma separated list of product ids to override.
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var edittoplistform = new varienForm('edittoplist_form');
+</script>

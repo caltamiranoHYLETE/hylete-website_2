@@ -1,0 +1,148 @@
+/* Footer ================================================================================ */
+
+#footer {
+    background: #e5e5e5;
+    margin-top: 40px;
+    overflow: hidden;
+    width: 100%;
+}
+
+#footer .row {
+    margin: 0 -15px;
+}
+
+#footer .row >div {
+    padding: 0 15px;
+}
+
+#footer a {
+    text-decoration: none;
+}
+
+#footer h5.heading {
+    border-bottom: 1px #000000 solid;
+    margin: 0;
+    padding-bottom: 18px;
+}
+
+#footer h5.heading i {
+    display: none;
+}
+
+#footer .content {
+    margin: 20px 0 30px 0;
+}
+
+.newsletter {
+    border-bottom: 1px #000000 solid;
+    margin-bottom: 18px;
+    padding: 24px 0;
+    position: relative;
+    text-align: center;
+}
+
+.newsletter form button,
+.newsletter form label,
+.newsletter form > span {
+    vertical-align: top;
+}
+
+.newsletter label {
+    margin-top: 12px;
+}
+
+.newsletter button {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.newsletter input {
+    width: 200px;
+    margin: 0;
+}
+
+.newsletter .validation-advice {
+    left: 0;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+
+.klaviyo_field_group,
+.klaviyo_form_actions {
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+.klaviyo_field_group > span {
+    display: inline-block;
+    margin: 0 15px 0 30px;
+    position: relative;
+    width: 200px;
+}
+.klaviyo_header {
+    margin-top: 10px;
+}
+.klaviyo_messages .success_message {
+    padding-top: 10px;
+}
+
+.follow-us span {
+    border: 1px #000 solid;
+    display: inline-block;
+    font-size: 22px;
+    height: 40px;
+    margin: 0 7px 10px 0;
+    padding: 9px;
+    text-align: center;
+    width: 40px;
+}
+
+.follow-us a.refer-a-friend {
+    border: 1px #000 solid;
+    font-size: 12px;
+    height: 40px;
+    margin: 0 0px 10px 0;
+    text-align: center;
+    width: auto;
+    padding-right: 10px;
+    white-space: nowrap;
+    display: inline-block;
+}
+.refer-a-friend span{
+    border: none;
+    margin: 0px;
+    padding: 9px 0px 9px 0px;
+}
+.refer-a-friend span:hover{
+height: 38px;
+}
+
+.follow-us a.refer-a-friend:hover{
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+}
+
+.follow-us span:hover {
+    background: #000;
+    color: #fff;
+}
+
+.follow-us .share-icons{
+    font-weight: bold;
+    font-size: 12px;
+    margin: -5px 0 10px 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.refer-a-friend strong{
+    vertical-align: top;
+    margin-top: 11px;
+    display: inline-block;
+}
+
+#copyright {
+    margin: 30px 0;
+    text-align: center;
+}

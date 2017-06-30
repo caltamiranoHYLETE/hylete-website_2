@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <PRODUCT_TYPE_style module="catalog">
+        <reference name="product.info">
+        <action method="setTemplate"><template>style/product/view.phtml</template></action>
+        </reference>
+         <reference name="product.info">
+        <block type="style/product_view_type_style" name="product.info.style" as="product_type_data" template="catalog/product/view/type/ic_style.phtml" />
+         <block type="catalog/product_view_media" name="product.info.media" as="media" template="style/product/view/media.phtml"/>
+         </reference>
+    </PRODUCT_TYPE_style>
+</layout>

@@ -1,0 +1,22 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <?php
+            $slideshow = Mage::getModel('slideshowmanager/slideshow')->getSlideshow($_SESSION['slideshow_id']);
+            ?>
+            <td><h3><?php echo $this->__('Add layered HTML in slideshow: ').$slideshow['name']?></h3></td>
+            <td class="a-right">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form action="<?php echo $this->getUrl('*/*/savelayeredhtml')?>" method="post" id="addlayeredhtml_form" enctype="multipart/form-data">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <?php echo $this->getForm() ?>
+    </form>
+</div>
+<script type="text/javascript">
+    var addhtmlForm = new varienForm('addlayeredhtml_form');
+</script>

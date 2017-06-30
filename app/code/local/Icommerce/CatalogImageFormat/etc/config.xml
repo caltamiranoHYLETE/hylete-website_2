@@ -1,0 +1,67 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_CatalogImageFormat>
+            <version>0.1.6</version>
+        </Icommerce_CatalogImageFormat>
+    </modules>
+    <global>
+        <helpers>
+            <catalogimageformat>
+                <class>Icommerce_CatalogImageFormat_Helper</class>
+            </catalogimageformat>
+            <!-- //DO NOT ENABLE THIS REWRITE: IT IS DYNAMICALLY SET UP FROM WITHIN THE OBSERVER CLASS
+                        <catalog>
+                            <rewrite>
+                                <image>Icommerce_CatalogImageFormat_Helper_Image</image>
+                            </rewrite>
+                        </catalog>
+            -->
+        </helpers>
+        <models>
+            <catalogimageformat>
+                <class>Icommerce_CatalogImageFormat_Model</class>
+            </catalogimageformat>
+        </models>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <set_helper_rewrite>
+                        <class>catalogimageformat/observer</class>
+                        <method>setHelperRewrite</method>
+                    </set_helper_rewrite>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <catalogimageformat module="catalogimageformat" translate="title">
+                                            <title>Catalog Image Format</title>
+                                        </catalogimageformat>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <catalogimageformat>
+            <settings>
+                <rewrite>0</rewrite>
+                <format>0</format>
+                <image_processor>GD2</image_processor>
+                <use_small_images_instead_of_thumbnails>0</use_small_images_instead_of_thumbnails>
+            </settings>
+        </catalogimageformat>
+    </default>
+</config>

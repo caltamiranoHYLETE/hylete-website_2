@@ -1,0 +1,49 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $rows =  $this->getRows(); ?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Copy image: ')?><?php echo $item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="addimage_form" enctype="multipart/form-data" name="addimage_form" method="post" action="<?php echo $this->getUrl('*/*/copyandsaveimage')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<input name="addimageform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+		<input name="addimageform[type]" type="hidden" value="<?php echo $item['type'] ?>" />
+		<input name="addimageform[title]" type="hidden" value="<?php echo $item['title'] ?>" />
+		<input name="addimageform[image_text]" type="hidden" value="<?php echo $item['image_text'] ?>" />
+		<input name="addimageform[image_alt]" type="hidden" value="<?php echo $item['image_alt'] ?>" />
+		<input name="addimageform[link]" type="hidden" value="<?php echo $item['link'] ?>" />
+		<input name="addimageform[filename]" type="hidden" value="<?php echo $item['filename'] ?>" />
+		<input name="addimageform[link_target]" type="hidden" value="<?php echo $item['link_target'] ?>" />
+		<input name="addimageform[status]" type="hidden" value="<?php echo $item['status'] ?>" />
+		<input name="addimageform[position]" type="hidden" value="<?php echo $item['position'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Copy image')?></h4></div>
+        <fieldset id="my-fieldset"  class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+				<tr>
+                    <td class="label"><?php echo $this->__('Choose row to copy to')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addimageform[row_id]">
+                    		<?php $i = 0; foreach($rows as $key => $title): ?>
+	                    		<option value="<?php echo $title['id']?>"><?php echo $this->__('Row ').($i+1).' ('.$this->__('Type: ').$helper->getRowTypeName($title['type']).')' ?></option>
+                    		<?php $i++; endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>       
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addimageform = new varienForm('addimage_form');
+</script>

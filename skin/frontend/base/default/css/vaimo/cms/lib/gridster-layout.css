@@ -1,0 +1,46 @@
+.gridster * {
+    margin:0;
+    padding:0;
+}
+
+.gridster ul {
+
+}
+
+.gridster li {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100%;
+}
+
+.gridster {
+    margin: 0 auto 10px;
+    opacity: .8;
+
+    -webkit-transition: opacity .6s;
+    -moz-transition: opacity .6s;
+    -o-transition: opacity .6s;
+    -ms-transition: opacity .6s;
+    transition: opacity .6s;
+}
+
+.gridster .gs-w {
+    cursor: pointer;
+}
+
+.gridster .player {
+    background: #fff;
+}
+
+.gridster .preview-holder {
+    background-color: #fff;
+    border: 1px dashed #555;
+}
+
+.gridster-widget-actions {
+    position: absolute;
+    z-index: 10;
+    top: 5px;
+    right: 5px;
+}

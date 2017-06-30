@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Icommerce_PdfCustomiser>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                    <Icommerce_EmailAttachments />
+            </depends>
+        </Icommerce_PdfCustomiser>
+    </modules>
+</config>

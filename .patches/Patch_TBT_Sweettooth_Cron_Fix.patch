@@ -1,0 +1,44 @@
+--- app/code/community/TBT/Rewards/Helper/Cron.php	Tue Mar 01 10:54:56 2016 +0100
++++ app/code/community/TBT/Rewards/Helper/Cron.php	Wed Oct 05 22:48:48 2016 +0200
+@@ -58,8 +58,17 @@
+      * @return string timestamp
+      */
+     public function getCronTimestamp() {
+-        $timestamp = Mage::getStoreConfig('testsweet/crontest/timestamp');
+-        return $timestamp;
++        /** @var Mage_Core_Model_Resource_Config_Data_Collection $configDataCollection */
++        $configDataCollection = Mage::getResourceModel('core/config_data_collection');
++
++        $configDataCollection->addFieldToFilter('scope', 'default');
++        $configDataCollection->addFieldToFilter('scope_id', 0);
++        $configDataCollection->addFieldToFilter('path', array('eq' => 'testsweet/crontest/timestamp'));
++
++        /** @var Mage_Core_Model_Config_Data $configData */
++        $configData = $configDataCollection->getFirstItem();
++
++        return (string)$configData->getValue();
+     }
+
+     /**
+--- app/code/community/TBT/Testsweet/Model/Observer/Crontest.php	Tue Mar 01 10:54:56 2016 +0100
++++ app/code/community/TBT/Testsweet/Model/Observer/Crontest.php	Wed Oct 05 22:48:48 2016 +0200
+@@ -12,8 +12,17 @@
+     }
+
+     public function getCurrentTimestamp() {
+-        $timestamp = (string)time();
+-        return $timestamp;
++        /** @var Mage_Core_Model_Resource_Config_Data_Collection $configDataCollection */
++        $configDataCollection = Mage::getResourceModel('core/config_data_collection');
++
++        $configDataCollection->addFieldToFilter('scope', 'default');
++        $configDataCollection->addFieldToFilter('scope_id', 0);
++        $configDataCollection->addFieldToFilter('path', array('eq' => 'testsweet/crontest/timestamp'));
++
++        /** @var Mage_Core_Model_Config_Data $configData */
++        $configData = $configDataCollection->getFirstItem();
++
++        return (string)$configData->getValue();
+     }
+
+     public function getCronTimestamp() {

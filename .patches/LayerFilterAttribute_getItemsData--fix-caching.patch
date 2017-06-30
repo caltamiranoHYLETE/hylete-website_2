@@ -1,0 +1,57 @@
+--- app/code/core/Mage/Catalog/Model/Layer/Filter/Attribute-o.php	2017-02-22 22:50:37.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Layer/Filter/Attribute.php	2017-02-23 07:49:09.000000000 +0100
+@@ -120,19 +120,31 @@
+         $this->_requestVar = $attribute->getAttributeCode();
+ 
+         $key = $this->getLayer()->getStateKey().'_'.$this->_requestVar;
+-        $data = $this->getLayer()->getAggregator()->getCacheData($key);
+-
++        // PATCH : Elvin@VAIMO : Use normal cache as "layered_navigation" cache is not implemented in Magento.
++        //$data = $this->getLayer()->getAggregator()->getCacheData($key);
++        $key = 'LN-' . $key;
++        $cache = Mage::app()->getCacheInstance();
++        $data = $cache->load($key);
++        if ($data === false) {
++            $data = null;
++        } else {
++            $data = Zend_Json::decode($data);
++        }
++        // ~PATCH
+         if ($data === null) {
+             $options = $attribute->getFrontend()->getSelectOptions();
+             $optionsCount = $this->_getResource()->getCount($this);
+             $data = array();
++
++            $isOnlyWithResults = $this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS;
++            //$stringHelper = Mage::helper('core/string');
+             foreach ($options as $option) {
+                 if (is_array($option['value'])) {
+                     continue;
+                 }
+-                if (Mage::helper('core/string')->strlen($option['value'])) {
++                if (strlen($option['value'])) {
+                     // Check filter type
+-                    if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
++                    if ($isOnlyWithResults) {
+                         if (!empty($optionsCount[$option['value']])) {
+                             $data[] = array(
+                                 'label' => $option['label'],
+@@ -152,11 +164,17 @@
+             }
+ 
+             $tags = array(
++                'VAIMO_MOF',
++                Mage_Eav_Model_Entity_Attribute::CACHE_TAG,
+                 Mage_Eav_Model_Entity_Attribute::CACHE_TAG.':'.$attribute->getId()
+             );
+ 
+             $tags = $this->getLayer()->getStateTags($tags);
+-            $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
++            // PATCH : Elvin@VAIMO : Use normal cache as "layered_navigation" cache is not implemented in Magento.
++            //$this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
++            $saveData = Zend_Json::encode($data);
++            $cache->save($saveData, $key, $tags, 3600);
++            // ~PATCH
+         }
+         return $data;
+     }

@@ -1,0 +1,585 @@
+
+#fastorder {
+    margin-bottom: 35px;
+}
+
+#fastorder  .fastorder-multiple-form > div:nth-child(odd) {
+    background: #E8EAEB;
+}
+
+#fastorder .fastorder-multiple-form {
+    border: 1px solid #d3d3d3; margin-top:25px;
+}
+.fastorder-row-ref span.validation-passed, div.validation-passed { background-position:97% 2px; }
+
+#fastorder .no-display {
+    display: none;
+}
+
+#fastorder .validation-advice {
+    display: none;
+}
+.fastorder-thumbnail-container {
+    display: none;
+}
+
+#fastorder_form #fastorder-0 {
+    background-color: #fff; border-bottom: 1px solid #d3d3d3; height:28px;
+}
+
+.fastorder-actions {
+    border-bottom: 1px #A0B3C3 solid;
+    font-size: 12px;
+    height: 31px;
+}
+.fastorder-actions a {
+    color: #212121;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    float: left;
+    padding: 0 15px;
+    text-align: center;
+    text-decoration: none;
+}
+.fastorder-actions a.active {
+    font-weight: bold;
+    background: #E7F1F4;
+    border-top: 1px #A0B3C3 solid;
+    border-left: 1px #A0B3C3 solid;
+    border-right: 1px #A0B3C3 solid;
+}
+.fastorder-row {
+    background: #fefefe;
+    /*border-bottom: 1px #d3d3d3 solid;*/
+    position: relative;
+    height: 64px;
+}
+
+/*#fastorder .odd-row {
+    background: #E8EAEB;
+}*/
+
+.fastorder-row .row-loader-bg {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    background: #ffffff;
+    height: 64px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index:1;
+    display: none;
+}
+.fastorder-row .row-loader {
+    background: url(../../images/bss/fastorder/ajax-loader.gif) no-repeat center center;
+    height: 64px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index:2;
+    display: none;
+    border-left: 1px #A0B3C3 solid;
+    border-right: 1px #A0B3C3 solid;
+}
+.fastorder-row-ref {
+    float: left;
+    height: 44px;
+    padding-top: 20px;
+    padding-left: 2%;
+    padding-right:2%;
+    width: 27%;
+    position: relative;
+    border-right: 1px #d3d3d3 solid;
+    /*border-left: 1px #A0B3C3 solid;*/
+}
+.fastorder-row-ref label {
+    float: left;
+    line-height: 20px;
+    margin-right: 5px;
+    font-size: 11px;
+}
+.fastorder-row-ref .input-box {
+    float: left;
+    position: relative;
+    width:100%;
+}
+.fastorder-row-ref .input-text {
+    width: 95%;
+}
+.fastorder-row-ref button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.fastorder-row-ref button span,.fastorder-row-add button span{
+ display:block;
+ height:19px;
+ border:1px solid #0082E1;
+ background:#0082E1;
+ padding:0 8px;
+ font:bold 12px/19px Arial, Helvetica, sans-serif;
+ text-align:center;
+ white-space:nowrap;
+ color:#fff;
+
+}
+.fastorder-row-image {
+    float: left;
+    width: 7%;
+    height: 64px;
+    border-right: 1px #d3d3d3 solid;
+    position: relative;
+    overflow:hidden;
+}
+.fastorder-row-image span.animation {
+    display: block;
+    width: 64px;
+    text-align: center;
+    background: #ffffff;
+    position: absolute;
+    left: -64px;
+    top: 0;
+}
+
+.fastorder-row-image span.animation img {
+    width:auto;
+    height:65px;
+    cursor:pointer;
+}
+
+.fastorder-row-name {
+    float: left;
+    margin-left: 2%;
+    padding-right: 2%;
+    width: 42%;
+    height: 46px;
+    padding-top: 18px;
+    font-weight: normal;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 11px;
+    border-right: 1px #d3d3d3 solid;
+    position: relative;
+}
+.fastorder-row-name .animation {
+    /*display: block;*/
+    /*position: absolute;*/
+    /*left: -420px;*/
+    /*top: 18px;*/
+    text-decoration: none;
+}
+.fastorder-row-name .price {
+    float: right;
+    color: red;
+}
+.fastorder-row-name .reference {
+    text-transform: none;
+/*    font-weight: bold;
+*/}
+.fastorder-row-qty {
+    float: left;
+    width: 6%;
+    /*padding-left: 25px;*/
+    height: 44px;
+    padding-top: 20px;
+    border-right: 1px #d3d3d3 solid;
+    text-align: center;
+}
+.fastorder-row-add {
+    float: left;
+    height: 42px;
+    padding-top: 22px;
+    width: 7%;
+    text-align: center;
+    margin-left: 1%;
+    /*border-right: 1px #A0B3C3 solid;*/
+}
+/*autocomplete*/
+.fastorder_autocomplete {
+    border: 1px #6D6D6D solid;
+    background: #fff;
+    position: absolute;
+    top: 57px;
+    display: none;
+    left: -1px;
+    width: 200%;
+    z-index: 1;
+    border-top:1px #6D6D6D solid;
+}
+.fastorder_autocomplete ul {
+    margin:0;
+    padding:0;
+}
+.fastorder_autocomplete li {
+    border-bottom: 1px #A0B3C3 solid;
+    list-style: outside none none;
+}
+.fastorder_autocomplete li .product-price {
+    display: none;
+}
+.fastorder_autocomplete li.loader {
+    background: url(../../images/bss/fastorder/ajax-loader.gif) no-repeat center center;
+    height: 16px;
+    padding: 5px;
+    border-bottom: 0;
+}
+.fastorder_autocomplete li a {
+    display: block;
+    text-decoration: none;
+    padding: 5px;
+    height: 34px;
+}
+.fastorder_autocomplete li a .product-name {
+    color: #1d1d1d;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: normal;
+    float: left;
+    display: block;
+    height: 34px;
+    width: 75%;
+    line-height: 140%;
+    overflow:hidden;
+    padding-left: 10px;
+}
+.fastorder_autocomplete li a .product-name .ref-part {
+    font-weight: bold;
+    color: #AB8552;
+}
+.fastorder_autocomplete li a .product-name .reference {
+    font-size: 11px;
+}
+.fastorder_autocomplete li a .product-name .reference .ref-part {
+    font-weight: bold;
+    color: #AB8552;
+}
+.fastorder_autocomplete li a .product-image {
+    float: left;
+    display: block;
+    width: 18%;
+    height: 32px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px #A0B3C3 solid;
+    overflow: hidden;
+}
+.fastorder_autocomplete li a .product-image img {
+    height: 32px;
+    width: auto;
+}
+.fastorder_autocomplete li.selected a {
+    background-color: #D1D1D1;
+    /*background: #E7F1F4 url(../../images/advisa/fastorder/selected.jpg) no-repeat right center;*/
+}
+.fastorder_autocomplete li.selected a .product-image {
+    border: 1px #A0B3C3 solid;
+}
+.fastorder-no-results
+{
+    font-style: italic;
+    font-size: 11px;
+    color: #1d1d1d;
+    text-align: center;
+    height: 16px;
+    padding: 5px;
+    border-bottom: 0;
+}
+.fastorder-wrap-close {
+    position: relative;
+    height: 26px;
+    background: #000;
+}
+.fastorder-close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #fff;
+    height: 15px;
+    display: block;
+    font-size:10px;
+    text-decoration: none;
+    background: url(../../images/bss/fastorder/btn_window_close.gif) no-repeat right center;
+    padding-right: 19px;
+    line-height: 15px;
+}
+.fastorder-close:hover {
+    color: #000000;
+}
+.cart {
+    position: relative;
+}
+.cart .fastorder-cart-loader-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    z-index: 10;
+}
+.cart .fastorder-cart-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    background: url(../../images/bss/fastorder/ajax-loader.gif) no-repeat 50% 13px;
+    z-index: 11;
+}
+
+#fastorder-0 .fastorder-row-ref,#fastorder-0 .fastorder-row-image,#fastorder-0 .fastorder-row-name,#fastorder-0 .fastorder-row-qty,#fastorder-0 .fastorder-row-add
+{
+    border-right:none;
+    border-left: none;
+    color:black;
+    font-size: 13px;
+    padding-top:2px;
+    text-transform: none;
+    height: 27px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#fastorder .add-rows {
+    float: right;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 4px 12px;
+    /*border:0;
+    background-color: #d3d3d3;
+    cursor: pointer;
+    font-weight: bold;*/
+}
+
+#fastorder_form .submit {
+    float: right;
+    padding: 4px 12px;
+    /*border:0;
+    background-color: #0082E1;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;*/
+}
+
+#fastorder_form .submit {
+    border:none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px!important;
+    font-weight: 100;
+    min-width: 200px;
+    padding: 12px 0;
+    text-transform: lowercase;
+	background: none repeat scroll 0 0;
+	background-color: #97d700;
+	-webkit-transition: background-color 0.3s ease 0s;
+    -moz-transition: background-color 0.3s ease 0s;
+    -o-transition: background-color 0.3s ease 0s;
+    -ms-transition: background-color 0.3s ease 0s;
+    transition: background-color 0.3s ease 0s;
+	color:#FFF;
+	cursor:pointer;
+	letter-spacing:1px;
+}
+#fastorder .add-rows {
+    border:none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px!important;
+    font-weight: 100;
+    min-width: 200px;
+    padding: 12px 0;
+    text-transform: lowercase;
+	background: none repeat scroll 0 0;
+	background-color: #ccc;
+	-webkit-transition: background-color 0.3s ease 0s;
+    -moz-transition: background-color 0.3s ease 0s;
+    -o-transition: background-color 0.3s ease 0s;
+    -ms-transition: background-color 0.3s ease 0s;
+    transition: background-color 0.3s ease 0s;
+	color:#333;
+	cursor:pointer;
+	letter-spacing:1px;
+}
+#fastorder_form .submit:hover { background-color:#a1e500; }
+#fastorder .add-rows:hover { background-color:#e0e0e0; }
+
+@media  screen and (max-width: 340px) {
+    #fastorder .add-rows {float: left}
+    #fastorder_form button.submit {float:left;}
+    #fastorder  {width:30%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {display: none}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 26%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 16%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:320%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-ref .input-box > button {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .price {display: none}
+}
+
+@media  screen and (min-width: 341px) and (max-width:390px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:36%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {display: none}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 26%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 16%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:320%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-ref .input-box > button {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .price {display: none}
+}
+
+@media  screen and (min-width: 391px) and (max-width:440px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:42%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {display: none}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 26%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 16%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:320%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-ref .input-box > button {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .price {display: none}
+}
+
+@media  screen and (min-width: 441px) and (max-width:490px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:48%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 15%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 26%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:250%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-ref .input-box > button {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .price {display: none}
+}
+
+@media  screen and (min-width: 491px) and (max-width:540px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:54%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 15%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 26%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:250%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-ref .input-box > button {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .price {display: none}
+}
+
+@media  screen and (min-width: 541px) and (max-width:590px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:60%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 67%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 13%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 30%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:195%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+}
+
+@media  screen and (min-width: 591px) and (max-width:640px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:66%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 67%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 13%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 31%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:195%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+}
+
+@media  screen and (min-width: 641px) and (max-width:690px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:72%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 11%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 33%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:140%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+}
+
+@media  screen and (min-width: 691px) and (max-width:740px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:77%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 10%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 36%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:136%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+}
+
+@media  screen and (min-width: 741px) and (max-width:790px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:82%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 25%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 10%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 36%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:136%;}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .reference {display: none}
+    #fastorder_form .fastorder-multiple-form .fastorder-row-name .ref-part {display: none}
+}
+
+@media  screen and (min-width: 791px) and (max-width:840px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:87%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 22%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 9%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 41%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+    #fastorder_form .fastorder-multiple-form .fastorder_autocomplete {width:140%;}
+}
+
+@media  screen and (min-width: 841px) and (max-width:900px) {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder_form .fastorder-multiple-form  {width:94%;}*/
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 22%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 42%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 8%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}
+}
+@media  screen and (min-width: 900px)  {
+    /*#fastorder .add-rows {float: left}*/
+    /*#fastorder_form button.submit {float:left;}*/
+    /*#fastorder {width:100%;}*/
+    /*#fastorder_form .fastorder-multiple-form  div .fastorder-row-ref {width: 22%;padding-right:1%;}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-ref .input-text{width: 71%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-name {width: 42%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-image {width: 8%}
+    #fastorder_form .fastorder-multiple-form  div .fastorder-row-qty {width: 11%}*/
+}

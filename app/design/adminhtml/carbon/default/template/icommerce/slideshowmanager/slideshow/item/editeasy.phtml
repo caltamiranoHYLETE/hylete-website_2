@@ -1,0 +1,19 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <?php
+            $currentSlideshow = Mage::getModel('slideshowmanager/slideshow')->getSlideshow($_SESSION['slideshow_id']);
+            ?>
+            <td><h3><?php echo $this->__('Edit easy block in slideshow: ') . $currentSlideshow['name'] ?></h3></td>
+            <td class="a-right">
+                <?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <?php echo $this->getForm() ?>
+</div>
+<script type="text/javascript">
+    var addhtmlForm = new varienForm('editeasy_form');
+</script>

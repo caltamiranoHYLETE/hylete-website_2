@@ -1,0 +1,46 @@
+<?php
+/**
+ * @see Ebizmarts_BakerlooRestful_Block_Adminhtml_System_Config_Apikeygen
+ */
+?>
+<table>
+    <tr>
+        <td>
+            <button onclick="genApiKey(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
+                <span><?php echo $this->escapeHtml($this->getButtonLabel()); ?></span>
+            </button>
+        </td>
+    </tr>
+</table>
+
+<script>
+genApiKey = function() {
+    var genUrl = '<?php echo $this->getButtonUrl(); ?>';
+    new Ajax.Request(genUrl, {
+        method:"get",
+        onSuccess:function(response) {
+
+            if(200 == response.status) {
+                $("bakerloorestful_general_api_key").writeAttribute("value", response.responseText);
+                //$("bakerloorestful_general_api_key").writeAttribute("type", "text");
+
+                if ($('row_bakerloorestful_general_api_key_warning') == undefined) {
+                    $('row_bakerloorestful_general_api_key').insert({after: '<tr id="row_bakerloorestful_general_api_key_warning"><td></td><td class="value"><p class="note" style="color:red;">Warning! You\'ll need to re-activate your shop after resetting the api key.</p></td></tr>'});
+                }else{
+                    $('row_bakerloorestful_general_api_key_warning').update('<td></td><td class="value"><p class="note" style="color:red;">Warning! You\'ll need to re-activate your shop after resetting the api key.</p></td>');
+                }
+
+            }
+            else {
+                if(403 == response.status) {
+                    alert("An error ocurred, please reload the page.");
+                }
+                else {
+                    alert("An error ocurred, please try again.");
+                }
+            }
+
+        }
+    });
+}
+</script>

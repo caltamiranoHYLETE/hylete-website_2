@@ -1,0 +1,58 @@
+<script>
+    jQuery(function($) {
+        $(".billing-country-select-li").on("change", "select", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'country': this.value,
+                'label': 'Billing',
+                'event': 'CountryDropdown'
+            });
+        });
+
+        $(".shipping-country-select-li").on("change", "select", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'country': this.value,
+                'label': 'Shipping',
+                'event': 'CountryDropdown'
+            });
+        });
+
+        $("#checkout-shipping-method-load").on("change", ".radio input", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'shippingMethod': $.trim($(this).closest("label").text()),
+                'event': 'ShippingRadio'
+            });
+        });
+
+        $(document).on("change", "#checkout-payment-method-load input.radio", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'opt_label': $(this).attr('title'),
+                'event': 'PaymentRadio'
+            });
+        });
+
+        $("#place-order-button").on("click", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'event': 'PlaceOrderButton'
+            });
+        });
+
+        $("#continue-shopping-checkout").on("click", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'event': 'ContinueShoppingLink'
+            });
+        });
+
+        $(document).on("click", "#headercart.not-empty", function () {
+            dataLayer.push({
+                'eventCategory': 'checkout',
+                'event': 'HeaderCartButton'
+            });
+        });
+    });
+</script>

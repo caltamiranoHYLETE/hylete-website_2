@@ -1,0 +1,76 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2012 Vaimo AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_FooterCache
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ */
+--><config>
+    <modules>
+        <Vaimo_FooterCache>
+            <version>0.2.0</version>
+        </Vaimo_FooterCache>
+    </modules>
+	<global>
+		<helpers>
+			<footercache>
+				<class>Vaimo_FooterCache_Helper</class>
+			</footercache>
+		</helpers>
+    	<blocks>
+            <vaimo_footercache>
+            	<class>Vaimo_FooterCache_Block</class>
+            </vaimo_footercache>
+            <page>
+				<rewrite>
+					<html_footer>Vaimo_FooterCache_Block_Page_Html_Footer</html_footer> 
+				</rewrite>
+			</page> 
+        </blocks>
+	</global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <Vaimo_FooterCache>
+                                            <title>Vaimo FooterCache</title>
+                                        </Vaimo_FooterCache>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <Vaimo_FooterCache>
+            <settings>
+                <lifetime>86400</lifetime>
+            </settings>
+        </Vaimo_FooterCache>
+    </default>
+</config>

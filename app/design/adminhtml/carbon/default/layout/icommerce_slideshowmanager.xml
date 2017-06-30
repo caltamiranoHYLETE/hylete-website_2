@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<layout>
+
+    
+    
+    <adminhtml_slideshowmanager_index>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow" name="index" template="icommerce/slideshowmanager/index.phtml">
+            	<block type="slideshowmanager/slideshow" name="massupdate" template="icommerce/slideshowmanager/slideshow/massupdate.phtml" />
+				<block type="slideshowmanager/slideshow" name="empty" template="icommerce/slideshowmanager/slideshow/empty.phtml" />
+            </block>
+        </reference>
+    </adminhtml_slideshowmanager_index>
+    
+    <adminhtml_slideshowmanager_add>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_add" name="add" template="icommerce/slideshowmanager/slideshow/add.phtml"/>
+        </reference>
+    </adminhtml_slideshowmanager_add>
+    
+    <adminhtml_slideshowmanager_edit>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_edit" name="edit" template="icommerce/slideshowmanager/slideshow/edit.phtml">
+            	<block type="slideshowmanager/slideshow_item" name="items" template="icommerce/slideshowmanager/slideshow/items.phtml">
+            		<block type="slideshowmanager/slideshow" name="massupdate" template="icommerce/slideshowmanager/slideshow/massupdate.phtml" />
+					<block type="slideshowmanager/slideshow" name="empty" template="icommerce/slideshowmanager/slideshow/item/empty.phtml" />
+            	</block>
+            </block>
+        </reference>
+    </adminhtml_slideshowmanager_edit>
+    
+    <adminhtml_slideshowitem_add>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_add" name="add" template="icommerce/slideshowmanager/slideshow/item/add.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_add>
+
+    <adminhtml_slideshowitem_addeasy>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_addeasy" name="add" template="icommerce/slideshowmanager/slideshow/item/addeasy.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_addeasy>
+
+    <adminhtml_slideshowitem_addlayeredhtml>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_addlayeredhtml" name="addlayeredhtml" template="icommerce/slideshowmanager/slideshow/item/addlayeredhtml.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_addlayeredhtml>
+
+    <adminhtml_slideshowitem_addproduct>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_addproduct" name="addproduct" template="icommerce/slideshowmanager/slideshow/item/addproduct.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_addproduct>
+
+    <adminhtml_slideshowitem_addhtml>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_addhtml" name="addhtml" template="icommerce/slideshowmanager/slideshow/item/addhtml.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_addhtml>
+    
+    <adminhtml_slideshowitem_edit>
+    	<reference name="head">
+    		<action method="addJs"><file>jquery/jquery.min.js</file></action>
+    		<action method="addItem"><type>skin_js</type><name>icommerce_slideshowmanager.js</name></action>
+    		<action method="addItem"><type>skin_css</type><name>icommerce_slideshowmanager.css</name></action>
+    	</reference>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_edit" name="edit" template="icommerce/slideshowmanager/slideshow/item/edit.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_edit>
+    
+    <adminhtml_slideshowitem_edithtml> 
+    	<update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_edithtml" name="edithtml" template="icommerce/slideshowmanager/slideshow/item/edithtml.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_edithtml>
+
+    <adminhtml_slideshowitem_editeasy>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_editeasy" name="editeasy" template="icommerce/slideshowmanager/slideshow/item/editeasy.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_editeasy>
+
+    <adminhtml_slideshowitem_editlayeredhtml>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_editlayeredhtml" name="editlayeredhtml" template="icommerce/slideshowmanager/slideshow/item/editlayeredhtml.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_editlayeredhtml>
+
+    <adminhtml_slideshowitem_editproduct>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="slideshowmanager/slideshow_item_editproduct" name="editproduct" template="icommerce/slideshowmanager/slideshow/item/editproduct.phtml"/>
+        </reference>
+    </adminhtml_slideshowitem_editproduct>
+</layout>

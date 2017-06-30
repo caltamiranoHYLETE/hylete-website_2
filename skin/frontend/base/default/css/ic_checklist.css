@@ -1,0 +1,224 @@
+body 
+{
+	font: 12px/1.3 "Lucida Grande","Lucida","Arial",Sans-serif;
+	padding-left: 15px;
+}
+
+.basic-info,
+.buttons-row
+{
+	margin-left: 10px;
+	margin-bottom: 20px;
+	border-bottom: 1px dotted #d0d0d0;
+}
+
+.basic-info p
+{
+	margin: 5px 0;
+}
+
+.basic-info h2
+{
+	margin: 0;
+}
+
+.basic-info .first-table,
+.basic-info .second-table 
+{
+	float: left;
+	margin-right: 80px;
+}
+
+.basic-info .first-table .first,
+.basic-info .second-table .first
+{
+	width: 120px;
+}
+
+form 
+{
+	margin: 0 0 30px 0;
+}
+
+legend 
+{
+	font-size: 17px;
+}
+
+fieldset 
+{
+	border: 0;
+	margin-bottom: 50px;
+}
+
+.checklist 
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.checklist-second
+{
+	margin-top: 10px;
+}
+
+.checklist-container
+{
+	margin-bottom: 50px;
+}
+
+.checklist li 
+{
+	float: left;
+	margin-right: 10px;
+	background: url(../ic_checklist_images/checkboxbg.gif) no-repeat 0 0;
+	width: 116px;
+	height: 166px;
+	position: relative;
+	font: normal 11px/1.3 "Lucida Grande","Lucida","Arial",Sans-serif;
+}
+
+.checklist li.selected 
+{
+	background-position: -116px 0;
+}
+
+.checklist li.selected .checkbox-select 
+{
+	display: none;
+}
+
+.checkbox-select 
+{
+	display: block;
+	float: left;
+	position: absolute;
+	background: url(../ic_checklist_images/select.png) no-repeat 0 0;
+	top: 130px;
+	left: 11px;
+	width: 94px;
+	height: 25px;
+	color: #fff;
+	text-decoration: none;
+	padding-top: 5px;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.checklist li input 
+{
+	display: none;	
+}
+
+a.checkbox-deselect 
+{
+	display: none;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	position: absolute;
+	top: 132px;
+	right: 13px;
+}
+
+.checklist li.selected a.checkbox-deselect 
+{
+	display: block;
+}
+
+.checklist li label 
+{
+	display: block;
+	text-align: center;
+	padding: 8px;
+}
+
+.checklist li .title
+{
+	display: none;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: #38b1ff;
+	padding: 10px;
+	min-width: 130px;
+	z-index: 1;
+}
+
+.checklist li .title-previously
+{
+	background: #e48afc;
+}
+
+.checklist li .title-null
+{
+	background: #ffcc66;
+	min-width: 100px;
+}
+
+.checklist li:hover .title
+{
+	display: block;
+}
+
+textarea.comment
+{
+	width: 250px;
+	height: 100px;
+	margin: 0 0 10px 0;
+}
+p.comment
+{
+	margin: 10px 0 0 0;
+}
+
+fieldset
+{
+	float: left;
+}
+
+.buttons-row
+{
+	position: fixed;
+	border: 1px dotted #d0d0d0;
+	border-width: 1px 0 1px 1px;
+	padding: 0 0 25px 10px;
+	float:right;
+	top: 150px;
+	right: 5px;
+	
+}
+
+.buttons-row .error
+{
+	float: left;
+}
+
+.input-text
+{
+	height: 27px;
+	width: 180px;
+	float: left;
+}
+
+.sendit 
+{
+	display: block;
+	float: left;
+	width: 115px;
+	height: 35px;
+	border: 0;
+	cursor: pointer;
+	background: url(../ic_checklist_images/sendit.png) no-repeat 0 0;
+	margin-left: 25px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.clear
+{
+	clear: both;
+}

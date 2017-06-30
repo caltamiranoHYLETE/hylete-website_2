@@ -1,0 +1,130 @@
+<?php if (!Mage::helper('rewards')->storeHasRewardRules()): ?>
+    <div class="sweettooth-quick-launch">
+        <div class="content-header">
+            <table cellspacing="0">
+                <tr>
+                    <td>
+                        <h3 class="head-dashboard"><?php echo $this->__('Quick-Launch'); ?></h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <section class="connect-your-account">
+            <div class="section-header <?php if (!$this->isAccountConnected()) { echo 'collapsed'; } ?>">
+                <span class="section-counter">1</span>
+                <span class="title">Connect to Sweet Tooth</span>
+            </div>
+            <?php if ($this->isAccountConnected()): ?>
+                <div class="section-content">
+                    <form id="connect-to-sweettooth" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/manage_config_platform/connect'); ?>">
+                        <input type="hidden" name="redirect-to-quick-launch" value="1" />
+                        <div class="fields-section">
+                            <div class="field field-username">
+                                <label>Email / Username<span class="required">*</span></label>
+                                <input type="text" name="username" />
+                            </div>
+                            <div class="field field-password">
+                                <label>Password<span class="required">*</span></label>
+                                <input type="password" name="password" />
+                            </div>
+                            <div class="field field-link">
+                                <a href="https://www.sweettoothrewards.com/login/forgot/" title="Forgot your passoword?" target="_blank">Forgot your password?</a>
+                            </div>
+                            <div class="field field-store">
+                                <label>Is this a Live or a Development store?</label>
+                                <div class="switch">
+                                    <span>Live</span>
+                                    <input id="switch" class="toggle" type="checkbox" name="isDevMode" />
+                                    <label for="switch"></label>
+                                    <span>Development</span>
+                                </div>
+                            </div>
+                            <div class="field field-link">
+                                <a href="https://www.sweettoothrewards.com/pricing/magento/" title="Don't have an account?" target="_blank">Don't have an account?</a>
+                            </div>
+                        </div>
+                        <div class="submit-section">
+                            <img id="busy" class="loading hide" src="<?php echo $this->getSkinUrl('rewards/images/opc-ajax-loader.gif'); ?>" alt="Loading" />
+                            <button id="connect-action" type="submit">Connect</button>
+                        </div>
+                    </form>
+                </div>
+            <?php endif; ?>
+        </section>
+        <section class="set-up-your-program">
+            <?php if ($this->isAccountConnected()): ?>
+                <div class="disabled-overlay"></div>
+            <?php endif; ?>
+            <div class="section-header">
+                <span class="section-counter">2</span>
+                <span class="title">Set up and launch your program!</span>
+            </div>
+            <div class="section-content">
+                <form id="launch-your-program" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/quickLaunch/launch'); ?>">
+                    <div class="fields-section">
+                        <div class="field field-points-name">
+                            <label>Points Label:</label>
+                            <div class="field-content">
+                                <input type="text" name="points-caption" placeholder="e.g. Gold" class="singular" /><span class="points-input-label">Points</span>
+                                <small>(optional)</small>
+                            </div>
+                        </div>
+                        <div class="field field-sign-up">
+                            <label>Sign Up Bonus:</label>
+                            <div class="field-content">
+                                <input type="text" name="sign-up" value="200" />
+                            </div>
+                        </div>
+                        <div class="field field-earning">
+                            <label>Reward Orders:</label>
+                            <div class="field-content">
+                                For every <?php echo $this->getCurrencySymbol(); ?>1, give <input type="text" name="earning-points" value="1" /> point(s)
+                            </div>
+                        </div>
+                        <div class="field field-spending">
+                            <label>Spending Points:</label>
+                            <div class="field-content">
+                                Customers spend <input type="text" name="spending-points" value="50" /> points for <?php echo $this->getCurrencySymbol(); ?>1 discount
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <i class="info"></i>
+                        <span class="info-content">Once you launch, you won't have access to this page but you can add more rules or make changes to your program at any time.</span>
+                    </div>
+                    <div class="submit-section">
+                        <button id="show-confirm-box" type="button">Launch</button>
+                    </div>
+                    <div class="confirm-modal hide" id="confirm-modal">
+                        <div class="confirm-box">
+                            <span>All customers on this store will be able to earn and spend points once you launch. Continue?</span>
+                            <button type="submit">Yes</button>
+                            <button id="hide-confirm-box" type="button">No</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript">
+        (function() {
+            var modal = $('confirm-modal');
+
+            $('show-confirm-box').observe('click', function() {
+                modal.removeClassName('hide');
+            });
+
+            $('hide-confirm-box').observe('click', function() {
+                modal.addClassName('hide');
+            });
+
+            <?php if ($this->isAccountConnected()): ?>
+                var busy = $('busy');
+                $('connect-action').observe('click', function() {
+                    $(this).addClassName('disable');
+                    busy.removeClassName('hide');
+                });
+            <?php endif; ?>
+        })();
+    </script>
+<?php endif; ?>

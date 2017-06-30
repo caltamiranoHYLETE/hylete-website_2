@@ -1,0 +1,639 @@
+/* Account Login/Create Pages ============================================================ */
+.account-login .page-title {
+    border: none;
+}
+
+.account-login h2 {
+    font-size: 18px;
+}
+
+.account-create .page-title {
+    border: none;
+}
+.account-create .fieldset {
+    padding: 0;
+    margin: 0 20px 0 0;
+}
+
+.account-create .form-list {
+    margin: 10px 0 0;
+}
+
+.account-create .form-list .name-firstname {
+    margin: 0 0 14px 0;
+}
+
+.account-create h2.legend {
+    margin-top: 0;
+}
+
+.account-create h2.legend {
+    background: none;
+    font-weight: normal;
+    padding: 0 0 13px 0;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+button.button.edit {
+    float: right;
+}
+
+.my-account .fieldset .input-text {
+    width: 100%;
+}
+
+/* Forgot Password */
+.customer-account-forgotpassword .fieldset {
+    border-top: 1px solid #CCC;
+    background: #FBFBFB;
+    margin-top: 10px;
+}
+
+.customer-account-forgotpassword .fieldset .form-list li {
+	margin: 0;
+}
+
+.customer-account-forgotpassword .fieldset .form-list label {
+	color: #333333;
+}
+
+.customer-account-forgotpassword p.required,
+.account-login p.required,
+.customer-account-create p.required {
+    text-align: left;
+    color: #00809F;
+    margin-top: 0;
+    clear: both;
+}
+
+.customer-account-forgotpassword p.back-link {
+    float: left;
+    width: 100%;
+}
+
+.customer-account-forgotpassword p.back-link a {
+	font-family: "Arial";
+	text-transform: lowercase;
+}
+/* Account Login/Create Pages ============================================================ */
+
+/* Sidebar */
+.block-account {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.block-account .block-content {
+    border-top: 1px solid #CCC;
+    padding: 10px 0 0 0;
+}
+
+.block-account .block-title {
+    margin: 0;
+    padding: 0 0 12px 0;
+}
+
+.block-account ul li {
+    text-align: left;
+    font-family: arial;
+    text-transform: uppercase;
+    padding-top: 5px;
+    margin: 0 0 5px 0;
+    line-height: 16px;
+}
+
+.block-account ul li.current span {
+    background: #E5E5E5;
+    padding: 6px 12px;
+    display: inline-block;
+}
+
+.block-account ul li a, .block-account ul li span {
+    vertical-align: middle;
+    padding-left: 12px;
+}
+
+.block-account .block-title strong {
+    font-weight: bold;
+}
+
+/* Captcha */
+.captcha-image {
+    float: left;
+    position: relative;
+}
+
+.captcha-img {
+    border: 1px solid #ccc;
+}
+
+.captcha-reload {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.captcha-reload.refreshing {
+    animation: rotate 1.5s infinite linear;
+    -webkit-animation: rotate 1.5s infinite linear;
+    -moz-animation: rotate 1.5s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+    0% { -webkit-transform:rotate(0); }
+    0% { -webkit-transform:rotate(-360deg); }
+}
+@-moz-keyframes rotate {
+    0% { -moz-transform:rotate(0); }
+    0% { -moz-transform:rotate(-360deg); }
+}
+@keyframes rotate {
+    0% { transform:rotate(0); }
+    0% { transform:rotate(-360deg); }
+}
+
+/* Remember Me Popup ===================================================================== */
+.window-overlay {
+    background: url(../images/window_overlay.png) repeat;
+    background: rgba(0, 0, 0, 0.35);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 990;
+}
+/* Remember Me Popup ===================================================================== */
+
+/* My Account ============================================================================= */
+.main-container .col-main .block-account {
+    display: none;
+}
+
+.my-account .page-title {
+    margin: 0;
+    padding: 0 0 15px 0;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+}
+
+.my-account .title-buttons .link-rss {
+    float: none;
+    margin: 0;
+}
+
+.my-account .box-title h3 {
+    float: left;
+}
+
+.my-account .form-list li.control label {
+    display: inline;
+}
+
+/* Dashboard */
+.my-account h1 {
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.my-account h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.my-account h3 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.my-account .welcome-msg {
+    margin: 0 0 15px 0;
+}
+
+.my-account #my_recent_reviews {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+/* Pager / Limiter */
+.my-account .pager {
+    margin: 15px 0;
+}
+
+.my-account .pager .amount,
+.my-account .pager .limiter {
+    float: left;
+}
+
+.my-account .pager .limiter {
+    width: 200px;
+    float: right;
+}
+
+.my-account .pager .limiter label {
+    display: inline;
+    color: #000;
+    margin: 0 5px 0 20px;
+}
+
+.my-account .pager .amount {
+    margin: 0;
+}
+
+/* Block: Recent Orders */
+.dashboard .box-recent {
+    margin: 10px 0;
+}
+
+.dashboard .box-recent .box-head h2 {
+    margin-top: 0;
+}
+
+.dashboard .box-recent .box-head a {
+    display: none;
+}
+
+.my-account .data-table thead {
+    background: none;
+}
+
+.my-account .data-table thead tr {
+    height: auto;
+}
+
+.my-account .data-table th {
+    border: none;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-align: left;
+}
+
+.my-account .data-table td {
+    border: none;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.my-account .data-table td.last span.nobr a {
+    color: #00809F;
+    font-weight: normal;
+}
+
+.my-account .data-table span.price {
+    font-size: 12px;
+}
+
+#my-orders-table a {
+    text-transform: none;
+}
+
+/* Block: Account Information */
+.box-info .box-top h3 {
+    padding: 10px 0 0 0;
+    margin: 0;
+    float: left;
+}
+.my-account .box-top {
+    clear: both;
+    overflow: hidden;
+}
+.box-account .col2-set .box {
+    background: #FBFBFB;
+    min-height: 120px;
+    border-top: 1px solid #CCC;
+    padding: 10px;
+}
+
+.box-account .col2-set .box-content {
+    font-style: italic;
+}
+
+.my-account address {
+    clear: both;
+    font-style: italic;
+}
+
+/* Block: Reviews */
+.dashboard .box-reviews .number {
+    float: left;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    margin: 3px -20px 0 0;
+    padding: 2px 3px;
+    background: #ddd;
+}
+
+.dashboard .box-reviews .details {
+    margin-left: 20px;
+}
+
+/* Block: Tags */
+.dashboard .box-tags .number {
+    float: left;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    margin: 3px -20px 0 0;
+    padding: 2px 3px;
+    background: #ddd;
+}
+
+.dashboard .box-tags .details {
+    margin-left: 20px;
+}
+
+/* Address Book */
+.addresses-primary ol, .addresses-additional ol {
+    margin-left: 0;
+}
+
+.addresses-primary li.item, .addresses-additional li.item {
+    background: #FBFBFB;
+    border-top: 1px solid #CCC;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    min-height: 120px;
+    list-style-type: none;
+}
+
+.addresses-primary li.empty, .addresses-additional li.empty {
+    padding-top: 10px;
+}
+
+ .fieldset {
+    border: none;
+    padding: 10px 25px 12px 10px;
+ }
+
+.fieldset.left {
+    width: 48%;
+}
+
+.fieldset.right {
+	float: right;
+	margin: 0;
+	width: 48%;
+}
+
+.my-account .form-list .field {
+	float:none;
+}
+
+.my-account .form-list li .name-firstname {
+    padding-top: 0;
+}
+
+/* Order View */
+.order-info {
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.order-info dt,
+.order-info dd,
+.order-info ul,
+.order-info li {
+    display: inline;
+}
+
+.order-info dt {
+    font-weight: bold;
+}
+
+.order-date {
+    margin: 10px 0;
+}
+
+.order-info-box {
+}
+
+.order-items {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.order-additional {
+    margin: 15px 0;
+}
+
+/* Order Gift Message */
+.gift-message dt strong {
+    color: #666;
+}
+
+.gift-message dd {
+    font-size: 13px;
+    margin: 5px 0 0;
+}
+
+/* Order Comments */
+.order-about dt {
+    font-weight: bold;
+}
+
+.order-about dd {
+    font-size: 13px;
+    margin: 0 0 7px;
+}
+
+.tracking-table {
+    margin: 0 0 15px;
+}
+
+.tracking-table th {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tracking-table-popup {
+    width: 100%;
+}
+
+.tracking-table-popup th {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tracking-table-popup th,
+.tracking-table-popup td {
+    padding: 1px 8px;
+}
+
+/* Order Print Pages */
+.page-print .print-head img {
+    float: left;
+}
+
+.page-print .print-head address {
+    float: left;
+    margin-left: 15px;
+}
+
+/* Price Rewrites */
+.page-print .gift-message-link {
+    display: none;
+}
+
+.page-print .price-excl-tax,
+.page-print .price-incl-tax {
+    display: block;
+    white-space: nowrap;
+}
+
+.page-print .cart-price,
+.page-print .price-excl-tax .label,
+.page-print .price-incl-tax .label,
+.page-print .price-excl-tax .price,
+.page-print .price-incl-tax .price {
+    display: inline;
+}
+
+/* My Reviews */
+.product-review .product-img-box {
+    float: left;
+    width: 140px;
+}
+
+.product-review .product-img-box .product-image {
+    display: block;
+    width: 125px;
+    height: 125px;
+}
+
+.product-review .product-img-box .label {
+    font-size: 11px;
+    margin: 0 0 3px;
+}
+
+.product-review .product-img-box .ratings .rating-box {
+    float: none;
+    display: block;
+    margin: 0 0 3px;
+}
+
+.product-review .product-details {
+    margin-left: 150px;
+}
+
+.product-review .product-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+.product-review .ratings-table {
+    margin: 0 0 10px;
+}
+
+.product-review dt {
+    font-weight: bold;
+}
+
+.product-review dd {
+    font-size: 13px;
+    margin: 5px 0 0;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Sales order view */
+.sales-order-view .data-table {
+    background: #e5e5e5;
+}
+
+.sales-order-view .data-table th {
+    text-align: left;
+}
+
+.sales-order-view .data-table th {
+    padding: 15px 10px 5px 10px;
+}
+
+.sales-order-view .data-table td {
+    padding: 5px 10px;
+}
+
+.sales-order-view .data-table h3 {
+    display: inline;
+    margin-right: 15px;
+}
+
+.sales-order-view .data-table dl {
+    display: inline;
+}
+
+.sales-order-view .data-table dl dt,
+.sales-order-view .data-table dl dd {
+    display: inline-block;
+}
+
+.sales-order-view .data-table dl dd {
+    margin-right: 15px;
+}
+
+/* Wishlist */
+.wishlist-index-index .page-title {
+	text-align: left;
+}
+
+.wishlist-index-index .page-title h1 {
+	float: none;
+}
+
+.wishlist-index-index .buttons-set button {
+    margin: 0 0 10px 10px;
+}
+
+#wishlist-table {
+	margin-bottom: 20px;
+}
+
+#wishlist-table tr {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+#wishlist-table td {
+    padding: 10px;
+}
+
+#wishlist-table .qty {
+    width: 38px;
+    text-align: center;
+}
+
+#wishlist-table button {
+    margin-bottom: 10px;
+}
+
+#wishlist-table .description {
+    margin-bottom: 10px;
+}
+
+#wishlist-table img {
+    max-width: inherit;
+}
+
+#wishlist-table td.last {
+    text-align: center;
+}
+
+/* View order */
+.sales-order-view .order-details .a-right {
+    text-align: right;
+}
+
+.sales-order-view .order-details tfoot tr {
+    height: 25px;
+}
+
+.my-account .data-table tfoot td {
+    text-align: right;
+}

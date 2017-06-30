@@ -1,0 +1,7 @@
+# Edge case with double quotes in it
+-
+  -
+    this string has double quotes like this "" in it
+    random
+    value
+    123

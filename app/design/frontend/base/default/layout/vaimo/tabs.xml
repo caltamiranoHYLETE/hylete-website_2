@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Tabs
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/vaimo/tabs.css</stylesheet></action>
+        </reference>
+    </default>
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/vaimo/tabs.js</name><group>product</group></action>
+        </reference>
+        <reference name="product.info">
+            <block type="catalog/product_view" name="tabs" template="vaimo/tabs/tabs.phtml">
+
+                <action method="insert"><block>product.attributes</block></action>
+                <action method="insert"><block>product.description</block></action>
+
+                <block type="page/html_pager" name="product_review_list.toolbar">
+                    <action method="setLimit">
+                        <limit>3</limit>
+                    </action>
+                </block>
+
+                <block type="review/product_view_list" name="product.info.reviews" template="review/product/view/list.phtml">
+                    <block type="review/form" name="product.review.form">
+                        <block type="page/html_wrapper" name="product.review.form.fields.before" as="form_fields_before"
+                               translate="label">
+                            <label>Review Form Fields Before</label>
+                            <action method="setMayBeInvisible">
+                                <value>1</value>
+                            </action>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

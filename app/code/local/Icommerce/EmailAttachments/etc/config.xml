@@ -1,0 +1,195 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_EmailAttachments
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+--><config>
+    <modules>
+        <Icommerce_EmailAttachments>
+            <version>2.0.8</version>
+            <depends>
+            </depends>
+        </Icommerce_EmailAttachments>
+    </modules>
+
+    <global>
+        <models>
+            <emailattachments>
+                <class>Icommerce_EmailAttachments_Model</class>
+            </emailattachments>
+            <core>
+                <rewrite>
+                    <email_template>Icommerce_EmailAttachments_Model_Email_Template</email_template>
+                    <email_template_mailer>Icommerce_EmailAttachments_Model_Email_Template_Mailer</email_template_mailer>
+                    <email_queue>Icommerce_EmailAttachments_Model_Email_Queue</email_queue>
+                </rewrite>
+            </core>
+            <core_resource>
+                <rewrite>
+                    <email_queue>Icommerce_EmailAttachments_Model_Resource_Email_Queue</email_queue>
+                </rewrite>
+            </core_resource>
+            <sales>
+                 <rewrite>
+                    <order>Icommerce_EmailAttachments_Model_Order</order>
+                </rewrite>
+                 <rewrite>
+                    <order_invoice>Icommerce_EmailAttachments_Model_Order_Invoice</order_invoice>
+                </rewrite>
+                 <rewrite>
+                    <order_shipment>Icommerce_EmailAttachments_Model_Order_Shipment</order_shipment>
+                </rewrite>
+                 <rewrite>
+                    <order_creditmemo>Icommerce_EmailAttachments_Model_Order_Creditmemo</order_creditmemo>
+                </rewrite>
+            </sales>
+        </models>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view>Icommerce_EmailAttachments_Block_View</sales_order_view>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <pdf>
+            <order>
+                <default>emailattachments/order_pdf_items_order_default</default>
+                <grouped>emailattachments/order_pdf_items_order_grouped</grouped>
+            </order>
+        </pdf>
+        <helpers>
+            <emailattachments>
+                <class>Icommerce_EmailAttachments_Helper</class>
+            </emailattachments>
+        </helpers>
+        <resources>
+            <emailattachments>
+                <setup>
+                    <class>Icommerce_EmailAttachments_Model_Resource_Setup</class>
+                    <module>Icommerce_EmailAttachments</module>
+                </setup>
+            </emailattachments>
+        </resources>
+        <emailattachments><!-- config values --></emailattachments>
+        <events>
+            <sales_order_send_new_order_email_before_send>
+                <observers>
+                    <emailattachments>
+                        <type>singleton</type>
+                        <class>Icommerce_EmailAttachments_Model_Observer</class>
+                        <method>sendNewOrderEmailBeforeSend</method>
+                    </emailattachments>
+                </observers>
+            </sales_order_send_new_order_email_before_send>
+            <core_mailer_send_before>
+                <observers>
+                    <emailattachments>
+                        <type>singleton</type>
+                        <class>Icommerce_EmailAttachments_Model_Observer</class>
+                        <method>mailerBeforeSend</method>
+                    </emailattachments>
+                </observers>
+            </core_mailer_send_before>
+            <core_mailer_send_after>
+                <observers>
+                    <emailattachments>
+                        <type>singleton</type>
+                        <class>Icommerce_EmailAttachments_Model_Observer</class>
+                        <method>mailerAfterSend</method>
+                    </emailattachments>
+                </observers>
+            </core_mailer_send_after>
+        </events>
+    </global>
+    <adminhtml>
+        <events>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <addbutton>
+                        <type>singleton</type>
+                            <class>Icommerce_EmailAttachments_Model_Observer</class>
+                            <method>addbutton</method>
+                    </addbutton>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+        </events>
+        <translate>
+            <modules>
+                <Icommerce_EmailAttachments>
+                    <files>
+                        <default>Icommerce_EmailAttachments.csv</default>
+                    </files>
+                </Icommerce_EmailAttachments>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <emailattachments before="Mage_Adminhtml">Icommerce_EmailAttachments_Adminhtml</emailattachments>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <default>
+        <config_vars><!--config values --></config_vars>
+        <sales_email>
+            <order>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+                <use_mailer_queue>0</use_mailer_queue>
+                <keep_attachments_in_filesystem>0</keep_attachments_in_filesystem>
+                <base_attachments_directory>media</base_attachments_directory>
+            </order>
+            <invoice>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </invoice>
+            <invoice_comment>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </invoice_comment>
+            <shipment>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </shipment>
+            <shipment_comment>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </shipment_comment>
+            <creditmemo>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </creditmemo>
+            <creditmemo_comment>
+                <attachpdf>0</attachpdf>
+                <attachagreement>0</attachagreement>
+            </creditmemo_comment>
+        </sales_email>
+    </default>
+
+</config>

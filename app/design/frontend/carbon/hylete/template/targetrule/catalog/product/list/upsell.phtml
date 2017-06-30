@@ -1,0 +1,90 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+/** @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Upsell */
+?>
+
+<?php if ($this->hasItems()): ?>
+    <div class="box-collateral box-related">
+        <h2><?php echo $this->__('others also bought') ?></h2>
+            <ul class="products-grid hidden-xs">
+            <?php $_i = 0; ?>
+            <?php foreach ($this->getItemCollection() as $_item): ?>
+                <?php $_status = (!$_item->isSaleable()) ? (($_item->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';?>
+                
+                <li class="item col-xs-6 col-sm-3 col-md-3 col-lg-3 <?php echo $_status;?>">
+                    <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(200) ?>" width="200" height="200" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+                    </a>
+                    
+                    <h5 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                    <p class="color"><?php echo $_item->getAttributeText('color') ?></p>
+                    
+                    <?php if ($_item->isSaleable()):?>
+                        <?php echo $this->getPriceHtml($_item, true, '-related') ?>
+                    <?php else:?>
+                        <p class="status-message">
+                            <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
+                        </p>
+                    <?php endif;?>
+                </li>
+                <?php $_i++; ?>
+            <?php endforeach ?>
+            </ul>
+            
+            <div id="related-products" class="carousel slide visible-xs">
+                <div class="carousel-inner products-grid">
+                    <?php $_i = 0;?>
+                    <?php foreach ($this->getItemCollection() as $_item): ?>
+                        <?php $_status = ($_item->getComingSoon()) ? 'coming-soon' : ((!$_item->isSaleable()) ? 'out-of-stock' : '');?>
+                        <figure class="item <?php echo ($_i++ == 0) ? 'active' : '';?> <?php echo $_status;?>">
+                            <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(500) ?>" width="200" height="200" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+                            </a>
+                            
+                            <h5 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                            <p class="color"><?php echo $_item->getAttributeText('color') ?></p>
+                            
+                            <?php if ($_item->isSaleable()):?>
+                                <?php echo $this->getPriceHtml($_item, true, '-related') ?>
+                            <?php else:?>
+                                <p class="status-message">
+                                    <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
+                                </p>
+                            <?php endif;?>
+                        </figure>
+                    <?php endforeach; ?>
+                </div>
+            
+                <ol class="carousel-indicators">
+                    <?php $_i = 0;?>
+                    <?php foreach ($this->getItemCollection() as $_item): ?>
+                        <li data-target="#related-products" class="<?php echo ($_i == 0) ? 'active' : '';?>" data-slide-to="<?php echo $_i++ ?>"></li>
+                    <?php endforeach; ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+<?php endif ?>

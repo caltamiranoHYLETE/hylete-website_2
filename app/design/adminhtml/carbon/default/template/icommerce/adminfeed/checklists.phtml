@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?>
+<?php $projects = $this->getProjects(); ?>
+<div class="content-header adminfeed checklists">
+    <h2><?php echo $this->__('My Checklists')?></h2>
+</div>
+
+<div class="entry-edit adminfeed checklists">
+    
+    <form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getFormAction(); ?>">
+    	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    	<div class="grid">
+
+    		<table cellspacing="0">
+    		    <thead>
+    		    	<tr class="headings">
+    		    		<th><?php echo $this->__('Id') ?></th>
+    		    		<th><?php echo $this->__('Name') ?></th>
+    		    		<th><?php echo $this->__('Project Manager') ?></th>
+    		    		<th><?php echo $this->__('Customer Email') ?></th>
+    		    		<th><?php echo $this->__('Status') ?></th>
+    		    		<th><?php echo $this->__('Actions') ?></th>
+    		    	</tr>
+    		    </thead>
+    		    <tbody>
+    		    	<?php foreach($projects as $project): $projectId = $project['id']; ?>
+    		    		<tr class="">
+    		    		    <td class="a-center" width="20"><?php echo $projectId; ?></td>
+    		    		    <td><?php echo $project['name'];?></td>
+    		    		    <td><a href="mailto:<?php echo $project['pm_email'];?>"><?php echo $project['pm_email'];?></a></td>
+    		    		    <td><a href="mailto:<?php echo $project['customer_email'];?>"><?php echo $project['customer_email'];?></a></td>
+    		    		    <td class="<?php echo $this->getProjectStatus($projectId, true) ?>">
+    		    		    	<?php echo $this->getProjectStatus($projectId) ?>
+    		    		    </td>
+    		    		    <td>
+    		    		    	<a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/checklists/view/",array("id"=>$projectId));?>">
+    		    		    		<?php echo $this->__('View')?>
+    		    		    	</a>
+    		    		    </td>	                 
+    		    		</tr>
+    		    	<?php endforeach;?>	
+    		    </tbody>
+    	   	</table>
+		</div>
+    </form>
+    
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

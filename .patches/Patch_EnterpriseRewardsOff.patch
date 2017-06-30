@@ -1,0 +1,11 @@
+--- app/etc/modules/Enterprise_Reward.xml	(revision )
++++ app/etc/modules/Enterprise_Reward.xml	(revision )
+@@ -28,7 +28,7 @@
+ <config>
+     <modules>
+         <Enterprise_Reward>
+-            <active>true</active>
++            <active>false</active>
+             <codePool>core</codePool>
+             <depends>
+                 <Mage_Customer/>

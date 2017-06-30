@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_Default>
+            <version>0.1.323</version>
+        </Icommerce_Default>
+    </modules>
+    <global>
+        <blocks>
+            <default>
+                <class>Icommerce_Default_Block</class>
+            </default>
+            <catalog>
+                <rewrite>
+                    <product_view_attributes>Icommerce_Default_Block_Catalog_Product_View_Attributes</product_view_attributes>
+                </rewrite>
+            </catalog>
+        </blocks>
+        <helpers>
+            <default>
+                <class>Icommerce_Default_Helper</class>
+            </default>
+        </helpers>
+    </global>
+</config>

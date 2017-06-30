@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <header_welcome>
+            <block>hylete/header_welcome</block>
+            <placeholder>HEADER_WELCOME</placeholder>
+            <name>header.welcome</name>
+            <container>Vaimo_Hylete_Model_Container_Header_Welcome</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </header_welcome>
+    </placeholders>
+</config>

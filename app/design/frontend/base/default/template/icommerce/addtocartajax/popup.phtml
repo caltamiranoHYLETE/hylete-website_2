@@ -1,0 +1,43 @@
+<?php
+/*
+  Icommerce addition for AddToCartAjax
+*/
+?>
+
+<div id="atca-popup-container" style="display:none;">
+	
+	<div id="atca-message-container">
+		<span id="atca-please-wait" style="display:none;">
+			<?php echo $this->helper('addtocartajax')->__('Adding to cart...') ?>
+		</span>
+		<span id="atca-please-wait-remove" style="display:none;">
+			<?php echo $this->helper('addtocartajax')->__('Removing from cart...') ?>
+		</span>
+	
+		<span id="atca-message-text" style="display:none;"></span>
+	</div>
+	<div id="atca-related-container" style="display:none">
+		
+	</div>
+	<div id="atca-button-container" style="display:none">
+	
+		<button id="atca-continue-btn" class="button" onclick="addToCartAjax.closePopup();">
+			<span><span><?php echo $this->__('Continue shopping') ?></span></span>
+		</button>
+		
+		<button id="atca-redirect-btn" class="button" onclick="addToCartAjax.redirect();">
+			<span><span><?php echo $this->__('Go to cart') ?></span></span>
+		</button>
+		
+		<button id="atca-no-btn" class="button" onclick="addToCartAjax.dontRemove();" style="display:none;">
+			<span><span><?php echo $this->__('No') ?></span></span>
+		</button>
+		
+		<button id="atca-yes-btn" class="button" onclick="addToCartAjax.continueRemove();" style="display:none;">
+			<span><span><?php echo $this->__('Yes') ?></span></span>
+		</button>
+	</div>
+	
+</div>
+
+<div id="atca-overlay" style="display:none"></div>	

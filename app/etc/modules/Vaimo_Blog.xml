@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Vaimo_Blog>
+            <codePool>local</codePool>
+            <active>true</active>
+        </Vaimo_Blog>
+    </modules>
+</config>

@@ -1,0 +1,11 @@
+--- app/code/core/Mage/Core/Model/Design/Package-org.php	2015-08-17 15:00:49.000000000 +0200
++++ app/code/core/Mage/Core/Model/Design/Package.php	2015-09-30 13:58:52.000000000 +0200
+@@ -781,7 +781,7 @@
+        $cssImport = '/@import\\s+([\'"])(.*?)[\'"]/';
+        $contents = preg_replace_callback($cssImport, array($this, '_cssMergerImportCallback'), $contents);
+
+-       $cssUrl = '/url\\(\\s*(?!data:)([^\\)\\s]+)\\s*\\)?/';
++       $cssUrl = '/url\\(\\s*(?![\"\']?data:)([^)\\s]+)\\s*\\)/';
+        $contents = preg_replace_callback($cssUrl, array($this, '_cssMergerUrlCallback'), $contents);
+
+        return $contents;

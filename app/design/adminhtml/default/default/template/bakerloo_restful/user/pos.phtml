@@ -1,0 +1,73 @@
+<?php
+	$pinCodePlaceholder = $this->pinCodePlaceholder();
+?>
+<div id="page_tabs_pos_section_content">
+<div class="entry-edit">
+    <div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('POS'); ?></h4>
+    <div class="form-buttons"></div>
+</div>
+    <div class="fieldset " id="user_pos_fieldset">
+    <div class="hor-scroll">
+		<table cellspacing="0" class="form-list">
+            <tbody>
+				<tr>
+        			<td class="label"><label for="pos_pin_code"><?php echo $this->__('Pin code'); ?></label></td>
+    				<td class="value">
+        				<input id="pos_pin_code" name="pos_pin_code" value="<?php echo ($this->isPinCodeSet() ? $pinCodePlaceholder : ''); ?>" title="<?php echo $this->__('POS pin code'); ?>" type="text" class="input-text">
+        			</td>
+    			</tr>
+				<tr>
+        			<td class="label">&nbsp;</td>
+        			<td class="value">
+						<button type="button" onclick="showPinCode(); return false;"><?php echo $this->__('Show'); ?></button>&nbsp;
+						<button type="button" onclick="resetPinCode(); return false;"><?php echo $this->__('Autogenerate'); ?></button>
+					</td>
+    			</tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+var pos_pin_code_placeholder = '<?php echo $pinCodePlaceholder; ?>';
+
+function showPinCode() {
+
+	var url = '<?php echo $this->showPincodeUrl(); ?>';
+
+	new Ajax.Request(url, {
+	  method: 'GET',
+	  parameters: 'customer_id=' + $('user_user_id').value,
+	  onSuccess: function(response) {
+	    $('pos_pin_code').value = response.responseText;
+	    setTimeout(function(){
+			$('pos_pin_code').value = pos_pin_code_placeholder;
+	    }, 3000);
+	  }
+	});
+
+}
+
+function resetPinCode() {
+
+	var url = '<?php echo $this->resetPincodeUrl(); ?>';
+
+	new Ajax.Request(url, {
+	    method: 'POST',
+	    parameters: 'customer_id=' + $('user_user_id').value,
+	    onFailure: function(transport) {
+	    },
+	    onSuccess: function(transport) {
+	        if (200 == transport.status) {
+	            showPinCode();
+	        }
+            else {
+	            log.value += "\n" + transport.status;
+	        }
+	     }
+	});
+}
+
+</script>

@@ -1,0 +1,165 @@
+body.catalog-category-view > .container {
+    border: none;
+    padding: 0;
+}
+
+.category-title > h1 {
+    font-size: 30px;
+    font-family: 'EurostileExtended';
+    margin: 40px 0;
+    text-align: center;
+}
+
+.category-products {
+    margin-top: 15px;
+}
+
+.category-products li {
+    border: 1px solid transparent;
+}
+
+.not-touch .category-products li.item:hover {
+    border: 1px solid lightgray;
+}
+
+.category-products li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.category-products .grid-cms-block {
+    position: relative;
+}
+
+.category-products .cms-block-widget {
+    border: 1px solid lightgray;
+    padding: 6px 10px;
+    max-width: 240px;
+    margin: 40px auto 0;
+}
+
+.category-products .cms-block-widget img {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* View Type: Grid */
+.products-grid {
+    padding: 0;
+}
+
+.products-grid .item {
+    text-align: center;
+    padding: 0;
+    position: relative;
+}
+
+.products-grid .item img {
+    width: 100%;
+}
+
+.products-grid .badges {
+    height: 34px;
+    padding-top: 10px;
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+
+.products-grid .badge {
+    border: 1px #000 solid;
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 15px;
+}
+
+.products-grid .product-image {
+    margin: 0 0 10px;
+    display: block;
+}
+
+.products-grid h5 {
+    margin: 15px 0 5px 0;
+    padding: 0 25px;
+    text-decoration: none;
+}
+
+.products-grid p {
+    margin: 5px 0;
+}
+
+.products-grid .price-box,
+.products-grid .status-message {
+    margin: 5px 0 15px 0;
+}
+
+.products-grid .availability {
+    line-height: 21px;
+}
+
+.products-grid .out-of-stock h5,
+.products-grid .out-of-stock .color {
+    text-decoration: line-through;
+}
+
+.loadmore {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.loadmore .button {
+    padding: 10px 120px;
+}
+
+#js-blockajax-loader {
+    margin-left: -60px;
+    margin-top: -60px;
+}
+
+.products-grid .style {
+    border: 1px transparent solid;
+    margin: 0;
+    padding: 0;
+}
+
+.products-grid .style h5 {
+    left: 0;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+.products-grid .style h5 a {
+    min-width: 160px;
+}
+
+.products-grid .style {
+    margin-top: 40px;
+}
+
+.catalogsearch-result-index h1 {
+    margin: 20px 0 20px 10px;
+}
+
+.catalog-category-view .loadmore,
+.catalogsearch-result-index .loadmore,
+.category-products .loadmore {
+    display: none;
+}
+
+.catalogsearch-result-index .products-grid .item {
+    padding: 0 2px 10px 2px;
+}
+
+.catalog-product-view #bss_configurablegridview .cart-table td {
+    width: 33%;
+}
+
+.catalog-product-view #bss_configurablegridview .cart-table .qty {
+    width: 100%;
+}

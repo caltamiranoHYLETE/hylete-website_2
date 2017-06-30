@@ -1,0 +1,13 @@
+.column-break-marker .x-tree-node-icon {
+    border-bottom: 1px solid rgba(148, 2, 145, 0.87);
+    padding-bottom: 1px;
+}
+
+.column-break-marker a {
+    border-bottom: 1px solid rgba(148, 2, 145, 0.87);
+    padding: 1px 10px 3px 0;
+}
+
+.in-menu-marker a {
+    font-weight: bold;
+}

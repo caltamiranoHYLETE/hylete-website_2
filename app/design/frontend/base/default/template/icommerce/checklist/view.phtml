@@ -1,0 +1,143 @@
+<?php
+/**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Checklist
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ */
+?>
+<?php $project = $this->getProject(); ?>
+
+<?php if($project['status']):?>
+
+	<div class="basic-info">
+		<h1><?php echo $this->__('Checklist: ').$project['name']?></h1>
+		
+		<table class="first-table">
+			<tr>
+				<td class="first"><p><?php echo $this->__('Project manager')?></p></td>
+				<td class="second"><p><a href="mailto:<?php echo $project['pm_email']?>"><?php echo $project['pm_email']?></a></p></td>
+			</tr>
+			<tr>
+				<td class="first"><p><?php echo $this->__('Customer')?></p></td>
+				<td class="second"><p><a href="mailto:<?php echo $project['customer_email']?>"><?php echo $project['customer_email']?></a></p></td>
+			</tr>
+		</table>
+		
+		<table class="second-table">
+			<tr>
+				<td class="first"><p><?php echo $this->__('Last updated')?></p></td>
+				<td class="second"><p><?php echo $project['updated_on']?></p></td>
+			</tr>
+			<tr>
+				<td class="first"><p><?php echo $this->__('By')?></p></td>
+				<td class="second"><p><a href="mailto:<?php echo $project['updated_by']?>"><?php echo $project['updated_by']?></a></p></td>
+			</tr>
+		</table>
+		<div class="clear"></div>
+		<p><a href="<?php echo $project['other_url']?>"><?php echo $project['other_url']?></a>
+	</div>
+	
+	<form action="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" id="checklistForm" method="post">
+		<?php foreach ($this->getCheckLists($project['id']) as $list): ?>
+		
+			<?php if($list['status']):?>
+				<fieldset> 	
+	    		<legend><?php echo $list['name']?></legend>
+	    		<ul class="checklist">
+	    			<?php $i=1; foreach ($this->getCheckboxes($list['id']) as $checkbox):?>
+	    				<?php if($checkbox['status']):?>
+	    					<li>
+	    						<?php if($checkbox['updated_by'] && $checkbox['checked']):?>
+	    						<span class="title">
+	    							<?php echo $this->__('Approved by: ').$checkbox['updated_by']?>
+	    							<br /><?php echo $checkbox['updated_on']?>
+	    						</span>
+	    						<?php elseif($checkbox['updated_by']):?>
+	    						<span class="title title-previously">
+	    							<?php echo $this->__('Previously approved by: ').$checkbox['updated_by']?>
+	    							<br /><?php echo $checkbox['updated_on']?>
+	    						</span>
+	    						<?php else:?>
+	    						<span class="title title-null">
+	    							<?php echo $this->__('Not yet approved')?>
+	    						</span>
+	    						<?php endif;?>
+	    						
+	    						<input type="checkbox" <?php if($checkbox['checked']) echo "checked"; ?> 
+	    							name="<?php echo $checkbox['id']?>" id="<?php echo $checkbox['id']?>" />	
+	    						
+	    						<label for="<?php echo $checkbox['id']?>"><?php echo $checkbox['text']?></label>
+	    						<a class="checkbox-select" href="#"><?php echo $this->__('Select')?></a>
+	    						<a class="checkbox-deselect" href="#"><?php echo $this->__('Approved')?></a>
+	    					</li>
+	    				<?php endif;?>
+	    				<?php if($i == 5):?>
+	    				</ul><br class="clear"/><ul class="checklist checklist-second">
+	    				<?php endif;?>
+	    			<?php $i++; endforeach;?> 	
+	    			
+	    		</ul>
+	    		<div style="clear: both;"></div>
+	    		<p class="comment"><?php echo $this->__('Comments on things that do not work')?></p>
+	    		<textarea class="comment" name="comment-<?php echo $list['id']?>" id="comment"></textarea>
+	    		</fieldset>
+	    		<div style="clear: both;"></div>
+	    		
+	    	<?php endif;?>
+		<?php endforeach;?>
+		
+		<input type="hidden" name="save" id="save" value="<?php echo $project['id']?>" />
+		<input type="hidden" name="url" id="url" value="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" />
+		
+		<div class="buttons-row">
+			<p>
+				<?php echo $this->__('Leave your email address and save.')?><br />
+				<?php echo $this->__('An email will be sent to you and the project manager.')?>
+			</p>
+			<input class="input-text" type="text" name="email" id="email" value="" class="required email" />
+			<button class="sendit" id="sendit"><span><span><?php echo $this->__('Approve') ?></span></span></button>
+			<div class="clear"></div>
+		</div>
+	</form>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	Event.observe(window, 'load', function(e){
+		var icChecklistForm = new IcChecklistForm();
+	});
+	//]]>
+	</script>
+	
+<?php else:?>
+
+	<div class="basic-info">
+		<h1><?php echo $this->__('Checklist: ').$project['name']?></h1>
+		<h2><?php echo $this->__('Is disabled')?></h2>
+		<table class="first-table">
+			<tr>
+				<td class="first"><p><?php echo $this->__('Project manager')?></p></td>
+				<td class="second"><p><a href="mailto:<?php echo $project['pm_email']?>"><?php echo $project['pm_email']?></a></p></td>
+			</tr>
+		</table>
+		<div class="clear"></div>
+	</div>
+	
+<?php endif;?>

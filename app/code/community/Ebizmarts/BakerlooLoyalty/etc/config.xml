@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ebizmarts_BakerlooLoyalty>
+            <version>0.0.1</version>
+        </Ebizmarts_BakerlooLoyalty>
+    </modules>
+    <global>
+        <helpers>
+            <bakerloo_loyalty>
+                <class>Ebizmarts_BakerlooLoyalty_Helper</class>
+            </bakerloo_loyalty>
+        </helpers>
+        <models>
+            <bakerloo_loyalty>
+                <class>Ebizmarts_BakerlooLoyalty_Model</class>
+            </bakerloo_loyalty>
+        </models>
+    </global>
+    <default>
+        <bakerloo_loyalty>
+            <integrations>
+                <Enterprise_Reward><![CDATA[Magento Enterprise]]></Enterprise_Reward>
+                <TBT_Rewards><![CDATA[Sweet Tooth]]></TBT_Rewards>
+                <AW_Points><![CDATA[aheadWorks Points & Rewards]]></AW_Points>
+            </integrations>
+        </bakerloo_loyalty>
+    </default>
+</config>

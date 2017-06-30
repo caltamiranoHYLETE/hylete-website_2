@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<layout>
+
+	<default>
+		<reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/ic_pagemanager.css</name><params/></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+		</reference>
+	</default>
+
+    <adminhtml_pagemanager_index>
+        <reference name="content">
+            <block type="pagemanager/page" name="index" template="icommerce/pagemanager/index.phtml">
+            	<block type="pagemanager/page" name="massupdate" template="icommerce/pagemanager/page/massupdate.phtml" />
+				<block type="pagemanager/page" name="empty" template="icommerce/pagemanager/page/empty.phtml" />
+            </block>
+        </reference>
+    </adminhtml_pagemanager_index>
+
+    <adminhtml_pagemanager_add>
+        <reference name="content">
+            <block type="pagemanager/page_add" name="add" template="icommerce/pagemanager/page/add.phtml"/>
+        </reference>
+    </adminhtml_pagemanager_add>
+
+    <adminhtml_pagemanager_edit>
+        <reference name="content">
+            <block type="pagemanager/page_edit" name="edit" template="icommerce/pagemanager/page/edit.phtml">
+            	<block type="pagemanager/page_row" name="rows" template="icommerce/pagemanager/page/rows.phtml">
+            		<block type="pagemanager/page" name="massupdate" template="icommerce/pagemanager/page/massupdate.phtml" />
+					<block type="pagemanager/page" name="empty" template="icommerce/pagemanager/page/row/empty.phtml" />
+            	</block>
+            </block>
+        </reference>
+    </adminhtml_pagemanager_edit>
+
+    <adminhtml_pagerow_add>
+        <reference name="content">
+            <block type="pagemanager/page_row_add" name="add" template="icommerce/pagemanager/page/row/add.phtml"/>
+        </reference>
+    </adminhtml_pagerow_add>
+
+    <adminhtml_pagerow_edit>
+        <reference name="content">
+            <block type="pagemanager/page_row_edit" name="edit" template="icommerce/pagemanager/page/row/edit.phtml"/>
+        </reference>
+    </adminhtml_pagerow_edit>
+
+    <adminhtml_pageitem_addimage>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addimage" name="addimage" template="icommerce/pagemanager/page/row/item/image/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addimage>
+
+    <adminhtml_pageitem_editimage>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editimage" name="editimage" template="icommerce/pagemanager/page/row/item/image/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_editimage>
+
+     <adminhtml_pageitem_copyimage>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copyimage" name="copyimage" template="icommerce/pagemanager/page/row/item/image/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copyimage>
+
+    <adminhtml_pageitem_addimagewithoverlay>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addimagewithoverlay" name="addimagewithoverlay" template="icommerce/pagemanager/page/row/item/imagewithoverlay/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addimagewithoverlay>
+
+    <adminhtml_pageitem_editimagewithoverlay>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editimagewithoverlay" name="editimagewithoverlay" template="icommerce/pagemanager/page/row/item/imagewithoverlay/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_editimagewithoverlay>
+
+     <adminhtml_pageitem_copyimagewithoverlay>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copyimagewithoverlay" name="copyimagewithoverlay" template="icommerce/pagemanager/page/row/item/imagewithoverlay/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copyimagewithoverlay>
+
+    <adminhtml_pageitem_addhtml>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addhtml" name="addhtml" template="icommerce/pagemanager/page/row/item/html/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addhtml>
+
+    <adminhtml_pageitem_edithtml>
+    	<update handle="editor"/>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_edithtml" name="edithtml" template="icommerce/pagemanager/page/row/item/html/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_edithtml>
+
+    <adminhtml_pageitem_copyhtml>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copyhtml" name="copyhtml" template="icommerce/pagemanager/page/row/item/html/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copyhtml>
+
+    <adminhtml_pageitem_addtoplist>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addtoplist" name="addtoplist" template="icommerce/pagemanager/page/row/item/toplist/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addtoplist>
+
+    <adminhtml_pageitem_edittoplist>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_edittoplist" name="edittoplist" template="icommerce/pagemanager/page/row/item/toplist/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_edittoplist>
+
+    <adminhtml_pageitem_copytoplist>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copytoplist" name="copytoplist" template="icommerce/pagemanager/page/row/item/toplist/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copytoplist>
+
+    <adminhtml_pageitem_addcategory>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addcategory" name="addcategory" template="icommerce/pagemanager/page/row/item/category/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addcategory>
+
+    <adminhtml_pageitem_editcategory>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editcategory" name="editcategory" template="icommerce/pagemanager/page/row/item/category/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_editcategory>
+
+    <adminhtml_pageitem_copycategory>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copycategory" name="copycategory" template="icommerce/pagemanager/page/row/item/category/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copycategory>
+
+    <adminhtml_pageitem_addslideshow>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addslideshow" name="addslideshow" template="icommerce/pagemanager/page/row/item/slideshow/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addslideshow>
+
+    <adminhtml_pageitem_editslideshow>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editslideshow" name="editslideshow" template="icommerce/pagemanager/page/row/item/slideshow/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_editslideshow>
+
+    <adminhtml_pageitem_copyslideshow>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copyslideshow" name="copyslideshow" template="icommerce/pagemanager/page/row/item/slideshow/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copyslideshow>
+
+    <adminhtml_pageitem_addheading>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addheading" name="addheading" template="icommerce/pagemanager/page/row/item/heading/add.phtml"/>
+        </reference>
+    </adminhtml_pageitem_addheading>
+
+    <adminhtml_pageitem_editheading>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editheading" name="editheading" template="icommerce/pagemanager/page/row/item/heading/edit.phtml"/>
+        </reference>
+    </adminhtml_pageitem_editheading>
+
+    <adminhtml_pageitem_copyheading>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copyheading" name="copyheading" template="icommerce/pagemanager/page/row/item/heading/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copyheading>
+
+    <adminhtml_pageitem_addwidget>
+
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action><!-- New path -->
+        </reference>
+
+        <reference name="content">
+            <block type="pagemanager/page_row_item_addwidget" name="addwidget" template="icommerce/pagemanager/page/row/item/widget/add.phtml"/>
+        </reference>
+
+        <reference name="js">
+            <block type="adminhtml/template" template="widget/instance/js.phtml" name="widget_instance_js"></block>
+        </reference>
+    </adminhtml_pageitem_addwidget>
+
+    <adminhtml_pageitem_editwidget>
+
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action><!-- New path -->
+        </reference>
+
+        <reference name="content">
+            <block type="pagemanager/page_row_item_editwidget" name="editwidget" template="icommerce/pagemanager/page/row/item/widget/edit.phtml"/>
+        </reference>
+
+        <reference name="js">
+            <block type="adminhtml/template" template="widget/instance/js.phtml" name="widget_instance_js"></block>
+        </reference>
+    </adminhtml_pageitem_editwidget>
+
+    <adminhtml_pageitem_copywidget>
+        <reference name="content">
+            <block type="pagemanager/page_row_item_copywidget" name="copywidget" template="icommerce/pagemanager/page/row/item/widget/copy.phtml"/>
+        </reference>
+    </adminhtml_pageitem_copywidget>
+
+
+</layout>

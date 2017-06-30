@@ -1,0 +1,61 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_blank
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_helper = Mage::helper('carbon'); ?>
+<?php $_textDescription = htmlspecialchars(strip_tags(html_entity_decode($this->getDescription()))); ?>
+<meta charset="utf-8" />
+<title><?php echo $this->getTitle() ?></title>
+<?php if($_helper->isResponsiveEnabled()):?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+<?php endif; ?>
+<meta name="description" content="<?php echo $_textDescription; ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="<?php echo Mage::helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+<meta property="og:description" content="<?php echo $_textDescription; ?>" />
+<?php if(Mage::registry('current_product') && Mage::registry('current_product')->getImage() != 'no_selection'): ?>
+    <meta property="og:image" content="<?php echo Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'image')->resize(1200,630);?>" />
+<?php endif; ?>
+<?php if($_metaAuthor = $_helper->getMetaAuthor()):?>
+    <meta name="author" content="<?php echo $this->htmlEscape($_metaAuthor); ?>">
+<?php endif; ?>
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<script type="text/javascript">
+//<![CDATA[
+    var BASE_URL = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, Mage::app()->getFrontController()->getRequest()->isSecure()); ?>';
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+    var SKIN_URL = '<?php echo $this->helper('core/js')->getJsSkinUrl('') ?>';
+//]]>
+</script>
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+<!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->

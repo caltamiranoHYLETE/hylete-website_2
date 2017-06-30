@@ -1,0 +1,19 @@
+<?xml version="1.0" ?><config>
+    <modules>
+      <Vaimo_Js>
+        <version>0.1.4</version>
+      </Vaimo_Js>
+    </modules>
+    <global>
+      <models>
+        <js>
+          <class>Vaimo_Js_Model</class>
+        </js>  
+      </models>
+      <blocks>
+        <js>
+          <class>Vaimo_Js_Block</class>
+        </js>  
+      </blocks>
+    </global>
+  </config>

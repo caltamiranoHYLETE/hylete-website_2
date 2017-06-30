@@ -1,0 +1,132 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+?>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+
+$_helperHylete = $this->helper('hylete');
+$_helperBlog = $this->helper('blog');
+$_baseUrl = Mage::getBaseUrl();
+$_productCategory = $_helperHylete->getCategory();
+$_subCategories = $_productCategory->getChildren();
+?>
+<?php echo Mage::helper('prevnextlocal/category')
+        ->getScript($_productCollection); ?>
+<section>
+    <?php if (!$_productCollection->count()): ?>
+        <div class="col-md-12">
+            <p class="note-msg"><?php echo $this->__('There are no blog posts in this category.') ?></p>
+        </div>
+    <?php else: ?>
+        <div class="col-md-8 left-col">
+            <div class="category-products">
+                <div class="products-grid">
+                    <?php $imageWidth = 770;
+                    $imageHeight = 382; ?>
+                    <?php foreach ($_productCollection as $_product) : ?>
+                        <?php $productName = $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                        <?php if ($_product->getBlogImageView()) : ?>
+                            <?php $mainClass = "blog-full-length";
+                            $imgClass = "full-img";
+                            $imageWidth = 770;
+                            ?>
+                        <?php else: ?>
+                            <?php $mainClass = "blog-half-length";
+                            $imgClass = "half-img";
+                            $imageWidth = 370;
+                            ?>
+                        <?php endif ?>
+                        <article class="<?php echo $mainClass; ?> item">
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $productName ?>">
+                                <img class="<?php echo $imgClass; ?> large-image" src="<?php echo $this->helper('catalog/image')
+                                        ->init($_product, $_product->getBlogImageView() ? 'image' : 'small_image')
+                                        ->keepAspectRatio(TRUE)
+                                        ->keepFrame(FALSE)
+                                        ->resize($imageWidth); ?>"/>
+                                <img class="<?php echo $imgClass; ?> small-image" src="<?php echo $this->helper('catalog/image')
+                                        ->init($_product, 'thumbnail')
+                                        ->keepAspectRatio(TRUE)
+                                        ->keepFrame(FALSE)
+                                        ->resize(380); ?>"/>
+                            </a>
+
+                            <div class="post-content">
+                                <label class="date-label"><?php echo $_helperBlog->getPublishDate($_product, "MMM d, YYYY") ?>
+                                </label>
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $productName ?>"><h2><?php echo $productName ?></h2></a>
+
+                                <div class="blog-content">
+                                    <?php $content = strip_tags($_helper->productAttribute($_product, $_product->getBlogContent(), 'blog_content'), '<br><p>') ?>
+                                    <?php if ($_helperBlog->getExcerptConfig() == 'summary') : ?>
+                                        <?php $suffixAnchor = "&nbsp;<a href=" . $_product->getProductUrl() . " title=" . $productName . ">" . $_helperBlog->getSummarySuffixConfig() . "</a>"; ?>
+                                        <?php echo Icommerce_Utils::truncateHtml($content, $_helperBlog->getSummaryNbrOfCharsConfig(), $suffixAnchor, true); ?>
+                                    <?php else: ?>
+                                        <?php echo $content; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endforeach ?>
+                </div>
+                <div class="loadmore toolbar-bottom">
+                    <?php echo $this->getToolbarBlock()
+                            ->setTemplate('catalog/product/list/loadmore.phtml')
+                            ->setCollection($_productCollection)
+                            ->toHtml(); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 right-col">
+            <?php echo $this->getChildHtml('blog.right.column') ?>
+        </div>
+    <?php endif; ?>
+</section>

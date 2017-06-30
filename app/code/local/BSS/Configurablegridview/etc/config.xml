@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <BSS_Configurablegridview>
+            <version>1.0.0</version>
+        </BSS_Configurablegridview>
+    </modules>
+    <frontend>
+        <routers>
+            <configurablegridview>
+                <use>standard</use>
+                <args>
+                    <module>BSS_Configurablegridview</module>
+                    <frontName>configurablegridview</frontName>
+                </args>
+            </configurablegridview>
+			<checkout>
+             <args>
+                 <modules>
+                    <BSS_Configurablegridview before="Mage_Checkout">BSS_Configurablegridview</BSS_Configurablegridview>
+                </modules>
+             </args>
+        </checkout>
+        </routers>
+        <layout>
+        	<updates>
+        		<configurablegridview>
+        			<file>bss/configurablegridview.xml</file>
+        		</configurablegridview>
+        	</updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <modules>
+                    <configurablegridview after="Mage_Adminhtml">BSS_Configurablegridview_Adminhtml</configurablegridview>
+                </modules>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+		<rewrite>
+			<bss_configurablegridview_cart>
+				<from><![CDATA[#^/checkout/cart/#]]></from>
+				<to>/configurablegridview/cart/</to>
+			</bss_configurablegridview_cart>
+		</rewrite>
+        <helpers>
+            <configurablegridview>
+                <class>BSS_Configurablegridview_Helper</class>
+            </configurablegridview>
+        </helpers>
+    </global>
+	<default>
+		<configurablegridview>
+			<settings>
+				<is_enabled>1</is_enabled>
+				<enable_stock_avail>1</enable_stock_avail>
+				<show_price>1</show_price>
+				<show_number_stock>0</show_number_stock>
+				<show_out_stock>0</show_out_stock>
+			</settings>
+		</configurablegridview>
+	</default>
+</config>

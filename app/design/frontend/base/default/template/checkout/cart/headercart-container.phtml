@@ -1,0 +1,4 @@
+<?php $_helper = Mage::helper('headercart'); ?>
+<?php if ($_helper->useAddToCartAjax()): ?><div id="atca-cart"><?php endif; ?>
+    <?php echo $this->getChildHtml('headerCartInner'); ?>
+<?php if ($_helper->useAddToCartAjax()): ?></div><?php endif; ?>

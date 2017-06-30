@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_PrevNext
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ * @author      Giorgos Tsioutsiouliklis <giorgos@vaimo.com>
+-->
+<config>
+    <tabs>
+        <vaimo_addons translate="label" module="prevnext">
+            <label>Vaimo Modules</label>
+            <sort_order>999</sort_order>
+        </vaimo_addons>
+    </tabs>
+    <sections>
+        <catalog>
+            <groups>
+                <productalert>
+                    <fields>
+                        <qty_in_notify_check translate="label comment">
+                            <label>Use qty in "back in stock" check</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Include check that qty > 0 when checking if product is back in stock]]></comment>
+                        </qty_in_notify_check>
+                    </fields>
+                </productalert>
+            </groups>
+        </catalog>
+    </sections>
+</config>

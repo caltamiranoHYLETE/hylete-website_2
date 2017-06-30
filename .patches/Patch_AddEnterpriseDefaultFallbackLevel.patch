@@ -1,0 +1,13 @@
+--- app/code/core/Mage/Core/Model/Design/Package.php	2013-08-21 14:30:04.000000000 +0200
++++ app/code/core/Mage/Core/Model/Design/Package.php	2013-10-30 15:35:21.000000000 +0200
+@@ -392,6 +392,10 @@
+     protected function _fallback($file, array &$params, array $fallbackScheme = array(array()))
+     {
+         if ($this->_shouldFallback) {
++            //Vaimo change: add enterprise/default as the fallback before base
++            if (!isset($params['_package']) || $params['_package'] != 'enterprise') {
++                $fallbackScheme[] = array('_theme' => self::DEFAULT_THEME, '_package' => 'enterprise');
++            }
+             foreach ($fallbackScheme as $try) {
+                 $params = array_merge($params, $try);
+                 $filename = $this->validateFile($file, $params);

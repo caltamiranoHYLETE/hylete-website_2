@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2009-2017 Vaimo Group
+
+Vaimo reserves all rights in the Program as delivered. The Program
+or any portion thereof may not be reproduced in any form whatsoever without
+the written consent of Vaimo, except as provided by licence. A licence
+under Vaimo's rights in the Program may be available directly from
+Vaimo.
+
+Disclaimer:
+THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+IN THE PROGRAM.
+
+@category    Vaimo
+@package     Vaimo_Cms
+@copyright   Copyright (c) 2009-2017 Vaimo Group
+-->
+<layout version="0.1.0">
+    <vcms_base>
+        <reference name="head">
+            <action method="addJs"><file>vaimo/cms/adminhtml/base.js</file></action>
+        </reference>
+    </vcms_base>
+
+    <vcms_content_type_selector>
+        <reference name="head">
+            <action method="addJs"><file>vaimo/cms/adminhtml/page/type/selector.js</file></action>
+            <action method="addJs"><file>vaimo/cms/adminhtml/form/synchronizer.js</file></action>
+        </reference>
+
+        <reference name="cms.toolbar.items">
+            <block type="adminhtml/template" name="cms.admin.toolbar" template="vaimo/cms/toolbar/item/page_type.phtml">
+                <block type="vaimo_cms/adminhtml_page_type_selector" name="page.type.selector" />
+            </block>
+        </reference>
+
+        <reference name="js">
+            <block type="vaimo_cms/adminhtml_page_type_updater" name="page.type.updater.js"/>
+            <block type="vaimo_cms/adminhtml_category_form_synchronizer" name="category.form.synch.js"/>
+        </reference>
+    </vcms_content_type_selector>
+
+    <vcms_adminhtml_category_toolbar>
+        <reference name="tabs">
+            <block type="adminhtml/template" name="cms.admin.toolbar" template="vaimo/cms/toolbar/container.phtml">
+                <block type="vaimo_cms/adminhtml_category_edit_cms_toolbar" name="cms.toolbar.items"/>
+            </block>
+        </reference>
+    </vcms_adminhtml_category_toolbar>
+
+    <vcms_adminhtml_category_tree_decorator>
+        <reference name="head">
+            <action method="addJs"><file>vaimo/cms/adminhtml/category/tree/decorator.js</file></action>
+            <action method="addItem"><type>skin_css</type><name>css/vaimo/cms/category-edit.css</name></action>
+        </reference>
+
+        <reference name="content">
+            <block type="vaimo_cms/adminhtml_catalog_category_tree_decorator" name="cms.tree.decorator"/>
+        </reference>
+    </vcms_adminhtml_category_tree_decorator>
+
+    <adminhtml_catalog_category_edit>
+        <update handle="vcms_base"/>
+
+        <update handle="vcms_adminhtml_category_toolbar"/>
+        <update handle="vcms_content_type_selector"/>
+        <update handle="vcms_adminhtml_category_tree_decorator"/>
+    </adminhtml_catalog_category_edit>
+
+    <adminhtml_vaimocms_widget_edit>
+        <update handle="vcms_base"/>
+        <update handle="editor"/>
+
+        <reference name="head">
+            <action method="addJs"><script>vaimo/cms/adminhtml/window/dialog.js</script></action>
+            <action method="addJs"><script>vaimo/cms/adminhtml/widget/editor.js</script></action>
+            <action method="removeItem"><type>skin_css</type><name>lib/prototype/windows/themes/magento.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/vaimo/cms/widget-editor.css</name></action>
+        </reference>
+
+        <reference name="content">
+            <block type="vaimo_cms/adminhtml_widget_editor" name="cms.widget.editor.js"/>
+        </reference>
+
+        <reference name="root">
+            <action method="setTemplate"><path>vaimo/cms/page/content.phtml</path></action>
+        </reference>
+    </adminhtml_vaimocms_widget_edit>
+</layout>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <ebizmarts_pos translate="title" module="bakerloo_restful">
+            <title>POS</title>
+            <sort_order>169</sort_order>
+            <children>
+                <orders>
+                    <title>Orders</title>
+                    <sort_order>40</sort_order>
+                    <action>adminhtml/bakerlooorders/</action>
+                    <children>
+                        <emails translate="title" module="bakerloo_restful">
+                            <title>Emails</title>
+                            <sort_order>5</sort_order>
+                            <action>adminhtml/pos_emails</action>
+                        </emails>
+                    </children>
+                </orders>
+            </children>
+        </ebizmarts_pos>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <ebizmarts_pos>
+                        <children>
+                            <orders>
+                                <children>
+                                    <emails translate="title">
+                                        <title>Emails</title>
+                                        <sort_order>5</sort_order>
+                                    </emails>
+                                </children>
+                            </orders>
+                        </children>
+                    </ebizmarts_pos>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

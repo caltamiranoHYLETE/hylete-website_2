@@ -1,0 +1,29 @@
+
+<?php
+    /* Tabs for product page */
+    $_product = $this->getProduct();
+?>
+
+<div id="tabs">
+	<ul>
+        <li><a href="#description_tab"><?php echo $this->__('Description') ?></a></li>
+		<li><a href="#additional_tab"><?php echo $this->__('More Info') ?></a></li>
+        <li><a href="#review_tab"><?php echo $this->__('Reviews') ?></a></li>
+	</ul>
+	<div id="description_tab">
+        <?php if ($_description = $this->getChildHtml('description')) :?>
+		<?php echo $_description; endif;?>
+	</div>
+	<div id="additional_tab">
+        <?php echo $this->getChildHtml('additional') ?>
+	</div>
+    <div id="review_tab">
+        <?php echo $this->getChildHtml('reviews') ?>
+    </div>
+</div>
+
+<script>
+	jQuery(document).ready(function($){
+        $('#tabs').tabs();
+	});
+</script>

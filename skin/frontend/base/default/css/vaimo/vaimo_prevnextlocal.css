@@ -1,0 +1,83 @@
+/*
+    The css for the infohub_view
+    Included in index.php
+    @version 2014-10-31
+    @since 2013-11-26
+    @author Peter Lembke
+*/
+
+.vaimo_prevnextlocal_data {
+    width:auto;
+    min-width: 50px;
+    max-width: 100px;
+    width: 100%;
+    box-sizing: border-box;
+    /*    border: 3px solid red;*/
+}
+
+.vaimo_prevnextlocal_data_wide {
+    width:auto;
+    min-width: 320px;
+    max-width: 640px;
+    box-sizing: border-box;
+    /*    border: 3px solid red;*/
+}
+
+.vaimo_prevnextlocal_border {
+    border: 3px solid red;
+}
+
+.vaimo_prevnextlocal_image {
+    max-width: 100%;
+    height: auto;
+    clear: both;
+    display: block;
+}
+
+#vaimo_prevnextlocal_detail_name {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.vaimo_prevnextlocal_side {
+    float: left;
+    display: inline-block;
+    resize: none;
+    overflow: auto;
+    box-sizing: border-box;
+    /*    border: 3px solid green;*/
+}
+
+.vaimo_prevnextlocal_under {
+    float: none;
+    resize: none;
+    overflow: auto;
+    box-sizing: border-box;
+    /*    border: 3px solid blue;*/
+}
+
+.vaimo_prevnextlocal_end {
+    clear: left;
+    display: none;
+    width:0%;
+    height:0%;
+}
+
+.vaimo_prevnextlocal_main {
+    background-color:yellow;
+    box-shadow: 6px 6px 3px #888888;
+    border:2px solid #a1a1a1;
+    padding:10px 40px;
+    background:#fefefe;
+    border-radius:25px;
+    border-color:#a0a0a0;
+    border-style: solid;
+}
+
+#vaimo_prevnextlocal_list {
+    display: none;
+}
+
+#vaimo_prevnextlocal_detail {
+    display: none;
+}

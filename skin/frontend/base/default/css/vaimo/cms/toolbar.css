@@ -1,0 +1,63 @@
+.vcms-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background: #ed6502;
+    color: #fff;
+    font-weight: bold;
+    z-index: 999;
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+    padding: 0 20px;
+}
+
+.vcms-show.vcms-show.vcms-show {
+    display: block;
+}
+
+body {
+    margin-top: 40px;
+}
+
+.raptor-plugin-dock-visible.raptor-plugin-dock-visible {
+    display: none;
+}
+
+.vcms-toolbar a {
+    color: #fff;
+}
+
+.vcms-toolbar .vcms-exit-edit-mode {
+    float: right;
+}
+
+.vcms-toolbar .vcms-button-group {
+    display: none;
+    float: left;
+    margin-right: 30px;
+}
+
+.vcms-toolbar .vcms-button-group.show {
+    display: block;
+}
+
+.vcms-toolbar .vcms-button-group button {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ed6502 #a04300 #a04300 #ed6502;
+    padding: 1px 7px 2px 7px;
+    background: #ffac47 url(../../../images/vaimo_cms/icon-bg.gif) repeat-x 0 100%;
+    color: #fff;
+    font: bold 12px Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-align: center !important;
+    white-space: nowrap;
+    outline: none;
+    line-height: 1.75em;
+}
+
+.vcms-toolbar .vcms-button-group img {
+    margin-top: -1px;
+}

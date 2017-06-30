@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_pos_reports_index>
+        <reference name="content">
+            <block type="bakerloo_reports/adminhtml_pos_reports" />
+        </reference>
+    </adminhtml_pos_reports_index>
+    <adminhtml_pos_reports_grid>
+        <reference name="content">
+            <block type="bakerloo_reports/adminhtml_pos_reports_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_reports_grid>
+    <adminhtml_pos_reports_edit>
+        <reference name="content">
+            <block type="bakerloo_reports/adminhtml_pos_reports_edit" />
+        </reference>
+    </adminhtml_pos_reports_edit>
+    <adminhtml_pos_reports_view_index>
+        <reference name="content">
+            <block type="bakerloo_reports/adminhtml_pos_reports_view"  />
+        </reference>
+    </adminhtml_pos_reports_view_index>
+    <adminhtml_pos_reports_view_grid>
+        <reference name="content">
+            <block type="bakerloo_reports/adminhtml_pos_reports_view_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_reports_view_grid>
+</layout>

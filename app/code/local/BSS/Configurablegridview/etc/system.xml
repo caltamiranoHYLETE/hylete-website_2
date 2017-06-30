@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<config>
+	<tabs>
+		<bss translate="label" module="configurablegridview">
+			<label><![CDATA[BSS Group]]></label>
+			<sort_order>200</sort_order>
+		</bss>
+	</tabs>
+ 	<sections>
+		<configurablegridview translate="label" module="configurablegridview">
+			<class>separator-top</class>
+			<label>Configurable Grid View</label>
+			<tab>bss</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>20</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<settings translate="label" module="configurablegridview">
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<is_enabled translate="label">
+                            <label>Enabled Grid Table</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>
+							<![CDATA[<span style="color: #204908;">If set to <strong>"Yes"</strong> - module is enabled, if set to
+							<strong>"No"</strong> - module is disabled.</span>]]></comment>
+                        </is_enabled>
+						<enable_stock_avail translate="label">
+						  <label>Show Stock Availability in Table</label>
+						  <frontend_type>select</frontend_type>
+						  <source_model>adminhtml/system_config_source_yesno</source_model>
+						  <sort_order>20</sort_order>
+						  <show_in_default>1</show_in_default>
+						  <show_in_website>1</show_in_website>
+						  <show_in_store>1</show_in_store>
+						  <comment>If enabled the products qty column will be enabled in configurable grid view table</comment>
+						</enable_stock_avail>
+						<show_number_stock translate="label">
+							<label>Show Number Stock</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>21</sort_order>
+							<show_in_default>1</show_in_default>
+						  	<show_in_website>1</show_in_website>
+						  	<show_in_store>1</show_in_store>
+						  	<depends>
+						  		<enable_stock_avail>1</enable_stock_avail>
+						  	</depends>
+						</show_number_stock>
+						<show_out_stock translate="label">
+							<label>Show Out Of Stock Product</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>22</sort_order>
+							<show_in_default>1</show_in_default>
+						  	<show_in_website>1</show_in_website>
+						  	<show_in_store>1</show_in_store>
+						  	<depends>
+						  		<enable_stock_avail>1</enable_stock_avail>
+						  	</depends>
+						  	<comment>If enabled the products have Stock Availability  = "Out of stock" will be display in configurable grid view table</comment>
+						</show_out_stock>
+						<show_price translate="label">
+							<label>Show Price</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+						  	<show_in_website>1</show_in_website>
+						  	<show_in_store>1</show_in_store>
+						  	<comment>If enabled the products price column will be enabled in configurable grid view table</comment>
+						</show_price>
+					</fields>
+				</settings>
+			</groups>
+		</configurablegridview>
+	</sections>
+</config>

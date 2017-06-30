@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <block type="bakerloo_payment/adminhtml_sales_order_view_tab_installments" name="adminhtml_sales_order_view_tab_installments" />
+            <action method="addTab">
+                <id>bakerloo_payment_payment_installments</id>
+                <block>adminhtml_sales_order_view_tab_installments</block>
+                <!--<after>order_transactions</after>-->
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

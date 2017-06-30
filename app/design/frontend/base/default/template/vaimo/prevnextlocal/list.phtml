@@ -1,0 +1,20 @@
+<?php $totalCount = 1 + 2 * (int)$this->getData('spread'); ?>
+<?php $middle = (int)$this->getData('spread'); ?>
+<div id="vaimo_prevnextlocal_list" class="vaimo_prevnextlocal_main">
+    <div class="vaimo_prevnextlocal_under">
+    <?php for ($i=0; $i < $totalCount; $i++): ?>
+        <?php $isMiddle = $i === $middle ? 'true':'false'; ?>
+        <?php $extraClass = $i === $middle ? ' vaimo_prevnextlocal_border':''; ?>
+        <div id="vaimo_prevnextlocal_list_<?php echo $i; ?>" class="vaimo_prevnextlocal_side">
+            <div id="vaimo_prevnextlocal_list_data_<?php echo $i; ?>" class="vaimo_prevnextlocal_data<?php echo $extraClass; ?>">
+                <a href="" onclick="$prevNextLocalList.go(<?php echo $i; ?>,<?php echo $isMiddle; ?>); return false;">
+                    <img id="vaimo_prevnextlocal_list_image_<?php echo $i; ?>" src="media/consumersales/5.png" product_id="" class="vaimo_prevnextlocal_image">
+                </a>
+            </div>
+        </div>
+    <?php endfor; ?>
+        <div id="vaimo_prevnextlocal_list_end" class="vaimo_prevnextlocal_end"></div>
+    </div>
+</div>
+<?php echo $this->getScript(); ?>
+<?php echo $this->getEventScript(); ?>

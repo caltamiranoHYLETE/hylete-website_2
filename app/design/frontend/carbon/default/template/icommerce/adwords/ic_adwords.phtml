@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright (c) 2009-2015 Vaimo Norge AS
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Icommerce_Adwords
+ * @copyright   Copyright (c) 2009-2015 Vaimo Norge AS
+ * @author      Simen Thorsrud <simen.thorsrud@vaimo.com>
+ * @author      Branislav Jovanovic <branislav.jovanovic@vaimo.com>
+ */
+
+/** @var Icommerce_Adwords_Block_View $this */
+
+/** @var string $googleTagParams Json */
+$googleTagParams = $this->getGoogleTagParams();
+?>
+
+<?php if($this->isActive()): ?>
+<?php if (strlen($googleTagParams)) : ?>
+<script type="text/javascript">
+    var google_tag_params = <?php echo $googleTagParams ?>;
+</script>
+<?php endif; ?>
+<script type="text/javascript">
+/* <![CDATA[ */
+<?php if (strlen($this->getGoogleConversionId())) : ?>
+    var google_conversion_id = <?php echo $this->getGoogleConversionId() ?>;
+<?php endif; ?>
+<?php if (strlen($this->getGoogleConversionLanguage())) : ?>
+    var google_conversion_language = "<?php echo $this->getGoogleConversionLanguage() ?>";
+<?php endif; ?>
+<?php if (strlen($this->getGoogleConversionFormat())) : ?>
+    var google_conversion_format = "<?php echo $this->getGoogleConversionFormat() ?>";
+<?php endif; ?>
+<?php if (strlen($this->getGoogleConversionColor())) : ?>
+    var google_conversion_color = "<?php echo $this->getGoogleConversionColor() ?>";
+<?php endif; ?>
+<?php if (strlen($this->getGoogleConversionLabel())) : ?>
+    var google_conversion_label = "<?php echo $this->getGoogleConversionLabel() ?>";
+<?php endif; ?>
+<?php if (strlen($this->getGoogleConversionValue())) : ?>
+    var google_conversion_value = "<?php echo $this->getGoogleConversionValue() ?>";
+<?php endif; ?>
+    var google_remarketing_only = <?php echo $this->getGoogleRemarketingOnly() ? "true":"false" ?>;
+<?php if ($this->isGoogleRemarketingActive()) : ?>
+    var google_custom_params = window.google_tag_params;
+<?php endif; ?>
+/* ]]> */
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+
+<?php if ($this->isGoogleRemarketingActive()) : ?>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/<?php echo $this->getGoogleConversionId() ?>/?value=0&guid=ON&script=0"/>
+    </div>
+</noscript>
+<?php else : ?>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt=""
+             src="//www.googleadservices.com/pagead/conversion/<?php echo $this->getGoogleConversionId() ?>/?label=<?php echo $this->getGoogleConversionLabel() ?>&guid=ON&script=0"/>
+    </div>
+</noscript>
+<?php endif; ?>
+
+<?php endif; ?>

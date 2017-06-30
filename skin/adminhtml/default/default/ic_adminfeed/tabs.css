@@ -1,0 +1,46 @@
+#tabs
+{
+	padding: 0;
+}
+#tabs ul
+{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#tabs li
+{
+    display:block;
+    margin-bottom: 20px;
+    height: 40px;
+    width: 215px;
+}
+#tabs a
+{
+    background:#ff6666;
+    text-decoration:none;
+}
+#tabs a span
+{
+	color: #2F2F2F;
+    float:left;
+    display:block;
+    padding:11px 15px;
+}
+#tabs a span{float:none;}
+#tabs a:hover
+{
+	background-color: #ff6666;
+	color: #2F2F2F;
+}
+
+#tabHeaderActive span, 
+#tabHeaderActive a,
+#tabs li a 
+{ 
+	color:#2F2F2F;
+}
+.tabContent 
+{
+    clear:both;
+}

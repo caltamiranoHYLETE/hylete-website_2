@@ -1,0 +1,7 @@
+<layout>
+    <adminhtml_catalog_category_edit>
+        <reference name="left">
+            <block type="core/template" name="gotoadmin" template="vaimo/gotoadmin/gotoadmin.phtml" />
+        </reference>
+    </adminhtml_catalog_category_edit>
+</layout>

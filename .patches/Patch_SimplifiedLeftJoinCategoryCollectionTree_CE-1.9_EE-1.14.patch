@@ -1,0 +1,21 @@
+--- app/code/core/Mage/Catalog/Helper/Category/Url/Rewrite-org.php	2015-05-05 09:11:03.000000000 +0000
++++ app/code/core/Mage/Catalog/Helper/Category/Url/Rewrite.php	2015-06-12 19:39:47.000000000 +0000
+@@ -92,11 +92,14 @@
+     {
+         $collection->getSelect()->joinLeft(
+             array('url_rewrite' => $collection->getTable('core/url_rewrite')),
+-            'url_rewrite.category_id = main_table.entity_id AND url_rewrite.is_system = 1 '.
+-                ' AND ' . $collection->getConnection()->quoteInto('url_rewrite.store_id = ?', $storeId).
+-                ' AND ' . $collection->getConnection()->quoteInto('url_rewrite.id_path LIKE ?', 'category/%'),
++            'url_rewrite.category_id=main_table.entity_id',
+             array('request_path')
+-        );
++        )
++        ->where('url_rewrite.is_system=1')
++        ->where('url_rewrite.product_id IS NULL')
++        ->where($collection->getConnection()->quoteInto('url_rewrite.store_id=?', $storeId))
++        ->where($collection->getConnection()->prepareSqlCondition('url_rewrite.id_path', array('like' => 'category/%')));
++
+         return $this;
+     }
+ 

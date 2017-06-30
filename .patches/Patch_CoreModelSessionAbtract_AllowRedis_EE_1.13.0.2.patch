@@ -1,0 +1,13 @@
+--- app/code/core/Mage/Core/Model/Session/Abstract/Varien.php.org	2015-04-28 22:41:31.000000000 +0000
++++ app/code/core/Mage/Core/Model/Session/Abstract/Varien.php	2015-04-28 22:42:40.000000000 +0000
+@@ -57,6 +57,10 @@
+                 $sessionResource = Mage::getResourceSingleton('core/session');
+                 $sessionResource->setSaveHandler();
+                 break;
++            case 'redis':
++                ini_set('session.save_handler', 'redis');
++                session_save_path($this->getSessionSavePath());
++                break;
+             case 'user':
+                 // getSessionSavePath represents static function for custom session handler setup
+                 call_user_func($this->getSessionSavePath());

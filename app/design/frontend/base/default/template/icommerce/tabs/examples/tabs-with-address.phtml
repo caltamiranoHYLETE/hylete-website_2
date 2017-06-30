@@ -1,0 +1,65 @@
+
+<div id="tabs">
+	<ul>
+		<li><a href="#lorem">Lorem</a></li>
+		<li><a href="#ipsum">Ipsum</a></li>
+		<li><a href="#dolor">Dolor</a></li>
+	</ul>
+	<div>
+		<p>	
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rhoncus, 
+			diam id bibendum euismod, sapien arcu convallis sapien, rhoncus auctor 
+			augue massa et dui. Proin sollicitudin tincidunt sapien nec auctor. Curabitur 
+			eu libero odio. 
+		</p>
+	</div>
+	<div id="ipsum">
+		<p>	
+			Etiam leo massa, viverra vel semper sed, ullamcorper sed risus. Etiam ligula 
+			enim, laoreet sed facilisis eu, pellentesque quis nibh. Aenean suscipit suscipit 
+			posuere. Duis fermentum gravida nisl vitae iaculis. Integer pretium semper blandit. 
+			Proin sed lacus non tortor porta blandit. 
+		</p>
+	</div>
+	<div id="dolor">
+		<p>	
+			Duis elit arcu, interdum id consectetur 
+			id, convallis viverra felis. Suspendisse lorem mauris, placerat vel adipiscing vitae, 
+			sollicitudin ut libero. Maecenas ac aliquam ipsum. Phasellus quam arcu, dapibus et 
+			venenatis in, interdum nec turpis. Quisque fermentum, arcu rhoncus facilisis dapibus, 
+			eros mi placerat mi, sit amet tincidunt sapien velit eu sem.
+		</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function($){
+        
+        var tabs;
+        
+        if ($.address.value() == '') {
+            $.address.value( $('#tabs ul:first a:first').attr('href').split('#')[1] );
+        }
+		
+        // Address handler
+        $.address.init(function(event) {
+        
+            // Adds the ID in a lazy manner to prevent scrolling
+            $('#tabs div:first').attr('id', $('#tabs ul:first a:first').attr('href').split('#')[1]);
+            
+            // Tabs setup
+            tabs = $('#tabs').tabs();
+            
+            // Enables the plugin for all the tab links
+            $('#tabs ul:first a').address();
+        
+        }).externalChange(function(event) {
+            // Select the proper tab
+            tabs.tabs('select', $('a[href=#' + event.value + ']').attr('href'));
+            
+        }).history(true);
+	
+	});
+//]]>
+</script>

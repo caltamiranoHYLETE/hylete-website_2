@@ -1,0 +1,56 @@
+#row_rewards_rewardssocial2_daily_limit .scope-label,
+#row_rewards_rewardssocial2_weekly_limit .scope-label, 
+#row_rewards_rewardssocial2_monthly_limit .scope-label, 
+#row_rewards_rewardssocial2_yearly_limit .scope-label, 
+#row_rewards_rewardssocial2_lifetime_limit .scope-label {
+    padding-left: 25px;
+    color: #6f8992;
+    font-size: .9em;
+}
+
+#row_rewards_rewardssocial2_daily_limit .label,
+#row_rewards_rewardssocial2_weekly_limit .label, 
+#row_rewards_rewardssocial2_monthly_limit .label, 
+#row_rewards_rewardssocial2_yearly_limit .label, 
+#row_rewards_rewardssocial2_lifetime_limit .label {
+    width: 150px;
+    height: 25px;
+}
+
+#row_rewards_rewardssocial2_daily_limit .check-field,
+#row_rewards_rewardssocial2_weekly_limit .check-field, 
+#row_rewards_rewardssocial2_monthly_limit .check-field, 
+#row_rewards_rewardssocial2_yearly_limit .check-field, 
+#row_rewards_rewardssocial2_lifetime_limit .check-field {
+    padding: 0 5px 0 210px;
+}
+
+#row_rewards_rewardssocial2_daily_limit .value input,
+#row_rewards_rewardssocial2_weekly_limit .value input, 
+#row_rewards_rewardssocial2_monthly_limit .value input, 
+#row_rewards_rewardssocial2_yearly_limit .value input, 
+#row_rewards_rewardssocial2_lifetime_limit .value input {
+    width: 100px; 
+}
+
+#row_rewards_rewardssocial2_daily_limit .value input:read-only,
+#row_rewards_rewardssocial2_weekly_limit .value input:read-only, 
+#row_rewards_rewardssocial2_monthly_limit .value input:read-only, 
+#row_rewards_rewardssocial2_yearly_limit .value input:read-only,
+#row_rewards_rewardssocial2_lifetime_limit .value input:read-only {
+    background-color: #DDD;
+    cursor: not-allowed;
+}
+
+#rewards_rewardssocial2_homepage_buttons {
+    height: 130px;
+}
+
+#rewards_rewardssocial2_catalog_buttons {
+    height: 152px;
+}
+
+#rewards_rewardssocial2_purchase_buttons,
+#rewards_rewardssocial2_referral_buttons {
+    height: 44px;
+}

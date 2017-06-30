@@ -1,0 +1,51 @@
+<?php
+    $_helper = Mage::helper('headercart');
+
+    // Get totals
+    $_totals = $_helper->getTotals();
+    $_subtotal = $_totals['subtotal'];
+    $_grandTotal = $_totals['grand_total'];
+
+    // Get cart quantity
+    $_cartQty = $_helper->getCartQty($this->getSummaryCount());
+
+    //Get recent items and and calculate the correct quantity of "Viewing x items"
+    $_items = $this->getRecentItems();
+    $_numItems = $_helper->getQtyOfRecentItems($_items);
+    /** @var Mage_Core_Model_Store $quoteStore */
+    $quoteStore = $this->helper('checkout')->getQuote()->getStore();
+?>
+ <div class="headercart hidden-xs" id="<?php if ($_cartQty > 0): ?>headercart<?php else: ?>headercart-disabled<?php endif; ?>">
+    <div class="top">
+        <a class="headercart-info" href="<?php echo $this->getUrl('checkout/cart'); ?>">
+            <span class="icon-shopping-cart"></span><?php echo $this->__('Cart') ?>
+            <span class="headercart-items">
+                <?php if($_cartQty == 1): ?><?php echo $this->__('%s item', $_cartQty) ?><?php else: ?><?php echo $this->__('%s items', $_cartQty) ?><?php endif; ?>
+            </span>
+            <strong><?php echo $quoteStore->formatPrice($_grandTotal, false) ?></strong>
+        </a>
+        <button class="headercart-co-btn button-co button" onclick="setLocation('<?php echo $this->getCheckoutUrl(); ?>')"><?php echo $this->__('Checkout') ?></button>
+    </div>
+    <div id="recently-added-container" class="showcart" style="display: none;">
+        <div class="headercart-inner clearfix">
+            <div class="viewing">
+                <?php echo $this->__($_numItems == 1 ? 'Viewing %s/%s item.' : 'Viewing %s/%s items.', $_numItems, $_cartQty) ?><a class="right" href="<?php echo $this->getUrl('checkout/cart'); ?>"><?php echo $this->__('Go to shopping cart') ?> &raquo;</a>
+            </div>
+            <?php if(count($_items)): ?>
+            <ol id="cart-sidebar" class="mini-products-list">
+                <?php foreach($_items as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach; ?>
+            </ol>
+            <?php if($_cartQty): ?>
+                <p class="sum">
+                    <?php echo $this->__('Total:') ?> <span class="price"><?php echo $quoteStore->formatPrice($_grandTotal, false); ?></span>
+                </p>
+                <button class="button button-co" onclick="setLocation('<?php echo $this->getCheckoutUrl(); ?>')"><?php echo $this->__('Checkout') ?></button>
+            <?php endif ?>
+            <?php else: ?>
+                <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+            <?php endif ?>
+        </div>
+    </div>
+</div>

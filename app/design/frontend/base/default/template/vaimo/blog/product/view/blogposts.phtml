@@ -1,0 +1,46 @@
+<ul id="rugger-relay-carousel-single-post" class="jcarousel-skin-rugger">
+<?php
+$_helper = $this->helper('catalog/output');
+$_product = Mage::registry('current_product');
+$c = $item = 0;
+
+foreach($this->getBlogPosts() as $blogpost)
+{
+    $c++;
+
+    if($blogpost->getId() == $_product->getId()){
+        echo "<li class='selected'>";
+        $item = $c - 2;
+    }
+    else{
+        echo "<li>";
+
+    }
+
+    echo "<a href='". $blogpost->getProductUrl() . "'>";
+        echo "<img src='" . $_helper->productAttribute($blogpost, $this->helper('catalog/image')
+            ->init($blogpost, 'thumbnail'), 'image')
+            ->keepFrame(FALSE)->resize(171) . "' alt='' />" . "\n";
+        echo "<div class='carousel-text'>" . "\n";
+            echo $blogpost->getName() . "<br />" . "\n";
+            echo "<span class='date'>" . date('j F Y', strtotime($blogpost->getDateWritten())) . "</span>" . "\n";
+        echo "</div>" . "\n";
+    echo "</a></li>" . "\n";
+}
+
+?>
+
+
+
+</ul>
+    <p class="debug" style="visibility: hidden"><?php echo $c; ?></p>
+<script type="text/javascript">
+
+    jQuery('#rugger-relay-carousel-single-post').jcarousel({
+        scroll: 1,
+        start: <?php echo $item; ?>,
+        visible: 4
+    });
+
+    jQuery('ul#rugger-relay-carousel-single-post li.selected').append('<div class="arrow"">&nbsp;</div>');
+</script>

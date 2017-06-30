@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+* Copyright (c) 2009-2015 Vaimo AB
+*
+* Vaimo reserves all rights in the Program as delivered. The Program
+* or any portion thereof may not be reproduced in any form whatsoever without
+* the written consent of Vaimo, except as provided by licence. A licence
+* under Vaimo's rights in the Program may be available directly from
+* Vaimo.
+*
+* Disclaimer:
+* THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+* THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+* IN THE PROGRAM.
+*
+* @category    Vaimo
+* @package     Vaimo_AjaxProductList
+* @copyright   Copyright (c) 2009-2015 Vaimo AB
+-->
+<layout version="0.1.0">
+    <ajaxproductlist_loader>
+        <!-- Allow BlockAjax -->
+        <update handle="blockajax_loader"/>
+
+        <!-- Implementation -->
+        <reference name="head">
+            <action method="addJs" ifconfig="ajaxproductlist/settings/enabled"><file>vaimo/ajaxproductlist.js</file></action>
+        </reference>
+
+        <reference name="blockajax">
+            <action method="add" ifconfig="ajaxproductlist/settings/enabled"><implementation>ajaxProductList</implementation></action>
+        </reference>
+
+        <!-- Targets -->
+        <reference name="product_list">
+            <ajax container_selector=".category-products,.note-msg">product_list</ajax>
+        </reference>
+
+        <reference name="search_result_list">
+            <ajax container_selector=".category-products,.note-msg">product_list</ajax>
+        </reference>
+
+        <reference name="catalogsearch.leftnav">
+            <ajax>product_list</ajax>
+        </reference>
+
+        <reference name="catalog.leftnav">
+            <ajax>product_list</ajax>
+        </reference>
+
+        <reference name="enterprisesearch.leftnav">
+            <ajax>product_list</ajax>
+        </reference>
+
+        <reference name="enterprisecatalog.leftnav">
+            <ajax>product_list</ajax>
+        </reference>
+    </ajaxproductlist_loader>
+
+    <!-- Allow for controller-actions -->
+    <catalog_category_default>
+        <update handle="ajaxproductlist_loader"/>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <update handle="ajaxproductlist_loader"/>
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <update handle="ajaxproductlist_loader"/>
+    </catalogsearch_result_index>
+</layout>

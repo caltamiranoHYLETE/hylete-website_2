@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>bakerloo_restful/adminhtml.js</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+
+    <adminhtml_pos_shifts_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_shifts" />
+        </reference>
+    </adminhtml_pos_shifts_index>
+    <adminhtml_pos_shifts_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_shifts_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_shifts_grid>
+    <adminhtml_pos_shifts_edit>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_pos_shifts_edit_tabs" name="adminhtml.pos_shifts.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_shifts_edit" name="adminhtml.pos_shifts.edit" />
+        </reference>
+    </adminhtml_pos_shifts_edit>
+    <adminhtml_pos_shifts_edit_tab_movements_grid>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_pos_shifts_edit_tabs" name="adminhtml.pos_shifts.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_shifts_edit_tab_movements_grid" name="adminhtml.pos_shifts.edit.tabs.movements.grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_shifts_edit_tab_movements_grid>
+
+    <adminhtml_pos_pages_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_pages" template="bakerloo_restful/pages/pages.phtml"/>
+        </reference>
+    </adminhtml_pos_pages_index>
+    <adminhtml_pos_pages_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_pages_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_pages_grid>
+    <adminhtml_pos_pages_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>bakerloo_restful/staticpages.js</name>
+            </action>
+        </reference>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_pos_pages_edit_tabs" name="adminhtml.pos_pages.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_pages_edit" name="adminhtml.pos_pages.edit" />
+        </reference>
+    </adminhtml_pos_pages_edit>
+
+    <adminhtml_pos_notifications_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_notifications" />
+        </reference>
+    </adminhtml_pos_notifications_index>
+    <adminhtml_pos_notifications_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_notifications_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_notifications_grid>
+    <adminhtml_pos_notifications_edit>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_pos_notifications_edit_tabs" name="adminhtml.pos_notifications.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_notifications_edit" name="adminhtml.pos_notifications.edit" />
+        </reference>
+    </adminhtml_pos_notifications_edit>
+
+    <adminhtml_pos_customprice_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_customprice" />
+        </reference>
+    </adminhtml_pos_customprice_index>
+    <adminhtml_pos_customprice_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_customprice_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_customprice_grid>
+
+    <adminhtml_bakerlooorders_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerlooorders" />
+        </reference>
+    </adminhtml_bakerlooorders_index>
+    <adminhtml_bakerlooorders_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerlooorders_grid" output="toHtml" />
+        </reference>
+    </adminhtml_bakerlooorders_grid>
+    <adminhtml_bakerlooorders_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>bakerloo_restful/jsl.format.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>bakerloo_restful/orders_edit.js</name>
+            </action>
+        </reference>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_bakerlooorders_edit_tabs" name="adminhtml.bakerlooorders.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerlooorders_edit" name="adminhtml.bakerlooorders.edit" />
+        </reference>
+    </adminhtml_bakerlooorders_edit>
+    <adminhtml_bakerlooorders_edit_tab_items_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerlooorders_edit_tab_items_grid" name="adminhtml.bakerlooorders.edit.tab.items.grid" output="toHtml" />
+        </reference>
+    </adminhtml_bakerlooorders_edit_tab_items_grid>
+
+    <adminhtml_bakerloodiscount_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerloodiscount" />
+        </reference>
+    </adminhtml_bakerloodiscount_index>
+    <adminhtml_bakerloodiscount_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerloodiscount_grid" output="toHtml" />
+        </reference>
+    </adminhtml_bakerloodiscount_grid>
+    <adminhtml_bakerloodiscount_edit>
+        <reference name="left">
+            <block type="bakerloo_restful/adminhtml_bakerloodiscount_edit_tabs" name="adminhtml.bakerloodiscount.edit.tabs"/>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_bakerloodiscount_edit" name="adminhtml.bakerloodiscount.edit" />
+        </reference>
+    </adminhtml_bakerloodiscount_edit>
+
+    <adminhtml_sales_order_view>
+        <reference name="order_items">
+            <action method="addColumnRender">
+                <column>name</column>
+                <block>adminhtml/sales_items_column_name</block>
+                <template>bakerloo_restful/sales/items/column/name.phtml</template>
+            </action>
+        </reference>
+        <!--<reference name="sales_order_tabs">-->
+            <!--<block type="bakerloo_restful/adminhtml_sales_order_view_tab_installments" name="adminhtml_sales_order_view_tab_installments" />-->
+            <!--<action method="addTab">-->
+                <!--<id>bakerloo_restful_payment_installments</id>-->
+                <!--<block>adminhtml_sales_order_view_tab_installments</block>-->
+                <!--&lt;!&ndash;<after>order_transactions</after>&ndash;&gt;-->
+            <!--</action>-->
+        <!--</reference>-->
+    </adminhtml_sales_order_view>
+
+    <!-- POS tab on admin user -->
+    <adminhtml_permissions_user_edit>
+        <reference name="adminhtml.permissions.user.edit.tabs">
+            <block type="bakerloo_restful/adminhtml_permissions_user_edit_tab_pos" name="adminhtml.permissions.user.edit.tab.pos" template="bakerloo_restful/user/pos.phtml" />
+            <action method="addTabAfter">
+                <id>bakerloo_restful_pos_section</id>
+                <block>adminhtml.permissions.user.edit.tab.pos</block>
+                <after>roles_section</after>
+            </action>
+        </reference>
+        <!-- <reference name="js">
+            <block type="adminhtml/template" name="adminhtml.permissions.user.edit.tab.roles.js" template="api2/permissions/user/edit/tab/roles/js.phtml"/>
+        </reference> -->
+    </adminhtml_permissions_user_edit>
+
+    <adminhtml_pos_quotes_index>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_quotes" />
+        </reference>
+    </adminhtml_pos_quotes_index>
+    <adminhtml_pos_quotes_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_quotes_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_quotes_grid>
+
+    <adminhtml_pos_debug_index>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>bakerloo_restful/adminhtml.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_debug" />
+        </reference>
+    </adminhtml_pos_debug_index>
+    <adminhtml_pos_debug_grid>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_debug_grid" output="toHtml" />
+        </reference>
+    </adminhtml_pos_debug_grid>
+    <adminhtml_pos_debug_view>
+        <reference name="head">
+            <action method="addCss"><stylesheet>pos/highlight.css</stylesheet></action>
+            <action method="addCss"><stylesheet>pos/styles.css</stylesheet></action>
+            <action method="addItem"><type>js</type><name>bakerloo_restful/highlight.pack.js</name></action>
+            <action method="addItem"><type>js</type><name>bakerloo_restful/jsl.format.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="bakerloo_restful/adminhtml_pos_debug_view" template="bakerloo_restful/debug/view.phtml" />
+        </reference>
+    </adminhtml_pos_debug_view>
+
+
+
+</layout>

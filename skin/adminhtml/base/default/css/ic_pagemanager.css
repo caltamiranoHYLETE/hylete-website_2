@@ -1,0 +1,15 @@
+#edit_form .invisible-item{
+	background: #efefef;
+}
+#edit_form .invisible-item td{
+	color: #cacaca;
+}
+#edit_form .row{
+	background: #d5d5d5;
+}
+#edit_form .invisible-row{
+	background: #e6e6e6;
+}
+#edit_form .invisible-row td{
+	color: #9b9b9b;
+}

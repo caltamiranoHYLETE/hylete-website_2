@@ -1,0 +1,126 @@
+<?php
+/**
+ * Copyright (c) 2009-2012 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_SlideshowBootstrap
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ */
+?>
+<?php
+$_sbHelper = Mage::helper('slideshowbootstrap');
+$_helper = Mage::helper('slideshowmanager');
+$_slideshowId = $this->getSlideshowId();
+$_items = $this->getSlideshowItems($_slideshowId);
+$_slideshowHtmlId = 'myCarousel_' . $this->getSlideshowId() . '_' . md5(time() + microtime() + rand(1, 1000));
+$_carouselSelector = '#' . $_slideshowHtmlId;
+$_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
+?>
+
+
+<div id="<?php echo $_slideshowHtmlId ?>" class="carousel slide">
+    <div class="carousel-inner">
+        <?php foreach ($_items as $_index => $_item): ?>
+            <?php
+            $_img = $_helper->getImageUrl($_item);
+            $_imgTablet = $_helper->getBackgroundImageTabletUrl($_item);
+            $_imgMobile = $_helper->getBackgroundImageMobileUrl($_item);
+            $_itemTitle = $this->escapeHtml($_item['title']);
+            $_inverted = ($_item['invert'] == 1) ? 'inverted' : '';
+            $_textPlacement = 'placement-' . (($_item['text_placement'] == 1) ? 'left' : (($_item['text_placement'] == 2) ? 'center' : 'right'));
+            $_alignText = 'align-' . (($_item['align_text'] == 1) ? 'left' : (($_item['align_text'] == 2) ? 'center' : 'right'));
+            $_structureInfo = $this->getVaimoCmsStructureItemConfiguration();
+            $_size = ($_structureInfo['size_x'] < 10) ? 'thumbnail' : 'fullwidth';
+            
+            $_imgMobile = ($_imgMobile) ? $_imgMobile : $_img;
+            $_imgTablet = ($_imgTablet) ? $_imgTablet : $_img;
+            ?>
+            <figure class="item hylete-widget <?php echo $_size;?> <?php echo $_inverted;?> <?php echo $_textPlacement;?> <?php echo $_alignText;?> <?php echo ($_index == 0) ? 'active' : '';?>" <?php if ($_sbHelper->getPause()): ?> data-pause="hover"<?php endif; ?>>
+                <?php if (!empty($_item['link'])): ?>
+                    <a href="<?php echo $_templateProcessor->filter($_item['link']) ?>"<?php if ($_item['link_target'] == '_blank'): ?> target="_blank"<?php endif ?>>
+                <?php endif ?>
+                        <picture>
+                            <source srcset="<?php echo $_imgMobile; ?>" media="(max-width: 768px)">
+                            <source srcset="<?php echo $_imgTablet ?>" media="(max-width: 992px)">
+                            <img srcset="<?php echo $_img;?>" alt="<?php echo $_itemTitle; ?>">
+                        </picture>
+                        <?php if ($_item['image_text'] != ''): ?>
+                            <figcaption class="description">
+                                <?php echo $_templateProcessor->filter($_item['image_text']); ?>
+                            </figcaption>
+                        <?php endif; ?>
+                <?php if (!empty($_item['link'])): ?>
+                    </a>
+                <?php endif; ?>
+                
+                <?php
+                $_hotspots = $_item['hotspots'];
+                if (!empty($_hotspots) && empty($_item['link'])) {
+                    $_productModel = Mage::getModel('catalog/product');
+                    $_hotspots = explode(';', $_hotspots);
+                    foreach ($_hotspots as $_hotspot) {
+                        $_hotspot = Zend_Json::decode($_hotspot);
+
+                        if (isset($_hotspot['value'])) {
+                            $_product = $_productModel->load($_hotspot['value']);
+                        ?>
+                            <?php if ($_hotspot['value']): ?>
+                                <div class="hotspot" id="<?php echo $_hotspot['id']; ?>" style="left:<?php echo $_hotspot['xoffset']; ?>%; top:<?php echo $_hotspot['yoffset']; ?>%;">
+                                    <span class="fa icon-tags"></span>
+                                    <div class="hotspot-popup">
+                                        <a href="<?php echo $_product->getProductUrl();?>">
+                                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(100); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true) ?>" />
+                                            <h4><?php echo $_product->getName();?></h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php
+                        }
+                    }
+                }
+                ?>
+            </figure>
+        <?php endforeach; ?>
+    </div>
+    
+    <?php if ($_sbHelper->showNavControls() && count($_items) > 1): ?>
+        <a class="carousel-control left" href="<?php echo $_carouselSelector ?>" data-slide="prev"><span class="fa icon-angle-left"></span></a>
+        <a class="carousel-control right" href="<?php echo $_carouselSelector ?>" data-slide="next"><span class="fa icon-angle-right"></span></a>
+    <?php endif; ?>
+
+    <?php if ($_sbHelper->showNavBullets() && count($_items) > 1): ?>
+        <ol class="carousel-indicators">
+            <?php foreach ($_items as $_index => $_item): ?>
+                <li data-target="<?php echo $_carouselSelector ?>" <?php if ($_index == 0): ?>class="active"<?php endif; ?> data-slide-to="<?php echo $_index ?>"></li>
+            <?php endforeach; ?>
+        </ol>
+    <?php endif; ?>
+</div>
+
+<script>
+    (function ($) {
+        $(document).ready(function ($) {
+            $.vaimo.SlideShow({
+                selector: '<?php echo $_carouselSelector ?>',
+                interval: '<?php echo $_sbHelper->getInterval() ?>'
+            });
+        });
+    })(jQuery);
+</script>

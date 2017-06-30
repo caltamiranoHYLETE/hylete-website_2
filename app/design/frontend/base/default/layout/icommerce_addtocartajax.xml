@@ -1,0 +1,66 @@
+<?xml version="1.0"?><layout version="1.0">
+
+	<default>
+
+        <reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/addtocartajax.css</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/addtocartajax.js</name><params/></action>
+
+            <block type="core/template" name="addtocartajax.init" template="icommerce/addtocartajax/init.phtml"/>
+
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="addtocartajax/popup" name="addtocartajax.popup" template="icommerce/addtocartajax/popup.phtml" before="-" />
+        </reference>
+
+        <reference name="right">
+       		<action method="unsetChild"><name>cart_sidebar</name></action>
+       		<action method="unsetChild"><name>cart_sidebar2</name></action>
+        </reference>
+
+        <reference name="left">
+
+        	<action method="unsetChild"><name>cart_sidebar</name></action>
+       		<action method="unsetChild"><name>cart_sidebar2</name></action>
+
+			<block type="core/template" name="cart.sidebar-container.addtocartajax" template="checkout/sidebar-container.phtml" before="-">
+				<block type="checkout/cart_sidebar" name="cart.sidebar.addtocartajax" template="checkout/cart/sidebar-addtocartajax.phtml" before="-">
+					<action method="addItemRender">
+	                	<type>simple</type>
+	                	<block>checkout/cart_item_renderer</block>
+	                	<template>checkout/cart/sidebar/default-addtocartajax.phtml</template>
+	                </action>
+	                <action method="addItemRender">
+	                	<type>grouped</type>
+	                	<block>checkout/cart_item_renderer_grouped</block>
+	                	<template>checkout/cart/sidebar/default-addtocartajax.phtml</template>
+	                </action>
+	                <action method="addItemRender">
+	                	<type>configurable</type>
+	                	<block>checkout/cart_item_renderer_configurable</block>
+	                	<template>checkout/cart/sidebar/default-addtocartajax.phtml</template>
+	                </action>
+           			<action method="addItemRender">
+           				<type>bundle</type>
+           				<block>bundle/checkout_cart_item_renderer</block>
+           				<template>checkout/cart/sidebar/default-addtocartajax.phtml</template>
+           			</action>
+                </block>
+            </block>
+
+        </reference>
+
+    </default>
+
+    <catalog_product_view>
+    	<reference name="product.info.addtocart">
+        	<action method="setTemplate"><template>catalog/product/view/addtocart-addtocartajax.phtml</template></action>
+    	</reference>
+    </catalog_product_view>
+
+    <addtocartajax_index_add>
+    	<block type="addtocartajax/related" name="catalog.product.related" as="relatedProducts" template="icommerce/addtocartajax/related.phtml"/>
+    </addtocartajax_index_add>
+
+</layout>

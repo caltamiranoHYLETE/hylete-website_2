@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/icommerce/selectedproducts.css</stylesheet></action>
+        </reference>
+    </default>
+
+    <cms_page_view>
+        <update handle="icommerce_selectedproducts_view"/>
+    </cms_page_view>
+
+    <cms_index_index>
+        <update handle="icommerce_selectedproducts_view"/>
+    </cms_index_index>
+</layout>

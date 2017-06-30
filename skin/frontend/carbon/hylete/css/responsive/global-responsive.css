@@ -1,0 +1,135 @@
+@media (max-width: 1200px) {
+    .category-title .hylete-widget-img {
+        width: 60%;
+    }
+}
+
+@media (max-width: 991px) {
+    body.cms-index-index >.container {
+        padding-top: 0;
+    }
+
+    .breadcrumbs {
+        position: absolute;
+    }
+
+    .category-title .hylete-widget {
+        flex-direction: column;
+        border: none;
+    }
+
+    .category-title .hylete-widget .hylete-widget-title h2 {
+        margin: 40px 0;
+    }
+
+    .category-title .hylete-widget-img {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .category-title .hylete-widget img {
+        min-width: 728px;
+    }
+
+    .category-title .hylete-widget .description {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        max-width: 260px;
+        margin: 20px auto 0;
+        transform: inherit;
+    }
+
+    .category-title .hylete-widget .description a {
+        border-color: #000;
+    }
+
+    .category-title .hylete-widget .description a:hover {
+        background: #000;
+    }
+
+    .category-title .hylete-widget.fullwidth.placement-left .description,
+    .category-title .hylete-widget.fullwidth.placement-center .description,
+    .category-title .hylete-widget.fullwidth.placement-right .description{
+        left: auto;
+        right: auto;
+        transform: none;
+    }
+}
+
+
+/* Extra small devices */
+@media (max-width: 767px) {
+    .category-title .hylete-widget {
+        padding: 0;
+    }
+
+    .category-title .hylete-widget.fullwidth.placement-left .image-placeholder {
+        left: calc(100% - 768px);
+    }
+
+    .category-title .hylete-widget.fullwidth.placement-center .image-placeholder {
+        left: calc(50% - 384px);
+    }
+
+    .category-title .hylete-widget img {
+        min-width: 768px;
+    }
+
+    .carousel .hylete-widget-img {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .carousel .hylete-widget.fullwidth .description {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 0;
+        transform: inherit;
+    }
+
+    .carousel .hylete-widget.fullwidth .description a {
+        border-color: #000;
+    }
+
+    .carousel .hylete-widget.fullwidth .description a:hover {
+        background: #000;
+    }
+
+    .carousel .hylete-widget.fullwidth.placement-left .description,
+    .carousel .hylete-widget.fullwidth.placement-center .description,
+    .carousel .hylete-widget.fullwidth.placement-right .description {
+        left: auto;
+        right: auto;
+        transform: none;
+        margin-bottom: 40px;
+    }
+
+    .instagram-feed {
+        display: none;
+    }
+    
+    .contacts {
+        margin: 0 10px;
+    }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+    .form-list label,
+    .form-list .input-box,
+    .one-page-checkout label,
+    .one-page-checkout .input-text,
+    .form-list .input-text {
+        width: 100%;
+    }
+
+    .radio,
+    .control label {
+        width: auto;
+    }
+}

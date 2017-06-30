@@ -1,0 +1,33 @@
+@media (min-width: 991px) {
+    .products-grid .item:nth-child(4n+1) {
+        clear: both;
+    }
+}
+@media (max-width: 991px) {
+    body.catalog-category-view >.container {
+        padding-top: 0;
+    }
+
+    .breadcrumbs {
+        margin: 15px 10px;
+    }
+
+    .products-grid {
+        padding: 0 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .products-grid .item:nth-child(3n+1) {
+        clear: both;
+    }
+}
+
+@media (max-width: 767px) {
+    .products-grid .style h5 a {
+        min-width: inherit;
+    }
+    .products-grid .item:nth-child(2n+1) {
+        clear: both;
+    }
+}

@@ -1,0 +1,48 @@
+--- cron.php.org	2015-04-22 18:59:06.000000000 +0000
++++ cron.php	2015-05-30 03:12:07.000000000 +0000
+@@ -27,6 +27,12 @@
+ // Change current directory to the directory of current script
+ chdir(dirname(__FILE__));
+ 
++//PATCH:BEGIN
++if (extension_loaded('newrelic')) {
++    newrelic_background_job(true);
++}
++//PATCH:END
++
+ require 'app/bootstrap.php';
+ require 'app/Mage.php';
+ 
+--- index.php.org	2015-04-22 18:59:06.000000000 +0000
++++ index.php	2015-05-30 03:13:13.000000000 +0000
+@@ -24,6 +24,14 @@
+  * @license http://www.magento.com/license/enterprise-edition
+  */
+ 
++//PATCH:BEGIN
++if (extension_loaded('newrelic')) {
++    $project = isset($_SERVER['AJA_PROJECT']) ? $_SERVER['AJA_PROJECT'] : 'Default Project';
++    $env = isset($_SERVER['AJA_ENVIRONMENT']) ? $_SERVER['AJA_ENVIRONMENT'] : 'Unknown Environment';
++    newrelic_set_appname(sprintf('%s %s Magento', $project, $env));
++}
++//PATCH:END
++
+ if (version_compare(phpversion(), '5.3.0', '<')===true) {
+     echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;">
+ <div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
+--- app/code/core/Mage/Adminhtml/Controller/Action.php.org	2015-04-22 18:59:06.000000000 +0000
++++ app/code/core/Mage/Adminhtml/Controller/Action.php	2015-05-30 03:15:08.000000000 +0000
+@@ -142,6 +142,13 @@
+      */
+     public function preDispatch()
+     {
++        //PATCH: BEGIN
++        if (extension_loaded('newrelic')) {
++            $project = isset($_SERVER['AJA_PROJECT']) ? $_SERVER['AJA_PROJECT'] : 'Default Project';
++            $env = isset($_SERVER['AJA_ENVIRONMENT']) ? $_SERVER['AJA_ENVIRONMENT'] : 'Unknown Environment';
++            newrelic_set_appname(sprintf('%s %s Magento Admin', $project, $env));
++        }
++        //PATCH: END
+         // override admin store design settings via stores section
+         Mage::getDesign()
+             ->setArea($this->_currentArea)

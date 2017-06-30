@@ -1,0 +1,88 @@
+<?php
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_SocialLogin
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ */
+?>
+
+<?php
+    $_activeFb = $this->getFacebookActivate();
+    $_activeGoogle = $this->getGoogleActivate();
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Social Network Connections') ?></h1>
+</div>
+<?php if(!$_activeFb || !$_activeGoogle ): ?>
+    <div class="welcome-msg">
+        <p>
+            <?php echo $this->__('No connections have been activated. Go to <strong>Admin&raquo;Configuration&raquo;Vaimo Modules&raquo;Vaimo Social Login</strong> and activate a login method.') ?>
+        </p>
+    </div>
+<?php else: ?>
+    <div class="welcome-msg">
+        <p><?php echo $this->__('Below are all available social networks shown. You can connect to more than one if available.'); ?></p>
+    </div>
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2><?php echo $this->__('Networks'); ?></h2>
+        </div>
+        <div class="col2-set row">
+            <?php if ($_activeFb): ?>
+                <div class="col-sm-6">
+                    <div class="box">
+                        <div class="box-top">
+                            <h3><?php echo $this->__('Facebook'); ?></h3>
+                            <button onclick="window.location='<?php echo $this->getUrl('customer/account/edit'); ?>'" class="button edit" title="<?php echo $this->__('Edit') ?>" type="button">
+                                <?php echo $this->__('Edit') ?>
+                            </button>
+                        </div>
+                        <div class="box-content">
+                            <p>
+                                <script>facebookName(588495378);</script>
+                                Martin Nilsson<br>
+                                martin@vindfrisk.se<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($_activeGoogle): ?>
+                <div class="col-sm-6">
+                    <div class="box">
+                        <div class="box-top">
+                            <h3><?php echo $this->__('Google'); ?></h3>
+                            <button onclick="window.location='<?php echo $this->getUrl('customer/account/edit'); ?>'" class="button edit" title="<?php echo $this->__('Edit') ?>" type="button">
+                                <?php echo $this->__('Edit') ?>
+                            </button>
+                        </div>
+                        <div class="box-content">
+                            <p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+

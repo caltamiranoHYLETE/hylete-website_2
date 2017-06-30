@@ -1,0 +1,26 @@
+--- app/code/core/Enterprise/Index/Model/Observer-o.php	2015-06-19 10:57:08.000000000 +0000
++++ app/code/core/Enterprise/Index/Model/Observer.php	2015-06-25 11:34:36.000000000 +0000
+@@ -113,6 +113,10 @@
+                     $tableName  = (string)$inactiveIndexer->index_table;
+                     $actionName = (string)$inactiveIndexer->action_model->all;
+                     $client->init($tableName);
++                    // will not do complete fulltext reindex during enterprise_refresh_index job
++                    if ($tableName == 'catalogsearch_fulltext' && $schedule->getJobCode() == 'enterprise_refresh_index') {
++                        continue;
++                    }
+                     if ($actionName) {
+                         $client->execute($actionName);
+                         $rebuiltIndexes[] = $tableName;
+@@ -126,7 +130,12 @@
+                     $actionName = (string)$indexerData->action_model->changelog;
+                     $client->init($indexTable);
+                     if (isset($actionName) && !in_array($indexTable, $rebuiltIndexes)) {
++                        $startTime = microtime(true);
+                         $client->execute($actionName);
++                        if ($schedule->getJobCode() == 'enterprise_refresh_index') {
++                            $totalTime = microtime(true) - $startTime;
++                            Mage::log(date('Y-m-d H:i:s') . " Finished change-log indexing " . $indexTable . " | Time spent: " . $totalTime);
++                        }
+                     }
+                 }
+

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/hylete_adminhtml.css</name></action>
+        </reference>
+    </default>
+    <adminhtml_slideshowitem_add>
+        <reference name="add">
+            <action method="setTemplate">
+                <template>hylete/slideshowmanager/slideshow/item/add.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_slideshowitem_add>
+    <adminhtml_slideshowitem_edit>
+        <reference name="edit">
+            <action method="setTemplate">
+                <template>hylete/slideshowmanager/slideshow/item/edit.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_slideshowitem_edit>
+</layout>

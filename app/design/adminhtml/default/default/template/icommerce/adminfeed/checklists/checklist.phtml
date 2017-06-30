@@ -1,0 +1,231 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?> 
+<?php $project = $this->getProject(); ?>
+<div class="content-header adminfeed checklist">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td>
+            	<h2><?php echo $this->__('Checklist: ').$project['name']?></h2>
+        		
+        		<table class="first-table">
+					<tr>
+						<td class="first"><p><?php echo $this->__('Project manager')?></p></td>
+						<td class="second"><p><a href="mailto:<?php echo $project['pm_email']?>"><?php echo $project['pm_email']?></a></p></td>
+					</tr>
+					<tr>
+						<td class="first"><p><?php echo $this->__('Customer')?></p></td>
+						<td class="second"><p><a href="mailto:<?php echo $project['customer_email']?>"><?php echo $project['customer_email']?></a></p></td>
+					</tr>
+				</table>
+				
+				<table class="second-table">
+					<tr>
+						<td class="first"><p><?php echo $this->__('Last updated')?></p></td>
+						<td class="second"><p><?php echo $project['updated_on']?></p></td>
+					</tr>
+					<tr>
+						<td class="first"><p><?php echo $this->__('By')?></p></td>
+						<td class="second"><p><a href="mailto:<?php echo $project['updated_by']?>"><?php echo $project['updated_by']?></a></p></td>
+					</tr>
+				</table>
+				<div class="clear"></div>
+				<p><a href="<?php echo $project['other_url']?>"><?php echo $project['other_url']?></a>
+            	
+            </td>
+            <td class="a-right">
+            	<button onclick="setLocation('<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/checklists/index/")?>')" class="back" type="button">
+                	<span><?php echo $this->__('Back')?></span>
+                </button>
+                
+                <button onclick="editForm.submit()" class="save" type="button">
+                	<span><?php echo $this->__('Save')?></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="entry-edit adminfeed checklist">
+    
+    <form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/save')?>">
+    	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    	<input type="hidden" name="edit_form[project_id]" value="<?php echo $this->getProjectId()?>" />
+    	<div class="grid">
+			<div class="left-box">
+				<h3><?php echo $this->__('Overview Checklist')?></h3>
+    			<ul id="tabs">
+    				<?php $i=1;foreach ($this->getChecklistItem() as $item):?>
+    					<a href="javascript:void(0)" onClick="toggleTab(<?php echo $i.",".count($this->getChecklistItem());?>)">
+    					<li id="tabHeaderActive" class="<?php echo $this->getChecklistItemStatus($item['id']) ?>">
+    						<span>
+    							<?php echo $this->utf8($item['name']); ?>
+    						</span>
+    					</li>
+    					</a>
+    				<?php $i++; endforeach; ?>
+    			</ul>
+    		</div>
+			
+    		<div class="left-box">
+    		
+				<?php $i=1; foreach ($this->getChecklistItem() as $item):?>
+    			    <div id="tabContent<?php echo $i;?>" class="tabContent" <?php if($i>1) echo 'style="display:none"';?>>
+           				<h3><?php echo $this->utf8($item['name']); ?></h3>
+           				<?php foreach($this->getCheckboxes($item['id']) as $checkbox):?>
+           					<div class="checkboxes">
+           				
+           						<label class="ok" for="edit_form[check<?php echo $checkbox['id']."-1"?>]">
+           							<input type="radio" value="ok<?php echo $checkbox['id']?>" name="edit_form[check<?php echo $checkbox['id']?>]" id="edit_form[check<?php echo $checkbox['id']."-1"?>]" <?php if($this->getCheckboxStatus($checkbox['id'])) { echo "checked"; } ?>>&nbsp;&nbsp;<?php echo $this->__('OK')?>
+           							
+           							<?php if($checkbox['updated_by'] && $checkbox['checked']):?>
+									    <span class="title">
+									    	<?php echo $this->__('Approved by: ').$checkbox['updated_by']?>
+									    	<br /><?php echo $checkbox['updated_on']?>
+									    </span>
+									    <?php elseif($checkbox['updated_by']):?>
+									    <span class="title title-previously">
+									    	<?php echo $this->__('Previously approved by: ').$checkbox['updated_by']?>
+									    	<br /><?php echo $checkbox['updated_on']?>
+									    </span>
+									    <?php else:?>
+									    <span class="title title-null">
+									    	<?php echo $this->__('Not yet approved')?>
+									    </span>
+									<?php endif;?>
+           						</label>
+								
+								<label class="not-ok" for="edit_form[check<?php echo $checkbox['id']."-2"?>]">
+									<input type="radio" value="notok<?php echo $checkbox['id']?>" name="edit_form[check<?php echo $checkbox['id']?>]" id="edit_form[check<?php echo $checkbox['id']."-2"?>]" <?php if(!$this->getCheckboxStatus($checkbox['id'])) { echo "checked"; } ?>>&nbsp;&nbsp;<?php echo $this->__('NOT OK')?>
+									<?php if($checkbox['updated_by'] && $checkbox['checked']):?>
+									    <span class="title">
+									    	<?php echo $this->__('Approved by: ').$checkbox['updated_by']?>
+									    	<br /><?php echo $checkbox['updated_on']?>
+									    </span>
+									    <?php elseif($checkbox['updated_by']):?>
+									    <span class="title title-previously">
+									    	<?php echo $this->__('Previously approved by: ').$checkbox['updated_by']?>
+									    	<br /><?php echo $checkbox['updated_on']?>
+									    </span>
+									    <?php else:?>
+									    <span class="title title-null">
+									    	<?php echo $this->__('Not yet approved')?>
+									    </span>
+									<?php endif;?>
+								</label>
+           							
+           					</div>
+           					<div class="checkbox-text"><?php echo nl2br($this->utf8($checkbox['text']));?></div>
+           					
+           					<div class="checkbox-comments">
+           						<button class="add" onclick="Effect.toggle('add-comment-<?php echo $checkbox['id']?>', 'appear', { duration: 0.5 }); return false;">
+           							<span><?php echo $this->__('Add comment')?></span>
+           						</button>
+           						
+           						<?php if($this->hasComments($checkbox['id'])): ?>
+           							<button onclick="Effect.toggle('show-comment-<?php echo $checkbox['id']?>', 'appear', { duration: 0.5 }); return false;">
+           								<span><?php echo $this->__('Show comment')?></span>
+           							</button>
+           						<?php endif;?>
+           						
+           						<div class="clear"></div>
+           						<div id="add-comment-<?php echo $checkbox['id']?>" style="display:none" class="show-add-comment">
+           							<textarea cols="95" rows="5" class="input-text" 
+           								name="edit_form[comment<?php echo $checkbox['id']?>]"></textarea>
+           						</div>
+           						
+           						<?php if($this->hasComments($checkbox['id'])): ?>
+           							<div id="show-comment-<?php echo $checkbox['id']?>" style="display:none" class="show-add-comment">
+           								<?php foreach($this->getComments($checkbox['id']) as $comment):?>
+           									<?php echo $this->__('Comment Id: '). $comment['id'] ?><br />
+           									<?php echo $this->__('By: '). $comment['created_by'] ?><br />
+           									<?php echo $this->__('Date: '). $comment['created_on'] ?><br />
+           									<?php echo $this->__('Comment: '). nl2br($comment['text']) ?>
+           									<?php if($this->isAdmin()): ?>
+           										<br />
+           										<a href="#" onclick="Effect.toggle('show-add-estimate-<?php echo $comment['id']?>', 'appear', { duration: 0.5 }); return false;"><?php echo $this->__('Add estimate')?></a>
+           										
+           										
+           										<div id="show-add-estimate-<?php echo $comment['id']?>" style="display:none">
+           											<div class="bottom-border"></div>
+           											<?php echo $this->__('Add Estimate: (e.g: 2h á 950 kr)') ?><br />
+           											<input type="text" class="input-text" name="edit_form[estimate<?php echo $comment['id']?>]"><br />
+           											<?php echo $this->__('Add Comment:') ?><br />
+           											<textarea cols="95" rows="5" class="input-text" name="edit_form[status<?php echo $comment['id']?>]"></textarea>
+           										</div>
+           									<?php endif; ?>
+           									<div class="bottom-border"></div>
+           								<?php endforeach; ?>
+           							</div>
+           						<?php endif; ?>
+           					</div>
+           					
+           					
+           					<div class="clear"></div>
+           				<?php endforeach;?>
+        			</div>
+    			<?php $i++; endforeach; ?>
+    		</div>
+    		
+    		<div class="right-box">
+    		    <h3><?php echo $this->__('Status') ?></h3>
+    		    
+    		    <?php $i=1;foreach ($this->getChecklistItem() as $item):?>
+    		        <div id="tab2Content<?php echo $i;?>" class="tabContent" <?php if($i>1) echo 'style="display:none"';?>>
+           	    		<?php foreach($this->getCheckboxes($item['id']) as $checkbox): ?>
+           	    			<div class="checkbox-status">
+           	    				<?php foreach($this->getComments($checkbox['id']) as $comment):?>
+           	    					<?php if($comment['status']): ?>
+           	    						<b><?php echo $comment['status_updated_on'] ?></b><br />
+           								<b><?php echo $this->__('Subject: ') . $this->getCommentSubject($comment['item_checkbox_id']) ?></b><br />
+           								<?php echo $this->__('Comment Id: '). $comment['id'] ?><br />
+           								<?php echo $this->__('By: '). $comment['status_updated_by'] ?><br />
+           								<?php echo $this->__('Comment: '). nl2br($comment['status']) ?>
+           								<div class="checkox-estimate">
+           									<?php echo "<b>".$this->__('Estimate: ')."</b>". $comment['status_estimate'] ?><br />
+           								</div>
+           								
+           								
+           								<div class="bottom-border"></div>
+           							<?php endif; ?>
+           						<?php endforeach; ?>
+           					</div>
+           	    			<div class="clear"></div>
+           	    		<?php endforeach;?>
+        	    	</div>
+    		    <?php $i++; endforeach; ?>
+    		</div>
+    		
+    		
+    		
+    		<div class="clear"></div>
+    		
+		</div>
+    </form>
+    
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

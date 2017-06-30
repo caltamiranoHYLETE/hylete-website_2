@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <BSS_Rwminqty>
+      <version>0.1.0</version>
+    </BSS_Rwminqty>
+  </modules>
+  <global>
+    <helpers>
+      <rwminqty>
+        <class>BSS_Rwminqty_Helper</class>
+      </rwminqty>
+    </helpers>
+  </global>
+</config>

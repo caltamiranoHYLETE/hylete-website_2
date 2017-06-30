@@ -1,0 +1,7 @@
+.vcms-editing-active .vcms-toolbar .vcms-button-group.vcms-page-with-revision {
+    display: none;
+}
+
+.vcms-toolbar .vcms-button-group.vcms-page-with-revision {
+    display: block;
+}

@@ -1,0 +1,26 @@
+.vcms-loader-indicator {
+    display: none;
+    z-index: 999;
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    width: 250px;
+    height: 196px;
+    margin-left: -125px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 6px;
+    border: 1px solid #cdcdcd;
+}
+
+.vcms-loader-indicator.show {
+    display: block;
+}
+
+.vcms-loader-indicator-message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}

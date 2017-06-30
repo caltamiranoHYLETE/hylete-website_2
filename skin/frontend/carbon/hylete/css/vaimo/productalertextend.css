@@ -1,0 +1,50 @@
+#notify_data {
+    margin: 12px 0;
+    vertical-align: top;
+}
+
+#notify_data >div,
+#notify_data button {
+    float: left;
+    margin: 0;
+}
+
+#notify_data >div {
+    margin-bottom: 10px;
+    margin-right: 2%;
+    width: 73%;
+    vertical-align: top;
+}
+
+#notify_data button {
+    width: 25%;
+    vertical-align: top;
+}
+
+#notify_data .sod_select,
+#notify_data select {
+    margin-bottom: 20px;
+}
+
+#notify_data .validation-advice {
+    min-width: 300px;
+    position: relative;
+}
+
+#notify_data .sod_select .validation-advice {
+    margin-left: -8px;
+}
+
+
+
+
+@media (max-width: 767px) {
+    #notify_data >div {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    #notify_data button {
+        width: auto;
+    }
+}

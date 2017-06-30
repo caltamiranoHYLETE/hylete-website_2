@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout>
+	<default>
+		<reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/ic_pagemanager.css</name><params/></action>
+            <action method="addJs"><script>jquery/jquery.min.js</script></action>
+            <action method="addJs"><script>jquery/jquery.colorbox-min.js</script></action>
+			<action method="addItem"><type>skin_js</type><name>js/pagemanager.js</name><params/></action>
+			<action method="addItem"><type>skin_css</type><name>css/colorbox.css</name><params/></action>
+		</reference>
+	</default>
+</layout>

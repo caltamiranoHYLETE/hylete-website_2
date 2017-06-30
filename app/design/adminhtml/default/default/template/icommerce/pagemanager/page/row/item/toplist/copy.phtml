@@ -1,0 +1,51 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $rows =  $this->getRows(); ?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Copy toplist: ').$item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="addtoplist_form" enctype="multipart/form-data" name="addtoplist_form" method="post" action="<?php echo $this->getUrl('*/*/savetoplist')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="addtoplistform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+        <input name="addtoplistform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="addtoplistform[row_id]" type="hidden" value="<?php echo $item['row_id'] ?>" />
+        <input name="addtoplistform[title]" type="hidden" value="<?php echo $item['title'] ?>" />
+        <input name="addtoplistform[category_id]" type="hidden" value="<?php echo $item['category_id'] ?>" />
+        <?php /*<input name="addtoplistform[products_per_row]" type="hidden" value="<?php echo $item['products_per_row'] ?>" />*/ ?>
+        <input name="addtoplistform[total_products]" type="hidden" value="<?php echo $item['total_products'] ?>" />
+        <input name="addtoplistform[toplist]" type="hidden" value="<?php echo $item['toplist'] ?>" />
+        <input name="addtoplistform[sort_by]" type="hidden" value="<?php echo $item['sort_by'] ?>" />
+        <input name="addtoplistform[status]" type="hidden" value="<?php echo $item['status'] ?>" />
+        <input name="addtoplistform[position]" type="hidden" value="<?php echo $item['position'] ?>" />
+        <input name="addtoplistform[page_content]" type="hidden" value="<?php echo $item['page_content'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Copy toplist')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Choose row to copy to')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addtoplistform[row_id]">
+                    		<?php $i = 0; foreach($rows as $key => $title): ?>
+	                    		<option value="<?php echo $title['id']?>"><?php echo $this->__('Row ').($i+1).' ('.$this->__('Type: ').$helper->getRowTypeName($title['type']).')' ?></option>
+                    		<?php $i++; endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>  
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addtoplistform = new varienForm('addtoplist_form');
+</script>

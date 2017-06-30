@@ -1,0 +1,5 @@
+<?php
+$_helper = $this->helper('catalog/output');
+$_product = Mage::registry('current_product');
+?>
+<h2><a href="<?php echo $this->getCategoryUrl(); ?>">GANT RUGGER</a> / <a href="<?php echo $this->getCategoryUrl(); ?>">RELAY</a> / <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>

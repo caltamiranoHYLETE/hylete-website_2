@@ -1,0 +1,112 @@
+--- app/code/core/Mage/Core/Model/Config.php.org	2015-01-13 17:12:13.000000000 +0000
++++ app/code/core/Mage/Core/Model/Config.php	2015-01-13 17:11:16.000000000 +0000
+@@ -189,6 +189,14 @@
+      */
+     protected $_allowedModules = array();
+ 
++    // <VAIMO_PATCH>
++    /**
++     * Cache rebuild lock file
++     * @var resource
++     */
++    protected $_configCacheRebuildLock;
++    // </VAIMO_PATCH>
++
+     /**
+      * Class construct
+      *
+@@ -293,7 +301,10 @@
+         if (Mage::isInstalled(array('etc_dir' => $this->getOptions()->getEtcDir()))) {
+             if ($this->_canUseCacheForInit()) {
+                 Varien_Profiler::start('mage::app::init::config::load_cache');
+-                $loaded = $this->loadCache();
++                // <VAIMO_PATCH>
++                // Cache is always loaded when the execution reaches here
++                $loaded = true;
++                // </VAIMO_PATCH>
+                 Varien_Profiler::stop('mage::app::init::config::load_cache');
+                 if ($loaded) {
+                     $this->_useCache = true;
+@@ -411,8 +422,47 @@
+      */
+     protected function _canUseCacheForInit()
+     {
+-        return Mage::app()->useCache('config') && $this->_allowCacheForInit
+-            && !$this->_loadCache($this->_getCacheLockId());
++        // <VAIMO_PATCH>
++        if (!Mage::app()->useCache('config') || !$this->_allowCacheForInit) {
++            return false;
++        }
++
++        if ($this->loadCache()) {
++            return true;
++        }
++
++        // Allow only one request to rebuild the cache. Others will wait until the cache record is available
++        $lock = fopen(Mage::getBaseDir('media') . DS .'cache_rebuild.lock', 'w');
++        if (flock($lock, LOCK_EX | LOCK_NB)) {
++            $this->_configCacheRebuildLock = $lock;
++
++            Mage::log("Acquired config cache rebuild lock", Zend_Log::NOTICE, 'config_global-lock.log', true);
++            return false;
++        }
++
++        fclose($lock);
++
++        $waitFor = 30; // in seconds
++        $tickSize = 0.1;
++        for ($ticks = 0; $ticks < $waitFor / $tickSize; $ticks++) {
++            usleep(1000000 * $tickSize);
++
++            if ($this->loadCache()) {
++                // Wait up to 0.5 seconds so that requests would not hit the server at the same time
++                usleep(rand(100, 500000));
++
++                Mage::log(sprintf("Config acquired after waiting %s seconds", $ticks * $tickSize), Zend_Log::NOTICE, 'config_global-lock.log', true);
++                return true;
++            }
++        }
++
++        Mage::log(sprintf("Continuing WITHOUT cached config after waiting %s seconds", $ticks * $tickSize), Zend_Log::NOTICE, 'config_global-lock.log', true);
++
++        // Wait up to 0.5 seconds so that requests would not hit the server at the same time
++        usleep(rand(100, 500000));
++
++        return false;
++        // </VAIMO_PATCH>
+     }
+ 
+     /**
+@@ -443,6 +493,17 @@
+      */
+     public function saveCache($tags=array())
+     {
++        // <VAIMO_PATCH>
++        // Allow cache rebuilding only when configuration cache lock has been acquired.
++        if (!$this->_configCacheRebuildLock) {
++            Mage::log("Trying to save cache without config cache lock.", Zend_Log::NOTICE, 'config_global-lock.log', true);
++            Mage::log("Stack trace: \n" . mageDebugBacktrace(true, false, true), Zend_Log::NOTICE, 'config_global-lock.log', true);
++            return $this;
++        }
++        
++        Mage::log("Configuration cache rebuilt", Zend_Log::NOTICE, 'config_global-lock.log', true);
++        // </VAIMO_PATCH>
++
+         if (!Mage::app()->useCache('config')) {
+             return $this;
+         }
+@@ -472,6 +533,14 @@
+         }
+         unset($this->_cachePartsForSave);
+         $this->_removeCache($cacheLockId);
++
++        // <VAIMO_PATCH>
++        // Release configuration cache rebuild lock
++        flock($this->_configCacheRebuildLock, LOCK_UN);
++        fclose($this->_configCacheRebuildLock);
++        $this->_configCacheRebuildLock = null;
++        // </VAIMO_PATCH>
++
+         return $this;
+     }
+ 

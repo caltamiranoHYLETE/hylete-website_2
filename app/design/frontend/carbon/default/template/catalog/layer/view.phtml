@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ */
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php if($this->canShowBlock()): ?>
+<div class="block block-layered-nav">
+    <?php $stateHtml = $this->getStateHtml() ?>
+    <div class="block-title">
+        <h3><?php echo $this->__('Filtered options'); ?></h3>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+        <div class="actions hidden-xs"><a class="clear-all" href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?> <span class="icon-remove-circle"></span></a></div>
+        <?php endif ?>
+    </div>
+    <div class="block-content">
+        <?php echo $stateHtml ?>
+        <?php if($this->canShowOptions()): ?>
+            <dl id="narrow-by-list">
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                <?php if($_filter->getType() != 'catalog/layer_filter_category' ): ?>
+                    <?php if($_filter->getItemsCount()): ?>
+                        <dt><?php echo $this->__($_filter->getName()) ?> <i class="icon-chevron-up"></i><i class="icon-chevron-down"></i></dt>
+                        <dd><?php echo $_filter->getHtml() ?></dd>
+                    <?php endif ?>
+                <?php endif ?>
+                <?php endforeach ?>
+            </dl>
+        <?php endif ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+            <div class="actions visible-xs"><a class="clear-all" href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?> <span class="icon-remove-circle"></span></a></div>
+        <?php endif ?>
+    </div>
+</div>
+<?php endif ?>

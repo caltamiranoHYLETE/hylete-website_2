@@ -1,0 +1,133 @@
+.headercart {
+    position: relative;
+    float: right;
+    padding-top: 7px;
+}
+
+.headercart .top {
+    float: right;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.headercart-info {
+    float: left;
+    display: block;
+    padding: 0 10px;
+    line-height: 34px;
+}
+
+.headercart-info:hover {
+    text-decoration: none;
+}
+
+.headercart-info .icon-shopping-cart {
+    font-size: 16px;
+    padding-right: 4px;
+    line-height: 13px;
+    color: #666;
+}
+
+.headercart-items {
+    margin-right: 5px;
+}
+
+.headercart-co-btn {
+    float: right;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin: 1px 1px 0 0;
+    height: 32px;
+    line-height: 32px;
+    border: none;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#recently-added-container {
+	position:absolute;
+	top: 42px;
+	right:0;
+	width: 300px;
+	z-index: 99999;
+}
+
+.headercart-inner {
+    margin-top: 5px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+#recently-added-container .viewing {
+    border-bottom: 1px solid #ccc;
+    padding: 0 0 7px 0;
+    text-transform: none;
+}
+
+#recently-added-container .viewing a {
+    text-transform: none;
+}
+
+#recently-added-container h5 {
+    margin: 0 0 5px 0;
+}
+
+.headercart .mini-products-list {
+    padding: 0;
+    margin: 10px 0 0 0;
+    overflow: hidden;
+    list-style-type: none;
+}
+
+.headercart .mini-products-list .product-name {
+    text-transform: uppercase;
+    margin: 0 0 2px 0;
+    font-weight: bold;
+}
+
+.headercart .mini-products-list .product-image {
+    width: 55px;
+}
+
+.headercart .mini-products-list .item-options {
+    margin: 0 0 2px 0;
+    text-transform: uppercase;
+}
+
+.headercart .mini-products-list .item-options li {
+    padding: 0;
+}
+
+.headercart .mini-products-list > li {
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding: 0 0 10px 0;
+}
+
+.headercart #recently-added-container button {
+    float: right;
+}
+
+#recently-added-container .sum,
+#recently-added-container .price {
+    font-size: inherit;
+    margin: 0;
+}
+
+#recently-added-container .sum {
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 14px;
+    line-height: 28px;
+}
+
+#recently-added-container .btn-remove {
+    float: right;
+    display: block;
+    margin: 20px 0 0 0;
+}

@@ -1,0 +1,318 @@
+/* Shopping Cart ========================================================================= */
+.cart .page-title {
+}
+
+.cart h2 {
+    font-size: 16px;
+}
+
+/* Shopping Cart Mobile Header */
+.mobile-cart-header {
+    margin-top: 24px;
+    text-align: left;
+}
+
+.mobile-cart-header .cart-login {
+    margin: 0;
+    text-align: left;
+}
+
+.mobile-cart-header .cart-login a {
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+/* Shopping Cart Table */
+.cart-table {
+    margin: 10px 0;
+}
+
+.cart-table .item-msg {
+    font-size: 10px;
+}
+
+.cart-table thead {
+    background: transparent;
+}
+
+.cart-table th {
+    border: none;
+    font-weight: normal;
+    padding: 0 15px 5px 15px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+.cart-table tr.last {
+    border-bottom: none;
+}
+
+.cart-table td {
+    border: none;
+    padding: 15px;
+}
+
+.cart-table td.remove {
+    padding-right: 0;
+}
+
+.cart-table tfoot td {
+    padding: 15px 0 0 0;
+    border-top: 1px solid #ccc;
+}
+
+.cart-table tfoot button {
+    margin-bottom: 3px;
+}
+
+.cart-table .backlink {
+    float: left;
+}
+
+.cart-table .btn-remove2 {
+    margin: 0;
+}
+
+.cart-table .link-wishlist {
+    margin: 25px 0 0 0;
+    display: block;
+}
+
+.cart-table .product-image img {
+    max-width: none;
+}
+
+.cart-table .product-name.has-options {
+    margin: 10px 0 0 0;
+}
+
+.cart-table .product-name .color {
+    margin: 5px 0;
+}
+
+.cart-table .item-options {
+    margin: 0;
+}
+
+.cart-table .cart-price {
+    display: block;
+    text-align: center;
+}
+
+.cart-table .qty {
+    text-align: center;
+    width: 38px;
+}
+
+/* Shopping Cart Collateral boxes */
+
+.cart .crosssell h2 {
+    margin-top: 0;
+}
+
+.cart .crosssell .product-name {
+    font-size: inherit;
+    margin-bottom: 5px;
+}
+
+.cart .crosssell .button {
+    margin: 0 0 10px 0;
+}
+
+.cart .crosssell .old-price,
+.cart .crosssell .special-price {
+    margin-bottom: 5px;
+}
+
+
+
+/* Options Tool Tip */
+.cart .item-options dd {
+    padding-left: 10px;
+}
+
+.truncated {
+    cursor: help;
+}
+
+.truncated a.dots {
+    cursor: help;
+}
+
+.truncated a.details {
+    cursor: help;
+}
+
+.truncated .truncated_full_value {
+    position: relative;
+    z-index: 999;
+}
+
+.truncated .show .item-options {
+    top: -20px;
+    left: 50%;
+}
+
+.col-left .truncated .show .item-options {
+    left: 30px;
+    top: 7px;
+}
+
+.col-right .truncated .show .item-options {
+    left: -240px;
+    top: 7px;
+}
+
+/* Discounts */
+
+.discounts {
+    border-top: 1px #e5e5e5 solid;
+}
+
+.discounts h2 {
+    margin: 25px 0 5px 0;
+}
+
+.discounts label {
+    display: block;
+    margin-bottom: -15px;
+}
+
+.discounts input {
+    margin: 25px 15px 0 0;
+    width: 200px;
+}
+
+.check-gc-status {
+    display: inline-block;
+}
+
+.discounts button,
+.check-gc-status {
+    margin: 25px 0 0 0;
+    vertical-align: top;
+}
+
+.discounts .apply {
+    margin-right: 15px;
+}
+
+.discounts .validation-advice {
+    left: 0;
+    margin-top: 3px;
+    position: absolute;
+}
+
+.cart .btn-proceed-checkout {
+    width: 100%;
+}
+
+.cart .totals {
+    margin-top: 6px;
+    padding-left: 25px;
+    text-transform: lowercase;
+}
+
+.cart .totals table {
+    width: 100%;
+}
+
+.cart .totals th {
+    text-align: left;
+}
+
+.cart .totals td {
+    padding: 4px 0;
+    text-align: right;
+}
+
+.cart .totals td:first-child {
+    text-align: left;
+}
+
+.cart .totals .price {
+    white-space: nowrap;
+}
+
+.cart .totals button {
+    margin: 25px 0 0 0;
+}
+
+.cart .continue-shopping {
+    float: right;
+    display: inline-block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.qty-controls {
+    white-space: nowrap;
+}
+
+.qty-controls .qty-plus {
+    font-size: 12px;
+}
+
+.qty-controls .qty-minus {
+    font-size: 14px;
+}
+
+.mobile-product-qty {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    width: 130px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.mobile-product-qty .qty-minus.mobile,
+.mobile-product-qty .qty-plus.mobile {
+    display: inline-block;
+    width: 38px;
+    border: 1px solid #000;
+}
+
+.mobile-product-qty .qty-minus.mobile span {
+    position: relative;
+    top: 8px;
+}
+
+.mobile-product-qty .qty-plus.mobile span {
+    position: relative;
+    top: 10px;
+}
+
+.qty-controls span {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.cart-login {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.cart-login h2 {
+    margin-bottom: 0;
+}
+
+.cart-login p {
+    margin: 8px 0;
+}
+
+.points-amount {
+    text-transform: none;
+}
+
+.points-to-spend {
+    margin-bottom: 5px;
+}
+
+.tbt-reward h2 {
+    font-size: 15px;
+}
+
+

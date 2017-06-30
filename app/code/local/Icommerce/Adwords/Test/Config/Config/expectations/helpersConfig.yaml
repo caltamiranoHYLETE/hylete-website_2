@@ -1,0 +1,4 @@
+helpers:
+  Icommerce_Adwords_Helper_Config: adwords/config
+  Icommerce_Adwords_Helper_Data: adwords
+  Icommerce_Adwords_Helper_Remarketing: adwords/remarketing

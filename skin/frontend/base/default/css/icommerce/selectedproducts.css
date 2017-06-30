@@ -1,0 +1,13 @@
+.selected-products.list-horizontal .content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.selected-products.list-horizontal .products-grid {
+    display: table-row;
+}
+
+.selected-products.list-horizontal .products-grid .item {
+    display: table-cell;
+}

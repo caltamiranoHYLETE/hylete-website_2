@@ -1,0 +1,66 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div id="checkout-review-loader" style="display:none;">
+	<span>
+		<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" />
+		&nbsp;
+		<?php echo $this->__('Calculating total sum...') ?>
+	</span>
+
+</div>
+<div class="checkout-final clearfix">
+	<div id="checkout-review-load" class="default-box">
+	    <?php echo $this->getChildHtml('info') ?>
+	</div>
+
+	<?php if(Icommerce_Default_Helper_Data::isModuleActive('Icommerce_CustomerCheckoutComment')): ?>
+		<!-- Customer comment -->
+	    <?php echo Icommerce_Layout::getBlockHtml( $this, "checkout/onepage/ccocomments.phtml" ); ?>
+	<?php endif; ?>
+
+	<?php echo $this->getChildHtml('agreements') ?>
+	<div class="content button-set">
+	    <p>
+	        <span id="review-please-wait" style="display:none;" class="opc-please-wait">
+	            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
+	        </span>
+	        <span id="review-buttons-container" class="a-center">
+                <button id="place-order-button" class="button right" type="button"><?php echo $this->__('Place Order') ?></button>
+	        </span>
+        </p>
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    <?php if ($this->helper('carbon')->isEnterprise()):?>
+        var review = new Review('<?php echo $this->getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey())) ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    <?php else: ?>
+    var review = new Review('<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    <?php endif; ?>
+    var isQuickCheckoutEnabled = true;
+//]]>
+</script>

@@ -1,0 +1,11 @@
+--- app/code/core/Mage/CatalogRule/Model/Action/Index/Refresh.php.orig	2014-10-06 09:49:53.000000000 +0300
++++ app/code/core/Mage/CatalogRule/Model/Action/Index/Refresh.php	2014-10-06 09:50:18.000000000 +0300
+@@ -118,7 +118,7 @@
+ 
+         /** @var $coreDate Mage_Core_Model_Date */
+         $coreDate  = $this->_factory->getModel('core/date');
+-        $timestamp = $coreDate->gmtTimestamp('Today');
++        $timestamp = strtotime('Today');
+ 
+         foreach ($this->_app->getWebsites(false) as $website) {
+             /** @var $website Mage_Core_Model_Website */

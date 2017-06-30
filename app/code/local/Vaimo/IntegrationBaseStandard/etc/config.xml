@@ -1,0 +1,55 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Vaimo_IntegrationBaseStandard>
+            <version>0.1.13</version>
+        </Vaimo_IntegrationBaseStandard>
+    </modules>
+    <global>
+        <models>
+            <integrationbasestandard>
+                <class>Vaimo_IntegrationBaseStandard_Model</class>
+            </integrationbasestandard>
+        </models>
+        <blocks>
+            <integrationbasestandard>
+                <class>Vaimo_IntegrationBaseStandard_Block</class>
+            </integrationbasestandard>
+        </blocks>
+        <helpers>
+            <integrationbasestandard>
+                <class>Vaimo_IntegrationBaseStandard_Helper</class>
+            </integrationbasestandard>
+        </helpers>
+        <resources>
+            <integrationbasestandard_setup>
+                <setup>
+                    <module>Vaimo_IntegrationBaseStandard</module>
+                </setup>
+            </integrationbasestandard_setup>
+        </resources>
+        <events>
+            <integrationbase_process_queue_order>
+                <observers>
+                    <integrationbasestandard>
+                        <class>integrationbasestandard/observer</class>
+                        <method>exportOrder</method>
+                    </integrationbasestandard>
+                </observers>
+            </integrationbase_process_queue_order>
+        </events>
+        <scheduler_operations>
+            <standard_import_products>
+                <label>Standard | Import Products</label>
+                <trigger>trigger/integrationbasestandard/importProducts.php</trigger>
+            </standard_import_products>
+            <standard_import_stock>
+                <label>Standard | Import Stock</label>
+                <trigger>trigger/integrationbasestandard/importStock.php</trigger>
+            </standard_import_stock>
+            <standard_import_shipments>
+                <label>Standard | Import Shipments</label>
+                <trigger>trigger/integrationbasestandard/importShipments.php</trigger>
+            </standard_import_shipments>
+        </scheduler_operations>
+    </global>
+</config>

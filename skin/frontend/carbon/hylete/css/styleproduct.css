@@ -1,0 +1,146 @@
+.style.product {
+    display: block;
+    position: relative;
+    text-align: right;
+    width: 100%;
+}
+
+.style.product .style-image {
+    height: 100%;
+    overflow: hidden;
+    position: static;
+    width: 100%;
+}
+
+.style.product .style-image img {
+    max-width: none;
+    min-width: 100%;
+    position: relative;
+    top: 0;
+}
+
+.style.product h1 {
+    margin: 15px 0 25px 0;
+}
+
+.style.product .top {
+    border-bottom: 1px #000 solid;
+    padding-bottom: 20px;
+    text-align: left;
+}
+
+.style.product .top p {
+    margin: 2px 0;
+}
+
+.style.product .products-grid {
+    background: #fff;
+    display: inline-block;
+    margin: 20px;
+    overflow: hidde;
+    padding: 20px 29px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 400px;
+    z-index: 1;
+}
+
+.style.product .products-grid button {
+    width: 100%;
+}
+
+.style.product .item {
+    margin: 20px 0 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+.style.product .item h5 {
+    margin-top: 5px;
+    padding: 0;
+}
+
+.style.product .badges,
+.style.product .image {
+    padding-right: 25px;
+    text-align: center;
+}
+
+.style.product .badges {
+    display: none;
+    margin-top: 20px;
+    height: auto;
+}
+
+.style.product .price-box {
+    margin-bottom: 10px;
+}
+
+.style.product .required {
+    text-align: left;
+    visibility: hidden;
+}
+
+.style.product .sod_select {
+    margin-right: 7px;
+}
+
+.style.product [type="checkbox"] + label {
+    margin-left: 0;
+    margin-top: 8px;
+    vertical-align: top;
+}
+
+.style.product p.error {
+    display: none;
+    padding-top: 15px;
+}
+
+
+@media (max-width: 991px) {
+    .style.product .style-image {
+        position: relative;
+    }
+    
+    .style.product .style-image img {
+        max-width: 100%;
+    }
+        
+    .style.product h1 {
+        margin: 25px 15px 45px 15px;
+        text-align: center;
+    }
+    
+    .style.product .top {
+        margin: 0 60px;
+    }
+    
+    .style.product .products-grid {
+        display: block;
+        margin: 0;
+        padding: 20px 15px;
+        position: relative;
+        width: 100%;
+    }
+    
+    .style.product .sod_select {
+        width: 120px;
+    }
+    
+    .style.product [type="checkbox"] + label {
+        margin-top: -4px;
+        vertical-align: top;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .style.product .top {
+        margin: 0;
+    }
+    
+    body.style-product .breadcrumbs {
+        display: none;
+    }
+}

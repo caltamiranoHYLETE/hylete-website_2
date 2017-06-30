@@ -1,0 +1,29 @@
+/* Small devices */
+@media (min-width: 768px) and (max-width: 991px) {
+    .nav-tabs > li > a {
+        padding: 5px 8px;
+    }
+
+}
+
+/* Extra small devices */
+@media (max-width: 767px) {
+    .nav-tabs > li > a {
+        padding: 8px 8px;
+        font-size: 11px;
+    }
+
+    .catalog-product-view .more-views li {
+        float: none;
+        display: inline-block;
+    }
+
+    .box-related .products-grid li.item,
+    .box-up-sell .products-grid li.item{
+        padding-bottom: 15px;
+    }
+
+    .product-options dt label {
+        margin-right: 10px;
+    }
+}

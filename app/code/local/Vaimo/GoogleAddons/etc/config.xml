@@ -1,0 +1,118 @@
+<?xml version="1.0" ?><!--
+Copyright (c) 2009-2014 Vaimo AB
+
+Vaimo reserves all rights in the Program as delivered. The Program
+or any portion thereof may not be reproduced in any form whatsoever without
+the written consent of Vaimo, except as provided by licence. A licence
+under Vaimo's rights in the Program may be available directly from
+Vaimo.
+
+Disclaimer:
+THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+IN THE PROGRAM.
+
+@category    Vaimo
+@package     Vaimo_GoogleAddons
+@copyright   Copyright (c) 2009-2014 Vaimo AB
+--><config>
+    <modules>
+        <Vaimo_GoogleAddons>
+            <version>0.1.22</version>
+        </Vaimo_GoogleAddons>
+    </modules>
+    <global>
+        <helpers>
+            <googleaddons>
+                <class>Vaimo_GoogleAddons_Helper</class>
+            </googleaddons>
+        </helpers>
+        <blocks>
+            <googleaddons>
+                <class>Vaimo_GoogleAddons_Block</class>
+            </googleaddons>
+        </blocks>
+    </global>
+    <frontend>
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <googleaddons_order_success>
+                        <type>singleton</type>
+                        <class>Vaimo_GoogleAddons_Model_Observer</class>
+                        <method>setUniversalAnalyticsOnOrderSuccessPageView</method>
+                    </googleaddons_order_success>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <checkout_multishipping_controller_success_action>
+                <observers>
+                    <googleaddons_order_success>
+                        <class>Vaimo_GoogleAddons_Model_Observer</class>
+                        <method>setUniversalAnalyticsOnOrderSuccessPageView</method>
+                    </googleaddons_order_success>
+                </observers>
+            </checkout_multishipping_controller_success_action>
+        </events>
+        <layout>
+            <updates>
+                <googleaddons module="Vaimo_GoogleAddons">
+                    <file>vaimo/googleaddons.xml</file>
+                </googleaddons>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <googleaddons>
+                                            <google_tag_manager>
+                                                <title>Google Tag Manager</title>
+                                            </google_tag_manager>
+                                            <google_analytics>
+                                                <title>Google Analytics</title>
+                                            </google_analytics>
+                                            <adwords_dynamic_remarketing>
+                                                <title>AdWords Dynamic Remarketing</title>
+                                            </adwords_dynamic_remarketing>
+                                        </googleaddons>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <googleaddons>
+            <google_tag_manager>
+                <enable>0</enable>
+            </google_tag_manager>
+            <google_analytics>
+                <enable>0</enable>
+                <universal>0</universal>
+            </google_analytics>
+            <settings>
+                <include_tax_in_total>0</include_tax_in_total>
+            </settings>
+            <adwords_dynamic_remarketing>
+                <enable>0</enable>
+            </adwords_dynamic_remarketing>
+        </googleaddons>
+    </default>
+</config>

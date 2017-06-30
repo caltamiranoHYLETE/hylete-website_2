@@ -1,0 +1,14 @@
+<?php $_helper = Mage::helper('headercart'); ?>
+<?php $_cartCount = $this->helper('checkout/cart')->getSummaryCount(); ?>
+
+<?php if ($_helper->useAddToCartAjax()): ?>
+    <div id="atca-cart" class="cart <?php echo ($_cartCount > 0) ? 'not-empty' : '';?>">
+<?php endif; ?>
+    
+    
+<?php echo $this->getChildHtml('headerCartInner'); ?>
+
+
+<?php if ($_helper->useAddToCartAjax()): ?>
+    </div>
+<?php endif; ?>

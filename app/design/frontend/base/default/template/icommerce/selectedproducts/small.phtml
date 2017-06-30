@@ -1,0 +1,45 @@
+<?php
+/*
+ * Template for Icommerce_SelectedProducts
+ */
+
+$_productCollection = $this->getCollection();
+
+?>
+<?php if(!$_productCollection->count()): ?>
+<div class="note-msg">
+    <?php echo $this->__('There are no products matching the selection.') ?>
+</div>
+<?php else: ?>
+
+<div class="selected-products<?php echo $this->hasListDirection() ? ' list-' . $this->getListDirection() : '' ?>">
+    <?php $imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'thumbnail' ?>
+    <?php if ($listTitle = $this->getCollectionTitle()): ?>
+        <div class="head">
+            <h4><?php echo $this->__($listTitle) ?></h4>
+        </div>
+    <?php endif ?>
+    <div class="content">
+        <ol class="products-grid">
+
+        <?php foreach($_productCollection as $_item): ?>
+        <?php /*if($_item->isSaleable()): */?>
+	        <li class="item">
+                <div class="item-container">
+                    <a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, $imageAttribute)->resize(50) ?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" width="50" height="50" /></a>
+
+                    <?php if (!$this->hasShowPriceAndName() || $this->getShowPriceAndName()): ?>
+                    <div class="product-details">
+                        <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
+                    </div>
+                    </div>
+                    <?php endif ?>
+	        </li>
+       	<?php /*endif; */?>
+        <?php endforeach ?>
+        </ol>
+
+	</div>
+</div>
+
+<?php endif ?>

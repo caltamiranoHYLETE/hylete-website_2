@@ -1,0 +1,3 @@
+blocks:
+  Icommerce_Adwords_Block_Adminhtml_Form_Field_Googletagparams: adwords/adminhtml_form_field_googletagparams
+  Icommerce_Adwords_Block_View: adwords/view

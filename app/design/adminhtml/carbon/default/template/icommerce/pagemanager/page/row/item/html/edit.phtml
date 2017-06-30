@@ -1,0 +1,25 @@
+
+<?php $item = $this->getItem(); ?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+        	<?php 
+        		$page = Mage::getModel('pagemanager/page')->getPage($_SESSION['page_id']);
+        	?>
+            <td><h3><?php echo $this->__('Edit HTML in page: ').$page['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit"> 
+    <form action="<?php echo $this->getUrl('*/*/updatehtml')?>" method="post" id="edithtml_form">
+    	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    	<input name="id" type="hidden" value="<?php echo $item['id'] ?>" />
+    	<?php echo $this->getForm() ?>
+	</form>
+</div>
+<script type="text/javascript">
+    var edithtmlForm = new varienForm('edithtml_form');
+</script>

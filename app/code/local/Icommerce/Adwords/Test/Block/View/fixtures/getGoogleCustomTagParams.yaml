@@ -1,0 +1,4 @@
+# Custom tag params are stored as serialized strings in Magento config
+config:
+  default/adwords/settings/google_tag_params: >
+    a:2:{s:18:"_1443381708228_228";a:2:{s:21:"google_tag_param_name";s:8:"custom_1";s:22:"google_tag_param_value";s:14:"custom_1_value";}s:18:"_1443381712209_209";a:2:{s:21:"google_tag_param_name";s:8:"custom_2";s:22:"google_tag_param_value";s:14:"custom_2_value";}}

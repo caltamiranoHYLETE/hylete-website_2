@@ -1,0 +1,28 @@
+<?php
+
+$vendorTxCode = $this->getVendorTxCode();
+
+echo $this->getMethod()->getTitle();
+
+if($vendorTxCode): ?>
+	<ul>
+        <?php if( !empty($vendorTxCode) ): ?>
+            <li><?php echo "<strong>", $this->helper("bakerloo_payment")->__("Vendor Tx Code") , ": </strong>", $this->detailLink($vendorTxCode); ?></li>
+        <?php endif; ?>
+	</ul>
+<?php endif; ?>
+<script type="text/javascript">
+    document.observe("dom:loaded", function() {
+    	$$('a.trn-detail-modal').each(function(el){
+			var cont = new Element('div',{className: 'lcontainer'});
+	        new Control.Modal(el.id,{
+						     className: 'modal',
+						     iframe: true,
+						     insertRemoteContentAt: cont,
+						     height: '800',
+						     width: '1100',
+						     fade: true
+				 }).container.insert(cont);
+    	});
+    });
+</script>

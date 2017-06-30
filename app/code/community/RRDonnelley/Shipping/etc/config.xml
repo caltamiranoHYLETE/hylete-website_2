@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <RRDonnelley_Shipping>
+            <version>1.0.0</version>
+        </RRDonnelley_Shipping>
+    </modules>
+    <global>
+        <models>
+            <rrdonnelley_shipping>
+                <class>RRDonnelley_Shipping_Model</class>
+            </rrdonnelley_shipping>
+        </models>
+        <helpers>
+            <rrdonnelley_shipping>
+                <class>RRDonnelley_Shipping_Helper</class>
+            </rrdonnelley_shipping>
+        </helpers>
+    </global>
+    <default>
+        <carriers>
+            <rrdonnelley_shipping>
+                <active>1</active>
+                <sort_order>10</sort_order>
+                <model>rrdonnelley_shipping/carrier</model>
+                <title>RR Donnelley Shipping</title>
+                <sort_order>10</sort_order>
+                <sallowspecific>1</sallowspecific>
+                <base_price>14.99</base_price>
+                <express_max_weight>3</express_max_weight>
+                <methodtitle>International Parcel Delivery</methodtitle>
+                <expressmethodtitle>Express Intl Delivery</expressmethodtitle>
+                <trackingtitle>International Parcel Delivery</trackingtitle>
+            </rrdonnelley_shipping>
+        </carriers>
+    </default>
+</config>

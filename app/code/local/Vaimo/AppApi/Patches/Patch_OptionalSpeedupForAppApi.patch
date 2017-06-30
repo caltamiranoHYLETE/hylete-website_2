@@ -1,0 +1,17 @@
+--- app/code/core/Mage/Catalog/Model/Resource/Product/Type/Configurable/Attribute/Collection-orig.php	2015-11-18 09:51:41.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Resource/Product/Type/Configurable/Attribute/Collection.php	2015-11-18 09:51:18.000000000 +0100
+@@ -128,9 +128,11 @@
+         Varien_Profiler::start('TTT3:'.__METHOD__);
+         $this->_loadLabels();
+         Varien_Profiler::stop('TTT3:'.__METHOD__);
+-        Varien_Profiler::start('TTT4:'.__METHOD__);
+-        $this->_loadPrices();
+-        Varien_Profiler::stop('TTT4:'.__METHOD__);
++        if (!isset($_SESSION['ignore_prices'])) {
++            Varien_Profiler::start('TTT4:'.__METHOD__);
++            $this->_loadPrices();
++            Varien_Profiler::stop('TTT4:'.__METHOD__);
++        }
+         return $this;
+     }
+ 

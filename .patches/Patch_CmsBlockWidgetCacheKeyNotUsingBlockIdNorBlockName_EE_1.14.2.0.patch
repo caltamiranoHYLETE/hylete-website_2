@@ -1,0 +1,15 @@
+--- app/code/core/Mage/Cms/Block/Widget/Block.php.org	2015-05-11 14:14:29.000000000 +0000
++++ app/code/core/Mage/Cms/Block/Widget/Block.php	2015-05-11 14:14:33.000000000 +0000
+@@ -88,4 +88,12 @@
+         unset(self::$_widgetUsageMap[$blockHash]);
+         return $this;
+     }
++
++    public function getCacheKeyInfo()
++    {
++        $keyInfo = parent::getCacheKeyInfo();
++        $keyInfo[] = $this->getData('block_id');
++
++        return $keyInfo;
++    }
+ }

@@ -1,0 +1,114 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_AppApi
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ * @author      Kjell Holmqvist
+ */
+
+-->
+<config>
+    <modules>
+        <Vaimo_AppApi>
+            <version>0.1.4</version>
+        </Vaimo_AppApi>
+    </modules>
+    <global>
+        <models>
+            <appapi>
+                <class>Vaimo_AppApi_Model</class>
+                <resourceModel>appapi_resource</resourceModel>
+            </appapi>
+            <appapi_resource>
+                <class>Vaimo_AppApi_Model_Resource</class>
+                <entities>
+                    <auth>
+                        <table>appapi_auth</table>
+                    </auth>
+                    <nonce>
+                        <table>appapi_nonce</table>
+                    </nonce>
+                </entities>
+            </appapi_resource>
+        </models>
+        <blocks>
+            <appapi>
+                <class>Vaimo_AppApi_Block</class>
+            </appapi>
+        </blocks>
+        <helpers>
+            <appapi>
+                <class>Vaimo_AppApi_Helper</class>
+            </appapi>
+        </helpers>
+        <resources>
+            <appapi_setup>
+                <setup>
+                    <module>Vaimo_AppApi</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </appapi_setup>
+            <appapi_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </appapi_write>
+            <appapi_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </appapi_read>
+        </resources>
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <appapi>
+                        <class>appapi/observer</class>
+                        <method>checkoutSuccess</method>
+                    </appapi>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
+    </global>
+    <frontend>
+        <routers>
+            <appapi>
+                <use>standard</use>
+                <args>
+                    <module>Vaimo_AppApi</module>
+                    <frontName>appapi</frontName>
+                </args>
+            </appapi>
+        </routers>
+    </frontend>
+    <default>
+        <appapi>
+            <appapi_settings>
+                <username>demo</username>
+                <password>demo</password>
+                <cart_url>checkout/cart</cart_url>
+            </appapi_settings>
+        </appapi>
+    </default>
+</config>

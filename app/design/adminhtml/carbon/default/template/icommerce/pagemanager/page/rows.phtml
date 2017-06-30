@@ -1,0 +1,170 @@
+<?php
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $rowType =  Mage::getModel('pagemanager/row')->getRowType(); ?>
+<?php $itemType = Mage::getModel('pagemanager/item')->getItemType(); ?>
+
+<div class="content-header" style="border-bottom: none;padding: 0;margin: 0;">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Rows and blocks belonging to this page')?></h4></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="entry-edit">
+
+	<?php echo $this->getChildHtml('massupdate') ?>
+		<form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/pagerow/massUpdate')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <div class="grid">
+            <table cellspacing="0">
+            	<thead>
+            	<tr class="headings">
+            		<th class="a-center" style="width:120px;">&nbsp;</th>
+            		<th class="a-center" style="width:50px;">&nbsp;</th>
+					<th><?php echo $this->__('ID') ?></th>
+            		<th><?php echo $this->__('Image') ?></th>
+            		<th><?php echo $this->__('Name') ?></th>
+            		<th><?php echo $this->__('Status') ?></th>
+            		<th><?php echo $this->__('Position') ?></th>
+					<th style="width:180px;"><?php echo $this->__('Action') ?></th>
+            	</tr>
+            	</thead>
+            	<tbody>
+					<?php $rows = $this->getRows(); ?>
+
+            		<?php if(count($rows) < 1): ?>
+						<?php echo $this->getChildHtml('empty'); ?>
+					<?php else: ?>
+
+						<?php $rowIterator = 0; ?>
+
+						<?php foreach($rows as $row): ?>
+
+
+				                <tr class="row <?php echo ($row['status'] == '0' ? 'invisible-row ' : '') ?>">
+				                	<td class="a-center" width="20">
+				                    	<a href="#" onclick="toggleItems(<?php echo $row['id'] ?>);return false;"><?php echo $this->__('Show/Hide items')?></a>
+				                    </td>
+				                    <td class="a-center" width="20">
+				                    	<input type="checkbox" name="editform[mass_update_row_id][]" class="mass_update_checkbox" value="<?php echo $row['id']?>" />
+				                    </td>
+									<td class="a-center" width="20"><?php echo $row['id']?></td>
+				                    <td width="50">
+				                    	<img src="<?php echo $this->getSkinUrl('images/page_manager/').$helper->getRowImage($row['type']) ?>" width="52" height="24" />
+				                    </td>
+				                    <td><?php echo $this->__('Row ')?><?php echo $rowIterator+1 ?></td>
+                                    <td><?php echo $row['status'] == '1' ? $this->__("Active") : $this->__("Inactive"); ?></td>
+				                    <td width="20"><input type="text" class="input-text" name="editform[row_position][<?php echo $row['id']?>]" value="<?php echo  $row['position'] ?>"></td>
+				                    <td width="20">
+
+					                    	<?php /*<a href="<?php echo $this->getRowUrl( $row['id'] )?>"><?php echo $this->__('Edit')?></a><br />*/ ?>
+					                    	<select name="editform[itemtype_select]" id="itemtype_select_<?php echo $row['id']?>">
+					                    		<?php foreach($itemType as $key => $title): ?>
+						                    		<option value="<?php echo $title['value']?>"><?php echo $this->__('Add ').$this->__($title['label'])?></option>
+					                    		<?php endforeach; ?>
+					                    		<option value="edit_row"><?php echo $this->__('Edit row')?></option>
+					                    	</select>
+					                    	<button type="button" class="button" id="itemtypebutton_<?php echo $row['id']?>" onclick="submitItemType(<?php echo $row['id']?>);"><span><?php echo $this->__('Send') ?></span></button>
+
+				                    </td>
+				                </tr>
+				                <?php $items = $this->getItems($row['id']); ?>
+
+			            		<?php if(count($items) < 1): ?>
+									<?php echo $this->getChildHtml('empty'); ?>
+								<?php else: ?>
+
+									<?php $itemIterator = 0; ?>
+				            		<?php $isVisibleIterator = 0; ?>
+									<?php foreach($items as $item): ?>
+											<?php
+												if($item['status'] == '1'):
+													$isVisibleIterator++;
+												endif;
+												$invisibleClass = '';
+												if($row['status'] == '0' || $item['status'] == '0' || $row['type'] < $isVisibleIterator):
+													$invisibleClass = 'invisible-item ';
+												endif;
+											 ?>
+							                <tr id="<?php echo 'item_row_'.$row['id'].'_'.$item['id'] ?>" class="<?php echo $invisibleClass.'items' ?>">
+							                	<td class="a-center">&nbsp;</td>
+							                    <td class="a-center"><input type="checkbox" name="editform[mass_update_item_id][]" class="mass_update_checkbox" value="<?php echo $item['id']?>" /></td>
+												<td class="a-center" width="20"><?php echo $item['id']?></td>
+							                    <td width="50">
+
+							                    	<?php /* Type: Image */
+                                                    if($item['type'] == 'image' || $item['type'] == 'imagewithoverlay'): ?>
+							                    		<img src="<?php echo $helper->getImageUrl($item) ?>" width="50" height="50" />
+							                    	<?php /* Type: HTML */
+                                                    elseif($item['type'] == 'html'): ?>
+							                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-html.png') ?>" width="50" height="50" />
+							                    	<?php /* Type: Toplist */
+                                                    elseif($item['type'] == 'toplist'): ?>
+							                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-toplist2.png') ?>" width="50" height="50" />
+							                    	<?php /* Type: Slideshow */
+                                                    elseif($item['type'] == 'slideshow'): ?>
+							                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-slideshow.png') ?>" width="51" height="39" />
+							                    	<?php /* Type: Heading */
+                                                    elseif($item['type'] == 'heading'): ?>
+							                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-'.$item['heading'].'.png') ?>" width="50" height="50" />
+							                    	<?php /* Type: Heading */
+                                                    elseif($item['type'] == 'widget'): ?>
+							                    		<img src="<?php echo $this->getSkinUrl('images/page_manager/page-widget.png') ?>" width="50" height="50" />
+							                    	<?php endif; ?>
+
+							                    </td>
+							                    <td><?php echo $item['title'] ?></td>
+                                                <td><?php echo $item['status'] == '1' ? $this->__("Active") : $this->__("Inactive"); ?></td>
+							                    <td width="20"><input type="text" class="input-text" name="editform[item_position][<?php echo $item['id']?>]" value="<?php echo  $item['position'] ?>"></td>
+							                    <td width="20">
+
+								                    	<a href="<?php echo $this->getItemUrl( $item['id'],$item['type'] )?>"><?php echo $this->__('Edit')?></a>
+								                    	<a href="<?php echo $this->getUrl('*/pageitem/copy'.$item['type'].'/id/'.$item['id']) ?>"><?php echo $this->__('Copy') ?></a>
+
+							                    </td>
+							                </tr>
+
+				            		<?php $itemIterator++; ?>
+				            		<?php endforeach;?>
+
+			            		<?php endif; ?>
+
+	            		<?php $rowIterator++; ?>
+
+	            		<?php endforeach;?>
+
+            		<?php endif; ?>
+                </tbody>
+           </table>
+        </div>
+        <input type="hidden" name="editform[mass_update_action]" id="mass_update_action" value="" />
+        <input type="hidden" name="editform[itemtype]" id="item_type_action" value="" />
+        <input type="hidden" name="editform[row_id]" id="row_id" value="" />
+     </form>
+</div>
+<script type="text/javascript">
+    var editform = new varienForm('edit_form');
+
+	function submitItemType(rowId){
+		var select = 'itemtype_select_'+rowId;
+		$('item_type_action').value = $(select).value;
+		$('row_id').value = rowId;
+		$('edit_form').submit();
+	}
+
+	function toggleItems(rowId){
+		var items = 'item_row_'+rowId;
+		$$('.items').each(function(s, index) {
+			var sid = s.id;
+			if(sid.indexOf('_'+rowId+'_') != -1){
+				$(sid).toggle();
+			}
+		});
+	}
+
+</script>

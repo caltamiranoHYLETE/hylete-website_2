@@ -1,0 +1,85 @@
+.login-container
+{
+	margin: 50px auto;
+}
+
+.top-modules-beta
+{
+	margin: 10px 0 0 1px;
+	width: 532px;
+	border: 1px solid #DBDFE0;
+	text-align: left;
+	padding: 20px 20px 20px 25px;
+}
+
+.top-modules-beta .left-box,
+.top-modules-beta .right-box
+{
+	float: left;
+	min-width: 155px;
+}
+
+.top-modules-beta .left-box
+{
+	max-width: 155px;
+	margin-right: 70px;
+}
+
+.top-modules-beta .right-box
+{
+	max-width: 300px;
+}
+
+.top-modules-beta .right-box p
+{
+	margin-bottom: 20px;
+}
+
+.top-modules-beta h2,
+.top-modules-beta h2 a
+{
+	font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #505050;
+    text-transform: uppercase;
+}
+
+.top-modules-beta h2 a
+{
+	font-size: 1.0em;
+}
+
+.top-modules-beta p
+{
+	color: #686863;
+}
+
+.top-modules-beta p a
+{
+	text-decoration: none;
+	color: #225F97;
+}
+
+.top-modules-beta .left-box p
+{
+	margin-bottom: 0;
+}
+
+.top-modules-beta .more-info
+{
+	margin-bottom: 15px;
+	max-width: 145px;
+	
+}
+
+.top-modules-beta .more-info a
+{
+	color: #225F97;
+	font-weight: normal;
+}
+
+.top-modules-beta .more-info a:hover
+{
+	text-decoration: underline;
+}

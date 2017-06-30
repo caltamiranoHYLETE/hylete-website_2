@@ -1,0 +1,41 @@
+<?php if($this->showHistory()): ?>
+
+	    <div class="box-head">
+	    	<h2><?php echo $this->__("Referrals"); ?></h2>
+	    </div>
+	    <?php $_referred = $this->getReferred();?>
+	    <?php if($_referred->getSize()): ?>
+	    <?php echo $this->getPagerHtml() ?>
+	    <table cellspacing="0" class="data-table no-more-table" id="referred-friends-table">
+	        <thead>
+	            <tr>
+	                <th><?php echo $this->__('Full Name') ?></th>
+	                <th class="hidden-xs"><?php echo $this->__('Email') ?></th>
+	                <th class="hidden-xs"><?php echo $this->__('Status') ?></th>
+	                <th class="pull-right"><?php echo $this->__('Accumulated Earnings') ?></th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <?php $_odd = ''; ?>
+	            <?php foreach ($_referred as $_friend): ?>
+	                <tr>
+	                    <?php ?><td><?php echo $_friend->getReferralName() ?></td><?php ?>
+	                    <td class="hidden-xs"><?php echo $_friend->getReferralEmail() ?></td>
+	                    <td class="a-left hidden-xs"><?php echo $this->getStatusCaption( (int)($_friend->getReferralStatus()) ); ?></td>
+	                    <td class="pull-right">
+	                        <?php echo $this->getAccumulatedReferralPoints($_friend); ?>
+	                        <?php $pending = $this->getPendingReferralPoints($_friend); ?>
+	                    	<?php if($pending->hasPoints()): ?>
+	                    		<?php echo $this->__("(+%s pending approval)", $pending->getSimpleAmount()); ?>
+	                    	<?php endif; ?>
+	                    </td>
+	                </tr>
+	            <?php endforeach; ?>
+	        </tbody>
+	    </table>
+	    <?php echo $this->getPagerHtml() ?>
+	    <script type="text/javascript">decorateTable('referred-friends-table')</script>
+	    <?php else: ?>
+	        <p><?php echo $this->__("You don't have any referrals yet."); ?></p>
+	    <?php endif ?>
+<?php endif ?>

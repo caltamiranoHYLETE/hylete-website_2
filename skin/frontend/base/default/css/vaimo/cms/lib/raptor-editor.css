@@ -1,0 +1,29 @@
+.raptor-ui,
+.raptor-ui-link-create-dialog,
+.raptor-ui-file-manager-dialog,
+.raptor-ui-view-source-dialog,
+.raptor-ui-embed-dialog,
+.raptor-ui-special-characters-dialog {
+    font-family: Arial, Verdana, Sans-serif;
+}
+
+.raptor-ui-link-create-dialog h1,
+.raptor-ui-link-create-dialog h2,
+.raptor-ui-link-create-dialog h3,
+.raptor-ui-link-create-dialog h4,
+.raptor-ui-link-create-dialog h5,
+.raptor-ui-link-create-dialog h6,
+.raptor-ui-file-manager-dialog h1,
+.raptor-ui-file-manager-dialog h2,
+.raptor-ui-file-manager-dialog h3,
+.raptor-ui-file-manager-dialog h4,
+.raptor-ui-file-manager-dialog h5,
+.raptor-ui-file-manager-dialog h6
+{
+    font-size: initial;
+    font-weight: initial;
+}
+
+.raptor-ui-link-create-dialog input {
+    margin: initial;
+}

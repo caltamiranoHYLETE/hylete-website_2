@@ -1,0 +1,745 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <ebizmarts_pos translate="title" module="bakerloo_restful">
+            <title>POS</title>
+            <sort_order>169</sort_order>
+            <children>
+                <posconfig translate="title" module="bakerloo_restful">
+                    <title>Configuration</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/system_config/edit/section/bakerloorestful</action>
+                </posconfig>
+                <discounts translate="title" module="bakerloo_restful">
+                    <title>Discounts</title>
+                    <sort_order>20</sort_order>
+                    <action>adminhtml/bakerloodiscount/</action>
+                </discounts>
+                <notifications translate="title" module="bakerloo_restful">
+                    <title>Notifications</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/pos_notifications/</action>
+                    <children>
+                        <customprice translate="title" module="bakerloo_restful">
+                            <title>Custom discounts</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/pos_customprice</action>
+                        </customprice>
+                    </children>
+                </notifications>
+                <orders translate="title" module="bakerloo_restful">
+                    <title>Orders</title>
+                    <sort_order>40</sort_order>
+                    <action>adminhtml/bakerlooorders/</action>
+                </orders>
+                <quotes translate="title" module="bakerloo_restful">
+                    <title>Quotes</title>
+                    <sort_order>45</sort_order>
+                    <action>adminhtml/pos_quotes/</action>
+                </quotes>
+                <shifts translate="title" module="bakerloo_restful">
+                    <title>Shifts</title>
+                    <sort_order>48</sort_order>
+                    <action>adminhtml/pos_shifts</action>
+                </shifts>
+                <pages translate="title" module="bakerloo_restful">
+                    <title>Static Files</title>
+                    <sort_order>50</sort_order>
+                    <action>adminhtml/pos_pages/</action>
+                </pages>
+                <debug translate="title" module="bakerloo_restful">
+                    <title>Debug</title>
+                    <sort_order>99</sort_order>
+                    <action>adminhtml/pos_debug/</action>
+                </debug>
+            </children>
+        </ebizmarts_pos>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <bakerloorestful translate="title" module="bakerloo_restful">
+                                        <title>POS Configuration - General</title>
+                                        <sort_order>665</sort_order>
+                                    </bakerloorestful>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <ebizmarts_pos translate="title" module="bakerloo_restful">
+                        <title>POS</title>
+                        <sort_order>668</sort_order>
+                        <children>
+                            <posconfig translate="title">
+                                <title>Configuration</title>
+                                <sort_order>10</sort_order>
+                            </posconfig>
+                            <discounts translate="title">
+                                <title>Discounts</title>
+                                <sort_order>20</sort_order>
+                                <children>
+                                    <add_edit translate="title">
+                                        <title>Add and Edit</title>
+                                        <sort_order>5</sort_order>
+                                    </add_edit>
+                                    <remove translate="title">
+                                        <title>Remove</title>
+                                        <sort_order>20</sort_order>
+                                    </remove>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>30</sort_order>
+                                    </list>
+                                </children>
+                            </discounts>
+                            <orders translate="title">
+                                <title>Orders</title>
+                                <sort_order>30</sort_order>
+                                <children>
+                                    <edit translate="title">
+                                        <title>Edit</title>
+                                        <sort_order>5</sort_order>
+                                    </edit>
+                                    <remove translate="title">
+                                        <title>Remove</title>
+                                        <sort_order>20</sort_order>
+                                    </remove>
+                                    <export translate="title">
+                                        <title>Export</title>
+                                        <sort_order>25</sort_order>
+                                    </export>
+                                    <retry translate="title">
+                                        <title>Try Again</title>
+                                        <sort_order>28</sort_order>
+                                    </retry>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>30</sort_order>
+                                    </list>
+                                </children>
+                            </orders>
+                            <quotes translate="title">
+                                <title>Quotes</title>
+                                <sort_order>40</sort_order>
+                                <children>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>10</sort_order>
+                                    </list>
+                                    <delete translate="title">
+                                        <title>Delete</title>
+                                        <sort_order>20</sort_order>
+                                    </delete>
+                                </children>
+                            </quotes>
+                            <notifications translate="title">
+                                <title>Notifications</title>
+                                <sort_order>50</sort_order>
+                                <children>
+                                    <add_edit translate="title">
+                                        <title>Add and Edit</title>
+                                        <sort_order>5</sort_order>
+                                    </add_edit>
+                                    <mark_as_read translate="title">
+                                        <title>Mark as read</title>
+                                        <sort_order>10</sort_order>
+                                    </mark_as_read>
+                                    <remove translate="title">
+                                        <title>Remove</title>
+                                        <sort_order>20</sort_order>
+                                    </remove>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>30</sort_order>
+                                    </list>
+                                </children>
+                            </notifications>
+                            <pages translate="title">
+                                <title>Static Files</title>
+                                <sort_order>70</sort_order>
+                                <children>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>10</sort_order>
+                                    </list>
+                                    <new_edit translate="title">
+                                        <title>Generate</title>
+                                        <sort_order>20</sort_order>
+                                    </new_edit>
+                                </children>
+                            </pages>
+                            <debug translate="title">
+                                <title>Debug</title>
+                                <sort_order>70</sort_order>
+                                <children>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>10</sort_order>
+                                    </list>
+                                    <truncate translate="title">
+                                        <title>Remove All</title>
+                                        <sort_order>20</sort_order>
+                                    </truncate>
+                                    <view translate="title">
+                                        <title>View</title>
+                                        <sort_order>30</sort_order>
+                                    </view>
+                                </children>
+                            </debug>
+                            <clear_category_image_cache translate="title">
+                                <title>Flush POS category images cache</title>
+                                <sort_order>75</sort_order>
+                            </clear_category_image_cache>
+                            <pincode_tab translate="title">
+                                <title>Users pincode edit</title>
+                                <sort_order>76</sort_order>
+                            </pincode_tab>
+                        </children>
+                    </ebizmarts_pos>
+                    <!-- Bakerloo API ACL -->
+                    <bakerloo_api translate="title" module="bakerloo_restful">
+                        <title>POS API</title>
+                        <sort_order>669</sort_order>
+                        <children>
+                            <login translate="title">
+                                <title>Login</title>
+                                <sort_order>10</sort_order>
+                            </login>
+                            <orders translate="title">
+                                <title>Orders</title>
+                                <sort_order>20</sort_order>
+                                <children>
+                                    <create translate="title">
+                                        <title>Create</title>
+                                        <sort_order>10</sort_order>
+                                    </create>
+                                    <delete translate="title">
+                                        <title>Cancel</title>
+                                        <sort_order>20</sort_order>
+                                    </delete>
+                                    <creditnote translate="title">
+                                        <title>Credit Note</title>
+                                        <sort_order>30</sort_order>
+                                        <children>
+                                            <refund>
+                                                <title>Refund</title>
+                                                <sort_order>10</sort_order>
+                                                <children>
+                                                    <cashorcard>
+                                                        <title>Payment method</title>
+                                                        <sort_order>10</sort_order>
+                                                    </cashorcard>
+                                                    <giftcard>
+                                                        <title>Gift card</title>
+                                                        <sort_order>20</sort_order>
+                                                    </giftcard>
+                                                    <coupon>
+                                                        <title>Coupon</title>
+                                                        <sort_order>30</sort_order>
+                                                    </coupon>
+                                                </children>
+                                            </refund>
+                                        </children>
+                                    </creditnote>
+                                    <order_comments translate="title">
+                                        <title>Order Comments</title>
+                                        <sort_order>40</sort_order>
+                                    </order_comments>
+                                </children>
+                            </orders>
+                            <shipments translate="title">
+                                <title>Shipments</title>
+                                <sort_order>21</sort_order>
+                                <children>
+                                    <create translate="title">
+                                        <title>Create</title>
+                                        <sort_order>10</sort_order>
+                                    </create>
+                                </children>
+                            </shipments>
+                            <coupons translate="title">
+                                <title>Coupons</title>
+                                <sort_order>23</sort_order>
+                                <children>
+                                    <create translate="title">
+                                        <title>Create</title>
+                                        <sort_order>5</sort_order>
+                                    </create>
+                                </children>
+                            </coupons>
+                            <cart translate="title">
+                                <title>Cart</title>
+                                <sort_order>25</sort_order>
+                                <children>
+                                    <modify_price translate="title">
+                                        <title>Modify price</title>
+                                        <sort_order>10</sort_order>
+                                    </modify_price>
+                                    <apply_discount translate="title">
+                                        <title>Apply Discount</title>
+                                        <sort_order>20</sort_order>
+                                    </apply_discount>
+                                </children>
+                            </cart>
+                            <customers translate="title">
+                                <title>Customers</title>
+                                <sort_order>30</sort_order>
+                                <children>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>10</sort_order>
+                                    </list>
+                                    <create translate="title">
+                                        <title>Create</title>
+                                        <sort_order>20</sort_order>
+                                        <children>
+                                            <group translate="title">
+                                                <title>Group</title>
+                                                <sort_order>10</sort_order>
+                                            </group>
+                                        </children>
+                                    </create>
+                                    <update translate="title">
+                                        <title>Update</title>
+                                        <sort_order>30</sort_order>
+                                        <children>
+                                            <group translate="title">
+                                                <title>Group</title>
+                                                <sort_order>10</sort_order>
+                                            </group>
+                                        </children>
+                                    </update>
+                                    <lifetime_sales translate="title">
+                                        <title>View lifetime sales</title>
+                                        <sort_order>40</sort_order>
+                                    </lifetime_sales>
+                                </children>
+                            </customers>
+                            <reports translate="title">
+                                <title>Reports</title>
+                                <sort_order>40</sort_order>
+                                <children>
+                                    <list translate="title">
+                                        <title>List</title>
+                                        <sort_order>10</sort_order>
+                                    </list>
+                                </children>
+                            </reports>
+                            <menu translate="title">
+                                <title>Menu</title>
+                                <sort_order>50</sort_order>
+                                <children>
+                                    <orders translate="title">
+                                        <title>ORDERS</title>
+                                        <sort_order>10</sort_order>
+                                        <children>
+                                            <new_order translate="title">
+                                                <title>Current</title>
+                                                <sort_order>10</sort_order>
+                                            </new_order>
+                                            <orders_on_hold translate="title">
+                                                <title>On hold</title>
+                                                <sort_order>20</sort_order>
+                                            </orders_on_hold>
+                                            <pickup_orders translate="title">
+                                                <title>Pickup orders</title>
+                                                <sort_order>30</sort_order>
+                                            </pickup_orders>
+                                            <orders_history translate="title">
+                                                <title>History</title>
+                                                <sort_order>40</sort_order>
+                                            </orders_history>
+                                        </children>
+                                    </orders>
+                                    <customers translate="title">
+                                        <title>CUSTOMERS</title>
+                                        <sort_order>20</sort_order>
+                                        <children>
+                                            <customers_list translate="title">
+                                                <title>Customers</title>
+                                                <sort_order>10</sort_order>
+                                            </customers_list>
+                                            <check_giftcard translate="title">
+                                                <title>Check giftcard</title>
+                                                <sort_order>20</sort_order>
+                                            </check_giftcard>
+                                        </children>
+                                    </customers>
+                                    <inventory translate="title">
+                                        <title>INVENTORY</title>
+                                        <sort_order>25</sort_order>
+                                        <children>
+                                            <inventory translate="title">
+                                                <title>Inventory</title>
+                                                <sort_order>10</sort_order>
+                                            </inventory>
+                                        </children>
+                                    </inventory>
+                                    <settings translate="title">
+                                        <title>SETTINGS</title>
+                                        <sort_order>30</sort_order>
+                                        <children>
+                                            <ticket_mode translate="title">
+                                                <title>Ticket mode</title>
+                                                <sort_order>10</sort_order>
+                                            </ticket_mode>
+                                            <kiosk_mode translate="title">
+                                                <title>Kiosk mode</title>
+                                                <sort_order>20</sort_order>
+                                            </kiosk_mode>
+                                            <notifications translate="title">
+                                                <title>Notifications</title>
+                                                <sort_order>30</sort_order>
+                                            </notifications>
+                                            <cash_up translate="title">
+                                                <title>Cash up</title>
+                                                <sort_order>40</sort_order>
+                                                <children>
+                                                    <view_all_shifts translate="title">
+                                                        <title>Show all shifts</title>
+                                                    </view_all_shifts>
+                                                </children>
+                                            </cash_up>
+                                            <open_cash_drawer translate="title">
+                                                <title>Open cash drawer</title>
+                                                <sort_order>50</sort_order>
+                                            </open_cash_drawer>
+                                            <settings translate="title">
+                                                <title>Settings</title>
+                                                <sort_order>70</sort_order>
+                                                <children>
+                                                    <general translate="title">
+                                                        <title>General</title>
+                                                        <sort_order>10</sort_order>
+                                                        <children>
+                                                            <general translate="title">
+                                                                <title>General</title>
+                                                                <sort_order>10</sort_order>
+                                                                <children>
+                                                                    <auto_login translate="title">
+                                                                        <title>Enable auto login</title>
+                                                                        <sort_order>10</sort_order>
+                                                                    </auto_login>
+                                                                    <shifts_per_device translate="title">
+                                                                        <title>Shifts per device</title>
+                                                                        <sort_order>20</sort_order>
+                                                                    </shifts_per_device>
+                                                                    <synch_time translate="title">
+                                                                        <title>Automatic synchronization time</title>
+                                                                        <sort_order>30</sort_order>
+                                                                    </synch_time>
+                                                                    <customer_badge_scan translate="title">
+                                                                        <title>Enable customer badge scan</title>
+                                                                        <sort_order>40</sort_order>
+                                                                    </customer_badge_scan>
+                                                                    <pincode_screen_lock translate="title">
+                                                                        <title>Enable pincode screen lock</title>
+                                                                        <sort_order>50</sort_order>
+                                                                    </pincode_screen_lock>
+                                                                </children>
+                                                            </general>
+                                                            <catalog translate="title">
+                                                                <title>Catalog</title>
+                                                                <sort_order>20</sort_order>
+                                                                <children>
+                                                                    <partial_sku_search translate="title">
+                                                                        <title>Enable partial SKU search</title>
+                                                                        <sort_order>10</sort_order>
+                                                                    </partial_sku_search>
+                                                                    <search_returns_parent_on_configurable translate="title">
+                                                                        <title>Search returns parent in configurable products</title>
+                                                                        <sort_order>20</sort_order>
+                                                                    </search_returns_parent_on_configurable>
+                                                                    <search_auto_focus translate="title">
+                                                                        <title>Search auto focus</title>
+                                                                        <sort_order>30</sort_order>
+                                                                    </search_auto_focus>
+                                                                    <display_price_including_taxes translate="title">
+                                                                        <title>Display price including taxes in catalog</title>
+                                                                        <sort_order>40</sort_order>
+                                                                    </display_price_including_taxes>
+                                                                    <hide_out_of_stock translate="title">
+                                                                        <title>Hide out of stock</title>
+                                                                        <sort_order>50</sort_order>
+                                                                    </hide_out_of_stock>
+                                                                    <direct_product_info translate="title">
+                                                                        <title>Tapping an item navigates to product info</title>
+                                                                        <sort_order>60</sort_order>
+                                                                    </direct_product_info>
+                                                                    <single_search_add_to_cart translate="title">
+                                                                        <title>Add single search results to cart</title>
+                                                                        <sort_order>70</sort_order>
+                                                                    </single_search_add_to_cart>
+                                                                    <display_attribs_in_cart translate="title">
+                                                                        <title>Display selected attributes in cart</title>
+                                                                        <sort_order>80</sort_order>
+                                                                    </display_attribs_in_cart>
+                                                                </children>
+                                                            </catalog>
+                                                            <checkout translate="title">
+                                                                <title>Checkout</title>
+                                                                <sort_order>30</sort_order>
+                                                                <children>
+                                                                    <check_for_promotions translate="title">
+                                                                        <title>Check for shopping cart promotions on checkout</title>
+                                                                        <sort_order>10</sort_order>
+                                                                    </check_for_promotions>
+                                                                    <must_confirm_payment translate="title">
+                                                                        <title>User must confirm payment</title>
+                                                                        <sort_order>20</sort_order>
+                                                                    </must_confirm_payment>
+                                                                    <toggle_customer_detail translate="title">
+                                                                        <title>Toggle customer detail by default</title>
+                                                                        <sort_order>30</sort_order>
+                                                                    </toggle_customer_detail>
+                                                                    <request_shipping_address translate="title">
+                                                                        <title>Request shipping address in checkout</title>
+                                                                        <sort_order>40</sort_order>
+                                                                    </request_shipping_address>
+                                                                    <customer_address_default_to_store translate="title">
+                                                                        <title>Customer address defaults to store address</title>
+                                                                        <sort_order>50</sort_order>
+                                                                    </customer_address_default_to_store>
+                                                                    <force_store_address_for_pick_and_carry translate="title">
+                                                                        <title>Force store address when using pickup in store shipping</title>
+                                                                        <sort_order>60</sort_order>
+                                                                    </force_store_address_for_pick_and_carry>
+                                                                    <ask_for_customer translate="title">
+                                                                        <title>Ask for customer</title>
+                                                                        <sort_order>70</sort_order>
+                                                                    </ask_for_customer>
+                                                                </children>
+                                                            </checkout>
+                                                        </children>
+                                                    </general>
+                                                    <language translate="title">
+                                                        <title>Language</title>
+                                                        <sort_order>20</sort_order>
+                                                    </language>
+                                                    <cache translate="title">
+                                                        <title>Cache</title>
+                                                        <sort_order>30</sort_order>
+                                                        <children>
+                                                            <clear_image_cache translate="title">
+                                                                <title>Clear image cache</title>
+                                                                <sort_order>10</sort_order>
+                                                            </clear_image_cache>
+                                                            <clear_taxes_cache translate="title">
+                                                                <title>Clear taxes cache</title>
+                                                                <sort_order>20</sort_order>
+                                                            </clear_taxes_cache>
+                                                            <clear_currency_rates_cache translate="title">
+                                                                <title>Clear currency rates cache</title>
+                                                                <sort_order>30</sort_order>
+                                                            </clear_currency_rates_cache>
+                                                            <clear_category_cache translate="title">
+                                                                <title>Clear category cache</title>
+                                                                <sort_order>40</sort_order>
+                                                            </clear_category_cache>
+                                                            <clear_product_cache translate="title">
+                                                                <title>Clear product cache</title>
+                                                                <sort_order>50</sort_order>
+                                                            </clear_product_cache>
+                                                            <clear_inventory_cache>
+                                                                <title>Clear inventory cache</title>
+                                                                <sort_order>60</sort_order>
+                                                            </clear_inventory_cache>
+                                                        </children>
+                                                    </cache>
+                                                    <activation translate="title">
+                                                        <title>Activation</title>
+                                                        <sort_order>40</sort_order>
+                                                    </activation>
+                                                    <printers translate="title">
+                                                        <title>Printers</title>
+                                                        <sort_order>50</sort_order>
+                                                    </printers>
+                                                    <print_options translate="title">
+                                                        <title>Print options</title>
+                                                        <sort_order>60</sort_order>
+                                                        <children>
+                                                            <print_sku translate="title">
+                                                                <title>Print SKU in receipt</title>
+                                                                <sort_order>10</sort_order>
+                                                            </print_sku>
+                                                            <auto_print translate="title">
+                                                                <title>Print order automatically</title>
+                                                                <sort_order>20</sort_order>
+                                                            </auto_print>
+                                                            <airprint translate="title">
+                                                                <title>Use air print</title>
+                                                                <sort_order>30</sort_order>
+                                                            </airprint>
+                                                        </children>
+                                                    </print_options>
+                                                    <maintenance translate="title">
+                                                        <title>Maintenance</title>
+                                                        <sort_order>70</sort_order>
+                                                        <children>
+                                                            <sync_deleted translate="title">
+                                                                <title>Synchronize deleted products</title>
+                                                                <sort_order>10</sort_order>
+                                                            </sync_deleted>
+                                                            <fix_duplicate_ids translate="title">
+                                                                <title>Fix duplicate identifiers</title>
+                                                                <sort_order>20</sort_order>
+                                                            </fix_duplicate_ids>
+                                                        </children>
+                                                    </maintenance>
+                                                    <synchronization translate="title">
+                                                        <title>Synchronization</title>
+                                                        <sort_order>80</sort_order>
+                                                    </synchronization>
+                                                    <customers translate="title">
+                                                        <title>Customers</title>
+                                                        <sort_order>90</sort_order>
+                                                        <children>
+                                                            <partial_search translate="title">
+                                                                <title>Allow partial search for customer attributes</title>
+                                                                <sort_order>10</sort_order>
+                                                            </partial_search>
+                                                            <default_customer translate="title">
+                                                                <title>Default customer</title>
+                                                                <sort_order>20</sort_order>
+                                                            </default_customer>
+                                                        </children>
+                                                    </customers>
+                                                    <paypal translate="title">
+                                                        <title>PayPal</title>
+                                                        <sort_order>92</sort_order>
+                                                        <children>
+                                                            <modify_mode translate="title">
+                                                                <title>Change mode</title>
+                                                                <sort_order>10</sort_order>
+                                                            </modify_mode>
+                                                            <login translate="title">
+                                                                <title>Login</title>
+                                                                <sort_order>20</sort_order>
+                                                            </login>
+                                                            <modify_location translate="title">
+                                                                <title>Change location</title>
+                                                                <sort_order>30</sort_order>
+                                                            </modify_location>
+                                                        </children>
+                                                    </paypal>
+                                                    <authorize_net translate="title">
+                                                        <title><![CDATA[Authorize.Net]]></title>
+                                                        <sort_order>96</sort_order>
+                                                        <children>
+                                                            <login translate="title">
+                                                                <title>Login</title>
+                                                                <sort_order>10</sort_order>
+                                                            </login>
+                                                            <register translate="title">
+                                                                <title>Register</title>
+                                                                <sort_order>20</sort_order>
+                                                            </register>
+                                                        </children>
+                                                    </authorize_net>
+                                                    <backup translate="title">
+                                                        <title>Backup</title>
+                                                        <sort_order>100</sort_order>
+                                                        <children>
+                                                            <export translate="title">
+                                                                <title>Export orders to server</title>
+                                                                <sort_order>10</sort_order>
+                                                            </export>
+                                                            <import translate="title">
+                                                                <title>Import orders from server</title>
+                                                                <sort_order>20</sort_order>
+                                                            </import>
+                                                        </children>
+                                                    </backup>
+                                                    <sage translate="title">
+                                                        <title>Sage credentials</title>
+                                                        <sort_order>102</sort_order>
+                                                        <children>
+                                                            <modify_terminal_ip translate="title">
+                                                                <title>Change terminal IP</title>
+                                                                <sort_order>10</sort_order>
+                                                            </modify_terminal_ip>
+                                                        </children>
+                                                    </sage>
+                                                    <moneris translate="title">
+                                                        <title>Moneris configurations</title>
+                                                        <sort_order>104</sort_order>
+                                                        <children>
+                                                            <modify_terminal_ip translate="title">
+                                                                <title>Change terminal IP</title>
+                                                                <sort_order>10</sort_order>
+                                                            </modify_terminal_ip>
+                                                        </children>
+                                                    </moneris>
+                                                    <square_connect translate="title">
+                                                        <title>Moneris configurations</title>
+                                                        <sort_order>106</sort_order>
+                                                        <children>
+                                                            <modify_terminal_ip translate="title">
+                                                                <title>Change terminal IP</title>
+                                                                <sort_order>10</sort_order>
+                                                            </modify_terminal_ip>
+                                                        </children>
+                                                    </square_connect>
+                                                    <payment_express translate="title">
+                                                        <title>Payment Express credentials</title>
+                                                        <sort_order>106</sort_order>
+                                                    </payment_express>
+                                                    <logger translate="title">
+                                                        <title>Logger</title>
+                                                        <sort_order>110</sort_order>
+                                                        <children>
+                                                            <enable_logger translate="title">
+                                                                <title>Enable logger</title>
+                                                                <sort_order>10</sort_order>
+                                                            </enable_logger>
+                                                            <logger_modify_level translate="title">
+                                                                <title>Modify logging level</title>
+                                                                <sort_order>20</sort_order>
+                                                            </logger_modify_level>
+                                                        </children>
+                                                    </logger>
+                                                    <about translate="title">
+                                                        <title>About</title>
+                                                        <sort_order>120</sort_order>
+                                                    </about>
+                                                </children>
+                                            </settings>
+                                            <logout translate="title">
+                                                <title>Logout</title>
+                                                <sort_order>90</sort_order>
+                                            </logout>
+                                            <error_log translate="title">
+                                                <title>Error log</title>
+                                                <sort_order>100</sort_order>
+                                            </error_log>
+                                            <pincode>
+                                                <title>Pin Codes</title>
+                                                <sort_order>150</sort_order>
+                                                <children>
+                                                    <enable translate="title">
+                                                        <title><![CDATA[Enable/Disable]]></title>
+                                                        <sort_order>10</sort_order>
+                                                    </enable>
+                                                    <view translate="title">
+                                                        <title>View</title>
+                                                        <sort_order>20</sort_order>
+                                                    </view>
+                                                </children>
+                                            </pincode>
+                                        </children>
+                                    </settings>
+                                </children>
+                            </menu>
+                        </children>
+                    </bakerloo_api>
+                    <!-- Bakerloo API ACL -->
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

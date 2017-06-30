@@ -1,0 +1,28 @@
+.carousel .carousel-control {
+    font-family: Arial;
+    font-size: 44px;
+    line-height: 32px;
+}
+
+.carousel-nav {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.carousel-nav a {
+    font-family: Arial;
+    font-size: 30px;
+    color: #a0a0a0;
+}
+
+.carousel-nav .active-bullet {
+    color: #000000;
+}
+
+.std .carousel a {
+    text-decoration: none;
+}
+
+.carousel .left {
+    float: none;
+}

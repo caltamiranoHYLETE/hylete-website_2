@@ -1,0 +1,40 @@
+<?php
+/**
+ * @see Ebizmarts_BakerlooRestful_Block_Adminhtml_System_Config_Activationkeygen
+ */
+?>
+<table>
+    <tr>
+        <td>
+            <button onclick="genActivationKey(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
+                <span><?php echo $this->escapeHtml($this->getButtonLabel()); ?></span>
+            </button>
+        </td>
+    </tr>
+</table>
+
+<script>
+    genActivationKey = function() {
+        var genUrl = '<?php echo $this->getButtonUrl(); ?>';
+        new Ajax.Request(genUrl, {
+            method:"get",
+            onSuccess:function(response) {
+
+                if(response.status==200 && response.responseText){
+                    //alert("Your activation key is:\n\n" + response.responseText);// + "\n\nThis key will be active for 24 hrs.");
+
+                    //show key in a textbox
+                    if ($('row_bakerloorestful_general_activation_key_show') == undefined) {
+                        $('row_bakerloorestful_general_activation_key_gen').insert({after: '<tr id="row_bakerloorestful_general_activation_key_show"><td></td><td><textarea style="width:100%">' + response.responseText + '</textarea><p class="note"><span>This activation key will be active for 24hrs.</span></p></td></tr>'});
+                    }else{
+                        $('row_bakerloorestful_general_activation_key_show').update('<td></td><td><textarea style="width:100%">' + response.responseText + '</textarea><p class="note"><span>This activation key will be active for 24hrs.</span></p></td>');
+                    }
+
+                }else{
+                    alert("Unexpected error, please reload and try again.");
+                }
+
+            }
+        });
+    }
+</script>

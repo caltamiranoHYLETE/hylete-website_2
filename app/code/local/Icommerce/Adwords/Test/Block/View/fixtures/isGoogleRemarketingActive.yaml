@@ -1,0 +1,2 @@
+config:
+  adwords/settings/google_remarketing_active: 1

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:typens="urn:{{var wsdl.name}}"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}"
+             targetNamespace="urn:{{var wsdl.name}}">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:{{var wsdl.name}}">
+        	<xsd:complexType name="customerCustomerEntity">
+                <xsd:sequence>
+                    <xsd:element name="customer_id" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="created_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="store_id" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="website_id" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="created_in" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="email" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="firstname" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="middlename" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="lastname" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="group_id" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="prefix" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="suffix" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="dob" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="taxvat" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="confirmation" type="xsd:boolean" minOccurs="0" />
+                    <xsd:element name="password_hash" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="referral_email" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="referral_name" type="xsd:string" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="hyleteEntity">
+               <xsd:sequence>
+                    <xsd:element name="balance_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="customer_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="website_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="amount" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="base_currency_code" type="xsd:string" minOccurs="0" />
+                </xsd:sequence>
+        	</xsd:complexType>
+        	<xsd:complexType name="hyleteEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:hyleteEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="hyleteClonecouponRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+						<xsd:element minOccurs="1" maxOccurs="1" name="couponID" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="couponCode" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteClonecouponResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteClonecouponwithnameRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="couponID" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="couponCode" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="couponName" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteClonecouponwithnameResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteGetcouponRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+						<xsd:element minOccurs="1" maxOccurs="1" name="couponID" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+			 
+            <xsd:element name="hyleteGetcouponResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+			<xsd:element name="hyleteDoescouponexistRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+						<xsd:element minOccurs="1" maxOccurs="1" name="couponCode" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+			<xsd:element name="hyleteDoescouponexistResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+			<xsd:element name="hyleteSavecustomreferralRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+						<xsd:element minOccurs="1" maxOccurs="1" name="customerID" type="xsd:int" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="referral" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteSavecustomreferralResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <xsd:element name="hyleteGetallcustomerbalanceRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="hyleteGetallcustomerbalanceResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:hyleteEntityArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="hyleteClonecouponRequest">
+        <wsdl:part name="parameters" element="typens:hyleteClonecouponRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteClonecouponResponse">
+        <wsdl:part name="parameters" element="typens:hyleteClonecouponResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteClonecouponwithnameRequest">
+        <wsdl:part name="parameters" element="typens:hyleteClonecouponwithnameRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteClonecouponwithnameResponse">
+        <wsdl:part name="parameters" element="typens:hyleteClonecouponwithnameResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteGetcouponRequest">
+        <wsdl:part name="parameters" element="typens:hyleteGetcouponRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteGetcouponResponse">
+        <wsdl:part name="parameters" element="typens:hyleteGetcouponResponseParam" />
+    </wsdl:message>
+	<wsdl:message name="hyleteDoescouponexistRequest">
+        <wsdl:part name="parameters" element="typens:hyleteDoescouponexistRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteDoescouponexistResponse">
+        <wsdl:part name="parameters" element="typens:hyleteDoescouponexistResponseParam" />
+    </wsdl:message>
+	<wsdl:message name="hyleteSavecustomreferralRequest">
+        <wsdl:part name="parameters" element="typens:hyleteSavecustomreferralRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteSavecustomreferralResponse">
+        <wsdl:part name="parameters" element="typens:hyleteSavecustomreferralResponseParam" />
+    </wsdl:message>
+    
+    <wsdl:message name="hyleteGetallcustomerbalanceRequest">
+        <wsdl:part name="parameters" element="typens:hyleteGetallcustomerbalanceRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="hyleteGetallcustomerbalanceResponse">
+        <wsdl:part name="parameters" element="typens:hyleteGetallcustomerbalanceResponseParam" />
+    </wsdl:message>
+    
+    <wsdl:portType name="{{var wsdl.handler}}PortType">
+        <wsdl:operation name="hyleteClonecoupon">
+            <wsdl:documentation>Clone a coupon</wsdl:documentation>
+            <wsdl:input message="typens:hyleteClonecouponRequest" />
+            <wsdl:output message="typens:hyleteClonecouponResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="hyleteClonecouponwithname">
+            <wsdl:documentation>Clone a coupon witha custom Name</wsdl:documentation>
+            <wsdl:input message="typens:hyleteClonecouponwithnameRequest" />
+            <wsdl:output message="typens:hyleteClonecouponwithnameResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="hyleteGetcoupon">
+            <wsdl:documentation>Get a Coupon Name based on the ruleid</wsdl:documentation>
+            <wsdl:input message="typens:hyleteGetcouponRequest" />
+            <wsdl:output message="typens:hyleteGetcouponResponse" />
+        </wsdl:operation>
+		<wsdl:operation name="hyleteDoescouponexist">
+            <wsdl:documentation>Check to see if a coupon has already been hyleted</wsdl:documentation>
+            <wsdl:input message="typens:hyleteDoescouponexistRequest" />
+            <wsdl:output message="typens:hyleteDoescouponexistResponse" />
+        </wsdl:operation>
+		<wsdl:operation name="hyleteSavecustomreferral">
+            <wsdl:documentation>Save a custom referral for the customer</wsdl:documentation>
+            <wsdl:input message="typens:hyleteSavecustomreferralRequest" />
+            <wsdl:output message="typens:hyleteSavecustomreferralResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="hyleteGetallcustomerbalance">
+            <wsdl:documentation>Gets All The Balances in the System</wsdl:documentation>
+            <wsdl:input message="typens:hyleteGetallcustomerbalanceRequest" />
+            <wsdl:output message="typens:hyleteGetallcustomerbalanceResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="hyleteClonecoupon">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="hyleteClonecouponwithname">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="hyleteGetcoupon">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+		<wsdl:operation name="hyleteDoescouponexist">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+		<wsdl:operation name="hyleteSavecustomreferral">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="hyleteGetallcustomerbalance">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="{{var wsdl.name}}Service">
+        <wsdl:port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

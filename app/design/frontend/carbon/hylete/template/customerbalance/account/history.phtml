@@ -1,0 +1,53 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+?>
+<?php if ($this->canShow() && $this->getEvents() && count($this->getEvents())): ?>
+    <h2 class="table-caption"><?php echo Mage::helper('enterprise_customerbalance')->__('Balance History'); ?></h2>
+    <table id="customerbalance-history" class="data-table">
+        <col />
+        <col />
+        <col />
+        <col />
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Action'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Balance Change'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Date'); ?></th>
+            </tr>
+        </thead>
+        <?php foreach ($this->getEvents() as $event): ?>
+        <tbody>
+            <tr>
+                <td><?php echo $this->getActionLabel($event->getAction()); ?></td>
+                <td><?php echo Mage::helper('core')->currency($event->getBalanceDelta()); ?></td>
+                <td><?php echo Mage::helper('core')->currency($event->getBalanceAmount()); ?></td>
+                <td><?php echo Mage::helper('core')->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
+            </tr>
+        </tbody>
+        <?php endforeach; ?>
+    </table>
+    <script type="text/javascript">decorateTable('customerbalance-history')</script>
+<?php endif; ?>

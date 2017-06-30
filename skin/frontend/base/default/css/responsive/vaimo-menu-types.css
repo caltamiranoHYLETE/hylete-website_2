@@ -1,0 +1,123 @@
+/** Styling that is related to media-query based (adaptive) viewport size  */
+@media (min-width: 768px) {
+    /* FUNCTION-CRITICAL CSS */
+    .menu-bp-column {
+        display: table-cell;
+        padding-left: 20px;
+    }
+
+    #nav li {
+        float: left; /** Remove this if you want the menu to be 100% of the content **/
+    }
+
+    #nav .level1.menu-nested-parent > a {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /** NON-CRITICAL */
+    #nav .shown-sub .menu-vlist {
+        left: 160px;
+        top: -12px;
+    }
+
+    .menu-bp-column.first {
+        padding-left: 0;
+    }
+
+    #nav .menu-bp-wrapper.menu-hlist > .menu-bp-column .menu-bp-items li {
+        list-style-type: none;
+        padding-right: 10px;
+        float: left;
+    }
+
+    /** footer group styling */
+    .menu-group-footer > .group-items {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #333;
+    }
+
+    #nav .menu-bp-wrapper .menu-group-footer .group-items li {
+        float: none;
+        display: table-cell;
+        white-space: nowrap;
+    }
+
+    #nav .menu-group-footer a {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    #nav .menu-bp-wrapper .menu-group-footer .group-items li {
+        float: none;
+        padding-left: 20px;
+        display: table-cell;
+        white-space: nowrap;
+    }
+
+    #nav .menu-group-footer .group-items li:first-of-type {
+        padding-left: 0;
+    }
+
+    .parent.menu-nested-parent {
+        margin-top: 10px;
+    }
+
+    .parent.menu-nested-parent.first {
+        margin-top: 0;
+    }
+
+    .menu-simple-dropdown .menu-bp-column {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .level0.parent .menu-vlist {
+        top: 0;
+    }
+
+    .level1 .menu-vlist {
+        margin-left: 5px;
+    }
+
+    .parent > .menu-vlist {
+        display: block;
+    }
+
+    #nav .menu-group-footer a {
+        text-transform: uppercase;
+    }
+
+    .parent > .menu-vlist.menu-vlist {
+        position: relative;
+    }
+
+    .parent > .menu-vlist {
+        border: 0;
+        padding: 0;
+    }
+
+    .menu-bp-wrapper {
+        display: block;
+    }
+
+    .shown-sub .menu-vlist {
+        left: 0;
+    }
+
+    #nav {
+        margin: 0 -10px;
+    }
+
+    .mobile-hide,
+    .menu-image,
+    .menu-group-main .widget {
+        display: none !important;
+    }
+
+    .mobile-show {
+        display: block !important;
+    }
+}

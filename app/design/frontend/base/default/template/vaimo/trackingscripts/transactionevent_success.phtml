@@ -1,0 +1,14 @@
+<?php
+/*
+ * Collect data for the analytics
+ */
+$_json = Mage::helper('googleaddons')->getTransactionEventJSON();
+?>
+<?php if (!empty($_json)): ?>
+    <script>
+        if (typeof dataLayer!='undefined') {
+            //We are calling method push() of object dataLayer only if object exists to avoid js error in frontend
+            dataLayer.push(<?php echo $_json; ?>);
+        }
+    </script>
+<?php endif; ?>

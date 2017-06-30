@@ -1,0 +1,27 @@
+.page {
+    margin: 0 auto;
+    padding: 0;
+    text-align: left;
+    width: 960px;
+}
+
+.page-print {
+    background: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+.page-empty {
+    background: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+.page-popup {
+    padding: 20px;
+    text-align: left;
+}
+
+.main-container {
+    margin-top: 27px;
+}

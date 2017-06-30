@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @author      Scott Kennerly <skennerly@hylete.com>
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ */
+?>
+
+<?php
+    $_pageType = $this->getDynamicRemarketingPageType();
+    $_accumulatedProductData = $this->getDynamicRemarketingProductData($_pageType);
+    $_accumulatedCustomerData = $this->getDynamicRemarketingCustomerData();
+?>
+
+<script>
+    if (typeof dataLayer != 'undefined') {
+        dataLayer.push({
+            'ecomm_prodid': <?php echo str_replace('"', '\'', $_accumulatedProductData['product_skus']) ?>,
+            'ecomm_totalvalue': '<?php echo $_accumulatedProductData['total_price'] ?>',
+            'ecomm_pagetype': '<?php echo $_pageType ?>',
+            'ecomm_group_id': '<?php echo $_accumulatedCustomerData['customer_group_id'] ?>',
+            'ecomm_logged_in': '<?php echo $_accumulatedCustomerData['customer_logged_in'] ?>',
+            'ecomm_gender': '<?php echo $_accumulatedCustomerData['customer_gender'] ?>',
+            'ecomm_customer_id': '<?php echo $_accumulatedCustomerData['customer_id'] ?>',
+            'ecomm_customer_email': '<?php echo $_accumulatedCustomerData['customer_email'] ?>'
+        });
+    }
+</script>

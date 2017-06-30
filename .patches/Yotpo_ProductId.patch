@@ -1,0 +1,42 @@
+--- app/code/community/Yotpo/Yotpo/Block/Yotpo.php	(revision )
++++ app/code/community/Yotpo/Yotpo/Block/Yotpo.php	(revision )
+@@ -33,9 +33,11 @@
+ 
+     public function getProductId()
+     {
+-        $_product = $this->getProduct();
+-        $productId = $_product->getId();
+-        return $productId;
++        /* Patched for Hylete.
++        Slug the name as ID to match multiple Configurable products with same name
++        Will replace all characters that aren't ASCII alphabetical or numerals with "-"*/
++        $name = $this->getProductName();
++        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
+     }
+ 
+     public function getAppKey()
+--- app/code/community/Yotpo/Yotpo/Helper/ApiClient.php	(revision )
++++ app/code/community/Yotpo/Yotpo/Helper/ApiClient.php	(revision )
+@@ -90,13 +90,21 @@
+ 			$product_data['description'] = Mage::helper('core')->htmlEscape(strip_tags($full_product->getDescription()));
+ 			$product_data['price'] = $product->getPrice();
+
+-			$products_arr[$full_product->getId()] = $product_data;
++			$products_arr[$this->generateProductId($full_product->getName())] = $product_data;
+
+ 		}
+
+ 		return $products_arr;
+ 	}
+
++    public function generateProductId($name)
++    {
++        /* Patched for Hylete.
++        Slug the name as ID to match multiple Configurable products with same name
++        Will replace all characters that aren't ASCII alphabetical or numerals with "-"*/
++        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
++     }
++
+ 	public function createApiPost($path, $data, $timeout=self::DEFAULT_TIMEOUT) {
+ 		try
+ 		{

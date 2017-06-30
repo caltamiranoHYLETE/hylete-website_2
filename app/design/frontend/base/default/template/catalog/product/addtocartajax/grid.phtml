@@ -1,0 +1,20 @@
+<?php
+/*
+  Icommerce addition for AddToCartAjax
+*/
+?>
+<?php
+$_product = $this->getProduct();
+?>
+
+<button class="form-button" onclick="addToCartAjax.add(this, '<?php echo $_product->getID(); ?>');"><span><?php echo $this->__('Add to Cart') ?></span></button>
+<?php /*<div id="opc-please-wait-wrapper-<?php echo $_product->getID(); ?>" class="opc-please-wait-wrapper" style="display:none;" >
+<span id="cart-sidebar-please-wait-<?php echo $_product->getID(); ?>" style="display:none;" class="opc-please-wait">
+    <?php echo $this->__('The items are being added to your cart.') ?><br />
+    <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->helper('addtocartajax')->__('Adding to cart...') ?> &nbsp;
+</span>
+<span id="cart-sidebar-success-text-<?php echo $_product->getID(); ?>" style="display:none;"  class="opc-please-wait success">
+</span>
+<span id="cart-sidebar-failed-text-<?php echo $_product->getID(); ?>" style="display:none;"  class="opc-please-wait error">
+</span>
+</div>*/ ?>

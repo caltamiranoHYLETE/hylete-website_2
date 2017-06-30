@@ -1,0 +1,8 @@
+openid.php come from package lightopenid-lightopenid-master.tar.gz
+that come from http://gitorious.org/lightopenid
+The package have a MIT License.
+In the package you also find an example for logging in with Google.
+
+openid.php are now included in file: Vaimo_SocialLogin
+
+/Peter 2013-03-13

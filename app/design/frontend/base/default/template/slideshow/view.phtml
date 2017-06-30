@@ -1,0 +1,136 @@
+<?php
+	/**
+	 * Load items for selected slideshow from Icommerce_SlideshowManager
+	 */
+	$items = $this->getSlideshowItems($this->getSlideshowId());
+
+	/** @var $helper Icommerce_SlideshowManager_Helper_Data */
+	$helper = Mage::helper('slideshowmanager');
+	/** @var $mgr Icommerce_SlideshowManager_Model_Slideshow */
+	$mgr = Mage::getModel('slideshowmanager/slideshow');
+
+	$slideshowWidth  = $mgr->getSlideshowWidth($this->getSlideshowId());
+	$slideshowHeight = $mgr->getSlideshowHeight($this->getSlideshowId());
+	$slideshowThumbnails = $mgr->getSlideshowThumbnails($this->getSlideshowId());
+
+	if (empty($slideshowWidth)) {
+		$slideshowWidth = '100%';
+	}
+
+	if (empty($slideshowHeight)) {
+		$slideshowHeight = '';
+	}
+	
+	$slideshowThumbnails = ($slideshowThumbnails == 0) ? "false" : "true";
+
+?>
+<script type="text/javascript">
+jQuery(document).ready(function($)
+{
+	function trueFalse(setting){ if(setting == 'true'){ return true; } else{ return false; } }
+
+	jQuery("#showcase_<?php echo $this->getSlideshowId()?>").awShowcase(
+	{
+		transition: jQuery('#showcase-transition').text(),
+		auto: trueFalse(jQuery('#showcase-autostart').text()),
+		show_caption: jQuery('#showcase-show-caption').text(),
+		interval: jQuery('#showcase-interval').text(),
+		continuous: trueFalse(jQuery('#showcase-continuous').text()),
+		content_width: <?php echo $slideshowWidth;?>,
+		content_height:	<?php echo $slideshowHeight; ?>,
+		dynamic_height: <?php echo empty($slideshowHeight) ? 'true' : 'false' ?>,
+		thumbnails:	<?php echo $slideshowThumbnails ?>,
+		thumbnails_direction:	'horizontal', /* vertical / horizontal */
+		arrows:true,
+		custom_function: jQuery("#showcase_<?php echo $this->getSlideshowId()?>").slideshowCustomFunctions()
+	});
+	
+});
+</script>
+<div id="showcase_<?php echo $this->getSlideshowId()?>" class="showcase slideshowThumbnails-<?php echo $slideshowThumbnails;?>">
+	<?php echo $this->getSettings(); ?>
+	<?php if(is_array($items) && count($items) > 0): ?>
+	<?php
+
+	/** The $item variable contains the following keys
+	 * ------------------------------------------------
+	 * $item['id']
+	 * $item['slideshow_id']
+	 * $item['filename']
+	 * $item['image_alt']
+	 * $item['title']
+	 * $item['image_text']
+	 * $item['link']
+	 * $item['link_target']
+	 * $item['status']
+	 * $item['created_on']
+	 * $item['created_by']
+	 * $item['position']
+	 */
+
+		foreach($items as $item):
+			$target = "";
+			if($item['link_target'] != ""){
+				$target = '" target="' . $item['link_target'];
+			}
+
+			echo '<div class="showcase-slide">';
+
+		  	if($item['type'] == 'html'){
+		  		echo Icommerce_Cms::processBlockDirectives($item['slideshow_content']);
+		  	}
+		  	else if($item['type'] == 'layeredhtml') {
+			  	
+			  		echo '<div id="textbox-wrapper" class="'.'showcase-caption '.$item['align'].'" style="left: '.$item['positionleft'].$item['positionlefttype'].'; top: '.$item['positiontop'].$item['positiontoptype'].';"><div id="textbox">' . Icommerce_Cms::processBlockDirectives($item['slideshow_content']) . '</div></div>';
+			  		
+					if( Icommerce_Default::siteFileExists($helper->getTargetPath(true).$item['filename'])){
+	
+	                    if(!empty($item['link'])){
+	                        echo '<a href="' . $item['link'] . $target .'">';
+	                    }
+	
+	                    echo '<img src="' . $helper->getBackgroundImageUrl($item) . '" class="full_img fullscreen-90prc" alt="' .$item['image_alt']. '" />';
+	
+	                    if(!empty($item['link'])){
+	                        echo '</a>';
+	                    }
+
+	                    if(!empty($item['image_text'])){
+	                        echo '<div class="showcase-caption">' . $item['image_text'] . '</div>';
+	                    }
+	                }
+			}
+		  	else{
+
+                if( Icommerce_Default::siteFileExists($helper->getTargetPath(true).$item['filename'])){
+
+                    if(!empty($item['link'])){
+                        echo '<a href="' . $item['link'] . $target .'">';
+                    }
+
+                    echo '<img src="' . $helper->getImageUrl($item) . '" alt="' .$item['image_alt']. '" />';
+
+                    if(!empty($item['link'])){
+                        echo '</a>';
+                    }
+
+                    if(!empty($item['image_text'])){
+                        echo '<div class="showcase-caption">' . $item['image_text'] . '</div>';
+                    }
+                    if ($slideshowThumbnails == "true") {
+	                    echo '<div class="showcase-thumbnail">';
+	                    echo '<img src="' . $helper->getImageUrl($item) . '" alt="' .$item['image_alt']. '" />';
+	                    echo '<div class="showcase-thumbnail-cover"></div>';
+	                    echo '</div>';
+                    }
+                    
+
+                }
+		  	}
+		  	echo '</div>';
+
+		endforeach;
+
+	?>
+	<?php endif; ?>
+</div>

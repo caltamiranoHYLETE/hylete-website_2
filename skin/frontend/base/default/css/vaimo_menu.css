@@ -1,0 +1,63 @@
+#vertical-nav .block-title {
+    border: medium none;
+}
+.vertnav {
+    margin: 0;
+    padding: 0;
+}
+.vertnav li {
+    overflow: hidden;
+}
+.vertnav li a {
+    text-transform: uppercase;
+}
+.block .vertnav li.even {
+    background: none repeat scroll 0 0 #FFFFFF;
+    overflow: hidden;
+}
+.vertnav ul li {
+    border-bottom: medium none;
+    position: relative;
+    text-transform: none;
+}
+.vertnav ul {
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+.vertnav ul ul {
+    padding: 5px 0 0 10px;
+}
+.vertnav a.vertnavlink {
+    display: inline-block;
+    margin: 0;
+    padding: 6px 25px 6px 10px;
+}
+.vertnav li a.expandlink {
+    display: block;
+    height: 10px;
+    margin: 0;
+    position: absolute;
+    top: 7px;
+    width: 10px;
+}
+.vertnav li.open a.expandlink {
+}
+.vertnav li.closed a.expandlink {
+}
+.vertnav li.open > a.vertnavlink, .vertnav li.active > a.vertnavlink {
+    background: none repeat scroll 0 0 #E5E5E5;
+}
+.vertnav li.open > a.vertnavlink, .vertnav li.active > a.vertnavlink {
+    background: none repeat scroll 0 0 #E5E5E5;
+}
+.vertnav li.open li.active a {
+    background: none repeat scroll 0 0 transparent;
+    font-weight: bold;
+}
+.vertnav li.open ul {
+    display: block;
+}
+.vertnav li.closed ul {
+    display: none;
+}

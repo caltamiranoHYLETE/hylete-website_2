@@ -1,0 +1,61 @@
+.motivation-other-input,
+.show-on-condition,
+.select-other {
+    display: none;
+}
+
+.signup-widget .second-section {
+    margin-top: 30px;
+}
+
+.signup-widget .button {
+    margin: 40px 0 30px;
+    width: 150px;
+}
+
+.signup-widget .sod_select .validation-advice {
+    width: 200px;
+    margin: 10px 0 0 0;
+    padding-left: 0;
+}
+
+.vaimo-cms .signup-widget .col-md-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 12px;
+}
+
+@media (max-width: 991px) {
+    .signup-widget h2.legend {
+        margin-top: 30px;
+    }
+    .signup-widget .second-section {
+        margin-top: 0;
+    }
+    .signup-widget .std {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .customer-account-create .signup-widget .buttons-set {
+        padding: 15px 0;
+    }
+    .selectbox-container {
+        max-width: 75%;
+        margin: 0 auto;
+        padding-left: 26px;
+    }
+    .signup-widget input[type=checkbox] + label {
+        position: relative;
+    }
+    .signup-widget input[type=checkbox] + label:before {
+        position: absolute;
+        top: 2px;
+        left: -26px;
+        margin-right: 0;
+    }
+    .signup-widget .sod_select {
+        width: 100%;
+    }
+}

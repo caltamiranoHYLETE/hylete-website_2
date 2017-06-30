@@ -1,0 +1,55 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div class="newsletter newsletter--header">
+    <form id="email_signup" class=" klaviyo_bare_embed_L9iTVZ" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+        <input type="hidden" name="g" value="L9iTVZ">
+        <div class="klaviyo_field_group newsletter__field">
+            <label for="k_id_email"><?php echo $this->__('get the latest') ?></label>
+            <span>
+                <input class="input-text required-entry validate-email" type="email" value="" name="email" id="k_id_email" placeholder="<?php echo $this->__('enter your email') ?>" />
+            </span>
+            <button type="submit" class="button klaviyo_submit_button"><?php echo $this->__('Join') ?></button>
+        </div>
+        <div class="newsletter__field newsletter__field--messages klaviyo_messages">
+            <div class="newsletter__message success_message" style="display:none;"><?php echo $this->__('thank you for subscribing to the HYLETE newsletter') ?></div>
+            <div class="newsletter__message error_message" style="display:none;"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+<script type="text/javascript">
+    KlaviyoSubscribe.attachToForms('#email_signup', {
+        hide_form_on_success: false,
+        extra_properties: {
+            $source: 'Website Header'
+        }
+    });
+    //<![CDATA[
+        var newsletterSubscriberFormDetail = new VarienForm('email_signup');
+    //]]>
+</script>

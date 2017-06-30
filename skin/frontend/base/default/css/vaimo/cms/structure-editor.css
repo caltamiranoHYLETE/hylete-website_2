@@ -1,0 +1,130 @@
+.vcms-structure-overlay .vcms-structure-edit {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: #00ACD6 url(../../../images/vaimo_cms/icon-configure.png) no-repeat 5px center;
+    background-size: 12px;
+    padding: 0 5px 0 22px;
+}
+
+.vcms-gridster-widget .vcms-structure-widget-configure {
+    background: #00ACD6 url(../../../images/vaimo_cms/icon-configure.png) no-repeat 50% 50%;
+    background-size: 12px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.vcms-gridster-widget .vcms-actions {
+    display: none;
+}
+
+.vcms-hide {
+    display: none !important;
+}
+
+.vcms-gridster-widget.vcms-active .vcms-actions {
+    display: block;
+}
+
+.vcms-gridster-widget .vcms-structure-widget-remove {
+    background: #F7632E url(../../../images/vaimo_cms/icon-remove.png) no-repeat 50% 50%;
+    background-size: 12px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.vcms-new-structure-item .vcms-structure-widget-remove {
+    border-radius: 3px;
+}
+
+.vcms-new-structure-item[data-widget-type="cms/widget_block"] .vcms-structure-widget-configure {
+    display: none;
+}
+
+.vcms-structure-overlay .vcms-structure-edit.disabled {
+    cursor: not-allowed;
+}
+
+.vcms-gridster-widget .vcms-actions {
+    position: absolute;
+    z-index: 10;
+    top: 5px;
+    right: 5px;
+}
+
+.vcms-gridster-widget {
+    overflow: hidden;
+    border: 2px #bababa dotted;
+    background: white;
+}
+
+.vcms-gridster-widget button {
+    border: none;
+    height: 24px;
+    width: 24px;
+    outline: none;
+}
+
+.js-vcms-new-widget-placeholder {
+    pointer-events: none;
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+.vcms-placeholder-info {
+    display: table-cell;
+    vertical-align: middle;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.js-vcms-widget-name.js-vcms-widget-name {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #101010;
+}
+
+.js-vcms-widget-description {
+    font-weight: normal;
+    color: #101010;
+}
+
+/**
+ * Grid editor blended outline
+ */
+.vcms-structure-editing-active .vcms-markup-overlay.vcms-overlay-focus,
+.vcms-structure-editing-active .vcms-overlay-focus .vcms-overlay-outline {
+    display: block;
+}
+
+.vcms-markup-overlay.vcms-overlay-focus .vcms-overlay-outline,
+.vcms-markup-overlay.vcms-overlay-focus.active .vcms-overlay-outline {
+    border: none;
+    outline: 4px rgba(225, 225, 225, 0.5) solid;
+    outline-offset: 3px;
+    z-index: 2 !important;
+}
+
+.vcms-markup-overlay.vcms-overlay-focus .vcms-overlay-outline {
+    z-index: 0;
+}
+
+.gridster.ready {
+    display: none;
+}
+
+.gridster.ready.vcms-with-content {
+    display: block;
+    padding-bottom: 4px;
+}
+
+.vcms-structure-editing-active .vcms-markup-overlay {
+    display: none;
+}
+
+.vcms-editing-active .vcms-structure-actions {
+    display: none;
+}

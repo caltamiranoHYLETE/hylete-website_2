@@ -1,0 +1,19 @@
+/* Product prices ======================================================================================= */
+
+.old-price,
+.special-price {
+    display: inline-block;
+}
+
+.old-price .price {
+    text-decoration: line-through;
+}
+
+.price-box .special-price {
+    margin-left: 10px;
+}
+
+div.price-box p {
+    margin-bottom: 0;
+    margin-top: 0;
+}

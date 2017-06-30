@@ -1,0 +1,5 @@
+.magento_content,
+#widget_window.dialog {
+    overflow: auto !important;
+    overflow-x: hidden !important;
+}

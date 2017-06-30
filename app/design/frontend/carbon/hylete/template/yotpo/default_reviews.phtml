@@ -1,0 +1,16 @@
+<?php
+/** @var Yotpo_Yotpo_Block_Yotpo $this */
+
+/** @var Vaimo_Hylete_Helper_Backit $backitHelper */
+$backitHelper = Mage::helper('hylete/backit');
+$backitHelper->setProduct($this->getProduct());
+?>
+<?php if (!$backitHelper->isPreOrderProduct() && !$backitHelper->isBackItProduct()): ?>
+	<div class="yotpo yotpo-main-widget"
+		 data-product-id="<?php echo $this->getProductId() ?>"
+		 data-name="<?php echo $this->getProductName() ?>"
+		 data-url="<?php echo $this->getProductUrl() ?>"
+		 data-image-url="<?php echo $this->getProductImageUrl() ?>"
+		 data-description="<?php echo $this->getProductDescription() ?>">
+	</div>
+<?php endif; ?>

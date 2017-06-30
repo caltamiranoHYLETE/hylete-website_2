@@ -1,0 +1,19 @@
+--- app/code/core/Mage/CatalogRule/Model/Rule_old.php	2014-10-20 16:38:49.000000000 +0300
++++ app/code/core/Mage/CatalogRule/Model/Rule.php	2014-10-20 16:42:17.000000000 +0300
+@@ -348,13 +349,14 @@
+
+         $this->getResource()->applyAllRules($product);
+         $this->_invalidateCache();
+-
++        /*
++         * // elvin@VAIMO don't reindex price here
+         Mage::getSingleton('index/indexer')->processEntityAction(
+             new Varien_Object(array('id' => $product->getId())),
+             Mage_Catalog_Model_Product::ENTITY,
+             Mage_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
+         );
+-
++        */
+         return $this;
+     }
+

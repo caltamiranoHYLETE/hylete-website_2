@@ -1,0 +1,178 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+?>
+<?php
+/**
+ * Shopping cart template
+ *
+ * @see Mage_Checkout_Block_Cart
+ */
+?>
+
+<?php
+/** @var Vaimo_Hylete_Helper_Checkout $checkoutHelper */
+$checkoutHelper = $this->helper('hylete/checkout');
+
+/** @var Mage_Customer_Model_Session $_customerSession */
+$_customerSession = Mage::getSingleton('customer/session');
+
+$_customerGroupId = $_customerSession->getCustomerGroupId();
+?>
+
+<div class="cart">
+    <div class="mobile-cart-header visible-xs">
+        <?php if(!$this->hasError()): ?>
+            <ul class="checkout-types">
+                <?php foreach ($this->getMethods('methods') as $method): ?>
+                    <?php $methodHtml = $this->getMethodHtml($method) ?>
+                    <?php if ($methodHtml != '' && $method !== 'checkout.cart.methods.multishipping') : ?>
+                        <li><?php echo $methodHtml; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <?php if (!$_customerSession->isLoggedIn()) : ?>
+            <div class="cart-login">
+                <span class="cart-login-msg"><?php echo $this->getLayout()->createBlock('cms/block', 'mobile_cart_login')->setBlockId('mobile_cart_login')->toHtml() ?></span>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="row">
+        <div class="col-md-12 page-title title-buttons">
+            <h1><?php echo $this->__('cart') ?></h1>
+
+            <?php if($this->getContinueShoppingUrl()): ?>
+                <a href="<?php echo $this->getContinueShoppingUrl();?>" class="continue-shopping">&laquo; <?php echo $this->__('continue shopping') ?></a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <?php echo $this->getChildHtml('form_before') ?>
+            <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+                <?php echo $this->getBlockHtml('formkey'); ?>
+                <fieldset>
+                    <table id="shopping-cart-table" class="data-table cart-table">
+                        <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                        <thead>
+                            <tr>
+                                <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
+                                <th rowspan="<?php echo $mergedCells; ?>" class="hidden-xs">&nbsp;</th>
+                                <th rowspan="<?php echo $mergedCells; ?>" class="th-title"><span class="nobr"><?php echo $this->__('product') ?></span></th>
+                                <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
+                                    <span class="nobr">
+                                        <?php if ($_customerGroupId == $checkoutHelper->getDefaultCustomerGroupId()): ?>
+                                            <?php echo $this->__('retail price') ?>
+                                        <?php else: ?>
+                                            <?php echo $this->__('unit price') ?>
+                                        <?php endif; ?>
+                                    </span>
+                                </th>
+                                <th rowspan="<?php echo $mergedCells; ?>" width="100" class="a-center"><?php echo $this->__('qty') ?></th>
+                                <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
+                                    <?php if ($_customerGroupId == $checkoutHelper->getDefaultCustomerGroupId()): ?>
+                                        <?php echo $this->__('total') ?>
+                                    <?php else: ?>
+                                        <?php echo $this->__('subtotal') ?>
+                                    <?php endif; ?>
+                                </th>
+                            </tr>
+                            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                                <tr>
+                                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                </tr>
+                            <?php endif; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->getItems() as $_item): ?>
+                                <?php echo $this->getItemHtml($_item) ?>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                    <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+                </fieldset>
+            </form>
+
+            <div class="cart-collaterals">
+                <?php if ($_crosssell = $this->getChildHtml('crosssell')): ?>
+                    <div class="crosssell">
+                        <?php echo $_crosssell ?>
+                    </div>
+                <?php endif; ?>
+                <?php
+                $websiteCode = Mage::app()->getWebsite()->getCode();
+                $websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
+                ?>
+                <div class="discounts">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+                            <?php echo $this->getChildHtml('coupon') ?>
+                            <h3 data-togglelink="discount-giftcard" data-togglegroup="cart" class="visible-xs tbt-reward"><?php echo $this->__('I have a gift card') ?> <span class="fa icon-angle-right"></h3>
+                            <div data-togglecontent="discount-giftcard" data-togglegroup="cart" class="discount-giftcard">
+                                <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
+                            </div>
+                        </div>
+
+                        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+                            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 hidden-xs">
+                                <div class="cart-login">
+                                    <h2><?php echo $this->__('log in or create your account');?></h2>
+                                    <p><a class="button" href="<?php echo $this->getUrl('customer/account/login');?>"><?php echo $this->__('log in with email');?></a></p>
+                                    <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                                        <p><a onclick="return facebookPopup();" class="facebook-login"><span class="fa icon-facebook"></span><?php echo $this->__('log in with Facebook');?></a></p>
+                                    <?php endif;?>
+                                </div>
+                            </div>
+                        <?php endif;?>
+                    </div>
+                </div>
+
+                <?php echo $this->getChildHtml('checkout_cart_widget') //For Enterprise ?>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 totals">
+            <?php echo $this->getChildHtml('totals'); ?>
+            <?php if(!$this->hasError()): ?>
+                <ul class="checkout-types">
+                    <?php foreach ($this->getMethods('methods') as $method): ?>
+                        <?php $methodHtml = $this->getMethodHtml($method) ?>
+                        <?php if ($methodHtml != '' && $method !== 'checkout.cart.methods.multishipping') : ?>
+                            <li><?php echo $methodHtml; ?></li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

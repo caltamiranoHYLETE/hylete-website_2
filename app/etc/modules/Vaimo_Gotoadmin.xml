@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+     <modules>
+        <Vaimo_Gotoadmin>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Vaimo_Gotoadmin>
+     </modules>
+</config>

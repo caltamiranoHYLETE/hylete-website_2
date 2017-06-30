@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2013 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Module
+ * @copyright   Copyright (c) 2009-2013 Vaimo AB
+ */
+-->
+<widgets>
+    <selectedproducts_view type="selectedproducts/widget" translate="description name" module="selectedproducts">
+        <name>Selected Products List</name>
+        <description type="desc">Display a list of category products</description>
+        <parameters>
+            <title translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Title</label>
+                <type>text</type>
+                <sort_order>10</sort_order>
+            </title>
+            <num_get translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Number of products</label>
+                <type>text</type>
+                <value>3</value>
+                <sort_order>20</sort_order>
+            </num_get>
+            <attrib_sort translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Sort by</label>
+                <description>Price only show greater than 0.
+                    Activation date require that attribute activation_date exist.
+                    Best sales require module SortBestSales</description>
+                <type>select</type>
+                <values>
+                    <new translate="label">
+                        <value>new</value>
+                        <label>New first</label>
+                    </new>
+                    <old translate="label">
+                        <value>old</value>
+                        <label>Old first</label>
+                    </old>
+                    <name translate="label">
+                        <value>name</value>
+                        <label>Name</label>
+                    </name>
+                    <price translate="label">
+                        <value>price</value>
+                        <label>Price</label>
+                    </price>
+                    <activation_date translate="label">
+                        <value>activation_date</value>
+                        <label>Activation date</label>
+                    </activation_date>
+                    <best_sales_index translate="label">
+                        <value>best_sales_index</value>
+                        <label>Best sales</label>
+                    </best_sales_index>
+                </values>
+                <sort_order>30</sort_order>
+            </attrib_sort>
+            <descending translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Sort order</label>
+                <type>select</type>
+                <values>
+                    <desc translate="label">
+                        <value>desc</value>
+                        <label>Descending</label>
+                    </desc>
+                    <asc translate="label">
+                        <value>asc</value>
+                        <label>Ascending</label>
+                    </asc>
+                </values>
+                <sort_order>35</sort_order>
+            </descending>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <sort_order>15</sort_order>
+                <type>select</type>
+                <value>icommerce/selectedproducts/medium.phtml</value>
+                <values>
+                    <small translate="label">
+                        <value>icommerce/selectedproducts/small.phtml</value>
+                        <label>Small</label>
+                    </small>
+                    <medium translate="label">
+                        <value>icommerce/selectedproducts/medium.phtml</value>
+                        <label>Medium</label>
+                    </medium>
+                    <large translate="label">
+                        <value>icommerce/selectedproducts/large.phtml</value>
+                        <label>Large</label>
+                    </large>
+                    <custom translate="label">
+                        <value>catalog/product/list/ic_selected.phtml</value>
+                        <label>Custom</label>
+                    </custom>
+                </values>
+            </template>
+            <list_direction>
+                <required>0</required>
+                <visible>1</visible>
+                <label>List Direction</label>
+                <type>select</type>
+                <value>horizontal</value>
+                <sort_order>25</sort_order>
+                <values>
+                    <horizontal translate="label">
+                        <value>horizontal</value>
+                        <label>Horizontal</label>
+                    </horizontal>
+                    <vertical translate="label">
+                        <value>vertical</value>
+                        <label>Vertical</label>
+                    </vertical>
+                </values>
+            </list_direction>
+            <category_id translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Select category</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_category_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Category...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>50</sort_order>
+            </category_id>
+            <attribs_select translate="label">
+                <visible>0</visible>
+                <required>0</required>
+                <label>Select attributes</label>
+                <type>select</type>
+                <value>*</value>
+                <values>
+                    <all translate="label">
+                        <value>*</value>
+                        <label>All</label>
+                    </all>
+                </values>
+                <sort_order>60</sort_order>
+            </attribs_select>
+            <instock_only translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Show in-stock only</label>
+                <type>select</type>
+                <values>
+                    <yes translate="label">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </yes>
+                    <no translate="label">
+                        <value>0</value>
+                        <label>No</label>
+                    </no>
+                </values>
+                <sort_order>70</sort_order>
+            </instock_only>
+            <show_price_and_name translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Show price and name</label>
+                <type>select</type>
+                <value>1</value>
+                <values>
+                    <yes translate="label">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </yes>
+                    <no translate="label">
+                        <value>0</value>
+                        <label>No</label>
+                    </no>
+                </values>
+                <sort_order>80</sort_order>
+            </show_price_and_name>
+            <show_buy_button translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Show "Add To Cart" button</label>
+                <type>select</type>
+                <value>1</value>
+                <values>
+                    <yes translate="label">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </yes>
+                    <no translate="label">
+                        <value>0</value>
+                        <label>No</label>
+                    </no>
+                </values>
+                <sort_order>90</sort_order>
+            </show_buy_button>
+        </parameters>
+    </selectedproducts_view>
+    <selectedproducts_single type="selectedproducts/single" translate="name description" module="selectedproducts">
+        <name>Selected Products (Single)</name>
+        <description>Display a single user-selected product</description>
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <id_path translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Product</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_product_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Product...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>10</sort_order>
+            </id_path>
+            <title translate="label">
+                <visible>1</visible>
+                <label>Custom Title</label>
+                <type>text</type>
+            </title>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <sort_order>15</sort_order>
+                <type>select</type>
+                <value>icommerce/selectedproducts/medium.phtml</value>
+                <default>icommerce/selectedproducts/medium.phtml</default>
+                <values>
+                    <small translate="label">
+                        <value>icommerce/selectedproducts/small.phtml</value>
+                        <label>Small</label>
+                    </small>
+                    <medium translate="label">
+                        <value>icommerce/selectedproducts/medium.phtml</value>
+                        <label>Medium</label>
+                    </medium>
+                    <large translate="label">
+                        <value>icommerce/selectedproducts/large.phtml</value>
+                        <label>Large</label>
+                    </large>
+                </values>
+            </template>
+            <show_buy_button translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Show "Add To Cart" button</label>
+                <sort_order>20</sort_order>
+                <type>select</type>
+                <value>1</value>
+                <values>
+                    <no translate="label">
+                        <value>0</value>
+                        <label>No</label>
+                    </no>
+                    <yes translate="label">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </yes>
+                </values>
+            </show_buy_button>
+        </parameters>
+    </selectedproducts_single>
+</widgets>

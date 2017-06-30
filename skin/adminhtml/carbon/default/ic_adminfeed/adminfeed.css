@@ -1,0 +1,248 @@
+a,
+a:hover
+{
+	text-decoration: none;
+}
+
+/* News and login
+-------------------------------------------------- */
+.login-container
+{
+	margin: 50px auto;
+}
+
+.adminfeed
+{
+	margin: 10px 0 0 1px;
+	border: 1px solid #A3D3CE;
+	text-align: left;
+	padding: 20px 20px 20px 25px;
+}
+
+.adminfeed .left-box,
+.adminfeed .right-box
+{
+	float: left;
+}
+
+.adminfeed .left-box
+{
+
+	margin-right: 70px;
+}
+
+.adminfeed .right-box
+{
+	max-width: 310px;
+}
+
+.adminfeed .right-box p
+{
+	margin-bottom: 20px;
+}
+
+.adminfeed h2,
+.adminfeed h2 a,
+.adminfeed h3,
+.adminfeed h3 a
+{
+	font-size: 1.7em;
+    font-weight: normal;
+    text-decoration: none;
+    color: #26A6Ae;
+}
+
+.adminfeed h3
+{
+	font-size: 1.5em;
+}
+
+.adminfeed h2 a
+{
+	font-size: 1.0em;
+}
+
+.adminfeed p
+{
+	color: #686863;
+}
+
+.adminfeed p a
+{
+	text-decoration: none;
+}
+
+.adminfeed .left-box p
+{
+	margin-bottom: 0;
+}
+
+.adminfeed .more-info
+{
+	margin-bottom: 15px;
+	max-width: 145px;	
+}
+
+.adminfeed .more-info a
+{
+	color: #1db8ff;
+	font-weight: bold;
+}
+/* News and login
+-------------------------------------------------- */
+
+
+/* Notifications
+-------------------------------------------------- */
+.content-header.notifications p,
+.content-header.tickets p
+{
+	margin-bottom: 0;
+}
+/* End of Notifications
+-------------------------------------------------- */
+
+
+/* Checklists
+-------------------------------------------------- */
+.checklist .first-table,
+.checklist .second-table 
+{
+	float: left;
+	margin-right: 80px;
+	width: 350px;
+}
+
+.checklist .first-table .first,
+.checklist .second-table .first
+{
+	width: 120px;
+}
+
+
+.checklists .status-red
+{
+	color: #ff6666;
+}
+
+.checklists .status-orange
+{
+	color: #FFD486;
+}
+
+.checklists .status-green
+{
+	color: #D3FB8B;
+}
+
+.checklist #tabs li.status-red,
+.checklist #tabs li.status-red a
+{
+	background: #ff6666;
+}
+
+.checklist #tabs li.status-orange,
+.checklist #tabs li.status-orange a
+{
+	background: #FFD486;
+}
+
+.checklist #tabs li.status-green,
+.checklist #tabs li.status-green a
+{
+	background: #D3FB8B;
+}
+
+.checklist .checkbox-comments
+{
+	margin-bottom: 15px;
+	width: 500px;
+}
+
+.checklist .show-add-comment
+{
+	margin-top: 5px;
+}
+
+.checklist .bottom-border
+{
+	border-bottom: 1px dotted #a8a8a8;
+	margin: 10px 0;
+}
+
+.checklist .checkboxes
+{
+	float: right;
+}
+
+.checklist .checkboxes label 
+{ 
+	background: #D3FB8B; 
+	border: 1px solid #a8a8a8; 
+	padding: 5px 10px; 
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	position: relative;
+}
+
+.checklist .checkboxes label.not-ok
+{
+	background: #ff6666;
+	margin-left: 10px;
+}
+
+.checklist .checkboxes .title
+{
+	display: none;
+	position: absolute;
+	top: 25px;
+	left: 10px;
+	background: #38b1ff;
+	padding: 10px;
+	min-width: 130px;
+	z-index: 1;
+}
+
+.checklist .checkboxes .title-previously
+{
+	background: #e48afc;
+}
+
+.checklist .checkboxes .title-null
+{
+	background: #ffcc66;
+	min-width: 100px;
+}
+
+.checklist .checkboxes label:hover .title
+{
+	display: block;
+}
+
+.checklist .checkox-estimate
+{
+	border: 1px solid #A8A8A8;
+	padding: 4px;
+	margin-top: 5px;
+}
+
+.checklist .checkbox-status
+{
+	width: 380px;
+}
+
+.checklist .checkbox-text
+{
+	width: 300px;
+}
+
+.checklist .checkbox-comments
+
+.checklist .checkbox-comments button
+{
+	float: left;
+	margin-right: 10px; 
+}
+
+/* End of Checklists
+-------------------------------------------------- */

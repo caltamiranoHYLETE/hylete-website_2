@@ -1,0 +1,280 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<!-- Icommerce Addon -->
+<script type="text/javascript">
+	<?php $plb = Icommerce_Default::getStoreConfig("payment_lightbox"); ?>
+	<?php if ($plb==NULL) $plb = Mage::getStoreConfig('paymentshared/payments/use_lightbox_in_pay_win'); ?>
+    var payment_lightbox = <?php echo ($plb==0 || $plb=="false" || $plb=="no") ? 0 : 1 ?>;
+</script>
+<!-- Icommerce Addon End-->
+
+<form id="co-billing-form" action="">
+<!-- Icommerce Addon -->
+<?php
+	echo Icommerce_Layout::getBlockHtml("core/template","checkout/onepage/billing-quickcheckout-heading.phtml");
+?>
+<!-- Icommerce Addon End-->
+<?php if ($this->customerHasAddresses()): ?>
+    <p><?php echo $this->__('Select a billing address from your address book or enter a new address.') ?></p>
+    <ul><li><p><?php echo $this->getAddressesHtmlSelect('billing') ?></p></li></ul>
+
+<?php endif ?>
+    <fieldset class="group-select" id="billing-new-address-form" <?php if ($this->customerHasAddresses()): ?>style="display:none"<?php endif ?>>
+        <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
+        <ul>
+
+<!-- Icommerce Addon -->
+<?php
+	echo Icommerce_Layout::getBlockHtml("checkout/onepage_billing","checkout/onepage/billing-creditcheck.phtml");
+	echo Icommerce_Layout::getBlockHtml("core/template","checkout/onepage/billing-kreditor.phtml");
+?>
+<!-- Icommerce Addon End-->
+<?php
+	// Since the layout differs between default and with the QuickCheckout module, we're adding some design adjustments
+	if(!Icommerce_Default_Helper_Data::isModuleActive('Icommerce_QuickCheckout'))
+		$br = '<br />';
+	else
+		$br = "";
+?>
+			<li>
+            	<?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress())
+                ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+        		<div class="clear"></div>
+            </li>
+            <li>
+				<?php if(!$this->isCustomerLoggedIn()): ?>
+                	<label for="billing:email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><?php echo $br; ?>
+                	<input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" />
+				<?php endif ?>
+            </li>
+            <li>
+	                <label for="billing:company">
+	                	<?php echo $this->__('Company') ?><?php if(Icommerce_Default::getStoreConfig("company_is_mandatory")): ?> <span class="required">*</span><?php endif; ?>
+            	    </label><?php echo $br; ?>
+                	<input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="<?php if(Icommerce_Default::getStoreConfig("company_is_mandatory")): ?>required-entry <?php endif; ?>input-text" />
+            </li>
+            <li>
+            	<label for="billing:street1"><?php echo $this->__('Address') ?> <span class="required">*</span></label><?php echo $br; ?>
+                <input type="text" title="<?php echo $this->__('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="required-entry input-text" />
+            </li>
+			<?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
+            <li>
+            	<?php if(!$br): ?><label>&nbsp;</label><?php endif; ?>
+            	<input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" />
+            </li>
+			<?php endfor ?>
+            <li>
+                	<label for="billing:postcode"><?php echo $this->__('Zip/Postal Code') ?> <span class="required">*</span></label><?php echo $br; ?>
+                	<input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" class="validate-zip-international required-entry input-text" />
+            </li>
+            <li>
+                	<label for="billing:city"><?php echo $this->__('City') ?> <span class="required">*</span></label><?php echo $br; ?>
+                	<input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="required-entry input-text" id="billing:city" />
+            </li>
+            <li>
+                	<label for="billing:telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><?php echo $br; ?>
+                	<input type="text" name="billing[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="required-entry input-text" id="billing:telephone" />
+			</li>
+			<li>
+            	<?php if (!Icommerce_Default::getStoreConfig("show_checkout_region")): ?>
+                	<label for="billing:country_id"><?php echo $this->__('Country') ?> <span class="required">*</span></label><?php echo $br; ?>
+                	<?php echo $this->getCountryHtmlSelect('billing') ?>
+            	<?php else: ?>
+                		<label for="billing:fax"><?php echo $this->__('Fax') ?></label><?php echo $br; ?>
+                		<input type="text" name="billing[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="billing:fax" />
+            	<?php endif; ?>
+            </li>
+            <?php if (Icommerce_Default::getStoreConfig("show_checkout_region")): ?>
+            <li>
+	        		<label for="billing:country_id"><?php echo $this->__('Country') ?> <span class="required">*</span></label><?php echo $br; ?>
+    	        	<?php echo $this->getCountryHtmlSelect('billing') ?>
+            <?php else: ?>
+            <li>
+            <?php endif; ?>
+            	<div class="input-box-hide">
+                	<label for="billing:region"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label>
+                	<select id="billing:region_id" name="billing[region_id]"
+                		<?php if (Icommerce_Default::getStoreConfig("show_checkout_region")): ?>
+                			class="validate-select"
+                		<?php endif;?>
+                		title="<?php echo $this->__('State/Province') ?>"
+                		style="display:none">
+                    	<option value="">
+                    		<?php echo $this->__('Please select region, state or province') ?>
+                    	</option>
+                	</select>
+					<script type="text/javascript">
+                    	$('billing:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                	</script>
+                	<input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none" />
+                </div>
+
+            <?php if (!Icommerce_Default::getStoreConfig("show_checkout_region")): ?>
+                <div class="input-box-hide">
+                	<label for="billing:fax"><?php echo $this->__('Fax') ?></label>
+	                <input type="text" name="billing[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="billing:fax" />
+	            </div>
+            <?php endif; ?>
+            </li>
+
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+				<?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+				<?php if ($_dob->isEnabled()): ?>
+            		<li>
+                		<?php echo $_dob->setDate($this->getQuote()->getCustomerDob())
+                    		->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+            		</li>
+			<?php endif ?>
+
+			<?php if (!Icommerce_Default_Helper_Data::isModuleActive('Icommerce_CreditSafe')): ?>
+			<?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+			<?php if ($_taxvat->isEnabled()): ?>
+            	<li>
+                	<?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())
+                    	->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+            	</li>
+			<?php endif ?>
+			<?php endif ?>
+
+<!-- Icommerce Addon -->
+<?php
+	echo Icommerce_Layout::getBlockHtml("core/template","checkout/onepage/billing-quickcheckout.phtml");
+?>
+<!-- Icommerce Addon End-->
+
+            <?php endif ?>
+
+            <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
+                <li>
+                	<input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> /> <label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
+            <?php else:?>
+                <li class="no-display"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
+            <?php endif;?>
+
+			<?php if(!$this->isCustomerLoggedIn()): ?>
+				<?php if (Icommerce_Default_Helper_Data::isModuleActive('Desitex_Checkoutnewsletter')): ?>
+					<?php echo $this->getLayout()->createBlock('checkoutnewsletter/newsletter')->toHtml() ?>
+				<?php endif; ?>
+			<?php endif; ?>
+        </ul>
+    </fieldset>
+    <fieldset class="qc-shipping-choice"<?php if (Icommerce_Default_Helper_Data::isModuleActive('Icommerce_QuickCheckout') && (!(bool)Mage::getStoreConfig('quickcheckout/settings/enable_separate_shipping_address') || Icommerce_Default::getStoreConfig("enable_separate_shipping_adress_in_quickcheckout")) ): ?> style="display:none;"<?php endif; ?>>
+        <?php if ($this->canShip()): ?>
+            <p>
+                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1" <?php if ($this->isUseBillingAddressForShipping()) {?>checked="checked" <?php }?>onclick="$('shipping:same_as_billing').checked = true;" />&nbsp;
+                <label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0" <?php if (!$this->isUseBillingAddressForShipping()) {?>checked="checked" <?php }?>onclick="$('shipping:same_as_billing').checked = false;" />&nbsp;
+                <label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
+            </p>
+        <?php else: ?>
+            <p class="no-display"><input type="hidden" name="billing[use_for_shipping]" value="1" /></p>
+        <?php endif; ?>
+    </fieldset>
+</form>
+<div class="button-set">
+    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+    <div id="billing-buttons-container">
+        <button type="button" class="form-button right" onclick="billing.save()"><span><?php echo $this->__('Continue') ?></span></button>
+        <span id="billing-please-wait" style="display:none;" class="opc-please-wait">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Loading next step...') ?> &nbsp;
+        </span>
+    </div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
+    var billingForm = new VarienForm('co-billing-form');
+
+    //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
+    $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
+
+	// Original BillingRegionUpdater
+    //var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
+
+    // Icommerce Addon
+
+	// We extend the original RegionUpdate-class
+	var CustomizedRegionUpdater = Class.create(RegionUpdater, {
+
+		// Redefine the setMarkDisplay method
+		setMarkDisplay: function(elem, display){
+
+        	// What this function does differently than the original is the way it
+        	// collects the labels.
+
+			elem = $(elem);
+
+			var labelElement = null;
+			var container = elem.up(1); // Surrounding li
+			var labels = $(container).select('label span.required'); // All labels in li
+
+			if(labels.length == 2){
+				labelElement = labels[1]; // Label no. 2 (region label)
+			}
+
+			if(labelElement) {
+				display ? labelElement.show() : labelElement.hide();
+			}
+
+            var regionid = $('billing:region_id');
+            if (!regionid) {
+                return;
+            }
+            var box = regionid.parentElement;
+            if (!box) {
+                return;
+            }
+            if (box.hasClassName('input-box-hide')) {
+                if  (display) {
+                    box.removeClassName('input-box-hide').addClassName('input-box-nohide');
+                }
+            } else if (box.hasClassName('input-box-nohide')) {
+                if  (!display) {
+                    box.removeClassName('input-box-nohide').addClassName('input-box-hide');
+                }
+            }
+    	}
+	});
+
+	var billingRegionUpdater = new CustomizedRegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
+
+	billing.getAddressUrl = '<?php echo $this->getUrl('kreditor/kreditor/addressdata'); ?>';
+	billing.getAddress14Url = '<?php echo $this->getUrl('klarna/klarna/addressdata'); ?>';
+	billing.creditcheckURL = '<?php echo $this->getUrl('creditcheck/creditcheck/creditdata'); ?>';
+	billing.creditsafeAddressURL = '<?php echo $this->getUrl('creditsafe/creditsafe/address'); ?>';
+	billing.creditsafeCheckURL = '<?php echo $this->getUrl('creditcheck/creditcheck/creditdata'); ?>';
+	if($('billing:use_for_shipping_yes')){
+		$('billing:use_for_shipping_yes').checked = true;
+	}
+
+    document.fire('paymentshared:billing_after');
+	// Icommerce Addon End
+
+//]]>
+</script>

@@ -1,0 +1,22 @@
+<div id="tab-container">
+
+    <ul class="tabs">
+        <li class="active"><a href="#description-tab"><?php echo $this->__('Description') ?></a></li>
+        <li><a href="#more-info-tab"><?php echo $this->__('More Info') ?></a></li>
+        <li><a href="#reviews-tab"><?php echo $this->__('Reviews') ?></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="description-tab" class="active" >
+            <?php if ($_description = $this->getChildHtml('product.description')) :?>
+                <?php echo $_description; endif;?>
+        </div>
+        <div id="more-info-tab" style="display: none;">
+            <?php echo $this->getChildHtml('product.attributes') ?>
+        </div>
+        <div id="reviews-tab" style="display: none;">
+            <?php echo $this->getChildHtml('product.info.reviews') ?>
+        </div>
+    </div>
+
+</div>

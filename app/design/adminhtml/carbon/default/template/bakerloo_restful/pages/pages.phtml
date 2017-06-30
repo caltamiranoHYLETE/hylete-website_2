@@ -1,0 +1,94 @@
+<?php
+/**
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) Ebizmarts Corp. (https://pos.ebizmarts.com)
+ */
+?>
+<button onclick="setLocation('<?php echo $this->getGenerateFilesUrl(); ?>')" class="add" type="button">
+    <span><span><span><?php echo $this->__('Generate'); ?></span></span></span></button>
+<button id="pos-cache-btn" onclick="generateCache(this); return false;" class="add disabled" type="button"><span><span><span><?php echo $this->__('Generate Cache'); ?></span></span></span></button>
+
+<div id="tree-div" style="width:800px;"></div>
+
+<script type="text/javascript">
+
+    var _currentStoreID = 0;
+    var _resources      = ['products_zip', 'products_db', 'customers_zip', 'customers_db', 'inventory_zip', 'inventory_db'];
+
+    /**
+     * Fix ext compatibility with prototype 1.6
+     */
+    Ext.lib.Event.getTarget = function(e) {
+        var ee = e.browserEvent || e;
+        return ee.target ? Event.element(ee) : null;
+    };
+    document.observe("dom:loaded", function() {
+        var tree = new Ext.tree.TreePanel('tree-div', {
+            renderTo: 'tree-div',
+            useArrows: true,
+            autoScroll: true,
+            animate: true,
+            enableDD: false,
+            containerScroll: true,
+            border: false,
+            loader: new Ext.tree.TreeLoader({
+                dataUrl:'<?php echo $this->getGenerateTreeDataUrl(); ?>'
+            })
+        });
+        var root = new Ext.tree.AsyncTreeNode({
+            text: '<?php echo $this->__('POS'); ?>',
+            draggable:false,
+            checked:'false',
+            id:'root'
+        });
+        tree.setRootNode(root);
+        tree.render();
+        root.expand();
+
+        tree.on({
+            click: function(node){
+                var btn = $('pos-cache-btn');
+
+                if((null != node.parentNode) && node.parentNode.id == 'root') {
+                    btn.removeClassName('disabled');
+                    _currentStoreID = parseInt(node.id.substr(1));
+
+                }
+                else {
+                    if(!btn.hasClassName('disabled')) {
+                        btn.addClassName('disabled');
+                    }
+                }
+            }
+        });
+
+    });
+
+    function generateCache(el, resource) {
+
+        if(el.hasClassName('disabled') || !_resources.length) {
+            return;
+        }
+
+        if( (typeof resource == 'undefined') ) {
+            resource = _resources.shift();
+        }
+
+        new Ajax.Request('<?php echo $this->getGenerateCacheUrl(); ?>',
+            {
+            method: 'get',
+            parameters: {"resource": resource},
+            requestHeaders: ['B-Store-Id', _currentStoreID],
+            onSuccess: function(response) {
+                generateCache($('pos-cache-btn'));
+            },
+            onFailure: function(rsp) {
+                alert("ERROR! \n " + rsp.responseText);
+                generateCache($('pos-cache-btn'));
+            }
+        });
+
+    }
+
+</script>

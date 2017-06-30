@@ -1,0 +1,97 @@
+<?php
+/**
+ * @see Ebizmarts_BakerlooRestful_Block_Adminhtml_Pos_Shifts_Edit_Tab_Main
+ */
+?>
+
+<?php
+
+$shift = $this->getShift();
+
+?>
+<div class="content-header">
+    <h3 class="icon-head">Shift details</h3>
+    <div class="form-buttons">
+        <button onclick="setLocation('<?php echo $this->getBackUrl(); ?>');" class="scalable back" type="button" title="<?php echo $this->__('Back'); ?>" id="shift-back">
+            <span>
+                <span><?php echo $this->__('Back'); ?></span>
+            </span>
+        </button>
+    </div>
+</div>
+
+<div><span><strong><?php echo $this->__('User: '); ?></strong><?php echo $shift->getUser(); ?></span></div>
+<div><span><strong><?php echo $this->__('State: '); ?></strong><?php echo $this->getShiftState(); ?></span></div>
+<div><span><strong><?php echo $this->__('Open date: '); ?></strong><?php echo $shift->getOpenDate(); ?></span></div>
+<div><span><strong><?php echo $this->__('Close date: '); ?></strong><?php echo $shift->getCloseDate(); ?></span></div>
+<div><br /></div>
+
+<h3><?php echo $this->__('Opening details') . ' (' . $shift->getOpenDate() . ')'; ?></h3>
+
+<?php $openComments = $this->getOpeningComments(); ?>
+<?php if(!empty($openComments)): ?>
+<h5>Comments: </h5><span><?php echo $openComments; ?></span><br />
+<?php endif; ?>
+
+<?php $openAmts = $this->getOpenDetails(); ?>
+<?php if(empty($openAmts)): ?>
+    <h5><?php echo Mage::helper('bakerloo_restful')->__('There are not opening details available for this shift.'); ?></h5>
+<?php else: $thead = $this->getOpenTableHeaders(); ?>
+<div class="grid">
+    <table cellspacing="0">
+        <thead>
+            <tr class="headings grid-row-title">
+                <?php foreach ($thead as $_h): ?>
+                    <th><span class="nobr"><?php echo $_h ?></span></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($openAmts as $amount): ?>
+                <tr>
+                    <td><?php echo $amount['amount'] ?></td>
+                    <td><?php echo $amount['refunds'] ?></td>
+                    <td><?php echo $amount['balance'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<br />
+<?php endif; ?>
+
+
+<h3><?php echo $this->__('Closing details') . ' (' . $shift->getCloseDate() . ')'; ?></h3>
+
+<?php $closeComments = $this->getClosingComments(); ?>
+<?php if(!empty($closeComments)): ?>
+    <h5>Comments: </h5><span><?php echo $closeComments; ?></span><br />
+<?php endif; ?>
+
+<?php $closeAmts = $this->getCloseDetails(); ?>
+<?php if(empty($closeAmts)): ?>
+    <h5><?php echo Mage::helper('bakerloo_restful')->__('There are not closing details available for this shift.'); ?></h5>
+<?php else: $thead = $this->getCloseTableHeaders(); ?>
+<div class="grid">
+    <table cellspacing="0">
+        <thead>
+            <tr class="headings grid-row-title">
+                <?php foreach ($thead as $_h): ?>
+                    <th><span class="nobr"><?php echo $_h ?></span></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($closeAmts as $amount): ?>
+            <tr>
+                <td><?php echo $amount['amount'] ?></td>
+                <td><?php echo $amount['amount_left'] ?></td>
+                <td><?php echo $amount['refunds'] ?></td>
+                <td><?php echo $amount['balance'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<?php endif; ?>
+

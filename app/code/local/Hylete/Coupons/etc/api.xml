@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <coupons_create translate="title" module="coupons">
+                <title>Coupons</title>
+                <acl>coupons/create</acl>
+                <model>Hylete_Coupons_Model_Create_Api</model>
+                <methods>                    
+						<clonecoupon translate="title" module="coupons">
+							<title>Clonecoupon</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</clonecoupon>
+						<clonecouponwithname translate="title" module="coupons">
+							<title>Clonecouponwithname</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</clonecouponwithname>
+						<getcoupon translate="title" module="coupons">
+							<title>Getcoupon</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</getcoupon>
+						<doescouponexist translate="title" module="coupons">
+							<title>Doescouponexist</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</doescouponexist>
+						<savecustomreferral translate="title" module="coupons">
+							<title>Savecustomreferral</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</savecustomreferral>
+						<getallcustomerbalance translate="title" module="coupons">
+							<title>Getallcustomerbalance</title>
+							<acl>coupons/create/clonecoupon</acl>
+						</getallcustomerbalance>
+                </methods>
+				<faults>
+					<master_coupon_error>
+						<code>100</code>
+						<message>Error Loading Master Coupon</message>
+					</master_coupon_error>
+					<coupon_exists>
+						<code>101</code>
+						<message>Coupon Already Exists Or Cannot Be Created</message>
+					</coupon_exists>
+				</faults>
+            </coupons_create>
+        </resources>
+		<resources_alias>
+            <create>coupons_create</create>
+         </resources_alias>
+		<v2>
+            <resources_function_prefix>
+                <create>hylete</create>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                <coupons translate="title" module="coupons">
+					<title>Coupons</title>
+					<sort_order>1</sort_order>                    
+					<create translate="title" module="coupons">
+                        <title>Create</title>
+                        <sort_order>2000</sort_order>                    
+						<clonecoupon translate="title" module="coupons">
+                            <title>Clonecoupon</title>
+                        </clonecoupon>  
+                    </create>
+                </coupons>
+            </resources>
+        </acl>
+    </api>
+</config>

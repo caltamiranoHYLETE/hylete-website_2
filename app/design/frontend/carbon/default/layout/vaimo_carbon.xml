@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2015 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Carbon
+ * @copyright   Copyright (c) 2009-2015 Vaimo AB
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <!-- - - - - - - JAVSCRIPT - - - - - - -->
+            <action method="addJs"><script>jquery/jquery.min.js</script></action>
+
+            <!-- Remove -->
+            <action method="removeItem"><type>js</type><name>scriptaculous/dragdrop.js</name><params/></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/slider.js</name><params/></action>
+
+            <!-- Theme specific -->
+            <action method="addItem"><type>skin_js</type><name>js/lib/bootstrap.min.js</name></action>
+            <action method="addItem" ifconfig="carbon/settings/enable_responsive"><type>skin_js</type><name>js/lib/fastclick.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/carbon.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/carbon-menu.js</name></action>
+            <action method="addItem" ifconfig="carbon/settings/enable_responsive"><type>skin_js</type><name>js/responsive/carbon-responsive.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/theme-scripts.js</name></action>
+
+            <!-- Respond: A fast & lightweight polyfill for min/max-width CSS3 Media Queries (for IE 6-8, and more) -->
+            <action method="addItem" ifconfig="carbon/settings/enable_responsive"><type>skin_js</type><name>js/lib/respond.js</name><params/><if>lt IE 9</if></action>
+
+            <!-- - - - - - - STYLESHEETS - - - - - - -->
+            <action method="addCss"><stylesheet>css/normalize.min.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/global.css</stylesheet></action><!-- Global styles; for elements that exist on multiple pages -->
+            <action method="addCss"><stylesheet>css/layout.css</stylesheet></action><!-- Magento layout styling -->
+            <action method="addCss"><stylesheet>css/tools.css</stylesheet></action><!-- Magento tools; f-left etc -->
+            <action method="addCss"><stylesheet>css/price.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/header.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/sidebar.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/footer.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/category.css</stylesheet></action><!-- Category and product list -->
+            <action method="addCss"><stylesheet>css/product.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/cms.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/account.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/content.css</stylesheet></action><!-- Content pages; contacts-page, startpage and so on -->
+            <action method="addCss"><stylesheet>css/cart.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/widgets.css</stylesheet></action><!-- Magento default widget styling -->
+            <action method="addCss"><stylesheet>css/print.css</stylesheet></action><!-- Print styles -->
+            <action method="addCss"><stylesheet>css/high-screen-density.css</stylesheet></action><!-- High screen density graphics -->
+            <action method="addCss"><stylesheet>css/vertical_nav.css</stylesheet></action>
+
+            <!-- Font icons (Glyphicons or Fontsawesome -->
+            <action method="addCss"><file helper="carbon/data/getIconFont"/></action>
+
+            <!-- Bootstrap Carousel -->
+            <action method="addCss"><stylesheet>css/bootstrap/carousel.css</stylesheet></action>
+
+            <!-- Bootstrap Tabs/Navs -->
+            <action method="addCss"><stylesheet>css/bootstrap/navs.css</stylesheet></action>
+
+            <!-- Remove -->
+            <action method="removeItem"><type>skin_css</type><name>css/styles.css</name><params/></action>
+            <action method="removeItem"><type>skin_css</type><name>css/styles-ie.css</name><params/></action>
+            <action method="removeItem"><type>skin_css</type><name>css/slideshow.css</name><params/></action>
+            <action method="removeItem"><type>skin_css</type><name>css/slideshow-layered-blocks.css</name><params/></action>
+
+            <!-- Compatibility if Icommerce_Vertnav exits -->
+            <action method="removeItem"><type>skin_css</type><name>css/ic_vertnav.css</name><params/></action>
+            <action method="removeItem"><type>skin_js</type><name>js/vertnav.js</name><params/></action>
+
+            <!-- - - - - - - RESPONSIVE GRID - - - - - - -->
+
+            <!-- Extra Small Devices - Phones (<768px) -->
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/grid/extra-small-devices.css</stylesheet>
+            </action>
+
+            <!-- Small Devices - Tablets (>768px) -->
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/grid/small-devices.css</stylesheet>
+            </action>
+
+            <!-- Medium Devices - Desktops (>992px) -->
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/grid/medium-devices.css</stylesheet>
+            </action>
+
+            <!-- Large Devices - Large Desktops (>1200px) -->
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/grid/large-devices.css</stylesheet>
+            </action>
+
+            <!-- For non responsive. The helper class will include non-responsive.css -->
+            <action method="addItem"><type>skin_css</type><name helper="carbon/data/isResponsiveDisabled"/><params/><if/></action>
+
+            <!-- - - - - - - RESPONSIVE STYLING - - - - - - -->
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/global-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/layout-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/header-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/category-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/product-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/footer-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/account-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/content-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/cart-responsive.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="carbon/settings/enable_responsive">
+                <stylesheet>css/responsive/responsive-utilities.css</stylesheet>
+            </action>
+
+            <action method="addItem" ifconfig="carbon/settings/enable_responsive"><type>skin_js</type><name>js/lib/doubletaptogo.js</name></action>
+        </reference>
+        <reference name="root">
+            <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbs" translate="label">
+                <label>Breadcrumbs</label>
+                <block type="page/html_breadcrumbs" name="breadcrumbs"/>
+            </block>
+        </reference>
+    </default>
+</layout>

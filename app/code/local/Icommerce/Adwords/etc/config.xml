@@ -1,0 +1,76 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Icommerce_Adwords>
+            <version>0.4.6</version>
+        </Icommerce_Adwords>
+    </modules>
+    <global>
+    	<blocks>
+            <adwords>
+            	<class>Icommerce_Adwords_Block</class>
+            </adwords>
+        </blocks>
+    	<helpers>
+    		<adwords>
+    			<class>Icommerce_Adwords_Helper</class>
+    		</adwords>
+    	</helpers>
+        <models>
+            <adwords>
+                <class>Icommerce_Adwords_Model</class>
+            </adwords>
+        </models>
+    </global>
+    <adminhtml>
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<adwords>
+											<title>Icommerce Adwords</title>
+										</adwords>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<events/>
+		<translate/>
+  	</adminhtml>
+  	<!-- module defaults -->
+	<default>
+		<!-- config values -->
+		<adwords>
+			<verticals>
+				<retail>
+					<label>Retail</label>
+				</retail>
+			</verticals>
+			<settings>
+				<active>1</active>
+				<google_conversion_id/>
+				<google_conversion_language/>
+				<google_conversion_format/>
+				<google_conversion_color/>
+				<google_conversion_label/>
+				<google_conversion_value/>
+				<google_remarketing_active>0</google_remarketing_active>
+				<google_remarketing_vertical>retail</google_remarketing_vertical>
+			</settings>
+		</adwords>
+	</default>
+	<phpunit>
+		<suite>
+			<modules>
+				<Icommerce_Adwords />
+			</modules>
+		</suite>
+	</phpunit>
+</config>

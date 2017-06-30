@@ -1,0 +1,157 @@
+<?xml version="1.0" ?><!--
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_MultiOptionFilter
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+-->
+<config>
+    <modules>
+        <Vaimo_MultiOptionFilter>
+            <version>2.7.3</version>
+        </Vaimo_MultiOptionFilter>
+    </modules>
+    <global>
+        <models>
+            <multioptionfilter>
+                <class>Vaimo_MultiOptionFilter_Model</class>
+                <resourceModel>multioptionfilter_resource</resourceModel>
+            </multioptionfilter>
+            <multioptionfilter_resource>
+                <class>Vaimo_MultiOptionFilter_Model_Resource</class>
+                <entities>
+                    <product_link>
+                        <table>mof_catalog_product_link</table>
+                    </product_link>
+                    <product_eav>
+                        <table>mof_catalog_product_eav</table>
+                    </product_eav>
+                </entities>
+            </multioptionfilter_resource>
+            <catalog>
+                <rewrite>
+                    <layer_filter_price>Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Price</layer_filter_price>
+                    <layer_filter_attribute>Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Attribute</layer_filter_attribute>
+                </rewrite>
+            </catalog>
+            <catalogsearch>
+                <rewrite>
+                    <layer_filter_attribute>Vaimo_MultiOptionFilter_Model_CatalogSearch_Layer_Filter_Attribute</layer_filter_attribute>
+                </rewrite>
+            </catalogsearch>
+        </models>
+        <helpers>
+            <multioptionfilter>
+                <class>Vaimo_MultiOptionFilter_Helper</class>
+            </multioptionfilter>
+        </helpers>
+        <blocks>
+            <multioptionfilter>
+                <class>Vaimo_MultiOptionFilter_Block</class>
+            </multioptionfilter>
+            <catalog>
+                <rewrite>
+                    <layer_view>Vaimo_MultiOptionFilter_Block_Layer_View</layer_view>
+                    <layer_state>Vaimo_MultiOptionFilter_Block_Layer_State</layer_state>
+                </rewrite>
+            </catalog>
+            <enterprise_search>
+                <rewrite>
+                    <catalog_layer_view>Vaimo_MultiOptionFilter_Block_Enterprisesearch_Layer_View</catalog_layer_view>
+                </rewrite>
+            </enterprise_search>
+        </blocks>
+        <resources>
+            <multioptionfilter_setup>
+                <setup>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <module>Vaimo_MultiOptionFilter</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </multioptionfilter_setup>
+        </resources>
+        <cache>
+            <types>
+                <vaimo_multioptionfilter module="multioptionfilter" translate="label,description">
+                    <label>Navigation Layer Options</label>
+                    <description>Available filter options for certain filter option selection combinations.</description>
+                    <tags>VAIMO_MOF</tags>
+                </vaimo_multioptionfilter>
+            </types>
+        </cache>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <multioptionfilter>
+                    <file>vaimo_multioptionfilter.xml</file>
+                </multioptionfilter>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_render_before>
+                <observers>
+                    <mof_create_filter_proxies>
+                        <type>singleton</type>
+                        <class>multioptionfilter/observer</class>
+                        <method>createFilterBlockProxies</method>
+                    </mof_create_filter_proxies>
+                    <vaimo_fix_enterprise_category_filter>
+                        <type>singleton</type>
+                        <class>multioptionfilter/observer</class>
+                        <method>fixEnterpriseCategoryFilter</method>
+                    </vaimo_fix_enterprise_category_filter>
+                </observers>
+            </controller_action_layout_render_before>
+            <controller_action_layout_load_before>
+                <observers>
+                    <mof_add_layout_type_handle>
+                        <type>singleton</type>
+                        <class>multioptionfilter/observer</class>
+                        <method>addLayerLayoutTypeHandles</method>
+                    </mof_add_layout_type_handle>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+        <translate>
+            <modules>
+                <Vaimo_MultiOptionFilter>
+                    <files>
+                        <default>Vaimo_MultiOptionFilter.csv</default>
+                    </files>
+                </Vaimo_MultiOptionFilter>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <multioptionfilter>
+            <settings>
+                <price_filter>1</price_filter>
+                <cat_filter>1</cat_filter>
+                <default_category_id/>
+                <enable_block_caching>0</enable_block_caching>
+                <block_cache_lifetime>600</block_cache_lifetime>
+                <params_ignore_list>p,___store,___SID,s</params_ignore_list>
+                <horizontal_filters>0</horizontal_filters>
+            </settings>
+        </multioptionfilter>
+    </default>
+  </config>

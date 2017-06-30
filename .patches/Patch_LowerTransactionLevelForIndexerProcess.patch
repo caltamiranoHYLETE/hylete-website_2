@@ -1,0 +1,14 @@
+--- app/code/core/Enterprise/Mview/Model/Client.php.old	2015-01-20 15:12:00.000000000 +0200
++++ app/code/core/Enterprise/Mview/Model/Client.php	2015-01-20 15:12:17.000000000 +0200
+@@ -106,7 +106,11 @@
+             throw new Enterprise_Mview_Exception('Action "' . get_class($action) . '" must be an instance of ' .
+                 'Enterprise_Mview_Model_Action_Interface');
+         }
++        /** @var Varien_Db_Adapter_Interface $connection */
++        $connection = $args['connection'];
++        $connection->query('SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED');
+         $action->execute();
++        $connection->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+ 
+         return $this;
+     }

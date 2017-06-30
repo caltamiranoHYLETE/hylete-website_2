@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+**
+* Copyright (c) 2009-2013 Vaimo AB
+*
+* Vaimo reserves all rights in the Program as delivered. The Program
+* or any portion thereof may not be reproduced in any form whatsoever without
+* the written consent of Vaimo, except as provided by licence. A licence
+* under Vaimo's rights in the Program may be available directly from
+* Vaimo.
+*
+* Disclaimer:
+* THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+* THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+* OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+* THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+* IN THE PROGRAM.
+*
+* @category    Vaimo
+* @package     Vaimo_Blog
+* @copyright   Copyright (c) 2009-2013 Vaimo AB
+* @author      Tobias Wiking
+*
+-->
+<config>
+    <menu>
+        <blog translate="title" module="blog">
+            <title>Blog</title>
+            <sort_order>31</sort_order>
+            <children>
+                <blog_posts translate="title" module="blog">
+                    <title>Posts</title>
+                    <action>adminhtml/blog_blog</action>
+                </blog_posts>
+                <!--<blog_comments translate="title" module="blog">
+                    <title>Comments</title>
+                    <action>blog/adminhtml_blog</action>
+                </blog_comments>-->
+                <blog_settings translate="title" module="blog">
+                    <title>Settings</title>
+                    <action>adminhtml/system_config/edit/section/blog</action>
+                </blog_settings>
+            </children>
+        </blog>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <blog translate="title" module="catalog">
+                        <title>Vaimo Blog</title>
+                        <sort_order>10</sort_order>
+                        <children>
+                            <blog_posts translate="title">
+                                <title>Posts</title>
+                            </blog_posts>
+                            <blog_settings translate="title">
+                                <title>Settings</title>
+                            </blog_settings>
+                        </children>
+                    </blog>
+                </children>
+            </admin>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <blog>
+                                        <title>Vaimo Blog Settings</title>
+                                    </blog>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <events>
+        <core_block_abstract_prepare_layout_after>
+            <observers>
+                <vaimo_blog_tabs>
+                    <type>singleton</type>
+                    <class>blog/observer</class>
+                    <method>editTabs</method>
+                </vaimo_blog_tabs>
+            </observers>
+        </core_block_abstract_prepare_layout_after>
+    </events>
+</config>

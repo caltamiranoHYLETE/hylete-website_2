@@ -1,0 +1,45 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+        	<?php 
+        		$listshow = Mage::getModel('checklist/listshow')->getProject($_SESSION['project_id']);
+        	?>
+            <td><h3><?=$this->__('Add list in project: ').$listshow['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="add_form" enctype="multipart/form-data" name="add_form" method="post" action="<?=$this->getUrl('*/*/save')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Enter the list information below')?></h4>
+        <fieldset id="my-fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=$this->__('List name')?></td>
+                    <td><input class="input-text required-entry" name="addform[name]" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=$this->__('Status')?> <span class="required">*</span></td>
+                    <td>
+                    	<select name="addform[status]">
+                    		<?php $statuses = Mage::helper('checklist')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?=$key?>"><?=$this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?=$this->__('Position')?></td>
+                    <td><input class="input-text" name="addform[position]" style="width:30px;" /></td>
+                </tr>            
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addForm = new varienForm('add_form');
+</script>

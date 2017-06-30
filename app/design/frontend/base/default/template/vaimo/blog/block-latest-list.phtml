@@ -1,0 +1,126 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Blog
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+
+/** @var Vaimo_Blog_Block_Posts_Latest $this */
+/** @var Mage_Catalog_Helper_Output $_helper */
+/** @var Vaimo_Blog_Helper_Data $_helperBlog */
+
+$_blogCollection = $this->getBlogCollection();
+$_helper = $this->helper('catalog/output');
+$_helperBlog = $this->helper('blog');
+$_baseUrl = Mage::getBaseUrl();
+$_collectionSize = $_blogCollection->getSize();
+$_i = 0;
+$_categoryCache = array();
+?>
+<?php if ($_collectionSize == 0): ?>
+    <p class="blog-list-note note-msg"><?php echo $this->__('There are no blog posts') ?></p>
+<?php else: ?>
+    <section class="blog blog-list blog-list-latest">
+        <div class="toolbar-top<?php if ($_helperBlog->isForceSortPublishDateActive()): ?> sort-by-publish-date<?php endif; ?>">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+        <?php foreach ($_blogCollection as $_blog): ?>
+            <article>
+                <header>
+                    <h2>
+                        <a href="<?php echo $_blog->getProductUrl() ?>">
+                            <?php echo $_helper->productAttribute($_blog, $_blog->getName(), 'name') ?>
+                        </a>
+                    </h2>
+                    <aside class="post-meta">
+                        <?php if ($_helperBlog->isForceSortPublishDateActive() && $_blog->getBlogPublishDate() != ''): ?>
+                            <?php echo $this->__('Posted'); ?> <span class="date"><?php echo $_helperBlog->getPublishDate($_blog, 'd MMMM Y'); ?></span>
+                        <?php endif; ?>
+                        <?php if ($_helperBlog->isAuthorActive() && $_blog->getBlogAuthor() != ''): ?>
+                            <?php echo $this->__('by'); ?> <?php echo $this->escapeHtml(Icommerce_Default::getOptionValue($_blog, 'blog_author')); ?>
+                        <?php endif; ?>
+
+                        <?php $_subjects = $_blog->getCategoryIds(); ?>
+                        <?php $_subjectsSize = count($_subjects); ?>
+                        <?php $_hasSubjecs = false; ?>
+                        <?php foreach ($_subjects as $index => $categoryId):
+                            $_lowestLevel = 3;
+                            if (!isset($_categoryCache[$categoryId])):
+                                $_categoryCache[$categoryId] = new Varien_Object();
+                                /** @var Mage_Catalog_Model_Category $_category */
+                                $_category = Mage::getModel('catalog/category')->load($categoryId);
+                                $_categoryCache[$categoryId]->setLevel($_category->getLevel());
+                                if ($_category->getLevel() >= $_lowestLevel):
+                                    $_categoryCache[$categoryId]->setName($_category->getName());
+                                    $_categoryCache[$categoryId]->setUrl($_category->getUrl());
+                                    $_categoryCache[$categoryId]->setIsActive($_category->getIsActive());
+                                endif;
+                            else:
+                                $_category = $_categoryCache[$categoryId];
+                            endif;
+                            if (!$_category->getIsActive() || $_category->getLevel() < $_lowestLevel):
+                                continue;
+                            endif;
+                            if ($_hasSubjecs == false):
+                                echo $this->__('in');
+                                $_hasSubjecs = true;
+                            endif; ?>
+                            <a class="blog-link" href="<?php echo $_category->getUrl() ?>">
+                                <?php echo $_category->getName() ?>
+                            </a><?php
+                            if ($index != $_subjectsSize - 1):
+                                echo ', ';
+                            endif; ?>
+                        <?php endforeach; ?>
+                    </aside>
+                </header>
+                <div class="content<?php if ($_helperBlog->getExcerptConfig() == 'summary'): ?> summary<?php endif; ?>">
+                    <?php if ($_blog->getSmallImage() != '' && $_blog->getSmallImage() != 'no_selection'): ?>
+                        <?php $_imageSize = $_helperBlog->getExcerptConfig() == 'summary' ? 100 : 220; ?>
+                        <a href="<?php echo $_blog->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_blog, 'small_image'), null, true) ?>" class="blog-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_blog, 'small_image')->keepFrame(false)->resize($_imageSize); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_blog, 'small_image'), null, true) ?>" />
+                        </a>
+                    <?php endif; ?>
+                    <?php $content = $_helper->productAttribute($_blog, $_blog->getBlogContent(), 'blog_content') ?>
+                    <?php if ($_helperBlog->getExcerptConfig() == 'summary'): ?>
+                        <?php echo Icommerce_Utils::truncateHtml($content, $_helperBlog->getSummaryNbrOfCharsConfig(), $_helperBlog->getSummarySuffixConfig(), true); ?>
+                    <?php else: ?>
+                        <?php echo $content; ?>
+                    <?php endif; ?>
+                </div>
+                <aside class="post-comments">
+                    <a href="<?php echo $_blog->getProductUrl() ?>" class="blog-link"><?php echo $this->__('Read more'); ?></a>
+                    <?php if ($_helperBlog->getCommentsConfig() == 'facebook'): ?>
+                        <span class="sep">&#8226;</span>  <a href="<?php echo $_blog->getProductUrl() ?>#comments" class="blog-link"><?php echo $this->__('Comments:'); ?>
+                            <fb:comments-count href=<?php echo $_blog->getProductUrl() ?>></fb:comments-count>
+                        </a>
+                    <?php elseif ($_helperBlog->getCommentsConfig() == 'disqus'): ?>
+                        <span class="sep">&#8226;</span>  <a class="blog-link" href="<?php echo $_blog->getProductUrl() ?>#disqus_thread" data-disqus-identifier="<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>_disqus_<?php echo $_blog->getID(); ?>"><?php echo $this->__('0 Comments'); ?></a>
+                    <?php endif; ?>
+                </aside>
+            </article><?php $_i++; ?>
+        <?php endforeach ?>
+
+        <div class="toolbar-bottom">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    </section>
+<?php endif; ?>

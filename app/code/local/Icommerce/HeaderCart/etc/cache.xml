@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <cart_headercart>
+            <block>checkout/cart_sidebar</block>
+            <placeholder>CART_HEADERCARTINNER</placeholder>
+            <name>headerCartInner</name>
+            <container>Enterprise_PageCache_Model_Container_Sidebar_Cart</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </cart_headercart>
+    </placeholders>
+</config>

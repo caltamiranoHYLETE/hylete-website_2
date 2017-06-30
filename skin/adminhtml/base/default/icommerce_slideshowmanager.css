@@ -1,0 +1,52 @@
+.adminhtml-slideshowitem-edit .hotspot-image {
+        display: inline-block;
+	position: relative;
+}
+
+.adminhtml-slideshowitem-edit .hotspot-image .hotspot {
+	position: absolute;
+	text-align: center;
+}
+
+.adminhtml-slideshowitem-edit .hotspot-image .hotspot-icon {
+	height: 18px;
+	width: 20px;
+	padding-top: 1px;
+	background-color: white;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #cccccc;
+}
+
+.hotspot .entry-edit-head {
+	width: 217px;
+}
+
+.hotspot .editbox > h4 {
+	display: block;
+}
+
+.hotspot .editbox .data > * {
+	display: inline-block;
+}
+
+.hotspot .editbox .data {
+	border: 1px solid #d6d6d6;
+	background: #fafafa;
+	padding: 10px 15px;
+	width: 205px;
+}
+
+.hotspot .editbox .data > p {
+	width : 80px;
+	text-align: left;
+}
+
+.hotspot .editbox .data > p.error {
+	width : auto;
+	text-align: left;
+}
+
+.hotspot .editbox .form-button {
+	margin: 10px 10px 5px 10px;
+}

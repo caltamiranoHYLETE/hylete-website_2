@@ -1,0 +1,13 @@
+--- app/code/local/Icommerce/AddToCartAjax/controllers/IndexController.php	(revision )
++++ app/code/local/Icommerce/AddToCartAjax/controllers/IndexController.php	(revision )
+@@ -226,7 +226,9 @@
+              */
+             $_urlArray = explode('/', $_SERVER['HTTP_REFERER']);
+             $isProductPage = Mage::getUrl(end($_urlArray)) === $product->getProductUrl() . '/';
+-            if ($addToCartAjaxHelper->hasRequiredCustomOptions($product) || ($product->getRequiredOptions() && !array_key_exists('options', $params) && !array_key_exists('super_attribute', $params))) {
++            if (($product->getTypeId() != Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) &&
++                ($addToCartAjaxHelper->hasRequiredCustomOptions($product) ||
++                ($product->getRequiredOptions() && !array_key_exists('options', $params) && !array_key_exists('super_attribute', $params)))) {
+                 if (!$isProductPage) {
+                     $result['redirect'] = array(
+                         'message' => $this->__('This product has mandatory options, please wait while redirecting to product page...'),

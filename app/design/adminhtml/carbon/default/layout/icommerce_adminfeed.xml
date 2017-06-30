@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+-->
+<layout>
+    <adminhtml_news_index>
+    	<reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/adminfeed.css</name></action>
+    	</reference>	
+        <update handle="adminfeed_news_index"/>
+        <reference name="content">
+            <block type="adminhtml/template" name="news" template="icommerce/adminfeed/news.phtml"/>
+        </reference>
+    </adminhtml_news_index>
+    
+    <default>
+    	<reference name="notifications">
+    		<action method="unsetChild"><name>notification_toolbar</name></action>
+     		<block type="adminfeed/adminhtml_notification_toolbar" name="adminfeed_notification_toolbar" as="adminfeed_notification_toolbar" acl="system/adminnotification/show_toolbar" template="icommerce/adminfeed/notifications/toolbar.phtml" />
+     		
+     		<action method="unsetChild"><name>notification_window</name></action>
+     		<block type="adminfeed/adminhtml_notification_window" name="adminfeed_notification_window" as="adminfeed_notification_window" acl="system/adminnotification/show_toolbar" template="icommerce/adminfeed/notifications/window.phtml" />
+        </reference>
+        
+        <reference name="before_body_end">
+            <block type="core/template" name="helpdesk_tab" template="icommerce/adminfeed/helpdesk_tab.phtml" />
+        </reference>
+        
+        <reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/helpdesk_tab.css</name></action>
+    		<action method="addJs"><script>icommerce/helpdesk_tab.js</script></action>
+    	</reference>
+               
+     </default>
+    
+    <adminhtml_notifications_index>
+    	<reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/adminfeed.css</name></action>
+    	</reference>	
+        <update handle="adminfeed_notifications_index"/>
+        <reference name="content">
+            <block type="adminfeed/adminhtml_notifications" name="notifications" template="icommerce/adminfeed/notifications.phtml"/>
+        </reference>
+    </adminhtml_notifications_index>
+    
+    <adminhtml_tickets_index>
+    	<reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/adminfeed.css</name></action>
+    	</reference>	
+        <update handle="adminfeed_tickets_index"/>
+        <reference name="content">
+            <block type="adminfeed/adminhtml_tickets" name="tickets" template="icommerce/adminfeed/tickets.phtml"/>
+        </reference>
+    </adminhtml_tickets_index>
+    
+    <adminhtml_checklists_index>
+    	<reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/adminfeed.css</name></action>
+    	</reference>	
+        <update handle="adminfeed_checklists_index"/>
+        <reference name="content">
+            <block type="adminfeed/adminhtml_checklists" name="checklists" template="icommerce/adminfeed/checklists.phtml"/>
+        </reference>
+    </adminhtml_checklists_index>
+    
+    <adminhtml_checklists_view>
+    	<reference name="head">
+    		<action method="addCss"><name>ic_adminfeed/adminfeed.css</name></action>
+    		<action method="addCss"><name>ic_adminfeed/tabs.css</name></action>
+    		<action method="addJs"><script>icommerce/ic_adminfeed_tabs.js</script></action>
+    		<action method="addJs"><script>icommerce/ic_adminfeed_tabs2.js</script></action>
+    	</reference>	
+        <update handle="adminfeed_checklists_index"/>
+        <reference name="content">
+            <block type="adminfeed/adminhtml_checklists" name="checklist" template="icommerce/adminfeed/checklists/checklist.phtml"/>
+        </reference>
+    </adminhtml_checklists_view>
+</layout>

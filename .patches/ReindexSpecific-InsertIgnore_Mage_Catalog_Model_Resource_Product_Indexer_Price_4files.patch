@@ -1,0 +1,100 @@
+--- app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Default-org.php	2012-12-11 15:27:04.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Default.php	2012-12-11 17:23:36.000000000 +0100
+@@ -267,7 +267,8 @@
+             'store_field'   => new Zend_Db_Expr('cs.store_id')
+         ));
+ 
+-        $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
++        $query = $select->insertIgnoreFromSelect($this->_getDefaultFinalPriceTable(), array());
++        //$query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
+         $write->query($query);
+ 
+         /**
+@@ -411,7 +412,7 @@
+             'tier_price' => $tierPrice
+         ));
+ 
+-        $query = $select->insertFromSelect($coaTable);
++        $query = $select->insertIgnoreFromSelect($coaTable);
+         $write->query($query);
+ 
+         $select = $write->select()
+@@ -463,7 +464,7 @@
+             'tier_price' => $tierPrice
+         ));
+ 
+-        $query = $select->insertFromSelect($coaTable);
++        $query = $select->insertIgnoreFromSelect($coaTable);
+         $write->query($query);
+ 
+         $select = $write->select()
+@@ -478,7 +479,7 @@
+                     'tier_price'    => 'SUM(tier_price)',
+                 ))
+             ->group(array('entity_id', 'customer_group_id', 'website_id'));
+-        $query = $select->insertFromSelect($copTable);
++        $query = $select->insertIgnoreFromSelect($copTable);
+         $write->query($query);
+ 
+         $table  = array('i' => $this->_getDefaultFinalPriceTable());
+@@ -531,7 +532,8 @@
+         $select = $write->select()
+             ->from($table, $columns);
+ 
+-        $query = $select->insertFromSelect($this->getIdxTable(), array(), false);
++        $query = $select->insertIgnoreFromSelect($this->getIdxTable(), array());
++        //$query = $select->insertFromSelect($this->getIdxTable(), array(), false);
+         $write->query($query);
+ 
+         if ($this->useIdxTable()) {
+--- app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price-org.php	2012-12-11 15:16:17.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price.php	2012-12-12 08:32:58.000000000 +0100
+@@ -430,7 +430,7 @@
+             $select->where('tp.entity_id IN(?)', $entityIds);
+         }
+ 
+-        $query = $select->insertFromSelect($table);
++        $query = $select->insertIgnoreFromSelect($table);
+         $write->query($query);
+ 
+         return $this;
+@@ -461,7 +461,7 @@
+             $select = $write->select()
+                 ->from($this->getMainTable())
+                 ->where('entity_id IN(?)', $children);
+-            $query  = $select->insertFromSelect($this->getIdxTable(), array(), false);
++            $query  = $select->insertIgnoreFromSelect($this->getIdxTable(), array());
+             $write->query($query);
+         }
+ 
+--- app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Configurable-org.php	2012-12-11 17:24:59.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Configurable.php	2012-12-11 17:25:56.000000000 +0100
+@@ -180,7 +180,7 @@
+             'tier_price' => $tierPriceColumn
+         ));
+ 
+-        $query = $select->insertFromSelect($coaTable);
++        $query = $select->insertIgnoreFromSelect($coaTable);
+         $write->query($query);
+ 
+         $select = $write->select()
+@@ -189,7 +189,7 @@
+                 array('parent_id', 'customer_group_id', 'website_id', 'MIN(price)', 'MAX(price)', 'MIN(tier_price)'))
+             ->group(array('parent_id', 'customer_group_id', 'website_id'));
+ 
+-        $query = $select->insertFromSelect($copTable);
++        $query = $select->insertIgnoreFromSelect($copTable);
+         $write->query($query);
+ 
+         $table  = array('i' => $this->_getDefaultFinalPriceTable());
+--- app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Grouped-org.php	2012-12-11 16:07:49.000000000 +0100
++++ app/code/core/Mage/Catalog/Model/Resource/Product/Indexer/Price/Grouped.php	2012-12-11 16:09:55.000000000 +0100
+@@ -120,7 +120,7 @@
+             'store_field'   => new Zend_Db_Expr('cs.store_id')
+         ));
+ 
+-        $query = $select->insertFromSelect($table);
++        $query = $select->insertIgnoreFromSelect($table);
+         $write->query($query);
+ 
+         return $this;

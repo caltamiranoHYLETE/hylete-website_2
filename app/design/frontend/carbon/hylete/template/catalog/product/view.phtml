@@ -1,0 +1,276 @@
+<?php
+/**
+ * Copyright (c) 2009-2016 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Hylete
+ * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ */
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+
+
+$_catalogHelper = $this->helper('catalog/output');
+$_helper = Mage::helper('hylete');
+$_carbonHelper = $this->helper('carbon');
+$_product = $this->getProduct();
+$_backitHelper = Mage::helper('hylete/backit');
+$_backitHelper->setProduct($_product);
+?>
+
+
+<?php $_showNotifyMe = (!$_product->isSalable() || count($_helper->getSimples($_product, 'nonsalable')) > 0); ?>
+
+<?php echo $this->getChildHtml('breadcrumbs') ?>
+
+<div id="<?php echo $_product->getTypeId() ?>-product-wrapper">
+    <div class="product-essential row">
+        <div id="messages_product_view" class="clearfix"><?php echo $this->getMessagesBlock()
+                ->getGroupedHtml() ?></div>
+
+        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+            <script type="text/javascript">
+                var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+            </script>
+            <?php echo $this->getChildHtml('media') ?>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5 product-shop">
+            <div class="product-name">
+                <h1><?php echo $_catalogHelper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+            </div>
+
+            <?php if ($_product->hasColor()) : ?>
+                <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
+            <?php endif; ?>
+
+            <?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
+                <?php if ($_product->isSaleable()): ?>
+                    <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+                <?php else: ?>
+                    <p class="status-message">
+                        <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                    </p>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php if ($_backitHelper->isPreOrderProduct()): ?>
+                <div class="pre-order">
+                    <div class="progress-wrap progress">
+                        <div class="progress-bar progress"></div>
+                    </div>
+                    <div class="details">
+                        <span class="ship-date">
+                            <?php echo $this->__('est. ship date: '); ?>
+                            <?php echo $_backitHelper->getShipDateText(); ?>
+                        </span>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($_backitHelper->isBackItProduct()): ?>
+                <?php $_backitPercentage = $_backitHelper->getBackingPercentage(); ?>
+                <div class="back-it">
+                    <div class="progress-wrap progress"
+                         data-progress-percent="<?php echo $_backitPercentage; ?>">
+                        <div class="progress-bar progress"></div>
+                    </div>
+                    <div class="details">
+                        <span class="progress-percentage">
+                            <?php echo $_backitPercentage . '%' . $this->__(' to goal'); ?>
+                        </span>
+                        <span class="expire-date">
+                            <?php echo $_backitHelper->getBackItTimeLeft() . $this->__(' days left'); ?>
+                        </span>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!$this->hasOptions()): ?>
+                <div class="add-to-box">
+                    <?php if ($_product->isSalable()): ?>
+                        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+                              id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                            <?php echo $this->getBlockHtml('formkey'); ?>
+                            <div class="no-display">
+                                <input type="hidden" name="product"
+                                       value="<?php echo $_product->getId() ?>"/>
+                                <input type="hidden" name="related_product"
+                                       id="related-products-field" value=""/>
+                            </div>
+                            <?php echo $this->getChildHtml('bundleSummary') ?>
+                            <?php if ($_product->getTypeId() == 'configurable'): ?>
+                            <div class="price-box-configurable"><?php endif; ?>
+                                <?php echo $this->getChildHtml('product_type_data') ?>
+                                <?php if ($_product->getTypeId() == 'configurable'): ?></div><?php endif; ?>
+                            <?php echo $this->getTierPriceHtml() ?>
+                            <?php echo $this->getChildHtml('extrahint') ?>
+                            <?php echo $this->getChildHtml('addtocart') ?>
+                        </form>
+                    <?php endif; ?>
+                </div>
+                <?php echo $this->getChildHtml('extra_buttons') ?>
+            <?php endif; ?>
+
+            <?php echo $this->getChildHtml('other'); ?>
+
+            <?php if ($_product->isSalable() && $this->hasOptions() && $_product->getOptionsContainer() == 'container1'): ?>
+                <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+                      id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                    <?php echo $this->getBlockHtml('formkey'); ?>
+                    <div class="no-display">
+                        <input type="hidden" name="product"
+                               value="<?php echo $_product->getId() ?>"/>
+                        <input type="hidden" name="related_product" id="related-products-field"
+                               value=""/>
+                    </div>
+                    <?php echo $this->getChildHtml('bundleSummary') ?>
+                    <?php if ($_product->getTypeId() == 'configurable'): ?>
+                    <div class="price-box-configurable"><?php endif; ?>
+                        <?php echo $this->getChildHtml('product_type_data') ?>
+                        <?php if ($_product->getTypeId() == 'configurable'): ?></div><?php endif; ?>
+                    <?php echo $this->getTierPriceHtml() ?>
+                    <?php echo $this->getChildHtml('extrahint') ?>
+                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                </form>
+            <?php endif; ?>
+
+            <p class="sizes">
+                <?php if ($_helper->getSizeguideHtml($_product)): ?>
+                    <a data-togglelink="sizeguide" data-togglegroup="productpage"
+                       class="underline"><?php echo $this->__('size guide'); ?></a>
+                <?php endif; ?>
+
+                <?php if ($_showNotifyMe): ?>
+                    <?php echo ($_product->getTypeId() == 'configurable') ? $this->__('size not available?') : $this->__('not available?') ?>
+                    <a data-togglelink="getnotified" data-togglegroup="productpage"
+                       class="underline"><?php echo $this->__('get notified'); ?></a>
+                <?php endif; ?>
+            </p>
+
+            <?php echo $this->getChildHtml('sizeguide') ?>
+
+            <?php if ($_showNotifyMe): ?>
+                <?php echo $this->getChildHtml('alert_urls') ?>
+            <?php endif; ?>
+
+            <?php echo $this->getChildHtml('related_products') ?>
+
+            <div class="description"><?php echo $_product->getDescription(); ?></div>
+
+            <?php echo $this->getChildHtml('tabs') ?>
+
+            <div class="follow-us">
+                <?php
+                $websiteCode = Mage::app()->getWebsite()->getCode();
+                $websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
+                ?>
+                <h3 class="share-icons"><?php echo ($websiteCheck) ? 'share and earn points' : 'share'; ?></h3>
+                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
+                   href="http://pinterest.com/pin/create/button/?url=<?php echo $_product->getProductUrl(); ?>&media=<?php echo $this->helper('catalog/image')
+                       ->init($_product, 'thumbnail', $_product->getFile())
+                       ->resize(500); ?>" data-pin-custom="true"><span
+                        class="fa icon-pinterest"></span></a>
+                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
+                   href="http://twitter.com/home?status=<?php echo $_product->getProductUrl(); ?>"><span
+                        class="fa icon-twitter"></span></a>
+                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
+                   href="http://www.facebook.com/sharer.php?u=<?php echo $_product->getProductUrl(); ?>&t=<?php echo $_product->getName(); ?>"><span
+                        class="fa icon-facebook"></span></a>
+            </div>
+            <?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
+            <?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>
+        </div>
+    </div>
+
+    <div class="product-collateral clearfix">
+        <?php echo $this->getChildHtml('hylete.product.cms.above.upsell') ?>
+        <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>
+    </div>
+
+    <?php $_pixleeBlock = $this->getLayout()->createBlock('pixlee/gallery'); ?>
+    <?php if ($_pixleeBlock): ?>
+        <?php echo $_pixleeBlock->setProductSku($_product->getSku())->toHtml(); ?>
+    <?php endif; ?>
+
+    <div class="hiding">
+        <div class="productpage-cms-textlist">
+            <?php echo $this->getChildHtml('productpage.cms'); ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function (button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                    form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function (button, url) {
+            if (this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+        <?php if ($_product->getTypeId() == 'bundle' && $_carbonHelper->isEnterprise()): ?>
+        Enterprise.Bundle.initialize();
+        <?php endif; ?>
+        //]]>
+    </script>
+</div>

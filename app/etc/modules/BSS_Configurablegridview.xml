@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <BSS_Configurablegridview>
+            <active>true</active>
+            <codePool>local</codePool>
+        </BSS_Configurablegridview>
+    </modules>
+</config>

@@ -1,0 +1,10 @@
+--- app/code/core/Mage/Core/Block/Abstract-orig.php	2015-07-08 09:45:26.000000000 +0300
++++ app/code/core/Mage/Core/Block/Abstract.php	2015-07-08 09:45:44.000000000 +0300
+@@ -481,6 +481,7 @@
+             $key = array_search($name, $this->_sortedChildren);
+             if ($key !== false) {
+                 unset($this->_sortedChildren[$key]);
++                $this->_sortedChildren = array_values($this->_sortedChildren);
+             }
+         }
+ 

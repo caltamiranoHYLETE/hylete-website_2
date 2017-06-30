@@ -1,0 +1,25 @@
+.vcms-widget-actions .vcms-widget-configure {
+    background: #00ACD6 url(../../../images/vaimo_cms/icon-configure.png) no-repeat 50% 50%;
+    background-size: 12px;
+    border-radius: 3px;
+}
+
+.vcms-widget-actions {
+    position: absolute;
+    z-index: 10;
+    top: 5px;
+    right: 5px;
+}
+
+.vcms-widget-actions button {
+    border: none;
+    height: 24px;
+    width: 24px;
+    outline: none;
+}
+
+#colorbox, #colorbox * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}

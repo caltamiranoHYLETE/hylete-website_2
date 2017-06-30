@@ -1,0 +1,16 @@
+<?php
+/**
+ * @see Ebizmarts_BakerlooBackup_Block_Adminhtml_System_Config_Hint
+ */
+?>
+<div class="bakerloo-notice" style="background:#EAF0EE;border:1px solid #CCCCCC;margin-bottom:10px;padding:11px 0 0 10px;">
+    <h4>
+        <?php echo $this->__('Ebizmarts Point of Sale API <strong style="color:#EA7601;">Version %s</strong>', $this->getModuleVersion())?>
+    </h4>
+    <p>
+        <?php echo $this->__("Need help? Got feedback? <a target=\"_blank\" href=\"%s\"%s>Email us</a>", $this->getHelpDeskUrl(), ' id="ebizmarts-helpdesk-trigger"'); ?> - <?php echo $this->__("<a target=\"_blank\" href=\"%s\">Subscribe to our newsletter</a>", "http://store.ebizmarts.com/subscribe-to-our-newsletter"); ?>
+    </p>
+    <p>
+        <?php echo $this->__("Your backups are currently stored %s", $this->getStorageName()); ?>
+    </p>
+</div>

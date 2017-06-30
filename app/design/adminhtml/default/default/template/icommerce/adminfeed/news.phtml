@@ -1,0 +1,82 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?>
+<div class="adminfeed news">
+	<div class="left-box">
+		<h2><?php echo $this->__('Top 10 modules')?></h2>
+    	<div>
+    		<?php $i = 1; foreach ($this->getTopModules() as $module):?>
+    		<p>
+    			<a href="#" onclick="Effect.toggle('more-top-info-<?php echo $i?>', 'appear', { duration: 0.5 }); return false;">
+    				<?php echo $module?>
+    			</a>
+    		</p>
+    		<div class="more-info" id="more-top-info-<?php echo $i?>" style="display:none">
+    			<p>
+    				<?php echo $this->getTopModules($i); ?>
+    				<br>
+            		<?php echo $this->__('Read more');?> 
+            		<a href="http://www.icommerce.se/insider/<?php echo $module?>" target="_blank"><?php echo $this ->__('here');?></a>.
+    			</p>
+    		</div>
+    		<?php $i++; endforeach; ?>
+    	</div>
+    </div>
+
+    <div class="left-box">
+		<h2><?php echo $this->__('Installed modules')?></h2>
+    	<div>
+    		<?php $i = 1; foreach ($this->getInstalledModules() as $module):?>
+    		<p>
+    			<a href="#" onclick="Effect.toggle('more-info-<?php echo $i?>', 'appear', { duration: 0.5 }); return false;">
+    				<?php echo $module?>
+    			</a>
+    		</p>
+    		<div class="more-info" id="more-info-<?php echo $i?>" style="display:none">
+    			<p>
+    				<?php echo $this->__("Current version: ").$this->getModuleVersion($module); ?>
+    				<?php #echo $this->__("Latest version: ").$this->getModuleVersion($module, "latest"); ?>
+    				<br />
+    				<?php 
+    				if(Icommerce_Default::isModuleActive($module))
+    					echo $this->__('Is active');
+    				else
+    					echo $this->__('Is not active');
+    				 ?>
+    			</p>
+    		</div>
+    		<?php $i++; endforeach; ?>
+    	</div>
+    </div>
+    
+    <div class="right-box">
+    	<?php foreach ($this->getAdminNews() as $message):?>
+    		<h2><?php echo $message[0]; ?></h2>
+    		<p><?php echo $message[1]; ?></p>
+    	<?php endforeach; ?>
+    </div>
+    
+    <div class="clear"></div>
+</div>

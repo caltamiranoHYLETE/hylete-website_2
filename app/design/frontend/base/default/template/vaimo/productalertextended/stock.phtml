@@ -1,0 +1,154 @@
+<?php 
+$helper = Mage::helper("productalertextended");
+if ($helper->getSettingFromProductAlert("allow_stock")) :
+?>
+
+<?php 
+if (Icommerce_Default::isLoggedIn()) {
+	$_customerId = Mage::getSingleton('customer/session')->getId();
+	$_customerMail = Mage::getModel('customer/customer')->load($_customerId);
+	$_customerMail = $_customerMail->getEmail();
+} else {
+	$_customerMail = "";
+}
+
+$prod = Mage::registry("current_product");
+
+/* IF product if configurable */
+if ($prod->getType() == 'configurable') :
+    $hlp = Mage::helper("jsonproductinfo");
+    $jpiFeHelper = Mage::helper("jpifrontend");
+    $hlp->addAttributeRenderer('media_gallery', new Icommerce_JsonProductInfo_Model_Attribute_Renderer_Media_GalleryMainThumbZoom);
+    $hlp->addExplicitAttribute("entity_id");
+    $opt_info = $hlp->getLookupArray( $prod, "", true, false, true );
+    $lu_order = $hlp->getLookupOrder( $prod );
+    $aid_lut = $hlp->getAttributeIdLookup();//$path_first_salable = $hlp->getOptionsForFirstSalable($opt_info,$lu_order);
+    $path_first_salable = $hlp->getOptionsForFirstSalable($opt_info);
+    $productId = $prod->getId();
+    $fjrHelper = Mage::helper("fjrintegration");
+    
+    ?>
+    
+    <?php if ( strpos(str_replace('"', "'", Zend_Json::encode($opt_info)), "'stock_status':0") ) : ?>
+    
+    <a id="notify_me_stock" href="#nothing">
+    	<?php echo $this->__("Sign up to get notified when this product is back in stock"); ?>
+    </a>
+    
+    <div id="notify_popup" class="popup-parent">
+    	<form id="notify_data" class="configurable" data-ajaxurl="<?php echo Mage::getUrl("productalertextended/index/add/") ?>">
+    		<input type="email" name="email" id="customer_mail" class="input-text required-entry validate-email" placeholder="<?php echo $this->__("Please fill in your e-mail"); ?>" value="<?php echo $_customerMail; ?>" />
+    		<input type="hidden" name="product_id" id="product_id" class="input-text required-entry" value="" />
+    		<p><?php echo $this->__("Please select the desired options for notification"); ?>
+    		<div id="product-options-for-notification" class="product-options">
+    			<?php if(count($opt_info) > 0):?>
+    			<?php $attr_ids=array();
+    			      foreach( $lu_order as $acode ){
+    			          $attr_ids[] = $aid_lut[$acode]["attribute_id"];
+    			      } ?>
+    			      
+    			      <div class="product-data-mine-for-notification"
+    			      	data-attributeIds = "[<?php echo implode(",",$attr_ids); ?>]"
+    			      	data-messageMoreOptions = "<?php echo $this->__('You must specify all product options before adding it to the cart'); ?>"
+    			      	data-confProductId = "<?php echo $productId ?>"
+    			      	data-lookup = "<?php echo str_replace('"', "'", Zend_Json::encode($opt_info)); ?>"
+    			      ></div>
+    			
+    			<fieldset id="<?php echo $productId ?>_product-options-wrapper-for-notification" class="product-options notification">
+    			    <dl class="last">
+    			    <?php $count=0; ?>
+    			    <?php if(is_array($path_first_salable)) $keys_first_saleable = array_keys($path_first_salable); ?>
+    			    <?php foreach( $lu_order as $ix => $acode ): ?>
+    			        <?php $attr_id = $aid_lut[$acode]["attribute_id"]; ?>
+    			        <dt><label>
+    			            <?php echo $this->__('Choose %s',Icommerce_Default::getAttribLabel($acode));?>
+    			        </label></dt>
+    			        <dd class="last clearfix">
+    			        	<?php 
+    			            // Select display - Buttons
+    			            if ($jpiFeHelper->getOptionsRenderMethod() == "Buttons" || $jpiFeHelper->getOptionsRenderMethod() == "Both") {?>
+    				            <ul class="list-<?php echo $acode; ?>">
+    				                <?php $opts = $hlp->collectOptionsAtLevel($opt_info,$count, false); ?>
+    				                <?php foreach( $opts as $val => &$info ): ?>
+    					                <?php $opt_id = $val; //$aid_lut[$acode][$val] ?>
+    					                <?php $optionValue = Icommerce_Default::getOptionValue($opt_id,$acode, "admin");
+    					                $contrastColor = $fjrHelper->getColor($optionValue)->getContrast();
+    					                ?>
+    					                <li class="attribute-image">
+    					                    <button class="attribute-button-text-for-notification <?php echo $productId.'_jpi_attr_-for-notification'.$attr_id ?>
+    					                                  <?php if ($contrastColor) {echo 'has-contrast';}?>"
+    					                            id="<?php echo $productId."_jpi_option_-for-notification" . $attr_id.'-'.$opt_id; ?>"
+    					                            type="button"
+    					                            data-productId = "<?php echo $productId; ?>"
+    					                            data-attributeId = "<?php echo $attr_id; ?>"
+    					                            data-optionId = "<?php echo $opt_id; ?>"
+    					                            <?php if ($acode == 'color'):?>
+    						                            data-colorlabel = "<?php echo $optionValue;?> - <?php echo $fjrHelper->getColor($optionValue)->getName();?>"
+    					                            <?php endif;?>
+    					                            >
+    					                            <?php if ($acode != 'color'):?>
+    					                            	<?php echo $optionValue; ?>
+    					                            <?php else:?>
+    					                            	<div class="innercolor" style="background:<?php echo $fjrHelper->getColor($optionValue)->getMain();?>"></div>
+    					                            	<?php if ($contrastColor){ ?>
+    					                            		<div class="outercolor" style="background:<?php echo $contrastColor;?>"></div>
+    					                            	<?php } ?>
+    					                            <?php endif;?>
+    					                    </button>
+    					                </li>
+    				                <?php endforeach; ?>
+    				            </ul>
+    				            <?php if ($acode == 'color'):?>
+    				            	<div class="colorlabel"></div>
+    				            <?php endif;?>
+    				            <?php if ($acode == 'size'):?>
+    				            	<div class="sizeoutofstock"><span></span> <?php echo $this->__('not available online<br><a href="%s">Find retailer</a>',$this->getUrl('storelocator'));?></div>
+    				            <?php endif;?>
+    			            <?php } ?>
+    			            
+    			        </dd>
+    			        <?php $count++; ?>
+    			    <?php endforeach; ?>
+    			    </dl>
+    			</fieldset>
+    		<?php endif;?>
+    		</div>
+    	<button type="button" disabled="" class="button submit">
+    		<span><?php echo $this->__("Register the alert"); ?></span>
+    	</button>
+    		
+    	</form>
+    </div>
+    
+    <?php endif; // Check for out of stock values in the lookup ?>
+    
+<?php else:  // If configurable else if simple ?>
+    <?php if ( !$prod->isSaleable() ) : ?>
+    
+        <a id="notify_me_stock" href="#nothing">
+        	<?php echo $this->__("Sign up to get notified when this product is back in stock"); ?>
+        </a>
+        
+        <div id="notify_popup" class="popup-parent">
+        	<form id="notify_data" class="simple" data-ajaxurl="<?php echo Mage::getUrl("productalertextended/index/add/") ?>">
+        		<input type="email" name="email" id="customer_mail" class="input-text required-entry validate-email" placeholder="<?php echo $this->__("Please fill in your e-mail"); ?>" value="<?php echo $_customerMail; ?>" />
+        		<input type="hidden" name="product_id" id="product_id" class="input-text required-entry" value="<?php echo $prod->getId() ?>" />
+        		<p><?php echo $this->__("Please select the desired options for notification"); ?></p>
+                <button type="button" disabled="" class="button submit">
+                    <span><?php echo $this->__("Register the alert"); ?></span>
+                </button>
+        	</form>
+        </div>
+    
+    <?php endif; // Check for out of stock values in the lookup ?>
+    
+<?php endif; // If configurable ?>
+
+<script>
+//<![CDATA[
+    var notifyStockForm = new VarienForm('notify_data');
+    
+//]]>
+</script>
+
+<?php endif; // Check if the setting is enabled ?>

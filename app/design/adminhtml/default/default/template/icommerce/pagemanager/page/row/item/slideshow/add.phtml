@@ -1,0 +1,61 @@
+<?php $itemType = $this->getItemType() ?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+        	<?php 
+        		$page = Mage::getModel('pagemanager/page')->getPage($_SESSION['page_id']);
+        	?>
+            <td><h3><?php echo $this->__('Add slideshow to page: ').$page['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="addslideshow_form" enctype="multipart/form-data" name="addslideshow_form" method="post" action="<?php echo $this->getUrl('*/*/saveslideshow')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="addslideshowform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="addslideshowform[row_id]" type="hidden" value="<?php echo $this->getRequest()->getParam('id') ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Enter the slideshow information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Title')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="addslideshowform[title]" /></td>
+                </tr>
+                <tr>
+                	<td class="label"><?php echo $this->__('Slideshow')?> <span class="required">*</span></td>
+                	<td class="value">
+	                   	<select name="addslideshowform[slideshow]">
+	                    	<?php $slideshows = Mage::getModel('slideshowmanager/slideshow')->getSlideshows(); ?>
+	                    	<?php foreach($slideshows as $key => $title): ?>
+		                    	<option value="<?php echo $title['id']?>"><?php echo $this->__($title['name'])?></option>
+	                    	<?php endforeach; ?>
+	                    </select>
+	                    <?php echo $this->__('Or go to Slideshowmanager and ')?><a href="<?php echo $this->getUrl('*/slideshowmanager/add') ?>"><?php echo $this->__('create a new slideshow')?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="addslideshowform[status]">
+                    		<?php $statuses = Mage::helper('pagemanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?php echo $key?>"><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="addslideshowform[position]" style="width:30px;" /></td>
+                </tr>            
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var addslideshowForm = new varienForm('addslideshow_form');
+</script>

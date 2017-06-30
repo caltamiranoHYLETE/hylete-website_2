@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2017 Vaimo Group
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Cms
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
+ */
+-->
+<layout version="0.1.0">
+    <vcms_preview_generator>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/vaimo/cms/preview-generator.css</stylesheet><group>vcms</group></action>
+            <action method="addJs"><js>vaimo/cms/frontend/markup/preview-generator.js</js><group>vcms-gridster</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/markup_preview" name="vaimo.cms.markup.preview.js"/>
+        </reference>
+    </vcms_preview_generator>
+
+    <vcms_structure_editor>
+        <reference name="head">
+            <!-- Libraries -->
+            <action method="addJs"><js>vaimo/cms/lib/jquery.stickr.min.js</js><group>vcms</group></action>
+            <action method="addJs"><js>vaimo/cms/lib/jquery.gridster.min.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/lib/gridster-base.css</stylesheet><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/lib/gridster-layout.css</stylesheet><group>vcms</group></action>
+
+            <!-- Feature js -->
+            <action method="addJs"><js>vaimo/cms/frontend/structure/editor-item.js</js><group>vcms</group></action>
+            <action method="addJs"><js>vaimo/cms/frontend/structure/editor.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/structure-editor.css</stylesheet><group>vcms</group></action>
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="core/template" name="vaimo.cms.structure.editor.overlay" template="vaimo/cms/structure/editor/overlay.phtml"/>
+            <block type="core/template" name="vaimo.cms.structure.editor.item" template="vaimo/cms/structure/editor/item.phtml"/>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/structure_widget_editor" name="vaimo.cms.structure.widget.editor.js">
+                <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+            </block>
+
+            <block type="vaimo_cms/structure_editor" name="vaimo.cms.structure.editor.js">
+                <block type="vaimo_cms/structure_editor_overlay" name="vaimo.cms.structure.overlay" as="overlayManager"/>
+
+                <action method="useInstance"><name>vaimo.cms.structure.widget.editor.js</name><as>widgetEditor</as></action>
+                <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+                <action method="useInstance"><name>vaimo.cms.markup.preview.js</name><as>previewGenerator</as></action>
+                <action method="useInstance"><name>vaimo.cms.history.js</name><as>history</as></action>
+            </block>
+        </reference>
+    </vcms_structure_editor>
+
+    <vcms_widget_editor>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/widget/editor.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/widget-editor.css</stylesheet><group>vcms</group></action>
+        </reference>
+
+        <reference name="head">
+            <action method="addJs"><script>jquery/jquery.colorbox-min.js</script></action>
+            <action method="addItem"><type>skin_css</type><name>css/colorbox.css</name><params/></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/widget_editor" name="vaimo.cms.widget.editor.js">
+                <block type="vaimo_cms/widget_editor_overlay" name="vaimo.cms.widget.overlay" as="overlayManager"/>
+
+                <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+                <action method="useInstance"><name>vaimo.cms.history.js</name><as>history</as></action>
+            </block>
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="core/template" name="vaimo.cms.widget.editor" template="vaimo/cms/widget/editor/overlay.phtml"/>
+        </reference>
+    </vcms_widget_editor>
+
+    <vcms_wysiwyg_editor>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/wysiwyg/editor.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/wysiwyg-editor.css</stylesheet><group>vcms</group></action>
+
+            <!-- Libraries -->
+            <action method="addJs"><js>vaimo/cms/lib/raptor.min.js</js><group>vcms-raptor</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/lib/raptor-editor.css</stylesheet><group>vcms-raptor</group></action>
+
+            <!-- Library fixes/changes -->
+            <action method="addCss"><stylesheet>css/vaimo/cms/lib/fix/raptor.css</stylesheet><group>vcms-raptor</group></action>
+            <action method="addJs"><js>vaimo/cms/lib/fixes/raptor.utils.js</js><group>vcms-raptor</group></action>
+            <action method="addJs"><js>vaimo/cms/lib/fixes/raptor.js</js><group>vcms-raptor</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/wysiwyg_editor" name="vaimo.cms.wysiwyg_editor">
+                <block type="vaimo_cms/wysiwyg_editor_overlay" name="vaimo.cms.wysiwyg.overlay" as="overlayManager"/>
+
+                <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+                <action method="useInstance"><name>vaimo.cms.utils.url.js</name><as>urlUtils</as></action>
+            </block>
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="core/template" name="vaimo.cms.wysiwyg.editor" template="vaimo/cms/wysiwyg/editor/overlay.phtml"/>
+        </reference>
+    </vcms_wysiwyg_editor>
+
+    <vcms_page_editor>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/page/editor.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/page-editor.css</stylesheet><group>vcms</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/page_editor" name="vaimo_cms.page_editor">
+                <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+            </block>
+        </reference>
+    </vcms_page_editor>
+
+    <vcms_loader_indicator>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/editor/loader-indicator.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/loader-indicator.css</stylesheet><group>vcms</group></action>
+
+            <!-- Libraries -->
+            <action method="addJs"><js>vaimo/cms/lib/spin.min.js</js><group>vcms-loader-indicator</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/loaderindicator" name="vaimo.cms.loaderindicator.js" />
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="core/template" name="vcms.loader_indicator" template="vaimo/cms/loader-indicator.phtml" before="-" />
+        </reference>
+    </vcms_loader_indicator>
+
+    <vcsm_base_editor>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/lib/fixes/general.js</js><group>vcms-raptor</group></action>
+
+            <action method="addJs"><js>vaimo/cms/frontend/editor/io.js</js><group>vcms</group></action>
+            <action method="addJs"><js>vaimo/cms/frontend/editor/url-utils.js</js><group>vcms</group></action>
+
+            <action method="addJs"><js>vaimo/cms/frontend/editor/history.js</js><group>vcms</group></action>
+
+            <action method="addJs"><js>vaimo/cms/frontend/editor/base.js</js><group>vcms</group></action>
+
+            <action method="addJs"><js>vaimo/cms/frontend/markup/overlay-manager.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/markup-overlay.css</stylesheet><group>vcms</group></action>
+
+            <action method="addCss"><stylesheet>css/vaimo/cms/toolbar.css</stylesheet><group>vcms</group></action>
+
+            <action method="addJs"><js>vaimo/cms/frontend/navigate.js</js><group>vcms</group></action>
+        </reference>
+
+        <reference name="after_body_start">
+            <block type="vaimo_cms/toolbar" name="vcms.toolbar" template="vaimo/cms/toolbar.phtml" before="-" />
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="vaimo_cms/js_lib_container" name="cms.editor.js">
+                <block type="vaimo_cms/io" name="vaimo.cms.io.js" />
+
+                <block type="vaimo_cms/urlUtils" name="vaimo.cms.utils.url.js" />
+
+                <block type="vaimo_cms/navigate" name="vaimo.cms.navigation.js">
+                    <action method="useInstance"><name>vaimo.cms.utils.url.js</name><as>urlUtils</as></action>
+                </block>
+
+                <block type="vaimo_cms/editor_history" name="vaimo.cms.history.js">
+                    <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+                </block>
+            </block>
+        </reference>
+    </vcsm_base_editor>
+
+    <vcms_editor_heartbeat>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/editor/heartbeat.js</js><group>vcms</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/editor_heartbeat" name="vaimo.cms.editor.heartbeat.js">
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+            </block>
+        </reference>
+    </vcms_editor_heartbeat>
+
+    <cms_edit_mode>
+        <update handle="vcsm_base_editor"/>
+
+        <update handle="vcms_loader_indicator"/>
+
+        <update handle="vcms_preview_generator"/>
+
+        <update handle="vcms_page_editor"/>
+
+        <update handle="vcms_structure_editor"/>
+        <update handle="vcms_widget_editor"/>
+        <update handle="vcms_wysiwyg_editor"/>
+
+        <update handle="vcms_editor_heartbeat"/>
+    </cms_edit_mode>
+</layout>

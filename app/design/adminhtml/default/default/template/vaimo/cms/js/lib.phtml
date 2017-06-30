@@ -1,0 +1,18 @@
+<?php if ($calls = $this->getClassInstantiationCalls()): ?>
+    <script type="application/javascript">
+        <?php if ($this->isAnonymous()): ?>
+        (function(){
+        <?php endif; ?>
+            <?php foreach ($calls as $variable => $data): ?>
+            <?php echo $this->_getInstantiationCall('var %s = new %s(%s);', current($data)); ?>
+            <?php array_shift($data) ?>
+
+            <?php foreach ($data as $call): ?>
+            <?php echo $this->_getFunctionCall(key($call), current($call)); ?>
+            <?php endforeach ?>
+            <?php endforeach ?>
+        <?php if ($this->isAnonymous()): ?>
+        })();
+        <?php endif ?>
+    </script>
+<?php endif ?>

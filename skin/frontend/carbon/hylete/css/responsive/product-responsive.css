@@ -1,0 +1,137 @@
+@media (min-width: 768px) and (max-width: 1199px) {
+    .product-options .sod_select,
+    .product-options-bottom button {
+        width: 181px;
+    }
+}
+
+@media (min-width: 768px) {
+    .morecolors [data-togglecontent] {
+        display: block !important;
+        height: auto !important;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .product-options,
+    .product-options-bottom {
+        width: 170px;
+    }
+    .product-options.bss {
+        width: 100%;
+    }
+    .product-essential .main-product-image {
+        padding: 0 15px 30px 15px;
+    }
+    
+    #giftcard-product-wrapper .product-options-bottom,
+    #giftcard-product-wrapper .product-options-bottom button {
+        width: 100%;
+    }
+}
+
+
+/* Extra small devices */
+@media (max-width: 767px) {
+    .catalog-product-view .prevnext {
+        display: block;
+        float: none;
+        text-align: right;
+    }
+
+    .product-essential .product-shop {
+        padding: 0 15px;
+    }
+
+    .product-essential .product-shop form {
+        margin: 5px 0;
+    }
+
+    .product-options,
+    .product-options-bottom {
+        display: block;
+        margin: 20px 0 0 0;
+    }
+
+    .product-options .sod_select,
+    .product-options-bottom button,
+    .add-to-cart button {
+        width: 100%;
+    }
+
+    .product-options .validation-advice {
+        margin-top: 7px;
+    }
+
+    .sizes {
+        text-align: center;
+    }
+
+    .box-related h2 {
+        margin-bottom: 20px;
+    }
+
+    .box-related .carousel-indicators {
+        bottom: 10px;
+    }
+
+    .morecolors {
+        border: none;
+        margin: 30px 0 0 0;
+        padding: 0;
+    }
+
+    .morecolors h2 {
+        text-align: center;
+    }
+
+    .morecolors h2.active {
+        border-bottom: none;
+    }
+
+    .morecolors .fa {
+        display: block;
+        position: absolute;
+        right: 10px;
+        top: 12px;
+    }
+
+    .morecolors [data-togglecontent] {
+        border: 1px solid #000;
+        border-top: none;
+        margin-top: -15px;
+        padding-top: 5px;
+    }
+
+    .sizes a:nth-child(1n-1) {
+        margin-right: 10px;
+    }
+
+
+}
+/* Smallest devices */
+@media (max-width: 480px) {
+    .products-grid .back-it,
+    .products-grid .pre-order {
+        padding: 0 10px;
+    }
+
+    .yotpo-reviews__hylete {
+        margin-bottom: 20px;
+    }
+
+    .yotpo-reviews__hylete .QABottomLine {
+        display: block;
+        border-left: none;
+        padding-left: 0;
+        margin: 0;
+    }
+    .yotpo-reviews__hylete .bottomLine {
+        display: block;
+        margin: 10px 0 20px;
+        border-left: none;
+        padding-right: 0;
+        clear: both;
+    }
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2009-2014 Vaimo AB
+
+Vaimo reserves all rights in the Program as delivered. The Program
+or any portion thereof may not be reproduced in any form whatsoever without
+the written consent of Vaimo, except as provided by licence. A licence
+under Vaimo's rights in the Program may be available directly from
+Vaimo.
+
+Disclaimer:
+THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+IN THE PROGRAM.
+
+@category    Vaimo
+@package     Vaimo_Menu
+@copyright   Copyright (c) 2009-2014 Vaimo AB
+-->
+<!--
+    Hint: Whatever block that loads first decides what data the items include, so keep extra attributes alike to be safe
+css/category_view.css
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_category_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/category_view.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/widget_selector.css</name></action>
+            <action method="addJs"><file>vaimo/menu/base.js</file></action>
+            <action method="addJs"><file>vaimo/menu/catalog/category/tree/decorator.js</file></action>
+            <action method="addJs"><file>vaimo/menu/editor/dialog.js</file></action>
+            <action method="addJs"><file>vaimo/menu/catalog/category/widget.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="vaimo_menu/adminhtml_catalog_category_tree_decorator" name="vm.tree.decorator"/>
+            <block type="vaimo_menu/adminhtml_catalog_category_widget" name="vm.category.widget"/>
+        </reference>
+    </adminhtml_catalog_category_edit>
+    <system_config_edit_vaimo_menu>
+        <reference name="head">
+            <action method="addJs"><file>vaimo/menu/base.js</file></action>
+            <action method="addJs"><file>vaimo/menu/type_selector.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="vaimo_menu/adminhtml_system_configuration_menu_type_selector" name="vm.type.selector">
+                <action method="setSelectName"><name>vaimo_menu_settings_type</name></action>
+            </block>
+        </reference>
+    </system_config_edit_vaimo_menu>
+</layout>

@@ -1,0 +1,61 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Edit slideshow: ').$item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="editslideshow_form" enctype="multipart/form-data" name="editslideshow_form" method="post" action="<?php echo $this->getUrl('*/*/updateslideshow')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="editslideshowform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+        <input name="editslideshowform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="editslideshowform[row_id]" type="hidden" value="<?php echo $item['row_id'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Edit the slideshow information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Title')?> <span class="required">*</span></td>
+                    <td class="value"><input class="input-text required-entry" name="editslideshowform[title]" value="<?php echo $item['title']?>" /></td>
+                </tr>
+                <tr>
+                	<td class="label"><?php echo $this->__('Slideshow')?> <span class="required">*</span></td>
+                	<td class="value">
+	                   	<select name="editslideshowform[slideshow]">
+	                    	<?php $slideshows = Mage::getModel('slideshowmanager/slideshow')->getSlideshows(); ?>
+	                    	<?php foreach($slideshows as $key => $title): ?>
+		                    	<option value="<?php echo $title['id']?>"<?php echo ''.($item['slideshow'] == $title['id'] ? ' selected="selected"' : '') ?>><?php echo $this->__($title['name'])?></option>
+	                    	<?php endforeach; ?>
+	                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Status')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="editslideshowform[status]">
+                    		<?php $statuses = Mage::helper('pagemanager')->getStatuses(); ?>
+                    		<?php foreach($statuses as $key => $title): ?>
+	                    		<option value="<?php echo $key?>"<?php echo ''.($item['status'] == $key ? ' selected="selected"' : '') ?>><?php echo $this->__($title)?></option>
+                    		<?php endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="label"><?php echo $this->__('Position')?></td>
+                    <td class="value"><input class="input-text" name="editslideshowform[position]" style="width:30px;" value="<?php echo $item['position']?>"/></td>
+                </tr>            
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var editslideshowform = new varienForm('editslideshow_form');
+</script>

@@ -1,0 +1,52 @@
+/* Small devices */
+@media (min-width: 768px) and (max-width: 991px) {
+    .toolbar-bottom .pages {
+        display: block;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 767px) {
+
+    .pages .pagination {
+        float: none;
+    }
+
+    .toolbar-bottom .pagination{
+        margin: 10px 0;
+    }
+
+    .toolbar-bottom .pages {
+        width: 100%;
+        text-align: center;
+    }
+
+    .toolbar-bottom .toolbar {
+        text-align: center;
+    }
+
+    .toolbar-bottom .toolbar .amount,
+    .toolbar-bottom .toolbar .sort-by,
+    .toolbar-bottom .toolbar .limiter {
+        margin-bottom: 10px;
+    }
+
+    .toolbar-bottom label {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        padding: 5px 10px;
+    }
+
+    .toolbar .amount {
+        line-height: 36px;
+    }
+
+    .toolbar-bottom .limiter select,
+    .toolbar-bottom .sort-by select {
+        margin-left: 0;
+    }
+}

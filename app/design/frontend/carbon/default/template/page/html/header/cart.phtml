@@ -1,0 +1,11 @@
+<?php
+	$_baseUrl = Mage::getBaseUrl();
+	$_cartQty = ($this->getSummaryCount() > 0) ? $this->getSummaryCount() : 0;
+	$_subTotalInclTax = $this->getSubtotalInclTax();
+?>
+<div class="header-cart">
+	<div class="info">
+	<?php echo $this->__('Shopping bag') ?>&nbsp;<span><?php echo $this->__('%s items, %s', $_cartQty, Mage::helper('checkout')->formatPrice($_subTotalInclTax)) ?></span>
+	</div>
+	<button class="button" onclick="setLocation('<?php echo $_baseUrl ?>checkout/onepage/')"><?php echo $this->__('Checkout') ?></button>
+</div>

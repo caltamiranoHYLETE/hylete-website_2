@@ -1,0 +1,94 @@
+
+<?php $item = $this->getItem(); ?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+        	<?php
+        		$page = Mage::getModel('pagemanager/page')->getPage($_SESSION['page_id']);
+        	?>
+            <td><h3><?php echo $this->__('Edit HTML in page: ').$page['name']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    	<?php echo $this->getForm() ?>
+</div>
+
+<?php
+$content = $item["page_content"];
+$content = str_replace("\r\n", "\n", $content);
+$pattern = '/[ ]([^=]*)="([^"]*)"/';
+preg_match_all($pattern, $content, $arr);
+// XXX New logic -  works with multilines and when there are multiple attributes at the same time
+if (!empty($arr[1]) && !empty($arr[2])) {
+    $data = array();
+    foreach ($arr[1] as $idx => $key) {
+        $data[$key] = $arr[2][$idx];
+    }
+    $dataString = Zend_Json::encode($data);
+} else {
+    //create a json string for the prefetch js function
+    $data = str_replace("{", "", str_replace("}", "", $content));
+    //fix for spaces
+    $data = preg_replace_callback('`("|\').*?\1`', function ($matches) {
+        return str_replace(' ', '#', $matches[0]);
+    }, $data);
+    $data = explode(" ",$data);
+    $values = array();
+    if(isset($data) && count($data) > 2){
+        //unset first two
+        unset($data[0]);
+        unset($data[1]);
+        $values = array();
+        foreach($data as $d){
+            $value = explode("=",$d);
+            if(count($value) < 2)
+                continue;
+            $values[$value[0]] = str_replace("\"","",$value[1]);
+        }
+    }
+
+    $json = Zend_Json::encode($values);
+
+    //put spaces back
+    $dataString = str_replace("#", " ", $json);
+}
+
+?>
+
+<script type="text/javascript">
+    var edithtmlForm = new varienForm('editwidget_form');
+
+    function fetchParameters(select){
+        var url = "<?php echo $this->getUrl("adminhtml/widget/loadOptions/")?>";
+        var widget = "widget={\"widget_type\":\""+select.options[select.selectedIndex].value+"\", \"values\":{}}";
+        var request = new Ajax.Request(url,
+        {
+            method: "post",
+            onComplete: function(transport){
+
+                $("widget-options").update(transport.responseText);
+            },
+            parameters: widget
+        });
+    }
+
+    function preFetchParameters(select){
+        var url = "<?php echo $this->getUrl("adminhtml/widget/loadOptions/")?>";
+        var widget = "widget={\"widget_type\":\""+select.options[select.selectedIndex].value+"\", \"values\":<? echo addslashes(rawurlencode($dataString)) ?>}";
+        var request = new Ajax.Request(url,
+        {
+            method: "post",
+            onComplete: function(transport){
+                $("widget-options").update(transport.responseText);
+            },
+            parameters: widget
+        });
+    }
+
+    preFetchParameters($("select_widget_type"));
+
+</script>

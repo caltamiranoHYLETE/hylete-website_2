@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <adminhtml_report_alert_all>
+        <reference name="content">
+            <block type="vaimo_productalertextended/adminhtml_report_alert" name="alert_grid_container">
+                <block type="vaimo_productalertextended/adminhtml_report_alert_grid" name="product_alert_grid"></block>
+            </block>
+        </reference>
+    </adminhtml_report_alert_all>
+</layout>

@@ -1,0 +1,25 @@
+<script type="text/javascript">
+    window.sweettooth = window.sweettooth || {};
+    sweettooth.slider = sweettooth.slider || {};
+
+    (function() {
+        var oscSummary = $$('div.onestepcheckout-summary');
+        oscSummary = Element.extend(oscSummary.shift());
+        
+        var pointsSpender = $$('.onestepcheckout-points-spender');
+        pointsSpender = Element.extend(pointsSpender.shift());
+        
+        oscSummary.insert({before: pointsSpender});
+    })();
+    
+    sweettooth.slider.afterAjax = function(response) {
+        var result = response.responseJSON;
+        
+        if (result.hasOwnProperty('error') && result.error === true) {
+            this.logMessage(result.message);
+        } else {
+            var url = '<?php echo $this->getUrl('onestepcheckout/ajax/set_methods_separate', array('_secure'=>true)); ?>';
+            get_separate_save_methods_function(url)();
+        }
+    };
+</script>

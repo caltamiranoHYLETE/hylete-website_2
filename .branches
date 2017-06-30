@@ -1,0 +1,22 @@
+# rc/1.2.18
+fix/return-to-store-base-url
+fix/super-default-structures-not-cloned-on-new-store
+feature/allow-structure-block-reference-to-be-changed
+fix/edit-mode-with-https
+eature/content-preview-in-structure-editor
+feature/event-to-allow-structure-manipulation
+fix/publish-failure-after-removing-store-from-db
+fix/navigation-relying-on-global-var
+fix/publish-buttons-showing-while-editing-structure
+fix/full-cache-clean-on-publish
+fix/magento-running-out-of-block-ids
+
+# rc/1.3.0
+feature/content-preview-in-structure-editor
+feature/heartbeat
+fix/out-of-memory-crash-leaves-publishing-half-done
+fix/url-conversion-failures-on-content-save
+fix/raptor-editor-instantiated-too-many-times-on-dom-mutation
+fix/preview-generator-class-copy-for-svg
+feature/layout-update-handle-prefixes
+fix/disable-block-cache-while-editing-for-1.3

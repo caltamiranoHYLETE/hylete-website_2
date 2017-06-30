@@ -1,0 +1,173 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+// moved to layout file > layout/icommerce_quickcheckout.xml
+/*
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
+*/
+?>
+<script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
+<h2><?php echo Mage::helper('checkout')->__('QuickCheckout') ?></h2>
+
+<?php if (Icommerce_Default::isModuleActive('Icommerce_QuickCheckoutCart')): ?>
+    <?php if (Mage::helper('quickcheckoutcart')->isActive()): ?>
+        <div id="quickcheckoutcart-cart-container">
+            <?php echo $this->getChildHtml('quickcheckoutcart.cart') ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php if (!Icommerce_Default::isModuleActive('Icommerce_QuickCheckoutCart')): ?>
+    <?php if (Mage::getModel('checkout/type_onepage')->getQuote()->getHasError()):
+        ?>
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li><?php echo $this->__('At least one of the products is out of stock. See cart for more information.');?></li>
+                </ul>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            //<![CDATA[
+            Event.observe(window, 'load', function (e) {
+                $('place-order-button').writeAttribute("disabled", "disabled");
+                $('place-order-button').setOpacity(0.5);
+            });
+            //]]>
+        </script>
+    <?php endif; ?>
+
+    <?php if (!Mage::getModel('checkout/type_onepage')->getQuote()->validateMinimumAmount()):
+        ?>
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li><?php echo Mage::getStoreConfig('sales/minimum_order/error_message');?></li>
+                </ul>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            //<![CDATA[
+            Event.observe(window, 'load', function (e) {
+                $('place-order-button').writeAttribute("disabled", "disabled");
+                $('place-order-button').setOpacity(0.5);
+            });
+            //]]>
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<ol id="checkoutSteps" class="one-page-checkout">
+    <?php $i = 0; foreach ($this->getSteps() as $_stepId => $_stepInfo): ?>
+        <?php if (!$this->getChild($_stepId) || !$this->getChild($_stepId)->isShow()): continue; endif;
+        $i++ ?>
+        <li id="opc-<?php echo $_stepId ?>"
+            class="section"<?php if ($_stepId == 'shipping'): ?> style="display:none;"<?php endif; ?>>
+            <div id="checkout-step-<?php echo $_stepId ?>"
+                 class="box<?php if ($_stepId == 'shipping_method'): ?>-no-padding<?php endif; ?> a-item">
+                <?php echo $this->getChildHtml($_stepId) ?>
+            </div>
+        </li>
+    <?php endforeach ?>
+</ol>
+<script type="text/javascript">
+    //<![CDATA[
+    var accordion = new Accordion('checkoutSteps', '.head', true);
+    <?php if($this->getActiveStep()): ?>
+    accordion.openSection('opc-<?php echo $this->getActiveStep() ?>');
+    <?php endif ?>
+
+    var checkout = new Checkout(accordion, {
+            progress: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
+            review: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
+            saveMethod: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
+            failure: '<?php echo $this->getUrl('checkout/cart') ?>'}
+    );
+
+    // Icommerce QuickCheckout Begin
+    var urlToGetShippingMethodsHtml = '<?php echo $this->getUrl('quickcheckout/QuickCheckout/getShippingMethodsHtml') ?>';
+    var urlToGetPaymentMethodsHtml = '<?php echo $this->getUrl('quickcheckout/QuickCheckout/getPaymentMethodsHtml') ?>';
+
+    var urlToAddCoupon = '<?php echo $this->getUrl('quickcheckout/ajax/addCoupon') ?>';
+    var urlToAddGiftCard = '<?php echo $this->getUrl('quickcheckout/ajax/addGiftCard') ?>';
+    var urlToRemoveGiftCard = '<?php echo $this->getUrl('quickcheckout/ajax/removeGiftCard') ?>';
+
+    var qcPrimaryBillingAddress = false;
+    var qcPrimaryShippingAddress = false;
+
+    <?php
+    	if(Icommerce_Default::isLoggedIn()):
+	    	if((bool)Mage::getStoreConfig('quickcheckout/settings/autofill_customer_address')):
+
+				$customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+
+				$defaultBillingAddress = false;
+
+				if ($customerAddressId):
+					$defaultBillingAddress = Mage::getModel('checkout/type_onepage')->getAddress($customerAddressId); // We use this module to split up street aaddress
+                    $defaultBillingAddress->unsStreet();
+				endif;
+
+		    	if($defaultBillingAddress !== false):
+		    	?>
+    var qcDefaultBillingAddress = '<?php echo Zend_Json::encode($defaultBillingAddress) ?>';
+    <?php
+    endif;
+
+    $customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+
+    $defaultShippingAddress = false;
+
+    if ($customerAddressId):
+        $defaultShippingAddress = Mage::getModel('checkout/type_onepage')->getAddress($customerAddressId); // We use this module to split up street aaddress
+        $defaultShippingAddress->unsStreet();
+    endif;
+
+    if($defaultShippingAddress !== false):
+    ?>
+    var qcDefaultShippingAddress = '<?php echo Zend_Json::encode($defaultShippingAddress) ?>';
+    <?php
+    endif;
+endif;
+endif;
+?>
+
+    var quickCheckout;
+    Event.observe(window, 'load', function () {
+        quickCheckout = new QuickCheckout();
+        quickCheckout.addEventListenerToSaveOrderButton();
+
+        <?php   // Support for region to trigger payment method updates
+                if( Mage::getStoreConfig("quickcheckout/settings/update_shipping_on_region_change") ): ?>
+        quickCheckout.enableRegionShipPayReload();
+        <?php   endif; ?>
+    });
+
+    // Icommerce QuickCheckout End
+
+    //]]>
+</script>

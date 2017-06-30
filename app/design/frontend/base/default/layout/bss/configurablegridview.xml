@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<layout version="1.0.0">
+
+    <default translate="label">
+        <reference name="head">
+            <!--<action method="addItem"><type>skin_js</type><name>js/bss/jquery-1.9.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/jquery-noConflict.js</name></action>-->
+            <action method="addItem"><type>skin_js</type><name>js/bss/jquery.number.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/configurablegridview.js</name></action>
+        </reference>
+    </default>
+
+
+
+
+</layout>

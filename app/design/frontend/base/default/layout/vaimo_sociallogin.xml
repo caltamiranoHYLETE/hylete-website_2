@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addItem" ifconfig="sociallogin/facebook/activate" ifvalue="yes">
+                <type>skin_js</type>
+                <name>js/sociallogin/facebook.js</name>
+            </action>
+            <action method="addItem" ifconfig="sociallogin/facebook/activate" ifvalue="yes">
+                <type>skin_js</type>
+                <name>js/sociallogin/facebook-init.js</name>
+            </action>
+            <action method="addCss" ifconfig="sociallogin/facebook/activate" ifvalue="yes">
+                <stylesheet>css/sociallogin/main.css</stylesheet>
+            </action>
+            <block type="sociallogin/facebook" name="sociallogin.facebook">
+                <action method="setTemplate" ifconfig="sociallogin/facebook/activate" ifvalue="yes">
+                    <template>vaimo/sociallogin/facebook.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="top.links">
+            <action method="setTemplate" ifconfig="sociallogin/general/toplinks" ifvalue="yes">
+                <template>vaimo/sociallogin/links.phtml</template>
+            </action>
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="sociallogin" ifconfig="sociallogin/general/myaccount" ifvalue="yes">
+                <name>sociallogin</name>
+                <path>sociallogin/account</path>
+                <label>Social Networks</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <sociallogin_account_index translate="label">
+        <label>My Social Network Connections</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="sociallogin/account" name="sociallogin_account" template="vaimo/sociallogin/account.phtml"/>
+        </reference>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="sociallogin">
+                <title>My Social Network Connections</title>
+            </action>
+        </reference>
+    </sociallogin_account_index>
+</layout>

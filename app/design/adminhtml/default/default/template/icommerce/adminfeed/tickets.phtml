@@ -1,0 +1,82 @@
+<?php
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_AdminFeed
+ * @copyright   Copyright (c) 2009-2011 Icommerce Nordic AB
+ */
+ ?>
+<?php $tickets = $this->getTickets(); ?>
+
+<div class="content-header adminfeed tickets">
+    <h2><?php echo $this->__('Support Tickets')?></h2>
+    <p><?php echo $this->__('In this view you can see all of your support tickets. <br />By clicking on the subject line, you can expand / fold your message.')?></p>
+</div>
+
+<div class="entry-edit adminfeed notifications">
+    
+    <form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getFormAction(); ?>">
+    	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    	<div class="grid">
+    		<?php if(count($tickets) < 1): ?>
+    			<p><?php echo $this->__("No tickets were found for this account.<br />If you have mailed in from a different email address than the one you use to log into Magento, please contact us at <a href='mailto:support@icommerce.se'>support@icommerce.se</a>.")?></p>
+    		<?php else:?>
+
+    			<table cellspacing="0">
+    				<thead>
+    					<tr class="headings">
+    						<th><?php echo $this->__('Ticket id') ?></th>
+    						<th><?php echo $this->__('Date Added') ?></th>
+    						<th><?php echo $this->__('Date Updated') ?></th>
+    						<th><?php echo $this->__('Message') ?></th>
+    						<th><?php echo $this->__('Created By') ?></th>
+    						<th><?php echo $this->__('Actions') ?></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<?php foreach($tickets as $ticket): $ticketId = $ticket['ticket_id']; ?>
+    						<tr class="">
+    						    <td class="a-center" width="20"><?php echo $ticketId; ?></td>
+    						    <td width="50"><?php echo date("Y-m-d H:i:s", $ticket['created_date']);?></td>
+    						    <td width="50"><?php echo date("Y-m-d H:i:s", $ticket['updated_date']);?></td>
+    						    <td>
+    						    	<b><a href="#" onclick="Effect.toggle('message-details-<?php echo $ticketId; ?>', 'appear', { duration: 0.5 }); return false;"><?php echo $ticket['subject']; ?></a></b>
+    						    	<div id="message-details-<?php echo $ticketId?>" style="display:none">
+    						    		<?php echo $this->getMessageContent($ticketId, $ticket['updated_date']); ?>
+    						    	</div>
+    						    </td>
+    						    <td><a href="mailto:<?php echo $ticket['created_by']; ?>"><?php echo $ticket['created_by']; ?></a></td>
+    						    <td width="100">
+    						    	<a href="mailto:support@icommerce.se?subject=<?php echo $ticket['subject']; ?>">
+    						    		<?php echo $this->__('Reply')?>
+    						    	</a>
+    						    </td>	                 
+    						</tr>
+    					<?php endforeach;?>	
+    				</tbody>
+    	   		</table>
+    		<?php endif; ?>
+		</div>
+    </form>
+    
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout>
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/vaimo/productalertextend.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/vaimo/productalertextend.js</name></action>
+        </reference>
+        <reference name="content">
+            <reference name="product.info">
+                <reference name="alert.urls">
+                    <remove name="productalert.stock" />
+                    <block type="productalertextended/stock" name="productalertextended.stock" as="productalertextended_stock" template="vaimo/productalertextended/stock.phtml"/>
+                </reference>
+            </reference>
+        </reference>
+    </catalog_product_view>
+</layout>

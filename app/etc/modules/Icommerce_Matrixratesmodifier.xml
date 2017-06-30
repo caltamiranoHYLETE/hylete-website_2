@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Icommerce_Matrixratesmodifier>
+			<active>true</active>
+			<codePool>local</codePool>
+            <depends>
+                <Webshopapps_Matrixrate/>
+            </depends>
+		</Icommerce_Matrixratesmodifier>
+	</modules>
+</config>

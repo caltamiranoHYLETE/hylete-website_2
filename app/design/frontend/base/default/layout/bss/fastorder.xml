@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+/**
+
+ * @category	BSS
+ * @package	BSS_Fastorder
+
+ */
+-->
+<layout version="0.1.0">
+
+    <default>
+         <reference name="head">
+            <action method="addCss"><stylesheet>css/bss/fastorder.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/bss/modalbox.css</stylesheet></action>
+            <!--<action method="addItem"><type>skin_js</type><name>js/bss/jquery-1.9.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/jquery-noConflict.js</name></action>-->
+            <action method="addItem"><type>skin_js</type><name>js/bss/fastorder.js</name></action>
+            <!--<action method="addItem"><type>skin_js</type><name>js/bss/modalbox.js</name></action>-->
+            <!--<action method="addJs"><script>varien/product.js</script></action>-->
+        </reference>
+    </default>
+
+    <checkout_cart_index translate="label">
+        <!-- <reference name="head">
+            <action method="addCss"><stylesheet>css/bss/fastorder.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/bss/modalbox.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/jquery-1.9.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/jquery-noConflict.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/fastorder.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/bss/modalbox.js</name></action>
+            <action method="addJs"><script>varien/product.js</script></action>
+        </reference> -->
+
+        <!--<reference name="content">
+            <block type="fastorder/form" name="fastorder.form" before="-">
+                <action method="setLines"><value>6</value></action>
+            </block>
+        </reference>-->
+    </checkout_cart_index>
+
+    <fastorder_ajax_cart>
+        <remove name="head" />
+        <remove name="header" />
+        <remove name="footer" />
+        <remove name="fastorder.form" />
+
+        <reference name="root">
+            <action method="setTemplate"><template>bss/fastorder/ajax.phtml</template></action>
+        </reference>
+
+        <update handle="checkout_cart_index" />
+
+    </fastorder_ajax_cart>
+
+    <!-- <fastorder_ajax_option> -->
+        <!-- <reference name="root">
+          <action method="setTemplate"><template>page/1column.phtml</template></action>
+      </reference> -->
+      <!-- <reference name="content">
+        <block type="fastorder/form" name="fastorder_option" template="bss/fastorder/option.phtml"/>
+    </reference> -->
+    <!-- </fastorder_ajax_option> -->
+    <fastorder_ajax_option>
+        <block type="catalog/product_view" name="product.info" template="bss/fastorder/product_options.phtml" output="toHtml">
+        <action method="setTierPriceTemplate"><template>catalog/product/view/tierprices.phtml</template></action>
+
+        <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="bss/fastorder/addtocart.phtml"/>
+
+        <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml" translate="label">
+            <label>Info Column Options Wrapper</label>
+            <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/>
+            <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
+                <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/view/options/type/text.phtml</template></action>
+                <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/view/options/type/file.phtml</template></action>
+                <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/view/options/type/select.phtml</template></action>
+                <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/view/options/type/date.phtml</template></action>
+<!--
+                <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>text</type><block>catalog/product_view_options_type_text</block><template>customoptions/catalog-product-view-options-type-text.phtml</template></action>
+                <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>file</type><block>catalog/product_view_options_type_file</block><template>customoptions/catalog-product-view-options-type-file.phtml</template></action>
+                <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>select</type><block>catalog/product_view_options_type_select</block><template>customoptions/catalog-product-view-options-type-select.phtml</template></action>
+                <action method="addOptionRenderer" ifconfig="mageworx_catalog/customoptions/enabled"><type>date</type><block>catalog/product_view_options_type_date</block><template>customoptions/catalog-product-view-options-type-date.phtml</template></action>
+                <action method="setTemplate" ifconfig="mageworx_catalog/customoptions/enabled"><template>customoptions/catalog-product-view-options.phtml</template></action> -->
+            </block>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </block>
+
+        <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml" translate="label">
+            <label>Bottom Block Options Wrapper</label>
+            <action method="insert"><block>product.tierprices</block></action>
+            <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
+            <action method="append"><block>product.info.addtocart</block></action>
+        </block>
+
+        <block type="core/template_facade" name="product.info.container1" as="container1">
+            <action method="setDataByKey"><key>alias_in_layout</key><value>container1</value></action>
+            <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
+            <action method="append"><block>product.info.options.wrapper</block></action>
+            <action method="append"><block>product.info.options.wrapper.bottom</block></action>
+        </block>
+
+        <block type="core/template_facade" name="product.info.container2" as="container2">
+            <action method="setDataByKey"><key>alias_in_layout</key><value>container2</value></action>
+            <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
+            <action method="append"><block>product.info.options.wrapper</block></action>
+            <action method="append"><block>product.info.options.wrapper.bottom</block></action>
+        </block>
+        <action method="unsetCallChild"><child>container1</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
+        <action method="unsetCallChild"><child>container2</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
+
+    </block>
+</fastorder_ajax_option>
+
+</layout>

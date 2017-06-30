@@ -1,0 +1,10 @@
+--- lib/tcpdf/tcpdf.old.php	2016-07-06 15:11:54.000000000 +0200
++++ lib/tcpdf/tcpdf.php	2016-07-06 15:54:16.000000000 +0200
+@@ -7026,6 +7026,7 @@
+ 					AND (($info === 'pngalpha') OR (isset($info['trns']) AND !empty($info['trns'])))) {
+ 					return $this->ImagePngAlpha($file, $x, $y, $pixw, $pixh, $w, $h, 'PNG', $link, $align, $resize, $dpi, $palign, $filehash);
+ 				}
++				$info = false;
+ 			}
+ 			if (($info === false) AND function_exists($gdfunction)) {
+ 				try {

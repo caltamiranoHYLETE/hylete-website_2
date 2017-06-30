@@ -1,0 +1,18 @@
+2012-01-23
+Module: Icommerce_EmailAttachments
+
+Icommerce version of Fooman_EmailAttachments
+http://www.magentocommerce.com/magento-connect/fooman-email-attachments.html
+
+Attach PDFs and / or your terms and conditions to outgoing Sales Emails. Adds support for printing orders. 
+
+2012-01-27
+Added support for OneStoreTwoLangEmailOrderTemplate
+Check in Admin / Settings / Sales / Sales email
+You can there choose email template for users comming from
+countries that differ from store default country.
+
+2012-02-17
+Realized that the module have to have a neutral state at the beginning.
+Added an empty row in the droplist (always)
+New check if there is an empty row and use the normal emailtemplate instead.

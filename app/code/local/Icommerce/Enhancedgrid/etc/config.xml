@@ -1,0 +1,171 @@
+<?xml version="1.0" ?><!--
+/**
+ * Copyright (c) 2009-2011 Icommerce Nordic AB
+ *
+ * Icommerce reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Icommerce, except as provided by licence. A licence
+ * under Icommerce's rights in the Program may be available directly from
+ * Icommerce.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Icommerce
+ * @package     Icommerce_Enhancedgrid
+ * @copyright   Copyright (c) 2009-2012 Icommerce Nordic AB
+ */
+--><config>
+    <modules>
+        <Icommerce_Enhancedgrid>
+            <version>0.1.16</version>
+        </Icommerce_Enhancedgrid>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Icommerce_Enhancedgrid after="Mage_Adminhtml">Icommerce_Enhancedgrid</Icommerce_Enhancedgrid>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <global>
+        <blocks>
+            <enhancedgrid>
+                <class>Icommerce_Enhancedgrid_Block</class>
+            </enhancedgrid>
+        </blocks>
+        <helpers>
+            <enhancedgrid>
+                <class>Icommerce_Enhancedgrid_Helper</class>
+            </enhancedgrid>
+        </helpers>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <widget_grid_column>Icommerce_Enhancedgrid_Block_Widget_Grid_Column</widget_grid_column>
+                    <catalog_product>Icommerce_Enhancedgrid_Block_Catalog_Product</catalog_product>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <models>
+            <enhancedgrid>
+                <class>Icommerce_Enhancedgrid_Model</class>
+            </enhancedgrid>
+        </models>
+
+        <rewrite>
+            <!-- Added for Magento 1.4 compatibility -->
+            <icommerce_enhancedgrid_catalog_product_export_csv>
+                <from><![CDATA[#^/admin/catalog_product/((exportCsv.*))/$#]]></from>
+                <to>/adminhtml/catalog_product_enhanced/${1}/</to>
+            </icommerce_enhancedgrid_catalog_product_export_csv>
+            <icommerce_enhancedgrid_catalog_product_export_xml>
+                <from><![CDATA[#^/admin/catalog_product/((exportXml.*))/$#]]></from>
+                <to>/adminhtml/catalog_product_enhanced/${1}/</to>
+            </icommerce_enhancedgrid_catalog_product_export_xml>
+            <icommerce_enhancedgrid_catalog_product>
+                <from><![CDATA[#^/adminhtml/catalog_product/((massProd.*))/$#]]></from>
+                <to>/adminhtml/catalog_product_enhanced/${1}/</to>
+            </icommerce_enhancedgrid_catalog_product>
+        </rewrite>
+    </global>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <enhancedgrid>
+                    <file>icommerce_enhancedgrid.xml</file>
+                </enhancedgrid>
+            </updates>
+        </layout>
+        <menu>
+            <catalog module="enhancedgrid">
+                <children>
+                    <products module="enhancedgrid" translate="title">
+                        <title>Manage Products*</title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/catalog_product_enhanced</action>
+                    </products>
+                </children>
+            </catalog>
+        </menu>
+        <translate>
+            <modules>
+                <Icommerce_Enhancedgrid>
+                    <files>
+                        <enhancedgrid>Icommerce_Enhancedgrid.csv</enhancedgrid>
+                    </files>
+                </Icommerce_Enhancedgrid>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <enhancedgrid>
+            <general>
+                <isenabled>1</isenabled>
+            </general>
+            <columns>
+                <showcolumns>id,name,type_id,attribute_set_id,sku,price,qty,visibility,status,websites,thumbnail</showcolumns>
+                <truncatelongtextafter>60</truncatelongtextafter>
+            </columns>
+            <images>
+                <showurl>0</showurl>
+                <showbydefault>1</showbydefault>
+                <width>75</width>
+                <height>75</height>
+            </images>
+            <defaults>
+                <limit>20</limit>
+                <page>1</page>
+                <sort>id</sort>
+                <dir>desc</dir>
+            </defaults>
+        </enhancedgrid>
+    </default>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <catalog>
+                            <children>
+                                <enhancedgrid>
+                                    <title>Enhanced Product Grid</title>
+                                </enhancedgrid>
+                            </children>
+                        </catalog>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <enhancedgrid>
+                                            <title>Enhanced Grid Config</title>
+                                        </enhancedgrid>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>

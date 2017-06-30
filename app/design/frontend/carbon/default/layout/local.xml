@@ -1,0 +1,554 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2009-2014 Vaimo AB
+ *
+ * Vaimo reserves all rights in the Program as delivered. The Program
+ * or any portion thereof may not be reproduced in any form whatsoever without
+ * the written consent of Vaimo, except as provided by licence. A licence
+ * under Vaimo's rights in the Program may be available directly from
+ * Vaimo.
+ *
+ * Disclaimer:
+ * THIS NOTICE MAY NOT BE REMOVED FROM THE PROGRAM BY ANY USER THEREOF.
+ * THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE OR OTHER DEALINGS
+ * IN THE PROGRAM.
+ *
+ * @category    Vaimo
+ * @package     Vaimo_Carbon
+ * @copyright   Copyright (c) 2009-2014 Vaimo AB
+ */
+
+-->
+<layout version="0.1.0">
+    <!-- Default layout, loads most of the pages -->
+    <default>
+
+        <remove name="left.permanent.callout"/>
+        <remove name="right.permanent.callout"/>
+        <remove name="paypal.partner.right.logo"/>
+        <remove name="right.reports.product.viewed"/>
+        <remove name="left.newsletter"/>
+        <remove name="wishlist_sidebar"/>
+
+        <reference name="head">
+            <!-- Remove css/js related to Bootstrap 2.3 -->
+            <action method="removeItem"><type>skin_css</type><name>css/slideshow-bootstrap.css</name><params/></action>
+            <action method="removeItem"><type>skin_js</type><name>js/slideshow-bootstrap.js</name><params/></action>
+
+            <!-- Remove css/js from Icomerce_Slideshow. We are using Bootstraps Carousel -->
+            <action method="removeItem"><type>skin_css</type><name>css/slideshow.css</name><params/></action>
+            <action method="removeItem"><type>skin_css</type><name>css/slideshow-layered-blocks.css</name><params/></action>
+            <action method="removeItem"><type>skin_js</type><name>js/slideshow.js</name><params/></action>
+            <action method="removeItem"><type>skin_js</type><name>js/slideshow_custom_functions.js</name><params/></action>
+
+            <action method="addItem"><type>skin_js</type><name>js/fix/windows-mobile-ie10-fix.js</name></action>
+        </reference>
+
+        <reference name="top.links">
+            <action method="removeLinkByUrl">
+                <url helper="customer/getAccountUrl"/>
+            </action>
+            <remove name="checkout_cart_link"/>
+        </reference>
+        <reference name="footer">
+            <block type="cms/block" name="footer.customer.service" as="customerService">
+                <action method="setBlockId">
+                    <block_id>footer_customer_service</block_id>
+                </action>
+            </block>
+            <block type="newsletter/subscribe" name="newsletter" template="newsletter/subscribe.phtml"/>
+            <block type="cms/block" name="footer.payment.logos" as="paymentLogos">
+                <action method="setBlockId">
+                    <block_id>footer_payment_logos</block_id>
+                </action>
+            </block>
+            <block type="cms/block" name="footer.bottom.links" as="bottomLinks">
+                <action method="setBlockId">
+                    <block_id>footer_bottom_links</block_id>
+                </action>
+            </block>
+        </reference>
+        <reference name="right">
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="sale.reorder.sidebar"/>
+        </reference>
+        <reference name="left">
+            <block type="cms/block" name="cms.category.sidebar.container">
+                <action method="setBlockId">
+                    <block_id>cms_category_sidebar_container</block_id>
+                </action>
+            </block>
+        </reference>
+        <reference name="header">
+            <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>
+        </reference>
+    </default>
+
+    <!--
+    Load this update on the customer login page
+    -->
+
+    <customer_account_login>
+        <reference name="head">
+            <action method="setRobots"><value>NOINDEX,FOLLOW</value></action>
+        </reference>
+    </customer_account_login>
+
+    <!--
+    Load this update on the customer create page
+    -->
+
+    <customer_account_create>
+        <reference name="head">
+            <action method="setRobots"><value>NOINDEX,FOLLOW</value></action>
+        </reference>
+    </customer_account_create>
+
+    <!--
+    Load this update on every page when customer is logged in
+    -->
+
+    <customer_logged_in>
+        <reference name="top.links">
+            <action method="addLink" translate="label title">
+                <label>My account</label>
+                <url>customer/account</url>
+                <!-- can use full url also -->
+                <title>My account</title>
+                <prepare>true</prepare>
+                <!-- set true if adding base url param -->
+                <urlParams/>
+                <position>90</position>
+            </action>
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label title" module="customer">
+                <label>Logout</label>
+                <url>customer/account/logout</url>
+                <title>Logout</title>
+                <prepare/>
+                <urlParams/>
+                <position>10</position>
+            </action>
+        </reference>
+    </customer_logged_in>
+
+    <!--
+    Load this update on every page when customer is logged out
+    -->
+    <customer_logged_out>
+        <reference name="top.links">
+            <action method="addLink" translate="label title">
+                <label>Create account</label>
+                <url>customer/account/create</url>
+                <!-- can use full url also -->
+                <title>Create account</title>
+                <prepare>true</prepare>
+                <!-- set true if adding base url param -->
+                <urlParams/>
+                <position>90</position>
+            </action>
+            <action method="addLink" translate="label title" module="customer" ifconfig="carbon/settings/is_enterprise">
+                <label>Log In</label>
+                <url helper="customer/getLoginUrl"/>
+                <title>Log In</title>
+                <prepare/>
+                <urlParams/>
+                <position>91</position>
+            </action>
+        </reference>
+    </customer_logged_out>
+
+    <cms_index_index>
+        <remove name="page_content_heading"/>
+        <reference name="right">
+            <block type="core/text_list" name="cms.index.sidebar.container">
+                <block type="page/html_wrapper" name="cms.index.sidebar.block1.wrapper">
+                    <action method="setElementClass">
+                        <element_class>block</element_class>
+                    </action>
+                    <block type="cms/block" name="cms.index.sidebar.block1">
+                        <action method="setBlockId">
+                            <block_id>cms_index_sidebar_block_1</block_id>
+                        </action>
+                    </block>
+                </block>
+                <block type="page/html_wrapper" name="cms.index.sidebar.block2.wrapper">
+                    <action method="setElementClass">
+                        <element_class>block</element_class>
+                    </action>
+                    <block type="cms/block" name="cms.index.sidebar.block2">
+                        <action method="setBlockId">
+                            <block_id>cms_index_sidebar_block_2</block_id>
+                        </action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <reference name="content">
+            <action method="unsetChild"><name>cms.wrapper</name></action>
+            <action method="insert">
+                <alias>cms_page</alias>
+            </action>
+        </reference>
+    </cms_index_index>
+
+
+    <cms_page_view>
+        <remove name="page_content_heading"/>
+        <reference name="right">
+            <block type="core/text_list" name="cms.index.sidebar.container">
+                <block type="page/html_wrapper" name="cms.index.sidebar.block1.wrapper">
+                    <action method="setElementClass">
+                        <element_class>block</element_class>
+                    </action>
+                    <block type="cms/block" name="cms.index.sidebar.block1">
+                        <action method="setBlockId">
+                            <block_id>cms_index_sidebar_block_1</block_id>
+                        </action>
+                    </block>
+                </block>
+                <block type="page/html_wrapper" name="cms.index.sidebar.block2.wrapper">
+                    <action method="setElementClass">
+                        <element_class>block</element_class>
+                    </action>
+                    <block type="cms/block" name="cms.index.sidebar.block2">
+                        <action method="setBlockId">
+                            <block_id>cms_index_sidebar_block_2</block_id>
+                        </action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <reference name="content">
+            <action method="unsetChild"><name>cms.wrapper</name></action>
+            <action method="insert">
+                <alias>cms_page</alias>
+            </action>
+        </reference>
+    </cms_page_view>
+
+    <!--
+    Perform product grid visual fixes when MOF ajax is enabled
+    -->
+    <icommerce_multioptionfilter>
+        <reference name="head">
+            <action method="addItem" ifconfig="multioptionfilter/settings/enable_ajax"><type>skin_js</type><name>js/carbon-mof.js</name></action>
+        </reference>
+    </icommerce_multioptionfilter>
+
+    <vaimo_ajaxproductlist>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/carbon-productlist.js</name></action>
+        </reference>
+    </vaimo_ajaxproductlist>
+
+    <catalog_category_default>
+        <remove name="catalog.leftnav"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="product_list">
+            <block type="core/text_list" name="product_list.before_toolbar" />
+            <action method="setColumnCount">
+                <column_count>3</column_count>
+            </action>
+        </reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <update handle="icommerce_multioptionfilter"/>
+        <update handle="vaimo_ajaxproductlist"/>
+
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="product_list">
+            <block type="core/text_list" name="product_list.before_toolbar" />
+            <action method="setColumnCount">
+                <column_count>3</column_count>
+            </action>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><alias>catalog.leftnav</alias></action>
+            <action method="insert"><blockName>catalog.leftnav</blockName><after>left.vertnav</after></action>
+            <action method="unsetChild"><alias>enterprisecatalog.leftnav</alias></action>
+            <action method="insert"><blockName>enterprisecatalog.leftnav</blockName><after>left.vertnav</after></action>
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <!-- Custom script only used on product page -->
+            <action method="addItem"><type>skin_js</type><name>js/product.js</name><group>product</group></action>
+
+            <action method="removeItem"><type>js</type><name>varien/product.js</name><params/></action>
+            <action method="addJs"><script>varien/product.js</script><group>product</group></action>
+            <action method="removeItem"><type>js</type><name>varien/configurable.js</name><params/></action>
+            <action method="addJs"><script>varien/configurable.js</script><group>product</group></action>
+
+            <action method="removeItem"><type>skin_js</type><name>js/jqzoom/jquery-1.3.1.min.js</name></action>
+            <action method="removeItem"><type>skin_js</type><name>js/jqzoom/jquery.jqzoom1.0.1.js</name></action>
+            <action method="removeItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="removeItem"><type>js</type><name>calendar/calendar.js</name><params/></action>
+            <action method="removeItem"><type>js</type><name>calendar/calendar-setup.js</name><params/></action>
+        </reference>
+        <reference name="product.info">
+            <block type="catalog/product_list_related" name="catalog.product.related" as="related_products"
+                   template="catalog/product/list/related.phtml" />
+            <remove name="html_calendar" />
+            <block type="catalog/product_view" name="tabs" template="catalog/product/view/tabs.phtml">
+                <action method="insert"><block>product.attributes</block></action>
+                <action method="insert"><block>product.description</block></action>
+                <block type="page/html_pager" name="product_review_list.toolbar">
+                    <action method="setFrameLength">
+                        <limit>3</limit>
+                    </action>
+                    <action method="setLimit">
+                        <limit>3</limit>
+                    </action>
+                </block>
+                <block type="review/product_view_list" name="product.info.reviews" template="review/product/view/list.phtml">
+                    <block type="review/form" name="product.review.form">
+                        <block type="page/html_wrapper" name="product.review.form.fields.before" as="form_fields_before"
+                               translate="label">
+                            <label>Review Form Fields Before</label>
+                            <action method="setMayBeInvisible">
+                                <value>1</value>
+                            </action>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <reference name="product.info.options.wrapper">
+            <remove name="options_js" />
+        </reference>
+
+    </catalog_product_view>
+
+    <PRODUCT_TYPE_grouped>
+        <reference name="root">
+            <action method="addBodyClass">
+                <body_class>grouped-product</body_class>
+            </action>
+        </reference>
+    </PRODUCT_TYPE_grouped>
+
+    <PRODUCT_TYPE_bundle>
+        <reference name="root">
+            <action method="addBodyClass">
+                <body_class>bundle-product</body_class>
+            </action>
+        </reference>
+        <reference name="product.info">
+            <action method="setTemplate" ifconfig="carbon/settings/is_enterprise"><template>catalog/product/view.phtml</template></action>
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="unsetChild" ifconfig="carbon/settings/is_enterprise"><name>backButton</name></action>
+        </reference>
+    </PRODUCT_TYPE_bundle>
+
+    <PRODUCT_TYPE_downloadable>
+        <reference name="root">
+            <action method="addBodyClass">
+                <body_class>downloadable-product</body_class>
+            </action>
+        </reference>
+    </PRODUCT_TYPE_downloadable>
+
+    <contacts_index_index translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+            <action method="setHeaderTitle" translate="title" module="contacts">
+                <title>Contact Us</title>
+            </action>
+        </reference>
+        <reference name="contactForm">
+            <block type="cms/block" name="contacts.index.index.cms" as="contacts">
+                <action method="setBlockId">
+                    <block_id>contacts</block_id>
+                </action>
+            </block>
+        </reference>
+    </contacts_index_index>
+
+    <customer_account>
+        <remove name="cms.category.sidebar.container"/>
+        <reference name="left">
+            <action method="unsetChild">
+                <name>reorder</name>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <action method="setElementClass">
+                <value>my-account</value>
+            </action>
+        </reference>
+        <reference name="content">
+            <action method="insert">
+                <blockName>customer_account_navigation</blockName>
+            </action>
+        </reference>
+    </customer_account>
+
+    <catalogsearch_result_index>
+        <update handle="icommerce_multioptionfilter"/>
+        <update handle="vaimo_ajaxproductlist"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="right">
+            <block type="cms/block" name="sidebar.right.block">
+                <action method="setBlockId">
+                    <block_id>sidebar_right_cms_block</block_id>
+                </action>
+            </block>
+        </reference>
+        <reference name="left">
+            <remove name="sidebar.vertnav"/>
+        </reference>
+    </catalogsearch_result_index>
+
+    <catalogsearch_advanced_result>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="left">
+            <remove name="sidebar.vertnav"/>
+        </reference>
+    </catalogsearch_advanced_result>
+
+    <checkout_onepage_success>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+        </reference>
+        <reference name="right">
+            <block type="cms/block" name="sidebar.right.block">
+                <action method="setBlockId">
+                    <block_id>sidebar_right_cms_block</block_id>
+                </action>
+            </block>
+        </reference>
+    </checkout_onepage_success>
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <!-- Remove and add them to group checkout to avoid new merged file. -->
+            <action method="removeItem"><type>js</type><name>mage/directpost.js</name><params/></action>
+            <action method="addJs"><file>mage/directpost.js</file><group>checkout</group></action>
+
+            <action method="removeItem"><type>js</type><name>mage/centinel.js</name><params/></action>
+            <action method="addJs"><script>mage/centinel.js</script><group>checkout</group></action>
+
+            <action method="removeItem"><type>js</type><name>varien/weee.js</name><params/></action>
+            <action method="addItem"><type>js</type><name>varien/weee.js</name><group>checkout</group></action>
+        </reference>
+        <reference name="captcha">
+            <reference name="head">
+                <action method="removeItem"><type>js</type><name>mage/captcha.js</name><params/></action>
+                <action method="addJs"><file>mage/captcha.js</file><group>checkout</group></action>
+            </reference>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="checkout.onepage.review">
+        	<block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements-quickcheckout.phtml"/>
+        </reference>
+    </checkout_onepage_index>
+
+    <wishlist_index_index>
+
+        <reference name="customer.wishlist.item.image">
+            <action method="setCssClass"><class>hidden-sm hidden-xs</class></action>
+        </reference>
+
+        <reference name="customer.wishlist.items">
+            <block type="wishlist/customer_wishlist_item_column_cart" name="customer.wishlist.qty" template="wishlist/item/column/qty.phtml" before="customer.wishlist.item.cart">
+                <action method="setCssClass"><class>hidden-sm hidden-xs</class></action>
+            </block>
+            <block type="wishlist/customer_wishlist_item_column_cart" name="customer.wishlist.price" template="wishlist/item/column/price.phtml" before="customer.wishlist.qty">
+                <action method="setCssClass"><class>hidden-sm hidden-xs</class></action>
+            </block>
+        </reference>
+
+        <reference name="customer.wishlist.item.cart">
+            <action method="setTitle" translate="title">
+                <title>Add to Cart From Wishlist</title>
+            </action>
+        </reference>
+
+        <remove name="customer.wishlist.item.remove" />
+
+    </wishlist_index_index>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>tags</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>recurring_profiles</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>giftregistry</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>invitations</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>downloadable_products</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>enterprise_customerbalance</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>enterprise_giftcardaccount</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>enterprise_reward</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>billing_agreements</name></action>
+            <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active"><name>OAuth Customer Tokens</name></action>
+        </reference>
+    </customer_account>
+
+    <sales_order_history>
+        <reference name="my.account.wrapper">
+            <remove name="customer.account.link.back" />
+        </reference>
+    </sales_order_history>
+
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="removeItem"><type>js</type><name>varien/weee.js</name><params/></action>
+            <action method="addItem"><type>js</type><name>varien/weee.js</name><group>cart</group></action>
+            <action method="setRobots"><value>NOINDEX,FOLLOW</value></action>
+        </reference>
+        <reference name="checkout.cart.crosssell">
+            <action method="setTemplate" ifconfig="carbon/settings/is_enterprise">
+                <template>checkout/cart/crosssell.phtml</template>
+            </action>
+        </reference>
+    </checkout_cart_index>
+
+    <icommerce_selectedproducts_view>
+        <reference name="head">
+            <!-- The file is empty from the beginning and causes a whole new merged css file on startpage.-->
+            <action method="removeItem"><type>skin_css</type><name>css/icommerce_selectedproducts.css</name><params/></action>
+        </reference>
+    </icommerce_selectedproducts_view>
+</layout>

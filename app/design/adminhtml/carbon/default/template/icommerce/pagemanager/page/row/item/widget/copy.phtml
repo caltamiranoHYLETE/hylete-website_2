@@ -1,0 +1,45 @@
+<?php 
+	$helper = Mage::helper('pagemanager');
+?>
+<?php $rows =  $this->getRows(); ?>
+<?php $item = $this->getItem(); $itemType = $this->getItemType()?>
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Copy HTML: ').$item['title']?></h3></td>
+            <td class="a-right">
+            	<?php echo $this->getButtonsHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="copyandsavewidget_form" enctype="multipart/form-data" name="copyandsavewidget_form" method="post" action="<?php echo $this->getUrl('*/*/copyandsavewidget')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <input name="copyandsavewidgetform[id]" type="hidden" value="<?php echo $item['id'] ?>" />
+        <input name="copyandsavewidgetform[type]" type="hidden" value="<?php echo $itemType['value'] ?>" />
+        <input name="copyandsavewidgetform[title]" type="hidden" value="<?php echo $item['title'] ?>" />
+        <input name="copyandsavewidgetform[page_content]" type="hidden" value="<?php echo $item['page_content'] ?>" />
+        <input name="copyandsavewidgetform[status]" type="hidden" value="<?php echo $item['status'] ?>" />
+        <input name="copyandsavewidgetform[position]" type="hidden" value="<?php echo $item['position'] ?>" />
+        <div class="entry-edit-head"><h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Copy the HTML information below')?></h4></div>
+        <fieldset id="my-fieldset" class="fieldset-wide">
+            <table cellspacing="0" class="form-list">
+            	<tr>
+                    <td class="label"><?php echo $this->__('Choose row to copy to')?> <span class="required">*</span></td>
+                    <td class="value">
+                    	<select name="copyandsavewidgetform[row_id]">
+                    		<?php $i = 0; foreach($rows as $key => $title): ?>
+	                    		<option value="<?php echo $title['id']?>"><?php echo $this->__('Row ').($i+1).' ('.$this->__('Type: ').$helper->getRowTypeName($title['type']).')' ?></option>
+                    		<?php $i++; endforeach; ?>
+                    	</select>
+                    </td>
+                </tr>          
+            </table>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var copyandsavehtmlform = new varienForm('copyandsavewidgetform_form');
+</script>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?><config>
+    <modules>
+        <Vaimo_Fancybox>
+            <version>0.1.9</version>
+        </Vaimo_Fancybox>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <fancybox>
+                    <file>vaimo-fancybox.xml</file>
+                </fancybox>
+            </updates>
+        </layout>
+    </frontend>
+</config>

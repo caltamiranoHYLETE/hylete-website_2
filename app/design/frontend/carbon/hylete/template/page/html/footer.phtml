@@ -1,0 +1,81 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<footer id="footer">
+    <div class="container">
+        <?php echo $this->getChildHtml('newsletter'); ?>
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <h5 class="heading">
+                    <?php echo $this->__('info') ?>
+                    <i class="fa icon-angle-right"></i>
+                    <i class="fa icon-angle-down"></i>
+                </h5>
+                <div class="content">
+                    <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info-links')->setBlockId('footer_info_links')->toHtml() ?>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <h5 class="heading">
+                    <?php echo $this->__('teams') ?>
+                    <i class="fa icon-angle-right"></i>
+                    <i class="fa icon-angle-down"></i>
+                </h5>
+                <div class="content">
+                    <?php echo $this->getLayout()->createBlock('cms/block', 'footer-teams')->setBlockId('footer_teams')->toHtml() ?>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <h5 class="heading">
+                    <?php echo $this->__('powered by HYLETE') ?>
+                    <i class="fa icon-angle-right"></i>
+                    <i class="fa icon-angle-down"></i>
+                </h5>
+                <div class="content">
+                    <?php echo $this->getLayout()->createBlock('cms/block', 'footer-powered-by-hylete')->setBlockId('footer_powered_by_hylete')->toHtml() ?>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <h5 class="heading">
+                    <?php echo $this->__('follow us') ?>
+                    <i class="fa icon-angle-right"></i>
+                    <i class="fa icon-angle-down"></i>
+                </h5>
+                <div class="content follow-us">
+                    <a href="http://instagram.com/trainhylete" target="_blank"><span class="fa icon-instagram"></span></a>
+                    <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa icon-twitter"></span></a>
+                    <a href="http://www.facebook.com/hylete" target="_blank"><span class="fa icon-facebook"></span></a>
+                    <a href="http://www.youtube.com/trainHYLETE" target="_blank"><span class="fa icon-youtube"></span></a>
+                    <a href="http://pinterest.com/explore/trainhylete" target="_blank"><span class="fa icon-pinterest"></span></a>
+                </div>
+                <?php echo $this->getLayout()->createBlock('cms/block', 'footer-content')->setBlockId('footer_content')->toHtml() ?>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<p id="copyright"><?php echo Mage::getStoreConfig('design/footer/copyright');?></p>
