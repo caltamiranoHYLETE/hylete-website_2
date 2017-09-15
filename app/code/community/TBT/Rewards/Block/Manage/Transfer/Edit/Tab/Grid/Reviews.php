@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -55,17 +55,6 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Reviews extends Mage_Admin
 	protected function _prepareCollection() {
 		//TODO: add full name logic
 		$collection = Mage::getResourceModel ( 'review/review_collection' );
-		//->addAttributeToSelect('*');
-		//            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
-		//            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
-		//            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
-		//            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-		//            ->addExpressionAttributeToSelect('billing_name',
-		//                'CONCAT({{billing_firstname}}, " ", {{billing_lastname}})',
-		//                array('billing_firstname', 'billing_lastname'))
-		//            ->addExpressionAttributeToSelect('shipping_name',
-		//                'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
-		//                array('shipping_firstname', 'shipping_lastname'));
 		$this->setCollection ( $collection );
 		return parent::_prepareCollection ();
 	}
@@ -87,10 +76,10 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Reviews extends Mage_Admin
 				$customerIds = 0;
 			}
 			if ($column->getFilter ()->getValue ()) {
-				$this->getCollection ()->addFieldToFilter ( 'review_id', array ('in' => $customerIds ) );
+				$this->getCollection ()->addFieldToFilter ( 'main_table.review_id', array ('in' => $customerIds ) );
 			} else {
 				if ($customerIds) {
-					$this->getCollection ()->addFieldToFilter ( 'review_id', array ('nin' => $customerIds ) );
+					$this->getCollection ()->addFieldToFilter ( 'main_table.review_id', array ('nin' => $customerIds ) );
 				}
 			}
 		} else {
@@ -127,9 +116,7 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Reviews extends Mage_Admin
 		
 		$this->addColumn ( 'title', array ('header' => Mage::helper ( 'review' )->__ ( 'Review Title' ), 'index' => 'title' ) );
 		
-		$this->addColumn ( 'review_status_id', array ('header' => Mage::helper ( 'review' )->__ ( 'Status' ), 'index' => 'status_id', //'type'  => 'options',
-'type' => 'int', 'width' => '70px' ) )//'options' => Mage::getSingleton('review/review')->getStatusCollection(),
-;
+		$this->addColumn ( 'review_status_id', array ('header' => Mage::helper ( 'review' )->__ ( 'Status' ), 'index' => 'status_id', 'type' => 'int', 'width' => '70px' ) );
 		
 		$this->addColumn ( 'action', array ('header' => Mage::helper ( 'rewards' )->__ ( 'Action' ), 'width' => '100', 'type' => 'action', 'getter' => 'getId', 'actions' => array (array ('caption' => Mage::helper ( 'rewards' )->__ ( 'View' ), 'url' => array ('base' => 'adminhtml/catalog_product_review/edit' ), 'field' => 'id' ) ), 'filter' => false, 'sortable' => false, 'index' => 'stores', 'is_system' => true ) );
 		

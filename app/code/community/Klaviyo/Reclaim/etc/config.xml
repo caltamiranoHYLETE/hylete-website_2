@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Klaviyo_Reclaim>
-            <version>1.4.7</version>
+            <version>1.6.3</version>
         </Klaviyo_Reclaim>
     </modules>
     <global>
@@ -39,6 +39,9 @@
                     </checkout>
                 </entities>
             </reclaim_mysql4>
+            <reclaim>
+                <class>Klaviyo_Reclaim_Model</class>
+            </reclaim>
         </models>
         <helpers>
             <klaviyo_reclaim>
@@ -59,7 +62,17 @@
             </klaviyo_reclaim_setup>
         </resources>
     </global>
-
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Klaviyo_Reclaim after="Mage_Adminhtml">Klaviyo_Reclaim</Klaviyo_Reclaim>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <layout>
             <updates>
@@ -69,7 +82,6 @@
             </updates>
         </layout>
     </adminhtml>
-
     <frontend>
         <routers>
             <klaviyo_reclaim>

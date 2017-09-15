@@ -27,7 +27,7 @@
  * Sweet Tooth Inc. is not responsible for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by another framework extension.
  * If you did not receive a copy of the license, please send an email to
- * contact@sweettoothhq.com or call 1-855-699-9322, so we can send you a copy
+ * contact@magerewards.com or call 1-855-699-9322, so we can send you a copy
  * immediately.
  *
  * @copyright  Copyright (c) 2012 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
@@ -37,7 +37,7 @@
 /**
  * @category   TBT
  * @package    TBT_Rewards
- * @author     Sweet Tooth Team <contact@sweettoothhq.com>
+ * @author     Sweet Tooth Team <contact@magerewards.com>
  */
 class TBT_Rewards_Model_System_Config_Developer_ApiUrl extends Mage_Core_Model_Config_Data
 {

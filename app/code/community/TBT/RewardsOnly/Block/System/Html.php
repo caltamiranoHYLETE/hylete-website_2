@@ -1,6 +1,6 @@
 <?php
 /**
- * WDCA
+ * Sweet Tooth
  *  
  * NOTICE OF LICENSE
  *
@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   WDCA
+ * @category   Sweet Tooth
  * @package    TBT_Enhancedgrid
  * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -34,7 +34,7 @@ class TBT_RewardsOnly_Block_System_Html
 		$html = "";
         $html .= "
         	<div style=\" margin-bottom: 12px; width: 430px;\">
-            Sweet Tooth Points-only Extension v". Mage::getConfig()->getNode('modules/TBT_RewardsOnly/version')  .
+            MageRewards Points-only Extension v". Mage::getConfig()->getNode('modules/TBT_RewardsOnly/version')  .
             ". <BR /> 
             </div>
         ";

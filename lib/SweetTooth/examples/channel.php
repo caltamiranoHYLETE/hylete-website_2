@@ -6,11 +6,15 @@ include_once(dirname(__FILE__).'/../SweetTooth.php');
 $apiKey = '';
 $apiSecret = '';
 $subdomain = '';
+$stdout = fopen('php://output', 'w');
 
 if (!$apiKey || !$apiSecret || !$subdomain) {
-    echo "You need to enter the apiKey, apiSecret, and subdomain in channel.php.
+    $content = "You need to enter the apiKey, apiSecret, and subdomain in channel.php.
         If you don't have an account yet, run account.php to create one.
     ";
+    
+    fwrite($stdout, $content);
+    fclose($stdout);
     return;
 }
 
@@ -21,7 +25,7 @@ $channelData = array (
     'channel_type' => 'magento'
 );
 
-echo "
+$content = "
     <div>
         Creating channel with data:<br/>
         <pre>" . print_r($channelData, true) . "</pre>
@@ -29,17 +33,18 @@ echo "
     <br/>
 ";
 
+fwrite($stdout, $content);
 try {
     // Create a magento channel for our new account
     $channel = $st->channel()->create($channelData);
 } catch (Exception $e) {
-    // Something went wrong!
-    echo 'Error creating your channel: ' . $e->getMessage();
+    fwrite($stdout, 'Error creating your channel: ' . $e->getMessage());
+    fclose($stdout);
     return;
 }
 
 // Awesome, your account and channel was created!
-$result = "
+$content = "
     <div>
        Channel info:<br/>
        <pre>" . print_r($channel, true) . "</pre>
@@ -53,6 +58,6 @@ $result = "
 </pre>
 ";
 
-echo $result;
+fwrite($stdout, $content);
+fclose($stdout);
 
-?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WDCA
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
@@ -32,8 +32,8 @@ class TBT_RewardsSocial2_Block_System_Config_Html extends Mage_Adminhtml_Block_S
             . '<div style="padding: 5px;">';
 
 
-        $html .= '<p style="margin: 20px 0 30px 0;">You can integrate Sweet Tooth social buttons into individual <strong>CMS pages</strong> as well. <br/> '
-            . '<a href="http://help.sweettoothrewards.com/article/682-rewards-social-2-0-admin-functionality#cms" target="_blank" title="Learn more">Learn More</a>'
+        $html .= '<p style="margin: 20px 0 30px 0;">You can integrate MageRewards social buttons into individual <strong>CMS pages</strong> as well. <br/> '
+            . '<a href="http://support.magerewards.com/article/1627-rewards-social-2-0-admin-functionality#cms" target="_blank" title="Learn more">Learn More</a>'
         . '</p>'
         . '<hr />';
 

@@ -31,7 +31,7 @@ class TBT_Rewards_Model_Tag_Observer extends Varien_Object {
      * @return TBT_Rewards_Model_Tag_Observer
      */
     public function afterLoadTag(Varien_Event_Observer $o) {
-        $tag = $o->getEvent()->getObject();
+        $tag = ($o->getEvent()->hasObject()) ? $o->getEvent()->getObject() : $o->getEvent()->getDataObject();
         
         if ( ! ($tag instanceof Mage_Tag_Model_Tag) ) return $this;
         
@@ -46,7 +46,7 @@ class TBT_Rewards_Model_Tag_Observer extends Varien_Object {
      * @return TBT_Rewards_Model_Tag_Observer
      */
     public function afterSaveTag(Varien_Event_Observer $o) {
-        $tag = $o->getEvent()->getObject();
+        $tag = ($o->getEvent()->hasObject()) ? $o->getEvent()->getObject() : $o->getEvent()->getDataObject();
         
         if ( ! ($tag instanceof Mage_Tag_Model_Tag) ) return $this;
 

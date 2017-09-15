@@ -177,7 +177,7 @@ class TBT_Rewards_Helper_Mysql4_Install extends Mage_Core_Helper_Abstract {
         $message->setDateAdded ( date ( "c", time () ) );
 
         if ($url == null) {
-            $url = "http://help.sweettoothrewards.com/category/3-announcements-basics";
+            $url = "http://support.magerewards.com/category/1526-category";
         }
 
         if ($severity === null) {

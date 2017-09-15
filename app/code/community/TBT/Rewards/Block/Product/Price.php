@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -42,8 +42,8 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Product_Price extends Mage_Catalog_Block_Product_Price {
-	
+class TBT_Rewards_Block_Product_Price extends Mage_Catalog_Block_Product_Price
+{
 	protected $_product = null;
 	
 	/**
@@ -96,24 +96,16 @@ class TBT_Rewards_Block_Product_Price extends Mage_Catalog_Block_Product_Price {
 	public function getSimplePointsCost() {
 		
 		$product = $this->getProduct ();
-		
-		//		Mage::log("getSimplePointsCost:: {$this->getProduct()->getName()}");
-		
-
 		$rule_selector = $this->getRedemptionSelectionAlgorithm ();
 		$rule_selector->init ( $this->getCurrentCustomer (), $this->getProduct () );
-		if (! $rule_selector->hasRule ()) {
+
+                if (! $rule_selector->hasRule ()) {
 			return $this->getDefaultMessage ();
 		}
 		
 		$rule = $rule_selector->getRule ();
 		$points_str = $rule->getPointsString ( $product );
 		
-		//		echo "<PRE>";
-		//		debug_print_backtrace();
-		//		echo "</PRE>";
-		
-
 		return $points_str;
 	}
 	
@@ -147,18 +139,21 @@ class TBT_Rewards_Block_Product_Price extends Mage_Catalog_Block_Product_Price {
 	 * @param Mage_Catalog_Model_Product $product [ = null ]
 	 * @return array()
 	 */
-	public function getRedeemableOptions() {
-		Varien_Profiler::start ( 'TBT_Rewards:: Get Redeemable Options' );
-		$applicable_rules = array ();
-		$product = $this->getProduct ();
-		
-		try {
-			$applicable_rules = $product->getRedeemableOptions ( $this->getCurrentCustomer (), $product );
-		} catch ( Exception $e ) {
-			die ( "An error occurred trying to apply the redemption while adding the product to your cart: " . $e->getMessage () );
-		}
-		Varien_Profiler::stop ( 'TBT_Rewards:: Get Redeemable Options' );
-		return $applicable_rules;
+	public function getRedeemableOptions() 
+        {
+            Varien_Profiler::start('TBT_Rewards:: Get Redeemable Options');
+            $applicableRules = array();
+            $product = $this->getProduct();
+
+            try {
+                $applicableRules = $product->getRedeemableOptions($this->getCurrentCustomer(), $product);
+            } catch (Exception $e) {
+                $message = "An error occurred trying to apply the redemption while adding the product to your cart: " . $e->getMessage();
+                Mage::helper('rewards')->log($message);
+            }
+            
+            Varien_Profiler::stop('TBT_Rewards:: Get Redeemable Options');
+            return $applicableRules;
 	}
 	
 	/**
@@ -209,5 +204,5 @@ class TBT_Rewards_Block_Product_Price extends Mage_Catalog_Block_Product_Price {
 	protected function _getRS() {
 		return $this->_getRewardsSess ();
 	}
-
 }
+

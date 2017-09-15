@@ -3,7 +3,7 @@
 <config>
     <modules>
         <TBT_RewardsLoyalty>
-            <version>0.2.0.0</version>
+            <version>0.2.0</version>
         </TBT_RewardsLoyalty>
     </modules>
 

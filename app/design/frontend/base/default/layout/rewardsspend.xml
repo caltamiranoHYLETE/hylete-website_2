@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *     https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -45,7 +45,7 @@
 	                template="rewards/customer/redeemcatalog.phtml" />
         </reference>
     </rewards_customer_index>
-
+    
     <!-- point slider -->
     <catalog_product_view>
         <reference name="head">
@@ -98,6 +98,21 @@
     <!-- @nelkaake END Points Amount in Product Info Page for Product Points -->
 
 
+    <!-- Bundle Catalog Product view Slider Integration in case previous fail -->
+    <catalog_product_view>
+        <reference name="product.info.addtocart">
+            <block type="rewards/integrated_product_view_points" name="rewards.integrated.product.view.points.bundle" template="rewards/product/view/points.phtml">
+                <block type="rewards/product_view_points_earned" name="rewards.product.view.points.earned" alias="points_earned" template="rewards/product/view/points_earned.phtml" />
+                <block type="rewards/product_view_points_redeemed" name="rewards.product.view.points.redeemed" alias="points_redeemed" template="rewards/product/view/points_redeemed.phtml">
+                    <block type="rewards/points_slider" name="rewards.product.view.points.slider" alias="points_slider" template="rewards/product/view/slider.phtml" />
+                    <block type="rewards/points_slider" name="rewards.product.view.points.slider.js" alias="points_slider_js" template="rewards/product/view/slider_js.phtml" />
+                </block>
+                <action method="appendBlockHtmlToParentIfBundleAndEnterprise" />
+            </block>
+        </reference>
+    </catalog_product_view>
+    <!-- END Bundle Integration -->
+
     <!-- @nelkaake BEGIN Shopping cart autointegrated content  -->
     <checkout_cart_index>
         <!-- Mage_Checkout -->
@@ -109,6 +124,9 @@
                     <value>cart-points-spender discount</value>
                 </action>
                 <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/cart.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
             </block>
         </reference>
     </checkout_cart_index>
@@ -158,10 +176,14 @@
                     <value>checkout-step-review</value>
                 </action>
                 <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/onepage.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
             </block>
         </reference>
     </checkout_onepage_index>
     
+    <!--BEGIN IDEV OSC INTEGRATION (rewards_slider_head handle is used also for MAGESTORE as both have same action name)-->
     <onestepcheckout_index_index>
         <update handle="rewards_slider_head" />
         <reference name="onestepcheckout.summary" before="-">
@@ -171,10 +193,43 @@
                     <value>checkout-points-spender onestepcheckout-points-spender</value>
                 </action>
                 <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/onestepcheckout.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
             </block>
         </reference>
     </onestepcheckout_index_index>
-        
+    <!--END IDEV OSC INTEGRATION-->
+    
+    <!--BEGIN MAGESTORE OSC INTEGRATION-->
+    <rewards_checkout_magestore_points_spender_handle>
+        <reference name="review_info" before="-">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender onestepcheckout-points-spender magestore-osc-points-spender</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/magestore_onestepcheckout.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
+            </block>
+        </reference>
+    </rewards_checkout_magestore_points_spender_handle>
+    
+    <onestepcheckout_payment_review_material_20columns>
+        <update handle="rewards_checkout_magestore_points_spender_handle"/>
+    </onestepcheckout_payment_review_material_20columns>
+    
+    <onestepcheckout_payment_review_flat_20columns>
+        <update handle="rewards_checkout_magestore_points_spender_handle"/>
+    </onestepcheckout_payment_review_flat_20columns>
+    
+    <onestepcheckout_payment_review_flat_30columns>
+        <update handle="rewards_checkout_magestore_points_spender_handle"/>
+    </onestepcheckout_payment_review_flat_30columns>
+    <!--END MAGESTORE OSC INTEGRATION-->
+    
     <gomage_checkout_onepage_index>
         <update handle="rewards_slider_head" />
         <remove name="rewards_points_cart_minibox" />
@@ -189,9 +244,61 @@
         </reference>
     </gomage_checkout_onepage_index>
     
+    <aw_onestepcheckout_index_index>
+        <update handle="rewards_slider_head" />
+        <remove name="rewards_points_cart_minibox" />
+        <reference name="aw_onestepcheckout.onestep.form.review.cart" before="-">
+            <block type="rewards/spender_combined" name="points.spender" as="points-spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender aw-onestepcheckout-points-spender</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/aw_onestepcheckout.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
+            </block>
+        </reference>
+    </aw_onestepcheckout_index_index>
+    
+    <opc_index_index>
+        <update handle="rewards_slider_head" />
+        <reference name="checkout.onepage.agreements" before="-">
+            <block type="rewards/spender_combined" name="points.spender">
+                <action method="setData">
+                    <name>additional_selectors</name>
+                    <value>checkout-points-spender iwd-onestepcheckout-points-spender</value>
+                </action>
+                <block type="core/template" name="additional.spender.js.before" template="rewards/spender/additional/iwd_onestepcheckout.phtml" />
+                <action method="appendBlockHtmlToParent">
+                    <ifconfig><![CDATA[rewards/autointegration/shopping_cart_under_coupon]]></ifconfig>
+                </action>
+            </block>
+        </reference>
+    </opc_index_index>
+    
     <firecheckout_index_index>
         <update handle="rewards_slider_head" />
     </firecheckout_index_index>
+    
+    <rewards_firecheckout_redeem_review>
+        <reference name="content">
+            <block type="checkout/onepage_review_info" name="checkout.review" template="tm/firecheckout/checkout/review/info.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>tm/firecheckout/checkout/review/item.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>tm/firecheckout/checkout/review/item.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>tm/firecheckout/checkout/review/item.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>tm/firecheckout/checkout/review/item.phtml</template></action>
+                <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>tm/firecheckout/downloadable/checkout/review/item.phtml</template></action>
+                <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+                <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+                    <label>Items Before</label>
+                </block>
+                <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+                    <label>Items After</label>
+                </block>
+            </block>
+        </reference>
+    </rewards_firecheckout_redeem_review>
     
     <rewards_slider_head>
         <reference name="head">

@@ -10,6 +10,7 @@
                 <Mage_Catalog/>
                 <Mage_Sales/>
                 <Mage_Customer/>
+                <Mage_Tax/>
             </depends>
         </TBT_Rewards>
     </modules>

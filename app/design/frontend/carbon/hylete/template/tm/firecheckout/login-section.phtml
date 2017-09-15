@@ -1,0 +1,26 @@
+<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
+    <div class="firecheckout-section firecheckout-login-section">
+        <div class="block-title"><span><?php echo $this->__('Guest Checkout or Log in') ?></span></div>
+        <div class="block-content">
+            <div class="login-section-actions">
+                <a href="<?php echo $this->getUrl('customer/account/login') ?>"
+                   class="button button-login login-section-action firecheckout-login">
+                    <span class="fa fa-user-o"></span>
+                    <?php echo $this->__('Log in') ?>
+                </a>
+                <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                    <a onclick="return facebookPopup();" class="button button-login-facebook login-section-action">
+                        <span class="fa fa-facebook"></span><?php echo $this->__('Log in with Facebook');?>
+                    </a>
+                <?php endif;?>
+            </div>
+
+            <?php $html = $this->getChildHtml('login_section_after');
+            if ($html) : ?>
+                <div class="login-section-static">
+                    <?php echo $html; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

@@ -28,3 +28,6 @@
     <div class="onhold-points"><?php echo $this->__('%s are on hold.', $this->getCustomerOnHoldPointsSummary()); ?></div>
 <?php endif; ?>
 </p>
+<?php if($this->getDaysUntilExpiry()): ?>
+    <div class="expiry-points"><?php echo $this->__('The points balance will expire in %s days (%s).', $this->getDaysUntilExpiry(),$this->getExpiryDate()); ?></div>
+<?php endif; ?>

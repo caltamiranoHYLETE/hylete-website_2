@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL:
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -42,29 +42,28 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Helper_Debug extends Mage_Core_Helper_Abstract {
-
+class TBT_Rewards_Helper_Debug extends Mage_Core_Helper_Abstract
+{
     private static $_lastMemoryUsage = null;
     private static $_memoryProfiles = array();
 
-    public function dd($vo, $with_pre_tags = true, $die = true) {
-        if ($vo instanceof Varien_Object) {
-            $str = print_r ( $vo->toArray (), true );
-        } else {
-            $str = print_r ( $vo, true );
-        }
+    /**
+     * @var array, will store references to objects already printed in recursive
+     * calls to $this->toString()
+     */
+    private $_objectStack;
+
+    public function dd($vo, $with_pre_tags = true) 
+    {
+        $str = ($vo instanceof Varien_Object)
+            ? print_r ( $vo->toArray (), true )
+            : $str = print_r ( $vo, true );
 
         if ($with_pre_tags) {
-            echo ("<PRE>" . $str . "</PRE>");
-        } else {
-            echo ($str);
+            $str = "<PRE>" . $str . "</PRE>";
         }
-
-        if ($die) {
-            die ();
-        } else {
-            return $this;
-        }
+        
+        $this->printMessage($str);
     }
 
     /**
@@ -107,8 +106,16 @@ class TBT_Rewards_Helper_Debug extends Mage_Core_Helper_Abstract {
      * @nelkaake Added on Thursday May 27, 2010: Logging method for ST functions
      * @param mixed $msg
      */
-    public function log($msg) {
+    public function log($msg) 
+    {
         Mage::log ( $msg, null, "rewards.log" );
+    }
+    
+    public function printMessage($message)
+    {
+        $stdout = fopen('php://output', 'w');
+        fwrite($stdout, $message);
+        fclose($stdout);
     }
 
     /**
@@ -158,6 +165,9 @@ class TBT_Rewards_Helper_Debug extends Mage_Core_Helper_Abstract {
 
 
     /**
+     * @deprecated, use toString() instead.
+     * @see TBT_Rewards_Helper_Debug::toString()
+     *
      * Returns an array of the inner data of the Varien Object that
      * omitting other varien objects
      * @nelkaake -a 16/11/10:
@@ -191,6 +201,50 @@ class TBT_Rewards_Helper_Debug extends Mage_Core_Helper_Abstract {
             }
         }
         return $data;
+    }
+
+    /**
+     * Will recursively print data in an array or Varien_Object without getting into cyclic references.
+     * @param array|Varien_Object|mixed $object
+     * @param int $indent, level of recursion we're in
+     * @return mixed|string
+     */
+    function toString($object, $indent = 0)
+    {
+        if ($indent == 0) {
+            $this->_objectStack = array();
+        }
+
+        if (in_array($object, $this->_objectStack, true)) {
+            if (is_array($object)) {
+                $keys = implode(", ", array_keys($object));
+                return "Array[{$keys}] - Already Printed.";
+
+            } else if (is_object($object)) {
+                $className = get_class($object);
+                return "Class <{$className}> - Already Printed.";
+
+            } else {
+                return print_r($object, true);
+            }
+        }
+
+        array_push($this->_objectStack, $object);
+        if (is_array($object)) {
+            $output = "\n";
+            foreach ($object as $index => $value) {
+                $output .= "\t" . str_repeat("\t", $indent) . "[{$index}]: ";
+                $output .= $this->toString($value, $indent + 1) . "\n";
+            }
+
+        } else if ($object instanceof Varien_Object) {
+            $output = "Class <" . get_class($object) . ">" . $this->toString($object->getData(), $indent);
+
+        } else {
+            $output = print_r($object, true);
+        }
+
+        return $output;
     }
 
     /**

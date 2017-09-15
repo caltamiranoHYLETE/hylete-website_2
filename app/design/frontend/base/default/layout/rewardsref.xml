@@ -23,7 +23,6 @@
         </reference>
         <reference name="content">
             <block type="rewardsref/customer_referral" name="referral" template="rewardsref/customer/referral.phtml" >
-                <block type="rewardsref/customer_referral_abstract" name="preferences" template="rewardsref/customer/referral/preferences.phtml" />
                 <block type="rewardsref/customer_referral_history" name="history" template="rewardsref/customer/referral/history.phtml" />
                 <block type="core/text_list" name="refer_form" as="refer_form">
                     <block type="rewardsref/customer_referral_abstract" name="refer_form_multi" template="rewardsref/customer/referral/invite/plaxo/referral_form.phtml">
@@ -51,7 +50,38 @@
             <block type="rewardsref/field_checkout" name="rewards_referral_field" template="rewardsref/onepage/field.phtml" />
         </reference>
     </checkout_onepage_index>
-
+    
+    <!-- BEGIN referral field integration for Magestore OSC -->
+    <rewardsref_magestore_osc_add_referral_field>
+        <reference name="onestepcheckout_billing">
+            <block type="rewardsref/field_checkout" name="rewards_referral_field" template="rewardsref/onepage/field.phtml">
+                <action method="appendReferralFieldToOneStepCheckout">
+                    <ifconfig><![CDATA[rewards/autointegration/onepage_billing_register_referral_field]]></ifconfig>
+                    <template><![CDATA[rewardsref/onepage/magestore_onestepcheckout/field.phtml]]></template>
+                </action>
+            </block>
+        </reference>
+    </rewardsref_magestore_osc_add_referral_field>
+    
+    <onestepcheckout_index_index_flat_20columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_flat_20columns>
+    <onestepcheckout_index_index_flat_25columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_flat_25columns>
+    <onestepcheckout_index_index_flat_30columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_flat_30columns>
+    <onestepcheckout_index_index_material_20columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_material_20columns>
+    <onestepcheckout_index_index_material_25columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_material_25columns>
+    <onestepcheckout_index_index_material_30columns>
+        <update handle="rewardsref_magestore_osc_add_referral_field" />
+    </onestepcheckout_index_index_material_30columns>
+    
     <onestepcheckout_index_index>
         <reference name="head">
             <action method="addCss" ifconfig="rewards/autointegration/onepage_billing_register_referral_field">
@@ -59,5 +89,41 @@
             </action>
         </reference>
     </onestepcheckout_index_index>
+    <!-- END referral field integration for Magestore OSC -->
+    
+    <!-- BEGIN referral field integration for IWD Onepage Checkout -->
+    <rewardsref_iwd_opc_add_referral_field>
+        <reference name="checkout.onepage.billing">
+            <block type="rewardsref/field_checkout" name="rewards_referral_field" template="rewardsref/onepage/field.phtml">
+                <action method="appendReferralFieldToOneStepCheckout">
+                    <ifconfig><![CDATA[rewards/autointegration/onepage_billing_register_referral_field]]></ifconfig>
+                    <template><![CDATA[rewardsref/onepage/iwd_onepagecheckout/field.phtml]]></template>
+                </action>
+            </block>
+        </reference>
+    </rewardsref_iwd_opc_add_referral_field>
+    
+    <opc_index_index>
+        <update handle="rewardsref_iwd_opc_add_referral_field" />
+    </opc_index_index>
+    <!-- END referral field integration for IWD Onepage Checkout -->
+    
+    <!-- BEGIN autointegrated content for My Referrals in Customer My Acount -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <block type="rewards/layout_helper" name="rewards.helper.link.my.referrals">
+                <action method="addLinkToParentIfConfig">
+                    <ifconfig>
+                        <configRewardsRefIsOutputEnabled><![CDATA[!advanced/modules_disable_output/TBT_RewardsReferral]]></configRewardsRefIsOutputEnabled>
+                        <configRewardsRefShow><![CDATA[rewards/referral/referral_show]]></configRewardsRefShow>
+                    </ifconfig>
+                    <name><![CDATA[rewardsref]]></name>
+                    <path><![CDATA[rewardsref/customer/index/]]></path>
+                    <label><![CDATA[My Referrals]]></label>
+                </action>
+            </block>
+        </reference>
+    </customer_account>
+    <!-- END autointegrated content for My Referrals in Customer My Acount -->
 
 </layout>

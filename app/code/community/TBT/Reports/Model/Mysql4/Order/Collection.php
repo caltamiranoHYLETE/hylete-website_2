@@ -77,9 +77,12 @@ class TBT_Reports_Model_Mysql4_Order_Collection extends Mage_Reports_Model_Mysql
      * @return $this
      * @throws Exception if tbtreports/indexer_order is not ready
      */
-    public function onlyOrdersByLoyaltyCustomers()
+    public function onlyOrdersByLoyaltyCustomers($checkIndexer = true)
     {
-        $this->_checkIndexer();
+        if ($checkIndexer) {
+            $this->_checkIndexer();
+        }
+
         $this->_flags['only_orders_by_loyalty_customers'] = true;
         $this->_flags['joined_on_index'] = true;
         $this->getSelect()->joinInner(
@@ -96,9 +99,12 @@ class TBT_Reports_Model_Mysql4_Order_Collection extends Mage_Reports_Model_Mysql
      * @return $this
      * @throws Exception if tbtreports/indexer_order is not ready
      */
-    public function onlyOrdersByReferredCustomers()
+    public function onlyOrdersByReferredCustomers($checkIndexer = true)
     {
-        $this->_checkIndexer();
+        if ($checkIndexer) {
+            $this->_checkIndexer();
+        }
+        
         $this->_flags['only_orders_by_referred_customers'] = true;
         $this->_flags['joined_on_index'] = true;
         $this->getSelect()->joinInner(
@@ -155,6 +161,340 @@ class TBT_Reports_Model_Mysql4_Order_Collection extends Mage_Reports_Model_Mysql
         $result = $connection->fetchRow($select);
         $this->_size = (int) $result['total_orders'];
         return (float) $result['revenue'];
+    }
+    
+    /**
+     * Prepare Revenue Metrics Collection
+     * @return float
+     */
+    public function prepareMetricsRevenue($range)
+    {
+        $select = $this->getSelect();
+        $select->join(new Zend_Db_Expr('(SELECT @aux := 0)'), '');
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'revenue' => new Zend_Db_Expr(
+                sprintf('SUM((%s) * %s)', $this->_getSalesAmountExpression(),
+                    $this->getIfNullSql(self::TABLE_ALIAS . '.base_to_global_rate', 0)
+                )
+            ),
+            'range' => new Zend_Db_Expr(
+                "MAX(".$this->_getRangeExpression($range, 'created_at').")"
+            )
+        ));
+        
+        $select->group($this->_getRangeExpression($range, 'created_at'));
+        
+        $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') >= '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+
+        return $this;
+    }
+    
+    /**
+     * Return Total Revenue Before Range Date
+     * @return float
+     */
+    public function getTotalRevenueBeforePeriod($range)
+    {
+        $select = clone $this->getSelect();
+        
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'revenue' => new Zend_Db_Expr(
+                sprintf('SUM((%s) * %s)', $this->_getSalesAmountExpression(),
+                    $this->getIfNullSql(self::TABLE_ALIAS . '.base_to_global_rate', 0)
+                )
+            )
+        ));
+        
+        $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') < '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['revenue'];
+    }
+    
+    /**
+     * Return Total Revenue by Date
+     * @return float
+     */
+    public function getTotalRevenueByDate($startDate = null, $after = true)
+    {
+        $select = clone $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $select->columns(array(
+            'revenue' => new Zend_Db_Expr(
+                sprintf('SUM((%s) * %s)', $this->_getSalesAmountExpression(),
+                    $this->getIfNullSql(self::TABLE_ALIAS . '.base_to_global_rate', 0)
+                )
+            )
+        ));
+        
+        if ($startDate) {
+            $operand = ($after) ? '>=' : '<';
+            $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') ". $operand ." '" . $startDate . "'");
+        }
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['revenue'];
+    }
+   
+    /**
+     * Prepare Orders Repeat Purchase Count Metrics
+     * @return float
+     */
+    public function prepareMetricsOrdersRepeatPurchase($range)
+    {
+        $nthOrder = 2;
+        $select = $this->getSelect();
+
+        $whereTableAlias = self::TABLE_ALIAS . '_aux';
+        $whereSelect = clone $select;
+        $whereSelect->reset();
+        $whereSelect->from(
+            array(
+                $whereTableAlias => $this->getMainTable()
+            )
+        );
+        
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $whereSelect->reset(Zend_Db_Select::COLUMNS);
+        $whereSelect->columns(array(
+            'nthOrder' => new Zend_Db_Expr(
+                "COUNT(" . $whereTableAlias . ".entity_id)"
+            ),
+        ));
+        
+        $whereSelect->where(
+            new Zend_Db_Expr(
+                $whereTableAlias . ".created_at"
+                . ' <= ' . self::TABLE_ALIAS . ".created_at"
+                . " AND " . $whereTableAlias . ".customer_id = " . self::TABLE_ALIAS . ".customer_id"
+            )
+        );
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+        
+        $select->columns(
+            array(
+                'quantity' => new Zend_Db_Expr(
+                    "COUNT(" . self::TABLE_ALIAS . ".customer_id)"
+                ),
+                'range' => new Zend_Db_Expr(
+                    $this->_getRangeExpression($range, self::TABLE_ALIAS . '.created_at')
+                )
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                "DATE_FORMAT(".self::TABLE_ALIAS . ".created_at, '%Y-%m-%d')"
+                . " >= '" . $dateRange['from']->toString('Y-MM-dd') . "'"
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                $nthOrder . " = (" . new Zend_Db_Expr($whereSelect) . ")"
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                self::TABLE_ALIAS . ".customer_id IS NOT NULL"
+            )
+        );
+
+        $select->group($this->_getRangeExpression($range, self::TABLE_ALIAS . '.created_at'));
+
+        return $this;
+    }
+    
+    /**
+     * Getter for Total Customers For Repeat Purchase Orders before Range Date
+     * @return float
+     */
+    public function getTotalOrdersRepeatPurchaseBeforePeriod($range)
+    {
+        $nthOrder = 2;
+        $select = $this->getSelect();
+
+        $whereTableAlias = self::TABLE_ALIAS . '_aux';
+        $whereSelect = clone $select;
+        $whereSelect->reset();
+        $whereSelect->from(
+            array(
+                $whereTableAlias => $this->getMainTable()
+            )
+        );
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $whereSelect->reset(Zend_Db_Select::COLUMNS);
+        $whereSelect->columns(array(
+            'nthOrder' => new Zend_Db_Expr(
+                "COUNT(" . $whereTableAlias . ".entity_id)"
+            ),
+        ));
+
+        $whereSelect->where(
+            new Zend_Db_Expr(
+                $whereTableAlias . ".created_at"
+                . ' <= ' . self::TABLE_ALIAS . ".created_at"
+                . " AND " . $whereTableAlias . ".customer_id = " . self::TABLE_ALIAS . ".customer_id"
+            )
+        );
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $select->columns(
+            array(
+                'quantity' => new Zend_Db_Expr(
+                    "COUNT(" . self::TABLE_ALIAS . ".customer_id)"
+                )
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                "DATE_FORMAT(".self::TABLE_ALIAS . ".created_at, '%Y-%m-%d')"
+                . " < '" . $dateRange['from']->toString('Y-MM-dd') . "'"
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                $nthOrder . " = (" . new Zend_Db_Expr($whereSelect) . ")"
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                self::TABLE_ALIAS . ".customer_id IS NOT NULL"
+            )
+        );
+
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (int) $result['quantity'];
+    }
+    
+    /**
+     * Getter for Total Customers For Repeat Purchase Orders by Date
+     * @return float
+     */
+    public function getTotalOrdersRepeatPurchaseByDate($startDate = null, $after = true)
+    {
+        $nthOrder = 2;
+        $select = $this->getSelect();
+
+        $whereTableAlias = self::TABLE_ALIAS . '_aux';
+        $whereSelect = clone $select;
+        $whereSelect->reset();
+        $whereSelect->from(
+            array(
+                $whereTableAlias => $this->getMainTable()
+            )
+        );
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $whereSelect->reset(Zend_Db_Select::COLUMNS);
+        $whereSelect->columns(array(
+            'nthOrder' => new Zend_Db_Expr(
+                "COUNT(" . $whereTableAlias . ".entity_id)"
+            ),
+        ));
+
+        $whereSelect->where(
+            new Zend_Db_Expr(
+                $whereTableAlias . ".created_at"
+                . ' <= ' . self::TABLE_ALIAS . ".created_at"
+                . " AND " . $whereTableAlias . ".customer_id = " . self::TABLE_ALIAS . ".customer_id"
+            )
+        );
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $select->columns(
+            array(
+                'quantity' => new Zend_Db_Expr(
+                    "COUNT(" . self::TABLE_ALIAS . ".customer_id)"
+                )
+            )
+        );
+        
+        if ($startDate) {
+            $operand = ($after) ? '>=' : '<';
+
+            $select->where(
+                new Zend_Db_Expr(
+                    "DATE_FORMAT(".self::TABLE_ALIAS . ".created_at, '%Y-%m-%d')"
+                    . " " . $operand . " '" . $startDate . "'"
+                )
+            );
+        }
+        
+        $select->where(
+            new Zend_Db_Expr(
+                $nthOrder . " = (" . new Zend_Db_Expr($whereSelect) . ")"
+            )
+        );
+
+        $select->where(
+            new Zend_Db_Expr(
+                self::TABLE_ALIAS . ".customer_id IS NOT NULL"
+            )
+        );
+
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+
+        return (int) $result['quantity'];
+    }
+    
+    /**
+     * Get range expression
+     *
+     * @param string $range
+     * @return Zend_Db_Expr
+     */
+    protected function _getRangeExpression($range, $attribute = '{{attribute}}')
+    {
+        switch ($range)
+        {
+            case '30d':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '3m':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '1y':
+            case 'custom':
+            default:
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m');
+                break;
+        }
+
+        return $expression;
     }
     
     /**
@@ -240,6 +580,18 @@ class TBT_Reports_Model_Mysql4_Order_Collection extends Mage_Reports_Model_Mysql
         $countSelect->columns("COUNT(DISTINCT ".self::TABLE_ALIAS.".entity_id)");
         
         return $countSelect;
+    }
+    
+    /**
+     * Fetch earliest row entry
+     * @return array
+     */
+    public function getFirstIndexedOrder()
+    {
+        $select = clone $this->getSelect();
+        $select->order('entity_id ASC');
+        
+        return $this->getConnection()->fetchRow($select);
     }
 
     /**

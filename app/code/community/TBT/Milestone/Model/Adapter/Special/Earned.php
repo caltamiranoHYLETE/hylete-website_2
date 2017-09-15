@@ -36,3 +36,4 @@ class TBT_Milestone_Model_Adapter_Special_Earned extends TBT_Milestone_Model_Ada
         ";
     }
 }
+

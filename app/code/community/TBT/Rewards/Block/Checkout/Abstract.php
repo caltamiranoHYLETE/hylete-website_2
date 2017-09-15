@@ -1,7 +1,7 @@
 <?php
 
-class TBT_Rewards_Block_Checkout_Abstract extends Mage_Checkout_Block_Cart {
-	
+class TBT_Rewards_Block_Checkout_Abstract extends Mage_Checkout_Block_Cart 
+{
 	protected $redemption_data = null;
 	protected $distribution_data = null;
 	
@@ -145,16 +145,25 @@ EOT;
 		return parent::_beforeToHtml ();
 	}
 	
-	public function loadSliderSettings() {
-		//TODO if there are multiple rules 
-		$quote = Mage::getSingleton ( 'rewards/session' )->getQuote ();
-		$this->setPointsStep ( $quote->getPointsStep () );
-		$this->setMinSpendablePoints ( $quote->getMinSpendablePoints () );
-		$this->setMaxSpendablePoints ( $quote->getMaxSpendablePoints () );
-		
-		return $this;
-	}
+    /**
+     * Initialize slider setting
+     * @return \TBT_Rewards_Block_Checkout_Abstract
+     */
+    public function loadSliderSettings()
+    {
+        //TODO if there are multiple rules 
 
+        $quote = Mage::getSingleton('rewards/sales_aggregated_cart')->getQuote();
+        
+        if (!Mage::app()->getStore()->isAdmin()) {
+            $quote->setTotalsCollectedFlag(false)->collectTotals();
+        }
+
+        $this->setPointsStep ( $quote->getPointsStep () );
+        $this->setMinSpendablePoints ( $quote->getMinSpendablePoints () );
+        $this->setMaxSpendablePoints ( $quote->getMaxSpendablePoints () );
+
+        return $this;
+    }
 }
 
-?>

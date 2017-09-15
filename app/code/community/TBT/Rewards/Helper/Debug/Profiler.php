@@ -74,7 +74,7 @@ class TBT_Rewards_Helper_Debug_Profiler extends TBT_Rewards_Helper_Debug {
 	    $logFile = $logDir . DS . $file;
 	
 	    $this->saveToFile($this->_getHtml(), $logDir, $file);
-	    Mage::log("ST_AjaxProfiler for {$bucketName} took {$duration} seconds. Details were saved in {$logFile}");
+	    Mage::helper('rewards/debug')->log("ST_AjaxProfiler for {$bucketName} took {$duration} seconds. Details were saved in {$logFile}");
 	    return $this;
 	}
 	

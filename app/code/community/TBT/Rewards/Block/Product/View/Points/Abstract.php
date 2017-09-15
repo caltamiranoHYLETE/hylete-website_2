@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -43,15 +43,12 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Template {
+class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Template 
+{
 
 	protected $applicable_rules_map = null;
 	protected $customer = null;
 	protected $_product = null;
-
-	protected function _construct() {
-		parent::_construct ();
-	}
 
 	/**
 	 * Ensures that the given product model is a rewards catlaog product
@@ -106,7 +103,7 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 		if ($this->_product == null) {
 			$p = Mage::registry ( 'product' );
 			if (empty ( $p ))
-				$p = $this->getProduct ();
+				$p = $this->getData('product');
 
 			if ($p) {
 				if ($p instanceof TBT_Rewards_Model_Catalog_Product) {
@@ -114,7 +111,14 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 				} else {
 					$this->_product = Mage::getModel ( 'rewards/catalog_product' )->setStoreId ( $p->getStoreId () )->load ( $p->getId () );
 					$this->_product->addData ( $p->getData () );
-				}
+
+                    $requestParams = Mage::app()->getRequest()->getParams();
+                    $buyRequest = $this->_getProductRequest($requestParams);
+
+                    if ($this->_hasProductOptionsInRequest($buyRequest)) {
+                        $this->_product->getTypeInstance(false)->prepareForCartAdvanced($buyRequest, $this->_product);
+                    }
+                }
 			} else {
 				$this->_product = Mage::getModel ( 'rewards/catalog_product' );
 			}
@@ -124,6 +128,53 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 		return $this->_product;
 	}
 
+    /**
+	 * Get request for product add to cart procedure
+	 *
+	 * @param   mixed $requestInfo
+	 * @return  Varien_Object
+	 */
+    protected function _getProductRequest($requestInfo)
+    {
+        if ($requestInfo instanceof Varien_Object) {
+            $request = $requestInfo;
+		} elseif (is_numeric($requestInfo)) {
+			$request = new Varien_Object();
+			$request->setQty($requestInfo);
+		} else {
+			$request = new Varien_Object($requestInfo);
+		}
+
+		if (!$request->hasQty()) {
+			$request->setQty(1);
+		}
+		return $request;
+	}
+
+    /**
+     * Check to see if Product Options exist in request
+     * 
+     * @param Varien_Object|array $buyRequest
+     * @return boolean
+     */
+    protected function _hasProductOptionsInRequest($buyRequest)
+    {
+        $requestParams = $buyRequest;
+
+        if ($buyRequest instanceof Varien_Object) {
+            $requestParams = $buyRequest->getData();
+        }
+
+        $paramNames = array_keys($requestParams);
+        $matchExpr = '/option|link|gift|attribute/i';
+
+        if (preg_match($matchExpr, implode(',',$paramNames))) {
+            return true;
+        }
+
+        return false;
+    }
+        
 	/**
          * TODO: CHECK CONFIG FOR IF CUSTOMER WANTS TO DISPLAY POINTS IMAGE
 	 * TODO: ^^^^^^^^ already done?
@@ -132,14 +183,24 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 	 * @param integer $currency_id
 	 * @return string
 	 */
-	public function getPointsImgUrl($num_points, $currency_id) {
-		if ($num_points > 0) {
-			$params = array ('quantity' => $num_points, 'currency' => $currency_id );
-			$url = $this->getUrl ( 'rewards/image/', $params );
-			return $url;
-		} else {
-			return "";
-		}
+	public function getPointsImgUrl($num_points, $currency_id) 
+    {
+        if ($num_points > 0) {
+            $params = array(
+                'quantity' => $num_points,
+                'currency' => $currency_id,
+                '_area' => 'frontend'
+            );
+            $url = $this->getUrl('rewards/image/', $params);
+
+            if (!@is_array(getimagesize($url))) {
+                return "";
+            }
+
+            return $url;
+        } else {
+            return "";
+        }
 	}
 
 	/**
@@ -151,7 +212,7 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 		$loggedIn = $this->_getRS ()->isCustomerLoggedIn ();
 		$showWhenNotLoggedIn = Mage::helper ( 'rewards/config' )->showRedeemerWhenNotLoggedIn ();
 		$show = ($showWhenNotLoggedIn || $loggedIn) && $this->hasRedemptionOptions ();
-		return $show;
+                return $show;
 	}
 
 	/**
@@ -165,15 +226,10 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 		$applicable_rules = array ();
 		$this->applicable_rules_map = array ();
 		$product = $this->ensureProduct ( $target_product );
-		$store = Mage::app ()->getStore ();
-
+                $store = $this->_getAggregatedCart()->getStore();
+                
 		try {
-			$gId = Mage::getSingleton ( 'customer/session' )->getCustomerGroupId ();
-			if ($gId !== 0 && empty ( $gId )) {
-				$gId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
-			}
-			// Fetch applicable rules
-			//die("getting rules for date=$date wid=$wId and group=$gId");
+                        $gId = $this->_getAggregatedCart()->getCustomerGroupId();
 			$applicable_rules = $product->getCatalogRedemptionRules ( $this->getCurrentCustomer () );
 			foreach ( $applicable_rules as $i => &$arr ) {
 				$arr = ( array ) $arr;
@@ -240,8 +296,11 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 			}
 
 		} catch ( Exception $e ) {
-			die ( "An error occurred trying to apply the redemption while adding the product to your cart: " . $e->getMessage () );
+                    $message = Mage::helper('rewards')->__("An error occurred trying to apply the redemption while adding the product to your cart: " . $e->getMessage ());
+                    Mage::getSingleton('core/session')->addError($message);
+                    Mage::helper('rewards/debug')->log($message);
 		}
+                
 		Varien_Profiler::stop ( 'TBT_Rewards:: Get Redeemable Options' );
 		return $applicable_rules;
 	}
@@ -319,5 +378,10 @@ class TBT_Rewards_Block_Product_View_Points_Abstract extends Mage_Core_Block_Tem
 	protected function _getRS() {
 		return Mage::getSingleton ( 'rewards/session' );
 	}
+        
+        protected function _getAggregatedCart()
+        {
+            return Mage::getSingleton('rewards/sales_aggregated_cart');
+        }
 
 }

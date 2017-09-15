@@ -2,6 +2,31 @@
 * We tried to list as many classes in this sheet as we could
 * but it's more than likely we missed a bunch.
 **/
+#email-preferences label {
+    font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-weight: normal;
+}
+#email-preferences .box-content {
+    padding-top: 10px;
+}
+#email-preferences input, #email-preferences label {
+    float: left;
+    cursor: pointer;
+    line-height: 11px;
+}
+#email-preferences input {
+    margin-right: 8px;
+}
+#email-preferences .email-options {
+    padding-top: 5px;
+}
+#email-preferences .submit-preference {
+    clear: both;
+}
+#email-preferences .submit-preference button {
+    margin-top: 20px;
+}
+
 .rewards-special-review-summary {
 	margin-top: 12px;
 	font-size: 8pt;
@@ -490,3 +515,70 @@
 /* END ULTIMO theme compatibility */
 
 /* End Enterprise theme styles */
+
+/* BEGIN REWARDS CART DISCOUNT FULL SUMMARY */
+.rewards-cart-discounts-summary-header.show-details {
+    background-color: rgba(120, 120, 120, 0.1);
+}
+
+.rewards-summary-collapse {
+  position: relative;
+  cursor: pointer;
+}
+.rewards-summary-collapse:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-top: 7px solid #3399cc;
+  border-bottom: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+.rewards-summary-collapse:hover:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-top: 7px solid #246b8f;
+  border-bottom: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+.show-details .rewards-summary-collapse:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #3399cc;
+  border-top: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+.show-details .rewards-summary-collapse:hover:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  display: block;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #246b8f;
+  border-top: none;
+  position: static;
+  display: inline-block;
+  margin-right: 5px;
+}
+/* END REWARDS CART DISCOUNT FULL SUMMARY */

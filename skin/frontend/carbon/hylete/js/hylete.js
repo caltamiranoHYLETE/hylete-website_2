@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
         $('body').addClass('not-touch');
     }
 
-    $('select').not('#region_id, #country, .one-page-checkout select').selectOrDie();
+    $('select').not('#region_id, #country, .one-page-checkout select, .firecheckout-index-index select').selectOrDie();
     $(document).vaimoPrevNextLocal();
     $(document).vaimoToggle();
 
@@ -187,6 +187,8 @@ jQuery(document).ready(function ($) {
             if (callNow) func.apply(context, args);
         };
     }
+
+    $.vaimo.tooltip();
 });
 
 (function($, window, undefined) {

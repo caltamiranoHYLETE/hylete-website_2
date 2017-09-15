@@ -5,6 +5,9 @@
             <active>true</active>
             <codePool>community</codePool>
             <!-- Depends on TBT_Rewards -->
+            <depends>
+                <TBT_Rewards/>
+            </depends>
         </TBT_RewardsReferral>
     </modules>
 </config>

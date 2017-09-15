@@ -72,5 +72,11 @@
             <?php endforeach;?>
         </div>
     <?php endif; ?>
+    <?php if($this->customerHasUsablePoints() && !$cannotUsePoints): ?>
     <?php echo $this->getChildHtml('minicart_js'); ?>
+    <?php endif;?>
+
+    <?php if ($cannotUsePoints  && $this->hasNonDbpsCartRules()): ?>
+        <?php echo $this->getChildHtml('nondbps_js'); ?>
+    <?php endif; ?>
 <?php endif; ?>

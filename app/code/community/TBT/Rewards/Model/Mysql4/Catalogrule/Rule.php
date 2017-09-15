@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -176,6 +176,10 @@ class TBT_Rewards_Model_Mysql4_CatalogRule_Rule extends Mage_CatalogRule_Model_M
 
         //Mage::dispatchEvent('catalogrule_before_apply', array('resource' => $this));
 
+        if ($productId) {
+            $this->updatePricesAfterProductSave($productId);
+        }
+
         $clearOldData = false;
         if ($fromDate === null) {
             $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
@@ -316,6 +320,63 @@ class TBT_Rewards_Model_Mysql4_CatalogRule_Rule extends Mage_CatalogRule_Model_M
 //             'product' => $product,
 //             'product_condition' => $productCondition
 //         ));
+
+        return $this;
+    }
+
+    /**
+     * Updates reward rules
+     * @param int|Mage_Catalog_Model_Product $product
+     * @param boolean $forceWithFlat
+     * @return \TBT_Rewards_Model_Mysql4_CatalogRule_Rule
+     * @throws Exception
+     */
+    public function updatePricesAfterProductSave($product, $forceWithFlat = false)
+    {
+        $productId = $product;
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $productId = $product->getId();
+        }
+
+        $catalogFlatHelper = Mage::helper('catalog/product_flat');
+        $eavConfig = Mage::getSingleton('eav/config');
+        $priceAttribute = $eavConfig->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
+
+        $write = $this->_getWriteAdapter();
+        $write->beginTransaction();
+
+        $query = "";
+
+        try {
+            foreach (Mage::app()->getWebsites(false) as $website) {
+                $storeId = $website->getDefaultStore()->getId();
+                $query = "UPDATE " . $this->getTable('catalogrule/rule_product_price') . " as crpp ";
+
+                if ($forceWithFlat && $catalogFlatHelper->isEnabled() && $storeId && $catalogFlatHelper->isBuilt($storeId)) {
+                    $query .= "INNER JOIN " . $this->getTable('catalog/product_flat') . '_' . $storeId . " as cp ";
+                    $query .= "on cp.entity_id = crpp.product_id ";
+
+                    $query .= "SET crpp.rule_price = cp.price ";
+                } else {
+                    $query .= "INNER JOIN " . $this->getTable(array('catalog/product', $priceAttribute->getBackendType())) . " as cpd ";
+                    $query .= "on cpd.entity_id = crpp.product_id AND cpd.store_id = 0 AND cpd.attribute_id = " . $priceAttribute->getId() . " ";
+
+                    $query .= "LEFT JOIN " . $this->getTable(array('catalog/product', $priceAttribute->getBackendType())) . " as cp ";
+                    $query .= "on cp.entity_id = crpp.product_id AND cp.store_id = ". $storeId . " AND cp.attribute_id = " . $priceAttribute->getId() . " ";
+
+                    $query .= "SET crpp.rule_price = COALESCE(cp.value, cpd.value, 0) ";
+                }
+
+                $query .= "WHERE crpp.product_id = " . $productId . " AND crpp.website_id = " . $website->getId();
+
+                $write->query($query);
+            }
+
+            $write->commit();
+        } catch (Exception $exc) {
+            $write->rollBack();
+            throw $exc;
+        }
 
         return $this;
     }

@@ -1,0 +1,14 @@
+--- app/code/core/Mage/Payment/Model/Method/Abstract.php	2017-02-12 17:58:19.000000000 +0000
++++ app/code/core/Mage/Payment/Model/Method/Abstract.php	2017-08-02 11:34:09.000000000 +0000
+@@ -724,7 +724,10 @@
+             }
+         }
+         if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
+-            $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
++            // PATCH elvin@vaimo https://jira.vaimo.com/browse/HYL-486
++            //$total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
++            $total = $quote->getBaseGrandTotal();
++            //~ PATCH
+             if ($total < 0.0001 && $this->getCode() != 'free'
+                 && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
+             ) {

@@ -36,6 +36,7 @@ $_carbonHelper = $this->helper('carbon');
 $_product = $this->getProduct();
 $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
+$_retailValue = $_product->getRetailValue();
 ?>
 
 
@@ -63,9 +64,33 @@ $_backitHelper->setProduct($_product);
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
             <?php endif; ?>
 
+            <?php if ($_retailValue): ?>
+                <div class="retail-value js-tooltip-container">
+                    <?php echo Mage::helper('core')->currency($_retailValue); ?>
+                    <?php echo $this->__('retail value'); ?>
+                    <?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
+                        <a class="retail-value__link js-tooltip-link">
+                            <span class="fa fa-question"></span>
+                        </a>
+                        <div class="tooltip js-tooltip">
+                            <span class="js-tooltip-close">X</span>
+                            <div class="tooltip__arrow">
+                                <?php echo $_retailValueTooltip; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
             <?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
                 <?php if ($_product->isSaleable()): ?>
-                    <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+                    <?php if ($_retailValue): ?>
+                        <div class="price-with-retail-value">
+                    <?php endif; ?>
+                        <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+                    <?php if ($_retailValue): ?>
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
                     <p class="status-message">
                         <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
@@ -183,19 +208,20 @@ $_backitHelper->setProduct($_product);
                 <?php
                 $websiteCode = Mage::app()->getWebsite()->getCode();
                 $websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
+                $_productUrl = $_product->getProductUrl();
                 ?>
                 <h3 class="share-icons"><?php echo ($websiteCheck) ? 'share and earn points' : 'share'; ?></h3>
                 <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
-                   href="http://pinterest.com/pin/create/button/?url=<?php echo $_product->getProductUrl(); ?>&media=<?php echo $this->helper('catalog/image')
+                   href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
                        ->init($_product, 'thumbnail', $_product->getFile())
                        ->resize(500); ?>" data-pin-custom="true"><span
-                        class="fa icon-pinterest"></span></a>
+                        class="fa fa-pinterest"></span></a>
                 <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
-                   href="http://twitter.com/home?status=<?php echo $_product->getProductUrl(); ?>"><span
-                        class="fa icon-twitter"></span></a>
+                   href="https://twitter.com/home?status=<?php echo $_productUrl ?>"><span
+                        class="fa fa-twitter"></span></a>
                 <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
-                   href="http://www.facebook.com/sharer.php?u=<?php echo $_product->getProductUrl(); ?>&t=<?php echo $_product->getName(); ?>"><span
-                        class="fa icon-facebook"></span></a>
+                   href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>"><span
+                        class="fa fa-facebook"></span></a>
             </div>
             <?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
             <?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>
@@ -207,11 +233,6 @@ $_backitHelper->setProduct($_product);
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
-
-    <?php $_pixleeBlock = $this->getLayout()->createBlock('pixlee/gallery'); ?>
-    <?php if ($_pixleeBlock): ?>
-        <?php echo $_pixleeBlock->setProductSku($_product->getSku())->toHtml(); ?>
-    <?php endif; ?>
 
     <div class="hiding">
         <div class="productpage-cms-textlist">

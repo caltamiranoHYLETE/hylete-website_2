@@ -724,7 +724,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             }
         }
         if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
-            $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
+            // PATCH elvin@vaimo https://jira.vaimo.com/browse/HYL-486
+            //$total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
+            $total = $quote->getBaseGrandTotal();
+            //~ PATCH
             if ($total < 0.0001 && $this->getCode() != 'free'
                 && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
             ) {

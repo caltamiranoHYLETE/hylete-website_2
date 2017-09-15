@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,12 +20,25 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Model_Cache_Layer
 {
+    /**
+     * @var Vaimo_MultiOptionFilter_Model_Cache
+     */
+    protected $_cache;
+
+    /**
+     * @var array
+     */
     protected $_instanceStorage = array();
+
+    public function __construct()
+    {
+        $this->_cache = Mage::getSingleton('multioptionfilter/cache');
+    }
 
     /**
      * @param $cacheKey
@@ -36,20 +49,18 @@ class Vaimo_MultiOptionFilter_Model_Cache_Layer
      */
     public function get($cacheKey, $flag, $tags, $fetcher)
     {
-        $cache = Mage::getSingleton('multioptionfilter/cache');
-
-        if (!$cache->test($cacheKey, $flag)) {
+        if (!$this->_cache->test($cacheKey, $flag)) {
             if (is_array($fetcher)) {
                 $data = call_user_func_array(array_slice($fetcher, 0, 2), array_slice($fetcher, 2));
             } else {
                 $data = $fetcher();
             }
 
-            $cache->saveSerialized($cacheKey, $data, $tags);
+            $this->_cache->saveSerialized($cacheKey, $data, $tags);
 
             $this->_instanceStorage[$cacheKey] = $data;
         } else if (!isset($this->_instanceStorage[$cacheKey])) {
-            $this->_instanceStorage[$cacheKey] = $cache->loadSerialized($cacheKey);
+            $this->_instanceStorage[$cacheKey] = $this->_cache->loadSerialized($cacheKey);
         }
 
         return $this->_instanceStorage[$cacheKey];

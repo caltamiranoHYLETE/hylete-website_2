@@ -1,9 +1,32 @@
-<?php function iNZC($fPp)
-{ 
-$fPp=gzinflate(base64_decode($fPp));
- for($i=0;$i<strlen($fPp);$i++)
- {
-$fPp[$i] = chr(ord($fPp[$i])-1);
- }
- return $fPp;
- }eval(iNZC("zVTRatswFP0Af8WdKciGtWF79JoMko7tIesGzZ5GMYp9HYvIkpGu6ULwt0+2l9huXCj0ZXpSdI7PPffqKABueV4iubWwWW7ilS4KreKl1Mk+Xgopt5qbNL7Xa5Ggsgj4h1ClHbnHn/G9o9cIl0YTJoQpZJVKSGgF8RYzbXCjv1Ehg7CldeRmXZEgiTB3m1zY60XO7R0nHrD2nIXw+YTskMZIBP4PXdp38FMidz5tiYnIDnDQlQH5z/weDzf+p75cKmwp+WGlFQlV4Vqo/UTxCdaklWleBGQqHBTtvrJIm8Z60PUcnvFmtfDdpVyQcWkxHIgVOq0k3vNiPLXv5+Ng7HQERMC632ygmGiVid0vI2GkuDodu+9GiiMgGgDNEeNpIVTu7npmD5awiDv5GaaC2KCR86bkBhVF0bOgTDCvtk3oepOu5Jq766YgvF4kBjlhG0uXkS1tT9GcnXexxTaTbGr27YXmyFOhduw9+A+EJXzwX6S6tty7oIb6VQNpOA6upoZbDrnBbM6O/XxrBsSNcz1n8ZNQqX5iiw6sDG+M3c744sYPL6JzMm5/Pzbdt2P4L+bz8VXz+eJ2oycJmdEFlJVJXM6cHmDBhXxD5yKDYOpth4O/mpdV3zatJuBtQdk+/95dfenTIFVGdRU7Yu3V3l8="));?>
+<?php
+
+class TBT_Common_Block_Billboard_NoLicense extends TBT_Billboard_Block_Billboard
+{
+    protected function _beforeToHtml()
+    {
+        $title = $this->hasData('title') ? $this->getData('title') : "Oops! Please specify your license key.";
+        $displayContinueLink = $this->hasData('displayContinueLink') ? $this->getData('displayContinueLink') : true;
+        $this->setTitle($title)
+            ->setDisplayContinueLink(false);
+        $moduleName = $this->hasModuleName() ? $this->getModuleName() : 'Module';
+        $configUrl  = $this->hasConfigUrl()  ? $this->getConfigUrl()  : $this->getUrl('adminhtml/system_config/edit');
+        
+        parent::_beforeToHtml();
+        
+        $block = $this->getLayout()->createBlock('tbtbillboard/billboard_section')
+            ->setData('heading', "Step 1")
+            ->setData('content', "Go to {$moduleName} <a href='{$configUrl}' target='_window'>configuration</a>.");
+        $this->_sections[] = $block;
+        
+        $block = $this->getLayout()->createBlock('tbtbillboard/billboard_section')
+            ->setData('heading', "Step 2")
+            ->setData('content', "Enter license key from purchasing email.");
+        $this->_sections[] = $block;
+        
+        if ($displayContinueLink) {
+            $this->_sections[] = $this->getLayout()->createBlock('tbtbillboard/billboard_section_continuelink');
+        }
+        
+        return $this;
+    }
+}

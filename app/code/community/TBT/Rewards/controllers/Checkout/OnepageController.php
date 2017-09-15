@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -42,8 +42,8 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Checkout_OnepageController extends Mage_Core_Controller_Front_Action {
-	
+class TBT_Rewards_Checkout_OnepageController extends Mage_Core_Controller_Front_Action 
+{	
 	protected function _loadValidItem($item_id = null) {
 		if ($item_id === null) {
 			$item_id = ( int ) $this->getRequest ()->getParam ( 'item_id' );
@@ -128,11 +128,14 @@ class TBT_Rewards_Checkout_OnepageController extends Mage_Core_Controller_Front_
 	
 	public function updatePointsSpendingAction() {
 		$new_points_spending = $this->getRequest ()->getParam ( "points_spending" );
+        $cart = $this->_getCart ();
+        $quote = $cart->getQuote();
+
 		if ($this->isValidSpendingAmount ( $new_points_spending )) {
-			Mage::getSingleton ( 'rewards/session' )->setPointsSpending ( $new_points_spending );
+			$quote->setPointsSpending ( $new_points_spending );
 		}
-		$cart = $this->_getCart ();
-		$cart->getQuote ()->collectTotals ();
+		
+		$quote->collectTotals ();
 		
 		$this->loadLayout ( 'checkout_onepage_review' );
 		$response = $this->getLayout ()->getBlock ( 'root' )->toHtml ();
@@ -140,11 +143,13 @@ class TBT_Rewards_Checkout_OnepageController extends Mage_Core_Controller_Front_
 		return;
 	}
 	
-	public function getGrandTotalAction() {
-		$this->_getCart ()->init ();
-		$this->_getCart ()->save ();
-		echo Mage::app ()->getStore ()->formatPrice ( $this->getQuote ()->load ( $this->getQuote ()->getId () )->getGrandTotal () );
-		exit ();
+	public function getGrandTotalAction() 
+        {
+            $this->_getCart()->init();
+            $this->_getCart()->save();
+            
+            $response = Mage::app()->getStore()->formatPrice($this->getQuote()->load($this->getQuote()->getId())->getGrandTotal());
+            $this->getResponse()->setBody($response);
 	}
 	
 	public function getSliderContentAction() {
@@ -154,6 +159,6 @@ class TBT_Rewards_Checkout_OnepageController extends Mage_Core_Controller_Front_
 	}
 	
 	protected function isValidSpendingAmount($sp) {
-		return true; //TODO implement this.
+		return true;
 	}
 }

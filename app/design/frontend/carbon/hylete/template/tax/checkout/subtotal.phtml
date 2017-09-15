@@ -38,8 +38,8 @@ $priceDifference = $checkoutHelper->getCartDifferenceAmount();
 
 <?php if ($this->helper('customer')->isLoggedIn()): ?>
     <tr>
-        <td style="<?php echo $this->getStyle() ?>" class="a-left" colspan="<?php echo $this->getColspan(); ?>">
-           <?php echo $this->__('Retail Total');?>:
+        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price" colspan="<?php echo $this->getColspan(); ?>">
+           <?php echo $this->__('HYLETE price');?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
            <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue() + $priceDifference) ?>

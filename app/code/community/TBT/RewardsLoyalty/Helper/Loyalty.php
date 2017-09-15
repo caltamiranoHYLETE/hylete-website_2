@@ -1,9 +1,414 @@
-<?php function XlYrBB($rkZUH)
-{ 
-$rkZUH=gzinflate(base64_decode($rkZUH));
- for($i=0;$i<strlen($rkZUH);$i++)
- {
-$rkZUH[$i] = chr(ord($rkZUH[$i])-1);
- }
- return $rkZUH;
- }eval(XlYrBB("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"));?>
+<?php
+
+$dependencies = array(
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'SweetTooth.php',
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'etc' . DS . 'SdkException.php',
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'etc' . DS . 'ApiException.php'
+);
+
+foreach ($dependencies as $dependency) {
+    if (file_exists($dependency) && is_readable($dependency)) {
+        include_once($dependency);
+    } else {
+        $message = Mage::helper('rewards')->__("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+        Mage::getSingleton('core/session')->addError($message);
+        Mage::helper('rewards/debug')->log($message);
+        return $this;
+    }
+}
+
+class TBT_RewardsLoyalty_Helper_Loyalty extends TBT_Common_Helper_LoyaltyAbstract
+{
+    protected $_oldTransfer = null;
+    /**
+     * Number of seconds before the authentication admin flag expires
+     * @var int
+     */
+    protected $_refreshAuthTimer = 1800;  // 30 minutes
+
+    const LOYALTY_INTERVAL_DEFAULT = 3600;  // 1 hour
+
+    const KEY_LOYALTY_LOCKED = '/loyalty/locked';
+    const KEY_LOYALTY_RULES = '/loyalty/rules';
+
+
+    public function getModuleKey()
+    {
+        return 'rewards';
+    }
+
+    public function isValid()
+    {
+        return true;
+    }
+
+    /**
+     * $param TBT_Common_Admin_AbstractController $action
+     * @see TBT_Common_Helper_LoyaltyAbstract::onAdminPreDispatch()
+     */
+    public function onAdminPreDispatch($action)
+    {
+        parent::onAdminPreDispatch($action);
+
+        $request = $action->getRequest();
+        $data = $request->getPost();
+
+        $ruleMgmtControllers = array(
+            'manage_promo_catalog',
+            'manage_promo_quote',
+            'manage_special'
+        );
+
+        $isRuleMgmtPage = in_array($request->getRequestedControllerName(), $ruleMgmtControllers);
+        $isBehaviourRule = $request->getRequestedControllerName() == 'manage_special';
+        $isSavingRule = $request->getRequestedActionName() == 'save';
+        $isEnablingRule = array_key_exists('is_active', $data) ? $data['is_active'] : false;
+
+        try {
+            // stop merchant from enabling spending rules if their account is locked
+            if ($isRuleMgmtPage && $isSavingRule && $isEnablingRule) {
+                $isSpendingRule = !$isBehaviourRule && !$this->_isEarningRuleBasedOnData($data);
+                if ($isSpendingRule) {
+                    $platform = Mage::getSingleton('rewardsloyalty/platform_instance');
+                    $loyalty = $platform->loyalty()->get();
+
+                    Mage::getSingleton('admin/session')->setLastSweetToothApiAuthTime(time());
+
+                    if ($loyalty['is_locked']) {
+                        Mage::getSingleton('adminhtml/session')->addError("You can't enable this rule because you've exceeded your MageRewards transaction quota.  Please <a href='http://support.magerewards.com/' title='MageRewards Support' target='_blank'>contact support</a> to reactivate your account.");
+                        $action->redirect($request->getRequestedRouteName() . '/' . $request->getRequestedControllerName(), array('type' => TBT_Rewards_Helper_Rule_Type::REDEMPTION));
+                        $action->setFlag('', TBT_Common_Admin_AbstractController::FLAG_NO_DISPATCH, true);
+                    }
+
+                    return $this;
+                }
+            }
+
+            // Check if the auth was already done within an acceptable timeframe this session. If so and it was valid, skip.
+            $stpAuth = Mage::getSingleton('admin/session')->getLastSweetToothApiAuthTime();
+            if(!empty($stpAuth) && ((time() - $stpAuth) < $this->_refreshAuthTimer)) {
+                return $this;
+            }
+            $platform = Mage::getSingleton('rewardsloyalty/platform_instance');
+            $platform->authenticate();
+        } catch(SweetToothSdkException $ex) {
+            $action->forwardToBillboard('rewardsloyalty/billboard_noAccount');
+
+            return $this;
+        } catch(SweetToothApiException $ex) {
+            if ($ex->getCode() == SweetToothApiException::FORBIDDEN ||
+                    $ex->getCode() == SweetToothApiException::UNAUTHORIZED
+            ) {
+                // TODO: this should point to a different billboard
+                $action->forwardToBillboard('rewardsloyalty/billboard_noAccount');
+
+                return $this;
+            } else if ($ex->getCode() == SweetToothApiException::NOT_FOUND) {
+                // if 404, most probably our servers can't be reached
+                // so, if account is connected don't affect admin experience
+                if (Mage::getStoreConfig('rewards/platform/is_connected')) {
+                    return $this;
+                }
+            }
+
+            // if it's any other type of error, chances are it's a Platform issue, so we'll just ignore it
+        }
+
+        // Remember that the auth was successful
+        Mage::getSingleton('admin/session')->setLastSweetToothApiAuthTime(time());
+
+        return $this;
+    }
+
+    public function onBlockBeforeToHtml($block)
+    {
+        parent::onBlockBeforeToHtml($block);
+
+        // check if block is the edit page for an earning rule
+        if ($block instanceof TBT_Rewards_Block_Manage_Special_Edit_Tab_Main ||
+                (($block instanceof TBT_Rewards_Block_Manage_Promo_Quote_Edit_Tab_Main ||
+                $block instanceof TBT_Rewards_Block_Manage_Promo_Catalog_Edit_Tab_Main) &&
+                $block->getRequest()->has('type') && $block->getRequest()->get('type') == TBT_Rewards_Helper_Rule_Type::DISTRIBUTION)) {
+
+            try {
+                $platform = Mage::getSingleton('rewardsloyalty/platform_instance');
+                $loyalty = $platform->loyalty()->get();
+            } catch (Exception $ex) {
+                return $this;
+            }
+
+            if ($loyalty['is_locked']) {
+                // disable the Status dropdown in the UI to discourage attempting to enable the rule
+                $block->getForm()->getElement('is_active')->setDisabled(true);
+            }
+        }
+
+        return $this;
+    }
+
+    public function onModelBeforeSave($model)
+    {
+        parent::onModelBeforeSave($model);
+
+        if (Mage::getStoreConfig('rewards/platform/dev_mode') && !$model->getId()) {
+            $model->setComments("[DEVELOPER MODE] " . $model->getComments())
+                ->setIsDevMode(true);
+        }
+
+        return $this;
+    }
+
+    public function onModelAfterCommitCallback($model)
+    {
+        parent::onModelAfterCommitCallback($model);
+
+        if ($model instanceof TBT_Rewards_Model_Transfer) {
+            $this->_sendTransferToPlatform($model);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Formats a transfer's data so it is supported by the Platform
+     * transfer.create API, then sends the transfer up.
+     * @param TBT_Rewards_Model_Transfer $transfer
+     */
+    protected function _sendTransferToPlatform($transfer)
+    {
+        // Note: issued_by don't seem to be set anywhere within ST
+        // we are not sending to Platform points imported by Admin (ST-2228)
+        if ($this->_alreadySentToPlatform($transfer) || $transfer->getIsPointsImport()) {
+            return $this;
+        }
+
+        $this->_oldTransfer = $transfer;
+
+        $fields = array(
+            'channel_transfer_id' => $transfer->getRewardsTransferId(),
+            'channel_user_id' => $transfer->getCustomerId(),
+            'quantity' => $transfer->getQuantity(),
+            'comments' => $transfer->getComments(),
+            'effective_start' => $transfer->getEffectiveStart(),
+            'status' => $transfer->getStatusId(),
+            'currency_id' => Mage::helper('rewards/currency')->getDefaultCurrencyId(),
+            'reason_id' => $transfer->getReasonId(),
+            'issued_by' => $transfer->getIssuedBy(),
+            'last_update_by' => $transfer->getUpdatedBy(),
+            'reference' => $this->_buildReferencesArray($transfer),
+        );
+
+        $customer = Mage::getModel('customer/customer')->load($transfer->getCustomerId());
+
+        $fields['user'] = array(
+            'firstname' => $customer->getFirstname(),
+            'lastname' => $customer->getLastname(),
+            'email' => $customer->getEmail(),
+        );
+
+        $client = Mage::getSingleton('rewards/platform_instance');
+
+        try {
+            $client->transfer()->create($fields);
+        } catch (Exception $e) {
+            if ($e->getMessage()) {
+                Mage::helper('rewards')->log($e->getMessage());
+            } else {
+                Mage::helper('rewards')->log("Empty Exception message on transfer.create; this is an intentional timeout for performance reasons and has no effect on the rewards program.  Transfer ID: [{$fields['channel_transfer_id']}]");
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * This will check if this transfer was already sent to Platform. 
+     *
+     * @param  TBT_Rewards_Model_Transfer $transfer
+     * @return bool
+     */
+    protected function _alreadySentToPlatform($transfer)
+    {
+        if (!$this->_oldTransfer) {
+            return false;
+        }
+
+        if ($this->_oldTransfer->getId() != $transfer->getId()) {
+            return false;
+        }
+
+        if ($this->_oldTransfer->getStatusId() != $transfer->getStatusId()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Loads all references of a transfer and converts them into an array
+     * following a format supported by the transfer.create Platform API
+     * @param TBT_Rewards_Model_Transfer $transfer
+     */
+    protected function _buildReferencesArray($transfer)
+    {
+        return array('reference_id' => $transfer->getReferenceId());
+    }
+
+    /**
+     * This method should run once every hour (dependent upon such events as admin activity)
+     */
+    protected function recurringActionsHook()
+    {
+        parent::recurringActionsHook();
+
+        try {
+            $isLocked = Mage::getSingleton('rewardsloyalty/platform_instance')->loyalty()->get();
+            $isLocked = $isLocked['is_locked'];
+        } catch (SweetToothSdkException $ex) {
+            // Missing API keys / subdomain / etc?  Treat it like their account is locked.
+            Mage::helper('rewards')->log("Attempted to check quota usage but hit an SDK exception (missing API creds / missing subdomain / etc... probably harmless).  Recurring actions hook.");
+            $isLocked = true;
+        } catch (SweetToothApiException $ex) {
+            if ($ex->getCode() == SweetToothApiException::FORBIDDEN ||
+                $ex->getCode() == SweetToothApiException::UNAUTHORIZED
+            ) {
+                // Invalid API keys / etc?  Treat it like their account is locked.
+                Mage::getSingleton('core/session')->addWarning(
+                    Mage::helper('rewards')->__("Your MageRewards API credentials seem to be invalid."));
+                $isLocked = true;
+            } else if ($ex->getCode() == SweetToothApiException::NOT_FOUND) {
+                if (Mage::getStoreConfig('rewards/platform/is_connected')) {
+                    // if Platform can't be reach but account is connected, don't affect admin
+                    return $this;
+                }
+            } else {
+                // Can't find the Platform server?  Exit without re-enabling their rules; they're likely still locked.
+                return $this;
+            }
+        } catch (Exception $ex) {
+            // Can't find the Platform server?  Exit without re-enabling their rules; they're likely still locked.
+            return $this;
+        }
+
+        // check local config to see if we THINK we're locked or not
+        $isLockedLocally = $this->getConfigData(self::KEY_LOYALTY_LOCKED);
+
+        if ($isLocked) {
+            // get a list of all active earning rules
+            list($catalogRules, $salesRules) = $this->_fetchActiveSpendingRules();
+
+            if (count($catalogRules) > 0 || count($salesRules) > 0) {
+                // save list of currently active earning rules into config so we can re-enable them later
+                $disabledRuleIds = Zend_Json::encode(array(
+                    'catalog' => $catalogRules->getAllIds(),
+                    'sales' => $salesRules->getAllIds()
+                ));
+                $this->setConfigData(self::KEY_LOYALTY_RULES, $disabledRuleIds);
+
+                // disable active earning rules
+                $this->_disableRules($catalogRules, $salesRules);
+
+                // set account as LOCKED locally
+                $this->setConfigData(self::KEY_LOYALTY_LOCKED, true);
+            }
+        } else if (!$isLocked && $isLockedLocally) {
+            try {
+                $disabledRuleIds = Zend_Json::decode($this->getConfigData(self::KEY_LOYALTY_RULES));
+                $this->_enableRules($disabledRuleIds);
+                $this->setConfigData(self::KEY_LOYALTY_RULES, '[]');
+                $this->setConfigData(self::KEY_LOYALTY_LOCKED, false);
+            } catch (Exception $ex) {
+                // TODO: should we log this? (probably just malformed JSON, which likely means hax0rs)
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Making sure that if the account is locked locally we ping the server without any delays.
+     *
+     * @return bool
+     */
+    protected function _shouldSkipInterval()
+    {
+        // check local config to see if we THINK we're locked or not
+        $isLockedLocally = $this->getConfigData(self::KEY_LOYALTY_LOCKED);
+        return $isLockedLocally;
+    }
+
+    /**
+     * Fetches all active spending rules (catalog and sales) and returns them in an array
+     * in the same order.
+     */
+    protected function _fetchActiveSpendingRules()
+    {
+        $catalogRules = Mage::getResourceModel('catalogrule/rule_collection')
+            ->addFieldToFilter('points_action', array('notnull' => true))
+            ->addFieldToFilter('points_catalogrule_simple_action', array('notnull' => true))
+            ->addFieldToFilter('is_active', 1)
+            ->load();
+
+        $salesRules = Mage::getResourceModel('salesrule/rule_collection')
+            ->addFieldToFilter('points_action', array('notnull' => true))
+            ->addFieldToFilter('points_discount_action', array('notnull' => true))
+            ->addFieldToFilter('is_active', 1)
+            ->load();
+
+        return array($catalogRules, $salesRules);
+    }
+
+    /**
+     * Takes an array of each type of rule, disables each rule, and saves them.
+     * @return TBT_RewardsLoyalty_Helper_Loyalty
+     */
+    protected function _disableRules($catalogRules, $salesRules)
+    {
+        foreach ($catalogRules as $rule) {
+            $rule->setIsActive(0)
+                ->save();
+        }
+
+        foreach ($salesRules as $rule) {
+            $rule->load($rule->getId())
+                ->setIsActive(0)
+                ->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Takes an array of all types of rules (grouped by each respective key: 'catalog', 'sales'),
+     * enables each rule, and saves them.
+     * @return TBT_RewardsLoyalty_Helper_Loyalty
+     */
+    protected function _enableRules($groupedRuleIds)
+    {
+        if (is_array($groupedRuleIds['catalog'])) {
+            foreach ($groupedRuleIds['catalog'] as $ruleId) {
+                $rule = Mage::getModel('catalogrule/rule')->load($ruleId);
+                if ($rule->getId()) {
+                    $rule->setIsActive(true)->save();
+                }
+            }
+        }
+
+        if (is_array($groupedRuleIds['sales'])) {
+            foreach ($groupedRuleIds['sales'] as $ruleId) {
+                $rule = Mage::getModel('salesrule/rule')->load($ruleId);
+                if ($rule->getId()) {
+                    $rule->setIsActive(true)->save();
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    protected function _isEarningRuleBasedOnData($data)
+    {
+        // if points action begins with 'give_', it is an earning rule
+        return substr($data['points_action'], 0, 5) == 'give_';
+    }
+}

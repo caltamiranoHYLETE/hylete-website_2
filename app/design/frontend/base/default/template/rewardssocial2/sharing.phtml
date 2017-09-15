@@ -26,10 +26,12 @@
             ?>
         <?php endif; ?>
 
-        <div class="sweettooth-social-messages<?php if ($this->getProduct()) { echo "-{$this->getProduct()->getId()}"; } ?>">
-            <?php if (Mage::getStoreConfig('rewards/rewardssocial2/auto_integrate')): ?>
-                <?php echo $this->__("Earn points for sharing."); ?>
-            <?php endif; ?>
-        </div>
+        <?php if (Mage::helper('rewardssocial2')->hasCustomerToReward()): ?>
+            <div class="sweettooth-social-messages<?php if ($this->getProduct()) { echo "-{$this->getProduct()->getId()}"; } ?>">
+                <?php if (Mage::getStoreConfig('rewards/rewardssocial2/auto_integrate')): ?>
+                    <?php echo $this->__("Earn points for sharing."); ?>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 <?php endif; ?>

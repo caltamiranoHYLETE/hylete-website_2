@@ -4,11 +4,6 @@
 class TBT_Milestone_Model_Rule_Condition extends Varien_Object
 {
     /**
-     * @var int Generic ID for Milestone Rules. Subclasses should overwrite this with more specific Ids
-     */
-    const POINTS_GENERIC_REFERENCE_TYPE_ID = 600;
-
-    /**
      * @var boolean. Should we email the customer if milestone is reached?
      */
     protected $_notification_email = false;
@@ -36,6 +31,11 @@ class TBT_Milestone_Model_Rule_Condition extends Varien_Object
      */
     protected $_rule = null;
 
+    public function getReasonId()
+    {
+        return Mage::helper('rewards/transfer_reason')->getReasonId('milestone_generic');
+    }
+    
     /**
      * A name to identify this kind of rule by.
      * @return String.
@@ -56,16 +56,6 @@ class TBT_Milestone_Model_Rule_Condition extends Varien_Object
     public function getMilestoneDescription()
     {
         return "";
-    }
-    
-    
-    
-    /**
-     * @return int. The Transfer Refrence Type ID used to identify this type of rule.
-     */
-    public function getPointsReferenceTypeId()
-    {
-        return self::POINTS_GENERIC_REFERENCE_TYPE_ID;
     }
 
     /**

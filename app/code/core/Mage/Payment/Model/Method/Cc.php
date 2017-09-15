@@ -93,6 +93,14 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 
         $ccNumber = $info->getCcNumber();
 
+        // ER@Vaimo> Vaimo_Checkout - when preselect or payment click occurs then all fields will be empty
+        // and exception from Validation will be thrown
+        $tmpCcType = $info->getCcType();
+        if (empty($tmpCcType) && empty($ccNumber)) {
+            return $this;
+        }
+        // ~ //
+
         // remove credit card number delimiters such as "-" and space
         $ccNumber = preg_replace('/[\-\s]+/', '', $ccNumber);
         $info->setCcNumber($ccNumber);

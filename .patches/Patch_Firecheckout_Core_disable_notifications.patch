@@ -1,0 +1,24 @@
+--- app/code/community/TM/Core/Model/Notification/Feed.php	Wed Jun 07 19:16:33 2017 +0000
++++ app/code/community/TM/Core/Model/Notification/Feed.php	Wed Jun 07 19:23:47 2017 +0000
+@@ -29,6 +29,10 @@
+      */
+     public function checkUpdate()
+     {
++        //PATCH elvin@VAIMO disable 3rd party notification calls
++        return $this;
++        //~PATCH
++
+         if (!Mage::helper('core')->isModuleEnabled('Mage_AdminNotification')) {
+             return $this;
+         }
+--- app/code/community/TM/Core/etc/config.xml	Wed Jun 07 19:16:33 2017 +0000
++++ app/code/community/TM/Core/etc/config.xml	Wed Jun 07 19:23:47 2017 +0000
+@@ -148,7 +148,7 @@
+                 <url>/license/validate</url>
+             </license>
+             <notification>
+-                <enabled>1</enabled>
++                <enabled>0</enabled>
+                 <feed_url>templates-master.com/notifier</feed_url>
+                 <use_https>0</use_https>
+                 <frequency>24</frequency>

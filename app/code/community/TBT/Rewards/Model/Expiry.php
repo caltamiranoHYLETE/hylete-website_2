@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL:
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -61,7 +61,10 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
     {
         $pageSize = 1000;
         $iterator = Mage::getSingleton('core/resource_iterator');
-        $customers = Mage::getModel ('customer/customer')->getCollection();
+        $extraFields = array('firstname', 'lastname', 'middlename', 'prefix', 'suffix', 'rewards_points_notification');
+        $customers = Mage::getModel('customer/customer')->getCollection()
+            ->addAttributeToSelect($extraFields, 'left');
+        
         if ($this->_isPointsIndexAvailable()) {
             Mage::getResourceModel('rewards/customer_indexer_points_collection')
                 ->joinPointsBalance($customers);
@@ -82,8 +85,9 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
 
     /**
      * Callback to iterator class to process customer data one by one
+     * @see return must be set as empty array or null or '' otherwise core iterator will bring a recoverable error
      * @param array $walkData
-     * @return $this
+     * @return null
      */
     public function processCustomerData($walkData)
     {
@@ -102,8 +106,6 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
 
         $pointsBalance->clearInstance();
         $rewardsCustomer->clearInstance();
-
-        return $this;
     }
 
     /**
@@ -124,10 +126,15 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
         }
 
         $rewardsCustomer->loadPointsBalance();
-        if ($rewardsCustomer->hasPoints()) {
+        if ($rewardsCustomer->hasUsablePoints()) {
             $dateTimeHelper = $this->_getDateTimeHelper();
             $now = $dateTimeHelper->getZendDate();
             $expiryDate = $this->getExpiryDate($rewardsCustomer, false);
+            
+            if (!$expiryDate) {
+                return $this;
+            }
+            
             if ($now->isLater($expiryDate)) {
                 $oldBalance = $rewardsCustomer->getPointsSummary();
                 $daysSinceExpiry = $this->getDaysSinceExpiry($rewardsCustomer);
@@ -161,26 +168,12 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
 
             $pointsAmount = (- 1) * floor($pointsAmount);
             $transfer = Mage::getModel('rewards/transfer_simple')
-                ->setReasonId(TBT_Rewards_Model_Transfer_Reason_SystemAdjustment::EXPIRY_REASON_TYPE_ID)
-                ->setStatus(TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED)
+                ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('expire'))
+                ->setStatusId(TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED)
                 ->setCustomerId($rewardsCustomer->getId())
-                ->setCurrencyId($currencyId)
                 ->setQuantity($pointsAmount)
                 ->setComments($comments)
                 ->save();
-
-            /*
-             * The two following calls should be removed once we refactor
-             * the transfer logic.
-             */
-            $reference = Mage::getModel('rewards/transfer_reference')
-                ->setReferenceType(0)
-                ->setReferenceId(0)
-                ->setRewardsTransferId($transfer->getId())
-                ->save();
-            $transfer->setSourceReferenceId($reference->getId())
-                ->save();
-            /* */
 
             if ($this->_isPointsIndexAvailable()) {
                 $rewardsCustomer->getIndexedPoints()
@@ -190,7 +183,6 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
             }
 
             $transfer->clearInstance();
-            $reference->clearInstance();
         }
 
         return $this;
@@ -251,6 +243,11 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
 
         $lastActivity = $this->getLastPointsActivityDate($rewardsCustomer, false);
         $expiryDelay = Mage::helper('rewards/expiry')->getDelayDays($rewardsCustomer->getStoreId());
+        
+        if (!$lastActivity) {
+            return null;
+        }
+        
         $expiryDate = $lastActivity->add($expiryDelay, Zend_Date::DAY);
 
         if ($formatted) {
@@ -328,7 +325,7 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
     public function checkNotifications($c, $expires_in_days) {
         if ($expires_in_days == Mage::helper ( 'rewards/expiry' )->getWarning1Days ( $c->getStoreId () )) {
             $template = Mage::helper ( 'rewards/expiry' )->getWarning1EmailTemplate ( $c->getStoreId () );
-            if ($template) {
+            if ($template && $template !== 'none') {
                 $expires_in_days = Mage::helper ( 'rewards/expiry' )->getWarning1Days ( $c->getStoreId () );
                 $this->sendWarningEmail ( $c, $template, $expires_in_days );
                 Mage::helper ( 'rewards/expiry' )->logExpiryNotification ( $c, $expires_in_days );
@@ -336,7 +333,7 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
         }
         if ($expires_in_days == Mage::helper ( 'rewards/expiry' )->getWarning2Days ( $c->getStoreId () )) {
             $template = Mage::helper ( 'rewards/expiry' )->getWarning2EmailTemplate ( $c->getStoreId () );
-            if ($template) {
+            if ($template && $template !== 'none') {
                 $expires_in_days = Mage::helper ( 'rewards/expiry' )->getWarning2Days ( $c->getStoreId () );
                 $this->sendWarningEmail ( $c, $template, $expires_in_days );
                 Mage::helper ( 'rewards/expiry' )->logExpiryNotification ( $c, $expires_in_days );
@@ -357,16 +354,21 @@ class TBT_Rewards_Model_Expiry extends Varien_Object
         $translate = Mage::getSingleton ( 'core/translate' ); /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline ( false );
 
-        $email = Mage::getModel ( 'core/email_template' ); /* @var $email Mage_Core_Model_Email_Template */
+        $emailHelper = Mage::helper('rewards/email');
         $sender = array ('name' => strip_tags ( Mage::helper ( 'rewards/expiry' )->getSenderName ( $parent->getStoreId () ) ), 'email' => strip_tags ( Mage::helper ( 'rewards/expiry' )->getSenderEmail ( $parent->getStoreId () ) ) );
 
-        $email->setDesignConfig ( array ('area' => 'frontend', 'store' => $parent->getStoreId () ) );
-        $vars = array ('customer_name' => $parent->getName (), 'customer_email' => $parent->getEmail (), 'store_name' => $parent->getStore ()->getName (), 'days_left' => $expires_in_days, 'points_balance' => ( string ) $parent->getPointsSummary () );
-        $email->sendTransactional ( $template, $sender, $parent->getEmail (), $parent->getName (), $vars );
-
+        $vars = array(
+            'customer_name' => $parent->getName(), 
+            'customer_email' => $parent->getEmail(), 
+            'store_name' => $parent->getStore()->getFrontendName(),
+            'days_left' => $expires_in_days, 
+            'points_balance' => ( string ) $parent->getPointsSummary()
+        );
+        
+        $result = $emailHelper->sendTransactional($template, $sender, $parent, $vars);
         $translate->setTranslateInline ( true );
 
-        return $email->getSentSuccess ();
+        return $result;
     }
 
     /**

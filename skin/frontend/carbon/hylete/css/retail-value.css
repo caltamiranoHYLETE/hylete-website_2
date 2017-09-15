@@ -1,0 +1,65 @@
+.retail-value {
+    display: inline-block;
+    position: relative;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.retail-value--category {
+    padding: 0;
+    font-size: 12px;
+}
+
+.retail-value__link {
+    display: inline-block;
+    padding: 5px;
+    margin: -5px;
+    color: #666;
+    text-align: center;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.retail-value__link > span {
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 14px;
+    border: 1px solid #666;
+    border-radius: 100%;
+}
+
+.retail-value__link:hover {
+    color: #000;
+    border-color: #000;
+    text-decoration: none;
+}
+
+.retail-value:not(.retail-value--category) .tooltip.js-tooltip {
+    margin-left: 18px;
+}
+
+.retail-value .price {
+    text-decoration: line-through;
+}
+
+.price-with-retail-value {
+    font-size: 16px;
+}
+
+.price-with-retail-value .price {
+    font-weight: 100;
+}
+
+.price-with-retail-value .special-price .price {
+    font-weight: bold;
+}
+
+.price-with-retail-value--category {
+    font-size: 13px;
+}
+
+.hylete-price {
+    text-transform: none;
+}

@@ -35,7 +35,7 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
         return $this;
     }
 
-/**
+    /**
      * Modify the column definition
      *
      * @param string $tableName
@@ -49,7 +49,30 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
     {
         try {
             $connection = $this->getConnection();
-             $connection->modifyColumn($tableName, $columnName, $definition, $flushData, $schemaName);
+            $connection->modifyColumn($tableName, $columnName, $definition, $flushData, $schemaName);
+        } catch (Exception $ex) {
+            $this->addInstallProblem($ex);
+        }
+
+        return $this;
+    }
+    
+    /**
+     * Modify the column definition
+     *
+     * @param string $tableName
+     * @param string $oldColumnName
+     * @param string $newColumnName
+     * @param array|string $definition
+     * @param boolean $flushData
+     * @param string $schemaName
+     * @return this
+     */
+    public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false, $schemaName = null)
+    {
+        try {
+            $connection = $this->getConnection();
+            $connection->changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData, $schemaName);
         } catch (Exception $ex) {
             $this->addInstallProblem($ex);
         }
@@ -181,7 +204,10 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
             return $this;
         }
 
-        if (strpos($ex->getMessage(), "SQLSTATE[42S22]: Column not found") !== false) {
+        if (
+            strpos($ex->getMessage(), "SQLSTATE[42S22]: Column not found") !== false
+            || preg_match("/^Column.*does not exist in table/", $ex->getMessage())
+        ) {
             return $this;
         }
 
@@ -193,10 +219,6 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
                 && strpos($ex->getMessage(), "check that column/key exists") !== false) {
 
             return $this;
-        }
-
-        if (Mage::getIsDeveloperMode()) {
-            throw $ex;
         }
 
         $this->_exceptionStack[] = $ex;
@@ -308,7 +330,7 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
         $message->setDateAdded(date("c", time()));
 
         if (is_null($url)) {
-            $url = "http://help.sweettoothrewards.com/category/3-announcements-basics";
+            $url = "http://support.magerewards.com/category/1526-category";
         }
 
         if ($severity === null) {
@@ -319,16 +341,22 @@ class TBT_Common_Model_Resource_Mysql4_Setup extends Mage_Core_Model_Resource_Se
         if ($this->hasProblems()) {
             $severity = Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR;
             $msgTitle .= " Problems may have occured during installation.";
-            $msgDesc .= " " . $this->getProblemsString();
+            $msgDesc .= " You can make sure that the database structure is correct by running "
+                . "our diagnostics tool from <strong> System Config -> MageRewards -> "
+                . "Diagnostics & Support Tools</strong>";
+            
             $this->clearProblems();
         }
 
         $message->setTitle($msgTitle);
         $message->setDescription($msgDesc);        
         $message->setSeverity($severity);
-        if (!empty($url)) $message->setUrl($url);
+        
+        if (!empty($url)) {
+            $message->setUrl($url);
+        }
+        
         $message->save();
-
         return $this;
     }
 

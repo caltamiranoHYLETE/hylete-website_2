@@ -6,6 +6,17 @@ class TBT_Rewards_Model_Poll_Transfer extends TBT_Rewards_Model_Transfer
     {
         parent::_construct();
     }
+    
+    /**
+     * Fetch transfers associated with the poll
+     * @param int $poll_id
+     * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
+     */
+    public function getTransfersAssociatedWithPoll($poll_id) {
+        return $this->getCollection()
+            ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('poll'))
+            ->addFieldToFilter('reference_id', $poll_id);
+    }
 
     /**
      * Creates a customer point-transfer of any amount or currency.
@@ -18,9 +29,8 @@ class TBT_Rewards_Model_Poll_Transfer extends TBT_Rewards_Model_Transfer
     {
 
         $num_points = $rule->getPointsAmount();
-        $currency_id = $rule->getPointsCurrencyId();
         $rule_id = $rule->getId();
-        $transfer = $this->initTransfer( $num_points, $currency_id, $rule_id );
+        $transfer = $this->initTransfer( $num_points, $rule_id );
         $customer = $rpoll->getRewardsCustomer();
         $store_id = $customer->getStore()->getId();
 
@@ -30,7 +40,7 @@ class TBT_Rewards_Model_Poll_Transfer extends TBT_Rewards_Model_Transfer
 
         $initial_status = Mage::helper( 'rewards/poll_config' )->getInitialTransferStatusAfterPoll( $store_id );
 
-        if (! $transfer->setStatus( null, $initial_status )) {
+        if (! $transfer->setStatusId( null, $initial_status )) {
             return false;
         }
 
@@ -40,9 +50,11 @@ class TBT_Rewards_Model_Poll_Transfer extends TBT_Rewards_Model_Transfer
         $customer_id = $rpoll->getCustomerId();
 
         $this->setPollId( $rpoll->getPollId() )
-             ->setComments( $comments )
-             ->setCustomerId( $customer_id )
-             ->save();
+            ->setReferenceId($rpoll->getPollId())
+            ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('poll'))
+            ->setComments( $comments )
+            ->setCustomerId( $customer_id )
+            ->save();
 
         return true;
     }

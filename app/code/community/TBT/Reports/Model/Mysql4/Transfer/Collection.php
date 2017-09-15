@@ -7,14 +7,12 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
     /**
      * Overwrite so we return instances of tbtreports/transfer
      * but we use original resource model
-     * Also turn off reference joins by default
      *
      * @see TBT_Rewards_Model_Mysql4_Transfer_Collection::_construct();
      */
     public function _construct()
     {
         $this->_init('rewards/transfer');
-        $this->excludeTransferReferences();
     }
 
     /**
@@ -28,7 +26,7 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
         $this->flags['exclude_expiry_transfers'] = true;
         $this->_contradicts('only_expiry_transfers', 'only_positive_transfers');
 
-        $this->addFieldToFilter('reason_id', array('nin' => $this->_getExpiryReasons()));
+        $this->addFieldToFilter('reason_id', array('neq' => Mage::helper('rewards/transfer_reason')->getReasonId('expire')));
 
         return $this;
     }
@@ -42,10 +40,10 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
     public function onlyExpiryTransfers()
     {
         $this->flags['only_expiry_transfers'] = true;
-        $this->_contradicts('exclude_expiry_transfers', 'only_for_reasons', 'only_reference_types');
+        $this->_contradicts('exclude_expiry_transfers', 'only_for_reasons');
 
         $this->onlyNegativeTransfers();
-        $this->addFieldToFilter('reason_id', array('in' => $this->_getExpiryReasons()));
+        $this->addFieldToFilter('reason_id', array('neq' => Mage::helper('rewards/transfer_reason')->getReasonId('expire')));
 
         return $this;
     }
@@ -174,46 +172,6 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
     }
 
     /**
-     * Will limit the collection to transfers with specific reference types only
-     * This will add a lot more query overhead, try to avoid if possible
-     *
-     * @param $referenceTypes int|string|array $reasons, any number of reasons
-     * @return $this
-     * @throws Exception if a contradictory query is being built
-     */
-    public function onlyForReferenceTypes(/* $args */)
-    {
-        $referenceTypes = func_get_args();
-        $this->_contradicts('only_expiry_transfers', 'exclude_reference_types');
-        $this->_flags['only_reference_types'] = $this->isFlagSet('only_reference_types') ?
-            array_merge($this->_flags['only_reference_types'], $referenceTypes) : $referenceTypes;
-
-        /* Has to be implemented in prepareCollection() */
-
-        return $this;
-    }
-
-    /**
-     * Will exclude specified reference types from the collection
-     * This will add a lot more query overhead, try to avoid if possible
-     *
-     * @param $referenceTypes int|string|array $reasons, any number of reasons
-     * @return $this
-     * @throws Exception if a contradictory query is being built
-     */
-    public function excludeReferenceTypes(/* $args */)
-    {
-        $referenceTypes = func_get_args();
-        $this->_contradicts('only_expiry_transfers', 'only_reference_types');
-        $this->_flags['exclude_reference_types'] = $this->isFlagSet('exclude_reference_types') ?
-            array_merge($this->_flags['exclude_reference_types'], $referenceTypes) : $referenceTypes;
-
-        /* Has to be implemented in prepareCollection() */
-
-        return $this;
-    }
-
-    /**
      * Will add start and end dates to the query to filter transaction's by created time
      *
      * @param string $startDate (optional), UTC timezone
@@ -224,12 +182,12 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
     {
         if ($startDate) {
             $this->flags['has_start_date'] = true;
-            $this->addFieldToFilter('creation_ts', array('gteq' => $startDate));
+            $this->addFieldToFilter('created_at', array('gteq' => $startDate));
         }
 
         if ($endDate) {
             $this->flags['has_end_date'] = true;
-            $this->addFieldToFilter('creation_ts', array('lteq' => $endDate));
+            $this->addFieldToFilter('created_at', array('lteq' => $endDate));
         }
 
         return $this;
@@ -281,65 +239,10 @@ class TBT_Reports_Model_Mysql4_Transfer_Collection extends TBT_Rewards_Model_Mys
             $this->addFieldToFilter('reason_id', array('nin' => $this->_flags['exclude_reasons']));
         }
 
-        // Prepare only_reference_types
-        if ($this->isFlagSet('only_reference_types')) {
-            if ($this->isFlagSet('force_joins') ||
-                $this->isFlagSet('has_start_date') || $this->isFlagSet('has_end_date')) {
-                // Use an inner join if we have start or end dates
-                $referenceTypes = implode(', ', $this->_flags['only_reference_types']);
-                $this->getSelect()->joinInner(
-                    array('reference_table' => $this->getTable('transfer_reference')),
-                    "main_table.rewards_transfer_id = reference_table.rewards_transfer_id AND " .
-                    "reference_table.reference_type in ({$referenceTypes})",
-                    "reference_table.reference_type"
-                );
-
-            } else {
-                // Use sub-query instead of a join if it's open-ended
-                $referenceCollection = Mage::getResourceModel('rewards/transfer_reference_collection')
-                    ->addFieldToFilter('reference_type', array('in' => $this->_flags['only_reference_types']));
-                $filteredTransferIds = $this->_getHelper('tbtreports/collection')->extractColumn($referenceCollection, 'rewards_transfer_id');
-                $this->addFieldToFilter('rewards_transfer_id', array('in' => $filteredTransferIds));
-            }
-        }
-
-        // Prepare exclude_reference_types
-        if ($this->isFlagSet('exclude_reference_types')) {
-            if ($this->isFlagSet('force_joins') ||
-                $this->isFlagSet('has_start_date') || $this->isFlagSet('has_end_date')) {
-                // Use an inner join if we have start or end dates
-                $referenceTypes = implode(', ', $this->_flags['exclude_reference_types']);
-                $this->getSelect()->joinInner(
-                    array('reference_table' => $this->getTable('transfer_reference')),
-                    "main_table.rewards_transfer_id = reference_table.rewards_transfer_id AND " .
-                    "reference_table.reference_type not in ({$referenceTypes})",
-                    "reference_table.reference_type"
-                );
-
-            } else {
-                // Use sub-query instead of a join if it's open-ended
-                $referenceCollection = Mage::getResourceModel('rewards/transfer_reference_collection')
-                    ->addFieldToFilter('reference_type', array('in' => $this->_flags['exclude_reference_types']));
-                $filteredTransferIds = $this->_getHelper('tbtreports/collection')->extractColumn($referenceCollection, 'rewards_transfer_id');
-                $this->addFieldToFilter('rewards_transfer_id', array('nin' => $filteredTransferIds));
-            }
-        }
-
         $this->_isPrepared = true;
         return $this;
     }
-
-    /**
-     * @return array<int> all possible "reasons" for expiry transfers
-     */
-    protected function _getExpiryReasons()
-    {
-        return array(
-            TBT_Rewards_Model_Transfer_Reason_SystemAdjustment::REASON_TYPE_ID,
-            TBT_Rewards_Model_Transfer_Reason_SystemAdjustment::EXPIRY_REASON_TYPE_ID
-        );
-    }
-
+    
     /**
      * Overwrite to explicitly prepare the collection before loading
      * @return $this|Mage_Core_Model_Resource_Db_Collection_Abstract

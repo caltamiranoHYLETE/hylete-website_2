@@ -1,0 +1,17 @@
+--- app/code/core/Mage/Payment/Model/Method/Cc.php	2015-08-17 12:51:23.000000000 +0000
++++ app/code/core/Mage/Payment/Model/Method/Cc.php	2015-10-05 19:19:42.000000000 +0000
+@@ -93,6 +93,14 @@
+ 
+         $ccNumber = $info->getCcNumber();
+ 
++        // ER@Vaimo> Vaimo_Checkout - when preselect or payment click occurs then all fields will be empty
++        // and exception from Validation will be thrown
++        $tmpCcType = $info->getCcType();
++        if (empty($tmpCcType) && empty($ccNumber)) {
++            return $this;
++        }
++        // ~ //
++
+         // remove credit card number delimiters such as "-" and space
+         $ccNumber = preg_replace('/[\-\s]+/', '', $ccNumber);
+         $info->setCcNumber($ccNumber);

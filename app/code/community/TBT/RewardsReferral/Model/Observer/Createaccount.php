@@ -9,7 +9,12 @@ class TBT_RewardsReferral_Model_Observer_Createaccount extends Varien_Object
      */
     public function beforeCreate($o)
     {
-        $this->attemptReferralCheck($o);
+        $customer = $o->getCustomer();
+        
+        if (!$customer->getId()) {
+            $this->attemptReferralCheck($o, null, $customer->getData());
+        }
+        
         return $this;
     }
 
@@ -127,7 +132,7 @@ class TBT_RewardsReferral_Model_Observer_Createaccount extends Varien_Object
                         , 1);
                 return $this;
             }
-
+            
             //@nelkaake Added on Thursday July 8, 2010: Was a code and e-mail passed?
             //@nelkaake (add) on 1/11/10: By default, use the textbox code/email.
             $use_field = true;
@@ -141,17 +146,26 @@ class TBT_RewardsReferral_Model_Observer_Createaccount extends Varien_Object
 
             // If it's not set or if it's empty using the field, use the session
             if (!$use_field) {
-                //@nelkaake Changed on Wednesday October 6, 2010: Change the code if the customer does
-                if (Mage::helper('rewardsref/code')->getReferral()) {
-                    $data[$code_field] = Mage::helper('rewardsref/code')->getReferral();
-                } else {
-                    $data[$code_field] = '';
-                    //throw new Exception("Customer signup was detected with data, but the '{$code_field}' field was not detected.", 1);
+                
+                $params = Mage::app()->getRequest()->getParams();
+                if (isset($params['rewards_referral'])) {
+                    Mage::helper('rewardsref/code')->setReferrer($params['rewards_referral']);
                 }
+
+                $referrer = Mage::helper('rewardsref/code')->getReferrer(true);
+
+                if (!$referrer) {
+                    $data[$code_field] = '';
+                } else {
+                    $data[$code_field] = Mage::helper('rewardsref/code')->getCode($referrer->getId());
+                }
+            } else {
+                Mage::helper('rewardsref/code')->setReferrer($data[$code_field]);
+                $referrer = Mage::helper('rewardsref/code')->getReferrer(true);
             }
 
             // If all the possible referral code options are empty or not set, exit the registration system.
-            if (empty($data[$code_field])) {
+            if (empty($data[$code_field]) || !$referrer || !$referrer->getId()) {
                 return $this;
             }
 
@@ -167,8 +181,6 @@ class TBT_RewardsReferral_Model_Observer_Createaccount extends Varien_Object
                 $data[$lastname_field] = ' ';
             }
 
-            //@nelkaake Added on Thursday July 8, 2010: Fetchthe required data and load the customer
-            $referral_code_or_email = $data[$code_field];
             $new_customer_email = $data[$email_field];
             //@nelkaake Added on Thursday July 8, 2010: We use this method of getting the full name becuase Magento has it's own getName() logic.
             $new_customer_name = Mage::getModel('customer/customer')
@@ -178,13 +190,11 @@ class TBT_RewardsReferral_Model_Observer_Createaccount extends Varien_Object
 
 
             // Let's make sure the referral entry is valid.
-            $referral_email     = Mage::helper('rewardsref/code')->parseEmailFromReferralString($referral_code_or_email);
             $new_customer_email = Mage::helper('rewardsref/code')->parseEmailFromReferralString($new_customer_email);
-            if ($referral_email == $new_customer_email) {
+            if ($referrer->getEmail() == $new_customer_email) {
                 throw new Exception("Customer with e-mail {$new_customer_email} tried to refer his/her self {$referral_email}.", 1);
             }
             
-            Mage::helper('rewardsref/code')->setReferral($referral_code_or_email);
             Mage::helper('rewardsref')->initateSessionReferral2($new_customer_email, $new_customer_name);
         } catch (Exception $e) {
             Mage::helper('rewardsref')->log($e->getMessage());

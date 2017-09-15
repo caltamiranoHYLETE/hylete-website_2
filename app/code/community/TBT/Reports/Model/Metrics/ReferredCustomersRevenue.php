@@ -12,7 +12,7 @@ class TBT_Reports_Model_Metrics_ReferredCustomersRevenue extends TBT_Reports_Mod
 
     public function getMetricInfo()
     {
-        return $this->__("Consists of revenue produced by any customer who was referred to your store through %s.", "Sweet&nbsp;Tooth");
+        return $this->__("Consists of revenue produced by any customer who was referred to your store through %s.", "MageRewards");
     }
 
     public function getMetricType()

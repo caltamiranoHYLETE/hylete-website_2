@@ -2,16 +2,7 @@
 
 class TBT_Rewards_Model_Redemption_Instance_Collection extends Varien_Data_Collection {
 	
-	protected $item = null;
-	
-	//	const POINTS_CURRENCY_ID = 'points_currency_id';
-	//	const POINTS_AMT = 'points_amt';
-	//	const POINTS_EFFECT = 'effect';
-	//	const POINTS_RULE_ID = 'rule_id';
-	//	const POINTS_APPLICABLE_QTY = 'applicable_qty';
-	//  const POINTS_USES = 'uses';
-	//  const POINTS_INST_ID = 'redemption_inst_id';
-	
+	protected $item = null;	
 
 	public function setQuoteItem($item) {
 		$this->item = $item;

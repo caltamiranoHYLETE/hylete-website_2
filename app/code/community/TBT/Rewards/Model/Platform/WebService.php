@@ -53,7 +53,7 @@ class TBT_Rewards_Model_Platform_WebService extends Varien_Object
         $this->_helper()->log("Creating role");
         $role->setRoleType('G')
             ->setTreeLevel(1)
-            ->setRoleName('Sweet Tooth')
+            ->setRoleName('MageRewards')
             ->save();
 
         $this->_helper()->log("Associating role to user");
@@ -86,7 +86,7 @@ class TBT_Rewards_Model_Platform_WebService extends Varien_Object
         $user = Mage::getModel('api/user');
         $user = $user->setFirstname('Sweet')
             ->setLastname('Tooth')
-            ->setEmail('support@sweettoothrewards.com')
+            ->setEmail('support@magerewards.com')
             ->setUsername('sweettooth')
             ->setApiKey($this->getApiKey())
             ->save();

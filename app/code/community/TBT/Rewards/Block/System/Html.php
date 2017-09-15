@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WDCA
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   WDCA
+ * @category   Sweet Tooth
  * @package    TBT_Enhancedgrid
  * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -33,8 +33,6 @@ class TBT_Rewards_Block_System_Html extends Mage_Adminhtml_Block_System_Config_F
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $version = Mage::getConfig ()->getNode ( 'modules/TBT_Rewards/version' );
-        $widget = Mage::getBlockSingleton('rewards/manage_widget_loyalty')->toHtml();
-        $switchMessage = '';
 
         $defaultFormJs = '';
 
@@ -42,9 +40,8 @@ class TBT_Rewards_Block_System_Html extends Mage_Adminhtml_Block_System_Config_F
             </tbody></table>
 
             <div style='margin-top:30px; width:430px;'>
-                <i>Sweet Tooth v{$version}. <a href='http://help.sweettoothrewards.com/category/3-announcements-basics' target='_blank'>Click here for updates</a></i>
+                <i>MageRewards v{$version}. <a href='http://support.magerewards.com/category/1526-category' target='_blank'>Click here for updates</a></i>
                 <br/>
-                {$widget}
             </div>
 
             <table><tbody>
@@ -69,7 +66,7 @@ Element.prototype.triggerEvent = function(eventName)
 function respondToClick(event) {
     var key = event.which || event.keyCode;
     if(key === Event.KEY_RETURN){
-          //triger the "Connect to Sweet Tooth" button
+          //triger the "Connect to MageRewards" button
           $('btn_connect').triggerEvent('click');
     }
 

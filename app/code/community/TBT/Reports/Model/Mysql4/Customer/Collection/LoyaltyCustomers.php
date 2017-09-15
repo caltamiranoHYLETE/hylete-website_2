@@ -159,7 +159,7 @@ class TBT_Reports_Model_Mysql4_Customer_Collection_LoyaltyCustomers extends TBT_
             ->forceJoins()
             ->filterTransferMode()
             ->onlyPositiveTransfers()
-            ->onlyForReferenceTypes(TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER)
+            ->onlyForReasons(Mage::helper('rewards/transfer_reason')->getReasonId('order'))
             ->limitPeriod($batch3StartDate, $batch3EndDate);
         $batch3aSelect = $batch3a->prepareCollection()->getSelect()
             ->reset(Zend_Db_Select::COLUMNS)
@@ -174,13 +174,14 @@ class TBT_Reports_Model_Mysql4_Customer_Collection_LoyaltyCustomers extends TBT_
          * birthday points, inactivity points, or having placed an order,
          * anytime within 1 year preceding supplied $startDate, upto and including supplied $endDate
          */
+        $reasonHelper = Mage::helper('rewards/transfer_reason');
         $batch3b = $this->_getTransferCollection()
             ->onlyPositiveTransfers()
             ->filterTransferMode()
-            ->excludeReasons(TBT_Rewards_Model_Birthday_Reason::REASON_TYPE_ID)
-            ->excludeReferenceTypes(
-                TBT_Milestone_Model_Rule_Condition_Inactivity::POINTS_REFERENCE_TYPE_ID,
-                TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER
+            ->excludeReasons(
+                $reasonHelper->getReasonId('birthday'),
+                $reasonHelper->getReasonId('milestone_inactivity'),
+                $reasonHelper->getReasonId('order')
             )
             ->limitPeriod($batch3StartDate, $batch3EndDate);
 

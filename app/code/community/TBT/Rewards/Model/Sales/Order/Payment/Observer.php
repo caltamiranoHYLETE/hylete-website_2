@@ -23,10 +23,8 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
     }
 
     /**
-     * Observes the order_cancel_after event.
-     * Automatically cancels point transfers, if it a mass admin cancel operation,
-     * a payment failure at checkout (paypal, authorize.net), or if Magento prior
-     * to 1.4.1.1 and it's a single admin order cancel.
+     * Cancel transfers if an error occurs during checkout
+     * 
      * @param $observer
      * @return TBT_Rewards_Model_Sales_Order_Payment_Observer
      */
@@ -50,12 +48,12 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
 
             foreach ( $orderTransfers as $transfer ) {
 
-                if (($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
-                    $transfer->setStatus ( $transfer->getStatus (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
+                if (($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
+                    $transfer->setStatusId ( $transfer->getStatusId (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
                     $transfer->save ();
                     $transfer->setCanceled(1);
                     $displayMessages = true;
-                } else if ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
+                } else if ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
                     try {
                         // try to revoke the transfer and keep track of the new transfer ID to notify admin
                         $revokedTransferId = $transfer->revoke()->getId();
@@ -65,7 +63,7 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
                         $transfer->setRevokedTransferId(null);
                         continue;
                     }
-                } else if ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
+                } else if ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
                     // transfer was already canceled (by admin, probably), so we just notify him
                     $transfer->setCanceled(0);
                     $displayMessages = true;
@@ -83,13 +81,8 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
                 }
             }
         }
-        // dispatching this event so we can hook aditional logic in Referral module
-        Mage::dispatchEvent('rewards_sales_order_payment_automatic_cancel',
-            array('order' => $order));
-
-        Mage::dispatchEvent('rewards_sales_order_payment_automatic_cancel_done',
-            array('order' => $order));
-
+        
+        Mage::dispatchEvent('rewards_sales_order_payment_automatic_cancel', array('order' => $order));
         return $this;
     }
 
@@ -171,7 +164,7 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
     protected function _displayAdminMessages($orderTransfers)
     {
         foreach ( $orderTransfers as $transfer ) {
-            if ($transfer->getStatus() == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
+            if ($transfer->getStatusId() == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
                 if ($transfer->getCanceled()) {
                     // if point transfer successfully canceled, notify administrator
                     $this->_dispatchSuccess(Mage::helper ( 'rewards' )->__ ( 'Successfully cancelled points transfer ID #' . $transfer->getId ()));
@@ -179,7 +172,7 @@ class TBT_Rewards_Model_Sales_Order_Payment_Observer extends Varien_Object
                     // if point transfer were already canceled previously to canceling the order, notify administrator
                     $this->_dispatchSuccess(Mage::helper ( 'rewards' )->__ ( 'No action taken on points transfer ID #' . $transfer->getId () . ". Transfer was already canceled prior to this."));
                 }
-            } else if ($transfer->getStatus() == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
+            } else if ($transfer->getStatusId() == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
                 if ($transfer->getRevokedTransferId()) {
                     // if points are in Approved status and a new transfer was made to REVOKE the points, notify the admin
                     $this->_dispatchSuccess( Mage::helper ( 'rewards' )->__ ( 'Successfully revoked already approved points from transfer ID #' . $transfer->getId () . " through a new transfer ID #" . $transfer->getRevokedTransferId()) );

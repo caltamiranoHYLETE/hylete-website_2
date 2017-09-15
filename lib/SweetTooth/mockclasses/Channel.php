@@ -63,7 +63,7 @@ class SweetToothChannel
             'channel_type'      => 'prestashop',
             'api_key'           => '93589512ab0501b6009f261280696657',
             'api_secret'        => 'a4712bfe91a9c36a78c0e9f0d3018ff8',
-            'url'               => 'www.sweettoothrewards.com'                                                  
+            'url'               => 'www.magerewards.com'                                                  
         );   
            
         return $channel;

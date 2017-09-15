@@ -23,7 +23,8 @@
             onLoadTimeout: 50,
             showElementWhenCreatingSlider: false,
             lastSliderAjaxRequest: false,
-            useSlider: true
+            useSlider: true,
+            isCheckboxAction: false
         },
         init: function(sliderInfo, urls, showElementWhenCreatingSlider) {
             this.data.sliderInfo = sliderInfo;
@@ -33,6 +34,11 @@
             if (this.data.useSlider) {
                 this.createSlider();
                 this.initializeSliderEvents();
+                
+                var self = this;
+                Event.observe(window, 'orientationchange', function() {
+                    self.reloadSlider(); 
+                });
             }
             
             this.initializeCheckboxRules();
@@ -94,6 +100,17 @@
                 (this.checked) ? self.slider.maximize() : self.slider.slider.setValue(0);
             });
         },
+        disposeSliderEvents: function() {
+            var self = this;
+            Event.stopObserving('sliderHandle', 'mousedown');
+            $$('#sliderHandle, .cartSlider .slider').each(function(sliderEl){
+                Event.stopObserving(sliderEl, 'mouseup');
+            });
+            
+            Event.stopObserving('slider_increase_points', 'click');
+            Event.stopObserving('slider_reduce_points', 'click');
+            Event.stopObserving('use_all_points', 'click');
+        },
         updateSlider: function(amount) {
             var self = this;
             
@@ -109,6 +126,7 @@
                     this.data.urls.slider, {
                         parameters: {points_spending: amount},
                         onSuccess: function (response) {
+                            self.data.sliderInfo.currentValue = amount;
                             $('slider-wait').hide();
                             self.afterAjax(response);
                         }
@@ -147,7 +165,9 @@
                         checkbox.show();
                         label.removeClassName('rewards-slider-refreshing-checkbox-rule');
                         
+                        window.sweettooth.slider.data.isCheckboxAction = true;
                         self.afterAjax(response);
+                        window.sweettooth.slider.data.isCheckboxAction = false;
                     }
                 });
                 
@@ -167,6 +187,11 @@
             
             var pageTitle = Element.extend($$('.page-title').shift());
             pageTitle.insert({after: html});
+        },
+        reloadSlider: function() {
+            var self = this;
+            self.disposeSliderEvents();
+            this.init(self.data.sliderInfo, self.data.urls, self.data.showElementWhenCreatingSlider);
         }
     };
 })(window);

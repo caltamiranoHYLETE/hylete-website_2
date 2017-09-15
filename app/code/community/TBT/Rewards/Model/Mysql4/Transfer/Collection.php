@@ -4,37 +4,10 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	
 	protected $didSelectCustomerName = false;
 	protected $didSelectCurrency = false;
-	protected $_excludeTransferReferences = false;
-	protected $_transferReferencesAdded = false;
 	
 	public function _construct() {
 		$this->_init ( 'rewards/transfer' );
 	}
-	
-
-	/**
-     * Add all the references linked with the transfers.
-     * This will also include multiple references associated with the same transfer 
-     * and might cause transferes to be listed more than once.
-     * 
-     * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-     */
-    public function addAllReferences() {
-        $this->_addTransferReferences();
-        return $this;
-    }
-
-    /**
-     * Used to exclude joining the collection with the transfer references table which is done by default on this collection.
-     * Call excludeTransferReferences() before loading the collection to exclude the join.
-     * 
-     * @return this
-     */
-    public function excludeTransferReferences(){
-    	//@mhadianfard -a 1/12/11:
-    	$this->_excludeTransferReferences = true;
-    	return $this; 	
-    }
     
     /**
      * 
@@ -44,20 +17,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
     public function _initSelect () {
         parent::_initSelect();
         return $this;
-    }
-    
-    
-    public function getIterator(){
-    	
-    	//@mhadianfard -a 19/12/11: Magento 1.4.0.1 doesn't call _beforeLoad()
-    	if (!Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.2.0' )){
-    		if (!$this->_excludeTransferReferences){
-    			// Add a simplified version of the transfer references (1 reference per 1 transfer)
-    			$this->_addTransferReferences(  true  );
-    		}    		
-    	}
-    	
-    	return parent::getIterator();
     }
 
     /**
@@ -71,23 +30,8 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 
         $countSelect = clone $this->getSelect();
 
-        $hasFilterOnReferenceTable = false;
-        $whereFilters = $this->getSelect()->getPart(Zend_Db_Select::WHERE);
-        foreach ($whereFilters as $filter) {
-            $pos = strpos($filter, 'reference');
-            if ($pos !== false) {
-                $hasFilterOnReferenceTable = true;
-                break;
-            }
-        }
-
-        // hack: unless there's a filter on the reference table, we should remove any joins for the COUNT sql
-        // TODO: any scenarios that require a filter on the reference table should use a transfer_reference
-        //   collection and join onto the transfer table, NOT the other way around (which is what we're doing)
-        if (!$hasFilterOnReferenceTable && !$this->didSelectCustomerName) {
-            $mainTable = Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.1.1')
-                ? $this->getMainTable()
-                : $this->getResource()->getMainTable();
+        if (!$this->didSelectCustomerName) {
+            $mainTable = $this->getMainTable();
 
             // reset any joins that are on this query
             $countSelect->reset(Zend_Db_Select::FROM);
@@ -105,96 +49,25 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 
         return $countSelect;
     }
-    
-    /**
-     *
-     *
-     * (overrides parent method)
-     */   
-    protected function _beforeLoad(){
-    	parent::_beforeLoad();
-    	
-    	if (!$this->_excludeTransferReferences){
-    		// Add a simplified version of the transfer references (1 reference per 1 transfer)
-    		$this->_addTransferReferences(  true  );
-    	}
-    	    	
-    	return $this;
-    }
-    
-    /**
-     * Adds transfer references to this current collection.  By default
-     * adds all the transfer referneces, but you can pass a subquery into the $references 
-     * parameter to only add specific references.
-     * @param bool $sourceReferencesOnly    If true adds ONLY transfer source references, else all references
-     */
-    protected function _addTransferReferences($sourceReferencesOnly = false) {
-    	if ($this->_transferReferencesAdded) return $this;
-
-        $this->getSelect()->joinLeft(
-            array('reference_table' => $this->getTable('transfer_reference') ), 
-        	'main_table.rewards_transfer_id = reference_table.rewards_transfer_id'.
-            ($sourceReferencesOnly
-                ? ' AND main_table.source_reference_id = reference_table.rewards_transfer_reference_id'
-                : ''),
-            array(
-            	'rewards_transfer_reference_id' => 'rewards_transfer_reference_id', 
-            	'reference_type' => "reference_table.reference_type", 
-            	'reference_id' => "reference_table.reference_id", 
-            	'transfer_id' => "reference_table.rewards_transfer_id"
-            )
-        );
-        
-        // TODO: this would break many other collection queries, but without it we don't support multi-reference
-        //$this->getSelect()->group('main_table.rewards_transfer_id');
-        
-        $this->_transferReferencesAdded = true;
-        
-        return $this;
-    }
-	
-	/**
-	 * Also select the rules for the collection
-	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-	 */
-	public function addRules() {
-		
-		$this->_addTransferReferences();		//@mhadianfard -a 1/12/11: make sure we're adding in transfer references before we do the rest		
- 
-		$alias = 'rule_name';
-		$this->getSelect ()->joinLeft ( array ('salesrules' => $this->getTable ( 'salesrule/rule' ) ), 'reference_table.rule_id = salesrules.rule_id', array ('rule_id' => "reference_table.rule_id", 'salesrule_name' => "salesrules.name" ) );
-		$this->getSelect ()->joinLeft ( array ('catalogrules' => $this->getTable ( 'catalogrule/rule' ) ), 'reference_table.rule_id = catalogrules.rule_id', array ('catalogrule_name' => "catalogrules.name" ) );
-		
-		//die("<PRE>".$this->getSelect()->__toString(). "</PRE>"); // ,
-		
-
-		/*
-          $this->_joinFields[$alias] = array(
-          'table' => false,
-          'field' => $expr
-          ); */
-		return $this;
-	}
-	
-	/**
-	 *
-	 * @return TBT_Rewards_Model_Transfer_Reference
-	 */
-	private function _getRTModel() {
-		return Mage::getSingleton ( 'rewards/transfer_reference' );
-	}
 	
 	/**
 	 * Adds customer info to select
-	 *
 	 * @return  TBT_Rewards_Model_Mysql4_Transfer_Collection
 	 */
-	public function selectCurrency() {
-		if (! $this->didSelectCurrency) {
-			$this->getSelect ()->joinLeft ( array ('currency_table' => $this->getTable ( 'currency' ) ), 'currency_table.rewards_currency_id=main_table.currency_id', array ('currency' => 'caption' ) );
-			$this->didSelectCurrency = true;
-		}
-		return $this;
+	public function selectCurrency() 
+        {
+            if (!$this->didSelectCurrency) {
+                $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
+                $this->getSelect()->joinLeft(
+                    array('currency_table' => $this->getTable('currency')), 
+                    "currency_table.rewards_currency_id=$defaultCurrencyId", 
+                    array('currency' => 'caption', 'currency_id' => 'rewards_currency_id')
+                );
+                
+                $this->didSelectCurrency = true;
+            }
+            
+            return $this;
 	}
 	
 	/**
@@ -205,39 +78,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
 	 */
 	public function addStoreFilter($store) {
-		// TODO WDCA - integral to implementing multi-store capability
-		//		if (!Mage::app()->isSingleStoreMode()) {
-		//			if ($store instanceof Mage_Core_Model_Store) {
-		//				$store = $store->getId();
-		//			}
-		//
-		//			$this->getSelect()->join(
-		//				array('store_currency_table' => $this->getTable('store_currency')),
-		//				'main_table.currency_id = store_currency_table.currency_id',
-		//				array()
-		//			)
-		//          ->where('store_currency_table.store_id', array('in' => array(0, $store)));
-		//          return $this;
-		//      }
-		return $this;
-	}
-	
-	/**
-	 * Add Filter by store
-	 *
-	 * @param int|Mage_Core_Model_Store $store
-	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-	 */
-	public function addFullNameFilter($store) {
-		if (! Mage::app ()->isSingleStoreMode ()) {
-			if ($store instanceof Mage_Core_Model_Store) {
-				$store = array ($store->getId () );
-			}
-			
-			$this->getSelect ()->join ( array ('store_currency_table' => $this->getTable ( 'store_currency' ) ), 'main_table.currency_id = store_currency_table.currency_id', array () )->where ( 'store_currency_table.store_id in (?)', array (0, $store ) );
-			
-			return $this;
-		}
 		return $this;
 	}
 	
@@ -252,12 +92,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 			$customer = Mage::getModel ( 'rewards/customer' );
 			$firstname = $customer->getAttribute ( 'firstname' );
 			$lastname = $customer->getAttribute ( 'lastname' );
-			
-			//        $customersCollection = Mage::getModel('customer/customer')->getCollection();
-			//        /* @var $customersCollection Mage_Customer_Model_Entity_Customer_Collection */
-			//        $firstname = $customersCollection->getAttribute('firstname');
-			//        $lastname  = $customersCollection->getAttribute('lastname');
-			
 
 			$this->getSelect ()->joinLeft ( array ('customer_lastname_table' => $lastname->getBackend ()->getTable () ), 'customer_lastname_table.entity_id=main_table.customer_id
                  AND customer_lastname_table.attribute_id = ' . ( int ) $lastname->getAttributeId () . '
@@ -266,6 +100,7 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
                  ', array ('customer_firstname' => 'value' ) );
 			$this->didSelectCustomerName = true;
 		}
+                
 		return $this;
 	}
 	
@@ -294,6 +129,37 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 		$this->_joinFields [$alias] = array ('table' => false, 'field' => $fullExpression );
 		return $this;
 	}
+        
+        /**
+         * Add customer email to select
+         * return $this
+         */
+        public function selectCustomerEmail()
+        {
+            $this->getSelect()->join(
+                array('customer_entity' => Mage::getSingleton('core/resource')->getTableName('customer_entity')), 
+                'main_table.customer_id = customer_entity.entity_id', 
+                array('email')
+            );
+            
+            return $this;
+        }
+        
+        /**
+         * Add increment ID when the reason ID is matching an order
+         * return $this
+         */
+        public function selectIncrementIdOnOrders()
+        {
+            $orderReasonId = Mage::helper('rewards/transfer_reason')->getReasonId('order');
+            $this->getSelect()->joinLeft(
+                array('sales_order' => Mage::getSingleton('core/resource')->getTableName('sales/order')), 
+                "main_table.reason_id = {$orderReasonId} AND main_table.reference_id = sales_order.entity_id", 
+                array('increment_id')
+            );
+            
+            return $this;
+        }
 	
 	/**
 	 * Adds the full customer name to the query.
@@ -343,42 +209,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	}
 	
 	/**
-	 * Only fetches points distributon types
-	 *
-	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-	 */
-	public function selectOnlyDistributions() {
-		$reasons = Mage::getSingleton ( 'rewards/transfer_reason' )->getDistributionReasonIds ();
-		$this->getSelect ()->where ( 'main_table.reason_id IN (?)', array (0, $reasons ) )->order ( 'main_table.creation_ts DESC' );
-		
-		return $this;
-	}
-	
-	/**
-	 * Only fetches point redemption types
-	 *
-	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-	 */
-	public function selectOnlyRedemptions() {
-		$reasons = Mage::getSingleton ( 'rewards/transfer_reason' )->getRedemptionReasonIds ();
-		$this->getSelect ()->where ( 'main_table.reason_id IN (?)', array (0, $reasons ) )->order ( 'main_table.creation_ts DESC' );
-		
-		return $this;
-	}
-	
-	/**
-	 * Only Fetches non redemption and non distribution types
-	 *
-	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
-	 */
-	public function selectOnlyOtherTransfers() {
-		$reasons = Mage::getSingleton ( 'rewards/transfer_reason' )->getOtherReasonIds ();
-		$this->getSelect ()->where ( 'main_table.reason_id IN (?)', array (0, $reasons ) )->order ( 'main_table.creation_ts DESC' );
-		
-		return $this;
-	}
-	
-	/**
 	 * Fetches only transfers that give points to the customer
 	 *
 	 * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
@@ -400,10 +230,38 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	
 	public function selectOnlyActive() {
 		$countableStatusIds = Mage::getSingleton ( 'rewards/transfer_status' )->getCountableStatusIds ();
-		$this->getSelect ()->where ( 'main_table.status IN (?)', $countableStatusIds );
+		$this->getSelect ()->where ( 'main_table.status_id IN (?)', $countableStatusIds );
 		
 		return $this;
 	}
+        
+    /**
+     * Filter transfers that are not expiry system adjustments
+     * @return \TBT_Rewards_Model_Mysql4_Transfer_Collection
+     */
+    public function selectNonExpiryTransfers()
+    {
+        $this->addFieldToFilter(
+            'reason_id',
+            array('neq' => Mage::helper('rewards/transfer_reason')->getReasonId('expire'))
+        );
+        
+        return $this;
+    }
+    
+    /**
+     * Filter transfers that are expiry system adjustments
+     * @return \TBT_Rewards_Model_Mysql4_Transfer_Collection
+     */
+    public function selectExpiryTransfers()
+    {
+        $this->addFieldToFilter(
+            'reason_id',
+            array('eq' => Mage::helper('rewards/transfer_reason')->getReasonId('expire'))
+        );
+        
+        return $this;
+    }
 	
 	/**
 	 * Filters transfers with a CANCELLED status out of the SQL query
@@ -411,7 +269,7 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	 */
 	public function excludeCancelledTransfers()
 	{
-		$this->addFieldToFilter('status', array('neq' => TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED));
+		$this->addFieldToFilter('status_id', array('neq' => TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED));
 		return $this;
 	}
 	
@@ -426,7 +284,7 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 		$this->getSelect ()->group ( 'main_table.customer_id' );
 		$this->sumPoints ();
 		$this->getSelect ()->from ( null, array ("points" => "CONCAT(SUM(main_table.quantity), ' ', currency_table.caption)" ) );
-		$this->getSelect ()->from ( null, array ("last_changed_ts" => "MAX(main_table.creation_ts)" ) );
+		$this->getSelect ()->from ( null, array ("last_changed_ts" => "MAX(main_table.created_at)" ) );
 		
 		return $this;
 	}
@@ -444,7 +302,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	 *
 	 */
 	public function sumPoints() {
-		$this->getSelect ()->group ( 'main_table.currency_id' );
 		$this->getSelect ()->from ( null, array ("points_count" => "SUM(main_table.quantity)" ) );
 		$this->addExpressionFieldToSelect('transfer_ids', "GROUP_CONCAT(main_table.rewards_transfer_id)", array());
 		return $this;
@@ -487,7 +344,7 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	{
 		$transferIds = $this->getTransferIds();
 		$revokers = Mage::getResourceModel('rewards/transfer_collection');
-		$revokers->addFieldToFilter('reference_type', array('eq' => TBT_Rewards_Model_Transfer_Reference::REFERENCE_TRANSFER))
+		$revokers->addFieldToFilter('reason_id', array('eq' => Mage::helper('rewards/transfer_reason')->getReasonId('revoke')))
 			->addFieldToFilter('reference_id', array('in' => $transferIds));
 		return $revokers;
 	}
@@ -502,15 +359,6 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 	 */
 	public function getTransferIds()
 	{
-        // need this because in Magento prior to 1.4.2, in Varien_Data_Collection_Db::load()
-        // there is no call to _beforeLoad() so our _beforeLoad() is not run before loading collection
-        if (! Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.2.0')) {
-            if (!$this->_excludeTransferReferences){
-                // Add a simplified version of the transfer references (1 reference per 1 transfer)
-                $this->_addTransferReferences(  $this->_getSingleReferenceSelect()  );
-            }
-        }
-
 		if ($this->count() > 1) {
 			return $this->getAllIds();
 		}
@@ -577,19 +425,152 @@ class TBT_Rewards_Model_Mysql4_Transfer_Collection extends Mage_Core_Model_Mysql
 		$this->setOrder('absolute_quantity', $direction);
 		return $this;
 	}
-
+        
     /**
-     * Returns a database select object that selects all references, but limits 1 reference per points transfer
-     * @deprecated use _addTransferReferences(true) to get only transfer source references
-     *
-     * @return Zend_Db_Select
+     * Prepare Points Activity Collection Based on points type and range
+     * @param string $range
+     * @param string $type
+     * @return \TBT_Rewards_Model_Mysql4_Transfer_Collection
      */
-    protected function _getSingleReferenceSelect() {
-        $references_table_name = $this->getTable('transfer_reference');
-        $read_connection = $this->getResource()->getReadConnection();
-        $single_references_select = $read_connection->select()->from($references_table_name)->group('rewards_transfer_id');
+    public function prepareMetricsPointsActivity($range, $type = 'earn')
+    {
+        if ($type == 'spend') {
+            $this->selectOnlyNegTransfers();
+            $this->selectNonExpiryTransfers();
+        } else {
+            $this->selectOnlyPosTransfers();
+        }
+        
+        $select = $this->getSelect();
+        $select->join(new Zend_Db_Expr('(SELECT @aux := 0)'), '');
 
-        return $single_references_select;
+        $select->reset(Zend_Db_Select::COLUMNS);
 
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'points_quantity' => new Zend_Db_Expr(
+                '@aux := @aux + SUM(ABS(quantity))'
+            ),
+            'range' => new Zend_Db_Expr(
+                "MAX(".$this->_getRangeExpression($range, 'created_at').")"
+            )
+        ));
+        
+        $select->group($this->_getRangeExpression($range, 'created_at'));
+
+        $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') >= '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+        
+        return $this;
+    }
+    
+    /**
+     * Getter for Total Points Value before range
+     * @param string $range
+     * @param string $type
+     * @return int|float
+     */
+    public function getTotalPointsActivityBeforePeriod($range, $type = 'earn')
+    {
+        if ($type == 'spend') {
+            $this->selectOnlyNegTransfers();
+            $this->selectNonExpiryTransfers();
+        } else {
+            $this->selectOnlyPosTransfers();
+        }
+        
+        $select = clone $this->getSelect();
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'points_quantity' => new Zend_Db_Expr(
+                'SUM(ABS(quantity))'
+            )
+        ));
+        
+        $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') < '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['points_quantity'];
+    }
+    
+    /**
+     * Getter for Total Points Value before range
+     * @param string $range
+     * @param string $type
+     * @return int|float
+     */
+    public function getTotalPointsActivityByDate($startDate, $after = true)
+    {
+        $select = clone $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $select->columns(array(
+            'points_quantity' => new Zend_Db_Expr(
+                'SUM(ABS(quantity))'
+            )
+        ));
+        
+        if ($startDate) {
+            $operand = ($after) ? '>=' : '<';
+            $select->where("DATE_FORMAT(created_at, '%Y-%m-%d') ". $operand ." '" . $startDate . "'");
+        }
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['points_quantity'];
+    }
+    
+    /**
+     * Get range expression
+     *
+     * @param string $range
+     * @return Zend_Db_Expr
+     */
+    protected function _getRangeExpression($range, $attribute = '{{attribute}}')
+    {
+        switch ($range)
+        {
+            case '30d':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '3m':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '1y':
+            case 'custom':
+            default:
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m');
+                break;
+        }
+
+        return $expression;
+    }
+    
+    /**
+     * Retrieve query for attribute with timezone conversion
+     *
+     * @param string $range
+     * @param string $attribute
+     * @param mixed $from
+     * @param mixed $to
+     * @return string
+     */
+    protected function _getTZRangeOffsetExpression($range, $attribute, $from = null, $to = null)
+    {
+        return str_replace(
+            '{{attribute}}',
+            Mage::getResourceModel('sales/report_order')
+                    ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
+            $this->_getRangeExpression($range)
+        );
     }
 }

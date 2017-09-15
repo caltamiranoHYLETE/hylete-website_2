@@ -38,4 +38,3 @@ class TBT_Rewards_Model_Catalog_Product_Visibility extends Mage_Catalog_Model_Pr
 
 }
 
-?>

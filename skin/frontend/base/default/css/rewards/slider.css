@@ -134,6 +134,17 @@
 .gomage-points-spender td img {
     max-width: initial;
 }
+
+.aw-onestepcheckout-points-spender {
+    padding-left: 0;
+    padding-top: 10px;
+}
+
+.aw-onestepcheckout-points-spender div.box-content {
+    padding-left: 8px;
+}
+
+
 .onestepcheckout-points-spender.points-spender-theme-default,
 .onestepcheckout-points-spender.points-spender-theme-enterprise {
     padding-left: 0;
@@ -146,3 +157,16 @@
 .onestepcheckout-points-spender.points-spender-theme-enterprise .rewards-slider-refreshing-checkbox-rule {
     display: block;
 }
+
+/** BEGIN MAGESTORE OSC POINTS SPENDER */
+.magestore-osc-points-spender { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);transition: all 0.2s ease-in-out 0s;background: #f0f0f0 none repeat-x scroll left bottom !important;padding-left: 0;margin-bottom: 20px;border-bottom: 0;padding-bottom: 10px; }
+.magestore-osc-points-spender h2 { background: #f0f0f0 none repeat scroll 0 0;border-bottom: 1px solid #c8c8c8;font-size: 15px;padding-top: 8px;padding-bottom: 8px;color: #363636; }
+.magestore-osc-points-spender h2::before { border-radius: 50%;color: #fff;display: inline-block;font-family: "Roboto", sans-serif;font-size: 16px;font-weight: 700;height: 35px;line-height: 35px;margin-left: 17px;margin-right: 10px;text-align: center;vertical-align:middle;width: 35px;content: "✓";background-color: #f39801 !important; }
+.magestore-osc-points-spender .box-content { padding-left: 20px; }
+#one-step-checkout-form .magestore-osc-points-spender label { float: none; }
+#one-step-checkout-form .magestore-osc-points-spender input { float: left; margin: 4px 5px; }
+/** END MAGESTORE OSC POINTS SPENDER */
+
+.iwd-onestepcheckout-points-spender.points-spender-theme-default, .iwd-onestepcheckout-points-spender.points-spender-theme-enterprise { padding-left: 0; }
+.iwd-onestepcheckout-points-spender.points-spender-theme-default h2, .iwd-onestepcheckout-points-spender.points-spender-theme-enterprise h2 { text-align: left; font-size: 14px; color: #000000; margin: 13px 0 5px; }
+.iwd-onestepcheckout-points-spender.points-spender-theme-default .minicart-slider-header, .iwd-onestepcheckout-points-spender.points-spender-theme-enterprise .minicart-slider-header { margin-top: 12px; }

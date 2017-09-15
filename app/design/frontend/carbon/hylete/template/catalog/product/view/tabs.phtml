@@ -3,13 +3,13 @@
 
 <ul class="tabs">
     <li>
-        <a data-togglelink="details" data-togglegroup="tabs"><?php echo $this->__('details'); ?> <span class="fa icon-plus"></a>
+        <a data-togglelink="details" data-togglegroup="tabs"><?php echo $this->__('details'); ?> <span class="fa fa-plus"></a>
         <div data-togglecontent="details" data-togglegroup="tabs">
             <?php echo $_product->getShortDescription(); ?>
         </div>
     </li>
     <li>
-        <a data-togglelink="material" data-togglegroup="tabs"><?php echo $this->__('material'); ?> <span class="fa icon-plus"></a>
+        <a data-togglelink="material" data-togglegroup="tabs"><?php echo $this->__('material'); ?> <span class="fa fa-plus"></a>
         <div data-togglecontent="material" data-togglegroup="tabs">
             <?php echo Icommerce_Default::getOptionValue($_product, 'material'); ?>
         </div>
@@ -17,7 +17,7 @@
     <?php foreach ($_helper->getProductTabsCmsBlocks($_product) as $_block): ?>
         <?php /** @var Mage_Cms_Model_Block $_block */ ?>
         <li>
-            <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs"><?php echo $_block->getTitle(); ?> <span class="fa icon-plus"></a>
+            <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs"><?php echo $_block->getTitle(); ?> <span class="fa fa-plus"></a>
             <div data-togglecontent="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">
                 <?php echo $_block->getContent(); ?>
             </div>

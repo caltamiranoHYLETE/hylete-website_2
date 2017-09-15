@@ -1,9 +1,13 @@
 <?php
 
-try {
-    include_once(Mage::getBaseDir('lib'). DS. 'SweetTooth'. DS .'SweetTooth.php');
-} catch (Exception $e) {
-    die("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");  
+$dependency = Mage::getBaseDir('lib'). DS. 'SweetTooth'. DS .'SweetTooth.php';
+if (file_exists($dependency) && is_readable($dependency)) {
+    include_once($dependency);
+} else {
+    $message = Mage::helper('rewards')->__("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+    Mage::getSingleton('core/session')->addError($message);
+    Mage::helper('rewards/debug')->log($message);
+    return $this;
 }
 
 class TBT_Rewards_Model_System_Config_Backend_ApiKey extends Mage_Core_Model_Config_Data
@@ -47,7 +51,7 @@ class TBT_Rewards_Model_System_Config_Backend_ApiKey extends Mage_Core_Model_Con
             if($this->getValue() && $this->getFieldsetDataValue('secretkey')) {
                 return $this;
             } else {
-                Mage::getSingleton('core/session')->addWarning("Don't forget to supply your Sweet Tooth credentials before you can setup your rewards campaign!");
+                Mage::getSingleton('core/session')->addWarning("Don't forget to supply your MageRewards credentials before you can setup your rewards campaign!");
                 Mage::getConfig()->saveConfig('rewards/platform/is_connected', 0);
             }
         }
@@ -72,7 +76,7 @@ class TBT_Rewards_Model_System_Config_Backend_ApiKey extends Mage_Core_Model_Con
             Mage::getConfig()->saveConfig('rewards/platform/is_connected', 0);
             
             if($e->getCode() == 403) {
-                throw new Exception(Mage::helper('rewards')->__('The api details you provided were not accepted by the server. Either you entered the keys in wrong, your account is inactive. For more help, please contact the Sweet Tooth support team.'));
+                throw new Exception(Mage::helper('rewards')->__('The api details you provided were not accepted by the server. Either you entered the keys in wrong, your account is inactive. For more help, please contact the MageRewards support team.'));
             } elseif($e->getCode() % 100 == 5) {
                 throw new Exception(Mage::helper('rewards')->__('A problem occured on the server while trying to authenticate your credentials.  Please contact our support team with the following info: ') . $e->getMessage());
             } else {

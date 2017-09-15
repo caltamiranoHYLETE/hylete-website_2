@@ -88,8 +88,12 @@
                         <!-- Applied Rule Listing -->
                         <?php foreach ($redemptionList['sorted_applied'] as $ruleIndex => $redemption): ?>
                             <?php if ($redemption['is_dbps']) { continue; } ?>
-                            <div class="cart_redemption_item">
-                                <input type="checkbox" name="applied_cart_rule[]" id="applied_cart_rule_<?php echo $ruleIndex;?>" value="<?php echo $redemption['rule_id']; ?>" checked="checked" />
+                            <div class="<?php if (!$redemption['is_coupon']) { echo 'cart_redemption_item'; } ?>">
+                                <input type="checkbox" name="applied_cart_rule[]" id="applied_cart_rule_<?php echo $ruleIndex;?>" value="<?php echo $redemption['rule_id']; ?>" checked="checked" 
+                                    <?php if ($redemption['is_coupon']): ?>
+                                       <?php echo 'onclick="discountForm.submit(true)"'; ?>
+                                    <?php endif; ?>
+                                />
                                 <label for="applied_cart_rule_<?php echo $ruleIndex;?>">
                                     <?php if (isset($redemption['caption']) && !empty($redemption['caption'])): ?>
                                         <?php echo $redemption['caption']; ?>
@@ -170,7 +174,25 @@
                         }, sliderAjaxTimeoutDelay);
                     }
                 };
-            })()
+            })();
+            
+            //compatibility with aw ajax cart pro event
+            document.observe("aw_ajaxcartpro_cart_update", function(event) {
+                var pleaseWaitLoader = $('shopping-cart-totals-table').select('payment-please-wait');
+                if (!pleaseWaitLoader || pleaseWaitLoader.length == 0) {
+                    $('shopping-cart-totals-table').insert({after: $('payment-please-wait')});
+                    if($('payment-please-wait')) { $('payment-please-wait').hide(); }
+                }
+                
+                sweettooth.slider.reloadSlider();
+            });
         </script>
+    </div>
+<?php elseif ($this->getDefaultMessage()): ?>
+    <div class="rewards-box-spend-minicart sweettooth-point-spender <?php echo $this->getAdditionalSelectors(); ?> points-spender-theme-<?php echo Mage::helper('rewards/theme')->getPackageName(); ?>">
+        <h2><?php echo $this->__('Spend your points'); ?></h2>
+        <div class="box-content">
+            <span><?php echo $this->getDefaultMessage(); ?></span>
+        </div>
     </div>
 <?php endif; ?>

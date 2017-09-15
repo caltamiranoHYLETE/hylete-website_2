@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -271,7 +271,7 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
      */
     public function isCustomerLoggedIn()
     {
-        if ($this->getCustomerId ()) {
+        if ($this->getCustomerId()) {
             return true;
         }
 
@@ -336,7 +336,6 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
     public function calculateCartPoints($rule_id, $order_items, $allow_redemptions, $prediction_mode = false) {
         $rule = Mage::helper ( 'rewards/transfer' )->getSalesRule ( $rule_id );
         $crActions = $this->getActionsSingleton ();
-        //$this->setPointsSpending(50);
         //$ss = Mage::getSingleton('rewards/salesrule_session');
 
 
@@ -359,8 +358,15 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
                     $discount = Mage::helper ( 'rewards/transfer' )->getTotalAssociatedItemDiscount ( $order_items, $rule->getId () );
                     $price -= $discount;
                     
-                    $giftCardsAmountForPoints = min(array($this->getQuote()->getBaseGiftCardsAmountUsed(), $price));
+                    $quote = $this->getQuote();
+                    $giftCardsAmountForPoints = min(array($quote->getBaseGiftCardsAmountUsed(), $price));
                     $price -= $giftCardsAmountForPoints;
+
+                    $customerCredit = min(array($quote->getBaseCustomerBalanceAmountUsed(), $price));
+                    $price -= $customerCredit;
+                    
+                    $giftVoucherDiscount = min(array($quote->getBaseGiftVoucherDiscount(), $price));
+                    $price -= $giftVoucherDiscount;
                 }
 
                 $points_to_transfer = $rule->getPointsAmount () * floor ( $price / $rule->getPointsAmountStep () );
@@ -509,8 +515,6 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
             // End new code for instore
 
             $points_array = array ('amount' => $points_to_transfer, 'currency' => $rule->getPointsCurrencyId (), 'rule_id' => $rule_id, 'rule_name' => $rule->getName () );
-
-            //Mage::helper('rewards/debug')->dd($points_array, false, false);
             return $points_array;
         }
 
@@ -524,6 +528,37 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
     public function getTotalPointsSpending() {
         return $this->getTotalPointsSpentOnCart ();
     }
+    
+    /**
+     * Returns the number of slider rules
+     * 
+     * @param Mage_Sales_Model_Quote $cart
+     * @return int
+     */
+    public function getSliderRulesCount($quote = null)
+    {
+        if ($quote == null) {
+            $quote = $this->getQuote();
+        }
+        
+        $redemptions = Mage::getModel('rewards/salesrule_list_valid_applied')->initQuote($quote)->getList();
+        $sliderRulesCount = 0;
+
+        foreach ($redemptions as $ruleId) {
+            $rule = Mage::helper('rewards/transfer')->getSalesRule($ruleId);
+            
+            if (!$rule->getId()) {
+                continue;
+            }
+            
+            if ($rule->getPointsAction() == TBT_Rewards_Model_Salesrule_Actions::ACTION_DISCOUNT_BY_POINTS_SPENT) {
+                $sliderRulesCount++;
+            }
+        }
+        
+        return $sliderRulesCount;
+    }
+    
     /**
      * Returns the number of points being spent on the cart.
      *
@@ -537,12 +572,13 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
 
         $applied_valid = Mage::getModel ( 'rewards/salesrule_list_valid_applied' )->initQuote ( $cart );
         $applied_redemptions = $applied_valid->getList ();
+        
         foreach ( $applied_redemptions as $rule_id ) {
             $rule = Mage::helper ( 'rewards/transfer' )->getSalesRule ( $rule_id );
             if (! $rule->getId ()) {
                 continue;
             }
-
+            
             if (Mage::getModel ( 'rewards/salesrule_actions' )->isRedemptionAction ( $rule->getPointsAction () )) {
                 $rule_points = $this->calculateCartPoints ( $rule->getId (), $cart->getAllItems (), true );
 
@@ -597,6 +633,51 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
 
             $points_to_redeem = (array) Mage::helper('rewards')->unhashIt($item->getRedeemedPointsHash());
             $this->calculateAccumulatedPoints($points_to_redeem, $points);
+        }
+
+        return $points;
+    }
+
+    /**
+     * Rewards Cart Points Spent
+     * @param mixed $cart
+     * @return array
+     */
+    public function getCartPointsSpentOnCart($cart = null)
+    {
+        if ($cart == null) {
+            $cart = $this->getQuote();
+        }
+
+        $points = array ();
+        $pointsExist = false;
+
+        $appliedValid = Mage::getModel('rewards/salesrule_list_valid_applied')->initQuote($cart);
+        $appliedRedemptions = $appliedValid->getList();
+
+        foreach ($appliedRedemptions as $ruleId) {
+            $rule = Mage::helper('rewards/transfer')->getSalesRule($ruleId);
+
+            if (!$rule->getId()) {
+                continue;
+            }
+
+            if (Mage::getModel('rewards/salesrule_actions')->isRedemptionAction($rule->getPointsAction())) {
+                $rulePoints = $this->calculateCartPoints($rule->getId(), $cart->getAllItems(), true);
+
+                if ($rulePoints && ($rulePoints['amount'] != 0)) {
+                    if (isset($points[$rulePoints ['currency']])) {
+                        $points[$rulePoints['currency']] += $rulePoints['amount'] * - 1;
+                    } else {
+                        $pointsExist = true;
+                        $points[$rulePoints['currency']] = $rulePoints['amount'] * - 1;
+                    }
+                }
+            }
+        }
+
+        if (!$pointsExist) {
+            $points = array ();
         }
 
         return $points;
@@ -760,9 +841,7 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
 
         $points = array ();
         $points_exist = false;
-
         $total_cart_points = $this->updateShoppingCartPoints ( $cart );
-        //      Mage::helper('rewards/debug')->dd($total_cart_points);
 
         foreach ( $total_cart_points as $transfer ) {
             if (isset ( $points [$transfer ['currency']] )) {
@@ -898,6 +977,10 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
                     $points_rule_amount = $points_per_rule [TBT_Rewards_Model_Catalogrule_Rule::POINTS_AMT];
                     $points_rule_applicable_qty = $points_per_rule [TBT_Rewards_Model_Catalogrule_Rule::POINTS_APPLICABLE_QTY];
 
+                    // mixed value for qty int or array
+                    $points_rule_applicable_qty = (array) $points_rule_applicable_qty;
+                    $points_rule_applicable_qty = array_pop($points_rule_applicable_qty);
+                    
                     if (isset ( $points [$points_rule_currency] )) {
                         $points [$points_rule_currency] += $points_rule_amount * $points_rule_applicable_qty;
                     } else {
@@ -957,24 +1040,6 @@ class TBT_Rewards_Model_Session extends Mage_Core_Model_Session_Abstract {
             }
         }
         return false;
-    }
-
-    public function getPointsSpending() {
-        if (! $this->hasData ( 'points_spending' )) {
-            $this->setPointsSpending ( 0 );
-        }
-
-        if ($this->isCustomerLoggedIn () == false) {
-            $this->setPointsSpending ( 0 );
-        }
-
-        $uses = ( int ) ($this->getData ( 'points_spending' ));
-        return $uses;
-    }
-
-    public function setPointsSpending($points_qty) {
-        $this->setData ( 'points_spending', $points_qty );
-        return $this;
     }
 
     /**

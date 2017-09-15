@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,7 +20,7 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Model_Filter_Item extends Mage_Catalog_Model_Layer_Filter_Item
@@ -29,8 +29,6 @@ class Vaimo_MultiOptionFilter_Model_Filter_Item extends Mage_Catalog_Model_Layer
     {
         $filter = parent::getFilter();
 
-        $filter->setData(Vaimo_MultiOptionFilter_Helper_Filter::TARGETED_OPTION_ITEM, $this);
-
-        return $filter;
+        return $filter->setData(Vaimo_MultiOptionFilter_Helper_Filter::TARGETED_OPTION_ITEM, $this);
     }
 }

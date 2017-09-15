@@ -12,11 +12,15 @@ class TBT_Reports_Model_Observer_Order extends Varien_Object
         $event = $observer->getEvent();
         $order = $event->getOrder();
 
-        Mage::getSingleton('index/indexer')->processEntityAction(
-            $order,
-            TBT_Rewards_Model_Sales_Order::ENTITY,
-            TBT_Reports_Model_Indexer_Order::EVENT_TYPE_ORDER_PLACE_AFTER
-        );
+        try {
+            Mage::getSingleton('index/indexer')->processEntityAction(
+                $order,
+                TBT_Rewards_Model_Sales_Order::ENTITY,
+                TBT_Reports_Model_Indexer_Order::EVENT_TYPE_ORDER_PLACE_AFTER
+            );
+        } catch (Exception $exc) {
+            Mage::logException($exc);
+        }
 
         return $this;
     }

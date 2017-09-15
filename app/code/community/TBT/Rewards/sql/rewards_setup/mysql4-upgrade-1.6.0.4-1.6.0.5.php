@@ -94,7 +94,7 @@ if ($hasActiveBirthdayRules) {
         "received their birthday points.  To check if this has happened, go to Rewards > Configuration > Other ".
         "Configuration > Diagnostics & Support Tools > Run 'Test Sweet' Diagnostics.  Look for the ".
         "<b>Check birthday points</b> header.";
-    $msg_url = "http://help.sweettoothrewards.com/article/410-customer-behavior-rule-triggers-birthday-points";
+    $msg_url = "http://support.magerewards.com/article/1654-customer-behavior-rule-triggers-birthday-points";
     $msg_severity = Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR;
     Mage::helper('rewards/mysql4_install')->createInstallNotice($msg_title, $msg_desc, $msg_url, $msg_severity);
 }

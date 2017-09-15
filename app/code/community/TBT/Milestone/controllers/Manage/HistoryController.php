@@ -4,7 +4,7 @@ class TBT_Milestone_Manage_HistoryController extends Mage_Adminhtml_Controller_A
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards/social');
     }
     
     public function indexAction()

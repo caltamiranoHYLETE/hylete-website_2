@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -188,7 +188,7 @@ class TBT_Rewards_Helper_Rule extends Mage_Core_Helper_Abstract
      */
     public function storeHasAnyPointsCatalogRules()
     {
-        $all_crules = Mage::getModel ( 'catalogrule/rule' )->getCollection ()->addFieldToFilter ( "points_action", array ('neq' => '' ) )->addFilter ( "is_active", '1' );
+        $all_crules = Mage::getModel ( 'catalogrule/rule' )->getCollection ()->addFieldToFilter ( "points_action", array ('neq' => '' ) )->addFieldToFilter ( "is_active", '1' );
 
         if (Mage::helper ( 'rewards/version' )->isMageVersionBetween ( '1.3.0.0', '1.3.1.0' )) {
             $this->filterOutRulesByWebsiteId ( $all_crules, $this->_getWebsiteId () );
@@ -208,7 +208,7 @@ class TBT_Rewards_Helper_Rule extends Mage_Core_Helper_Abstract
      */
     public function storeHasAnyCatalogDistriRules()
     {
-        $all_distri_crules = Mage::getModel ( 'catalogrule/rule' )->getCollection ()->addFieldToFilter ( "points_action", array ('IN' => Mage::getModel ( 'rewards/catalogrule_actions' )->getDistributionActions () ) )->addFilter ( "is_active", '1' );
+        $all_distri_crules = Mage::getModel ( 'catalogrule/rule' )->getCollection ()->addFieldToFilter ( "points_action", array ('IN' => Mage::getModel ( 'rewards/catalogrule_actions' )->getDistributionActions () ) )->addFieldToFilter ( "is_active", '1' );
 
         if (Mage::helper ( 'rewards/version' )->isMageVersionBetween ( '1.3.0.0', '1.3.1.0' )) {
             $this->filterOutRulesByWebsiteId ( $all_distri_crules, $this->_getWebsiteId () );
@@ -262,9 +262,9 @@ class TBT_Rewards_Helper_Rule extends Mage_Core_Helper_Abstract
                 $discount_amount_str = Mage::helper ( 'rewards' )->__ ( '%s%%', $percent );
             } else {
                 //@nelkaake Added on Sunday May 30, 2010:
-                $discount_amount = Mage::app ()->getStore ()->convertPrice ( $discount_amount );
-                $discount_amount = Mage::app ()->getStore ()->roundPrice ( $discount_amount );
-                $discount_amount_str = Mage::app ()->getStore ()->formatPrice ( $discount_amount );
+                $discount_amount = $this->_getAggregatedCart()->getStore ()->convertPrice ( $discount_amount );
+                $discount_amount = $this->_getAggregatedCart()->getStore ()->roundPrice ( $discount_amount );
+                $discount_amount_str = $this->_getAggregatedCart()->getStore ()->formatPrice ( $discount_amount );
             }
             $val ['action_str'] = Mage::helper ( 'rewards' )->__ ( "%s Off", $discount_amount_str );
         }
@@ -322,6 +322,40 @@ class TBT_Rewards_Helper_Rule extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Remove string array values
+     * @param string $ruleIdsString
+     * @param array $rulesToBeRemoved
+     * @return string
+     */
+    public function removeValuesFromStringArray($ruleIdsString, array $rulesToBeRemoved)
+    {
+        if (!$ruleIdsString) {
+            return $ruleIdsString;
+        }
+
+        if (!$rulesToBeRemoved) {
+            return $ruleIdsString;
+        }
+
+        $arrRuleIds = explode(',', $ruleIdsString);
+        $newRuleIds = array();
+
+        foreach ($arrRuleIds as $ruleId) {
+            if (!$ruleId) {
+                continue;
+            }
+
+            if (!in_array($ruleId, $rulesToBeRemoved)) {
+                $newRuleIds[] = $ruleId;
+            }
+        }
+
+        $newRuleIdsString = ($newRuleIds) ? implode(',', $newRuleIds) : '';
+
+        return $newRuleIdsString;
+    }
+
+    /**
      * Used in sorting or getQuickCartRedemEntry generated maps
      * @param array $a
      * @param array $b
@@ -336,4 +370,14 @@ class TBT_Rewards_Helper_Rule extends Mage_Core_Helper_Abstract
         return ($a['amount'] > $b['amount']);
     }
 
+    /**
+     * Aggregation Cart instance
+     * @return TBT_Rewards_Model_Sales_Aggregated_Cart
+     */
+    protected function _getAggregatedCart()
+    {
+        return Mage::getSingleton('rewards/sales_aggregated_cart');
+    }
+
 }
+

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gene_ApplePay>
+            <version>1.1.1</version>
+        </Gene_ApplePay>
+    </modules>
+    <global>
+        <models>
+            <gene_applepay>
+                <class>Gene_ApplePay_Model</class>
+                <resourceModel>gene_applepay_resource</resourceModel>
+            </gene_applepay>
+            <gene_applepay_resource>
+                <class>Gene_ApplePay_Model_Resource</class>
+            </gene_applepay_resource>
+        </models>
+        <blocks>
+            <gene_applepay>
+                <class>Gene_ApplePay_Block</class>
+            </gene_applepay>
+        </blocks>
+        <helpers>
+            <gene_applepay>
+                <class>Gene_ApplePay_Helper</class>
+            </gene_applepay>
+        </helpers>
+
+        <payment>
+            <!-- Inform the core Braintree module that this module requires vZero to be setup -->
+            <setup_required>
+                <gene_braintree_applepay />
+            </setup_required>
+
+            <!-- Function checks for assets on specific pages -->
+            <assets_required>
+                <catalog_product_view>
+                    <applepay>
+                        <class>gene_applepay/express</class>
+                        <method>isEnabledPdp</method>
+                    </applepay>
+                </catalog_product_view>
+                <checkout_cart_index>
+                    <applepay>
+                        <class>gene_applepay/express</class>
+                        <method>isEnabledCart</method>
+                    </applepay>
+                </checkout_cart_index>
+            </assets_required>
+        </payment>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <gene_applepay module="Gene_ApplePay">
+                    <file>gene/applepay.xml</file>
+                </gene_applepay>
+            </updates>
+        </layout>
+
+        <routers>
+            <applepay>
+                <use>standard</use>
+                <args>
+                    <module>Gene_ApplePay</module>
+                    <frontName>applepay</frontName>
+                </args>
+            </applepay>
+        </routers>
+    </frontend>
+
+    <!-- Default values for the system configuration pages -->
+    <default>
+        <payment>
+            <!-- ApplePay method -->
+            <gene_braintree_applepay>
+                <active>0</active>
+                <express_active>1</express_active>
+                <disable_checkout>0</disable_checkout>
+                <model>gene_applepay/paymentmethod</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize_capture</payment_action>
+                <title>ApplePay (Braintree)</title>
+                <allowspecific>0</allowspecific>
+                <use_vault>0</use_vault>
+            </gene_braintree_applepay>
+        </payment>
+    </default>
+</config>

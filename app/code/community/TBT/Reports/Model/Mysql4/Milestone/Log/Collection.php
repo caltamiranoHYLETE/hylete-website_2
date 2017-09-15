@@ -12,7 +12,7 @@ class TBT_Reports_Model_Mysql4_Milestone_Log_Collection extends TBT_Milestone_Mo
     public function onlyCustomerGroupActions()
     {
         $this->_flags['only_customergroup_actions'] = true;
-        $this->addFieldToFilter('action_type', 'customergroup');
+        $this->addFieldToFilter('action_type', TBT_Rewards_Model_Special_Action::ACTION_TYPE_CUSTOMER_GROUP);
 
         return $this;
     }

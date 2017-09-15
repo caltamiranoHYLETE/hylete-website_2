@@ -4,11 +4,12 @@ class TBT_Rewards_Manage_Config_PlatformController extends Mage_Adminhtml_Contro
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
     }
     
     public function disconnectAction()
     {
+        Mage::register('st_disable_rule_save_tracking', true);
         Mage::getConfig()->saveConfig(TBT_Rewards_Helper_Platform_Account::XPATH_PLATFORM_USERNAME, '');
         Mage::getConfig()->saveConfig(TBT_Rewards_Helper_Platform_Account::XPATH_PLATFORM_EMAIL, '');
         Mage::getConfig()->saveConfig('rewards/platform/password', '');
@@ -25,7 +26,7 @@ class TBT_Rewards_Manage_Config_PlatformController extends Mage_Adminhtml_Contro
 
         Mage::getConfig()->cleanCache();
 
-        Mage::getSingleton('core/session')->addSuccess('Successfully disconnected your Sweet Tooth account.');
+        Mage::getSingleton('core/session')->addSuccess('Successfully disconnected your MageRewards account.');
 
         $this->_keepPlatformDetailsSectionOpen();
 
@@ -43,6 +44,7 @@ class TBT_Rewards_Manage_Config_PlatformController extends Mage_Adminhtml_Contro
         $isDevMode = $this->getRequest()->get('isDevMode');
         $isDevMode = ($isDevMode == 'on' || $isDevMode == 1) ? 1 : 0;
 
+        Mage::register('st_disable_rule_save_tracking', true);
         Mage::getConfig()->saveConfig('rewards/platform/dev_mode', $isDevMode);
         Mage::getConfig()->cleanCache();
 
@@ -50,7 +52,12 @@ class TBT_Rewards_Manage_Config_PlatformController extends Mage_Adminhtml_Contro
 
         $this->_keepPlatformDetailsSectionOpen();
 
-        if ($this->getRequest()->get('redirect-to-quick-launch') == 1) {
+        $redirectToQuickLaunch = $this->getRequest()->get('redirect-to-quick-launch');
+        
+        $triggeredFrom = ($redirectToQuickLaunch) ? 'quicklaunch' : 'configuration';
+        Mage::helper('rewards/tracking')->track(TBT_Rewards_Helper_Tracking::EVENT_CONNECT, array('triggered_from' => $triggeredFrom));
+        
+        if ($redirectToQuickLaunch == 1) {
             $this->_redirect('adminhtml/rewardsDashboard/index');
         } else {
             $this->_redirect('adminhtml/system_config/edit', array('section' => 'rewards'));

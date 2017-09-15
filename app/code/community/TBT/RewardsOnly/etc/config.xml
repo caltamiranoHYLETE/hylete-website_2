@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TBT_RewardsOnly>
-            <version>1.0.0.1</version>
+            <version>1.0.1</version>
         </TBT_RewardsOnly>
     </modules>
     <admin>
@@ -98,7 +98,11 @@
                         <salesrule_discount_action_cartfixed>TBT_RewardsOnly_Model_Salesrule_Discount_Action_Cartfixed</salesrule_discount_action_cartfixed>
                         <sales_quote_address_total_rewards>TBT_RewardsOnly_Model_Sales_Quote_Address_Total_Rewards</sales_quote_address_total_rewards>
                         <paypal_standard>TBT_RewardsOnly_Model_Paypal_Standard</paypal_standard>
-            	</rewrite>
+                        <observer_adminhtml_catalogRule_addToCart>TBT_RewardsOnly_Model_Observer_Adminhtml_CatalogRule_AddToCart</observer_adminhtml_catalogRule_addToCart>
+                        <observer_catalogRule_addToCart>TBT_RewardsOnly_Model_Observer_CatalogRule_AddToCart</observer_catalogRule_addToCart>
+                        <catalogrule_service_processRules>TBT_RewardsOnly_Model_Catalogrule_Service_ProcessRules</catalogrule_service_processRules>
+                        <sales_service_item_info>TBT_RewardsOnly_Model_Sales_Service_Item_Info</sales_service_item_info>
+                </rewrite>
             </rewards>
         </models>
         
@@ -129,7 +133,8 @@
             		<product_predictpoints>TBT_RewardsOnly_Block_Product_Predictpoints</product_predictpoints>
             		<product_view_points_redeemed>TBT_RewardsOnly_Block_Product_View_Points_Redeemed</product_view_points_redeemed>
                         <customer_redeemcatalog>TBT_RewardsOnly_Block_Customer_Redeemcatalog</customer_redeemcatalog>
-            	</rewrite>
+                        <adminhtml_sales_order_create_search_item_rewardsInfo>TBT_RewardsOnly_Block_Adminhtml_Sales_Order_Create_Search_Item_RewardsInfo</adminhtml_sales_order_create_search_item_rewardsInfo>
+                </rewrite>
             </rewards>
             
             <!--  checkout>

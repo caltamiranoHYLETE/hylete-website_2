@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,7 +20,7 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Helper_Cache extends Mage_Core_Helper_Abstract
@@ -43,10 +43,9 @@ class Vaimo_MultiOptionFilter_Helper_Cache extends Mage_Core_Helper_Abstract
         }
 
         if ($filters = $request->getParams()) {
-            Vaimo_MultiOptionFilter_Helper_Data::makeFilterCanonical($filters);
+            $sortedFilterValues = Vaimo_MultiOptionFilter_Helper_Request::sortParamsAndValues($filters);
 
-            foreach ($filters as $attributeCode => $value) {
-                // Magento hooks on an object with key __status__ while performing redirects
+            foreach ($sortedFilterValues as $attributeCode => $value) {
                 if ($attributeCode == '__status__' || ($attributeCode == 'p' && $value == '1')) {
                     continue;
                 }

@@ -44,25 +44,6 @@ class Vaimo_Hylete_Model_Observer
         return $this;
     }
 
-    /**
-     * Quick fix to prevent error in Vaimo_Checkout vco_method_preselect feature.
-     * TODO: Should be removed when checkout fixed.
-     *
-     * @param Varien_Event_Observer $observer
-     * @return $this
-     */
-    public function checkoutLoadFeaturesAfter(Varien_Event_Observer $observer)
-    {
-        $event = $observer->getEvent();
-
-        if ($manager = $event->getManager()) {
-            /** @var Vaimo_Checkout_Model_Feature_Manager $manager */
-            $manager->removeFeature('vco_method_preselect');
-        }
-
-        return $this;
-    }
-
     public function salesOrderSendNewOrderEmailAfterSend(Varien_Event_Observer $observer)
     {
         /** @var Mage_Sales_Model_Order $order */
@@ -311,6 +292,7 @@ class Vaimo_Hylete_Model_Observer
     {
         $qty = isset($requestParams['qty']) ? $requestParams['qty'] : null;
         $related = isset($requestParams['related_product']) ? $requestParams['related_product'] : null;
+        $superAttributes = isset($requestParams['super_attribute']) ? $requestParams['super_attribute'] : null;
 
         if (!empty($qty)) {
             $filter = new Zend_Filter_LocalizedToNormalized(
@@ -333,6 +315,13 @@ class Vaimo_Hylete_Model_Observer
             foreach ($relatedIds as $relatedId) {
                 if (!is_numeric($relatedId)) {
                     $this->_throwCartException(sprintf('"related_product" not numeric (%s)', $related));
+                }
+            }
+        }
+        if (!empty($superAttributes)) {
+            foreach ($superAttributes as $attributeId => $optionId) {
+                if (!is_numeric($attributeId) || !is_numeric($optionId)) {
+                    $this->_throwCartException(sprintf('"super_attribute" not numeric (%s => %s)', $attributeId, $optionId));
                 }
             }
         }

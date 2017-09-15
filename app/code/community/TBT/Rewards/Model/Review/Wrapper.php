@@ -1,28 +1,28 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -111,9 +111,9 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
         $pointsBeforeReviews = $this->getPointsBalance();
         
         foreach ($this->getAssociatedTransfers() as $transfer) {
-            if ($transfer->getStatus() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
+            if ($transfer->getStatusId() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
                 //Move the transfer status from pending to approved, and save it!
-                $transfer->setStatus(
+                $transfer->setStatusId(
                     TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT,
                     TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED
                 );
@@ -147,9 +147,9 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
     public function discardPendingTransfers()
     {
         foreach ($this->getAssociatedTransfers() as $transfer) {
-            if ($transfer->getStatus() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING) {
+            if ($transfer->getStatusId() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING) {
                 //Move the transfer status from pending to approved, and save it!
-                $transfer->setStatus(
+                $transfer->setStatusId(
                     TBT_Rewards_Model_Transfer_Status::STATUS_PENDING,
                     TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED
                 );
@@ -173,13 +173,17 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
 
         $ruleCollection = Mage::getSingleton('rewards/review_validator')->getApplicableRulesOnReview();
         foreach ($ruleCollection as $rule) {
-            $is_transfer_successful = $this->createPendingTransfer($rule);
+            $isTransferSuccessful = $this->createPendingTransfer($rule);
 
-            if ($is_transfer_successful) {
-                //Alert the customer on the distributed points
+            if ($isTransferSuccessful) {
+                $initialTransferStatusForReviews = Mage::helper('rewards/config')->getInitialTransferStatusAfterReview();
+                $message = ($initialTransferStatusForReviews == 5) 
+                    ? 'You received %s for this review'
+                    : 'You will receive %s upon approval of this review';
+                
                 Mage::getSingleton('core/session')->addSuccess(
                     Mage::helper('rewards')->__(
-                        'You will receive %s upon approval of this review',
+                        $message,
                         (string)Mage::getModel('rewards/points')->set($rule)
                     )
                 );
@@ -215,16 +219,15 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
             // Get all review ID's on which the customer has transfers
             $transfers = Mage::getModel('rewards/transfer')
                 ->getCollection()
-                ->addAllReferences()
                 ->addFieldToFilter('customer_id', $customerId)
                 // the below table contains the review IDs we are looking for
-                ->addFieldToFilter('main_table.rewards_transfer_id', array('lteq' => $lastTransferId))
+                ->addFieldToFilter('rewards_transfer_id', array('lteq' => $lastTransferId))
                 // we only care about review related transfers
-                ->addFieldToFilter('reference_type', TBT_Rewards_Model_Review_Reference::REFERENCE_TYPE_ID);
+                ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('product_review'));
             $transfers->getSelect()
                 // we remove all columns from the select as we only need the review IDs, no need to fetch anything else
                 ->reset(Zend_Db_Select::COLUMNS)
-                ->columns('reference_table.reference_id');
+                ->columns('reference_id');
             
             $includedReviewIds = array();
             foreach ($transfers as $transfer) {
@@ -277,11 +280,9 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
             $review = $this->getReview();
         }
         try {
-            $is_transfer_successful = Mage::getModel('rewards/review_transfer')->transferReviewPoints(
-                $review, $rule
-            );
+            $is_transfer_successful = Mage::getModel('rewards/review_transfer')->transferReviewPoints($review, $rule);
         } catch (Exception $ex) {
-            Mage::log($ex->getMessage());
+            Mage::helper('rewards/debug')->log($ex->getMessage());
             Mage::getSingleton('core/session')->addError($ex->getMessage());
         }
 
@@ -298,54 +299,47 @@ class TBT_Rewards_Model_Review_Wrapper extends Varien_Object
         if (!$this->shouldSendReviewApprovalConfirmationEmail && $pointsEarned > 0) {
             return false;
         }
-        
+
+        $review = $this->getReview();
+
         // Check if review approval emails are enabled
-        $template = Mage::getStoreConfig('rewards/reviews_and_tags/review_approval_confirmation_email_template');
+        $template = Mage::getStoreConfig('rewards/reviews_and_tags/review_approval_confirmation_email_template', $review->getStoreId());
         if ($template === 'none') {
             return false;
         }
         
-        $review = $this->getReview();
         $customer = Mage::getModel('rewards/customer')->load($review->getCustomerId());
         $customerStoreId = $customer->getStoreId();
 
         /* @var $translate Mage_Core_Model_Translate */
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
-        
-        /* @var $email Mage_Core_Model_Email_Template */
-        $email = Mage::getModel('core/email_template');
+        $emailHelper = Mage::helper('rewards/email');
         
         $sender = array(
             'name' => strip_tags(Mage::helper('rewards/email')->getSenderName($customerStoreId)),
             'email' => strip_tags(Mage::helper('rewards/email')->getSenderEmail($customerStoreId))
         );
-        $email->setDesignConfig(array(
-            'area' => 'frontend',
-            'store' => $customerStoreId
-        ));
 
-        $unsubscribeUrl = Mage::getUrl('rewards/customer_notifications/unsubscribe/') . 'customer/' . urlencode(serialize($customer->getId()));
-
+        $totalPoints = $pointsBeforeReviews + $pointsEarned;
         $vars = array(
             'customer_name'         => $customer->getName(),
             'customer_email'        => $customer->getEmail(),
             'store_name'            => $customer->getStore()->getFrontendName(),
-            'points_balance'        => $pointsBeforeReviews + $pointsEarned,
+            'points_balance'        => Mage::helper('rewards')->getPointsString($totalPoints),
             'pending_points'        => (string) $customer->getPendingPointsSummary(),
-            'points_earned'         => $pointsEarned,
+            'points_earned'         => Mage::helper('rewards')->getPointsString($pointsEarned),
             'has_pending_points'    => $customer->hasPendingPoints(),
             'review_title'          => $review->getTitle(),
             'review_detail'         => $review->getDetail(),
             'review_created_at'     => $review->getCreatedAt(),
-            'product'               => Mage::getModel('catalog/product')->load($review->getEntityPkValue())->getName(),
-            'unsubscribe_url'       => $unsubscribeUrl
+            'product'               => Mage::getModel('catalog/product')->load($review->getEntityPkValue())->getName()
         );
         
-        $email->sendTransactional($template, $sender, $customer->getEmail(), $customer->getName(), $vars);
+        $result = $emailHelper->sendTransactional($template, $sender, $customer, $vars);
         $translate->setTranslateInline(true);
 
         $this->shouldSendReviewApprovalConfirmationEmail = false;
-        return $email->getSentSuccess();
+        return $result;
     }
 }

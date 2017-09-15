@@ -103,6 +103,7 @@
         <div class="buttons-set">
             <button type="submit" class="button" name="do" value="<?php echo Mage::helper('core')->quoteEscape($this->__('Update Total')) ?>"><span><span><?php echo $this->__('Update Total') ?></span></span></button>
         </div>
+        <?php echo $this->getBlockHtml('formkey') ?>
     </fieldset>
 </form>
 <?php endif; ?>

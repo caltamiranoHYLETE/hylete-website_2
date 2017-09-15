@@ -14,12 +14,6 @@ class TBT_Rewards_Model_Adminhtml_Controller_Sales_Order_Creditmemo_Observer ext
      */
     public function savePreDispatch($observer)
     {
-        // if not at least Magento 1.4.1.1, we can't inject the points adjuster so we are falling back
-        // on automatic cancelling the points, if option enabled in admin
-        if (! Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.1.1')) {
-            return $this;
-        }
-
         $event = $observer->getEvent();
         if (!$event) {
             return $this;
@@ -67,10 +61,6 @@ class TBT_Rewards_Model_Adminhtml_Controller_Sales_Order_Creditmemo_Observer ext
      */
     public function savePostDispatch($observer)
     {
-        if (! Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.1.1')) {
-            return $this;
-        }
-
         // we don't want to complete this task if the cancellation returned an error
         if (count($this->_getSession()->getMessages()->getErrors()) > 0) {
             return $this;

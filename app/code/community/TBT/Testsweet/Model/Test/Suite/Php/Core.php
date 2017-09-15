@@ -32,7 +32,8 @@ class TBT_Testsweet_Model_Test_Suite_Php_Core extends TBT_Testsweet_Model_Test_S
         $string = ini_get('memory_limit');
 
         // if memory_limit is in gigibyte format
-        if (strpos(strtoupper(ini_get('memory_limit')), 'G') > 0 ){
+        $tbtPosition = strpos(strtoupper(ini_get('memory_limit')), 'G');
+        if ($tbtPosition > 0) {
             $mem_in_mb = ((int)ini_get('memory_limit')) * 1024;
         }
 

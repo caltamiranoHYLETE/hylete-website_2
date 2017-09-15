@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><config>
+    <modules>
+      <Icommerce_RandMergedCssJsFilename>
+        <version>0.1.12</version>
+      </Icommerce_RandMergedCssJsFilename>
+    </modules>
+    <global>
+    	<helpers>
+    		<randmergedcssjsfilename>
+    			<class>Icommerce_RandMergedCssJsFilename_Helper</class>
+    		</randmergedcssjsfilename>
+    	</helpers>
+    	<models>
+    		<randmergedcssjsfilename>
+	    		<class>Icommerce_RandMergedCssJsFilename_Model</class>
+	    	</randmergedcssjsfilename>
+            <core>
+                <rewrite> 
+                    <design_package>Icommerce_RandMergedCssJsFilename_Model_Design_Package</design_package>
+                </rewrite>
+            </core>
+    	</models>
+    </global>
+  </config>

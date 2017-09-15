@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,24 +20,21 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
-class Vaimo_MultiOptionFilter_Model_Attribute_Options extends Mage_Eav_Model_Entity_Attribute_Source_Abstract {
-
-    /**
-     * Retrieve option array
-     *
-     * @return array
-     */
+class Vaimo_MultiOptionFilter_Model_Attribute_Options extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+{
     public function getOptionArray()
     {
-        $options = array();
         $filterableAttributes = Mage::getResourceModel('catalog/product_attribute_collection')
             ->addIsFilterableFilter();
 
-        $options['cat'] = 'Category [cat]';
-        foreach($filterableAttributes as $attributes) {
+        $options = array(
+            'cat' => 'Category [cat]'
+        );
+
+        foreach ($filterableAttributes as $attributes) {
             $attributeCode = $attributes->getAttributeCode();
             $options[$attributeCode] = $attributes->getFrontendLabel() . ' ['. $attributeCode . ']';
         }
@@ -58,5 +55,4 @@ class Vaimo_MultiOptionFilter_Model_Attribute_Options extends Mage_Eav_Model_Ent
 
         return $options;
     }
-
 }

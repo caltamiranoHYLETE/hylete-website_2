@@ -35,11 +35,23 @@
         </table>
     </fieldset>
     
-    <?php echo $this->getChildHtml('tab_points_preferences'); ?>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-customer-view"><?php echo $this->__('Email Preferences') ?></h4>
+    </div>
+    <fieldset>
+        <table cellspacing="2" class="box-left">
+            <tr>
+                <td>
+                    <?php echo $this->getChildHtml('tab_points_emailpreferences'); ?>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
     
-    <div class="clear"></div>
-    <br />
-
+    <?php if (Mage::helper('core')->isModuleEnabled('TBT_RewardsReferral')): ?>
+        <?php echo $this->getChildHtml('tab_points_referral_info'); ?>
+    <?php endif; ?>
+    
     <div class="entry-edit-head">
         <h4 class="icon-head head-customer-view"><?php echo $this->__('Customer Point Transfers') ?></h4>
     </div>

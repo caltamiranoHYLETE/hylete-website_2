@@ -28,10 +28,10 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Wed, 17 May 2017 13:58:53 +0000]]></date>
+            <date><![CDATA[Thu, 14 Sep 2017 13:34:26 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[91067f0fe4f8c06f44a8df423c7d40aa]]></key>
+            <key><![CDATA[2d5798dae486303d1c99bdf453875bc3]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
@@ -41,8 +41,8 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[]]></username>
-                    <password><![CDATA[]]></password>
+                    <username><![CDATA[root]]></username>
+                    <password><![CDATA[eWcqNHRVnT4sgnnF]]></password>
                     <dbname><![CDATA[hylete]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
@@ -52,7 +52,7 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[db]]></session_save>
+        <session_save><![CDATA[files]]></session_save>
     </global>
     <admin>
         <routers>

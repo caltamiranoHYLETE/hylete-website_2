@@ -6,7 +6,7 @@
             <reference name="customer_edit_tabs">
                 <block type="rewards/manage_customer_edit_tab_main" name="tab_points_main" template="rewards/customer/edit/tab/points.phtml">
                     <block type="rewards/manage_customer_edit_tab_summary" name="tab_points_summary" template="rewards/customer/edit/tab/summary.phtml"/>
-                    <block type="rewards/manage_customer_edit_tab_preferences" name="tab_points_preferences" template="rewards/customer/edit/tab/preferences.phtml"/>
+                    <block type="rewards/manage_customer_edit_tab_emails" name="tab_points_emailpreferences" />
                     <block type="rewards/manage_customer_edit_tab_points" name="tab_points_grid" />
                 </block>
                     
@@ -17,5 +17,5 @@
             </reference>
         </reference>        
     </adminhtml_customer_edit>
-
+    
 </layout>

@@ -30,4 +30,3 @@ abstract class TBT_Testsweet_Model_Abstract {
         return call_user_func_array(array($this->getHelper(), '__'), $args);
     }
 }
-?>

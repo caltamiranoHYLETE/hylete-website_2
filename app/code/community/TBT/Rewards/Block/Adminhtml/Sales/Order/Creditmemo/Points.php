@@ -81,4 +81,13 @@ class TBT_Rewards_Block_Adminhtml_Sales_Order_Creditmemo_Points extends Mage_Adm
         $balance = $this->getCustomerBalance();
         return Mage::getModel('rewards/points')->set($currencyId, $balance);
     }
+    
+    /**
+     * Can points be adjusted?
+     * @return bool
+     */
+    public function canAdjustPoints()
+    {
+        return Mage::helper('rewards/config')->canAdjustPoints();
+    }
 }

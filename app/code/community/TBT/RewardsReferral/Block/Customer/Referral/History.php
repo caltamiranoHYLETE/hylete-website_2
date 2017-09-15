@@ -15,4 +15,23 @@ class TBT_RewardsReferral_Block_Customer_Referral_History extends TBT_RewardsRef
         return $this->getChildHtml('pager');
     }
 
+    protected function isMessageSentWithNoResponse($referral)
+    {
+        return (bool) $referral->getReferralStatus() == TBT_RewardsReferral_Model_Referral::STATUS_REFERRAL_SENT;
+    }
+
+    /**
+     * Resend Link
+     * @param Mage_Customer_Model_Customer $referral
+     * @return type
+     */
+    protected function getResendUrl($referral)
+    {
+        $isSecure = (bool) Mage::app()->getStore()->isCurrentlySecure();
+        $hashIdsHelper = Mage::helper('rewards/hashids');
+
+        $code = $hashIdsHelper->cryptIds($referral->getId());
+
+        return $this->getUrl('rewardsref/customer/resendInvite/id/' . $code, array('_secure' => $isSecure));
+    }
 }

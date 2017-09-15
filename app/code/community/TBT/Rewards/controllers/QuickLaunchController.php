@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -47,7 +47,7 @@ class TBT_Rewards_QuickLaunchController extends Mage_Adminhtml_Controller_Action
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
     }
     
     public function indexAction() 
@@ -56,106 +56,34 @@ class TBT_Rewards_QuickLaunchController extends Mage_Adminhtml_Controller_Action
             $this->_redirect('adminhtml/rewardsDashboard/index');
         }
         
+        $helper = Mage::helper('rewards/quickLaunch');
+        $data = $this->getRequest()->getParams();
+
+        // Execute step actions
+        $helper->executeAction($data);
+
+        // Check for last step
+        $step = (isset($data['step'])) ? $data['step'] : null;
+        if ($helper->isLastStep($step)) {
+            Mage::getConfig()->saveConfig('rewards/general/last_quick_launch', Mage::helper('rewards/datetime')->now(false, true));
+            return $this->_redirect('adminhtml/quickLaunch/success');
+        }
+
         $this->loadLayout();
+
+        // Assign step to quick launch block
+        $nextStep = $helper->getNextStep($step);
+        Mage::app()->getLayout()->getBlock('quickLaunch')->setStep($nextStep);
+
         $this->renderLayout();
     }
     
-    public function launchAction()
+    public function resetSettingsAction()
     {
-        $data = $this->getRequest()->getParams();
-        $helper = Mage::helper('rewards');
-
-        $websites = array();
-        foreach (Mage::app()->getWebsites() as $website) {
-            $websites[] = $website->getId();
-        }
+        Mage::getConfig()->saveConfig('rewards/quickLaunch/loyaltyProgramData', null);
+        Mage::getConfig()->cleanCache();
         
-        $customerGroups = Mage::getModel('customer/group')->getCollection()->getAllIds();
-        
-        $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
-        $currencySymbol = Mage::app()->getLocale()->currency($currencyCode)->getSymbol();
-        
-        // Spending Rule
-        if ($data['spending-points']) {
-            $spendingRuleData = array(
-                'name' => $helper->__("Quick-Launch Rule: Spend %s points for each %s1 discount", $data['spending-points'], $currencySymbol),
-                'is_active' => 1,
-                'website_ids' => $websites,
-                'customer_group_ids' => $customerGroups,
-                'points_action' => 'discount_by_points_spent',
-                'points_currency_id' => 1,
-                'points_amount' => $data['spending-points'],
-                'points_discount_action' => 'cart_fixed',
-                'points_discount_amount' => 1,
-                'stop_rules_processing' => 0
-            );
-            
-            $model = Mage::getModel('rewards/salesrule_rule');
-            $model->loadPost($spendingRuleData);
-            Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
-            
-            $model->save();
-            Mage::getSingleton('adminhtml/session')->setPageData(false);
-        }
-        
-        // Earning Rule
-        if ($data['earning-points']) {
-            $earningRuleData = array(
-                'name' => $helper->__("Quick-Launch Rule: Earn %s point for every %s1 spent", $data['earning-points'], $currencySymbol),
-                'is_active' => 1,
-                'website_ids' => $websites,
-                'customer_group_ids' => $customerGroups,
-                'points_action' => 'give_by_amount_spent',
-                'points_currency_id' => 1,
-                'points_amount' => $data['earning-points'],
-                'points_qty_step' => 0,
-                'points_max_qty' => 0,
-                'stop_rules_processing' => 0
-            );
-            
-            $model = Mage::getModel('rewards/salesrule_rule');
-            $model->loadPost($earningRuleData);
-            Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
-            
-            $model->save();
-            Mage::getSingleton('adminhtml/session')->setPageData(false);
-        }
-        
-        // Sign Up Bonus
-        if ($data['sign-up']) {
-            $signUpData = array(
-                'name' => $helper->__("Quick-Launch Rule: Earn %s points for Signing Up", $data['sign-up']),
-                'is_active' => 1,
-                'website_ids' => implode(',', $websites),
-                'customer_group_ids' => implode(',', $customerGroups),
-                'points_conditions' => 'customer_sign_up',
-                'points_action' => 'grant_points',
-                'simple_action' => 'by_percent',
-                'points_currency_id' => 1,
-                'points_amount' => $data['sign-up'],
-                'is_onhold_enabled' => 0,
-                'onhold_duration' => 0
-            );
-            
-            $model = Mage::getModel('rewards/special');
-            $model->loadPost($signUpData);
-            Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
-            
-            $model->save();
-            Mage::getSingleton('adminhtml/session')->setPageData(false);
-        }
-        
-        // Points Caption
-        if ($data['points-caption']) {
-            $currency = Mage::getModel('rewards/currency')->load(1);
-            if ($currency->getId()) {
-                $currency->setCaption($data['points-caption']);
-                $currency->save();
-            }
-        }
-        
-        Mage::getConfig()->saveConfig('rewards/general/last_quick_launch', Mage::helper('rewards/datetime')->now(false, true));
-        $this->_redirect('adminhtml/quickLaunch/success');
+        $this->_redirect('adminhtml/quickLaunch/index');
     }
     
     public function successAction()
@@ -163,4 +91,82 @@ class TBT_Rewards_QuickLaunchController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
         $this->renderLayout();
     }
+    
+    public function explainerAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+    
+    public function launchExplainerAction()
+    {
+        $helper = Mage::helper('rewards');
+        $data = Mage::getStoreConfig('rewards/quickLaunch/loyaltyProgramData');
+        $data = Mage::helper('rewards/serializer')->unserializeData($data);
+        
+        if (empty($data)) {
+            $message = $helper->__('We don\'t have enough data to create your explainer page');
+            Mage::getSingleton('adminhtml/session')->addError($message);
+            return $this->_redirect('adminhtml/rewardsDashboard/index');
+        }
+        
+        $programName = (empty($data['program-name'])) ? $helper->__('MageRewards Program') : $data['program-name'];
+        $identifier = str_replace(' ', '-', strtolower($programName));
+        $cmsPage = Mage::getModel('cms/page')->load($identifier, 'identifier');
+        
+        if ($cmsPage && $cmsPage->getId()) {
+            $message = $helper->__('Looks like you already have an explainer page, so we loaded the existing one.');
+            Mage::getSingleton('adminhtml/session')->addNotice($message);
+            return $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $cmsPage->getId()));
+        }
+        
+        $theme = $this->getRequest()->getParam('theme'); 
+        if (!$theme) {
+            $theme = TBT_Rewards_Block_QuickLaunch::DEFAULT_THEME;
+        }
+        
+        $html = $this->getLayout()
+            ->createBlock('rewards/quickLaunch')
+            ->setTemplate('rewards/quickLaunch/explainer/content.phtml')
+            ->setColor($theme)
+            ->toHtml();
+
+        $pageData = array(
+            'title' => $programName,
+            'root_template' => 'one_column',
+            'identifier' => $identifier,
+            'stores' => array(0), /* available for all store views */
+            'content' => $html,
+            'layout_update_xml' => '
+                <reference name="head">
+                    <block type="core/text" name="render-async-content" output="toHtml">
+                        <action method="setText">
+                            <text>
+                                <![CDATA[<script type="text/javascript">
+                                    (function() {
+                                        var firstTag = document.getElementsByTagName(\'script\')[0];
+                                        var links = [
+                                            "https://fonts.googleapis.com/css?family=Lato",
+                                            "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                                        ];
+
+                                        links.forEach(function(url) {
+                                            var externalCss = document.createElement(\'link\'); 
+                                            externalCss.rel = \'stylesheet\';
+                                            externalCss.href = url;
+                                            firstTag.parentNode.insertBefore(externalCss, firstTag);
+                                        });
+                                    })();
+                                </script>]]>
+                            </text>
+                        </action>
+                    </block>
+                    <action method="addCss"><stylesheet>css/rewards/explainer.css</stylesheet></action>
+                </reference>'
+        );
+
+        $newCmsPage = Mage::getModel('cms/page')->setData($pageData)->save();
+        return $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $newCmsPage->getId()));
+    }
 }
+

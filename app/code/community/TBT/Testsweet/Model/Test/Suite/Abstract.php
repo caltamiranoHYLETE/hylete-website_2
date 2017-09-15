@@ -34,8 +34,9 @@ abstract class TBT_Testsweet_Model_Test_Suite_Abstract extends TBT_Testsweet_Mod
      */
     final public function getSummary() {
         try {
-            if (empty($this->_cases))
+            if (empty($this->_cases)) {
                 $this->generateSummary();
+            }
         } catch (Exception $ex) {
             $this->addFail($this->__("Exception hit while building report"), $ex->getMessage(), $ex);
         }

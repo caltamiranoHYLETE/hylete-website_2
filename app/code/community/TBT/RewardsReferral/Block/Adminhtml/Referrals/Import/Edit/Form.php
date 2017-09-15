@@ -27,7 +27,7 @@ class TBT_RewardsReferral_Block_Adminhtml_Referrals_Import_Edit_Form extends Mag
 			'name'					=> "csvFile",				
 			'required'  			=> true,
         	'value'  				=> 'Uplaod',
-        	'after_element_html' 	=> '<br/><br/><small>See <a target="_blank" href="http://help.sweettoothrewards.com/article/75-import-export-customer-referrals">documentation</a> for details</small>',
+        	'after_element_html' 	=> '<br/><br/><small>See <a target="_blank" href="http://support.magerewards.com/article/1673-import-export-customer-referrals">documentation</a> for details</small>',
         	'tabindex' 				=> 1
         ));
 

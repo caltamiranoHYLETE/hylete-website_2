@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Pest.php';
+require_once 'exceptions/PestXMLException.php';
 
 /**
  * Pest is a REST client for PHP.
@@ -19,49 +20,50 @@ require_once 'Pest.php';
  * This code is licensed for use, modification, and distribution
  * under the terms of the MIT License (see http://en.wikipedia.org/wiki/MIT_License)
  */
-class PestXML extends Pest {
-  public function processBody($body) {
-    libxml_use_internal_errors(true);
-    if (empty($body) || preg_match('/^\s+$/', $body))
-      return null;
-    
-    $xml = simplexml_load_string($body);
-    
-    if (!$xml) {
-      $err = "Couldn't parse XML response because:\n";
-      $xml_errors = libxml_get_errors();
-      libxml_clear_errors();
-      if(!empty($xml_errors))
-      {
-        foreach($xml_errors as $xml_err)
-          $err .= "\n    - " . $xml_err->message;
-        $err .= "\nThe response was:\n";
-        $err .= $body;
-        throw new PestXML_Exception($err);
-      }
+class PestXML extends Pest 
+{
+    public function processBody($body) 
+    {
+        libxml_use_internal_errors(true);
+        if (empty($body) || preg_match('/^\s+$/', $body)) {
+            return null;
+        }
+
+        $xml = simplexml_load_string($body);
+
+        if (!$xml) {
+            $err = "Couldn't parse XML response because:\n";
+            $xml_errors = libxml_get_errors();
+            libxml_clear_errors();
+            if (!empty($xml_errors)) {
+                foreach ($xml_errors as $xml_err)
+                    $err .= "\n    - " . $xml_err->message;
+                $err .= "\nThe response was:\n";
+                $err .= $body;
+                throw new PestXML_Exception($err);
+            }
+        }
+
+        return $xml;
     }
-    
-    return $xml;
-  }
-  
-  public function processError($body) {
-    try {
-      $xml = $this->processBody($body);
-      if (!$xml)
-        return $body;
-      
-      $error = $xml->xpath('//error');
-      
-      if ($error && $error[0])
-        return strval($error[0]);
-      else
-        return $body;
-    } catch (PestXML_Exception $e) {
-      return $body;
+
+    public function processError($body) 
+    {
+        try {
+            $xml = $this->processBody($body);
+            if (!$xml) {
+                return $body;
+            }
+
+            $error = $xml->xpath('//error');
+
+            if ($error && $error[0]) {
+                return strval($error[0]);
+            } else {
+                return $body;
+            }
+        } catch (PestXML_Exception $e) {
+            return $body;
+        }
     }
-  }
 }
-
-class PestXML_Exception extends Pest_Exception { }
-
-?>

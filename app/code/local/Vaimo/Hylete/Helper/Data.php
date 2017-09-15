@@ -297,4 +297,10 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfigFlag('vaimo_hylete/signup_form_extended/enable');
     }
+
+    public function getSelectedProductsCollection(Icommerce_SelectedProducts_Block_Collection $block)
+    {
+        $collectionAttributes = array('entity_id', 'sku', 'image', 'name', 'retail_value');
+        return $block->getCollection('all', $collectionGetAmount = 3, $collectionDescSort = true, $collectionAttributes);
+    }
 }

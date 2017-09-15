@@ -3,16 +3,18 @@
 class TBT_RewardsReferral_Model_Sales_Order_Creditmemo_Observer extends TBT_Rewards_Model_Sales_Order_Creditmemo_Observer
 {
     /**
-     * Observes event 'rewards_sales_order_credit_memo_automatic_cancel' that
-     * will be only fired in Magento prior to 1.4.1.1 when doing a credit memo refund.
-     * If option Order Fulfillment > Automatically Remove Points is enabled,
-     * will cancel/revoke any affiliate transfers for an order.
-     * @param   Varien_Event_Observer $observer
-     * @return $this
+     * Cancel affiliate transfers
+     * 
+     * @param Varien_Event_Observer $observer
+     * @return TBT_RewardsReferral_Model_Sales_Order_Creditmemo_Observer
+     * @event controller_action_postdispatch_adminhtml_sales_order_creditmemo_save
      */
     public function automaticCancelAffiliate($observer)
     {
-        $order = $observer->getEvent()->getOrder();
+        $action = $observer->getControllerAction();
+        $params = $action->getRequest()->getParams();
+        $order = Mage::getModel('sales/order')->load($params['order_id']);
+        
         if (!$order) {
             return $this;
         }
@@ -21,21 +23,16 @@ class TBT_RewardsReferral_Model_Sales_Order_Creditmemo_Observer extends TBT_Rewa
 
             $displayMessages = false;
 
-            $affiliateTransferReferences = Mage::getResourceModel( 'rewardsref/referral_order_transfer_reference_collection' )
-                ->addTransferInfo()
-                ->filterAssociatedWithOrder($order->getId());
-            $affiliateTransfers = array();
-
-            foreach ($affiliateTransferReferences as $affiliateReference) {
-                $affiliateTransfer = Mage::getModel('rewardsref/transfer')->load($affiliateReference->getRewardsTransferId());
-                $affiliateTransfers[] = $affiliateTransfer;
-
-                if (($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
-                    $affiliateTransfer->setStatus ( $affiliateTransfer->getStatus (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
+            $affiliateTransfers = Mage::getResourceModel('rewardsref/transfer_collection')
+                ->filterReferralTransfers($order->getId(), false);
+            
+            foreach ($affiliateTransfers as $affiliateTransfer) {
+                if (($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
+                    $affiliateTransfer->setStatusId ( $affiliateTransfer->getStatusId (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
                     $affiliateTransfer->save ();
                     $affiliateTransfer->setCanceled(1);
                     $displayMessages = true;
-                } else if ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
+                } else if ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
                     try {
                         // try to revoke the transfer and keep track of the new transfer ID to notify admin
                         $revokedTransferId = $affiliateTransfer->revoke()->getId();
@@ -45,7 +42,7 @@ class TBT_RewardsReferral_Model_Sales_Order_Creditmemo_Observer extends TBT_Rewa
                         $affiliateTransfer->setRevokedTransferId(null);
                         continue;
                     }
-                } else if ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
+                } else if ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
                     // transfer was already canceled (by admin, probably), so we just notify him
                     $affiliateTransfer->setCanceled(0);
                     $displayMessages = true;

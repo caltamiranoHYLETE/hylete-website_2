@@ -82,7 +82,7 @@ $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
                         ?>
                             <?php if ($_hotspot['value']): ?>
                                 <div class="hotspot" id="<?php echo $_hotspot['id']; ?>" style="left:<?php echo $_hotspot['xoffset']; ?>%; top:<?php echo $_hotspot['yoffset']; ?>%;">
-                                    <span class="fa icon-tags"></span>
+                                    <span class="fa fa-tags"></span>
                                     <div class="hotspot-popup">
                                         <a href="<?php echo $_product->getProductUrl();?>">
                                             <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(100); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true) ?>" />
@@ -101,8 +101,8 @@ $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
     </div>
     
     <?php if ($_sbHelper->showNavControls() && count($_items) > 1): ?>
-        <a class="carousel-control left" href="<?php echo $_carouselSelector ?>" data-slide="prev"><span class="fa icon-angle-left"></span></a>
-        <a class="carousel-control right" href="<?php echo $_carouselSelector ?>" data-slide="next"><span class="fa icon-angle-right"></span></a>
+        <a class="carousel-control left" href="<?php echo $_carouselSelector ?>" data-slide="prev"><span class="fa fa-angle-left"></span></a>
+        <a class="carousel-control right" href="<?php echo $_carouselSelector ?>" data-slide="next"><span class="fa fa-angle-right"></span></a>
     <?php endif; ?>
 
     <?php if ($_sbHelper->showNavBullets() && count($_items) > 1): ?>

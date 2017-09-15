@@ -1,15 +1,65 @@
 <?php
 
+/**
+ * Sweet Tooth
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the SWEET TOOTH POINTS AND REWARDS
+ * License, which extends the Open Software License (OSL 3.0).
+ * The Sweet Tooth License is available at this URL:
+ * https://www.sweettoothrewards.com/terms-of-service
+ * The Open Software License is available at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
+ * not held liable for any inconsistencies or abnormalities in the
+ * behaviour of this code.
+ * By adding to, editing, or in any way modifying this code, the Licensee
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
+ * provided Sweet Tooth License.
+ * Upon discovery of modified code in the process of support, the Licensee
+ * is still held accountable for any and all billable time Sweet Tooth spent
+ * during the support process.
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
+ * behaviour of this code if caused by other framework extension.
+ */
+
+/**
+ * Orders Rule Condition Model
+ *
+ * @category   TBT
+ * @package    TBT_Milestone
+ * @copyright  Copyright (c) 2016 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
+ * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
+ */
 class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule_Condition
 {
-    // @deprecated use TBT_Milestone_Model_Rule_Condition_Orders_Reference::REFERENCE_TYPE_ID
-    const POINTS_REFERENCE_TYPE_ID = 601;
-
+    /**
+     * Fetch this rule type's reason ID
+     * @return string
+     */
+    public function getReasonId()
+    {
+        return Mage::helper('rewards/transfer_reason')->getReasonId('milestone_order');
+    }
+    
+    /**
+     * Fetch Milestone Name
+     * @return string
+     */
     public function getMilestoneName()
     {
         return Mage::helper('tbtmilestone')->__("Number of Orders Milestone");
     }
 
+    /**
+     * Fetch Milestone Description
+     * @return string
+     */
     public function getMilestoneDescription()
     {
         if (intval($this->getThreshold() == 1)){
@@ -20,6 +70,12 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         }
     }
 
+    /**
+     * Are conditions satisfied for this rule?
+     * 
+     * @param int $customerId
+     * @return bool
+     */
     public function isSatisfied($customerId)
     {
         $threshold = intval($this->getThreshold());
@@ -28,15 +84,16 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         $storeIds = $this->_getHelper()->getStoreIdsFromWebsites($this->getRule()->getWebsiteIds());
 
         $ordersBeforeStartDate = Mage::getModel('sales/order')->getCollection()
-                                    ->addFieldToFilter('main_table.customer_id', $customerId)
-                                    ->addFieldToFilter('main_table.store_id',   array("in" => $storeIds))
-                                    ->addFieldToFilter('main_table.created_at', array("lt" => $fromDate));
+            ->addFieldToFilter('main_table.customer_id', $customerId)
+            ->addFieldToFilter('main_table.store_id',   array("in" => $storeIds))
+            ->addFieldToFilter('main_table.created_at', array("lt" => $fromDate));
 
 
         $ordersAfterStartDate = Mage::getModel('sales/order')->getCollection()
-                                    ->addFieldToFilter('main_table.customer_id', $customerId)
-                                    ->addFieldToFilter('main_table.store_id',   array("in" => $storeIds))
-                                    ->addFieldToFilter('main_table.created_at', array("gteq" => $fromDate));
+            ->addFieldToFilter('main_table.customer_id', $customerId)
+            ->addFieldToFilter('main_table.store_id',   array("in" => $storeIds))
+            ->addFieldToFilter('main_table.created_at', array("gteq" => $fromDate));
+        
         if (!empty($toDate)){
             $ordersAfterStartDate->addFieldToFilter("main_table.created_at", array("lt" => $toDate));
         }
@@ -48,7 +105,7 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         $countAfterStartDate = $ordersAfterStartDate->getSize();
         $countTotal = $countBeforeStartDate + $countAfterStartDate;
 
-        return ( $countBeforeStartDate < $threshold && $countTotal >= $threshold );
+        return ($countBeforeStartDate < $threshold && $countTotal >= $threshold);
     }
 
     /**
@@ -63,32 +120,31 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         $orderCountTrigger = $this->_getHelper('config')->getOrdersTrigger();
         switch ($orderCountTrigger){
             case "payment":
-                // Count everything that has an invoice
+                /* Count everything that has an invoice */
                 $collection->getSelect()->join(
-                                               array("invoice" => $this->_getInvoiceTableName()),
-                                               "main_table.entity_id = invoice.order_id"
-                                              );
+                    array("invoice" => $this->_getInvoiceTableName()),
+                    "main_table.entity_id = invoice.order_id"
+                );
                 break;
-
             case "shipment":
-                // Count everything that has a shipment
+                /* Count everything that has a shipment */
                 $collection->getSelect()->join(
-                                               array("shipment" => $this->_getShipmentTableName()),
-                                               "main_table.entity_id = shipment.order_id"
-                                              );
+                    array("shipment" => $this->_getShipmentTableName()),
+                    "main_table.entity_id = shipment.order_id"
+                );
                 break;
-
             case "create":
-                // Notuing specific
+                /* Nothing specific */
             default:
                 break;
         }
 
-        // Make sure we're always looking at orders which are not canceled
+        /* Make sure we're always looking at orders which are not canceled */
         $collection->addFieldToFilter('main_table.state',
-                array("nin" => array(
-                        Mage_Sales_Model_Order::STATE_CANCELED
-                )));
+            array("nin" => array(
+                Mage_Sales_Model_Order::STATE_CANCELED
+            ))
+        );
 
         return $collection;
     }
@@ -119,6 +175,11 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         return $this->_shipmentTable;
     }
 
+    /**
+     * Validate Save
+     * @return \TBT_Milestone_Model_Rule_Condition_Orders
+     * @throws Exception
+     */
     public function validateSave()
     {
         if (!$this->getThreshold()) {
@@ -126,14 +187,5 @@ class TBT_Milestone_Model_Rule_Condition_Orders extends TBT_Milestone_Model_Rule
         }
 
         return $this;
-    }
-
-    /**
-     * @return int. The Transfer Refrence Type ID used to identify this type of rule.
-     * @see TBT_Milestone_Model_Rule_Condition::getPointsReferenceTypeId()
-     */
-    public function getPointsReferenceTypeId()
-    {
-        return TBT_Milestone_Model_Rule_Condition_Orders_Reference::REFERENCE_TYPE_ID;
     }
 }

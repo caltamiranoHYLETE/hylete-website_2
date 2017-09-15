@@ -3,13 +3,13 @@ class TBT_RewardsReferral_Adminhtml_Referrals_ImportController extends Mage_Admi
 {
         protected function _isAllowed()
         {
-            return true;
+            return Mage::getSingleton('admin/session')->isAllowed('rewards/referrals');
         }
 
 	public function indexAction()
 	{
 		$message = $this->_getHelper()->__('Imports happen in the background through the Magento CRON.');
-		$message .= '&nbsp;<a href="http://help.sweettoothrewards.com/article/395-setting-up-cron-jobs-in-magento">' . $this->_getHelper()->__('Learn More')  .'</a>';
+		$message .= '&nbsp;<a href="http://support.magerewards.com/article/1533-setting-up-cron-jobs-in-magento">' . $this->_getHelper()->__('Learn More')  .'</a>';
 		Mage::getSingleton('adminhtml/session')->addNotice($message);
 		
 		$this->loadLayout();

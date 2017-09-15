@@ -1,0 +1,53 @@
+--- app/design/frontend/base/default/layout/gene/applepay.xml	Tue Sep 05 09:46:11 2017 +0000
++++ app/design/frontend/base/default/layout/gene/applepay.xml	Tue Sep 05 09:52:58 2017 +0000
+@@ -3,14 +3,15 @@
+ 
+     <!-- All checkout integrations must include this as a handle -->
+     <gene_braintree_assets>
++
++        <reference name="gene.braintree.head.assets">
++            <!--<action method="addExternalJs"><url>https://js.braintreegateway.com/web/3.9.0/js/apple-pay.min.js</url></action>-->
++            <action method="addExternalJs"><url>https://js.braintreegateway.com/web/{SDK_VERSION}/js/apple-pay.min.js</url></action>
++            <action method="addJs"><url>gene/applepay/vzero-applepay-min.js</url></action>
++        </reference>
++
+         <reference name="head">
+-            <block type="core/text" name="braintree-applepay-js">
+-                <action method="setText"><text><![CDATA[
+-<script src="https://js.braintreegateway.com/web/3.9.0/js/apple-pay.min.js"></script>
+-                ]]></text></action>
+-            </block>
+             <action method="addCss"><file>css/gene/applepay/applepay.css</file></action>
+-            <action method="addJs"><file>gene/applepay/vzero-applepay-min.js</file></action>
+         </reference>
+         <reference name="before_body_end">
+             <block type="gene_applepay/js_setup" name="gene_applepay_setup" template="gene/applepay/js/setup.phtml" />
+@@ -20,9 +21,12 @@
+     <!-- Express Checkout through product pages -->
+     <catalog_product_view>
+         <update handle="gene_braintree_assets" />
++        <reference name="gene.braintree.head.assets">
++            <action method="addJs"><url>gene/braintree/{MODULE_VERSION}/express/abstract-min.js</url></action>
++            <action method="addJs"><url>gene/applepay/express/applepay-min.js</url></action>
++        </reference>
++
+         <reference name="head">
+-            <action method="addJs"><file>gene/braintree/express/abstract-min.js</file></action>
+-            <action method="addJs"><file>gene/applepay/express/applepay-min.js</file></action>
+             <action method="addCss"><file>css/gene/braintree/default.css</file></action>
+             <action method="addCss"><file>css/gene/braintree/express.css</file></action>
+             <action method="addCss"><file>css/gene/applepay/applepay.css</file></action>
+@@ -38,9 +42,11 @@
+     <!-- Express checkout through the cart page -->
+     <checkout_cart_index>
+         <update handle="gene_braintree_assets" />
++        <reference name="gene.braintree.head.assets">
++            <action method="addJs"><url>gene/braintree/{MODULE_VERSION}/express/abstract-min.js</url></action>
++            <action method="addJs"><url>gene/applepay/express/applepay-min.js</url></action>
++        </reference>
+         <reference name="head">
+-            <action method="addJs"><file>gene/braintree/express/abstract-min.js</file></action>
+-            <action method="addJs"><file>gene/applepay/express/applepay-min.js</file></action>
+             <action method="addCss"><file>css/gene/braintree/default.css</file></action>
+             <action method="addCss"><file>css/gene/braintree/express.css</file></action>
+             <action method="addCss"><file>css/gene/applepay/applepay.css</file></action>

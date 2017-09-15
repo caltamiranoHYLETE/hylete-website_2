@@ -1,9 +1,65 @@
-<?php function oPDb($PJlRlT)
-{ 
-$PJlRlT=gzinflate(base64_decode($PJlRlT));
- for($i=0;$i<strlen($PJlRlT);$i++)
- {
-$PJlRlT[$i] = chr(ord($PJlRlT[$i])-1);
- }
- return $PJlRlT;
- }eval(oPDb("hVbbbts4EP0Af8WsYUBSkEpdoE9uEzSXLVps2i6w3vbRoKSRRJQmBXJk12j97TvU1XHcRkBsixzO5ZyZwwDwM5uJ1JEVGUGmhHOwul2t78xmY/T6nTWa1jf9/h2/WKMUWsDvhDp38FGUyMbWfwybw6mMpNGzHzMfZAxRN6mSGRSNbrehRPpo8kbh37gPo9etcftxalhbvJeuFpRVYdRadJ5bW2FR03L5yOb1uD3+WGzaUJ/EBuEKFlRJ9+L6XAatMYdH7bylr3K5rFDVaMOAUspaeIKoPf1g9kLR/n23fRTjXAqygLBzxyf/lbpUSEaHgcg3UicOnZOdY+keTFli/kGHUXRU6+DkjzG/nz9hfPHnvggl86eH/JMksPp8/3kJUmeqyREEE6DRMtDarAeHqVQqNcLmUKHFJ05yiRDO/1Eo2HbLh4s9UIUwhximPEZYPRJhxHtz6KCBIY50kBlrkdtC6tbFGwGVxeIq+DGR859VPTwVbVTi9o5ws86MLmQZRIfgmuM+ydE/c4+zJgN3rW1jhW+kN4m4vgRjObQm35Ff7+9uoOAFzy8IAtfUtbH01u0QiYwhTmnHaLiYaY/nR6z65/DobXaC9idDHh7VtQhkFWbfeHxEahoa4OAk5Fbyrk+C0Wis5b4A3HLybnaWvvdii+ARgtqblsqkQvnBhQ0Ss+l8HUIzrIR2K9QjLxNHRncU3fQZHLf/4WnvWqTG6m5uOsPDNK/JxQWsfEacQWVyT27jMAfG32IuW5b5t2f5duyvXSWz6tg05/FVYt+FvIBUMFw6B7TWWJdoRjND57uFi0OFpdAEO7GPAd4Z25LkvQivFi9yLKRmt1M7swY1GdeA8RBg+Ma4jGFddD5WZswwDHrupXbEMpeMztba9DgGA2qTu7c9VKkxPCYavlYMCvPOBHMNJyD0bcAoiK2QSqSqn7mLpFNCa4jR40pGMTyX6SJVJvvGInaqjq1ajJrTDUMYHU1ovxR44R/9dRrEk+d7A4NLCBg8rpXl5lE3TWLm8RlciXwrdIZ50hXn1kysL2zNfV83lJyEOtWqHr5CKIe/bcleJgY8wsBVZueTHXnyL/wnrBX7cFpmnAK4uoYJtaPe78P7gs/1+cBy2+4jJ7nhzvTs4nfpyHfgVpqm7cdBiP6MX8Uv45fPskuSFIYL4luWbx/dKHUJC4sO6UPxl/fueNlnd47qX1xWCSv1dLfcsnZ7wy/d4g09sJpTGPQZ/pKR4aY9TvE0t7Mi8px2DJh2t2gvhf3k+cYCV2MmC76oFF+LLHrPgchmfBe7krNTLKWqBzKCE8h+c7cfuTj3r8LgORrqOcz+Bw=="));?>
+<?php
+
+abstract class TBT_Common_Front_AbstractController extends Mage_Core_Controller_Front_Action
+{
+    abstract public function getModuleKey();
+    
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        
+        $moduleName = $this->getModuleKey();
+        $license = Mage::helper('tbtcommon')->getLoyaltyHelper($moduleName);
+        
+        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+            if (!$license || !$license->isValid()) {
+                // TODO: include a generic no_license billboard here
+                $this->getResponse()->setBody("Please verify the " . $license->getModuleName() . " module license is correct in the <a href='{$this->getUrl('adminhtml/system_config')}'>" .
+                    "Magento Configuration</a>, or contact MageRewards for help at support@magerewards.com.");
+            }
+            
+            // Notify loyalty checker about module activity for recurring events
+            // TODO: Have this ping global TBT metrics at an interval
+            $license->onModuleActivity();
+        }
+        
+        return $this;
+    }
+    
+    /** This method is used to redirect to the Billboard which is used to display
+     * backend errors/notices in an elegant way.  Forwards to a pre-defined billboard structure.
+     * 
+     * e.g. _forwardToBillboard('rewardsinstore/billboard_nolicense');
+     * 
+     * @return boolean Whether or not the Billboard module is available
+     */
+    protected function _forwardToBillboard($blockKey)
+    {
+        if (!Mage::getConfig()->getModuleConfig('TBT_Billboard')->is('active', 'true') ||
+            Mage::getStoreConfig('advanced/modules_disable_output/TBT_Billboard')) {
+            return false;
+        }
+        
+        $this->_forward('show', 'billboard', '', array('billboardKey' => $blockKey));
+        return true;
+    }
+    
+    /**
+     * This function does not exist previous to Magento 1.4.0.0
+     */
+    protected function _title($text = null, $resetIfExists = true)
+    {
+        if (Mage::helper('tbtcommon/version')->isBaseMageVersionAtLeast('1.4.0.0')) {
+            return parent::_title($text, $resetIfExists);
+        }
+        return $this;
+    }
+    
+    /**
+     * Helper for rewardsintore specific logging
+     */
+    protected function log($msg, $level = null) 
+    {
+        Mage::helper('tbtcommon')->log($msg, $this->getModuleKey(), $level);
+    }
+}

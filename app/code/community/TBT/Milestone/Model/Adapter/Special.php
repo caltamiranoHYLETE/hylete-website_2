@@ -60,11 +60,11 @@ class TBT_Milestone_Model_Adapter_Special extends Varien_Object
             $actionType    = str_replace("_", "", $specialRule['points_action']);
             $actionDetails = array();
             switch ($actionType) {
-                case "customergroup":
+                case TBT_Rewards_Model_Special_Action::ACTION_TYPE_CUSTOMER_GROUP:
                     $actionDetails["customer_group_id"] = $specialRule["customer_group_id"];
                     break;
 
-                case "grantpoints":
+                case TBT_Rewards_Model_Special_Action::ACTION_TYPE_GRANT_POINTS:
                     $actionDetails["points_amount"] = floor($specialRule["points_amount"]);
                     break;
 
@@ -182,17 +182,18 @@ class TBT_Milestone_Model_Adapter_Special extends Varien_Object
         }
 
         $specialRule = $event->getRewardsSpecialRule();
-        // if this is not a new special rule, we're done. everything should be handled by controller observers
-        if (!$specialRule->isObjectNew() || !$specialRule->getId()) {
+
+        if (!$specialRule->getId()) {
             return $this;
         }
 
-        // if it's not a milestone rule
+        /* if it's not a milestone rule */
         if (!$specialRule->getConditionType()) {
             return $this;
         }
 
-        $milestoneRule = Mage::getModel('tbtmilestone/rule');
+        $milestoneRule = Mage::getModel('tbtmilestone/rule')
+            ->load($specialRule->getRewardsSpecialId(), 'rewards_special_id');
 
         $milestoneRule->setRewardsSpecialId($specialRule->getRewardsSpecialId());
         $milestoneRule->setName($specialRule->getName());
@@ -204,10 +205,10 @@ class TBT_Milestone_Model_Adapter_Special extends Varien_Object
         $milestoneRule->setWebsiteIds($specialRule->getWebsiteIds());
         $milestoneRule->setCustomerGroupIds($specialRule->getCustomerGroupIds());
 
-        // unserialize actions & conditions for validation before saving
+        /* unserialize actions & conditions for validation before saving */
         $milestoneRule->unserializeActions()
-                      ->unserializeConditions()
-                      ->save();
+            ->unserializeConditions()
+            ->save();
 
         return $this;
     }

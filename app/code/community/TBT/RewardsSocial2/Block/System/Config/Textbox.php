@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WDCA
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *

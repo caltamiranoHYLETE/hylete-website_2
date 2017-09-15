@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,36 +20,23 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Helper_Layer extends Mage_Core_Helper_Abstract
 {
-    public function proxyLayerViewChildren(Mage_Core_Block_Abstract $layerView)
+    public function getAppliedFilters($layer, array $exclude = array())
     {
-        $layout = $layerView->getLayout();
+        return array_reduce($layer->getState()->getFilters(), function ($models, $stateItem) use ($exclude) {
+            $filter = $stateItem->getFilter();
 
-        $filterBlocks = $layerView->getChild();
-
-        foreach ($filterBlocks as $filter) {
-            $name = $filter->getBlockAlias();
-
-            if ($filter instanceof Mage_Catalog_Block_Layer_Filter_Abstract) {
-                $proxy = $layout->createBlock('multioptionfilter/layer_filter_proxy');
-                $layerView->unsetChild($name);
-
-                $proxy->setDelegate($filter);
-                $proxy->setBlockAlias($name);
-
-                $showSelectedOptionsInName = $layerView->getShowSelectedOptionsCountInName();
-                $proxy->setShowSelectedOptionsCountInName($showSelectedOptionsInName);
-
-                $layerView->setChild($name, $proxy);
+            if (in_array($filter->getRequestVar(), $exclude)) {
+                return $models;
             }
 
-            if ($name == 'layer_state' && !$layerView->getShowState()) {
-                $filter->setTemplate('');
-            }
-        }
+            return array_replace($models, array(
+                $filter->getRequestVar() => $filter
+            ));
+        }, array());
     }
 }

@@ -8,7 +8,7 @@ class TBT_Reports_AjaxController extends Mage_Adminhtml_Controller_Action
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
     }
     
     /**
@@ -49,6 +49,19 @@ class TBT_Reports_AjaxController extends Mage_Adminhtml_Controller_Action
         $helper = Mage::helper('rewards');
         $this->getResponse()->setHeader('Content-Type', 'application/json');
         $this->getResponse()->setBody($helper->toJson($data));
+
+        return $this;
+    }
+    
+    /**
+     * Plain Text Output Headers
+     * @param string $html
+     * @return \TBT_Reports_AjaxController
+     */
+    public function plainTextResponse($html)
+    {
+        $this->getResponse()->setHeader('Content-Type', 'text/plain');
+        $this->getResponse()->setBody($html);
 
         return $this;
     }

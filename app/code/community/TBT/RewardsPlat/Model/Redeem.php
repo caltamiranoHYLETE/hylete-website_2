@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL: 
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -99,7 +99,7 @@ class TBT_RewardsPlat_Model_Redeem extends TBT_Rewards_Model_Redeem {
     			$redemption_instance[self::POINTS_USES] = 1;
     		}
             
-        	//@nelkaake WDCA BEGIN adds Sweet Tooth one-redemption mode functionality ///////BEGIN///////////
+        	//@nelkaake Sweet Tooth BEGIN adds Sweet Tooth one-redemption mode functionality ///////BEGIN///////////
     		if($this->isOneRedemptionMode()) { 
     			// The total quantity that the redemption instance should apply to should be equal
     			// to the total quantity in the item
@@ -107,11 +107,11 @@ class TBT_RewardsPlat_Model_Redeem extends TBT_Rewards_Model_Redeem {
     			$applic_qty = $item_qty;
     			$redemption_instance[TBT_Rewards_Model_Redeem::POINTS_APPLICABLE_QTY] = $item_qty;
     		} else {
-        	//@nelkaake WDCA END adds Sweet Tooth one-redemption mode functionality //////////END///////
+        	//@nelkaake Sweet Tooth END adds Sweet Tooth one-redemption mode functionality //////////END///////
     			$applic_qty = $redemption_instance[self::POINTS_APPLICABLE_QTY];
-        	//@nelkaake WDCA BEGIN adds Sweet Tooth one-redemption mode functionality /////////BEGIN/////////
+        	//@nelkaake Sweet Tooth BEGIN adds Sweet Tooth one-redemption mode functionality /////////BEGIN/////////
     		}
-        	//@nelkaake WDCA END adds Sweet Tooth one-redemption mode functionality /////////END/////////
+        	//@nelkaake Sweet Tooth END adds Sweet Tooth one-redemption mode functionality /////////END/////////
             
             $effect = $redemption_instance[self::POINTS_EFFECT];
             if (!isset($redemption_instance[self::POINTS_USES]))

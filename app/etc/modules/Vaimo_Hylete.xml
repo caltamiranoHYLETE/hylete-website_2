@@ -9,5 +9,8 @@
                 <Vaimo_GoogleAddons />
             </depends>
         </Vaimo_Hylete>
+        <Mage_Rss>
+            <active>false</active>
+        </Mage_Rss>
     </modules>
 </config>

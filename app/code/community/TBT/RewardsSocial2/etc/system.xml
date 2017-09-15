@@ -194,8 +194,8 @@
                         <auto_integrate translate="label comment">
                             <label>Automatically Integrate with Supported Social Buttons</label>
                             <comment>
-                                <![CDATA[<span id="auto-integrate-enabled-comment">Will add a JS file to every page to integrate with supported social buttons. <a href="http://help.sweettoothrewards.com/article/682-rewards-social-2-0-admin-functionality#automatic" target="_blank" title="Social Rewards Script">Learn More</a></br></br></span>]]>
-                                <![CDATA[<span id="auto-integrate-disabled-comment"><span style="color: red;">No buttons will earn rewards unless manually integrated!</span> <a href="http://help.sweettoothrewards.com/article/682-rewards-social-2-0-admin-functionality#automatic" target="_blank" title="Social Rewards Script">Learn More</a></br></br></span>]]>
+                                <![CDATA[<span id="auto-integrate-enabled-comment">Will add a JS file to every page to integrate with supported social buttons. <a href="http://support.magerewards.com/article/1627-rewards-social-2-0-admin-functionality#automatic" target="_blank" title="Social Rewards Script">Learn More</a></br></br></span>]]>
+                                    <![CDATA[<span id="auto-integrate-disabled-comment"><span style="color: red;">No buttons will earn rewards unless manually integrated!</span> <a href="http://support.magerewards.com/article/1627-rewards-social-2-0-admin-functionality#automatic" target="_blank" title="Social Rewards Script">Learn More</a></br></br></span>]]>
                                 <![CDATA[
                                     <script type="text/javascript">
                                         (function() {

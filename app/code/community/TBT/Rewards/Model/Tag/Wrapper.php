@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -100,9 +100,9 @@ class TBT_Rewards_Model_Tag_Wrapper extends Varien_Object
     public function approvePendingTransfers() 
     {
         foreach ( $this->getAssociatedTransfers () as $transfer ) {
-            if ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
+            if ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
                 //Move the transfer status from pending to approved, and save it!
-                $transfer->setStatus ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
+                $transfer->setStatusId ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
                 $transfer->save ();
             }
         }
@@ -114,9 +114,9 @@ class TBT_Rewards_Model_Tag_Wrapper extends Varien_Object
     public function discardPendingTransfers() 
     {
         foreach ( $this->getAssociatedTransfers () as $transfer ) {
-            if ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING) {
+            if ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING) {
                 //Move the transfer status from pending to approved, and save it!
-                $transfer->setStatus ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING, TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
+                $transfer->setStatusId ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING, TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
                 $transfer->save ();
             }
 
@@ -129,13 +129,21 @@ class TBT_Rewards_Model_Tag_Wrapper extends Varien_Object
      */
     public function ifNewTag() 
     {
-        $ruleCollection = Mage::getSingleton ( 'rewards/tag_validator' )->getApplicableRulesOnTag ();
-        foreach ( $ruleCollection as $rule ) {
-            $is_transfer_successful = $this->createPendingTransfer ( $rule );
-
-            if ($is_transfer_successful) {
-                //Alert the customer on the distributed points  
-                Mage::getSingleton ( 'core/session' )->addSuccess ( Mage::helper ( 'rewards' )->__ ( 'You will receive %s upon approval of this tag', (string)Mage::getModel ( 'rewards/points' )->set ( $rule ) ) );
+        $ruleCollection = Mage::getSingleton('rewards/tag_validator')->getApplicableRulesOnTag();
+        foreach ($ruleCollection as $rule) {
+            $isTransferSuccessful = $this->createPendingTransfer($rule);
+            if ($isTransferSuccessful) {
+                $initialTransferStatusForTag = Mage::helper('rewards/config')->getInitialTransferStatusAfterTag();
+                $message = ($initialTransferStatusForTag == 5) 
+                    ? 'You received %s for this tag'
+                    : 'You will receive %s upon approval of this tag';
+                
+                Mage::getSingleton('core/session')->addSuccess(
+                    Mage::helper('rewards')->__(
+                        $message, 
+                        (string) Mage::getModel('rewards/points')->set($rule)
+                    )
+                );
             }
         }
     }
@@ -166,16 +174,15 @@ class TBT_Rewards_Model_Tag_Wrapper extends Varien_Object
             // Get all tag ID's on which the customer has transfers
             $transfers = Mage::getModel('rewards/transfer')
                 ->getCollection()
-                ->addAllReferences()
                 ->addFieldToFilter('customer_id', $customerId)
                 // the below table contains the tag IDs we are looking for
-                ->addFieldToFilter('main_table.rewards_transfer_id', array('lteq' => $lastTransferId))
+                ->addFieldToFilter('rewards_transfer_id', array('lteq' => $lastTransferId))
                 // we only care about tag related transfers
-                ->addFieldToFilter('reference_type', TBT_Rewards_Model_Tag_Reference::REFERENCE_TYPE_ID);
+                ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('tag'));
             $transfers->getSelect()
                 // we remove all columns from the select as we only need the tag IDs, no need to fetch anything else
                 ->reset(Zend_Db_Select::COLUMNS)
-                ->columns('reference_table.reference_id');
+                ->columns('reference_id');
 
             $includedTagIds = array();
             foreach ($transfers as $transfer) {
@@ -229,12 +236,9 @@ class TBT_Rewards_Model_Tag_Wrapper extends Varien_Object
             $tag = $this->getTag();
         }
         try {
-            $is_transfer_successful = Mage::getModel ( 'rewards/tag_transfer' )->transferTagPoints ( 
-                $tag, 
-                $rule 
-            );
+            $is_transfer_successful = Mage::getModel ( 'rewards/tag_transfer' )->transferTagPoints($tag, $rule);
         } catch ( Exception $ex ) {
-            Mage::log($ex->getMessage());
+            Mage::helper('rewards/debug')->log($ex->getMessage());
             Mage::getSingleton ( 'core/session' )->addError ( $ex->getMessage () );
         }
         

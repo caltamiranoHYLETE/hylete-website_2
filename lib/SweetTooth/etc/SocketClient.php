@@ -18,7 +18,7 @@ class SweetToothSocketClient
     public function __construct($baseUrl)
     {
         if (!function_exists('fsockopen')) {
-            throw new Exception('Sweet Tooth requires the fsockopen() function, but it is not available.');
+            throw new Exception('MageRewards requires the fsockopen() function, but it is not available.');
         }
 
         $this->baseUrl = $baseUrl;

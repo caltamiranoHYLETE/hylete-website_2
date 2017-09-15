@@ -39,6 +39,19 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Load By Referral Child Id
+     * @param int $customerId
+     * @return \TBT_RewardsReferral_Model_Referral
+     */
+    public function loadByReferralId($customerId)
+    {
+        $data = $this->getResource()->loadByReferralId($customerId);
+        $this->addData($data);
+
+        return $this;
+    }
+
     //@nelkaake Added on Saturday June 26, 2010:
     public function registerReferral(Mage_Customer_Model_Customer $affiliate, Mage_Customer_Model_Customer $referral)
     {
@@ -61,29 +74,53 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    //@nelkaake Changed on Friday October 15, 2010:
-    public function referralExists($referral_email)
+    /**
+     * Check if referral exists
+     * @param int|string $referralEmailOrId
+     * @param boolean $validateAndLoad | Used to load data inside entity or just check for existance
+     * @return boolean
+     */
+    public function referralExists($referralEmailOrId, $validateAndLoad = false)
     {
-        $existing_data = $this->getResource()->loadByEmail($referral_email);
-        if (!empty($existing_data)) {
-            return true;
+        if (is_numeric($referralEmailOrId)) {
+            $existingData = $this->getResource()->loadByReferralId($referralEmailOrId);
+        } else {
+            $existingData = $this->getResource()->loadByEmail($referralEmailOrId);
+        }
+
+        if (!empty($existingData)) {
+            if ($validateAndLoad) {
+                $this->addData($existingData);
+                return true;
+            } else {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public function subscribe(Mage_Customer_Model_Customer $affiliate, $email, $name, $msg="")
+    public function subscribe(Mage_Customer_Model_Customer $affiliate, $email, $name, $msg="", $forceResend = false)
     {
-        $this->setReferralParentId($affiliate->getId())
+        if (!$forceResend) {
+            $this->setReferralParentId($affiliate->getId())
                 ->setReferralEmail($email)
                 ->setReferralName($name);
+
+            if (!empty($msg)) {
+                $this->setInvitationMessage($msg);
+            }
+        }
 
         $emailSent = $this->sendSubscription($affiliate, $email, $name, $msg);
         if (!$emailSent) {
             return false;
         }
 
-        $this->save();
+        if (!$forceResend) {
+            $this->save();
+        }
+        
         Mage::dispatchEvent('rewardsref_referral_subscribe', array(
             'affiliate' => $affiliate,
             'referral'  => $this
@@ -159,7 +196,7 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
             );
         }
 
-        $store_name       = Mage::getModel('core/store')->load(Mage::app()->getStore()->getCode())->getName();
+        $store_name       = Mage::getModel('core/store')->load(Mage::app()->getStore()->getCode())->getFrontendName();
         // save theme settings because sendTransactional might not restore them
         $initial_layout   = Mage::getDesign()->getTheme('layout');
         $initial_template = Mage::getDesign()->getTheme('template');
@@ -170,13 +207,14 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
         $customer = Mage::getModel('rewards/customer')->load($customerId);
         $email->sendTransactional($template, $sender, $recipient['email'], $recipient['name'],
         array(
-            'parent'             => $affiliate, 'affiliate' => $affiliate,
+            'parent'             => $affiliate, 
+            'affiliate'          => $affiliate,
             'referral'           => $this,
             'store_name'         => $store_name,
             'msg'                => $message,
             'referral_customer'  => $customer,
             'affiliate_url'      => (string) Mage::helper('rewardsref/url')->getUrl($affiliate),
-            'referral_code'      => (string) Mage::helper('rewardsref/code')->getCode($affiliate->getEmail()),
+            'referral_code'      => (string) Mage::helper('rewardsref/code')->getCode($affiliate->getId()),
             'referral_shortcode' => (string) Mage::helper('rewardsref/shortcode')->getCode($affiliate->getId())
         ));
 
@@ -210,26 +248,18 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
 
         $store_id = $this->getStoreId();
         $store_id = empty($store_id) ? Mage::app()->getStore()->getId() : $store_id;
-
-        $email = Mage::getModel('core/email_template');
-        $email->setDesignConfig(array('area' => 'frontend', 'store' => $store_id));
-        /* @var $email Mage_Core_Model_Email_Template */
+        $emailHelper = Mage::helper('rewards/email');
 
         $template = Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_EMAIL_TEMPLATE, $store_id);
         if ($template == self::EMPTY_TEMPLATE) {
             return false;
         }
-            
-        $recipient = array(
-            'email' => $affiliate->getEmail(),
-            'name'  => $affiliate->getName(),
-        );
 
         $sender = array(
             'name'  => strip_tags($this->getSubscSenderName($store_id)),
             'email' => strip_tags($this->getSubscSenderEmail($store_id))
         );
-        $store_name = Mage::getModel('core/store')->load(Mage::app()->getStore()->getCode())->getName();
+        $store_name = Mage::getModel('core/store')->load(Mage::app()->getStore()->getCode())->getFrontendName();
 
         // save theme settings because sendTransactional might not restore them
         $initial_layout   = Mage::getDesign()->getTheme('layout');
@@ -239,27 +269,25 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
 
         $customerId = $this->getReferralChildId();
         $customer = Mage::getModel('rewards/customer')->load($customerId);
-        $email->sendTransactional($template, $sender, $recipient['email'], $recipient['name'], array(
+        $customerGroup = Mage::getModel('customer/group')->load($affiliate->getGroupId());
+        $result = $emailHelper->sendTransactional($template, $sender, $affiliate, array(
             'parent'             => $affiliate,
             'affiliate'          => $affiliate,
             'referral'           => $this,
             'store_name'         => $store_name,
             'msg'                => $message,
             'referral_customer'  => $customer,
-            'points_earned'      => $pointsSummary,
+            'affiliate_group_name' => ($customerGroup) ? $customerGroup->getCustomerGroupCode() : '',
+            'points_earned'      => Mage::helper('rewards')->getPointsString($pointsSummary),
             'points_balance'     => (string) $affiliate->getPointsSummary(),
             'pending_points'     => (string) $affiliate->getPendingPointsSummary(),
             'has_pending_points' => $affiliate->hasPendingPoints(),
             'affiliate_url'      => (string) Mage::helper('rewardsref/url')->getUrl($affiliate),
-            'referral_code'      => (string) Mage::helper('rewardsref/code')->getCode($affiliate->getEmail()),
-            'referral_shortcode' => (string) Mage::helper('rewardsref/shortcode')->getCode($affiliate->getId()),
+            'referral_code'      => (string) Mage::helper('rewardsref/code')->getCode($affiliate->getId()),
+            'referral_shortcode' => (string) Mage::helper('rewardsref/shortcode')->getCode($affiliate->getId())
         ));
 
         $translate->setTranslateInline(true);
-        if (!$email->getProcessedTemplate())
-            throw new Exception(Mage::helper('rewards')->__("The referral e-mail template was not properly loaded. This might be due to locale issues with characters that could be read, or tempalte variables that could not be parsed properly. The template being loaded was %s", $template));
-
-        $return_value = $email->getSentSuccess();
 
         // restore theme restore
         Mage::getDesign()->setTheme('layout', $initial_layout);
@@ -267,7 +295,7 @@ class TBT_RewardsReferral_Model_Referral extends Mage_Core_Model_Abstract
         Mage::getDesign()->setTheme('skin', $initial_skin);
         Mage::getDesign()->setTheme('locale', $initial_locale);
 
-        return $return_value;
+        return $result;
     }
 
     //@nelkaake (add) on 1/11/10:

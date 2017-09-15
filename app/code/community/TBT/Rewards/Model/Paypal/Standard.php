@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -12,17 +12,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -44,60 +44,6 @@ class TBT_Rewards_Model_Paypal_Standard extends Mage_Paypal_Model_Standard {
     //@nelkaake Sunday April 25, 2010 : Calculated in the base currency.
     public function getPaypalZeroCheckoutFee() {
         return Mage::helper('rewards/config_paypal')->getPaypalCheckoutFee();
-    }
-
-    /**
-     * Appends Sweet Tooth information 
-     * @note: As of Sweet Tooth 1.5.0.3, this rewrite has been replaced with the TBT_Rewards_Model_Paypal_Observer observer for 
-     * all versions of Magento greater than or equal to 1.4.2.  Previous versions do not dispatch the paypal_prepare_line_items 
-     * event
-     * There are two major things we need to do here: 
-     * 1. If the balance is 0, make sure there is at least 1 penny in the subtotal so PayPal lets us checkout.  
-     * 2. Gather all of our catalog points redemption discounts and add them to the final cart discount total.
-     * @deprecated for Magento 1.4.2+ as of  Sweet Tooth 1.5.0.3
-     *
-     * @return array paypal checkout fields
-     */
-    public function getStandardCheckoutFormFields() {
-        
-        $scf = parent::getStandardCheckoutFormFields();
-        // Only run for Magento 1.4.0.x and lower; newer versions use thew paypal_prepare_line_items event obsrever in the TBT_Rewards_Model_Paypal_Observer class
-        if ( Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.2.0') ) {
-            return $scf;
-        }
-        
-        $items = $this->_getQuote()->getAllItems();
-        
-        //@nelkaake -a 16/11/10: 
-        
-
-        Mage::getSingleton('rewards/redeem')->refactorRedemptions($items);
-        
-        // In Magento 1.4.1 - 1.4.1.1 for some reason discount_amount_cart is used instead of discount_amount
-        if ( Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.4.1.0') ) {
-            $disc_attr = 'discount_amount_cart';
-        } else {
-            $disc_attr = 'discount_amount';
-        }
-        
-        // Init discount amount field
-        if ( ! isset($scf[$disc_attr]) ) {
-            $scf[$disc_attr] = 0;
-        }
-        $scf[$disc_attr] = (float) $scf[$disc_attr];
-        
-        //@nelkaake -a 16/11/10: Figure out the accumulated difference in price so we can add to the discount amount 
-        
-
-        $acc_diff = $this->getDiscountDisplacement();
-        
-        $scf[$disc_attr] += $acc_diff;
-        
-        //@nelkaake Added on Monday October 4, 2010: Uncomment this if you want to see what's being sent to PayPal standard checkout
-        //Mage::helper('rewards/debug')->dd(array($scf, Mage::helper('rewards/debug')->getSimpleBacktrace() ));
-        
-
-        return $scf;
     }
 
     /**

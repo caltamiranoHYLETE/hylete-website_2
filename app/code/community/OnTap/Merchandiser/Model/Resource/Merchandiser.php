@@ -154,7 +154,10 @@ class OnTap_Merchandiser_Model_Resource_Merchandiser extends Mage_Catalog_Model_
     {
         $write = $this->_getWriteAdapter();
         try {
-            $whereCondition = array($write->quoteInto('category_id=? AND product_id IN ('.$products.')', $categoryId));
+            $whereCondition = array(
+                $write->quoteInto('category_id = ?', $categoryId),
+                $write->quoteInto('product_id IN (?)', $products)
+            );
             $write->delete($this->catalogCategoryProduct, $whereCondition);
         } catch (Exception $e) {
             Mage::log($e->getMessage());

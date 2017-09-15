@@ -46,8 +46,8 @@ class TBT_Rewards_Model_Mysql4_Customer_Indexer_Points extends Mage_Core_Model_M
                             0 AS `customer_points_active`,
                             0 AS `customer_points_usable`
                         FROM `{$this->getTable('rewards/transfer')}` AS `main_table`
-                        WHERE (main_table.status IN (4))
-                        GROUP BY `main_table`.`customer_id`, `main_table`.`currency_id`
+                        WHERE (main_table.status_id IN (4))
+                        GROUP BY `main_table`.`customer_id`
 
                         UNION ALL
 
@@ -59,8 +59,8 @@ class TBT_Rewards_Model_Mysql4_Customer_Indexer_Points extends Mage_Core_Model_M
                             0 AS `customer_points_active`,
                             0 AS `customer_points_usable`
                         FROM `{$this->getTable('rewards/transfer')}` AS `main_table`
-                        WHERE (main_table.status IN (6))
-                        GROUP BY `main_table`.`customer_id`, `main_table`.`currency_id`
+                        WHERE (main_table.status_id IN (6))
+                        GROUP BY `main_table`.`customer_id`
 
                         UNION ALL
 
@@ -72,8 +72,8 @@ class TBT_Rewards_Model_Mysql4_Customer_Indexer_Points extends Mage_Core_Model_M
                             0 AS `customer_points_active`,
                             0 AS `customer_points_usable`
                         FROM `{$this->getTable('rewards/transfer')}` AS `main_table`
-                        WHERE (main_table.status IN (3))
-                        GROUP BY `main_table`.`customer_id`, `main_table`.`currency_id`
+                        WHERE (main_table.status_id IN (3))
+                        GROUP BY `main_table`.`customer_id`
 
                         UNION ALL
 
@@ -85,8 +85,8 @@ class TBT_Rewards_Model_Mysql4_Customer_Indexer_Points extends Mage_Core_Model_M
                             SUM( main_table.quantity ) AS `customer_points_active`,
                             SUM(main_table.quantity) AS `customer_points_usable`
                         FROM `{$this->getTable('rewards/transfer')}` AS `main_table`
-                        WHERE (main_table.status IN (5))
-                        GROUP BY `main_table`.`customer_id`, `main_table`.`currency_id`
+                        WHERE (main_table.status_id IN (5))
+                        GROUP BY `main_table`.`customer_id`
 
                         UNION ALL
 
@@ -99,8 +99,8 @@ class TBT_Rewards_Model_Mysql4_Customer_Indexer_Points extends Mage_Core_Model_M
                             SUM(main_table.quantity) AS `customer_points_usable`
                         FROM `{$this->getTable('rewards/transfer')}` AS `main_table`
                         WHERE (quantity < 0) AND
-                              (status IN (4))
-                        GROUP BY `main_table`.`customer_id`, `main_table`.`currency_id`
+                              (status_id IN (4))
+                        GROUP BY `main_table`.`customer_id`
                     ) AS `points_table` GROUP BY `points_table`.`customer_id`;
             ";
 

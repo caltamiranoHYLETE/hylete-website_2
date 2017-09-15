@@ -21,12 +21,6 @@ class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Preferences extends Mage_Adminh
 	 *
 	 * @return TBT_Rewards_Model_Customer
 	 */
-	
-	/**
-	 * Retrieve available customer
-	 *
-	 * @return Mage_Model_Customer
-	 */
 	public function getCustomer() 
 	{
 	    if ($this->hasCustomer ()) {
@@ -71,7 +65,5 @@ class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Preferences extends Mage_Adminh
 	{
 		return false;
 	}
-
 }
 
-?>

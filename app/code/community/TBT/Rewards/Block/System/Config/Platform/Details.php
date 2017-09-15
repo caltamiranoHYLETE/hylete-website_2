@@ -111,8 +111,8 @@ class TBT_Rewards_Block_System_Config_Platform_Details extends Mage_Adminhtml_Bl
         if ($this->_account == null) {
             $status = "<span style='color:#FF0000; font-weight:bold;'>" . $this->__("Unavailable") . "</span>";
             $status .= '<p class="note"><span>'
-                .'We\'re having trouble reaching Sweet Tooth servers at the moment.<br />'
-                .' Sweet Tooth functionality should not be affected by this, but if you continue to see this message for longer than a few hours, contact Sweet Tooth support.'
+                .'We\'re having trouble reaching MageRewards servers at the moment.<br />'
+                .' MageRewards functionality should not be affected by this, but if you continue to see this message for longer than a few hours, contact MageRewards support.'
                 .'</span></p>';
 
 

@@ -4,7 +4,7 @@ class TBT_Rewards_Manage_DashboardWidgetController extends Mage_Adminhtml_Contro
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
     }
     
     public function checkUsageAction()

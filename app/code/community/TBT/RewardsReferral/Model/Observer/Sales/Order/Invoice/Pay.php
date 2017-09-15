@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -43,8 +43,8 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_RewardsReferral_Model_Observer_Sales_Order_Invoice_Pay {
-
+class TBT_RewardsReferral_Model_Observer_Sales_Order_Invoice_Pay 
+{
     /**
      * Approve an affiliate point transfer if the admin has the option enabled to
      * auto approve pending transfers
@@ -61,73 +61,66 @@ class TBT_RewardsReferral_Model_Observer_Sales_Order_Invoice_Pay {
         $order = $observer->getEvent()
             ->getInvoice()
             ->getOrder();
+        
         if ( ! $order ) {
             return $this;
         }
-
-        $collectionReference = Mage::getResourceModel( 'rewardsref/referral_order_transfer_reference_collection' );  /* @var TBT_RewardsReferral_Model_Mysql4_Referral_Order_Transfer_Reference_Collection */
-        $collectionReference->addTransferInfo();
-
-        $collectionReference->filterAssociatedWithOrder( $order->getId() );
-
-        $collectionReference->addFieldToFilter( 'status', array(
+        
+        $collection = Mage::getResourceModel('rewardsref/transfer_collection')
+            ->filterReferralTransfers($order->getId(), false)
+            ->addFieldToFilter('status_id', array(
         	'eq' => TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT
-        ));
+            )
+        );
 
-        $this->_approvateTransferReferences( $collectionReference );
+        $this->_approvateTransfers($collection);
+        return $this;
+    }
+
+    /**
+     *
+     * @param TBT_RewardsReferral_Model_Mysql4_Transfer_Collection $collection
+     */
+    protected function _approvateTransfers($collection) 
+    {
+        if ($collection->getSize() <= 0) {
+            return $this;
+        }
+
+        foreach ($collection as $transfer) {
+            if (empty($transfer)) {
+                continue;
+            }
+
+            if (!$transfer->getId()) {
+                continue;
+            }
+
+            $this->_approvePointsTransfer($transfer);
+        }
 
         return $this;
     }
 
     /**
      *
-     * @param TBT_RewardsReferral_Model_Mysql4_Referral_Order_Transfer_Reference_Collection $collectionReference
+     * @param TBT_Rewards_Model_Transfer $transfer
      */
-    protected function _approvateTransferReferences($collectionReference) {
-        // No transfers need to be approved, so don't do anything.
-        if ( $collectionReference->getSize() <= 0 ) {
+    protected function _approvePointsTransfer($transfer) 
+    {
+        $orderId = $transfer->getReferenceId();
+
+        if (empty($transfer)) {
             return $this;
         }
 
-        foreach ($collectionReference as $transferReference) {
-            if ( empty( $transferReference ) ) {
-                continue;
-            }
-
-            if ( ! $transferReference->getId() ) {
-                continue;
-            }
-
-            $this->_approvePointsTransfer( $transferReference );
-        }
-
-        return $this;
-    }
-
-
-    /**
-     *
-     * @param TBT_Rewards_Model_Transfer_Reference $transferReference
-     */
-    protected function _approvePointsTransfer($transferReference) {
-        $transfer = Mage::getModel( 'rewards/transfer' )->load( $transferReference->getRewardsTransferId() ); //$transferCollection->getFirstItem();
-
-        $order_id = $transferReference->getReferenceId();
-
-        if ( empty( $transfer ) ) {
-            return $this;
-        }
-
-        $approve_result = $transfer->setStatus( $transfer->getStatus(), TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
-
-        if ( ! $approve_result ) {
-            Mage::helper( 'rewardsref' )->log("Unable to approve points transfer #{$transfer->getId()} associated with order #{$order_id}." );
+        $approveResult = $transfer->setStatusId( $transfer->getStatusId(), TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
+        if (!$approveResult) {
+            Mage::helper('rewardsref')->log("Unable to approve points transfer #{$transfer->getId()} associated with order #{$orderId}.");
             return $this;
         }
 
         $transfer->save();
-
         return $this;
     }
-
 }

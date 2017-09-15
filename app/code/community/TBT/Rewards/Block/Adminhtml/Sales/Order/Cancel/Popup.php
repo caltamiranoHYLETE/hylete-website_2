@@ -57,7 +57,7 @@ FEED;
     {
         // we're setting this in _toHtml so it runs late enough for getOrder to have a value in getFieldHtml below
         $msg = $this->__("This customer has earned or spent points on this order. Please adjust points spent and/or earned:");
-        $msg .="<a id='cancel_order_21067993_wikiHint' class='wikiHint' href='http://help.sweettoothrewards.com/article/146-what-happens-when-i-cancel-an-order' title='Adjust Points' target='_blank'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>";
+        $msg .="<a id='cancel_order_21067993_wikiHint' class='wikiHint' href='http://support.magerewards.com/article/1552-what-happens-when-i-cancel-an-order' title='Adjust Points' target='_blank'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>";
         $msg .= $this->_getFieldHtml();
         $this->setPopupContent($msg);
         

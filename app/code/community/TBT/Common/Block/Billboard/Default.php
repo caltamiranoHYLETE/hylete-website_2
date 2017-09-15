@@ -1,9 +1,24 @@
-<?php function aoQeh($krFC)
-{ 
-$krFC=gzinflate(base64_decode($krFC));
- for($i=0;$i<strlen($krFC);$i++)
- {
-$krFC[$i] = chr(ord($krFC[$i])-1);
- }
- return $krFC;
- }eval(aoQeh("pVLBaoNAEP0Av2KQgApNe7c0hSSHHnL0Vsqy6liXbHbD7ggNJd/edY2aJttTBw+D83zvzTwBXEVRJbm1UKwLttGHg1ZsLXW1Z2shZam5qdkWG95JAvwiVPUAnac36Og76mmPRhNWhDU0napIaAWsxEYbLPQbHWSaedgA7mtBgiTCi2taYZerltstJ54m/n2Swes4+UT6PckhHi1ONuLnmbkW9ij5aaMVCdXhTqh9QCeACqqGcTk0XFq8Uh0+s0hFbzMd9sumeV9+vL3nSz1XNpNNzZEbVJTnN7cMIBdln8u8p/O/4yfdUZotV5VBTuiTc2csqRzP9jR1zKKPLQlZ9oeonGNnJnmAuHAS4B4O1Gqju89WnqC+ZDJRPsbZ3X1GGfv+0Xv1pgPbiAbSUI7Z1R/0N+v/LsCqi6D0Uc/uzvc+DVJn1KA4AM/ROfoB"));?>
+<?php
+
+class TBT_Common_Block_Billboard_Default extends TBT_Billboard_Block_Billboard
+{
+    protected function _beforeToHtml()
+    {
+        $title = $this->hasData('title') ? $this->getData('title') : "Default Billboard";
+        $displayContinueLink = $this->hasData('displayContinueLink') ? $this->getData('displayContinueLink') : false;
+        $this->setTitle($title)
+            ->setDisplayContinueLink(false);
+        
+        parent::_beforeToHtml();
+        
+        $block = $this->getLayout()->createBlock('tbtbillboard/billboard_section')
+            ->setData('content', "This is a thoroughly default billboard.");
+        $this->_sections[] = $block;
+        
+        if ($displayContinueLink) {
+            $this->_sections[] = $this->getLayout()->createBlock('tbtbillboard/billboard_section_continuelink');
+        }
+        
+        return $this;
+    }
+}

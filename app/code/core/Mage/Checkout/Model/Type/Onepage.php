@@ -498,7 +498,7 @@ class Mage_Checkout_Model_Type_Onepage
                 'lastname'     => 'lastname',
                 'email'        => 'email',
                 'password'     => 'customer_password',
-                'password_confirmation' => 'confirm_password',
+                'confirmation' => 'confirm_password',
                 'taxvat'       => 'taxvat',
                 'gender'       => 'gender',
             ) as $key => $dataKey) {

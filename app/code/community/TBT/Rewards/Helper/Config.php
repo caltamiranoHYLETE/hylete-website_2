@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -48,6 +48,11 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
     const CONFIG_XPATH_SHOW_REWARDS_DASHBOARD_WIDGET = 'rewards/help/showDashboardStPanel';
 
     /**
+     * Config xpath for discount full summary display flag
+     */
+    const CONFIG_XPATH_SHOW_CART_DISCOUNT_FULL_SUMMARY = 'rewards/display/show_cart_discount_full_summary';
+
+    /**
      * Checks if Sweet Tooth panel from Dashboard is enabled/disabled
      *
      * @return boolean
@@ -55,6 +60,15 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
     public function displayRewardsDashboardWidget()
     {
         return Mage::getStoreConfigFlag(self::CONFIG_XPATH_SHOW_REWARDS_DASHBOARD_WIDGET);
+    }
+
+    /**
+     * Check if cart discount full summary should be displayed
+     * @return boolean
+     */
+    public function displayCartDiscountFullSummary()
+    {
+        return (bool) Mage::getStoreConfigFlag(self::CONFIG_XPATH_SHOW_CART_DISCOUNT_FULL_SUMMARY);
     }
 
     public function getInitialTransferStatusAfterOrder()
@@ -65,11 +79,6 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
     public function getInitialTransferStatusAfterReview()
     {
         return Mage::getStoreConfig ( 'rewards/InitialTransferStatus/AfterReview' );
-    }
-
-    public function getInitialTransferStatusAfterRating()
-    {
-        return Mage::getStoreConfig ( 'rewards/InitialTransferStatus/AfterRating' );
     }
 
     public function getInitialTransferStatusAfterPoll()
@@ -128,14 +137,34 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig ( 'rewards/orders/shouldRemovePointsOnCancelledOrder' );
     }
 
+    /**
+     * Check if points should be approved on invoice
+     * @return boolean
+     */
     public function shouldApprovePointsOnInvoice()
     {
-        return Mage::getStoreConfig ( 'rewards/orders/shouldApprovePointsOnInvoice' );
+        return (bool) (Mage::getStoreConfig ('rewards/orders/shouldApprovePointsOn')
+            == TBT_Rewards_Model_System_Config_Source_ApproveOrderPointsOn::APPROVE_ORDER_POINTS_ON_INVOICE);
     }
 
+    /**
+     * Check if points should be approved on shipment
+     * @return boolean
+     */
     public function shouldApprovePointsOnShipment()
     {
-        return Mage::getStoreConfig ( 'rewards/orders/shouldApprovePointsOnShipment' );
+        return (bool) (Mage::getStoreConfig ('rewards/orders/shouldApprovePointsOn')
+            == TBT_Rewards_Model_System_Config_Source_ApproveOrderPointsOn::APPROVE_ORDER_POINTS_ON_SHIPMENT);
+    }
+
+    /**
+     * Validate if points should be approved on order complete
+     * @return boolean
+     */
+    public function shouldApprovePointsOnOrderComplete()
+    {
+        return (bool) (Mage::getStoreConfig ('rewards/orders/shouldApprovePointsOn')
+            == TBT_Rewards_Model_System_Config_Source_ApproveOrderPointsOn::APPROVE_ORDER_POINTS_ON_ORDER_COMPLETE);
     }
 
     public function canHaveNegativePtsBalance()
@@ -250,6 +279,19 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
     public function allowEarningCatalogPointsWhenSpendingInCart()
     {
         return ! Mage::getStoreConfigFlag ( 'rewards/general/doIgnoreCDWhenSCR' );
+    }
+
+    /**
+     * Flag for catalog rules to allow or disable them entirely inside admin order create
+     * @return boolean
+     */
+    public function allowCatalogRulesInAdminOrderCreate()
+    {
+        if (!Mage::app()->getStore()->isAdmin()) {
+            return true;
+        }
+        
+        return !Mage::getStoreConfigFlag('rewards/general/allow_catalog_rules_admin_order_create');
     }
 
     public function showProductEditPointsTab()
@@ -420,4 +462,59 @@ class TBT_Rewards_Helper_Config extends Mage_Core_Helper_Abstract
     		return false;
     	}
     }
+    
+    /**
+     * Validates if config paths are true
+     * @param string|arrau $ifConfigPaths
+     * @param boolean $emptyIsValid
+     * @return boolean
+     */
+    public function ifConfigLayout($ifConfigPaths, $emptyIsValid = true)
+    {
+        if (empty($ifConfigPaths)) {
+            return $emptyIsValid;
+        }
+        
+        if (!is_array($ifConfigPaths)) {
+            $ifConfigPaths = array($ifConfigPaths);
+        }
+        
+        $foundInvalidConfig = false;
+        
+        foreach ($ifConfigPaths as $ifConfigPath) {
+            if (!empty($ifConfigPath) && !Mage::getStoreConfigFlag($ifConfigPath)) {
+                $negation = strpos($ifConfigPath, '!');
+
+                if ($negation === false) {
+                    if (!Mage::getStoreConfigFlag($ifConfigPath)) {
+                        $foundInvalidConfig = true;
+                        break;
+                    }
+                } else {
+                    $ifConfigPath = str_replace('!', '', $ifConfigPath);
+                    
+                    if (Mage::getStoreConfigFlag($ifConfigPath)) {
+                        $foundInvalidConfig = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if ($foundInvalidConfig) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+    * Can points be adjusted?
+    * @return bool
+    */
+    public function canAdjustPoints()
+    {
+        return (bool)Mage::getStoreConfig('rewards/checkout/adjust_points_cancelation');
+    }
 }
+

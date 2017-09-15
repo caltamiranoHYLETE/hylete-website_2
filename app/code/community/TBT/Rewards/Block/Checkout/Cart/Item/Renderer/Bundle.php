@@ -43,16 +43,12 @@ class TBT_Rewards_Block_Checkout_Cart_Item_Renderer_Bundle extends TBT_Rewards_B
 	 * @return array
 	 */
 	protected function _getBundleOptions($useCache = true) {
+                $serializerHelper = Mage::helper('rewards/serializer');
 		$options = array ();
-		
-		/**
-		 * @var Mage_Bundle_Model_Product_Type
-		 */
 		$typeInstance = $this->getProduct ()->getTypeInstance ( true );
-		
-		// get bundle options
-		$optionsQuoteItemOption = $this->getItem ()->getOptionByCode ( 'bundle_option_ids' );
-		$bundleOptionsIds = unserialize ( $optionsQuoteItemOption->getValue () );
+                $optionsQuoteItemOption = $this->getItem ()->getOptionByCode ( 'bundle_option_ids' );
+		$bundleOptionsIds = $serializerHelper->unserializeData($optionsQuoteItemOption->getValue());
+                
 		if ($bundleOptionsIds) {
 			/**
 			 * @var Mage_Bundle_Model_Mysql4_Option_Collection
@@ -62,7 +58,10 @@ class TBT_Rewards_Block_Checkout_Cart_Item_Renderer_Bundle extends TBT_Rewards_B
 			// get and add bundle selections collection
 			$selectionsQuoteItemOption = $this->getItem ()->getOptionByCode ( 'bundle_selection_ids' );
 			
-			$selectionsCollection = $typeInstance->getSelectionsByIds ( unserialize ( $selectionsQuoteItemOption->getValue () ), $this->getProduct () );
+			$selectionsCollection = $typeInstance->getSelectionsByIds(
+                                $serializerHelper->unserializeData($selectionsQuoteItemOption->getValue()), 
+                                $this->getProduct()
+                        );
 			
 			$bundleOptions = $optionsCollection->appendSelections ( $selectionsCollection, true );
 			foreach ( $bundleOptions as $bundleOption ) {

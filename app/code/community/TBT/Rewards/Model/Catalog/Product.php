@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -237,8 +237,8 @@ class TBT_Rewards_Model_Catalog_Product extends Mage_Catalog_Model_Product {
 		$customer_point_balance = array ();
 
                 //Create a map of all the currencies and the customers balance in each
-		$customer = $this->_getRewardsSess ()->getSessionCustomer ();
-		if ($this->_getRewardsSess ()->isCustomerLoggedIn ()) {
+		$customer = $this->_getAggregatedCart()->getCustomer();
+                if ($this->_getRewardsSess ()->isCustomerLoggedIn () && $customer) {
 			$customer_point_balance = $customer->getUsablePoints ();
 			//@nelkaake Thursday May 27 : If the customer has 0 points, show highest possible points usage.
 			if (! $customer->hasPoints ()) {
@@ -369,9 +369,17 @@ class TBT_Rewards_Model_Catalog_Product extends Mage_Catalog_Model_Product {
 	 */
 	public function getCatalogRedemptionRules($customer) {
 		$datetime = Mage::helper ( 'rewards' )->now ();
-		$wId = Mage::app ()->getStore ( true )->getWebsiteId ();
-		if ($customer) {
-			$gId = $customer->getGroupId ();
+                
+                if (Mage::registry('st_lock_aggregated_cart')) {
+                    return array();
+                }
+                
+                Mage::register('st_lock_aggregated_cart', true);
+		$wId = $this->_getAggregatedCart()->getWebsiteId();
+		Mage::unregister('st_lock_aggregated_cart');
+                
+                if ($customer) {
+			$gId = $this->_getAggregatedCart()->getCustomerGroupId();
 		} else {
 			$gId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
 		}
@@ -404,9 +412,9 @@ class TBT_Rewards_Model_Catalog_Product extends Mage_Catalog_Model_Product {
 		/* TODO: make this method return REWARDS-SYSTEM rule id's ONLY */
 		// look up all rule objects associated with this item
 		$now = ($date == null) ? Mage::helper ( 'rewards' )->now () : $date;
-	$wId = ($wId == null) ? Mage::app ()->getStore ()->getWebsiteId () : $wId;
+                $wId = ($wId == null) ? $this->_getAggregatedCart()->getWebsiteId() : $wId;
 
-		$gId = ($gId == null) ? Mage::getSingleton ( 'customer/session' )->getCustomerGroupId () : $gId;
+		$gId = ($gId == null) ? $this->_getAggregatedCart()->getCustomerGroupId() : $gId;
 
 		$productId = $this->getId ();
 
@@ -457,5 +465,9 @@ class TBT_Rewards_Model_Catalog_Product extends Mage_Catalog_Model_Product {
 	protected function _getRewardsSess() {
 		return Mage::getSingleton ( 'rewards/session' );
 	}
+        
+        protected function _getAggregatedCart() {
+            return Mage::getSingleton('rewards/sales_aggregated_cart');
+        }
 
 }

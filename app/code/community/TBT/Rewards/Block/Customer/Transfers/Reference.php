@@ -1,197 +1,286 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
- * 
+ * Sweet Tooth
+ *
  * NOTICE OF LICENSE
- * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ *
+ * This source file is subject to the SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
-
- * The Open Software License is available at this URL: 
+ * The Sweet Tooth License is available at this URL:
+ * https://www.sweettoothrewards.com/terms-of-service
+ * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- * 
+ *
  * DISCLAIMER
- * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
- * not held liable for any inconsistencies or abnormalities in the 
- * behaviour of this code. 
+ *
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
+ * not held liable for any inconsistencies or abnormalities in the
+ * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
- * provided Sweet Tooth License. 
- * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
+ * provided Sweet Tooth License.
+ * Upon discovery of modified code in the process of support, the Licensee
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
- * If you did not receive a copy of the license, please send an email to 
- * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
- * immediately.
- * 
- * @category   [TBT]
- * @package    [TBT_Rewards]
- * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Customer Transfers
+ * Customer Transfers Reference Block
  *
  * @category   TBT
  * @package    TBT_Rewards
- * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
+ * @copyright  Copyright (c) 2016 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
+ * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Customer_Transfers_Reference extends Mage_Core_Block_Template {
-	
-	protected function _construct() {
-		parent::_construct ();
-		$this->_controller = 'customer';
-		$this->_blockGroup = 'rewards';
-		$this->setTemplate ( 'rewards/customer/transfers/reference.phtml' );
-	}
-	
-	protected function _prepareLayout() {
-		parent::_prepareLayout ();
-	}
-	
-	/**
-	 * Returns a rewards customer
-	 *
-	 * @return TBT_Rewards_Model_Customer
-	 */
-	public function getCustomer() {
-	    $customer = Mage::registry ( 'customer' );
-		return Mage::getModel('rewards/customer')->getRewardsCustomer($customer);
-	}
-	
-	public function _getTransferSummary() {
-		$cust = $this->getCustomer ();
-		$transfers = $cust->getTransfers ()->setOrder ( 'creation_ts', 'DESC' );
-		return $transfers;
-	}
-	
-	/**
-	 * Fetches an order ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedOrder($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Fetches a review ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedReview($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_REVIEW) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Fetches a rating ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedRating($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_RATING) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Fetches a poll ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedPoll($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_POLL) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Fetches an order ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedTag($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_TAG) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Fetches an order ID from a given transfer id
-	 * @see TBT_Rewards_Model_Transfer, TBT_Rewards_Model_Transfer_Reference
-	 *
-	 * @param int $transferId
-	 * @return int
-	 */
-	public function getAssociatedFriend($transferId) {
-		$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadReferenceByTransferId ( $transferId );
-		
-		if ($ref->getReferenceType == TBT_Rewards_Model_Transfer_Reference::REFERENCE_FROM_FRIEND || $ref->getReferenceType () == TBT_Rewards_Model_Transfer_Reference::REFERENCE_TO_FRIEND) {
-			return $ref->getReferenceId ();
-		} else {
-			return null;
-		}
-	}
-	
-	public function getStatusCaption($status_id) {
-		return Mage::getModel ( 'rewards/transfer_status' )->getStatusCaption ( $status_id );
-	}
-	
-	public function getPointsString($amount, $currency) {
-		$str = Mage::helper ( 'rewards' )->getPointsString ( array ($currency => $amount ) );
-		return $str;
-	}
-	
-	public function getCustomerEmail($customer_id) {
-		return Mage::getModel ( 'rewards/customer' )->load ( $customer_id )->getEmail ();
-	}
-	
-	public function getOrderUrl($order_id) {
-		return $this->getUrl ( 'sales/order/view', array ('order_id' => $order_id ) );
-	}
-	
-	public function getReviewUrl($review_id) {
-		return $this->getUrl ( 'review/customer/view', array ('id' => $review_id ) );
-	}
+class TBT_Rewards_Block_Customer_Transfers_Reference extends Mage_Core_Block_Template 
+{
+    protected function _construct() 
+    {
+        parent::_construct ();
+        $this->_controller = 'customer';
+        $this->_blockGroup = 'rewards';
+        $this->setTemplate ( 'rewards/customer/transfers/reference.phtml' );
+    }
 
+    /**
+     * Returns a rewards customer
+     * @return TBT_Rewards_Model_Customer
+     */
+    public function getCustomer() 
+    {
+        $customer = Mage::registry ( 'customer' );
+        return Mage::getModel('rewards/customer')->getRewardsCustomer($customer);
+    }
+
+    public function _getTransferSummary() 
+    {
+        $cust = $this->getCustomer ();
+        $transfers = $cust->getTransfers ()->setOrder ( 'created_at', 'DESC' );
+        return $transfers;
+    }
+
+    /**
+     * Fetches an order ID from a given transfer id
+     * @see TBT_Rewards_Model_Transfer
+     *
+     * @param int $transferId
+     * @return int | null
+     */
+    public function getAssociatedOrderId($transferId) 
+    {
+        $transfer = Mage::getModel('rewards/transfer')->load($transferId);
+
+        if (
+            $transfer 
+            && $transfer->getId() 
+            && $transfer->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('order')
+        ) {
+            return $transfer->getReferenceId();
+        }
+        
+        return null;
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedOrderId()
+     */
+    public function getAssociatedOrder($transferId)
+    {
+        return $this->getAssociatedOrderId($transferId);
+    }
+
+    /**
+     * Fetches a review ID from a given transfer id
+     * @see TBT_Rewards_Model_Transfer
+     *
+     * @param int $transferId
+     * @return int | null
+     */
+    public function getAssociatedReviewId($transferId) 
+    {
+        $transfer = Mage::getModel('rewards/transfer')->load($transferId);
+
+        if (
+            $transfer 
+            && $transfer->getId() 
+            && $transfer->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('product_review')
+        ) {
+            return $transfer->getReferenceId();
+        }
+        
+        return null;
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedReviewId()
+     */
+    public function getAssociatedReview($transferId) 
+    {
+        return $this->getAssociatedReviewId($transferId);
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedReviewId()
+     */
+    public function getAssociatedRating($transferId) 
+    {
+        return $this->getAssociatedReviewId($transferId);
+    }
+
+    /**
+     * Fetches a poll ID from a given transfer id
+     * @see TBT_Rewards_Model_Transfer
+     *
+     * @param int $transferId
+     * @return int | null
+     */
+    public function getAssociatedPollId($transferId) 
+    {
+        $transfer = Mage::getModel('rewards/transfer')->load($transferId);
+
+        if (
+            $transfer 
+            && $transfer->getId() 
+            && $transfer->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('poll')
+        ) {
+            return $transfer->getReferenceId();
+        }
+        
+        return null;
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedPollId()
+     */
+    public function getAssociatedPoll($transferId)
+    {
+        return $this->getAssociatedPollId($transferId);
+    }
+
+    /**
+     * Fetches an order ID from a given transfer id
+     * @see TBT_Rewards_Model_Transfer
+     *
+     * @param int $transferId
+     * @return int | null
+     */
+    public function getAssociatedTagId($transferId) 
+    {
+        $transfer = Mage::getModel('rewards/transfer')->load($transferId);
+
+        if (
+            $transfer 
+            && $transfer->getId() 
+            && $transfer->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('tag')
+        ) {
+            return $transfer->getReferenceId();
+        }
+        
+        return null;
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedTagId()
+     */
+    public function getAssociatedTag($transferId) 
+    {
+        return $this->getAssociatedTagId($transferId);
+    }
+
+    /**
+     * Fetches an order ID from a given transfer id
+     * @see TBT_Rewards_Model_Transfer
+     *
+     * @param int $transferId
+     * @return int | null
+     */
+    public function getAssociatedFriendId($transferId) 
+    {
+        $transfer = Mage::getModel('rewards/transfer')->load($transferId);
+
+        if (
+            $transfer 
+            && $transfer->getId() 
+            && $transfer->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('assign_from')
+        ) {
+            return $transfer->getReferenceId();
+        }
+        
+        return null;
+    }
+
+    /**
+     * DEPRECATED
+     * @use getAssociatedFriendId()
+     */
+    public function getAssociatedFriend($transferId)
+    {
+        return $this->getAssociatedFriendId($transferId);
+    }
+
+    /**
+     * Fetch Status Caption
+     * 
+     * @param int $status_id
+     * @return string
+     */
+    public function getStatusCaption($status_id)
+    {
+        return Mage::getModel ( 'rewards/transfer_status' )->getStatusCaption ( $status_id );
+    }
+
+    /**
+     * Fetch Points String (ie: 100 Gold Points)
+     * 
+     * @param int $amount
+     * @param int $currency
+     * @return string
+     */
+    public function getPointsString($amount, $currency)
+    {
+        $str = Mage::helper ( 'rewards' )->getPointsString ( array ($currency => $amount ) );
+        return $str;
+    }
+
+    /**
+     * Fetch customer email
+     * 
+     * @param int $customer_id
+     * @return string
+     */
+    public function getCustomerEmail($customer_id)
+    {
+        return Mage::getModel ( 'rewards/customer' )->load ( $customer_id )->getEmail ();
+    }
+
+    /**
+     * Fetch order id
+     * 
+     * @param int $order_id
+     * @return string
+     */
+    public function getOrderUrl($order_id)
+    {
+        return $this->getUrl ( 'sales/order/view', array ('order_id' => $order_id ) );
+    }
+
+    /**
+     * Fetch Review Url
+     * 
+     * @param int $review_id
+     * @return string
+     */
+    public function getReviewUrl($review_id)
+    {
+        return $this->getUrl ( 'review/customer/view', array ('id' => $review_id ) );
+    }
 }

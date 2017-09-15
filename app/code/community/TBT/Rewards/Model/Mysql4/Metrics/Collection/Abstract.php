@@ -155,7 +155,7 @@ class TBT_Rewards_Model_Mysql4_Metrics_Collection_Abstract extends Mage_Core_Mod
         if (!is_array($transferStatus)) {
             $transferStatus = array($transferStatus);
         }
-        $this->getSelect()->where('status IN (?)', $transferStatus);
+        $this->getSelect()->where('status_id IN (?)', $transferStatus);
 
         return $this;
     }
@@ -232,16 +232,16 @@ class TBT_Rewards_Model_Mysql4_Metrics_Collection_Abstract extends Mage_Core_Mod
     protected function _applyDateRangeFilter()
     {
         if ($this->_from !== null) {
-            $this->getSelect()->where('creation_ts >= ?', $this->_from);
+            $this->getSelect()->where('main_table.created_at >= ?', $this->_from);
         }
         if ($this->_to !== null) {
-            $this->getSelect()->where('creation_ts <= ?', $this->_to);
+            $this->getSelect()->where('main_table.created_at <= ?', $this->_to);
         }
 
         return $this;
     }
 
-    protected function _setPeriodFormat($period, $column = 'creation_ts')
+    protected function _setPeriodFormat($period, $column = 'main_table.created_at')
     {
         if ('month' == $period) {
             $this->_periodFormat = $this->getDateFormatSql($column, '%Y-%m');

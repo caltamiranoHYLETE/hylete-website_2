@@ -2,6 +2,21 @@
     .category-title .hylete-widget-img {
         width: 60%;
     }
+
+    .order-item-row .item-options dt,
+    .order-item-row .color .option-title {
+        float: none;
+        width: 100%;
+        display: block;
+    }
+
+    .order-item-row .item-options dd {
+        margin-left: 0;
+    }
+
+    .order-item-row .order-item-row__image {
+        display: none;
+    }
 }
 
 @media (max-width: 991px) {

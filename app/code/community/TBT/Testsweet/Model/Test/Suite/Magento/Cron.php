@@ -25,7 +25,7 @@ class TBT_Testsweet_Model_Test_Suite_Magento_Cron extends TBT_Testsweet_Model_Te
         } else {
             $this->addFail($this->__("Cron might not be active. Crontest last timestamp: [%s], current system timestamp: [%s].", $timestamp, $now), $this->__("Check crontab has: */5 * * * * /bin/sh /[magento_path]/cron.sh"));
             $this->addNotice($this->__("If cache is enabled try this test again in 10 minutes while Magento cache is disabled."));
-            $this->addNotice($this->__("More help can be found here: http://help.sweettoothrewards.com/article/395-setting-up-cron-jobs-in-magento") );
+            $this->addNotice($this->__("More help can be found here: http://support.magerewards.com/article/1533-setting-up-cron-jobs-in-magento") );
         }
     }
 

@@ -33,7 +33,7 @@
                 <li>
                     <div class="urlcode-input-box">
                         <label for="referral_url"><?php echo $this->__('Your Referral Email') ?></label><br />
-                        <input type="text" readonly name="referral_email" value="<?php echo $this->getReferralEmail(); ?>"
+                        <input type="text" readonly name="referral_email" value="<?php echo $this->escapeHtml($this->getReferralEmail()) ?>"
                                title="<?php echo $this->__('Your Referral Email') ?>" class="input-text" id="referral_email" /> <BR />
                     </div>
                     <div class="urlcode_comment"><?php echo $this->__("Referrals can enter your e-mail address at signup."); ?></div>

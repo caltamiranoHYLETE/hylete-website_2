@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -46,9 +46,12 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
     public function registerEventAction()
     {
         $action = $this->getRequest()->getParam('action');
+        $helper = Mage::helper('rewardssocial2');
         
         $dataJson = $this->getRequest()->getParam('data');
         $data = json_decode($dataJson, true);
+
+        $currentPageUrl = $this->getRequest()->getParam('current_page_url', false);
         
         $code = 204;
         $message = '';
@@ -58,11 +61,11 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
                 throw new Exception($this->__('No action specified.'), 400);
             }
             
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (!$helper->hasCustomerToReward()) {
                 throw new Exception($this->__('You have to log in to earn points.'), 401);
             }
 
-            if (!Mage::helper('rewardssocial2')->hasSocialRulesForAction($action)) {
+            if (!$helper->hasSocialRulesForAction($action)) {
                 throw new Exception($this->__('There are no rules set up for this type of action.'), 204);
             }
 
@@ -74,8 +77,8 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
             if ($checkLimitErrors) {
                 throw new Exception($this->__($checkLimitErrors), 400);
             }
-            
-            $data['url'] = $this->fetchAjaxRequestUrl();
+
+            $data['url'] = $currentPageUrl ?: $this->fetchAjaxRequestUrl();
 
             // ex: facebook_like => processFacebookLike
             $processor = 'process' . str_replace(' ', '', ucwords(str_replace('_', ' ', $action)));
@@ -97,7 +100,7 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
         }
         
         if ($code === 204 && !$message) {
-            $message = Mage::helper('rewardssocial2')->getSuccessMessage($action);
+            $message = $helper->getSuccessMessage($action);
             Mage::getSingleton('core/session')->addSuccess($message);
         }
         
@@ -106,7 +109,29 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
         
         return $this;
     }
-    
+
+    /**
+     * Action to respond with a Product URL, given it's id in the request parameter `product_id`
+     * Response body will be a plain-text URL of product with HTTP 200 status if product found.
+     * Response will return HTTP 404 status if product not found.
+     * @return $this
+     */
+    public function fetchProductUrlAction()
+    {
+        $productId = $this->getRequest()->getParam('product_id');
+        $productUrl = Mage::helper('rewardssocial2')->getProductUrl($productId);
+
+        if (empty($productUrl)) {
+            $this->getResponse()->setHttpResponseCode(404);
+            $this->getResponse()->setBody('Product not found.');
+
+        } else {
+            $this->getResponse()->setBody($productUrl);
+        }
+
+        return $this;
+    }
+
     protected function processFacebookLike($data)
     {
         $url = $data['url'];
@@ -246,7 +271,7 @@ class TBT_RewardsSocial2_SocialController extends Mage_Core_Controller_Front_Act
     
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return Mage::helper('rewardssocial2')->getCustomerForSocialAction();
     }
     
     public function fetchAjaxRequestUrl()

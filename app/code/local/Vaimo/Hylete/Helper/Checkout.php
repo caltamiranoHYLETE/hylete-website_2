@@ -133,6 +133,47 @@ class Vaimo_Hylete_Helper_Checkout extends Mage_Core_Helper_Abstract
         return self::DEFAULT_CUSTOMER_GROUP_ID;
     }
 
+    public function getAddressesHtmlSelect(Mage_Checkout_Block_Onepage_Abstract $block, $type)
+    {
+        if ($block->isCustomerLoggedIn()) {
+            $options = array();
+            foreach ($block->getCustomer()->getAddresses() as $address) {
+                $options[] = array(
+                    'value' => $address->getId(),
+                    'label' => $address->format('oneline'),
+                    'params' => array(
+                        'data-country-id' => $block->escapeHtml($address->getCountryId()),
+                    )
+                );
+            }
+
+            $addressId = $block->getAddress()->getCustomerAddressId();
+            if (empty($addressId)) {
+                if ($type=='billing') {
+                    $address = $block->getCustomer()->getPrimaryBillingAddress();
+                } else {
+                    $address = $block->getCustomer()->getPrimaryShippingAddress();
+                }
+                if ($address) {
+                    $addressId = $address->getId();
+                }
+            }
+
+            $select = $block->getLayout()->createBlock('core/html_select')
+                ->setName($type.'_address_id')
+                ->setId($type.'-address-select')
+                ->setClass('address-select')
+                ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
+                ->setValue($addressId)
+                ->setOptions($options);
+
+            $select->addOption('', Mage::helper('checkout')->__('New Address'));
+
+            return $select->getHtml();
+        }
+        return '';
+    }
+
     /**
      * Fetch current customer instance
      *

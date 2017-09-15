@@ -70,10 +70,18 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 			//use configurable product instead of simple if still needed
 			$full_product = Mage::getModel('catalog/product')->load($product->getProductId());
 
+            //configurable
 			$configurable_product_model = Mage::getModel('catalog/product_type_configurable');
-			$parentIds= $configurable_product_model->getParentIdsByChild($full_product->getId());
-			if (count($parentIds) > 0) {
-				$full_product = Mage::getModel('catalog/product')->load($parentIds[0]);
+            $configurable_parentIds= $configurable_product_model->getParentIdsByChild($full_product->getId());
+
+            //grouped
+            $grouped_product_model = Mage::getModel('catalog/product_type_grouped');
+            $grouped_parentIds= $grouped_product_model->getParentIdsByChild($full_product->getId());
+
+            if (count($configurable_parentIds) > 0) {
+                $full_product = Mage::getModel('catalog/product')->load($configurable_parentIds[0]);
+            } else if (count($grouped_parentIds) > 0) {
+                $full_product = Mage::getModel('catalog/product')->load($grouped_parentIds[0]);
 			}
 
 			$product_data = array();

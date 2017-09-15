@@ -120,8 +120,8 @@
     });
 	
     function toggleCartRule(checkbox_elem) {
-        var add_rule_url = '<?php echo $this->getUrl("rewards/cart_redeem/cartadd"); ?>';
-        var remove_rule_url = '<?php echo $this->getUrl("rewards/cart_redeem/cartremove"); ?>';
+        var add_rule_url = '<?php echo $this->getUrl("rewards/cart_redeem/cartadd", array('_forced_secure' => $this->getRequest()->isSecure())); ?>';
+        var remove_rule_url = '<?php echo $this->getUrl("rewards/cart_redeem/cartremove", array('_forced_secure' => $this->getRequest()->isSecure())); ?>';
         var url = '';
         var rid = checkbox_elem.value;
         checkbox_elem.disabled =  true;

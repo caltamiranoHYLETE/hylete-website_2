@@ -10,12 +10,12 @@ class TBT_RewardsReferral_Block_Field_Abstract extends Mage_Core_Block_Template
 
     public function showReferralCode()
     {
-        return Mage::getStoreConfigFlag('rewards/referral/show_referral_code');
+        return Mage::getStoreConfigFlag('rewards/referral/show_referral_code');;
     }
 
     public function showReferralCodeShort()
     {
-        return Mage::getStoreConfigFlag('rewards/referral/show_referral_code');
+        return false;
     }
 
     public function showReferralEmail()
@@ -41,17 +41,13 @@ class TBT_RewardsReferral_Block_Field_Abstract extends Mage_Core_Block_Template
      */
     public function getCurrentAffiliate()
     {
-        $affiliate_customer = Mage::helper('rewardsref/code')->getReferringCustomer();
+        $affiliate_customer = Mage::helper('rewardsref/code')->getReferrer(true);
 
         if (!$affiliate_customer) {
             return "";
         }
 
-        $code = Mage::helper('rewardsref/code')->getCode($affiliate_customer->getEmail());
-
-        if (Mage::getStoreConfigFlag('rewards/referral/show_referral_short_code')) {
-            $code = Mage::helper('rewardsref/shortcode')->getCode($affiliate_customer->getId());
-        }
+        $code = Mage::helper('rewardsref/code')->getCode($affiliate_customer->getId());
 
         if (empty($code)) {
             return "";

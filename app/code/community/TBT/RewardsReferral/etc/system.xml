@@ -7,22 +7,12 @@
                     <fields>
                         <customer_register_referral_field translate="label comment">
                             <label>Customer Sign-Up Page</label>
-                            <comment><![CDATA[
-                                <a href="https://sweettoothrewards.com/wiki/index.php/Referral_Theme_Integration" target="customer_register_referral_field">
-                                Click here
-                                </a> for manual integration instructions.
-                            ]]></comment>
                             <sort_order>120</sort_order>
                             <frontend_type>select</frontend_type>   <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>    <show_in_website>1</show_in_website>    <show_in_store>1</show_in_store>
                         </customer_register_referral_field>
                         <onepage_billing_register_referral_field translate="label comment">
                             <label>Onepage Checkout Customer Sign-Up Section</label>
-                            <comment><![CDATA[
-                                <a href="https://sweettoothrewards.com/wiki/index.php/Referral_Theme_Integration" target="onepage_billing_register_referral_field">
-                                Click here
-                                </a> for manual integration instructions.
-                            ]]></comment>
                             <sort_order>130</sort_order>
                             <frontend_type>select</frontend_type>   <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>    <show_in_website>1</show_in_website>    <show_in_store>1</show_in_store>
@@ -36,15 +26,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <notice translate="label">
-                            <label>Extension Developed By WWW.WDCA.CA</label>
-                            <frontend_type>text</frontend_type>
-                            <frontend_model>rewardsref/system_html</frontend_model>
-                            <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </notice>
                         <referral_show translate="label comment">
                             <label>Show Referral Link</label>
                             <comment><![CDATA[Show or hide the My Referrals link in the customer My Account section.]]>
@@ -154,15 +135,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </show_referral_code>
-                        <show_referral_short_code translate="label comment">
-                            <label>Display Short Affiliate Code</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>73</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_referral_short_code>
                         <show_referral_url translate="label comment">
                             <label>Enable Refer by URL</label>
                             <comment><![CDATA[Enable referring other customers by referral url.]]>
@@ -185,17 +157,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </show_invite_form>
-                        <show_preferences translate="label comment">
-                            <label>Show Preferences Section</label>
-                            <comment><![CDATA[Show the prefererences section in the customer's My Referrals section.]]>
-                            </comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_preferences>
                         <show_history translate="label comment">
                             <label>Show Referral History</label>
                             <comment><![CDATA[Show referral history in the customer's My Referrals section.]]>
@@ -210,7 +171,7 @@
                         <affiliate_redirect_url translate="label comment">
                             <label>Affiliate Redirect Path</label>
                             <frontend_type>text</frontend_type>
-                            <comment><![CDATA[This is the URL or path that Sweet Tooth will redirect a visitor who visits the site using their friend's referral link. The default value is blank, which redirects the visitor to the home page.]]>
+                            <comment><![CDATA[This is the URL or path that MageRewards will redirect a visitor who visits the site using their friend's referral link. The default value is blank, which redirects the visitor to the home page.]]>
                             </comment>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>

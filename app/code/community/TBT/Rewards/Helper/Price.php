@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -12,17 +12,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -54,13 +54,13 @@ class TBT_Rewards_Helper_Price extends Mage_Core_Helper_Abstract {
 	 */
 	public function getReversedCurrencyPrice($price, $target_currency_rate = null, $do_round = true) {
 		if ($target_currency_rate == null) {
-			$cc = Mage::app ()->getStore ()->getCurrentCurrency ();
-			$bc = 1 / (Mage::app ()->getStore ()->getBaseCurrency ()->getRate ( $cc ));
+			$cc = $this->_getAggregatedCart()->getStore()->getCurrentCurrency();
+			$bc = 1 / ($this->_getAggregatedCart()->getStore ()->getBaseCurrency ()->getRate ( $cc ));
 			$target_currency_rate = $bc;
 		}
 		$final_price = $price * $target_currency_rate;
 		if ($do_round) {
-			$final_price = Mage::app ()->getStore ()->roundPrice ( $final_price );
+			$final_price = $this->_getAggregatedCart()->getStore ()->roundPrice ( $final_price );
 		}
 		return $final_price;
 	}
@@ -107,7 +107,7 @@ class TBT_Rewards_Helper_Price extends Mage_Core_Helper_Abstract {
 			if ($quote) {
 				$store = ($quote->getStore ()) ? $quote->getStore () : Mage::app ()->getStore ();
 			} else {
-				$store = Mage::app ()->getStore ();
+				$store = $this->_getAggregatedCart()->getStore ();
 			}
 			
 			$baseCurrency = $store->getBaseCurrency ();
@@ -131,7 +131,7 @@ class TBT_Rewards_Helper_Price extends Mage_Core_Helper_Abstract {
 	 * @param unknown_type $item
 	 */
 	public function refactorTaxOnItem(&$item) {
-		$store = Mage::app ()->getStore ();
+		$store = $this->_getAggregatedCart()->getStore ();
 		
 		$tax = $item->getTaxPercent () / 100;
 		$new_tax_amount = ($store->roundPrice ( $item->getRowTotal () * $tax ));
@@ -163,5 +163,38 @@ class TBT_Rewards_Helper_Price extends Mage_Core_Helper_Abstract {
 		}
 		return $old_rt;
 	}
+
+    /**
+     *
+     * @param decimal $baseAmount
+     * @param Mage_Sales_Model_Quote $quote
+     * @return decimal
+     */
+    public function getBaseCurrencyDelta($baseAmount, $quote)
+    {
+        $delta = 0;
+
+        if (!$quote || !$quote->getId()) {
+            return $delta;
+        }
+
+        $currencyRate = Mage::helper('rewards/price')->getCurrencyRate($quote);
+
+        $baseToCurrencyAmount = $quote->getStore()->roundPrice($baseAmount * $currencyRate);
+        $reversedBackAmount = Mage::helper('rewards/price')->getReversedCurrencyPrice($baseToCurrencyAmount, 1 / $currencyRate, false);
+
+        $delta = $baseAmount - $reversedBackAmount;
+
+        return $delta;
+    }
+
+    /**
+     * Aggregation Cart instance
+     * @return TBT_Rewards_Model_Sales_Aggregated_Cart
+     */
+    protected function _getAggregatedCart()
+    {
+        return Mage::getSingleton('rewards/sales_aggregated_cart');
+    }
 
 }

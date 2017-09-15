@@ -7,14 +7,14 @@ class TBT_Rewards_Block_System_Config_Platform_MessageLogin extends Mage_Adminht
         $id = $element->getId();
         $html = "";
         
-        $connectMessage =  Mage::helper ( 'rewards' )->__ ("Connect to your Sweet Tooth account to manage billing and view analytics!");        
-        $kbLink = "http://help.sweettoothrewards.com/article/438-sweet-tooth-account-overview";
+        $connectMessage =  Mage::helper ( 'rewards' )->__ ("Connect to your MageRewards account to manage billing and view analytics!");        
+        $kbLink = "http://support.magerewards.com/article/1637-magerewards-account-overview";
         $connectHtmlContents = '<b>'.$connectMessage.'</b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$kbLink.'" target="_blank">Learn More</a>';
         
-        $signupMessage = Mage::helper ( 'rewards' )->__ ("Create your Sweet Tooth account below:");
+        $signupMessage = Mage::helper ( 'rewards' )->__ ("Create your MageRewards account below:");
         $signupHtmlContents = '<b>'.$signupMessage.'</b>';
         
-        $alreadyConnectedMessage = Mage::helper('rewards')->__("Your Sweet Tooth account is connected:");
+        $alreadyConnectedMessage = Mage::helper('rewards')->__("Your MageRewards account is connected:");
         $alreadyConnectedHtmlContents = '<b>' . $alreadyConnectedMessage . '</b>';
         
         $connectHtml = '<div id="rewards_connect_message" style="margin-top:5px; margin-bottom:10px;">'.$connectHtmlContents.'</div>';

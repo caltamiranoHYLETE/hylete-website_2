@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -218,9 +218,23 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
 
         $item->setRowTotal($row_total);
         $item->setRowTotalInclTax($row_total_incl_tax);
-        if (!Mage::app()->getStore()->isAdmin()) {
-            $item->setBaseRowTotal(Mage::helper('rewards/price')->getReversedCurrencyPrice($row_total));
-            $item->setBaseRowTotalInclTax(Mage::helper('rewards/price')->getReversedCurrencyPrice($row_total_incl_tax));
+
+        $baseRowTotal = $item->getQuote()->getStore()->roundPrice(
+            Mage::helper('rewards/price')->getBaseCurrencyDelta($item->getBaseRowTotal(), $item->getQuote())
+            + Mage::helper('rewards/price')->getReversedCurrencyPrice($row_total, null, false)
+        );
+
+        $baseRowTotalInclTax = $item->getQuote()->getStore()->roundPrice(
+            Mage::helper('rewards/price')->getBaseCurrencyDelta($item->getBaseRowTotalInclTax(), $item->getQuote())
+            + Mage::helper('rewards/price')->getReversedCurrencyPrice($row_total_incl_tax, null, false)
+        );
+
+        if ($baseRowTotal - $item->getBaseRowTotal() < 0.000001) {
+            $item->setBaseRowTotal($baseRowTotal);
+        }
+
+        if ($baseRowTotalInclTax - $item->getBaseRowTotalInclTax() < 0.000001) {
+            $item->setBaseRowTotalInclTax($baseRowTotalInclTax);
         }
 
         $regular_discount = $item->getBaseDiscountAmount();
@@ -309,7 +323,7 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
                     // let's also try to keep the same order of children, just in case
                     foreach ($siblings as $sibling) {
                         // checks to see if this sibling is actually the current item
-                        if ($sibling->compare($item)) {
+                        if ($this->_compareTwoItems($sibling, $item)) {
                             $clone->setParentItem($newParent);
                         } else {
                             $newParent->addChild($sibling);
@@ -337,6 +351,47 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
 
         return $clone;
     }
+    
+    protected function _compareTwoItems($itemOne, $itemTwo)
+    {
+        if ($itemOne->getProductId() != $itemTwo->getProductId()) {
+            return false;
+        }
+        foreach ($itemOne->getOptions() as $option) {
+            if (
+                ($option->getCode() == 'info_buyRequest')
+                && !$itemTwo->getProduct()->hasCustomOptions()
+            ) {
+                continue;
+            }
+            
+            if ($itemOption = $itemTwo->getOptionByCode($option->getCode())) {
+                $itemOptionValue = $itemOption->getValue();
+                $optionValue = $option->getValue();
+
+                // dispose of some options params, that can cramp comparing of arrays
+                if (is_string($itemOptionValue) && is_string($optionValue)) {
+                    $serializerHelper = Mage::helper('rewards/serializer');
+                    $_itemOptionValue = $serializerHelper->unserializeData($itemOptionValue);
+                    $_optionValue = $serializerHelper->unserializeData($optionValue);
+                    if (is_array($_itemOptionValue) && is_array($_optionValue)) {
+                        $itemOptionValue = $_itemOptionValue;
+                        $optionValue = $_optionValue;
+                        // looks like it does not break bundle selection qty
+                        unset($itemOptionValue['qty'], $itemOptionValue['uenc']);
+                        unset($optionValue['qty'], $optionValue['uenc']);
+                    }
+                }
+
+                if ($itemOptionValue != $optionValue) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Calculates tax amounts for the row item using $this->_taxCalculator
@@ -347,8 +402,10 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
      */
     protected function _calcTaxAmounts(&$item)
     {
-        //@nelkaake -a 16/11/10: Calculator only works in magento 1.4 and up.
-        if (!Mage::helper('rewards/version')->isMageVersionAtLeast('1.4.2.0')) {
+        if (
+            !Mage::helper('rewards/config')->allowCatalogRulesInAdminOrderCreate()
+            || !Mage::helper('rewards/version')->isMageVersionAtLeast('1.4.2.0')
+        ) {
             return $this;
         }
 
@@ -546,7 +603,7 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
             //@nelkaake -a 17/02/11: We need to use our own calculation because the one that was set by the
             // rest of the Magento system is rounded.
             if ($this->_taxHelper->priceIncludesTax() && $item->getPriceInclTax()) {
-                $product_price = $item->getPriceInclTax() / (1 + $item->getTaxPercent() / 100);
+                $product_price = $item->getPriceInclTax() / (1 + $item->getTaxPercent() / 100) * $store_currency;
             } else {
                 $product_price = ( float )$item->getPrice() * $store_currency;
             }
@@ -639,7 +696,7 @@ class TBT_Rewards_Model_Redeem extends Mage_Core_Model_Abstract
         $ret['row_total_incl_tax'] = $row_total_incl_tax;
 
         return $ret;
-;    }
+    }
 
     /**
      * Returns a product price after the given effect has occured.

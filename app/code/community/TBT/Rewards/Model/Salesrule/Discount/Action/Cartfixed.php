@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -58,7 +58,7 @@ class TBT_Rewards_Model_Salesrule_Discount_Action_Cartfixed extends TBT_Rewards_
 
     public function applyDiscounts(&$cartRules, $address, $item, $rule, $qty) {
 
-        // WDCA CODE BEGIN
+        // Sweet Tooth CODE BEGIN
 
         if (! isset ( $cartRules [$rule->getId ()] )) {
             $this->initRewardsTotals($address->getAllItems(), $rule);
@@ -83,12 +83,16 @@ class TBT_Rewards_Model_Salesrule_Discount_Action_Cartfixed extends TBT_Rewards_
         if ($rule->getPointsAction () == TBT_Rewards_Model_Salesrule_Actions::ACTION_DISCOUNT_BY_POINTS_SPENT) {
             $new_total_rsd = $baseDiscountAmount;
             
-            if (!array_key_exists($rule->getId(), $this->_rewardsSpendingDiscount)) {
+            if (!array_key_exists($item->getId(), $this->_rewardsSpendingDiscount)) {
                 $new_total_rsd += (float) $address->getTotalBaseRewardsSpendingDiscount();
-                $this->_rewardsSpendingDiscount[$rule->getId()] = $new_total_rsd;
-            }
+                $this->_rewardsSpendingDiscount[$item->getId()] = $new_total_rsd;
 
-            $address->setTotalBaseRewardsSpendingDiscount($new_total_rsd);
+                $address->setTotalBaseRewardsSpendingDiscount($new_total_rsd);
+            }
+        }
+
+        if ($rule->isRedemptionRule()) {
+            $address->getQuote()->appendRewardsCartDiscountAmounts($item, $rule, $baseDiscountAmount, $discountAmount);
         }
 
         return array ( $discountAmount, $baseDiscountAmount );
@@ -131,9 +135,6 @@ class TBT_Rewards_Model_Salesrule_Discount_Action_Cartfixed extends TBT_Rewards_
 
             $ruleTotalItemsPrice += $this->_getItemPrice($item) * $qty;
             $ruleTotalBaseItemsPrice += $this->_getItemBasePrice($item) * $qty;
-            // we also need to subtract any discounts form rules with higher priority
-            $ruleTotalItemsPrice -= $item->getDiscountAmount();
-            $ruleTotalBaseItemsPrice -= $item->getBaseDiscountAmount();
 
             $validItemsCount++;
         }
@@ -195,10 +196,11 @@ class TBT_Rewards_Model_Salesrule_Discount_Action_Cartfixed extends TBT_Rewards_
                 $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
                 $baseDiscountAmount = min($item_base_row_total, $cartRules[$rule->getId()]);
             } else {
-                $discountRate = $item_base_row_total / ($this->_rewardsRulesItemTotals[$rule->getId()]['base_items_price'] - $item->getRewardsBaseDiscountAmount());
+                $discountRate = $this->_getItemBasePrice($item) * $this->_getItemQty($item, $rule) / ($this->_rewardsRulesItemTotals[$rule->getId()]['base_items_price']);
                 $maximumItemDiscount = $rule->getPointsDiscountAmount() * $multiplier * $discountRate;
                 $quoteAmount = $quote->getStore()->convertPrice($maximumItemDiscount);
 
+                // if there are other rules with higher priority item will be discounted with maximum remaining amount
                 $baseDiscountAmount = min($item_base_row_total, $maximumItemDiscount);
                 $this->_rewardsRulesItemTotals[$rule->getId()]['items_count']--;
             }

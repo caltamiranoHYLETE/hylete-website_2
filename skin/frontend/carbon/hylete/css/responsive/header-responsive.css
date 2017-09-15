@@ -176,6 +176,10 @@
         border-bottom: 6px solid #000;
     }
 
+    #header .account-button .fa-user-o {
+        top: -2px;
+    }
+
     #header .cart-button {
         border-top: 6px solid #000;
         border-bottom: 6px solid #000;

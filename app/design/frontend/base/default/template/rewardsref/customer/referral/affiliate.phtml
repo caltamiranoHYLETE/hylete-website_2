@@ -1,4 +1,3 @@
-
 <?php if ($this->showReferralUrl() || $this->showReferralShortCode() || $this->showReferralCode() || $this->showReferralEmail()): ?>
     <div class="box-account my_referrals-urlcode_group">
             <a href="javascript://" title="Close" class="btn-remove" style="margin-top: 3px; display: none;"><?php echo $this->__("Close") ?></a>
@@ -13,7 +12,7 @@
                 <li>
                     <div class="urlcode-input-box">
                         <label for="referral_url"><?php echo $this->__('Your Referral URL') ?></label><br />
-                        <input type="text" readonly name="referral_url" value="<?php echo $this->getReferralUrl(); ?>"
+                        <input type="text" readonly name="referral_url" value="<?php echo $this->getCurrentUrlWithReferrer(); ?>"
                                title="<?php echo $this->__('Your Referral URL') ?>" class="input-text" id="referral_url" />
                     </div>
                     <div class="urlcode_comment"><?php echo $this->__("Referrals that access this URL are connected as referrals once they signup or place an order."); ?>
@@ -38,7 +37,7 @@
             <?php if ($this->showReferralEmail()): ?>
                 <li>
                     <div class="urlcode-input-box">
-                        <label for="referral_url"><?php echo $this->__('Your Referral Email') ?></label><br />
+                        <label for="referral_email"><?php echo $this->__('Your Referral Email') ?></label><br />
                         <input type="text" readonly name="referral_email" value="<?php echo $this->getReferralEmail(); ?>"
                                title="<?php echo $this->__('Your Referral Email') ?>" class="input-text" id="referral_email" /> <BR />
                     </div>

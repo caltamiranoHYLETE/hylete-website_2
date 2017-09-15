@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -44,11 +44,20 @@
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
 
-try {
-    include_once(Mage::getBaseDir('lib') . DS . 'SweetTooth'. DS .'SweetTooth.php');
-    include_once(Mage::getBaseDir('lib') . DS . 'SweetTooth'. DS . 'etc' . DS . 'ApiException.php');
-} catch (Exception $e) {
-    die("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+$dependencies = array(
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'SweetTooth.php',
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'etc' . DS . 'ApiException.php'
+);
+
+foreach ($dependencies as $dependency) {
+    if (file_exists($dependency) && is_readable($dependency)) {
+        include_once($dependency);
+    } else {
+        $message = Mage::helper('rewards')->__("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+        Mage::getSingleton('core/session')->addError($message);
+        Mage::helper('rewards/debug')->log($message);
+        return $this;
+    }
 }
 
 class TBT_Rewards_Helper_Platform extends Mage_Core_Helper_Abstract
@@ -90,7 +99,7 @@ class TBT_Rewards_Helper_Platform extends Mage_Core_Helper_Abstract
             try {
                 $account = $client->account()->create($fields);
                 $this->_createChannelForAccount($username, $password);
-                $this->_getSession()->addSuccess($this->__("Sweet Tooth account successfully created and connected to your Magento store."));
+                $this->_getSession()->addSuccess($this->__("MageRewards account successfully created and connected to your Magento store."));
             } catch (SweetToothApiException $ex) {
                 // 409 means the account already exists
                 Mage::helper('rewards')->log("Exception (Code " . $ex->getCode() . "): " . $ex->getMessage());
@@ -136,7 +145,7 @@ class TBT_Rewards_Helper_Platform extends Mage_Core_Helper_Abstract
 
             // since account exists, let's TRY to login and continue to create/connect the channel
             $this->_createChannelForAccount($username, $password, $isDevMode);
-            $this->_getSession()->addSuccess($this->__("Sweet Tooth account successfully connected to your Magento store."));
+            $this->_getSession()->addSuccess($this->__("MageRewards account successfully connected to your Magento store."));
         } catch (SweetToothApiException $ex) {
             if ($ex->getCode() == SweetToothApiException::FORBIDDEN || $ex->getCode() == SweetToothApiException::UNAUTHORIZED) {
                 //skip credentials error message as the settings will be overriden by the import settings process
@@ -146,15 +155,15 @@ class TBT_Rewards_Helper_Platform extends Mage_Core_Helper_Abstract
                 
                 return $this;
             } elseif ($ex->getCode() == SweetToothApiException::NOT_FOUND) {
-                $this->_getSession()->addError($this->__("We're having trouble reaching Sweet Tooth servers at the moment."
-                    . "<br/>If you continue to see this message for longer than a few hours, please contact Sweet Tooth support."
+                $this->_getSession()->addError($this->__("We're having trouble reaching MageRewards servers at the moment."
+                    . "<br/>If you continue to see this message for longer than a few hours, please contact MageRewards support."
                 ));
 
                 return $this;
             } elseif ($ex->getCode() == 0) {
-                $this->_getSession()->addError($this->__("We're having trouble reaching Sweet Tooth servers at the moment."
+                $this->_getSession()->addError($this->__("We're having trouble reaching MageRewards servers at the moment."
                 . " Please check your server's connection to the internet."
-                . "<br/>If you still continue to see this message for longer than a few hours, please contact Sweet Tooth support."
+                . "<br/>If you still continue to see this message for longer than a few hours, please contact MageRewards support."
                 ));
 
                 return $this;
@@ -226,7 +235,9 @@ class TBT_Rewards_Helper_Platform extends Mage_Core_Helper_Abstract
      */
     protected function _isImportSettingsInProgress()
     {
-        $fields = $_FILES["groups"]["tmp_name"]["migration"]["fields"];
+        if (isset($_FILES["groups"]["tmp_name"]["migration"]["fields"])) {
+            $fields = $_FILES["groups"]["tmp_name"]["migration"]["fields"];
+        }
         
         if (isset($fields["import_settings"])) {
             if (!empty($fields["import_settings"]["value"])) {

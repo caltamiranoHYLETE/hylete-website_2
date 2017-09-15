@@ -3,7 +3,7 @@
 <config>
     <modules>
         <TBT_RewardsSocial2>
-            <version>2.0.0.0</version>
+            <version>2.0.1</version>
         </TBT_RewardsSocial2>
     </modules>
     <global>
@@ -28,6 +28,16 @@
                 </connection>
             </rewardssocial2_read>
         </resources>
+        <events>
+            <st_rewards_manage_diagnostics_reinstalldb_before>
+                <observers>
+                    <rewardssocial2_before_rewards_manage_diagnostics_reinstalldb>
+                        <class>rewardssocial2/observer_diagnostics</class>
+                        <method>reinstallDb</method>
+                    </rewardssocial2_before_rewards_manage_diagnostics_reinstalldb>
+                </observers>
+            </st_rewards_manage_diagnostics_reinstalldb_before>
+        </events>
         <blocks>
             <rewardssocial2>
                 <class>TBT_RewardsSocial2_Block</class>
@@ -37,21 +47,11 @@
                     <system_config_form>TBT_RewardsSocial2_Block_Adminhtml_System_Config_Form</system_config_form>
                 </rewrite>
             </adminhtml>
-            <rewards>
-                <rewrite>
-                    <manage_grid_renderer_distributionReason>TBT_RewardsSocial2_Block_Manage_Grid_Renderer_DistributionReason</manage_grid_renderer_distributionReason>
-                </rewrite>
-            </rewards>
         </blocks> 
         <helpers>
             <rewardssocial2>
                 <class>TBT_RewardsSocial2_Helper</class>
             </rewardssocial2>
-            <rewards>
-                <rewrite>
-                    <metrics_earnings>TBT_RewardsSocial2_Helper_Metrics_Earnings</metrics_earnings>
-                </rewrite>
-            </rewards>
         </helpers>
         <models>
             <rewardssocial2>
@@ -171,7 +171,7 @@
                 <yearly_limit>80</yearly_limit>
                 <lifetime_limit>150</lifetime_limit>
                 <request_interval>10</request_interval>
-                <integration_js>//cdn.sweettoothrewards.com/assets/social-integration.js</integration_js>
+                <integration_js>//cdn.magerewards.com/assets/social-integration.js</integration_js>
             </rewardssocial2>
         </rewards>
     </default>
@@ -206,19 +206,52 @@
             </social_purchase_twitter_share>
         </special>
         <transfer>
-            <reference>
-                <action>rewardssocial2/transfer_reference</action>
-            </reference>
             <reason>
-                <facebook_like>rewardssocial2/reason_facebookLike</facebook_like>
-                <facebook_share>rewardssocial2/reason_facebookShare</facebook_share>
-                <twitter_follow>rewardssocial2/reason_twitterFollow</twitter_follow>
-                <twitter_tweet>rewardssocial2/reason_twitterTweet</twitter_tweet>
-                <google_plusone>rewardssocial2/reason_googlePlusOne</google_plusone>
-                <pinterest_pin>rewardssocial2/reason_pinterestPin</pinterest_pin>
-                <referral_share>rewardssocial2/reason_referralShare</referral_share>
-                <purchase_share_facebook>rewardssocial2/reason_purchaseShareFacebook</purchase_share_facebook>
-                <purchase_share_twitter>rewardssocial2/reason_purchaseShareTwitter</purchase_share_twitter>
+                <social_facebook_like>
+                    <reason_id>80</reason_id>
+                    <label>Facebook Like</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_facebook_like>
+                <social_facebook_share>
+                    <reason_id>81</reason_id>
+                    <label>Facebook Share</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_facebook_share>
+                <social_google_plusone>
+                    <reason_id>82</reason_id>
+                    <label>Google +1</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_google_plusone>
+                <social_pinterest_pin>
+                    <reason_id>83</reason_id>
+                    <label>Pinterest Pin</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_pinterest_pin>
+                <social_facebook_share_purchase>
+                    <reason_id>84</reason_id>
+                    <label>Share Product Purchase on Facebook</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_facebook_share_purchase>
+                <social_twitter_tweet_purchase>
+                    <reason_id>85</reason_id>
+                    <label>Share Product Purchase on Twitter</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_twitter_tweet_purchase>
+                <social_referral_share>
+                    <reason_id>86</reason_id>
+                    <label>Share Refferal Link</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_referral_share>
+                <social_twitter_follow>
+                    <reason_id>87</reason_id>
+                    <label>Twitter Follow</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_twitter_follow>
+                <social_twitter_tweet>
+                    <reason_id>88</reason_id>
+                    <label>Twitter Tweet</label>
+                    <reference_model>rewardssocial2/action</reference_model>
+                </social_twitter_tweet>
             </reason>
         </transfer>
         <probational_behaviors>

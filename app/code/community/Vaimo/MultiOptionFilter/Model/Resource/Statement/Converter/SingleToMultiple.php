@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,38 +20,29 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
+
+use Vaimo_MultiOptionFilter_Model_Resource_Helper_Mysql4 as MysqlHelper;
 
 class Vaimo_MultiOptionFilter_Model_Resource_Statement_Converter_SingleToMultiple implements
     Vaimo_MultiOptionFilter_Model_Resource_Statement_ConverterInterface
 {
-    /**
-     * @var /Closure
-     */
-    protected $_matcher;
-
-    public function convert($statement)
+    public function getMatchPattern()
     {
-        if (!$this->_matcher) {
-            $separator = ',';
+        return "/\\s?=\\s?'(\\b.+?[^\\\\])'/s";
+    }
 
-            $read = Mage::getSingleton('core/resource')->getConnection('core_read');
-
-            $this->_matcher = function($assignmentMatches) use ($read, $separator) {
-                if (!isset($assignmentMatches[0]) || strstr($assignmentMatches[0], $separator) === false) {
-                    return $assignmentMatches[0];
-                }
-
-                $valueMatches = array();
-                preg_match("/'([^']+)'/", $assignmentMatches[0], $valueMatches);
-
-                return $read->quoteInto(' IN (?)', explode($separator, $valueMatches[1]));
-            };
+    public function convert(array $matches)
+    {
+        if (!isset($matches[0]) || strstr(reset($matches), MysqlHelper::VALUE_SEPARATOR) === false) {
+            return reset($matches);
         }
 
-        $statement = preg_replace_callback("/\\s?=\\s?'[^']+'/", $this->_matcher, $statement);
+        $explodedValues = array_map(function ($item) {
+            return '\'' . $item . '\'';
+        }, explode(MysqlHelper::VALUE_SEPARATOR, array_pop($matches)));
 
-        return $statement;
+        return sprintf(' IN (%s)', implode(MysqlHelper::VALUE_SEPARATOR, $explodedValues));
     }
 }

@@ -16,7 +16,7 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
     protected function _construct()
     {
         parent::_construct();
-        $this->setTransferComments("Points adjustment");
+        $this->setTransferComments("Points adjustment for canceled order");
 
         return $this;
     }
@@ -45,12 +45,9 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
         $transfers = Mage::getSingleton('rewards/transfer')->getTransfersAssociatedWithOrder($orderId)
             ->sortByAbsoluteQuantity();
         foreach ($transfers as $transfer) {
-            if ($transfer->getStatus() == self::TRANSFER_STATUS_CANCELLED) {
+            if ($transfer->getStatusId() == self::TRANSFER_STATUS_CANCELLED) {
                 continue;
             }
-
-            // TODO: should we also check if the approved transfer has already been revoked?
-            //    maybe it would be smart to set an is_revoked flag on the transfer?
 
             if ($transfer->getQuantity() > 0) {
                 $this->addToOrigEarned($transfer->getQuantity());
@@ -188,10 +185,10 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
 
             // cancel/revoke any transfers that didn't make the cut!
             foreach ($cancellationQueue as $transfer) {
-                if ($transfer->getStatus() == self::TRANSFER_STATUS_APPROVED) {
+                if ($transfer->getStatusId() == self::TRANSFER_STATUS_APPROVED) {
                     $transfer->revoke();
                 } else {
-                    $transfer->setStatus(null, self::TRANSFER_STATUS_CANCELLED)
+                    $transfer->setStatusId(null, self::TRANSFER_STATUS_CANCELLED)
                         ->save();
                 }
             }
@@ -210,7 +207,7 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
                 self::TRANSFER_STATUS_APPROVED;
 
             // time to create a new transfer to make up the difference
-            $this->_makeAdjustmentTransfer($remainingPoints, $currencyId, $status, $customerId, $orderId, $comments);
+            $this->_makeAdjustmentTransfer($remainingPoints, $status, $customerId, $orderId, $comments);
 
             return $this;
         }
@@ -236,7 +233,7 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
             // only use the Approved status if ALL transfer were approved... otherwise use Pending
             $status = $hasPending ? self::TRANSFER_STATUS_PENDING_EVENT :
                 self::TRANSFER_STATUS_APPROVED;
-            $this->_makeAdjustmentTransfer($remainingPoints, $currencyId, $status, $customerId, $orderId, $comments);
+            $this->_makeAdjustmentTransfer($remainingPoints, $status, $customerId, $orderId, $comments);
 
             return $this;
         }
@@ -247,31 +244,31 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
     /**
      * Creates a brand new transfer and associates it with an order.
      * @param int $points The amount of points for the transfer
-     * @param int $currencyId The currency of the transfer
      * @param int $status The status of the new transfer (usually Approved or Pending)
      * @param int $customerId The customer ID to whom to give the transfer
      * @param int $orderId The order ID to which the transfer should be associated
      * @param string $comments The comments for the new transfer
      * @return self
      */
-    protected function _makeAdjustmentTransfer($points, $currencyId, $status, $customerId, $orderId, $comments = "Points adjustment")
+    protected function _makeAdjustmentTransfer($points, $status, $customerId, $orderId, $comments = "Points adjustment")
     {
-        $newTransfer = Mage::getModel('rewards/transfer')->initTransfer($points, $currencyId, null, $customerId);
+        $newTransfer = Mage::getModel('rewards/transfer')->initTransfer($points, null, $customerId);
         if (!$newTransfer) {
             Mage::throwException(
-                $this->__("Failed to adjust points on this order.  Please contact Sweet Tooth support.")
+                $this->__("Failed to adjust points on this order.  Please contact MageRewards support.")
             );
         }
 
-        if (!$newTransfer->setStatus(null, $status)) {
+        if (!$newTransfer->setStatusId(null, $status)) {
             Mage::throwException(
-                $this->__("Failed to adjust points on this order.  Please contact Sweet Tooth support.")
+                $this->__("Failed to adjust points on this order.  Please contact MageRewards support.")
             );
         }
 
         $newTransfer->setComments($comments);
 
         $newTransfer->setOrderId($orderId)
+            ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('order'))
             ->setCustomerId($customerId)
             ->save();
 
@@ -449,7 +446,7 @@ class TBT_Rewards_Model_Sales_Order_Transfer_Adjuster extends Varien_Object
     public function addTransfer($type, $transfer)
     {
         $transfers = $this->getTransfers();
-        $transfers[$type][$transfer->getStatus()][] = $transfer;
+        $transfers[$type][$transfer->getStatusId()][] = $transfer;
         $this->setTransfers($transfers);
 
         return $this;

@@ -4,10 +4,10 @@ include_once(dirname(__FILE__).'/../SweetTooth.php');
 
 // Instanciate the SweetTooth SDK
 $st = new SweetTooth();
-
 $accountData = generateAccountData();
+$stdout = fopen('php://output', 'w');
 
-echo "
+$content = "
     <div>
         Creating account with data:<br/>
         <pre>" . print_r($accountData, true) . "</pre>
@@ -15,18 +15,19 @@ echo "
     <br/>
 ";
 
+fwrite($stdout, $content);
 try {
     // This is all it takes to create the account
     $account = $st->account()->create($accountData);
 } catch (Exception $e) {
-    // Something went wrong!
-    echo 'Error creating your account: ' . $e->getMessage();
+    fwrite($stdout, 'Error creating your account: ' . $e->getMessage());
+    fclose($stdout);
     return;
 }
 
 // Awesome, your account was created!
 // TODO: change the hardcoded url to the base_url that will be returned in the account resource
-$result = "
+$content = "
     <div>
        New account created!<br/>
        <pre>" . print_r($account, true) . "</pre>
@@ -40,7 +41,8 @@ $result = "
 </pre>
 ";
 
-echo $result;
+fwrite($stdout, $content);
+fclose($stdout);
 
 /*
  * Below are function to generate sample data
@@ -48,16 +50,13 @@ echo $result;
 
 function generateAccountData()
 {
-	// Create dummy account data
-	$username = 'sdkaccount' . rand(1,1000000);
+    // Create dummy account data
+    $username = 'sdkaccount' . rand(1,1000000);
+    $accountData = array (
+        'username' => $username,
+        'email'     => $username . '@example.com',
+        'password'  => 'password1' // Just to keep things simple
+    );
 
-	$accountData = array (
-	    'username' => $username,
-	    'email'     => $username . '@example.com',
-	    'password'  => 'password1' // Just to keep things simple
-	);
-
-	return $accountData;
+    return $accountData;
 }
-
-?>

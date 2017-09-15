@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,75 +20,69 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    protected $_configValues = array();
-    protected $_paramLookupTable = null;
+    /**
+     * @var Vaimo_MultiOptionFilter_Helper_App
+     */
+    protected $_appHelper;
+
+    /**
+     * @var Vaimo_MultiOptionFilter_Helper_Layout
+     */
+    protected $_layoutHelper;
+
+    /**
+     * @var Vaimo_MultiOptionFilter_Helper_Filter
+     */
+    protected $_filterHelper;
+
+    /**
+     * @var Vaimo_MultiOptionFilter_Helper_Context
+     */
+    protected $_contextHelper;
+
+    /**
+     * @var Vaimo_MultiOptionFilter_Model_Filter_OptionsGenerator
+     */
+    protected $_filterOptionsGenerator;
+
+    /**
+     * @var Vaimo_MultiOptionFilter_Model_Filter_ItemsRetriever
+     */
+    protected $_filterItemsRetriever;
+
+    /**
+     * @var array
+     */
     protected $_excludedAttributes = array();
-    protected $_layerNames = array();
-    protected $_dummyView;
-    protected $_items;
-    protected $_isAttributeGroupingActive;
 
-    public static function makeFilterCanonical(&$filter)
+    /**
+     * @var null|array
+     */
+    protected $_filterItems;
+
+    /**
+     * @deprecated Used for old external module dependencies
+     * @var array
+     */
+    protected $_externalHandlerInstances;
+
+    public function __construct()
     {
-        ksort($filter);
+        $this->_appHelper = Mage::helper('multioptionfilter/app');
+        $this->_layoutHelper = Mage::helper('multioptionfilter/layout');
+        $this->_filterHelper = Mage::helper('multioptionfilter/filter');
+        $this->_contextHelper = Mage::helper('multioptionfilter/context');
+        $this->_filterOptionsGenerator = Mage::getSingleton('multioptionfilter/filter_optionsGenerator');
+        $this->_filterItemsRetriever = Mage::getSingleton('multioptionfilter/filter_itemsRetriever');
 
-        foreach ($filter as $attributeCode => $val) {
-            if (!is_string($val)) {
-                continue;
-            }
-
-            $values = explode(',', $val);
-            sort($values);
-            $filter[$attributeCode] = implode(',', $values);
-        }
-    }
-
-    protected function _getParamLookupTable()
-    {
-        if ($this->_paramLookupTable === null) {
-            $this->_paramLookupTable = array();
-            $params = Mage::app()->getRequest()->getParams();
-
-            $ignoreKeys = explode(',', (string)$this->_getConfigValue('multioptionfilter/settings/params_ignore_list'));
-
-            foreach ($params as $key => $value) {
-                if ($value === '') {
-                    continue;
-                }
-
-                if ($key == 'id' || $key == '?id') {
-                    continue;
-                }
-
-                if ($key === 'price') {
-                    $this->_paramLookupTable[$key][$value] = true;
-                    continue;
-                }
-
-                if (in_array($key, $ignoreKeys)) {
-                    continue;
-                }
-
-                if (!is_array($value)) {
-                    $value = explode(',', $value);
-                }
-
-                foreach ($value as $optionId) {
-                    if (is_array($optionId)) {
-                        continue;
-                    }
-
-                    $this->_paramLookupTable[$key][$optionId] = true;
-                }
-            }
-        }
-
-        return $this->_paramLookupTable;
+        $this->_externalHandlerInstances = Mage::getSingleton('multioptionfilter/factory')->createInstances(array(
+            'Icommerce_AttributeOptionGroups' => 'attributeoptiongroups/observer'
+        ));
     }
 
     public function isFilterControllerAction($action)
@@ -114,97 +108,9 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getLayerBlocks($createIfNotFound = false)
     {
-        $action = Mage::app()->getFrontController()->getAction();
-
-        $actionKey = $action->getFullActionName();
-        if ($layout = Mage::app()->getLayout()) {
-            if ($handles = $layout->getUpdate()->getHandles()) {
-                $actionKey = md5(implode('::', $handles));
-            }
-        }
-
-        $cacheId = $actionKey . '_navigation_layer_layout_names_' . (int)$action->getRequest()->isXmlHttpRequest();
-
-        if (!isset($this->_layerNames[$cacheId])) {
-            $this->_layerNames[$cacheId] = unserialize($this->_loadCache($cacheId));
-        }
-
-        $navLayerNames = $this->_layerNames[$cacheId];
-
-        if ($blocks = $layout->getAllBlocks()) {
-            $layerNamesNotSpecified = !$navLayerNames && !is_array($navLayerNames);
-
-            if (!$layerNamesNotSpecified) {
-                $blocks = array_intersect_key($blocks, array_filter((array)$navLayerNames));
-            }
-
-            if ($layerNamesNotSpecified || (!$blocks && $navLayerNames)) {
-                $navLayerNames = array();
-
-                foreach ($blocks as $nameInLayout => $block) {
-                    if ($block instanceof Mage_Catalog_Block_Layer_View) {
-                        $navLayerNames[$nameInLayout] = true;
-                    }
-                }
-
-                $this->_saveCache(serialize($navLayerNames), $cacheId, array('LAYOUT_GENERAL_CACHE_TAG'), 86400);
-                $this->_layerNames[$cacheId] = $navLayerNames;
-            }
-        } else {
-            if (!$navLayerNames) {
-                $navLayerNames = array();
-            }
-        }
-
-        $blocks = array_intersect_key($blocks, $navLayerNames);
-
-        if (is_object($blocks)) {
-            $blocks = array($blocks);
-        }
-
-        if ($createIfNotFound && !$blocks) {
-            if (!$this->_dummyView) {
-                $blocksBefore = $layout->getAllBlocks();
-
-                if (!Mage::helper('core')->isModuleEnabled('Enterprise_Enterprise')) {
-                    $this->_dummyView = $layout->createBlock('catalog/layer_view');
-                } else {
-                    $layer = Mage::registry(Vaimo_MultiOptionFilter_Helper_Registry::LAYER);
-
-                    if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation()) {
-                        $layer = Mage::getSingleton('enterprise_search/catalog_layer');
-                    }
-
-                    $this->_dummyView = $layout->createBlock('enterprise_search/catalog_layer_view');
-
-                    Mage::helper('multioptionfilter/registry')
-                        ->set(Vaimo_MultiOptionFilter_Helper_Registry::LAYER, $layer);
-                }
-
-                foreach ($layout->getAllBlocks() as $block) {
-                    $name = $block->getNameInLayout();
-
-                    if (isset($blocksBefore[$name])) {
-                        continue;
-                    }
-
-                    $layout->unsetBlock($name);
-                }
-            }
-
-            $blocks = array($this->_dummyView);
-        }
-
-        return $blocks;
+        return $this->_layoutHelper->getLayerBlocks(Mage::app()->getLayout(), $createIfNotFound);
     }
 
-    /**
-     * Return first layer navigation block name
-     *
-     * @param bool $createIfNotFound
-     *
-     * @return mixed
-     */
     public function getLayerBlock($createIfNotFound = false)
     {
         $blocks = $this->getLayerBlocks($createIfNotFound);
@@ -220,23 +126,24 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         );
 
         $items = $filterBlock->getItems();
-        if ($items && $selection['code']) {
-            $i = 0;
 
-            foreach ($items as $item) {
-                if ($this->isChecked($selection['code'], $item->getValue())) {
-                    $selection['selected'][$item->getValue()] = $i;
+        if ($items && $selection['code']) {
+            foreach (array_values($items) as $index => $item) {
+                $value = $item->getValue();
+
+                if (!$this->isChecked($selection['code'], $value)) {
+                    continue;
                 }
 
-                $i++;
+                $selection['selected'][$value] = $index;
             }
         }
 
-        if ($selection['selected']) {
-            return $selection;
+        if (!$selection['selected']) {
+            return false;
         }
 
-        return false;
+        return $selection;
     }
 
     public function getAllSelectedLayerOptions($onlyRendered = false)
@@ -247,11 +154,15 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         $filterBlocks = $layerView->getChild();
 
         foreach ($filterBlocks as $filterBlock) {
-            if (!$onlyRendered || $filterBlock->getIsRendered()) {
-                if ($selection = $this->getSelectedLayerOptions($filterBlock)) {
-                    $selections[] = $selection;
-                }
+            if ($onlyRendered && !$filterBlock->getIsRendered()) {
+                continue;
             }
+
+            if (!$selection = $this->getSelectedLayerOptions($filterBlock)) {
+                continue;
+            }
+
+            $selections[] = $selection;
         }
 
         return $selections;
@@ -270,59 +181,9 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         return $requestVars;
     }
 
-    public function getQueryStringWithDelta($attributeCode, $optionId, $includeQuestionMark = false)
-    {
-        $paramLookupTable = $this->_getParamLookupTable();
-
-        $isAttributeCodeUsed = false;
-        $queryPieces = array();
-
-        foreach ($paramLookupTable as $lookupCode => $values) {
-            if (!$lookupCode || $lookupCode == 'id') {
-                continue;
-            }
-
-            if ($lookupCode == $attributeCode) {
-                $isAttributeCodeUsed = true;
-
-                if ($optionId === '___ALL___') {
-                    $values = array();
-                } else {
-                    if ($lookupCode !== 'price' && $lookupCode !== 'cat') {
-                        if (isset($values[$optionId])) {
-                            unset($values[$optionId]);
-                        } else {
-                            $values[$optionId] = true;
-                        }
-                    } else {
-                        $isValueSet = isset($values[$optionId]);
-                        $values = array();
-                        if (!$isValueSet) {
-                            $values[$optionId] = true;
-                        }
-                    }
-                }
-            }
-
-            if (count($values)) {
-                $queryPieces[] = $lookupCode . '=' . implode(',', array_keys($values));
-            }
-        }
-
-        if ($attributeCode && !$isAttributeCodeUsed && $optionId !== '___ALL___') {
-            $queryPieces[] = $attributeCode . '=' . $optionId;
-        }
-
-        $val = implode('&amp;', $queryPieces);
-        $queryString = str_replace(array('%2C', '%20'), array(',', ' '), $val);
-        $val = $includeQuestionMark ? '?' . $queryString : $queryString;
-
-        return trim($val) == '?' ? '' : $val;
-    }
-
     public function isChecked($attributeCode, $optionId = '__ANY__')
     {
-        $paramLookupTable = $this->_getParamLookupTable();
+        $paramLookupTable = $this->_appHelper->getRequestedState();
 
         if (!isset($paramLookupTable[$attributeCode])) {
             return false;
@@ -335,238 +196,76 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    public function getOrigItems($block)
-    {
-        if (!$block instanceof Mage_Catalog_Block_Layer_Filter_Abstract) {
-            return array();
-        }
-
-        $filterBlockClass = get_class($block);
-        $currentRequestCode = Mage::helper('multioptionfilter/filter')
-            ->getRequestVarForFilterBlock($block);
-
-        if (!$currentRequestCode) {
-            return array();
-        }
-
-        $request = Mage::app()->getRequest();
-        $originalRequest = clone $request;
-
-        $fullLayer = $block->getLayer();
-        $LayerModelClass = get_class($fullLayer);
-
-        $request->setParam($currentRequestCode, '');
-
-        $partialLayer = Mage::getModel('multioptionfilter/proxy');
-        $partialLayer->setDelegate(new $LayerModelClass);
-
-        $partialLayer->setOverride(
-            'getAggregator', Mage::getSingleton('multioptionfilter/layer_aggregation'));
-
-        $filterBlock = new $filterBlockClass;
-
-        $filterBlock->addData(array(
-            'type' => $block->getData('type'),
-            'layer' => $partialLayer
-        ));
-
-        if ($block->hasData('attribute_model') || method_exists($block, 'getAttributeModel')) {
-            $filterBlock->setAttributeModel($block->getAttributeModel());
-        }
-
-        $stateFilterItems = $fullLayer->getState()->getFilters();
-
-        $filterModels = array();
-        foreach($stateFilterItems as $item) {
-            $filter = $item->getFilter();
-            $requestVar = $filter->getRequestVar();
-            $filterModels[$requestVar] = $filter;
-        }
-        
-        foreach ($filterModels as $requestCode => $filter) {
-            if ($requestCode === $currentRequestCode) {
-                continue;
-            }
-
-            $filter->setLayer($partialLayer);
-            $filter->apply($request, $filterBlock);
-            $filter->setLayer($fullLayer);
-        }
-
-        $partialLayer->apply();
-
-        $items = $filterBlock->init()->getItems();
-
-        Mage::app()->setRequest($originalRequest);
-
-        return $items;
-    }
-
     public function getAttributeCode($block)
     {
-        return Mage::helper('multioptionfilter/filter')->getRequestVarForFilterBlock($block);
-    }
-
-    protected function _constructFilterItem($attribute, $label, $value, $count)
-    {
-        $url = $this->getUrl($attribute, $value, false);
-
-        return new Varien_Object(array(
-            'label' => $label,
-            'value' => $value,
-            'count' => $count,
-            'url' => $url . $this->getQueryStringWithDelta($attribute, $value, true, false)
-        ));
-    }
-
-    public function prepareItems($block)
-    {
-        $items = array();
-
-        if ($originalItems = $this->getOrigItems($block)) {
-            $items = $this->_getItemsArray($this->getAttributeCode($block), $originalItems);
-        }
-
-        return $items;
-    }
-
-    protected function _getItemsArray($attributeCode, $items)
-    {
-        $itemsByLabel = array();
-
-        foreach ($items as $item) {
-            $label = $item->getData('label');
-
-            $itemsByLabel[$label] = $this->_constructFilterItem(
-                $attributeCode, $label, $item->getData('value'), $item->getData('count'));
-        }
-
-        return $itemsByLabel;
+        return $this->_filterHelper->getRequestVarForFilterBlock($block);
     }
 
     /**
-     * getItems
-     *
-     * @param $block Mage_Catalog_Block_Layer_Filter_Attribute
+     * @param $block Mage_Catalog_Block_Layer_Filter_Abstract
      * @return array
      */
     public function getItems($block)
     {
         $attributeCode = $this->getAttributeCode($block);
 
-        if (!isset($this->_items[$attributeCode])) {
+        if (!isset($this->_filterItems[$attributeCode])) {
             $items = $block->getItems();
 
-            $paramLookupTable = $this->_getParamLookupTable();
+            $paramLookupTable = $this->_appHelper->getRequestedState();
 
             if (isset($paramLookupTable[$this->getAttributeCode($block)])) {
-                $items = $this->getOrigItems($block);
+                $items = $this->getOriginalItems($block);
             }
 
-            $itemsByLabel = $this->_getItemsArray($this->getAttributeCode($block), $items);
+            $itemsByLabel = $this->_filterOptionsGenerator->generate(
+                $this->getAttributeCode($block),
+                $items
+            );
 
-            if ($this->_isAttributeGroupingActive === null) {
-                $this->_isAttributeGroupingActive = Mage::helper('core')
-                    ->isModuleEnabled('Icommerce_AttributeOptionGroups');
+            foreach ($this->_externalHandlerInstances as $instance) {
+                $itemsByLabel = $instance->updateItems($block, $itemsByLabel);
             }
 
-            if ($this->_isAttributeGroupingActive) {
-                $attributeCode = $block->getData('attribute_model')->getData('attribute_code');
-
-                if ($model = Mage::getModel('attributeoptiongroups/observer')) {
-                    $model->fillOptionItems($itemsByLabel, $attributeCode, Mage::app()->getStore()->getId());
-                }
-            }
-
-            $this->_items[$attributeCode] = $itemsByLabel;
+            $this->_filterItems[$attributeCode] = $itemsByLabel;
         }
 
 
-        return $this->_items[$attributeCode];
+        return $this->_filterItems[$attributeCode];
     }
 
-    protected function _getRootUrlKey()
+    /**
+     * @param $block Mage_Catalog_Block_Layer_Filter_Abstract
+     * @return array
+     */
+    public function getOriginalItems($block)
     {
-        static $categoryUrlKey;
-
-        if (null !== $categoryUrlKey) {
-            return $categoryUrlKey;
+        if (!$block instanceof Mage_Catalog_Block_Layer_Filter_Abstract) {
+            return array();
         }
 
-        $categoryUrlKey = '';
-
-        if ($categoryId = $this->_getConfigValue('multioptionfilter/settings/default_category_id')) {
-            $categoryUrlKey = Mage::getResourceModel('catalog/category')
-                ->getAttributeRawValue($categoryId, 'url_key', Mage::app()->getStore()->getId());
+        if (!$requestCode = $this->_filterHelper->getRequestVarForFilterBlock($block)) {
+            return array();
         }
 
-        return $categoryUrlKey;
+        return $this->_contextHelper->withModifierRequest(
+            array($requestCode => ''),
+            $this->_filterItemsRetriever,
+            array($block, $requestCode)
+        );
     }
 
-    public function getUrl($attributeCode = null, $opt = null)
+    public function getUrl($attributeCode = null, $optionId = null)
     {
-        static $isCategoryAttributeBinderActive;
-
-        if ($attributeCode && $opt && $isCategoryAttributeBinderActive !== false) {
-            if ($isCategoryAttributeBinderActive === null) {
-                $isCategoryAttributeBinderActive = Mage::helper('core')
-                    ->isModuleEnabled('Icommerce_CategoryAttributeBinder');
-            }
-
-            if ($isCategoryAttributeBinderActive) {
-                if ($rootUrlKey = $this->_getRootUrlKey()) {
-                    $attributes = array();
-
-                    foreach ($this->_getParamLookupTable() as $attributeKey => $options) {
-                        if ($attributeKey !== 'price' && $attributeKey !== 'cat') {
-                            foreach ($options as $optionKey => $optionVal) {
-                                $attributes[$attributeKey] = $optionKey;
-                            }
-                        }
-                    }
-
-                    if (isset($attributes[$attributeCode]) && $opt == $attributes[$attributeCode]) {
-                        unset($attributes[$attributeCode]);
-                    } else {
-                        $attributes[$attributeCode] = $opt;
-                    }
-
-                    $url = Mage::helper('categoryattributebinder')->optionValsToUrl(
-                        $attributes, null, null, array($rootUrlKey), null, false);
-
-                    if ($url) {
-                        return Mage::getBaseUrl() . $url;
-                    }
-                }
-            }
-        }
-
-        $url = null;
-
-        if ($category = $this->getCurrentCategory()) {
-            $url = $category->getUrl();
-        }
-
-        if (!$url) {
-            static $currentUrl;
-
-            if (null === $currentUrl) {
-                $currentUrl = Mage::helper('core/url')->getCurrentUrl();
-                if (($idx = strpos($currentUrl, '?')) !== false) {
-                    $currentUrl = substr($currentUrl, 0, $idx);
-                }
-            }
-
-            $url = $currentUrl;
-        }
-
-        Mage::dispatchEvent('ic_mof_get_url_after', array('url' => &$url));
-
-        return $url;
+        return $this->_filterHelper->getOptionUrl($attributeCode, $optionId);
     }
 
     public function displayAttribute($attributeCode)
     {
+        if (!$attributeCode) {
+            return false;
+        }
+
         if ($category = $this->getCurrentCategory()) {
             if (!$this->shouldDisplayAttributeFilterForCategory($category, $attributeCode)) {
                 return false;
@@ -575,10 +274,9 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
 
         switch ($attributeCode) {
             case 'price':
-                return (bool)$this->_getConfigValue('multioptionfilter/settings/price_filter');
+                return (bool)Mage::getStoreConfig('multioptionfilter/settings/price_filter');
             case 'cat':
-                return (bool)$this->_getConfigValue('multioptionfilter/settings/cat_filter');
-
+                return (bool)Mage::getStoreConfig('multioptionfilter/settings/cat_filter');
             default:
                 return true;
         }
@@ -626,15 +324,6 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         return true;
     }
 
-    protected function _getConfigValue($path)
-    {
-        if (!isset($this->_configValues[$path])) {
-            $this->_configValues[$path] = Mage::getStoreConfig($path);
-        }
-
-        return $this->_configValues[$path];
-    }
-
     public function getLayerSingleton()
     {
         if (!$layer = Mage::registry(Vaimo_MultiOptionFilter_Helper_Registry::LAYER)) {
@@ -644,18 +333,15 @@ class Vaimo_MultiOptionFilter_Helper_Data extends Mage_Core_Helper_Abstract
         return $layer;
     }
 
-    public function isEnterpriseThirdPartSearchEnabled()
+    public function isEnterpriseThirdPartySearchEnabled()
     {
         if (!Mage::helper('core')->isModuleEnabled('Enterprise_Enterprise')) {
             return false;
         }
 
+        /** @var Enterprise_Search_Helper_Data $searchHelper */
         $searchHelper = Mage::helper('enterprise_search');
 
-        if (!$searchHelper->isThirdPartSearchEngine() || !$searchHelper->isActiveEngine()) {
-            return false;
-        }
-
-        return true;
+        return $searchHelper->isThirdPartSearchEngine() && $searchHelper->isActiveEngine();
     }
 }

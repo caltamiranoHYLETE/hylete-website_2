@@ -10,12 +10,6 @@ class TBT_RewardsReferral_Block_Manage_Grid_Renderer_Referral_Code extends Mage_
      */
     public function render(Varien_Object $row)
     {
-        $str = '';
-        if(Mage::getStoreConfigFlag("rewards/referral/show_referral_short_code")) {
-            $str = Mage::helper("rewardsref/shortcode")->getCode($row->getReferralChildId());
-        } else {
-            $str = Mage::helper("rewardsref/code")->getCode($row->getReferralEmail());
-        }
-        return $str;
+        return Mage::helper("rewardsref/code")->getCode($row->getReferralChildId());
     }
 }

@@ -118,8 +118,7 @@ class Vaimo_AppApi_CartController extends Vaimo_AppApi_Controller_Action
      */
     public function completeAction()
     {
-        $orderId = $this->_request->getParam('order_id', null);
-        $incrementId = $this->_request->getParam('increment_id', null);
+        $incrementId = Mage::helper('appapi')->escapeHtml($this->_request->getParam('increment_id', null));
         $this->_response
             ->setHttpResponseCode(200)
             ->setBody('Checkout complete, this page should never appear, it should be picked up by App (Order Number: ' . $incrementId . ')')

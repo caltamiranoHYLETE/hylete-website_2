@@ -1,12 +1,10 @@
 <?php
-class TBT_Rewards_Model_Test_Quote extends TBT_Rewards_Model_Test_Abstract {
-
+class TBT_Rewards_Model_Test_Quote extends TBT_Rewards_Model_Test_Abstract 
+{
     public function emptyCart() {
     	$this->_getCart()->truncate();
         return $this->_getCart();
     }
-    
-    
     
     public function addProductToCart($pid, $qty=1) {
         try {
@@ -98,3 +96,4 @@ class TBT_Rewards_Model_Test_Quote extends TBT_Rewards_Model_Test_Abstract {
          
     
 }
+

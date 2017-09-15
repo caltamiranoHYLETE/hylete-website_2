@@ -19,7 +19,7 @@ class TBT_Rewards_Block_System_Html_DevMode extends Mage_Adminhtml_Block_System_
             "<strong>" . $this->__("Developer Mode") . "</strong>"
         );
         $learnMoreText = $this->__("Learn More");
-        $learnMoreLink = "http://help.sweettoothrewards.com/article/391-developer-mode-in-magento";
+        $learnMoreLink = "http://support.magerewards.com/article/1557-developer-mode-in-magento";
         
         $html = <<<FEED
             </tbody></table>

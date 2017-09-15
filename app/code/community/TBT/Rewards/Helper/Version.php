@@ -1,28 +1,28 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -56,6 +56,24 @@ class TBT_Rewards_Helper_Version extends Mage_Core_Helper_Abstract
         $mage_base_version = $this->convertVersionToCommunityVersion(Mage::getVersion(), $task);
 
         if (version_compare($mage_base_version, $version, '>=')) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Returns true if the base version of this Magento installation
+     * is equal to the version specified or older.
+     * @param string $version
+     * @param unknown_type $task
+     */
+    public function isBaseMageVersionAtMost($version, $task = null)
+    {
+        // convert Magento Enterprise, Professional, Community to a base version
+        $mage_base_version = $this->convertVersionToCommunityVersion(Mage::getVersion(), $task);
+        $version = $this->convertAnyVersionToCommunityVersion($version, $task);
+        
+        if (version_compare($mage_base_version, $version, '<=')) {
             return true;
         }
         return false;
@@ -104,7 +122,7 @@ class TBT_Rewards_Helper_Version extends Mage_Core_Helper_Abstract
     {
         // convert Magento Enterprise, Professional, Community to a base version
         $mage_base_version = $this->convertVersionToCommunityVersion(Mage::getVersion (), $task);
-
+        
         if (version_compare($mage_base_version, $version, '=')) {
             return true;
         }
@@ -185,8 +203,20 @@ class TBT_Rewards_Helper_Version extends Mage_Core_Helper_Abstract
             if (version_compare ( $version, '1.13.0.0', '>=' )) {
                 return '1.8.0.0';
             }
+            if (version_compare ( $version, '1.12.0.2', '>=' )) {
+                return '1.7.0.2';
+            }
+            if (version_compare ( $version, '1.12.0.1', '>=' )) {
+                return '1.7.0.1';
+            }
             if (version_compare ( $version, '1.12.0.0', '>=' )) {
                 return '1.7.0.0';
+            }
+            if (version_compare ( $version, '1.11.2.0', '>=' )) {
+                return '1.6.2.0';
+            }
+            if (version_compare ( $version, '1.11.1.0', '>=' )) {
+                return '1.6.1.0';
             }
             if (version_compare ( $version, '1.11.0.0', '>=' )) {
                 return '1.6.0.0';
@@ -236,6 +266,89 @@ class TBT_Rewards_Helper_Version extends Mage_Core_Helper_Abstract
          * 0.6.1316 - October 18, 2007
          */
         return $version;
+    }
+    
+    /**
+     * attempt to convert an Enterprise, Professional, Community magento version number to its compatable Community version
+     *
+     * @param string $task fix problems where direct version numbers cant be changed to a community release without knowing the intent of the task
+     */
+    public function convertAnyVersionToCommunityVersion($version, $task = null)
+    {
+        if (version_compare ( $version, '1.14.2.0', '>=' )) {
+            return '1.9.2.0';
+        }
+        if (version_compare ( $version, '1.14.1.0', '>=' )) {
+            return '1.9.1.0';
+        }
+        if (version_compare ( $version, '1.14.0.0', '>=' )) {
+            return '1.9.0.0';
+        }
+        if (version_compare ( $version, '1.13.1.0', '>=' )) {
+            return '1.8.1.0';
+        }
+        if (version_compare ( $version, '1.13.0.0', '>=' )) {
+            return '1.8.0.0';
+        }
+        if (version_compare ( $version, '1.12.0.0', '>=' )) {
+            return '1.7.0.0';
+        }
+        if (version_compare ( $version, '1.11.0.0', '>=' )) {
+            return '1.6.0.0';
+        }
+        if (version_compare ( $version, '1.10.0.0', '>=' )) {
+            return '1.5.0.0';
+        }
+
+        return $version;
+    }
+
+    /**
+     * Convert EE to CE version
+     * @param string $version
+     * @return string
+     */
+    public function convertAnyVersionToCommunity($version)
+    {
+        /**
+         * Return if already community
+         * Skip check for professional version and other EE old versions that are deprecated
+         */
+        if (version_compare($version, '1.10.0.0', '<' )) {
+            return $version;
+        }
+
+        $tokenizedVersion = explode('.', $version);
+
+        if (isset($tokenizedVersion[1])) {
+            $tokenizedVersion[1] = $tokenizedVersion[1] - 5;
+        }
+
+        return implode('.', $tokenizedVersion);
+    }
+
+    /**
+     * Check if current mage version is in version range
+     * This will automatically convert any EE to CE equivalent version
+     * @param string $version1
+     * @param string $version2
+     * @return boolean
+     */
+    public function isBaseMageVersionBetween($version1, $version2)
+    {
+        $mageVersion = $this->convertAnyVersionToCommunity(Mage::getVersion());
+        $version1 = $this->convertAnyVersionToCommunity($version1);
+        $version2 = $this->convertAnyVersionToCommunity($version2);
+
+        if (version_compare($mageVersion, $version1, '<' )) {
+            return false;
+        }
+
+        if (version_compare($mageVersion, $version2, '>' )) {
+            return false;
+        }
+
+        return true;
     }
 
 

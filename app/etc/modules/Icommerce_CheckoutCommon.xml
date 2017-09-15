@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-    <config>
-    <modules>
-      <Icommerce_CheckoutCommon>
-        <codePool>local</codePool>
-        <active>true</active>
-      </Icommerce_CheckoutCommon>
-    </modules>
-    </config>

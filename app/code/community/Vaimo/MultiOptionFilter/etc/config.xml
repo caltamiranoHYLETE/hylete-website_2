@@ -1,5 +1,5 @@
 <?xml version="1.0" ?><!--
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -19,12 +19,12 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
 -->
 <config>
     <modules>
         <Vaimo_MultiOptionFilter>
-            <version>2.7.3</version>
+            <version>2.7.4</version>
         </Vaimo_MultiOptionFilter>
     </modules>
     <global>
@@ -35,14 +35,6 @@
             </multioptionfilter>
             <multioptionfilter_resource>
                 <class>Vaimo_MultiOptionFilter_Model_Resource</class>
-                <entities>
-                    <product_link>
-                        <table>mof_catalog_product_link</table>
-                    </product_link>
-                    <product_eav>
-                        <table>mof_catalog_product_eav</table>
-                    </product_eav>
-                </entities>
             </multioptionfilter_resource>
             <catalog>
                 <rewrite>

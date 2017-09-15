@@ -1,28 +1,28 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -50,6 +50,16 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
 
     public function indexAction()
     {
+        if (!Mage::helper('rewards/customer_points_index')->useIndex()){
+            $message = Mage::helper('rewards')->__(
+                'The customer points balance data seems to be out of sync. Please %sreindex the customer points balance%s indexer.', 
+                '<a href="' . Mage::helper("adminhtml")->getUrl('adminhtml/process/list') . '" title="Index Management" target="_blank">',
+                '</a>'
+            );
+            
+            Mage::getSingleton('adminhtml/session')->addError($message);
+        }
+        
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('rewards/manage_customer_points'))
             ->renderLayout();
@@ -62,7 +72,6 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
     {
         try {
             $customerIds  = $this->getRequest()->getPost('customer');
-            $currencyId   = $this->getRequest()->getPost('currency');
             $quantity     = (int)$this->getRequest()->getPost('quantity');
             $is_deduction = (int)$this->getRequest()->getParam('is_deduction') === 1;
 
@@ -79,9 +88,8 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
 
             // Prepare the transfer template.
             $transfer = Mage::getModel('rewards/transfer')
-                ->setReasonId(TBT_Rewards_Model_Transfer_Reason::REASON_ADMIN_ADJUSTMENT)
+                ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('adjustment'))
                 ->setComments(Mage::helper('rewards/config')->getDefaultMassTransferComment())
-                ->setCurrencyId($currencyId)
                 ->setQuantity($quantity);
 
             foreach ($customerIds as $customer_id) {
@@ -91,7 +99,7 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
                         ->setIsResave(false);
 
                     // get the default starting status - usually Pending
-                    if (!$transfer->setStatus(null, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED)) {
+                    if (!$transfer->setStatusId(null, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED)) {
                         throw new Exception ($this->__("Could not approve points."));
                     }
 
@@ -107,9 +115,10 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
             }
 
             if ($numSuccessfulTransfers > 0) {
+                $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
                 $success = $this->__(
                     "Successfully transferred %s to %s customer(s).",
-                    Mage::getModel('rewards/points')->set($currencyId, $quantity),
+                    Mage::getModel('rewards/points')->set($defaultCurrencyId, $quantity),
                     $numSuccessfulTransfers
                 );
                 Mage::getSingleton('core/session')->addSuccess($success);
@@ -176,7 +185,5 @@ class TBT_Rewards_Manage_Customer_PointsController extends TBT_Rewards_Admin_Abs
         $response->setHeader('Content-type', $contentType);
         $response->setBody($content);
         $response->sendResponse();
-
-        die ();
     }
 }

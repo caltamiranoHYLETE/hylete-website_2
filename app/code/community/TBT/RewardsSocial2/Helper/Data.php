@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -183,28 +183,49 @@ class TBT_RewardsSocial2_Helper_Data extends Mage_Core_Helper_Abstract
      * 
      * @param string $action
      * @param Mage_Catalog_Model_Product $product
+     * @return string
      */
     public function fetchTargetUrl($action, $product = null)
     {
         // Referral Share
         if (strpos($action, 'referral') !== false) {
             $customer = Mage::getSingleton('rewards/session')->getCustomer();
-            return (string)Mage::helper('rewardsref/url')->getUrl($customer);
+            return (string) Mage::helper('rewardsref/url')->getCurrentUrlWithReferrer($customer);
         }
         
         // Purchase Share
         if (strpos($action, 'purchase') !== false && $product) {
-            $options = array('_use_rewrite' => true);
-            if (!$product->getCategoryId() || !Mage::getStoreConfig('catalog/seo/product_use_categories')) {
-                $options['_ignore_category'] = false;
-            }
-
-            $urlModel = $product->getUrlModel();
-            return $urlModel->getUrl($product, $options);
+            return $this->getProductUrl($product);
         }
         
         // Current Url (for basic twitter tweet and facebook share)
         return Mage::helper('core/url')->getCurrentUrl();
+    }
+
+    /**
+     * Given a Product or its Id, return the appropriate URL
+     *
+     * @param int|Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    public function getProductUrl($product)
+    {
+        if (is_numeric($product)) {
+            $productId = $product;
+            $product = Mage::getModel('catalog/product')->load($productId);
+        }
+
+        if (!$product || !$product->getId()) {
+            return "";
+        }
+
+        $options = array('_use_rewrite' => true);
+        if (!$product->getCategoryId() || !Mage::getStoreConfig('catalog/seo/product_use_categories')) {
+            $options['_ignore_category'] = false;
+        }
+
+        $urlModel = $product->getUrlModel();
+        return $urlModel->getUrl($product, $options);
     }
     
     /**
@@ -253,5 +274,69 @@ class TBT_RewardsSocial2_Helper_Data extends Mage_Core_Helper_Abstract
         }
         
         return '';
+    }
+    
+    /**
+     * Retrieve customer object for social action
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomerForSocialAction()
+    {
+        $customerSession = Mage::getSingleton('customer/session');
+        if ($customerSession->isLoggedIn()) {
+            return $customerSession->getCustomer();
+        }
+        
+        $guestCustomerId = Mage::getSingleton('rewards/session')->getGuestCustomerId();
+        if ($guestCustomerId) {
+            return Mage::getModel('customer/customer')->load($guestCustomerId);
+        }
+        
+        return Mage::getModel('customer/customer');
+    }
+    
+    /**
+     * Check if we have a customer to reward for an action
+     * @return bool
+     */
+    public function hasCustomerToReward()
+    {
+        return Mage::getSingleton('customer/session')->isLoggedIn() 
+            || Mage::getSingleton('rewards/session')->getGuestCustomerId();
+    }
+
+    /**
+     * Get current url with or without SID
+     * @param boolean $includeSID
+     * @return string
+     */
+    public function getCurrentUrl($includeSID = true)
+    {
+        $requestQuery = Mage::app()->getRequest()->getQuery();
+
+        if (!$includeSID && isset($requestQuery['___SID'])) {
+            unset($requestQuery['___SID']);
+        }
+
+        $currentUrl = Mage::getUrl(
+            '*/*/*/',
+            array(
+                '_current' => true,
+                '_use_rewrite' => true,
+                '_query' => $requestQuery
+            )
+        );
+
+        return $currentUrl;
+    }
+
+    /**
+     * Check if null or empty string
+     * @param string $str
+     * @return boolean
+     */
+    public function isNullOrEmptyString($str)
+    {
+        return (!isset($str) || trim($str)==='');
     }
 }

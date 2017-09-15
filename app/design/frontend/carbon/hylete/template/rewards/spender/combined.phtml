@@ -13,7 +13,7 @@
                 </span>
             <?php else: ?>
                 <?php $_pointSummary = Mage::getSingleton('rewards/session')->getCustomer()->getPointsSummary(); ?>
-                <div class="points-to-spend"><?php echo $this->__('You have %s (points are redeemed in 20 point increments)', $_pointSummary); ?></div>
+                <div class="points-to-spend"><?php echo $this->__('You have %s ', $_pointSummary); ?></div>
                 <?php if ($this->showPointsSlider()): ?>
                     <!-- Cart Slider -->
                     <?php if ($this->customerHasUsablePoints() && $this->getMaxSpendablePoints() != 0): ?>

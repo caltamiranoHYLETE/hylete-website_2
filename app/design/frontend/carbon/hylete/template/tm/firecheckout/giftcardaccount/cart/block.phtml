@@ -1,0 +1,34 @@
+<div id="giftcard-account" class="firecheckout-section">
+    <div class="block-title b-discount__title"><span><?php echo $this->__('Gift Cards') ?></span></div>
+    <div class="giftcard-form">
+        <?php
+            echo $this->getMessagesBlock()->getGroupedHtml();
+            $this->getMessagesBlock()->getMessageCollection()->clear();
+        ?>
+        <div class="giftcard">
+            <label for="giftcard_code b-discount__subtitle"><?php echo $this->__('enter a gift card code if you have one') ?></label>
+            <div class="input-box">
+                <div class="input-field-wrapper">
+                    <input class="input-text b-discount__input" id="giftcard_code" name="giftcard_code" value="" />
+                </div>
+                &nbsp; <button class="button b-discount__button" id="giftcard-add" type="button" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
+            </div>
+            <script type="text/javascript">
+            //<![CDATA[
+            $('giftcard-add') && $('giftcard-add').observe('click', function(e) {
+                var code = $('giftcard_code');
+                if (!code.value.length) {
+                    code.addClassName('required-entry');
+                    Validation.validate(code);
+                    code.removeClassName('required-entry');
+                    return;
+                }
+                checkout.update(checkout.urls.giftcard, {
+                    'review': 1
+                });
+            });
+            //]]>
+            </script>
+        </div>
+    </div>
+</div>

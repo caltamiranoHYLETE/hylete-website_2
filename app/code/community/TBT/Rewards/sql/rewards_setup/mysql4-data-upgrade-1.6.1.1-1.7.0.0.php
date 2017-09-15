@@ -4,7 +4,7 @@ require_once(Mage::getBaseDir('lib'). DS. 'SweetTooth'. DS .'SweetTooth.php');
 
 $key = Mage::getStoreConfig('rewards/registration/license_key');
 if (!$key) {
-    Mage::helper('rewards')->log("ST License Key not found. Merchant can create or connect their account in the Sweet Tooth configuration.");
+    Mage::helper('rewards')->log("ST License Key not found. Merchant can create or connect their account in the MageRewards configuration.");
 } else {
     try {
         $client = new SweetTooth("", "");
@@ -22,9 +22,9 @@ if (!$key) {
         Mage::getModel('core/config')->saveConfig('rewards/platform/is_connected', "1");
         Mage::getModel('core/config')->saveConfig('rewards/platform/dev_mode', "0");
 
-        $msgTitle = "Your Sweet Tooth account has been connected.";
-        $msgDesc = "We have automatically converted your existing Sweet Tooth license into a brand new " .
-            "Sweet Tooth App account!  Check out the <i>Sweet Tooth Account Details</i> section of the " .
+        $msgTitle = "Your MageRewards account has been connected.";
+        $msgDesc = "We have automatically converted your existing MageRewards license into a brand new " .
+            "MageRewards App account!  Check out the <i>MageRewards Account Details</i> section of the " .
             "<b>Rewards &gt; Configuration &gt; Other Configuration</b> page for more details.";
         Mage::helper( 'rewards/mysql4_install' )->createInstallNotice( $msgTitle, $msgDesc );
 

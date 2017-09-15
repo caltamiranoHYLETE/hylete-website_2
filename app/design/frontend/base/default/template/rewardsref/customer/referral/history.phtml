@@ -30,13 +30,30 @@
 	                    	<?php if($pending->hasPoints()): ?>
 	                    		<?php echo $this->__("(+%s pending approval)", $pending->getSimpleAmount()); ?>
 	                    	<?php endif; ?>
+
+                            <?php if ($this->isMessageSentWithNoResponse($_friend)) : ?>
+                            <span class="resend-link-container">
+                                (<a href="<?php echo $this->getResendUrl($_friend);?>" class="resend-link"><?php echo $this->__("Resend Invitation");?></a>)
+                            </span>
+                            <?php endif; ?>
 	                    </td>
 	                </tr>
 	            <?php endforeach; ?>
 	        </tbody>
 	    </table>
 	    <?php echo $this->getPagerHtml() ?>
-	    <script type="text/javascript">decorateTable('referred-friends-table')</script>
+	    <script type="text/javascript">decorateTable('referred-friends-table');</script>
+
+        <script type="text/javascript">
+            document.observe("dom:loaded", function() {
+                $$('a.resend-link').each(function(resendLinkEl) {
+                    resendLinkEl.observe('click', function(event) {
+                        $(this).up('span.resend-link-container').update('(<?php echo $this->__("Resending invitation...");?>)');
+                    });
+                });
+            });
+        </script>
+
 	    <?php else: ?>
 	        <p><?php echo $this->__("You don't have any referrals yet."); ?></p>
 	    <?php endif ?>

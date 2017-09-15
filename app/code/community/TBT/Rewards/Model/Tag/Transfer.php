@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -45,22 +45,22 @@ class TBT_Rewards_Model_Tag_Transfer extends TBT_Rewards_Model_Transfer
 
     public function setTagId($id) 
     {
-        $this->clearReferences ();
-        $this->setReferenceType ( TBT_Rewards_Model_Transfer_Reference::REFERENCE_TAG );
+        $this->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('tag'));
         $this->setReferenceId ( $id );
-        $this->_data ['tag_id'] = $id;
 
         return $this;
     }
 
     public function isTag() 
     {
-        return ($this->getReferenceType () == TBT_Rewards_Model_Transfer_Reference::REFERENCE_TAG) || isset ( $this->_data ['tag_id'] );
+        return ($this->getReasonId() == Mage::helper('rewards/transfer_reason')->getReasonId('tag'));
     }
 
     public function getTransfersAssociatedWithTag($tag_id) 
     {
-        return $this->getCollection ()->addFilter ( 'reference_type', TBT_Rewards_Model_Transfer_Reference::REFERENCE_TAG )->addFilter ( 'reference_id', $tag_id );
+        return $this->getCollection()
+            ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('tag'))
+            ->addFieldToFilter('reference_id', $tag_id);
     }
 
     /**
@@ -103,17 +103,16 @@ class TBT_Rewards_Model_Tag_Transfer extends TBT_Rewards_Model_Transfer
     public function transferTagPoints($tag, $rule) 
     {
         $num_points = $rule->getPointsAmount ();
-        $currency_id = $rule->getPointsCurrencyId ();
         $tag_id = $tag->getId ();
         $rule_id = $rule->getId ();
-        $transfer = $this->initTransfer ( $num_points, $currency_id, $rule_id );
+        $transfer = $this->initTransfer ( $num_points, $rule_id );
 
         if (! $transfer) {
             return false;
         }
 
         // get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterTag () )) {
+        if (! $transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterTag () )) {
             return false;
         }
 
@@ -125,7 +124,12 @@ class TBT_Rewards_Model_Tag_Transfer extends TBT_Rewards_Model_Transfer
             return false;
         }
 
-        $transfer->setTagId ( $tag_id )->setCustomerId ( $customerId )->setComments ( Mage::getStoreConfig ( 'rewards/transferComments/tagEarned' ) )->save ();
+        $transfer->setTagId($tag_id)
+            ->setCustomerId($customerId)
+            ->setReferenceId($tag_id)
+            ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('tag'))
+            ->setComments(Mage::getStoreConfig('rewards/transferComments/tagEarned'))
+            ->save();
 
         return true;
     }
@@ -183,9 +187,8 @@ class TBT_Rewards_Model_Tag_Transfer extends TBT_Rewards_Model_Transfer
         // Count Tags that have a transfer associated to them
         $numberOfTagsInThePastDay = Mage::getModel('rewards/transfer')
             ->getCollection()
-            ->addAllReferences()
             ->addFieldToFilter('customer_id', $customerId)
-            ->addFieldToFilter('reference_type', TBT_Rewards_Model_Tag_Reference::REFERENCE_TYPE_ID)
+            ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('tag'))
             ->addFieldToFilter('reference_id', array('in' => $tagIds))
             ->getSize();
         
@@ -223,9 +226,8 @@ class TBT_Rewards_Model_Tag_Transfer extends TBT_Rewards_Model_Transfer
         // Count Tags that have a transfer associated to them
         $numberOfTagsInThePastWeek = Mage::getModel('rewards/transfer')
             ->getCollection()
-            ->addAllReferences()
             ->addFieldToFilter('customer_id', $customerId)
-            ->addFieldToFilter('reference_type', TBT_Rewards_Model_Tag_Reference::REFERENCE_TYPE_ID)
+            ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('tag'))
             ->addFieldToFilter('reference_id', array('in' => $tagIds))
             ->getSize();
         

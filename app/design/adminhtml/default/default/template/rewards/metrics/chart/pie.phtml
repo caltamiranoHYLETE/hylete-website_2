@@ -46,7 +46,7 @@
     }
 
     var chart = nv.models.pieChart()
-      .x(function(d) { return d.distribution_reason })
+      .x(function(d) { return d.reason_id })
       .y(function(d) { return d.total_points })
       .color(d3.scale.category10().range())
       .width(width)

@@ -76,9 +76,9 @@ class TBT_Rewards_Model_Poll_Decorators_Poll extends Varien_Object
     {
         $customer = $this->getRewardsCustomer();
         $transfers = $customer->getTransfers()
-                              ->addAllReferences()
-                              ->addFilter( 'reference_type', TBT_Rewards_Model_Transfer_Reference::REFERENCE_POLL )
-                              ->addFilter( 'reference_id', $this->_poll->getId() );
+            ->addFieldToFilter( 'reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('poll'))
+            ->addFieldToFilter( 'reference_id', $this->_poll->getId() );
+        
         return $transfers;
     }
 

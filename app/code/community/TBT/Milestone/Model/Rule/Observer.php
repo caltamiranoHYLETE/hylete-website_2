@@ -222,15 +222,15 @@ class TBT_Milestone_Model_Rule_Observer extends Varien_Object
     			if (Mage::helper('core')->isModuleEnabled("JMT_PointsMilestone")) continue;
     			
     			// Skip this rule if the transfer is coming from execution of a similar kind of rule
-    			if ($transfer->getReferenceType() === TBT_Milestone_Model_Rule_Condition_Earned::POINTS_REFERENCE_TYPE_ID) continue;
+    			if ($transfer->getReasonId() === Mage::helper('rewards/transfer_reason')->getReasonId('milestone_earned')) continue;
     			
     			// Only process for eligable transfer status. Skip otherwise.
-    			if ($transfer->getStatus() != TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
+    			if ($transfer->getStatusId() != TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
     				if (!Mage::helper('tbtmilestone/config')->doIncludePendingTransfers()) continue;
     				if (
-    					$transfer->getStatus() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT &&
-                		$transfer->getStatus() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL &&
-                		$transfer->getStatus() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_TIME 
+    					$transfer->getStatusId() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT &&
+                		$transfer->getStatusId() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL &&
+                		$transfer->getStatusId() != TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_TIME 
     				) continue;
     			}
     		}
@@ -293,11 +293,11 @@ class TBT_Milestone_Model_Rule_Observer extends Varien_Object
     {
         if (Mage::getStoreConfig('rewards/milestones/inactivity_log_flag')) {
             $configLink = Mage::helper("adminhtml")->getUrl("adminhtml/system_config/edit/section/system");
-            $warning .= Mage::helper("tbtmilestone")->__(
+            $warning = Mage::helper("tbtmilestone")->__(
                 "Your Inactivity Milestone rules will not work unless you fully enable customer activity logs. You can do this %shere%s. %sLearn more%s.",
                 "<i><a href=\"{$configLink}\" target=\"_blank\">", 
                 "</a></i>",
-                "<i><a href=\"http://help.sweettoothrewards.com/article/106-inactivity-milestone\" target=\"_blank\">", 
+                "<i><a href=\"http://support.magerewards.com/article/1728-inactivity-milestone\" target=\"_blank\">", 
                 "</a></i>"
             );
 
@@ -307,11 +307,11 @@ class TBT_Milestone_Model_Rule_Observer extends Varien_Object
         
         if (Mage::getStoreConfig('rewards/milestones/log_clearing_flag')) {
             $configLink = Mage::helper("adminhtml")->getUrl("adminhtml/system_config/edit/section/system");
-            $warning .= Mage::helper("tbtmilestone")->__(
+            $warning = Mage::helper("tbtmilestone")->__(
                 "Your Inactivity Milestone rules will not work if logs are not saved at least as long as your number of inactive days condition. You can change this %shere%s. %sLearn more%s.",
                 "<i><a href=\"{$configLink}\" target=\"_blank\">", 
                 "</a></i>",
-                "<i><a href=\"http://help.sweettoothrewards.com/article/106-inactivity-milestone\" target=\"_blank\">", 
+                "<i><a href=\"http://support.magerewards.com/article/1728-inactivity-milestone\" target=\"_blank\">", 
                 "</a></i>"
             );
 
@@ -380,9 +380,9 @@ class TBT_Milestone_Model_Rule_Observer extends Varien_Object
                     $currentPageIndex = 0;
                     do {
                     	$customerIds = $customerCollection->getAllIds($pageSize, $currentPageIndex * $pageSize);                 	
-                    	foreach ($customerIds as $customerId) {
-                    		if (!$rule->wasEverExecuted($customerId)){
-                    			$rule->trigger($customerId);                    			 
+                    	foreach ($customerIds as $currentCustomerId) {
+                    		if (!$rule->wasEverExecuted($currentCustomerId)){
+                    			$rule->trigger($currentCustomerId);                    			 
                     		}
                     	}                    	
                     	$currentPageIndex++;

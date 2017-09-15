@@ -13,29 +13,29 @@ class TBT_Rewards_Block_Manage_Dashboard_Widget_Notifications extends TBT_Reward
         parent::_construct();
         if ($this->displayConnectNotification()) {
             $this->addNotification(
-                $this->__("Connect your Sweet Tooth Account to start rewarding!"),
-                "http://help.sweettoothrewards.com/article/437-connecting-a-magento-store-to-your-sweet-tooth-account",
+                $this->__("Connect your MageRewards Account to start rewarding!"),
+                "http://support.magerewards.com/article/1551-connecting-a-magento-store-to-your-magerewards-account",
                 $this->__("Learn More")
             );
         }
         if ($this->displayConnectNotification() && $this->_displayDisableNotification()) {
             $this->addNotification(
-                $this->__("Sweet Tooth will automatically stop rewarding your customers, if your account is disconnected for longer than 24 hours."),
-                "http://help.sweettoothrewards.com/article/437-connecting-a-magento-store-to-your-sweet-tooth-account",
+                $this->__("MageRewards will automatically stop rewarding your customers, if your account is disconnected for longer than 24 hours."),
+                "http://support.magerewards.com/article/1551-connecting-a-magento-store-to-your-magerewards-account",
                 $this->__("Learn More")
             );
         }
         if ($this->isDevMode()) {
             $this->addNotification(
                 $this->__("Your account is in <strong>Developer Mode</strong>."),
-                "http://help.sweettoothrewards.com/article/391-developer-mode-in-magento",
+                "http://support.magerewards.com/article/1557-developer-mode-in-magento",
                 $this->__("Learn More")
             );
         }
         if ($this->displayCronNotification()) {
             $this->addNotification(
                 $this->__("Your CRON tasks are not enabled and may be limiting functionality."),
-                "http://help.sweettoothrewards.com/article/395-setting-up-cron-jobs-in-magento",
+                "http://support.magerewards.com/article/1533-setting-up-cron-jobs-in-magento",
                 $this->__("Learn More")
             );
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,7 +20,7 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Model_Observer
@@ -28,10 +28,8 @@ class Vaimo_MultiOptionFilter_Model_Observer
     /**
      * Event: controller_action_layout_render_before
      * Scope: frontend
-     *
-     * @param $observer
      */
-    public function createFilterBlockProxies(Varien_Event_Observer $observer)
+    public function createFilterBlockProxies()
     {
         $action = Mage::app()->getFrontController()->getAction();
 
@@ -39,16 +37,10 @@ class Vaimo_MultiOptionFilter_Model_Observer
             return;
         }
 
-        $layerViews = Mage::helper('multioptionfilter')->getLayerBlocks();
+        $layerViewInterception = Mage::getSingleton('multioptionfilter/runtime_proxyFactories_layerView');
 
-        if (empty($layerViews)) {
-            return;
-        }
-
-        $layerHelper = Mage::helper('multioptionfilter/layer');
-
-        foreach ($layerViews as $layerView) {
-            $layerHelper->proxyLayerViewChildren($layerView);
+        foreach (Mage::helper('multioptionfilter')->getLayerBlocks() as $layerView) {
+            $layerViewInterception->create($layerView);
         }
     }
 
@@ -66,21 +58,21 @@ class Vaimo_MultiOptionFilter_Model_Observer
             return;
         }
 
-        if (!Mage::getStoreConfigFlag(Vaimo_MultiOptionFilter_Helper_Type::XPATH_HORIZONTAL_ENABLED)) {
+        if (!Mage::getStoreConfigFlag('multioptionfilter/settings/horizontal_filters')) {
             return;
         }
 
-        Mage::helper('multioptionfilter/type')->change(
-            $action->getLayout(), Vaimo_MultiOptionFilter_Helper_Type::HORIZONTAL);
+        Mage::helper('multioptionfilter/layout')->addUpdateHandles($action->getLayout(), array(
+            'mof_horizontal',
+            $action->getFullActionName() . '_mof_horizontal'
+        ));
     }
 
     /**
      * Event: controller_action_layout_render_before
      * Scope: frontend
-     *
-     * @param $observer
      */
-    public function fixEnterpriseCategoryFilter(Varien_Event_Observer $observer)
+    public function fixEnterpriseCategoryFilter()
     {
         $requestVar = Mage::getSingleton('catalog/layer_filter_category')->getRequestVar();
 
@@ -90,7 +82,7 @@ class Vaimo_MultiOptionFilter_Model_Observer
 
         $helper = Mage::helper('multioptionfilter');
 
-        if ($helper->isEnterpriseThirdPartSearchEnabled()) {
+        if ($helper->isEnterpriseThirdPartySearchEnabled()) {
             return;
         }
 

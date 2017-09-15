@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Vaimo_Hylete>
-            <version>0.2.9</version>
+            <version>0.3.1</version>
         </Vaimo_Hylete>
     </modules>
     <global>
@@ -35,14 +35,6 @@
             </hylete_setup>
         </resources>
         <events>
-            <vaimo_checkout_load_features_after>
-                <observers>
-                    <vaimo_hylete>
-                        <class>hylete/observer</class>
-                        <method>checkoutLoadFeaturesAfter</method>
-                    </vaimo_hylete>
-                </observers>
-            </vaimo_checkout_load_features_after>
             <sales_order_send_new_order_email_after_send>
                 <observers>
                     <vaimo_hylete>
@@ -54,6 +46,13 @@
         </events>
     </global>
     <frontend>
+        <product>
+            <collection>
+                <attributes>
+                    <retail_value/>
+                </attributes>
+            </collection>
+        </product>
         <events>
             <sales_quote_config_get_product_attributes>
                 <observers>

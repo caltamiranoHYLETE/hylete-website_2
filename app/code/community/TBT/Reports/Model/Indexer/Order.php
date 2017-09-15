@@ -32,7 +32,7 @@ class TBT_Reports_Model_Indexer_Order extends Mage_Index_Model_Indexer_Abstract
      */
     public function getName()
     {
-        return Mage::helper('tbtreports')->__('Sweet Tooth Reports: Order Data');
+        return Mage::helper('tbtreports')->__('MageRewards Reports: Order Data');
     }
 
     /**
@@ -41,7 +41,7 @@ class TBT_Reports_Model_Indexer_Order extends Mage_Index_Model_Indexer_Abstract
      */
     public function getDescription()
     {
-        return Mage::helper('tbtreports')->__('Used to generate order related reports in Sweet Tooth');
+        return Mage::helper('tbtreports')->__('Used to generate order related reports in MageRewards');
     }
 
     /**

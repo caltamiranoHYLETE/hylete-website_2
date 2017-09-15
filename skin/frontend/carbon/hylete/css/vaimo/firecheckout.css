@@ -1,0 +1,326 @@
+/* Firecheckout custom styles ============================================================ */
+
+/* CMS after submit button */
+.firecheckout-section-submit:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.firecheckout-items-after-section {
+    margin-bottom: 15px;
+}
+
+/* Login section */
+.firecheckout-login-section > .block-title::before {
+    counter-increment: firecheckout-section-number;
+    content: counter(firecheckout-section-number);
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    margin: 0 7px 0 0;
+    background: #000;
+    color: #fff;
+    font-weight: normal;
+    vertical-align: top;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+}
+
+.login-section-static {
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #000;
+}
+
+.login-section-action {
+    width: 100%;
+    height: 40px;
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.login-section-action .fa {
+    font-size: 16px;
+    margin-right: 3px;
+    vertical-align: text-bottom;
+}
+
+.button-login-facebook {
+    background: #3b5998;
+    border-color: #3b5998;
+    color: #fff;
+}
+
+.button-login-facebook:hover {
+    background: none;
+    border-color: #3b5998;
+    color: #3b5998;
+}
+
+/* Customer name widget */
+.firecheckout-set .form-list .customer-name-middlename .field,
+.firecheckout-set .form-list .customer-name .field {
+    width: 100%;
+}
+
+/* Address select */
+.firecheckout-set .address-section .sod_select {
+    background: none;
+    padding-top: 16px;
+    padding-bottom: 0;
+}
+
+.firecheckout-set .address-section .sod_label {
+    height: 22px;
+}
+
+/* Create account and subscribe to newsletter */
+.firecheckout-set .control.control-create-account-later,
+.firecheckout-set .control.newsletter {
+    margin-top: 5px;
+}
+
+.firecheckout-set .control-create-account-later label,
+.firecheckout-set .newsletter label {
+    margin-bottom: 10px;
+}
+
+.firecheckout-set .control-create-account-later .fa,
+.firecheckout-set .newsletter .fa {
+    font-size: 16px;
+}
+
+.firecheckout-set .newsletter {
+    text-align: left;
+}
+
+.firecheckout-set .newsletter label {
+    margin-top: 0;
+}
+
+/* Grand totals */
+.firecheckout-set [id="checkout-review-table-wrapper"] tfoot td {
+    text-align: right;
+}
+
+.firecheckout-set [id="checkout-review-table-wrapper"] .price {
+    white-space: nowrap;
+}
+
+.firecheckout-set #checkout-review .item-options {
+    overflow: hidden;
+    margin: 0;
+}
+
+.firecheckout-set #checkout-review .item-options dt,
+.firecheckout-set #checkout-review .item-options dd {
+    float: left;
+    margin: 0;
+}
+
+.firecheckout-set #checkout-review .item-options dt {
+    clear: left;
+    font-weight: bold;
+}
+
+.firecheckout-set #checkout-review .item-options dt:after {
+    content: ':';
+    margin-right: 10px;
+}
+
+/* CVV popup */
+#payment-method .tool-tip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 10000;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    margin: 0;
+    min-width: 350px;
+    max-width: 800px;
+    padding: 15px;
+    box-sizing: border-box;
+    color: #2f2f2f;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+#payment-method .btn-close a {
+    float: right;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 25px;
+    opacity: 0.5;
+    width: 49px;
+    height: 49px;
+    line-height: 49px;
+    text-align: center;
+    margin-top: -15px;
+    margin-right: -15px;
+}
+
+#payment-method .btn-close a:hover {
+    text-decoration: none;
+    opacity: 1;
+}
+
+#payment-method #checkout-additional .block-title {
+    display: none;
+}
+
+#firecheckout-form #payment-method .firecheckout-points-spender {
+    padding: 5px !important;
+}
+
+#b-overlay {
+    content: '';
+    background: #000;
+    opacity: 0.4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+}
+
+/* Promo codes and gift cards */
+#discount-block .b-discount__title {
+    color: #000;
+    font-size: 14px;
+}
+
+#discount-block label.b-discount__subtitle {
+    display: block;
+    text-transform: lowercase;
+}
+
+#discount-block .b-discount__input {
+    width: 220px !important;
+    height: 33px;
+}
+
+#discount-block .b-discount__button {
+    width: 140px;
+    height: 33px;
+    background: #fff;
+    border: 2px solid #000;
+}
+#discount-block .giftcard .b-discount__button {
+    margin-left: -3px;
+}
+
+#discount-block .b-discount__button span {
+    color: #000;
+}
+
+#discount-block .b-discount__button:hover {
+    background: #000;
+}
+
+#discount-block .b-discount__button:hover span {
+    color: #fff;
+}
+
+#firecheckout-form .discount .button,
+#firecheckout-form .giftcard .button {
+    height: 40px;
+}
+
+/* Selects */
+.cvv-what-is-this {
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+.firecheckout-set .sp-methods .input-box .v-fix {
+    vertical-align: top;
+}
+
+.fc-form-compact .field.fc-dirty .input-box select,
+.fc-form-compact .wide.fc-dirty .input-box select,
+.firecheckout-set .form-list select, .firecheckout-set select {
+    font: 12px 'Open Sans', sans-serif !important;
+    text-overflow: ellipsis;
+    line-height: 18px;
+    background-color: white;
+    background-size: 20px;
+    background-position: calc(100% - 5px) center;
+}
+
+.fc-form-compact .field.fc-dirty .input-box select,
+.fc-form-compact .wide.fc-dirty .input-box select {
+    height: 40px !important;
+    padding-top: 15px !important;
+    padding-bottom: 0 !important;
+    padding-left: 7px !important;
+}
+
+.firecheckout-set select {
+    height: 40px !important;
+    padding: 7px !important;
+}
+
+.firecheckout-set .input-text {
+    height: 40px !important;
+}
+
+#checkout-review-table .input-text {
+    height: auto !important;
+}
+
+
+
+/* Mobile */
+@media (max-width: 800px) {
+   /* Layout */
+    #firecheckout-form .col2-fire-set .col-1,
+    #firecheckout-form .col2-fire-set .col-2 {
+        width: auto;
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    /* Login section */
+    .login-section-actions:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    .login-section-action {
+        float: left;
+        width: 49%;
+        margin: 0;
+    }
+
+    .login-section-action:first-child {
+        margin-right: 2%;
+    }
+}
+
+/* Desktop */
+@media (max-width: 991px) {
+    /* Login section */
+    .login-section-action + .login-section-action {
+        margin-top: 10px;
+    }
+
+    #discount-block .input-field-wrapper {
+        width: calc(100% - 155px);
+    }
+
+    #discount-block .b-discount__input {
+        width: 100% !important;
+    }
+}

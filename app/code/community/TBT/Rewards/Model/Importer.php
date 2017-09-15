@@ -28,13 +28,13 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 	 */
 	public static function getImportersCollection($status = null)
 	{
-		$colelctionModel = Mage::getResourceModel('rewards/importer_collection', Mage::getResourceSingleton('rewards/importer'));
+		$collectionModel = Mage::getResourceModel('rewards/importer_collection', Mage::getResourceSingleton('rewards/importer'));
 		
 		if (!is_null($status)) {
-			$colelctionModel->addFieldToFilter('status', $status);
+			$collectionModel->addFieldToFilter('status', $status);
 		}
 		
-		return $colelctionModel;
+		return $collectionModel;
 	}
 	
 	protected function _construct()
@@ -50,6 +50,7 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 	 * @param string $fileIndex, the index of an uploaded file in the $_FILES array
 	 * @param string $email, the email address to enqueue the importer with and send reports to later
 	 * @param array $options, array of options for the importer
+	 * @throws Exception on error
 	 * @return TBT_Rewards_Model_Importer
 	 */
 	public function enqueue($fileIndex, $email, $options = array())
@@ -133,14 +134,16 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 		try {
 			$this->_doImport();
 			
-		} catch (Exception $e) {			
+		} catch (Exception $e) {
+                        Mage::logException($e);
 			$this->markImportError();
+                        
 			if (!empty($email)) {
 				$this->_sendEmail("There was an error starting your import", $email, $e->getMessage());
 			}
 			
 			if ($this->_printToStdOut) {
-			 echo "[EXCEPTION] " . $e->getMessage() . "\n";	
+                            Mage::helper('rewards/debug')->printMessage("[EXCEPTION] {$e->getMessage()}");
 			}
 			
 			return $this;
@@ -250,7 +253,7 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 	}
 	
 	/**
-	 * Will send out the reprot to the email specified in the importer.
+	 * Will send out the report to the email specified in the importer.
 	 * @throws Exception if there was a problem with sending the email or email doesn't exist
 	 * @return string success message
 	 */
@@ -265,14 +268,14 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 		$this->_sendEmail($this->_emailSubject, $email, $this->getReport());
 		$message = "A summary of this import has been emailed to {$email}.";
 		if ($this->_printToStdOut) {
-			echo "\n{$message}\n";
+                    Mage::helper('rewards/debug')->printMessage($message);
 		}
 	
 		return $message;
 	}
 	
 	/**
-	 * Send out an email with specified paramaters
+	 * Send out an email with specified parameters
 	 * @param string $subject
 	 * @param string $to
 	 * @param string $body
@@ -340,7 +343,7 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 		);
 	
 		if ($this->_printToStdOut){
-			echo "[ERROR] (LINE #{$lineNumber}):\t {$message}\n";
+                    Mage::helper('rewards/debug')->printMessage("[ERROR] (LINE #{$lineNumber}): {$message}");
 		}
 	}
 	
@@ -361,7 +364,7 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 		);
 	
 		if ($this->_printToStdOut){
-			echo "[OK]\t{$message}\n";
+                    Mage::helper('rewards/debug')->printMessage("[OK] {$message}");
 		}
 	}
 
@@ -382,7 +385,7 @@ abstract class TBT_Rewards_Model_Importer extends Mage_Core_Model_Abstract
 		);
 	
 		if ($this->_printToStdOut){
-			echo "[WARNING] (LINE #{$lineNumber}):\t {$message}\n";
+                    Mage::helper('rewards/debug')->printMessage("[WARNING] (LINE #{$lineNumber}): {$message}");
 		}
 	}
 			

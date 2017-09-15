@@ -2,11 +2,18 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_create_index>
         <update handle="redemption_near_coupons" />
+        <update handle="rewards_customer_balance_fieldset" />
+        <update handle="rewards_adminhtml_order_create_handle" />
     </adminhtml_sales_order_create_index>
 
     <adminhtml_sales_order_create_load_block_items>
         <update handle="redemption_near_coupons" />
     </adminhtml_sales_order_create_load_block_items>
+    
+    <adminhtml_sales_order_create_load_block_data>
+        <update handle="rewards_customer_balance_fieldset" />
+        <update handle="redemption_near_coupons" />
+    </adminhtml_sales_order_create_load_block_data>
 
     <redemption_near_coupons>
         <reference name="head">
@@ -14,12 +21,12 @@
             <action method="addJs"><file>tbt/rewards/util.js</file></action>
             <action method="addJs"><file>tbt/scriptaculous/adminhtml/SmoothSlider.js</file></action>
             <action method="addJs"><file>tbt/rewards/adminhtml/points/RedemptionSlider.js</file></action>
+            <action method="addJs"><file>tbt/rewards/adminhtml/points/CatalogRedemptionSlider.js</file></action>
         </reference>
         <reference name="content">
             <reference name="items">
                 <reference name="items_grid">
                     <reference name="coupons">
-
                         <block type="rewards/checkout_cart" name="rewards_redemption" template="rewards/checkout/redemption.phtml">
                             <block type="core/template" name="rewards_js_points_captions" as="rewards_cartpoints_spender_js"
                                 template="rewards/js/captions.phtml" />
@@ -29,12 +36,28 @@
                                     template="rewards/checkout/cart/slider.phtml" />
                                 <block type="core/template" name="points_cart_box.js" as="minicart_js"
                                     template="rewards/checkout/minicart_js.phtml" />
+                                <block type="core/template" name="points_cart_box_nondpbs.js" as="nondbps_js"
+                                    template="rewards/checkout/nondbps_js.phtml" />
                             </block>
+                            <action method="appendBlockHtmlToParent" />
                         </block>
-
                     </reference>
                 </reference>
             </reference>
         </reference>
     </redemption_near_coupons>
+    
+    <rewards_adminhtml_order_create_handle>
+        <reference name="head">
+            <action method="addJs"><file>tbt/rewards/adminhtml/sales/OrderCreate.js</file></action>
+        </reference>
+    </rewards_adminhtml_order_create_handle>
+    
+    <rewards_customer_balance_fieldset>
+        <reference name="items">
+            <block type="rewards/adminhtml_sales_order_create_customer_balance" name="rewards_customer_balance" template="rewards/sales/order/create/customer_balance.phtml">
+                <action method="appendBlockHtmlToParent" />
+            </block>
+        </reference>
+    </rewards_customer_balance_fieldset>
 </layout>

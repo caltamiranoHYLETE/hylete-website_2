@@ -187,7 +187,9 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_checkout->returnFromPaypal($this->_initToken());
 
             if ($this->_checkout->canSkipOrderReviewStep()) {
-                $this->_forward('placeOrder');
+                //Vaimo patch start
+                $this->_forward('placeOrder', null, null, array('forward_from_return' => 1));
+                //Vaimo patch end
             } else {
                 $this->_redirect('*/*/review');
             }
@@ -309,12 +311,15 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
-            if ($requiredAgreements) {
+            //Vaimo patch start
+            $isForwardFromReturn = $this->getRequest()->getParam('forward_from_return', 0);
+            if ($requiredAgreements && !$isForwardFromReturn) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
                     Mage::throwException(Mage::helper('paypal')->__('Please agree to all the terms and conditions before placing the order.'));
                 }
             }
+            //Vaimo patch end
 
             $this->_initCheckout();
             $this->_checkout->place($this->_initToken());

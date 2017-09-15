@@ -4,7 +4,7 @@ class TBT_Milestone_Manage_RuleController extends Mage_Adminhtml_Controller_Acti
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards/rules');
     }
     
     public function indexAction()

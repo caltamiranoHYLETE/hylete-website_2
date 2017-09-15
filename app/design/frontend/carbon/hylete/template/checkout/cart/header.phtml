@@ -15,7 +15,47 @@ $_numItems = $_helper->getQtyOfRecentItems($_items);
 /** @var Mage_Core_Model_Store $_quoteStore */
 $_quoteStore = $this->helper('checkout')->getQuote()->getStore();
 $_notEmpty = $_cartQty > 0;
-$_pointSummaryBlock = Mage::getBlockSingleton('rewards/special_header')->getPointsSummary();
+
+$_pointSummaryBlock = Mage::helper('catalog')->isModuleEnabled('TBT_Rewards')
+    ? Mage::getBlockSingleton('rewards/special_header')->getPointsSummary()
+    : '';
+
+/** @var Mage_Customer_Model_Session $_customerSession */
+$_customerSession = Mage::getSingleton('customer/session');
+$_isLoggedIn = $_customerSession->isLoggedIn();
+
+$_hyleteInfoEcomm = array(
+    'ecomm_logged_in' => $_isLoggedIn ? '1' : '0',
+    'ecomm_group_id'  => '0',
+    'ecomm_gender' => '',
+    'ecomm_customer_id' => '',
+    'ecomm_customer_email' => '',
+);
+$_hyleteInfoAccount = array(
+    'customer_logged_in' => (int)$_isLoggedIn,
+    'customer_group_id' => 0,
+    'customer_gender' => '',
+    'customer_id' => '',
+    'customer_email' => '',
+);
+
+if ($_isLoggedIn) {
+    /** @var Mage_Customer_Model_Customer $_customer */
+    $_customer = $_customerSession->getCustomer();
+    //$_hyleteInfoAccount['customer_logged_in'] = 1;
+    $_hyleteInfoAccount['customer_group_id'] = $_customer->getGroupId();
+    $_hyleteInfoAccount['customer_gender'] = $_customer->getGender();
+    $_hyleteInfoAccount['customer_id'] = $_customer->getId();
+    $_hyleteInfoAccount['customer_email'] = $_customer->getEmail();
+    $_hyleteInfoAccount['customer_firstname'] = $_customer->getFirstname();
+    $_hyleteInfoAccount['customer_lastname'] = $_customer->getLastname();
+
+    //$_hyleteInfoEcomm['ecomm_logged_in'] = 1;
+    $_hyleteInfoEcomm['ecomm_group_id'] = (string)$_customer->getGroupId();
+    $_hyleteInfoEcomm['ecomm_gender'] = $_customer->getGender();
+    $_hyleteInfoEcomm['ecomm_customer_id'] = $_customer->getId();
+    $_hyleteInfoEcomm['ecomm_customer_email'] = $_customer->getEmail();
+}
 
 ?>
 
@@ -39,7 +79,7 @@ $_pointSummaryBlock = Mage::getBlockSingleton('rewards/special_header')->getPoin
                 <?php endif; ?>
                 <span class="sprite-close js-cart-close"></span>
             </div>
-            <div class="headercart-inner clearfix <?php if (Mage::getSingleton('customer/session')->isLoggedIn()) { echo 'logged-in'; } ?>">
+            <div class="headercart-inner clearfix <?php if ($_isLoggedIn) { echo 'logged-in'; } ?>">
                 <?php if(count($_items)): ?>
                     <ol id="cart-sidebar" class="mini-products-list">
                         <?php foreach($_items as $_item): ?>
@@ -62,3 +102,13 @@ $_pointSummaryBlock = Mage::getBlockSingleton('rewards/special_header')->getPoin
 
     <div class="headercart-filter"></div>
 </div>
+<script>
+    (function (){
+        if (typeof hyleteInfo == 'undefined'){
+            hyleteInfo = {};
+        }
+        hyleteInfo.account = <?php echo Zend_Json::encode($_hyleteInfoAccount) ?>;
+        hyleteInfo.ecomm = <?php echo Zend_Json::encode($_hyleteInfoEcomm) ?>;
+        hyleteInfo.cart = <?php echo Zend_Json::encode(array('qty' => $_cartQty, 'grand_total' => $_grandTotal)) ?>;
+    })();
+</script>

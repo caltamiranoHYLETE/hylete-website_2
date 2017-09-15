@@ -115,10 +115,13 @@
                 <stylesheet>css/styleproduct.css</stylesheet>
             </action>
             <action method="addCss">
-                <stylesheet>css/styleproduct.css</stylesheet>
+                <stylesheet>css/signup-widget.css</stylesheet>
             </action>
             <action method="addCss">
-                <stylesheet>css/signup-widget.css</stylesheet>
+                <stylesheet>css/retail-value.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/tooltip.css</stylesheet>
             </action>
 
             <action method="removeItem">
@@ -168,6 +171,10 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/varien-menu.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/tooltip.js</name>
             </action>
         </reference>
 
@@ -454,6 +461,11 @@
             <action method="setColumnCount">
                 <column_count>3</column_count>
             </action>
+            <block type="cms/block" name="retail.value.tooltip">
+                <action method="setBlockId">
+                    <block_id>retail_value_tooltip</block_id>
+                </action>
+            </block>
         </reference>
         <reference name="content">
             <action method="unsetChild">
@@ -482,6 +494,11 @@
             <action method="setColumnCount">
                 <column_count>3</column_count>
             </action>
+            <block type="cms/block" name="retail.value.tooltip">
+                <action method="setBlockId">
+                    <block_id>retail_value_tooltip</block_id>
+                </action>
+            </block>
         </reference>
         <reference name="left">
             <action method="unsetChild">
@@ -625,7 +642,6 @@
                     </block>
                 </block>
             </block>
-
             <block type="core/text_list" name="productpage.cms">
                 <label>Productpage cms</label>
             </block>
@@ -638,6 +654,16 @@
             </action>
             <block type="core/text_list" name="hylete.product.cms.above.upsell">
                 <label>Product CMS above upsell</label>
+                <block type="cms/block" name="product.info.nosto-recommended-products">
+                    <action method="setBlockId">
+                        <block_id>nosto-pdp-recommended-products</block_id>
+                    </action>
+                </block>
+            </block>
+            <block type="cms/block" name="retail.value.tooltip">
+                <action method="setBlockId">
+                    <block_id>retail_value_tooltip</block_id>
+                </action>
             </block>
         </reference>
 
@@ -743,17 +769,7 @@
         </reference>
     </catalogsearch_advanced_result>
 
-    <checkout_onepage_success>
-        <reference name="right">
-            <block type="cms/block" name="sidebar.right.block">
-                <action method="setBlockId">
-                    <block_id>sidebar_right_cms_block</block_id>
-                </action>
-            </block>
-        </reference>
-    </checkout_onepage_success>
-
-    <checkout_onepage_index>
+    <checkout_onepage_index__old_quickcheckout>
         <reference name="root">
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
@@ -848,21 +864,74 @@
         <reference name="before_body_end">
             <block type="core/template" template="vaimo/trackingscripts/checkout-tracking.phtml"/>
         </reference>
-    </checkout_onepage_index>
+    </checkout_onepage_index__old_quickcheckout>
 
-    <vco_continue_button>
-        <reference name="content">
+    <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/vaimo/firecheckout.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/vaimo/hylete-shipping.js</name>
+                <params/>
+            </action>
+        </reference>
+
+        <reference name="firecheckout">
+            <block type="core/template" name="section.customer.login" template="tm/firecheckout/login-section.phtml">
+                <block type="core/text_list" name="section.customer.login.after" as="login_section_after" translate="label">
+                    <label>Login Section After</label>
+
+                    <block type="cms/block" name="below.login">
+                        <action method="setBlockId">
+                            <block_id>fire-checkout-login-copy</block_id>
+                        </action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+
+        <reference name="checkout.onepage.review">
             <action method="unsetChild">
-                <name>checkout.continue.button</name>
+                <blockName>checkout.additional.information</blockName>
+            </action>
+            <block type="core/text_list" name="checkout.onepage.review.after.section" as="review_after_section" translate="label">
+                <label>Items After Section</label>
+
+                <block type="cms/block" name="below.place.order">
+                    <action method="setBlockId">
+                        <block_id>fire-checkout-below-place-order</block_id>
+                    </action>
+                </block>
+            </block>
+        </reference>
+
+        <reference name="firecheckout.payment.after">
+            <action method="insert">
+                <blockName>checkout.additional.information</blockName>
             </action>
         </reference>
 
-        <reference name="vco.review.sidebar">
-            <action method="insert">
-                <block>checkout.onepage.agreements</block>
-            </action>
+        <reference name="checkout.onepage.shipping_method">
+            <block type="cms/block" name="checkout.shipping_method.domestic">
+                <action method="setBlockId">
+                    <block_id>fire-checkout-shipping-domestic</block_id>
+                </action>
+            </block>
+            <block type="cms/block" name="checkout.shipping_method.international">
+                <action method="setBlockId">
+                    <block_id>fire-checkout-shipping-international</block_id>
+                </action>
+            </block>
         </reference>
-    </vco_continue_button>
+
+        <reference name="before_body_end">
+            <block type="core/template" template="vaimo/trackingscripts/checkout-tracking.phtml"/>
+        </reference>
+    </firecheckout_index_index>
 
     <wishlist_index_index>
         <reference name="customer.wishlist.item.image">
@@ -1075,13 +1144,6 @@
         </reference>
     </catalogsearch_result_index>
 
-    <checkout_index_failure>
-        <reference name="content">
-            <block name="vaimo.checkout" type="vaimo_checkout/checkout_proxy_factory"
-                   template="vaimo/checkout/proxy/factory.phtml"/>
-        </reference>
-    </checkout_index_failure>
-
     <infinite_product_list>
         <reference name="head">
             <action method="addItem">
@@ -1184,4 +1246,11 @@
             </action>
         </reference>
     </infinite_product_blog>
+
+    <rewards_cart_redeem_changepointsspending>
+        <reference name="checkout.cart.methods">
+            <!-- fix HYL-498 - double "proceed to checkout" button on cart-page -->
+            <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.fire</name></action>
+        </reference>
+    </rewards_cart_redeem_changepointsspending>
 </layout>

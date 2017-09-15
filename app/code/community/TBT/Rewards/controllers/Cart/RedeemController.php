@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -90,14 +90,22 @@ class TBT_Rewards_Cart_RedeemController extends Mage_Core_Controller_Front_Actio
      */
     public function changePointsSpendingAction()
     {
+        $fromZeroGrandTotal = ($this->_getQuote()->getGrandTotal() < 0.00001) ? true : false;
+        
         $newPointsSpending = $this->getRequest()->getParam("points_spending");
         if ($this->isValidSpendingAmount($newPointsSpending)) {
-            Mage::getSingleton('rewards/session')->setPointsSpending($newPointsSpending);
+            $this->_getQuote()->setPointsSpending($newPointsSpending);
         }
 
+        $this->_getCart()->init()->save();        
         $blocks = $this->fetchAjaxCartBlocks();
         
+        $isZeroGrandTotal = ($this->_getQuote()->getGrandTotal() < 0.00001) ? true : false;
+        
         if ($blocks) {
+            $blocks['from_zero_grand_total'] = $fromZeroGrandTotal;
+            $blocks['is_zero_grand_total'] = $isZeroGrandTotal;
+            
             $this->getResponse()->setHeader('Content-Type', 'application/json', true);
             $this->getResponse()->setBody(Zend_Json::encode($blocks));
         }
@@ -110,10 +118,16 @@ class TBT_Rewards_Cart_RedeemController extends Mage_Core_Controller_Front_Actio
     public function cartaddAction()
     {
         $result = $this->addCartCheckboxRule();
+        $request = $this->getRequest();
         
         if (!$result['error']) {
             $blocks = $this->fetchAjaxCartBlocks();
             $result = array_merge($result, $blocks);
+        }
+        
+        if ($request->get('redirect-to-cart') && !$request->isAjax()) {
+            $this->_redirect('checkout/cart/');
+            return;
         }
         
         $this->getResponse()->setHeader('Content-Type', 'application/json', true);
@@ -123,10 +137,16 @@ class TBT_Rewards_Cart_RedeemController extends Mage_Core_Controller_Front_Actio
     public function cartremoveAction()
     {
         $result = $this->removeCartCheckboxRule();
+        $request = $this->getRequest();
         
         if (!$result['error']) {
             $blocks = $this->fetchAjaxCartBlocks();
             $result = array_merge($result, $blocks);
+        }
+        
+        if ($request->get('redirect-to-cart') && !$request->isAjax()) {
+            $this->_redirect('checkout/cart/');
+            return;
         }
         
         $this->getResponse()->setHeader('Content-Type', 'application/json', true);
@@ -410,19 +430,22 @@ class TBT_Rewards_Cart_RedeemController extends Mage_Core_Controller_Front_Actio
             $rewardsQuote = Mage::getModel('rewards/sales_quote');
 
             $rewardsQuote->updateItemCatalogPoints($cart->getQuote());
-
-            $cart->getQuote()->collectTotals();
-            $cart->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $cart->getQuote()->getShippingAddress()->collectShippingRates();
+            $quote = $cart->getQuote();
+            $shippingAddress = $quote->getShippingAddress();
+            
+            $quote->collectTotals();
+            $shippingAddress->setCollectShippingRates(true);
+            $shippingAddress->collectShippingRates();
 
             $rewardsQuote->updateDisabledEarnings($cart->getQuote());
 
             // Add the checkout_cart_index layout as well
             $this->loadLayout('checkout_cart_index');
 
-            $totals     = $this->getLayout()->getBlock('checkout.cart.totals')->toHtml();
-            $methods    = $this->getLayout()->getBlock('checkout.cart')->toHtml();
-            $topMethods = $this->getLayout()->getBlock('checkout.cart')->setPrefix('top_')->toHtml();
+            $layout = $this->getLayout();
+            $totals = $layout->getBlock('checkout.cart.totals')->toHtml();
+            $methods = $layout->getBlock('checkout.cart')->toHtml();
+            $topMethods = $layout->getBlock('checkout.cart')->setPrefix('top_')->toHtml();
 
             $shippingMethods = "";
             // make sure block exists on cart page

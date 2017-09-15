@@ -1,11 +1,14 @@
 <?php
 
-try {
-    include_once(Mage::getBaseDir('lib'). DS. 'SweetTooth'. DS .'SweetTooth.php');
-} catch (Exception $e) {
-    die(__FILE__ . ": Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+$dependency = Mage::getBaseDir('lib'). DS. 'SweetTooth'. DS .'SweetTooth.php';
+if (file_exists($dependency) && is_readable($dependency)) {
+    include_once($dependency);
+} else {
+    $message = Mage::helper('rewards')->__("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+    Mage::getSingleton('core/session')->addError($message);
+    Mage::helper('rewards/debug')->log($message);
+    return $this;
 }
-
 
 class TBT_Rewards_Model_Platform_Instance extends SweetTooth
 {

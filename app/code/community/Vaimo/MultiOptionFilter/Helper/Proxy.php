@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,48 +20,29 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Helper_Proxy extends Mage_Core_Helper_Abstract
 {
-    public function createFilterResourceProxy($filter, $resource, $filterProxy)
+    public function createInstance($delegate, $overrides = array())
     {
-        $mofLayer = Mage::getSingleton('multioptionfilter/layer');
-
-        $selectManipulator = function($select) use ($mofLayer) {
-            $mofLayer->applyForCount($select);
-
-            return (string)$select;
-        };
-
-        $layer = $filter->getLayer();
-        $collection = $layer->getProductCollection();
-
-        $selectProxy = Mage::getModel('multioptionfilter/proxy')
-            ->setDelegate(clone $collection->getSelect())
-            ->setOverride('__toString', $selectManipulator);
-
-        $collectionProxy = Mage::getModel('multioptionfilter/proxy')
-            ->setDelegate($collection)
-            ->setOverride('getSelect', $selectProxy);
-
-        if ($preparedSelect = $collection->getCatalogPreparedSelect()) {
-            $preparedSelectProxy = Mage::getModel('multioptionfilter/proxy')
-                ->setDelegate(clone $preparedSelect)
-                ->setOverride('__toString', $selectManipulator);
-
-            $collectionProxy->setOverride('getCatalogPreparedSelect', $preparedSelectProxy);
+        if (!$delegate) {
+            return false;
         }
 
-        $layerProxy = Mage::getModel('multioptionfilter/proxy')
-            ->setDelegate($layer)
-            ->setOverride('getProductCollection', $collectionProxy);
+        $proxy = Mage::getModel('multioptionfilter/runtime_proxies_modelProxy')
+            ->setDelegate($delegate);
 
-        $filterProxy->setDelegate($filter)
-            ->setOverride('getLayer', $layerProxy);
+        return $this->updateInstance($proxy, $overrides);
+    }
 
-        return Mage::getModel('multioptionfilter/proxy')
-            ->setDelegate($resource);
+    public function updateInstance($proxy, $overrides)
+    {
+        foreach ($overrides as $function => $override) {
+            $proxy->setOverride($function, $override);
+        }
+
+        return $proxy;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -41,62 +41,49 @@
  *
  * @category   TBT
  * @package    TBT_Rewards
- * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
+ * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
-
-    protected $_cr = array (); // deprecated
-    protected $_sr = array (); // deprecated
-
-
+class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract 
+{
     /**
      * Creates a customer point-transfer of any amount or currency.
      *
-     * @param  int $num_points                : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id               : The ID of the point currency used in this transfer
+     * @param  int $numPoints                : Quantity of points to transfer: positive=>distribution, negative=>redemption
      * @param  Mage_Sales_Model_Order $order  :  The order
-     * @param  int $rule_id                   : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
+     * @param  int $ruleId                   : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
      * @return boolean                        : whether or not the point-transfer succeeded
      */
 
-    public function transferOrderPoints($num_points, $currency_id, $order, $rule_id)
+    public function transferOrderPoints($numPoints, $order, $ruleId)
     {
         if (is_numeric($order)) {
             $order = Mage::getModel('sales/order')->load($order);
         }
         
-        $order_id = $order->getId();
+        $orderId = $order->getId();
         $customerId = $order->getCustomerId();
 
-        if (!$order_id || !$customerId) {
+        if (!$orderId || !$customerId) {
             return false;
         }
 
-        $transfer = $this->initTransfer ( $num_points, $currency_id, $rule_id, $customerId );
-        if (! $transfer) {
+        $transfer = $this->initTransfer($numPoints, $ruleId, $customerId, (bool) $order->getCustomerId());
+        if (!$transfer) {
             return false;
         }
-
-        // get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterOrder () )) {
-            // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
+        
+        $transfer->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('order'));
+        if (!$transfer->setStatusId(null, Mage::helper('rewards/config')->getInitialTransferStatusAfterOrder())) {
             return false;
         }
-        if ($num_points > 0) {
-            $transfer->setComments ( Mage::getStoreConfig ( 'rewards/transferComments/orderEarned' ) );
-        } else if ($num_points < 0) {
-            $transfer->setComments ( Mage::getStoreConfig ( 'rewards/transferComments/orderSpent' ) );
+        
+        if ($numPoints > 0) {
+            $transfer->setComments(Mage::getStoreConfig('rewards/transferComments/orderEarned'));
+        } else if ($numPoints < 0) {
+            $transfer->setComments(Mage::getStoreConfig('rewards/transferComments/orderSpent'));
         }
-        $transfer->setOrderId ( $order_id )->setCustomerId ( $customerId )->save ();
-
-        return true;
-    }
-
-    /**
-     * @deprecated
-     * @see TBT_Rewards_Model_Review_Transfer
-     */
-    public function transferReviewPoints($num_points, $currency_id, $review_id, $rule_id) {
+        
+        $transfer->setOrderId($orderId)->setCustomerId($customerId)->save();
         return true;
     }
 
@@ -104,22 +91,20 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
      * Creates a customer point-transfer of any amount or currency.
      *
      * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
      * @param  int $rule_id       : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
      * @return boolean            : whether or not the point-transfer succeeded
      */
-    public function transferSendfriendPoints($num_points, $currency_id, $rule_id) {
-        // TODO WDCA - add a Sendfriend reference type and set it here, using ID -1
-        $transfer = $this->initTransfer ( $num_points, $currency_id, $rule_id );
-
+    public function transferSendfriendPoints($num_points, $rule_id, $productId) {
+        $transfer = $this->initTransfer ( $num_points, $rule_id );        
         if (! $transfer) {
             return false;
         }
 
+        $transfer->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('send_friend'))
+            ->setReferenceId($productId);
+
         // get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterSendfriend () )) {
+        if (! $transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterSendfriend () )) {
             // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
             return false;
         }
@@ -132,22 +117,20 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
      * Creates a customer point-transfer of any amount or currency.
      *
      * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
      * @param  int $rule_id       : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
      * @return boolean            : whether or not the point-transfer succeeded
      * @deprecated from version 1.7.6.3+
      */
-    public function transferPollPoints($num_points, $currency_id, $poll_id, $rule_id) {
-        $transfer = $this->initTransfer ( $num_points, $currency_id, $rule_id );
-
+    public function transferPollPoints($num_points, $poll_id, $rule_id) {
+        $transfer = $this->initTransfer ( $num_points, $rule_id );        
         if (! $transfer) {
             return false;
         }
 
+        $transfer->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('poll'));
+        
         // get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterPoll () )) {
+        if (! $transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterPoll () )) {
             // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
             return false;
         }
@@ -155,26 +138,16 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
 
         return true;
     }
-
-    /**
-     * @deprecated
-     * @see TBT_Rewards_Model_Tag_Transfer
-     */
-    public function transferTagPoints($num_points, $currency_id, $tag_id, $customer_id, $rule_id) {
-        return true;
-    }
-
+    
     /**
      * Creates a customer point-transfer of any amount or currency.
      *
      * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
+     * @param  int $customer_id
      * @param  int $rule          : The rule model that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
      * @return boolean            : whether or not the point-transfer succeeded
      */
-    public function transferSignupPoints($num_points, $currency_id, $customer_id, $rule) {
+    public function transferSignupPoints($num_points, $customer_id, $rule) {
         // ALWAYS ensure that we only give an integral amount of points
         $num_points = floor ( $num_points );
 
@@ -183,27 +156,25 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         }
 
         $transfer = Mage::getModel ( 'rewards/transfer' );
-
-        if ($num_points > 0) {
-            $transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_CUSTOMER_DISTRIBUTION );
-        } else {
-            if ((Mage::getModel ( 'rewards/customer' )->getUsablePointsBalance ( $currency_id ) + $num_points) < 0) {
-                throw Exception ( 'You do not have enough points for this transacation.' );
-            }
-            $transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_CUSTOMER_REDEMPTION );
+        $currency_id = Mage::helper('rewards/currency')->getDefaultCurrencyId();
+        if ((Mage::getModel('rewards/customer')->loadPointsBalance()->getUsablePointsBalance($currency_id) + $num_points) < 0) {
+            throw Exception ('Your points balance cannot be negative.');
         }
 
+        $reasonId = Mage::helper('rewards/transfer_reason')->getReasonId('signup');
+        $transfer->setReasonId($reasonId);
+
         //get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterSignup () )) {
+        if (! $transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferStatusAfterSignup () )) {
             return false;
         }
 
         $transfer->setId(null)
-            ->setCurrencyId($currency_id)
             ->setQuantity($num_points)
             ->setComments(Mage::getStoreConfig('rewards/transferComments/signupEarned'))
             ->setRuleId($rule->getId())
             ->setCustomerId($customer_id)
+            ->setReferenceId($customer_id)
             ->setAsSignup()
             ->save();
 
@@ -214,13 +185,11 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
      * TODO Move this into a separate model that extends the Transfer model and instantiate it.
      *
      * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
-     * @param  int $rule_id       : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
+     * @param  int $friend_id
+     * @param  string $personal_comment 
      * @return boolean            : whether or not the point-transfer succeeded
      */
-    public function transferPointsToFriend($num_points, $currency_id, $friend_id, $personal_comment) {
+    public function transferPointsToFriend($num_points, $friend_id, $personal_comment) {
         if (! Mage::getSingleton ( 'customer/session' )->getCustomerId ()) {
             return false;
         }
@@ -236,23 +205,25 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         $sender_transfer = Mage::getModel ( 'rewards/transfer' );
 
         // get the default starting status - usually Pending
-        if (! $recipient_transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferToFriendStatus () )) {
+        if (! $recipient_transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferToFriendStatus () )) {
             // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
             return false;
         }
         // get the default starting status - usually Pending
-        if (! $sender_transfer->setStatus ( null, Mage::helper ( 'rewards/config' )->getInitialTransferToFriendStatus () )) {
+        if (! $sender_transfer->setStatusId ( null, Mage::helper ( 'rewards/config' )->getInitialTransferToFriendStatus () )) {
             // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
             return false;
         }
 
-        $recipient_transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_FROM_CUSTOMER );
-        $sender_transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_TO_CUSTOMER );
+        $reasonHelper = Mage::helper('rewards/transfer_reason');
+        $recipient_transfer->setReasonId($reasonHelper->getReasonId('assign_from'));
+        $sender_transfer->setReasonId($reasonHelper->getReasonId('assign_to'));
 
         $to_customer = Mage::getModel ( 'customer/customer' )->load ( $friend_id );
         $from_customer = Mage::getModel ( 'customer/customer' )->load ( Mage::getModel ( 'customer/session' )->getCustomerId () );
 
         $customer = Mage::getModel ( 'rewards/customer' )->load ( Mage::getModel ( 'customer/session' )->getCustomerId () );
+        $currency_id = Mage::helper('rewards/currency')->getDefaultCurrencyId();
         if (($customer->getUsablePointsBalance ( $currency_id ) + $num_points) < 0) {
             $error = $this->__ ( 'Not enough points for transaction. You have %s, but you need %s', Mage::getModel ( 'rewards/points' )->set ( $currency_id, $customer->getUsablePointsBalance ( $currency_id ) ), Mage::getModel ( 'rewards/points' )->set ( $currency_id, $num_points * - 1 ) );
             throw new Exception ( $error );
@@ -262,7 +233,7 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         $default_send_comment = str_replace('\n', "\n", $default_send_comment);
         $sender_comments = $this->__ ($default_send_comment , $to_customer->getName (), $personal_comment );
 
-        $sender_transfer->setId ( null )->setCurrencyId ( $currency_id )->setQuantity ( $num_points * - 1 )
+        $sender_transfer->setId ( null )->setQuantity ( $num_points * - 1 )
                 ->setCustomerId ( $from_customer->getId () )->setToFriendId ( $to_customer->getId () )
                 ->setComments ( $sender_comments )->save ();
 
@@ -270,7 +241,7 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         $default_receive_comment = str_replace('\n', "\n", $default_receive_comment);
         $receiver_comment = $this->__ ( $default_receive_comment, $from_customer->getName (), $personal_comment );
 
-        $recipient_transfer->setId ( null )->setCurrencyId ( $currency_id )
+        $recipient_transfer->setId ( null )
                 ->setQuantity ( $num_points )->setCustomerId ( $to_customer->getId () )
                 ->setFromFriendId ( $from_customer->getId () )->setComments ( $receiver_comment )->save ();
 
@@ -348,12 +319,16 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
      * derivation of the TBT_Rewards_Model_Transfer model which contains this method.
      *
      * @param integer $num_points
-     * @param integer $currency_id
      * @param integer $rule_id
      * @return TBT_Rewards_Model_Transfer
      */
-    public function initTransfer($num_points, $currency_id, $rule_id, $customerId = null) {
-        if (!Mage::getSingleton ( 'rewards/session' )->isCustomerLoggedIn () && ! Mage::getSingleton ( 'rewards/session' )->isAdminMode () && !Mage::getSingleton('rewards/session')->isRecurringOrderBeingPlaced()) {
+    public function initTransfer($num_points, $rule_id, $customerId = null, $skipChecks = false) {
+        if (
+            !$skipChecks
+            && !Mage::getSingleton('rewards/session')->isCustomerLoggedIn() 
+            && !Mage::getSingleton('rewards/session')->isAdminMode() 
+            && !Mage::getSingleton('rewards/session')->isRecurringOrderBeingPlaced()
+        ) {
             return null;
         }
         // ALWAYS ensure that we only give an integral amount of points
@@ -364,25 +339,21 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         }
 
         $transfer = Mage::getModel ( 'rewards/transfer' );
-
-        if ($num_points > 0) {
-            $transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_CUSTOMER_DISTRIBUTION );
-        } else {
+        if ($num_points <= 0) {
             $customerId = $customerId ? $customerId : Mage::getSingleton('customer/session')->getCustomerId();
             $customer = Mage::getModel('rewards/customer')->load($customerId);
-            if (($customer->getUsablePointsBalance ( $currency_id ) + $num_points) < 0) {
 
+            $currency_id = Mage::helper('rewards/currency')->getDefaultCurrencyId();
+            if (($customer->getUsablePointsBalance ( $currency_id ) + $num_points) < 0) {
                 $error = $this->__ ( 'Not enough points for transaction. You have %s, but you need %s.', Mage::getModel ( 'rewards/points' )->set ( $currency_id, $customer->getUsablePointsBalance ( $currency_id ) ), Mage::getModel ( 'rewards/points' )->set ( $currency_id, $num_points * - 1 ) );
                 throw new Exception ( $error );
             }
-
-            $transfer->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_CUSTOMER_REDEMPTION );
         }
 
+        $now = Mage::getModel('core/date')->gmtDate();
         $transfer->setId(null)
-            ->setCreationTs(now())
-            ->setLastUpdateTs(now())
-            ->setCurrencyId($currency_id)
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now)
             ->setQuantity($num_points)
             ->setCustomerId($customerId)
             ->setRuleId($rule_id);
@@ -463,17 +434,6 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
     }
 
     /**
-     * @deprecated Do not use.  For reference purposes only.
-     */
-    public function getDiscountDueToPointsForCart($cart) {
-        $discount = 0.0;
-        foreach ( $cart->getAllItems () as $item ) {
-            $discount += $item->getRowTotalBeforeRedemptions () - $item->getRowTotal ();
-        }
-        return number_format ( $discount, 2 );
-    }
-
-    /**
      * Returns the rewards catalogrule points action singleton
      *
      * @return TBT_Rewards_Model_Catalogrule_Actions
@@ -489,9 +449,13 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
      * @return TBT_Rewards_Model_Catalog_Product
      */
     private function assureProduct($item) {
+        $requestParams = Mage::app()->getRequest()->getParams();
+        $buyRequest = $this->_getProductRequest($requestParams);
+
         if ($item instanceof TBT_Rewards_Model_Catalog_Product) {
             $product = &$item;
         } else if ($item instanceof Mage_Catalog_Model_Product) {
+            $item->getTypeInstance(false)->prepareForCartAdvanced($buyRequest, $item);
             $product = $this->assureProduct ( TBT_Rewards_Model_Catalog_Product::wrap ( $item ) );
         } else if ($this->hasGetProductFunc ( $item )) {
             $product = $item->getProduct ();
@@ -501,8 +465,31 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
         } else {
             $product = Mage::getModel ( 'rewards/catalog_product' );
         }
+
         return $product;
     }
+
+    /**
+	 * Get request for product add to cart procedure
+	 *
+	 * @param   mixed $requestInfo
+	 * @return  Varien_Object
+	 */
+	protected function _getProductRequest($requestInfo) {
+		if ($requestInfo instanceof Varien_Object) {
+			$request = $requestInfo;
+		} elseif (is_numeric ( $requestInfo )) {
+			$request = new Varien_Object ();
+			$request->setQty ( $requestInfo );
+		} else {
+			$request = new Varien_Object ( $requestInfo );
+		}
+
+		if (! $request->hasQty ()) {
+			$request->setQty ( 1 );
+		}
+		return $request;
+	}
 
     private function hasGetProductFunc($obj) {
         $ret = false;
@@ -560,12 +547,12 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
             $qty = ($item->getQty() > 0) ? $item->getQty() : 1; //@nelkaake 04/03/2010 2:05:12 PM (terniary check jsut in case)
             if ( $prices_include_tax ) {
                 //@nelkaake Changed on Wednesday May 5, 2010:
-                $price = $item->getBaseRowTotal();
+                $price = Mage::helper('rewards/price')->getReversedCurrencyPrice($item->getRowTotalAfterRedemptions());
                 if ( Mage::helper('rewards/config')->earnCatalogPointsForTax() ) {
-                    $price += $item->getBaseTaxAmount();
+                    $price = Mage::helper('rewards/price')->getReversedCurrencyPrice($item->getRowTotalAfterRedemptionsInclTax());
                 }
             } else {
-                $price = $item->getBaseRowTotal();
+                $price = Mage::helper('rewards/price')->getReversedCurrencyPrice($item->getRowTotalAfterRedemptions());
             }
             $profit = $item->getBaseRowTotal() - ($product_cost * $qty); //@nelkaake 04/03/2010 2:05:12 PM
         } else {
@@ -744,7 +731,7 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
             $item_rule_ids = explode ( ',', $item->getAppliedRuleIds () );
             $item_rule_ids = array_unique ( $item_rule_ids );
 
-            // TODO WDCA - change this inner loop into an array_search
+            // TODO Sweet Tooth - change this inner loop into an array_search
             foreach ( $item_rule_ids as $item_rule_id ) {
                 // instantiate an item rule and dump its data
                 $item_rule = $this->getSalesRule ( $item_rule_id );
@@ -944,64 +931,6 @@ class TBT_Rewards_Helper_Transfer extends Mage_Core_Helper_Abstract {
 
         return $profit;
     }
-
-
-
-    /**
-     * Creates a customer point-transfer of any amount or currency.
-     * @deprecated Use TBT_Rewards_Model_Transfer::revoke()
-     *
-     * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
-     * @param  int $rule_id       : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
-     * @return boolean            : whether or not the point-transfer succeeded
-     */
-    public function transferRevokedPoints($num_points, $currency_id, $reference_transfer_id, $customer_id) {
-        return ($this->createRevokedTransfer ( $num_points, $currency_id, $reference_transfer_id, $customer_id ) != 0);
-    }
-
-    /**
-     * Creates a customer point-transfer of any amount or currency.
-     * @deprecated Use TBT_Rewards_Model_Transfer::revoke()
-     *
-     * @param  int $num_points    : Quantity of points to transfer: positive=>distribution, negative=>redemption
-     * @param  int $currency_id   : The ID of the point currency used in this transfer
-     * @param  int $reference_type: The type of action from which this transfer originates (Customer order, reviews, etc.)
-     * @param  int $reference_id  :  The ID of the object from which this transfer originates (Order ID, etc.)
-     * @param  int $rule_id       : The ID of the rule that allowed this transfer to be created... RULE MAY HAVE BEEN DISCONTINUED
-     * @return boolean            : whether or not the point-transfer succeeded
-     */
-    public function createRevokedTransfer($num_points, $currency_id, $reference_transfer_id, $customer_id) {
-        // ALWAYS ensure that we only give an integral amount of points
-        $num_points = floor ( $num_points );
-
-        if ($num_points == 0) {
-            return 0;
-        }
-
-        $transfer = Mage::getModel ( 'rewards/transfer' );
-
-        // get the default starting status - usually Pending
-        if (! $transfer->setStatus ( null, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED )) {
-            // we tried to use an invalid status... is getInitialTransferStatusAfterReview() improper ??
-            return 0;
-        }
-
-        $customer = Mage::getModel ( 'rewards/customer' )->load ( $customer_id );
-        if (($customer->getUsablePointsBalance ( $currency_id ) + $num_points) < 0) {
-            $error = $this->__ ( 'Not enough points for transaction. You have %s, but you need %s', Mage::getModel ( 'rewards/points' )->set ( $currency_id, $customer->getUsablePointsBalance ( $currency_id ) ), Mage::getModel ( 'rewards/points' )->set ( $currency_id, $num_points * - 1 ) );
-            throw new Exception ( $error );
-        }
-
-        $original_transfer = Mage::getModel ( 'rewards/transfer' )->load ( $reference_transfer_id );
-
-        $transfer->setId ( null )->setCurrencyId ( $currency_id )->setQuantity ( $num_points )->setCustomerId ( $customer_id )->setReferenceTransferId ( $reference_transfer_id )->setReasonId ( TBT_Rewards_Model_Transfer_Reason::REASON_SYSTEM_REVOKED )->setComments ( Mage::getStoreConfig ( 'rewards/transferComments/revoked' ), $original_transfer->getComments () )->save ();
-
-        return $transfer->getId ();
-    }
-
 
     /**
      * Fetches a cached shopping cart rule model

@@ -43,49 +43,54 @@ class TBT_Rewards_Helper_Debug_Rule extends Mage_Core_Helper_Abstract {
 	}
 	
 	/**
-	 *
 	 * @param int $rule_id
 	 * @return 
 	 */
-	public function enableOnlyAndReturnInCollection($rules, $rule_id = 1) {
-		$active_rule = null;
-		foreach ( $rules as $rule ) {
-			if ($rule->getId () == $rule_id) {
-				if (( int ) $rule->getIsActive () == 0) {
-					$active_rule = $rule->setIsActive ( 1 );
-					echo "Enabling '{$rule->getName()}':[{$rule->getId()}].";
-					$rule->save ();
-				}
-			} else {
-				if (( int ) $rule->getIsActive () == 1) {
-					$rule->setIsActive ( 0 );
-					echo "Disabling '{$rule->getName()}':[{$rule->getId()}].";
-					$rule->save ();
-				}
-			}
-		}
-		return $active_rule;
+	public function enableOnlyAndReturnInCollection($rules, $rule_id = 1) 
+        {
+            $active_rule = null;
+            foreach ( $rules as $rule ) {
+                if ($rule->getId () == $rule_id) {
+                    if (( int ) $rule->getIsActive () == 0) {
+                        $active_rule = $rule->setIsActive ( 1 );
+                        Mage::helper('rewards/debug')->printMessage("Enabling '{$rule->getName()}':[{$rule->getId()}].");
+                        $rule->save ();
+                    }
+                } elseif (( int ) $rule->getIsActive () == 1) {
+                    $rule->setIsActive ( 0 );
+                    Mage::helper('rewards/debug')->printMessage("Disabling '{$rule->getName()}':[{$rule->getId()}].");
+                    $rule->save ();
+                }
+            }
+            
+            return $active_rule;
 	}
+        
 	/**
 	 *
-	 * @param int $rule_id
+	 * @param string $filter
 	 * @return 
 	 */
-	public function deleteAllWithFilter($filter) {
-		$this->deleteAllSalesRulesWithFilter ( $filter );
-		$this->deleteAllCatalogRulesWithFilter ( $filter );
-		
-		// delete special rules
-		foreach ( Mage::getModel ( 'rewards/special' )->getCollection () as $rule ) {
-			if (strpos ( strtolower ( $rule->getName () ), strtolower ( $filter ) ) === false)
-				continue;
-			$rule->delete ();
-		}
-		return $this;
+	public function deleteAllWithFilter($filter) 
+        {
+            $this->deleteAllSalesRulesWithFilter($filter);
+            $this->deleteAllCatalogRulesWithFilter($filter);
+
+            // delete special rules
+            foreach (Mage::getModel('rewards/special')->getCollection() as $rule) {
+                if (strpos(strtolower($rule->getName()), strtolower($filter)) === false) {
+                    continue;
+                }
+
+                $rule->delete ();
+            }
+
+            return $this;
 	}
+        
 	/**
 	 *
-	 * @param int $rule_id
+	 * @param string $filter
 	 * @return 
 	 */
 	public function deleteAllSalesRulesWithFilter($filter) {
@@ -95,7 +100,7 @@ class TBT_Rewards_Helper_Debug_Rule extends Mage_Core_Helper_Abstract {
 	}
 	/**
 	 *
-	 * @param int $rule_id
+	 * @param string $filter
 	 * @return 
 	 */
 	public function deleteAllCatalogRulesWithFilter($filter) {
@@ -103,21 +108,25 @@ class TBT_Rewards_Helper_Debug_Rule extends Mage_Core_Helper_Abstract {
 		$this->deleteAllRuleWithFilter ( $rules, $filter );
 		return $this;
 	}
+        
 	/**
-	 *
-	 * @param int $rule_id
+	 * @param array $rules
+	 * @param string $filter
 	 * @return 
 	 */
-	public function deleteAllRuleWithFilter($rules, $filter) {
-		echo "Deleting all rules with name containing {$filter}...";
-		foreach ( $rules as $rule ) {
-			if (strpos ( strtolower ( $rule->getName () ), strtolower ( $filter ) ) !== false) {
-				echo "Deleting '{$rule->getName()}':[{$rule->getId()}].";
-				$rule->delete ();
-			}
-		}
-		return $this;
+	public function deleteAllRuleWithFilter($rules, $filter) 
+        {
+            Mage::helper('rewards/debug')->printMessage("Deleting all rules with name containing {$filter}...");
+            foreach ( $rules as $rule ) {
+                if (strpos ( strtolower ( $rule->getName () ), strtolower ( $filter ) ) !== false) {
+                    Mage::helper('rewards/debug')->printMessage("Deleting '{$rule->getName()}':[{$rule->getId()}].");
+                    $rule->delete ();
+                }
+            }
+            
+            return $this;
 	}
+        
 	/**
 	 *
 	 * @return TBT_Rewards_Model_Mysql4_Catalogrule_Rule_Collection

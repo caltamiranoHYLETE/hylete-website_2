@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -185,12 +185,12 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
 
             try {
                 //Create the Transfer
-                $is_transfer_successful = Mage::helper('rewards/transfer')->transferSignupPoints($rule->getPointsAmount(), $rule->getPointsCurrencyId(), $this->getId(), $rule);
+                $is_transfer_successful = Mage::helper('rewards/transfer')->transferSignupPoints($rule->getPointsAmount(), $this->getId(), $rule);
             } catch (Exception $ex) {
                 Mage::getSingleton('core/session')->addError($ex->getMessage());
             }
 
-            if ($is_transfer_successful) {
+            if (isset($is_transfer_successful)) {
                 //Alert the customer on the distributed points
                 Mage::getSingleton('core/session')->addSuccess(Mage::helper('rewards')->__('You received %s for signing up!', (string)Mage::getModel('rewards/points')->set($rule)));
             } else {
@@ -264,10 +264,10 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
         if ($status == '*active*') {
             $point_sums = $this->getCustomerPointsCollection ()->addStoreFilter ( Mage::app ()->getStore () );
         } else {
-            $point_sums = $this->getCustomerPointsCollectionAll ()->addStoreFilter ( Mage::app ()->getStore () )->addFilter ( "status", $status );
+            $point_sums = $this->getCustomerPointsCollectionAll ()->addStoreFilter ( Mage::app ()->getStore () )->addFieldToFilter ( "status_id", $status );
         }
 
-        $point_sums->excludeTransferReferences()->addFilter ( "customer_id", $this->getId () );
+        $point_sums->addFieldToFilter ( "customer_id", $this->getId () );
 
         $points = array ();
         //Zero's out all cuurencies on the point map
@@ -275,10 +275,30 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
             $points [$curr_id] = 0;
         }
 
+        $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
         foreach ( $point_sums as $currency_points ) {
-            $points [$currency_points->getCurrencyId ()] = ( int ) $currency_points->getPointsCount ();
+            $points [$defaultCurrencyId] = ( int ) $currency_points->getPointsCount ();
         }
         return $points;
+    }
+    
+    /**
+     * Rerive only the positive pending points
+     * @return array
+     */
+    public function getPositivePendingPoints()
+    {
+        $collection = $this->getTransferCollection()
+            ->selectOnlyPosTransfers()
+            ->addFieldToFilter('status_id', TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT)
+            ->addFieldToFilter('customer_id', $this->getId());
+        
+        $collection->getSelect()
+            ->reset(Zend_Db_Select::COLUMNS)
+            ->columns(new Zend_Db_Expr('SUM(quantity) AS points_sum'));
+        
+        $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
+        return array($defaultCurrencyId => $collection->getFirstItem()->getPointsSum());
     }
 
     /**
@@ -286,13 +306,13 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
      * @see TBT_Rewards_Model_Transfer_Status for status ids
      * @return array
      */
-    public function _getPendingPointsRedemptionsSum() {
+    public function _getPendingPointsRedemptionsSum() 
+    {
         $point_sums = $this->getTransferCollection ()->addStoreFilter ( Mage::app ()->getStore () )
-                ->excludeTransferReferences()
-                ->addFilter ( "status", TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT )
-                ->addFieldToFilter ( "quantity", array ('lt' => 0 ) )
+                ->addFieldToFilter( "status_id", TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT )
+                ->addFieldToFilter( "quantity", array ('lt' => 0 ) )
                 ->groupByCustomers ()
-                ->addFilter ( "customer_id", $this->getId () );
+                ->addFieldToFilter( "customer_id", $this->getId () );
 
         $points = array ();
         //Zero's out all currencies on the point map
@@ -300,8 +320,9 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
             $points [$curr_id] = 0;
         }
 
+        $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
         foreach ( $point_sums as $currency_points ) {
-            $points [$currency_points->getCurrencyId ()] = ( int ) $currency_points->getPointsCount ();
+            $points [$defaultCurrencyId] = ( int ) $currency_points->getPointsCount ();
         }
 
         return $points;
@@ -335,9 +356,15 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
      *
      */
     private function _loadTransferCollections() {
-        // Fetches a list of point tranfers for this customers.
-        // Each row is the point tranfers for a customer in a certain currency.
-        $transfers = $this->getTransferCollection ()->selectPointsCaption ( 'points_caption' )->addStoreFilter ( Mage::app ()->getStore () )->addFilter ( "customer_id", $this->getId () );
+        /* 
+         * Fetches a list of point tranfers for this customers.
+         * Each row is the point tranfers for a customer in a certain currency. 
+         */
+        $transfers = $this->getTransferCollection()
+            ->selectPointsCaption('points_caption')
+            ->addStoreFilter(Mage::app()->getStore())
+            ->addFieldToFilter("customer_id", $this->getId());
+        
         $this->transfers = $transfers;
     }
 
@@ -451,7 +478,7 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
      *
      * @return array
      */
-    // TODO WDCA - Add in filter by customer group ID, currently not supported
+    // TODO Sweet Tooth - Add in filter by customer group ID, currently not supported
         public function getCustomerCurrencyIds()
         {
                 return Mage::getSingleton('rewards/currency')->getAvailCurrencyIds ();
@@ -489,6 +516,15 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
      */
     public function getPendingPointsSummary() {
         return Mage::helper ( 'rewards' )->getPointsString ( $this->pending_points );
+    }
+    
+    /**
+     * Returns a nicely formatted string of the customer's positive PENDING points
+     * @return string
+     */
+    public function getPositivePendingPointsSummary()
+    {
+        return Mage::helper('rewards')->getPointsString($this->getPositivePendingPoints());
     }
 
     /**
@@ -661,8 +697,9 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
      * @return TBT_Rewards_Model_Mysql4_Transfer_Collection
      */
     public function getNewsletterTransfers($newsletter_id) {
-        $transfers = $this->getTransfers ()->addAllReferences()->addFilter ( 'reference_type', TBT_Rewards_Model_Transfer_Reference::REFERENCE_NEWSLETTER )->addFilter ( 'reference_id', $newsletter_id );
-        return $transfers;
+        return $this->getTransfers()
+            ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('newsletter'))
+            ->addFieldToFilter('reference_id', $newsletter_id);
     }
 
     /**
@@ -800,7 +837,7 @@ class TBT_Rewards_Model_Customer extends Mage_Customer_Model_Customer
     public function getLatestActivityDate()
     {
         $lastTransfer = Mage::getResourceModel('rewards/transfer')->getLastActiveTransaction($this->getId());
-        $date = $lastTransfer->getLastUpdateTs();
+        $date = $lastTransfer->getUpdatedAt();
         return $date? $date : null;
     }
 

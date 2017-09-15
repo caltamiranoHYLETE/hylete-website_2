@@ -1,9 +1,0 @@
-<?xml version="1.0"?> 
-    <config> 
-    <modules> 
-      <Icommerce_SetFrontendCurrency> 
-        <codePool>local</codePool> 
-        <active>true</active> 
-      </Icommerce_SetFrontendCurrency> 
-    </modules> 
-    </config>

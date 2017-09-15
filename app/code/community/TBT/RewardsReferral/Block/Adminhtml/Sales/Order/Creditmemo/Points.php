@@ -29,15 +29,21 @@ class TBT_RewardsReferral_Block_Adminhtml_Sales_Order_Creditmemo_Points extends 
 
         if (!$this->_transfers) {
             $orderId = $this->getOrder()->getId();
-            $this->_transfers = Mage::getResourceModel( 'rewardsref/referral_order_transfer_reference_collection' )
-                ->addTransferInfo()
-                ->filterAssociatedWithOrder($orderId);
+            $helper = Mage::helper('rewards/transfer_reason');
+            
+            $this->_transfers = Mage::getResourceModel('rewards/transfer_collection')
+                ->selectOnlyPosTransfers()
+                ->addFieldToFilter('reference_id', $orderId)
+                ->addFieldToFilter('reason_id', array('in' => array(
+                    $helper->getReasonId('referral_order_first'),
+                    $helper->getReasonId('referral_order'),
+                    $helper->getReasonId('referral_order_guest')
+                ))
+            );
         }
 
         foreach ($this->_transfers as $transfer) {
-            if ($transfer->getQuantity() > 0) {
-                $points += $transfer->getQuantity();
-            }
+            $points += $transfer->getQuantity();
         }
 
         return $points;

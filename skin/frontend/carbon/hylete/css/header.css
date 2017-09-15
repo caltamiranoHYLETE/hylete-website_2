@@ -82,6 +82,13 @@
     padding-left: 0;
 }
 
+#header .account-button .fa-user-o {
+    position: relative;
+    font-size: 18px;
+    margin-right: 5px;
+    top: 2px;
+}
+
 #atca-cart {
     display: inline-block;
     text-align: center;

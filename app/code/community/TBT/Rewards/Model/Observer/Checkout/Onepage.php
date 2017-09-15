@@ -68,20 +68,25 @@ class TBT_Rewards_Model_Observer_Checkout_Onepage extends Varien_Object {
             $shipaddr = $quote->getShippingAddress ();
             $total_shipping_value = $shipaddr->getShippingAmount ();
             $current_points_spending = $quote->getPointsSpending();
-            Mage::log ( "Paying for shipping with points..." );
+            Mage::helper('rewards/debug')->log( "Paying for shipping with points..." );
 
             $rule_ids = explode ( ',', $quote->getAppliedRedemptions () );
             foreach ( $rule_ids as $rid ) {
                 $salesrule = Mage::helper ( 'rewards/transfer' )->getSalesRule ( $rid );
-                if ($salesrule->getPointsAction () != 'discount_by_points_spent')
+                
+                if ($salesrule->getPointsAction () != 'discount_by_points_spent') {
                     continue;
-                if (! $salesrule->getPointsDiscountAmount ())
-                    continue; // discount amount should not be empty (so we dont divide by zero)
-                Mage::log ( "Points step according to quote is {$quote->getPointsStep()}" );
+                }
+                
+                if (! $salesrule->getPointsDiscountAmount ()) {
+                    continue;
+                }
+                
+                Mage::helper('rewards/debug')->log( "Points step according to quote is {$quote->getPointsStep()}" );
                 if ($salesrule->getPointsAmount () == $quote->getPointsStep ()) {
                     $uses_to_zero_shipping = ceil ( $total_shipping_value / $salesrule->getPointsDiscountAmount () );
                     $quote->setPointsSpending($uses_to_zero_shipping + $current_points_spending);
-                    Mage::log ( "Added {$uses_to_zero_shipping} to existing points uage of {$current_points_spending}" );
+                    Mage::helper('rewards/debug')->log( "Added {$uses_to_zero_shipping} to existing points uage of {$current_points_spending}" );
                     break;
                 }
             }

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -86,7 +86,7 @@ class TBT_Rewards_Model_Sales_Quote_Address_Total_Tax2 extends Mage_Tax_Model_Sa
         $customer         = $address->getQuote()->getCustomer();
         $shippingTaxClass = Mage::helper('tax')->getShippingTaxClass($store);
         foreach ($address->getAllItems() as $item) {
-            Mage::getSingleton('rewards/redeem')->refactorRedemptions($item, false);
+            Mage::getSingleton('rewards/catalogrule_service_processRules')->refactorRedemptions($item, false);
         }
         Varien_Profiler::stop("TBT_Rewards:: Recalculating tax for points redemption purposes.");
         parent::collect($address);
@@ -181,7 +181,7 @@ class TBT_Rewards_Model_Sales_Quote_Address_Total_Tax2 extends Mage_Tax_Model_Sa
         $currency_rate                   = Mage::helper('rewards/price')->getCurrencyRate($address->getQuote());
         $total_rewards_base_discount_tax = Mage::helper('rewards/price')->getReversedCurrencyPrice(
             $total_rewards_discount_tax,
-            $currency_rate
+            1 / $currency_rate
         );
 
         // If prices DONT include tax only should we ACTUALLY subtract from the total tax amount
@@ -190,7 +190,7 @@ class TBT_Rewards_Model_Sales_Quote_Address_Total_Tax2 extends Mage_Tax_Model_Sa
         $store = $address->getQuote()->getStore();
         if (!Mage::helper('tax')->priceIncludesTax($store)) {
             $this->_addAmount($total_rewards_discount_tax);
-            $this->_addBaseAmount($total_rewards_discount_tax);
+            $this->_addBaseAmount($total_rewards_base_discount_tax);
         }
 
         //@nelkaake -a 17/02/11: save for reference in the order

@@ -16,7 +16,7 @@ class TBT_Reports_Block_Adminhtml_Dashboard_Widget_Summary extends TBT_Rewards_B
             if ($dashboardNotificationBlock instanceof TBT_Rewards_Block_Manage_Dashboard_Widget_Notifications) {
                 $notificationLink = Mage::getBlockSingleton('index/adminhtml_notifications')->getManageUrl();
                 $notificationLinkText = $this->__('Index Management');
-                $notification = $this->__("Please rebuild required indexes to see %s metrics: ", "Sweet&nbsp;Tooth");
+                $notification = $this->__("Please rebuild required indexes to see %s metrics: ", "MageRewards");
                 $dashboardNotificationBlock->addNotification($notification, $notificationLink, $notificationLinkText);
             }
         }

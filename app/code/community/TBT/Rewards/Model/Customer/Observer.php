@@ -16,6 +16,22 @@ class TBT_Rewards_Model_Customer_Observer extends Varien_Object
     protected $_isNew = false;
 
     /**
+     * Before admin customer save
+     * 
+     * @param Varien_Event_Observer $e
+     * @event adminhtml_customer_prepare_save
+     */
+    public function adminCustomerPrepareSave($e)
+    {
+        $event = $e->getEvent();
+        $customer = $event->getCustomer();
+        
+        $data = $event->getRequest()->getParam('rewards_points_notification');
+        $emailPreference = (!empty($data));
+        $customer->setRewardsPointsNotification($emailPreference);
+    }
+    
+    /**
      * AfterLoad for customer
      * @param Varien_Event_Observer $observer
      */
@@ -46,25 +62,30 @@ class TBT_Rewards_Model_Customer_Observer extends Varien_Object
      */
     public function customerAfterCommit($observer)
     {
-        $customer_obj = $observer->getEvent()->getCustomer();
-        $customer = Mage::getModel('rewards/customer')->getRewardsCustomer($customer_obj);
+        $customer = $observer->getEvent()->getCustomer();
+        $rewardsCustomer = Mage::getModel('rewards/customer')->getRewardsCustomer($customer);
 
         //If the customer is new (hence not having an id before) get applicable rules,
         //and create a transfer for each one
         if ($this->_isNew && !$this->getCreatedTransferForNewCustomer()) {
+            
+            $rewardsSession = Mage::getSingleton('rewards/session');
+            $rewardsSession->setRequestGroupId($rewardsCustomer->getGroupId());
+            
             // making sure this will not be fired twice
             $this->setCreatedTransferForNewCustomer(true);
-            $customer->createTransferForNewCustomer();
-
-            Mage::getSingleton('rewards/session')->setCustomer($customer);
-
+            $rewardsCustomer->createTransferForNewCustomer();
+            
+            Mage::getModel('rewards/newsletter_subscription_observer')->afterSignUpNewsletterCheck($customer);
+            $rewardsSession->setCustomer($rewardsCustomer);
+            
             $this->setRequiresDispatchAfterOrder(false);
             if ($this->getIsOrderBeingPlaced()) {
                 $this->setRequiresDispatchAfterOrder(true);
                 return $this;
             }
 
-            $this->_dispatchCustomerCreation($customer);
+            $this->_dispatchCustomerCreation($rewardsCustomer);
         }
 
         return $this;

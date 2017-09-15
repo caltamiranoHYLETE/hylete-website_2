@@ -28,13 +28,13 @@
  * @see Mage_Tax_Block_Checkout_Grandtotal
  */
 ?>
-<?php if ($this->includeTax() && $this->getTotalExclTaxExclCatalogRedem()>=0): /* WDCA MOD */ ?>
+<?php if ($this->includeTax() && $this->getTotalExclTaxExclCatalogRedem()>=0): /* Sweet Tooth MOD */ ?>
 <tr>
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <strong><?php echo $this->helper('tax')->__('Grand Total Excl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTaxExclCatalogRedem()) /* WDCA MOD */  ?></strong>
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTaxExclCatalogRedem()) /* Sweet Tooth MOD */  ?></strong>
     </td>
 </tr>
 <?php echo $this->renderTotals('taxes', $this->getColspan()); ?>

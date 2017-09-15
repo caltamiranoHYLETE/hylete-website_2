@@ -1,28 +1,28 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -48,16 +48,16 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
      * @var array
      */
     protected $reasonsMap = array(
-        'facebook_like' => TBT_RewardsSocial2_Model_Reason_FacebookLike::REASON_TYPE_ID,
-        'facebook_share' => TBT_RewardsSocial2_Model_Reason_FacebookShare::REASON_TYPE_ID,
-        'twitter_follow' => TBT_RewardsSocial2_Model_Reason_TwitterFollow::REASON_TYPE_ID,
-        'twitter_tweet' => TBT_RewardsSocial2_Model_Reason_TwitterTweet::REASON_TYPE_ID,
-        'google_plusone' => TBT_RewardsSocial2_Model_Reason_GooglePlusOne::REASON_TYPE_ID,
-        'pinterest_pin' => TBT_RewardsSocial2_Model_Reason_PinterestPin::REASON_TYPE_ID,
-        'facebook_share_purchase' => TBT_RewardsSocial2_Model_Reason_PurchaseShareFacebook::REASON_TYPE_ID,
-        'twitter_tweet_purchase' => TBT_RewardsSocial2_Model_Reason_PurchaseShareTwitter::REASON_TYPE_ID,
-        'facebook_share_referral' => TBT_RewardsSocial2_Model_Reason_ReferralShare::REASON_TYPE_ID,
-        'twitter_tweet_referral' => TBT_RewardsSocial2_Model_Reason_ReferralShare::REASON_TYPE_ID
+        'facebook_like' => 'social_facebook_like',
+        'facebook_share' => 'social_facebook_share',
+        'twitter_follow' => 'social_twitter_follow',
+        'twitter_tweet' => 'social_twitter_tweet',
+        'google_plusone' => 'social_google_plusone',
+        'pinterest_pin' => 'social_pinterest_pin',
+        'facebook_share_purchase' => 'social_facebook_share_purchase',
+        'twitter_tweet_purchase' => 'social_twitter_tweet_purchase',
+        'facebook_share_referral' => 'social_referral_share',
+        'twitter_tweet_referral' => 'social_referral_share'
     );
     
     /**
@@ -101,9 +101,11 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
      */
     public function initiateTransfers($socialAction)
     {
+        $helper = Mage::helper('rewardssocial2');
+        
         $action = $socialAction->getAction();
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        $rules = Mage::helper('rewardssocial2')->fetchApplicableRules($action);
+        $customer = $helper->getCustomerForSocialAction();
+        $rules = $helper->fetchApplicableRules($action);
         
         foreach ($rules as $rule) {
             $this->createSocialTransfer($customer, $rule, $socialAction);
@@ -121,14 +123,13 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
     public function createSocialTransfer($customer, $rule, $socialAction)
     {
         $pointsAmount = $rule->getPointsAmount();
-        $currencyId = $rule->getPointsCurrencyId();
         $ruleId = $rule->getId();
         
         $store = $customer->getStore();
         $action = $socialAction->getAction();
 
         // Inititate transfer
-        $transfer = $this->initTransfer($pointsAmount, $currencyId, $ruleId);
+        $transfer = $this->initTransfer($pointsAmount, $ruleId, $customer->getId(), true);
 
         if (!$transfer) {
             return false;
@@ -137,16 +138,14 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
         // Get on-hold initial status override
         if ($rule->getOnholdDuration() > 0) {
             $transfer->setEffectiveStart(date('Y-m-d H:i:s', strtotime("+{$rule->getOnholdDuration()} days")))
-                ->setStatus(null, TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_TIME);
+                ->setStatusId(null, TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_TIME);
         } else {
             // Get the default starting status
             $initialStatus = $this->getInitialTransferStatus($action, $store);
-            if (!$transfer->setStatus(null, $initialStatus)) {
+            if (!$transfer->setStatusId(null, $initialStatus)) {
                 return false;
             }
         }
-
-        $this->clearReferences();
 
         // Fetch transfer comments
         $initialTransferMessage = $this->getTransferComments($action, $store);
@@ -154,9 +153,8 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
         $actionId = $socialAction->getId();
         
         // Set Additional Data
-        $this->setReferenceType(TBT_RewardsSocial2_Model_Transfer_Reference::REFERENCE_TYPE_ID)
-            ->setReferenceId($actionId)
-            ->setReasonId($this->reasonsMap[$action])
+        $this->setReferenceId($actionId)
+            ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId($this->reasonsMap[$action]))
             ->setActionId($actionId)
             ->setComments($comments)
             ->setCustomerId($customer->getId())
@@ -195,5 +193,22 @@ class TBT_RewardsSocial2_Model_Transfer extends TBT_Rewards_Model_Transfer
         }
         
         return false;
+    }
+    
+    public function loadByCustomerAndReason($customerId, $reasonId)
+    {
+        return $this->getCollection()
+            ->addFieldToFilter('reason_id', $reasonId)
+            ->addFieldToFilter('customer_id', $customerId)
+            ->getFirstItem();
+    }
+    
+    public function loadFromData($customerId, $referenceId, $reasonId)
+    {
+        return $this->getCollection()
+            ->addFieldToFilter('reason_id', $reasonId)
+            ->addFieldToFilter('reference_id', $referenceId)
+            ->addFieldToFilter('customer_id', $customerId)
+            ->getFirstItem();
     }
 }

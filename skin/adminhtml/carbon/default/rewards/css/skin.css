@@ -1,7 +1,7 @@
 
 .stadmin-menu_main {
-    background-image:url("../images/st_micro_icon.png") !important;
-    background-position:0 7px !important;
+    background-image:url("../images/magerewards-small.png") !important;
+    background-position:0 6px !important;
     background-repeat:no-repeat !important;
     padding-left:22px !important;
     padding-right:0 !important;
@@ -22,12 +22,15 @@ h3.head-manage-transfer-redemption,
 h3.head-manage-transfer,
 h3.head-manage-customer-points,
 h3.head-manage-promo-quote,
-h3.head-manage-promo-catalog
+h3.head-manage-promo-catalog,
+h3.head-manage-history,
+h3.head-adminhtml-points-import,
+h3.head-adminhtml-referrals-import
 {
-    background-image:url("../images/st_micro_icon.png");
+    background-image:url("../images/magerewards-small.png");
     background-position:0 2px;
     background-repeat:no-repeat;
-    color:#EA5091;
+    color:#FFA028;
     padding-left:22px;
     padding-right:0;
 }
@@ -36,10 +39,10 @@ h3.head-manage-promo-catalog
         .tabs a:hover.active span.stadmin-config_menu,
         .tabs.config-tabs span.stadmin-config_menu a.stadmin-config_menu:hover {
     padding: 0;
-    background-image:url("../images/st_micro_icon.png");
+    background-image:url("../images/magerewards-small.png");
     background-position:0 2px;
     background-repeat:no-repeat;
-    color:#EA5091;
+    color:#FFA028;
     padding-left:22px;
     padding-right:0;
 }
@@ -47,10 +50,10 @@ h3.head-manage-promo-catalog
 
 
 .content-header h3 span.stadmin-config_menu {
-    background-image:url("../images/st_micro_icon.png");
+    background-image:url("../images/magerewards-small.png");
     background-position:0 2px;
     background-repeat:no-repeat;
-    color:#EA5091;
+    color:#FFA028;
     padding-left:22px;
     padding-right:0;
 }
@@ -165,10 +168,17 @@ fieldset.rewards-np {
     min-height: 70px;
 }
 
+.rewards_dashboard_contents .remote-content {
+    margin-bottom: 18px;
+}
+
 /***** Quick Launch Page *****/
+.support-beacon { text-align: right; }
 .sweettooth-quick-launch { max-width: 800px; margin: auto; }
 .sweettooth-quick-launch .hide { display: none !important; }
+.sweettooth-quick-launch .clickable { cursor: pointer; }
 .sweettooth-quick-launch .section-header { background-color: #6f8992; padding: 2px 10px; color: white; font-weight: bold; }
+.sweettooth-quick-launch .section-header a { color: white; text-decoration: none; }
 .sweettooth-quick-launch .section-header.collapsed { border-bottom: 1px solid #fafafa; opacity: 0.5; }
 .sweettooth-quick-launch .section-counter { background-color: white; color: #6f8992; padding: 0 4px; border: 1px solid #d6d6d6; margin-right: 5px; }
 .sweettooth-quick-launch .section-content { border: 1px solid #d6d6d6; background-color: #fafafa; padding: 20px; }
@@ -185,19 +195,46 @@ fieldset.rewards-np {
 .sweettooth-quick-launch .connect-your-account label .required { padding-left: 2px; }
 .sweettooth-quick-launch .connect-your-account input { width: 220px; }
 
-.sweettooth-quick-launch .set-up-your-program label { width: 140px; display: block; float: left; font-weight: bold; }
-.sweettooth-quick-launch .set-up-your-program .field { margin-bottom: 10px; }
-.sweettooth-quick-launch .set-up-your-program input { width: 50px; padding: 0 5px; }
-.sweettooth-quick-launch .points-input-label { background-color: #ddd; display: inline-block; padding: 0px 3px; }
+.sweettooth-quick-launch .points-input-label { background-color: rgba(221, 221, 221, 0.5); display: inline-block; padding-left: 15px; height: 30px; border-radius: 0 2px 2px 0; border: 1px solid #999; border-left: 0; line-height: 30px; width: 85px; }
 .sweettooth-quick-launch .field-points-name input { vertical-align: top; height: 14px; width: 100px; }
 .sweettooth-quick-launch .field-earning input, .sweettooth-quick-launch .field-spending input { margin: 0 3px; }
 .sweettooth-quick-launch .info-box { margin-top: 20px; background-color: #DAF0F8; padding: 5px 15px; border: 1px solid #5190A5; }
 .sweettooth-quick-launch .info-box i { background-image: url(../images/info.png); width: 16px; height: 16px; display: block; float: left; margin-right: 10px; }
-.sweettooth-quick-launch .set-up-your-program .section-content { position: relative; }
-.sweettooth-quick-launch .set-up-your-program .confirm-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 100; display: table; }
-.sweettooth-quick-launch .set-up-your-program .confirm-box { margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 80px; padding: 20px; border: 3px solid #eee2be; background-color: #fff9e9; text-align: center; max-width: 500px;}
-.sweettooth-quick-launch .set-up-your-program .confirm-box span { display: block; margin-bottom: 40px; text-align: left; }
-.sweettooth-quick-launch .set-up-your-program .confirm-box button { padding: 5px 25px; margin: 0 15px; }
+
+.sweettooth-quick-launch .loyalty-program-settings h3 { font-family: Arial; }
+.sweettooth-quick-launch .loyalty-program-settings label { display: block; font-family: 'Roboto';   padding-bottom: 1px; }
+.sweettooth-quick-launch .loyalty-program-settings input, .sweettooth-quick-launch .loyalty-program-settings select { padding: 0 5px; height: 30px; border-radius: 2px; border: 1px solid #999; width: 300px; -webkit-box-sizing: initial; -moz-box-sizing: initial; box-sizing: initial; margin-left: 13px; }
+.sweettooth-quick-launch .loyalty-program-settings input.points-caption { width: 200px; border-right: 0; }
+
+.sweettooth-quick-launch .loyalty-program-settings .questions { padding-top: 10px; padding-bottom: 15px; display: block; }
+.sweettooth-quick-launch .loyalty-program-settings .question { padding: 10px 20px; font-size: 13px; }
+.sweettooth-quick-launch .loyalty-program-settings .question label { margin-bottom: 8px; }
+.sweettooth-quick-launch .loyalty-program-settings .question small { vertical-align: bottom; opacity: 0.5; }
+.sweettooth-quick-launch .loyalty-program-settings .field-content input { border-radius: 2px 0 0 2px; }
+.sweettooth-quick-launch .loyalty-program-settings .skip-setup { margin-left: 10px; color: #eb5e00; text-decoration: underline; font-size: smaller; cursor: pointer; position: absolute; right: 0; margin-top: 5px; }
+
+.sweettooth-quick-launch .program-review .program-type { -webkit-appearance: none; -moz-appearance: none; text-overflow: ''; background-color: #fafafa; border: none; border-bottom: 1px solid #FFA028; color: #2f2f2f; font-weight: bold; padding-bottom: 1px; cursor: pointer; }
+.sweettooth-quick-launch .program-review .content-box { margin: 20px 0; border: 1px solid #d6d6d6; background-color: white; border-radius: 3px; padding: 10px 15px; }
+.sweettooth-quick-launch .program-review h3 { text-transform: uppercase; font-family: 'Roboto'; padding-bottom: 5px; border-bottom: 1px solid #d6d6d6; }
+.sweettooth-quick-launch .program-review input[type="text"] { background-color: #FAFAFA; width: 50px; font-weight: bold; border: none; border-bottom: 1px solid black; padding-bottom: 2px; margin: 0 3px; text-align: center; color: #333; }
+.sweettooth-quick-launch .program-review .earning, .sweettooth-quick-launch .program-review .spending { width: 44%; margin-top: 10px; }
+.sweettooth-quick-launch .program-review .special { margin-top: 0px; margin-bottom: 5px; }
+.sweettooth-quick-launch .program-review .earning, .sweettooth-quick-launch .program-review .spending, .sweettooth-quick-launch .program-review .special { background-color: #FAFAFA; }
+.sweettooth-quick-launch .program-review .customer-action { margin-bottom: 5px; }
+.sweettooth-quick-launch .program-review .special h4 { margin-bottom: 15px; }
+.sweettooth-quick-launch .program-review .customer-display .field-content { text-align: center; width: 100%; display: block; padding: 20px 0; }
+.sweettooth-quick-launch .program-review .screenshot { display: inline-block; width: 30%; padding: 0 10px; border-left: 1px solid #d6d6d6; }
+.sweettooth-quick-launch .program-review .screenshot img { cursor: zoom-in; }
+.sweettooth-quick-launch .program-review .screenshot.first { border: none; }
+.sweettooth-quick-launch .program-review .screenshot span { margin: 0 10px; font-size: larger; padding-top: 10px; display: inline-block; }
+.sweettooth-quick-launch .program-review .marked { background: #FAFAFA url(../images/success_msg_icon.gif) no-repeat; width: 16px; height: 16px; display: inline-block; margin: 0 5px -3px 10px; }
+.sweettooth-quick-launch .program-review .confirm-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 100; display: table; }
+.sweettooth-quick-launch .program-review .confirm-box { margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 80px; padding: 20px; border: 3px solid #eee2be; background-color: #fff9e9; text-align: center; }
+.sweettooth-quick-launch .program-review .confirm-box span { display: block; margin-bottom: 40px; text-align: left; }
+.sweettooth-quick-launch .program-review .confirm-box button { padding: 5px 25px; margin: 0 15px; }
+
+.zoomed-screenshot { position: fixed; cursor: zoom-out; top: 50px; left: 0; right: 0; margin: 0 auto; z-index: 102; max-height: 500px; }
+.screenshot-overlay { position: fixed; cursor: zoom-out; top: 0; left: 0; background: rgba(0,0,0,0.6); z-index: 101; width: 100%; height: 100%; }
 
 .sweettooth-quick-launch .toggle { position: absolute; margin-left: -9999px; visibility: hidden; }
 .sweettooth-quick-launch .toggle + label { display: block; position: relative; cursor: pointer; outline: none; user-select: none; padding: 2px; width: 60px; height: 20px; background-color: #dddddd; border-radius: 60px; }
@@ -218,7 +255,7 @@ fieldset.rewards-np {
 
 /***** Quick Launch - Success Page *****/
 .sweettooth-quick-launch-success { margin: 0 auto; text-align: center; }
-.sweettooth-quick-launch-success h1 { color: #C82254; margin-bottom: 20px; }
+.sweettooth-quick-launch-success h1 { color: #FFA028; margin-bottom: 20px; }
 .sweettooth-quick-launch-success span { font-size: 14px; margin-bottom: 20px; display: block; }
 .sweettooth-quick-launch-success span.subtitle { margin-bottom: 60px; }
 .sweettooth-quick-launch-success li span { font-weight: bold; }
@@ -228,3 +265,63 @@ fieldset.rewards-np {
 .sweettooth-quick-launch-success img.left { margin-right: 20px; }
 .sweettooth-quick-launch-success img.right { margin-left: 20px; }
 .sweettooth-quick-launch-success button { width: 250px; height: 40px; font-size: larger; }
+.sweettooth-quick-launch-success .explainer-description { padding: 0 20%; }
+.sweettooth-quick-launch-success .align-button { display: inline-block; padding: 0 10px; }
+
+/***** Explainer Page *****/
+.explainer-page-create { margin: 0 30px; }
+.explainer-page-create > section { width: 30%; margin: 0 15px; display: inline-block; }
+.explainer-page-create .explainer-page-preview { width: 62%; }
+.explainer-page-create .overflown-content { height: 500px; overflow-y: scroll; padding: 20px; border: 3px solid #eee2be; }
+.explainer-page-create .merchant-info { vertical-align: top; }
+.explainer-page-create .content-header { padding-bottom: 10px; margin-bottom: 25px; }
+.explainer-page-create .preview-header { background-color: #eee2be; height: 70px; line-height: 70px; font-size: large; font-weight: bold; color: #333; font-family: 'Lato'; }
+.explainer-page-create .preview-header .title-section { margin-left: 30px; }
+.explainer-page-create .preview-header .themes { display: inline-block; float: right; font-size: 10px; height: 70px; margin-right: 30px; }
+.explainer-page-create .preview-header .theme { display: inline-block; cursor: pointer; text-align: center; margin-left: 10px; }
+.explainer-page-create .preview-header .theme-box { width: 32px; height: 32px; border: 1px solid #AAA; display: block; margin-top: 12px; }
+.explainer-page-create .preview-header .theme-text { vertical-align: top; vertical-align: top; line-height: 20px; }
+.explainer-page-create .merchant-info p { margin-bottom: 25px; font-size: larger; }
+.explainer-page-create .align-button { text-align: center; margin-top: 50px; }
+.explainer-page-create .align-button button { padding: 12px 35px; }
+.explainer-page-create .preview-header .gold .theme-box { background-color: #ac9456; }
+.explainer-page-create .preview-header .red .theme-box { background-color: #c0392b; }
+.explainer-page-create .preview-header .blue .theme-box { background-color: #2980b9; }
+.explainer-page-create .preview-header .green .theme-box { background-color: #326829; }
+.explainer-page-create .preview-header .selected .theme-box { margin-bottom: -2px; margin-right: -2px; }
+.explainer-page-create .preview-header .selected.gold .theme-box { border: 4px solid #8F7C4B; }
+.explainer-page-create .preview-header .selected.red .theme-box { border: 4px solid #720B00; }
+.explainer-page-create .preview-header .selected.blue .theme-box { border: 4px solid #07507F; }
+.explainer-page-create .preview-header .selected.green .theme-box { border: 4px solid #1E5216; }
+
+
+/** Sales Order Create */
+.rewards-caption-text { font-weight: bold; margin-top:8px; margin-bottom: 8px; clear:left; margin-right:30px;}
+#catalogRedemptionRule { margin-top: 8px; margin-bottom: 8px; }
+#catalogRedemptionRuleUsesContainer { float:left; margin-top: 4px;}
+#catalogRedemptionUsePoints { float: left; margin-bottom: 20px; }
+.rewards-product-price { padding-top: 4px; padding-bottom: 8px;}
+.rewardsCatalogYouWillEarn { padding-top:8px; padding-bottom: 8px;}
+#rewards-product-price-discounted { margin-left: 3px; }
+.rewards-product-info-container { font-style:italic; text-indent: 20px; }
+.rewards-product-info-remove { border:0; cursor:pointer; margin-left:5px; }
+#rewards-modal-window-wrapper .buttons-set { padding: 0; }
+.grid-product-search-rewards-configure { padding-left:10px; color:#ea7601; text-decoration: underline; }
+#sales_order_create_search_grid_table tr td.price[data-points] { font-size: 0; }
+#sales_order_create_search_grid_table td.price[data-points]:after { content: attr(data-points); font-size: 12px; }
+.item-points-undername { white-space: nowrap; font-style: italic; padding-left:20px; font-size: 10px; }
+.item-points-header-redeemed { font-weight: bold; margin-right: 4px; float: left; }
+.item-points-header-earned { font-weight: bold; margin-right: 4px; float:left; }
+#order-items_grid table.order-tables tr td.price span[data-points] { font-size: 0; }
+#order-items_grid table.order-tables tr td.price span[data-points]:after { content: attr(data-points); font-size: 12px; }
+.cart-points-total_spent > span.price > div.warning { font-weight: bold; color: #ff0000; }
+.hide-next-divider + .order-totals-bottom .divider { display: none; }
+
+/* Custom Grid Templates */
+.grid table td.stadmin-grid-selected-box-top-row { border-top: 2px solid darkgrey; border-left: 2px solid darkgrey; border-right: 2px solid darkgrey; font-weight: bold; text-align: left; padding-left: 20px; }
+.grid table td.stadmin-grid-selected-box-bottom-row { border-bottom: 2px solid darkgrey; }
+.grid table td.stadmin-grid-selected-box-bottom-row:first-of-type { border-left: 2px solid darkgrey; }
+.grid table td.stadmin-grid-selected-box-bottom-row:last-of-type { border-right: 2px solid darkgrey; }
+
+.rewards-cart-discounts-summary-header.show-details { background-color: #fdfcdf; margin-top: 0; }
+.rewards-cart-discounts-summary { background-color: #fdfcdf; margin-top:0; margin-bottom: 0; }

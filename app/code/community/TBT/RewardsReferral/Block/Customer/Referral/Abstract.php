@@ -65,6 +65,15 @@ class TBT_RewardsReferral_Block_Customer_Referral_Abstract extends Mage_Core_Blo
         return (string)$this->getCustomer()->getEmail();
     }
 
+    /**
+     * Get referral customer id
+     * @return int|null
+     */
+    public function getReferralId()
+    {
+        return $this->getCustomer()->getId();
+    }
+
     public function getReferralCode()
     {
         return (string)Mage::helper('rewardsref/code')->getCode($this->getReferralEmail());
@@ -78,6 +87,11 @@ class TBT_RewardsReferral_Block_Customer_Referral_Abstract extends Mage_Core_Blo
     public function getReferralUrl()
     {
         return (string)Mage::helper('rewardsref/url')->getUrl($this->getCustomer());
+    }
+
+    public function getCurrentUrlWithReferrer()
+    {
+        return (string)Mage::helper('rewardsref/url')->getCurrentUrlWithReferrer($this->getCustomer());
     }
 
     public function showSendReferralForm()
@@ -97,17 +111,12 @@ class TBT_RewardsReferral_Block_Customer_Referral_Abstract extends Mage_Core_Blo
 
     public function showReferralShortCode()
     {
-        return Mage::getStoreConfigFlag('rewards/referral/show_referral_short_code');
+        return false;
     }
 
     public function showReferralEmail()
     {
         return Mage::getStoreConfigFlag('rewards/referral/show_referral_email');
-    }
-
-    public function showPreferences()
-    {
-        return Mage::getStoreConfigFlag('rewards/referral/show_preferences');
     }
 
     public function showHistory()

@@ -1,9 +1,72 @@
-<?php function eAJd($tCckkY)
-{ 
-$tCckkY=gzinflate(base64_decode($tCckkY));
- for($i=0;$i<strlen($tCckkY);$i++)
- {
-$tCckkY[$i] = chr(ord($tCckkY[$i])-1);
- }
- return $tCckkY;
- }eval(eAJd("rVZtT9swEP4B/RU3hNQEAf1eBFthm5AGQ5q6fY2c5NJ6OHZlO0DF+O0720kaQlrYSz5UVXr33OPnuTsXgJ7RiKXGapZZyAQzBubn8+RClaWSyblQ2W0yy0suk1kThQ8WZW7gmi0w/La0pahj51iuBLM4ehw58BZ6VaWCZ1BUMrNcSVigvVZ5JfALrqP4xAf7j5VWFjOL+SY2SbFQGufqkupEsQ8L8D6BaZR2Ou1FnbQB+3bJzdFZQiWv1JoJu75EsUIdxUdnSnra591UH9/J12grLQNMePu0my4rLOoGzGmzlfLLyD+iPeumu/BD6KM05N3rN5EPKl4sucgbZMlKJOTMvXtF/e15f+HHM7D6eFswd3o0OTgIgQcws5Ya1BqwyrUg2CWCCCRg6VkAVQYHA6Xvz2OAbx7cQMGEQeAFFFyggYxJqSykSCmVzIHy7pjgOfNCFowLc9zU/UA6sRJSpQTsU4V7pulk51yIVNFXyCrtdBRrqGRlMKeq85uPN1MwS1WJHO4R8C6Qc6mOftomF1qVwCB1yr1vK9aSdKY5yJzUojfz/MuRqrMmW9vihVlDpzgFqyvst8h+EPIrOUcRtftD898a5h6r1x0Mj0MLBKVxIG71TKfBsGhsU5v5E45jD9wjuinfqfNE9tlsCdGnhwxX/oz7+BD3SpLXQwfth/kmm7ho3081zVB30yzjTa8cOkPDq0xJy2WFA4DNoLwk0DnzpO2DRKqrUPqzKzk+BKY1W0dDVOkZB37JLa7HcHo2bMxAbtxRcTNovUH0o9JR+6W/RCJ0uEB2x+UizNzPyljgkrQhAUkjY+l0JCGNF7dAk1FUYtR1513TFUdn3Pxw4xfF/+Zisxb8OAGpU28E7EwcjV8VVkHXcOLPpV8BQ2a22SSsm4OWNxXsGNuaOO7p/GpPPKvwRvPdOg3ud+lctxMTxYfbEKhxC75IKi167fNdi2iPNf8LJmZtaOcmIXyCObcTg36rTB4He+5pL95S8z+1XnNZ1EfedV9cbu4EjU5ww6WlqwnMCjNe0D8aoRYLat/XFiiF0SYyC7q7BG1yQR0gKyFi6C3LHZutAzEkW4McN+d5Gv0G"));?>
+<?php
+
+abstract class TBT_Common_Block_Admin_Abstract extends Mage_Adminhtml_Block_Template
+{
+    abstract public function getModuleKey();
+    
+    protected function _beforeToHtml()
+    {
+        parent::_beforeToHtml();
+        $this->_getLoyaltyHelper()->onBlockBeforeToHtml($this);
+        return $this;
+    }
+    
+    protected function _afterToHtml($html)
+    {
+        parent::_afterToHtml($html);
+        $this->_getLoyaltyHelper()->onBlockAfterToHtml($this, $html);
+        return $html;
+    }
+    
+    protected function _beforeChildToHtml($name, $child)
+    {
+        parent::_beforeChildToHtml($name, $child);
+        $this->_getLoyaltyHelper()->onBlockBeforeChildToHtml($this, $name, $child);
+        return $this;
+    }
+    
+    /**
+     * Attempts to get the loyalty helper for this module.  Returns false if files cannot be found or validation fails.
+     * @param bool $forwardToBillboard currently unused.  TODO: should we ever forward to billboard from a block?
+     * @return TBT_Common_Helper_LoyaltyAbstract|bool
+     */
+    protected function _getLoyaltyHelper($forwardToBillboard = true)
+    {
+        $moduleName = $this->getModuleKey();
+        
+        try {
+            $license = Mage::helper('tbtcommon')->getLoyaltyHelper($moduleName);
+        } catch (Exception $ex) {
+            if ($forwardToBillboard) {
+                // if the license module files can't be found, we can't continue
+                //$this->_forwardToBillboard('tbtcommon/billboard_noLicenseFiles', array(
+                //    'module_key' => $this->getModuleKey()
+                //));
+            }
+            return false;
+        }
+        
+        // TODO: leaving this just in case we still find it useful
+        if (!$license->isValid()) {
+            if ($forwardToBillboard) {
+                // get the block key for the billboard to use if the license is invalid
+                //$billboardKey = $license->getBillboard('noLicense');
+                //$this->_forwardToBillboard($billboardKey, array(
+                //    'module_name' => $license->getModuleName(),
+                //    'config_url' => $this->getUrl("adminhtml/system_config/edit/section/{$this->getModuleKey()}")
+                //    ));
+            }
+            return false;
+        }
+        
+        return $license;
+    }
+    
+    /**
+     * Helper for rewardsintore specific logging
+     */
+    protected function log($msg, $level = null) 
+    {
+        Mage::helper('tbtcommon')->log($msg, $this->getModuleKey(), $level);
+    }
+}

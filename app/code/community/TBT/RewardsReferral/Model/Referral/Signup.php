@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -75,7 +75,7 @@ class TBT_RewardsReferral_Model_Referral_Signup extends TBT_RewardsReferral_Mode
 
     public function getTransferReasonId()
     {
-        return TBT_RewardsReferral_Model_Transfer_Reason_Signup::REASON_TYPE_ID;
+        return Mage::helper('rewards/transfer_reason')->getReasonId('referral_signup');
     }
 
     /**
@@ -86,7 +86,8 @@ class TBT_RewardsReferral_Model_Referral_Signup extends TBT_RewardsReferral_Mode
      */
     public function triggerEvent(Mage_Customer_Model_Customer $customer)
     {
-        $this->loadByEmail($customer->getEmail());
+        $this->initReferral($customer);
+        
         if (!$this->getReferralParentId()) {
             Mage::helper('rewardsref')->initateSessionReferral($customer);
             $this->loadByEmail($customer->getEmail());
@@ -115,8 +116,6 @@ class TBT_RewardsReferral_Model_Referral_Signup extends TBT_RewardsReferral_Mode
         try {
             foreach ($applicableRules as $rule) {
                 $pointsAmount = $rule->getPointsAmount();
-                $currencyId = $rule->getPointsCurrencyId();
-
                 $transfer       = Mage::getModel('rewardsref/transfer');
                 
                 $transferEffectiveStart = null;
@@ -130,7 +129,6 @@ class TBT_RewardsReferral_Model_Referral_Signup extends TBT_RewardsReferral_Mode
                 
                 $transfer->create(
                     $pointsAmount,
-                    $currencyId,
                     $this->getReferralParentId(),
                     $customer->getId(),
                     $this->getReferralTransferMessage($customer),

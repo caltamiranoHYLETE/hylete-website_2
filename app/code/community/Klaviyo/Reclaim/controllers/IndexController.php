@@ -47,7 +47,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         }
       }
     }
-    
+
     $params = array();
     foreach (self::$_preservableRequestParams as $key) {
       $value = $this->getRequest()->getParam($key);
@@ -102,103 +102,140 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
     } else {
       $helper = Mage::helper('klaviyo_reclaim');
 
-      $is_enabled = $helper->isEnabled();
-      $is_api_key_set = $helper->getPublicApiKey() != NULL;
+      $version = (string) Mage::getConfig()->getNode('modules/Klaviyo_Reclaim/version');
 
-      $adapter = Mage::getSingleton('core/resource')->getConnection('sales_read');
-      $hour_ago = Zend_Date::now();
-      $hour_ago->sub(60, Zend_Date::MINUTE);
-      $hour_ago = $adapter->convertDateTime($hour_ago);
+      $config_details = $this->_getExtensionConfigDetails();
 
-      $recent_klaviyo_cron_jobs = Mage::getModel('cron/schedule')->getCollection()
-        ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_SUCCESS)
-        ->addFieldToFilter('finished_at', array('gteq' => $hour_ago))
-        ->addFieldToFilter('job_code', 'klaviyo_track_quotes')
-        ->addOrder('finished_at', $direction='desc');
-      
-      $klaviyo_cron_job_has_recently_succeeded = $recent_klaviyo_cron_jobs->count() > 0;
+      $since_minutes = 60;
+      $cron_details = $this->_getCronScheduleDetails($since_minutes);
 
-      if ($klaviyo_cron_job_has_recently_succeeded) {
-	
-        $most_recent_successful_klaviyo_cron_job = $recent_klaviyo_cron_jobs->getFirstItem();
-
-        $most_recent_successful_klaviyo_cron_job_data = array(
-          'Finished at' => Mage::getSingleton('core/date')
-            ->gmtDate($most_recent_successful_klaviyo_cron_job->getFinishedAt()),
-          'Messages' => $most_recent_successful_klaviyo_cron_job->getMessages()
-        );
-      } else {
-        $most_recent_successful_klaviyo_cron_job_data = array();
-      }
-
-      $recent_unsuccessful_klaviyo_cron_jobs = Mage::getModel('cron/schedule')->getCollection()
-        ->addFieldToFilter('status', array('in' => array(
-          Mage_Cron_Model_Schedule::STATUS_MISSED,
-          Mage_Cron_Model_Schedule::STATUS_ERROR
-        )))
-        ->addFieldToFilter('created_at', array('gteq' => $hour_ago))
-        ->addFieldToFilter('job_code', 'klaviyo_track_quotes')
-        ->addOrder('finished_at', $direction='desc');
-
-      $klaviyo_cron_job_has_recently_not_succeeded = $recent_unsuccessful_klaviyo_cron_jobs->count() > 0;
-
-      $recent_unsuccessful_klaviyo_cron_jobs_data = array();
-
-      if ($klaviyo_cron_job_has_recently_not_succeeded) {
-        foreach ($recent_unsuccessful_klaviyo_cron_jobs as $job) {
-          $data = array(
-            'ID' => $job->getScheduleId(),
-            'Status' => $job->getStatus(),
-            'Message' => $job->getMessage()
-          );
-	  
-          $recent_unsuccessful_klaviyo_cron_jobs_data[] = $data;
-        }
-      }
-
-      $has_reclaim_entries = Mage::getModel('klaviyo_reclaim/checkout')->getCollection()->count() > 0;
-      
-      $most_recent_tracking_eligible_quotes = Mage::getResourceModel('sales/quote_collection')
-        ->addFieldToFilter('converted_at', array('null' => true))
-        ->addOrder('updated_at', $direction='desc')
-        ->setPageSize(5)
-        ->setCurPage(1);
-     
-      $most_recent_tracking_eligible_quotes_data = array();
-      foreach ($most_recent_tracking_eligible_quotes as $quote) {
-        $select = array(
-          'Id' => $quote->getEntityId(),
-          'Store Id:' => $quote->getStoreId(),
-          'Created At' => Mage::getSingleton('core/date')
-            ->gmtDate($quote->getCreatedAt()),
-          'Updated At' => Mage::getSingleton('core/date')
-            ->gmtDate($quote->getUpdatedAt()),
-          'Customer Email' => $quote->getCustomerEmail(),
-          'Public API Key' => Mage::helper('klaviyo_reclaim')->getPublicApiKey($quote->getStoreId()),
-          'Remote IP Address' => $quote->getRemoteIp(),
-          'Quote Items' => count($quote->getItemsCollection()),
-          'Is Active' => $quote->getIsActive()
-        );
-
-        $most_recent_tracking_eligible_quotes_data[] = $select;
-      }
+      $num_quotes = 5;
+      $quote_details = $this->_getQuoteDetails($num_quotes);
 
       $response = array(
         'data' => array(
-          '$most_recent_successful_klaviyo_cron_job_data' => $most_recent_successful_klaviyo_cron_job_data,
-          '$is_enabled' => $is_enabled,
-          '$is_api_key_set' => $is_api_key_set,
-          '$klaviyo_cron_job_has_recently_succeeded' => $klaviyo_cron_job_has_recently_succeeded,
-          '$klaviyo_cron_job_has_recently_not_succeeded' => $klaviyo_cron_job_has_recently_not_succeeded,
-          '$recent_unsuccessful_klaviyo_cron_jobs_data' => $recent_unsuccessful_klaviyo_cron_jobs_data,
-          '$most_recent_tracking_eligible_quotes_data' => $most_recent_tracking_eligible_quotes_data,
-          '$has_reclaim_entries' => $has_reclaim_entries
+          'version' => $version,
+          'config'  => $config_details,
+          'cron'    => $cron_details,
+          'quotes'  => $quote_details
         )
       );
     }
 
     $this->getResponse()->setHeader('Content-type', 'application/json');
     $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
-    return;
+  }
+
+  protected function _getExtensionConfigDetails () {
+    $helper = Mage::helper('klaviyo_reclaim');
+
+    return array(
+      'global' => array(
+        'enabled' => $helper->isEnabled(),
+        'api_key' => $helper->getPublicApiKey() != NULL
+      )
+    );
+  }
+
+  protected function _getCronScheduleDetails ($since_minutes) {
+    $adapter = Mage::getSingleton('core/resource')->getConnection('sales_read');
+    $since = Zend_Date::now();
+    $since->sub($since_minutes, Zend_Date::MINUTE);
+    $since = $adapter->convertDateTime($since);
+
+    $query = $this->_getKlaviyoCronScheduleBaseQuery()
+      ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_SUCCESS)
+      ->addFieldToFilter('finished_at', array('gteq' => $since))
+      ->addOrder('finished_at', $direction='desc');
+
+    $has_suceeded = $query->count() > 0;
+    $last_success = array();
+
+    if ($has_suceeded) {
+      $job = $query->getFirstItem();
+
+      $last_success = array(
+        'id'          => $job->getScheduleId(),
+        'finished_at' => Mage::getSingleton('core/date')->gmtDate($job->getFinishedAt()),
+        'messages'    => $job->getMessages()
+      );
+    }
+
+    $query = $this->_getKlaviyoCronScheduleBaseQuery()
+      ->addFieldToFilter('status', array('in' => array(
+        Mage_Cron_Model_Schedule::STATUS_MISSED,
+        Mage_Cron_Model_Schedule::STATUS_ERROR
+      )))
+      ->addFieldToFilter('created_at', array('gteq' => $since))
+      ->addOrder('finished_at', $direction='desc');
+
+    $has_failed = $query->count() > 0;
+    $failures = array();
+
+    if ($has_failed) {
+      foreach ($query as $job) {
+        $failures[] = array(
+          'id'       => $job->getScheduleId(),
+          'status'   => $job->getStatus(),
+          'messages' => $job->getMessage()
+        );
+      }
+    }
+
+    return array(
+      'last_success' => $last_success,
+      'failures'     => $failures
+    );
+  }
+
+  protected function _getKlaviyoCronScheduleBaseQuery () {
+    return Mage::getModel('cron/schedule')->getCollection()
+      ->addFieldToFilter('job_code', 'klaviyo_track_quotes');
+  }
+
+  protected function _getQuoteDetails ($num_quotes) {
+    $helper = Mage::helper('klaviyo_reclaim');
+
+    $has_checkout_ids = Mage::getModel('klaviyo_reclaim/checkout')->getCollection()->count() > 0;
+
+    $query = Mage::getResourceModel('sales/quote_collection')
+      ->addFieldToFilter('converted_at', array('null' => true))
+      ->addOrder('updated_at', $direction='desc')
+      ->setPageSize($num_quotes)
+      ->setCurPage(1);
+
+    $quotes = array();
+    foreach ($query as $quote) {
+      $store = $quote->getStore();
+      $email = $quote->getCustomerEmail();
+
+      if ($email) {
+        $pieces = explode('@', $email, 2);
+
+        // Obfuscates the email address from `someone@example.com` to `so******@example.com`.
+        $email = substr($pieces[0], 0, 2) . str_repeat('*', 6) . '@' . $pieces[1];
+      }
+
+      $quotes[] = array(
+        'id'             => $quote->getEntityId(),
+        'store_id'       => $quote->getStoreId(),
+        'gmt_created_at'     => Mage::getSingleton('core/date')->gmtDate($quote->getCreatedAt()),
+        'gmt_updated_at'     => Mage::getSingleton('core/date')->gmtDate($quote->getUpdatedAt()),
+        'customer_email' => $email,
+        'remote_ip'      => $quote->getRemoteIp(),
+        'num_items'      => count($quote->getItemsCollection()),
+        'is_active'      => $quote->getIsActive(),
+
+        'config'         => array(
+          'is_enabled' => $helper->isEnabled($store),
+          'api_key'    => $helper->getPublicApiKey($store) != NULL
+        )
+      );
+    }
+
+    return array(
+      'has_checkout_ids' => $has_checkout_ids,
+      'quotes' => $quotes
+    );
   }
 }

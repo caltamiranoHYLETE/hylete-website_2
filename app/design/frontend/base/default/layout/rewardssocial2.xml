@@ -3,6 +3,10 @@
     <default>
         <reference name="head">
             <block type="core/template" name="social.js" template="rewardssocial2/api.phtml" />
+            <block type="core/template" name="social.facebook.meta" template="rewardssocial2/themes/default/facebook-meta.phtml" />
+        </reference>
+        <reference name="after_body_start">
+            <block type="core/template" name="social.facebook.like.action" template="rewardssocial2/actions/facebook-like.phtml" />
         </reference>
     </default>
     
@@ -28,6 +32,18 @@
             <block type="rewardssocial2/purchase" name="social.purchase" template="rewardssocial2/purchase.phtml" />
         </reference>
     </checkout_onepage_success>
+    
+    <rewardsref_customer_index>
+        <update handle="rewardssocial2_head_js" />
+        <reference name="affiliate">
+            <block type="rewardssocial2/social" name="referral.share.widgets" template="rewardssocial2/sharing.phtml">
+                <action method="setData">
+                    <name>action_type</name>
+                    <value>referral</value>
+                </action>
+            </block>
+        </reference>
+    </rewardsref_customer_index>
     
     <cms_page>
         <update handle="rewardssocial2_head_js" />

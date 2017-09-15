@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WDCA
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
@@ -26,6 +26,15 @@
  */
 class TBT_RewardsSocial2_Block_Adminhtml_System_Config_Form extends Mage_Adminhtml_Block_System_Config_Form 
 {
+    protected function _construct()
+    {
+        parent::_construct();
+        
+        if ($this->getModuleName() === 'TBT_RewardsSocial2') {
+            $this->setModuleName('Mage_Adminhtml');
+        }
+    }
+    
     /**
      * @return array
      * @see Mage_Adminhtml_Block_System_Config_Form::_getAdditionalElementTypes();

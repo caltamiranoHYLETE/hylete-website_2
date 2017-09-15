@@ -12,34 +12,161 @@ store_name : {{var store_name}}
 points_transferred : {{var points_transferred}}
 </pre>
 -->
+
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css">
+
 <style type="text/css">
-    body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+  body { width: 100%; background-color: #ffffff; margin:0; padding:0; -webkit-font-smoothing: antialiased; mso-margin-top-alt:0px; mso-margin-bottom-alt:0px; mso-padding-alt: 0px 0px 0px 0px; }
+  p, h1, h2, h3, h4 { margin-top:0; margin-bottom:0; padding-top:0; padding-bottom:0; }
+  span.preheader { display: none; font-size: 1px; }
+  html { width: 100%; }
+  table { font-size: 14px; border: 0; }
+
+  /* ----------- responsivity ----------- */
+  @media only screen and (max-width: 640px) {
+    /*------ top header ------ */
+    body[yahoo] .show{display: block !important;}
+    body[yahoo] .hide{display: none !important;}
+
+    /*----- main image -------*/
+    body[yahoo] .main-image img{width: 440px !important; height: auto !important;}
+
+    /* ====== divider ====== */
+    body[yahoo] .divider img{width: 440px !important;}
+
+    /*--------- banner ----------*/
+    body[yahoo] .banner img{width: 440px !important; height: auto !important;}
+    /*-------- container --------*/
+    body[yahoo] .container590{width: 440px !important;}
+    body[yahoo] .container580{width: 400px !important;}
+    body[yahoo] .container1{width: 420px !important;}
+    body[yahoo] .container2{width: 400px !important;}
+    body[yahoo] .container3{width: 380px !important;}
+
+    /*-------- secions ----------*/
+    body[yahoo] .section-item{width: 440px !important;}
+    body[yahoo] .section-img img{width: 440px !important; height: auto !important;}
+  }
+
+  @media only screen and (max-width: 479px) {
+    /*------ top header ------ */
+    body[yahoo] .main-header{font-size: 24px !important;}
+    body[yahoo] .resize-text{font-size: 14px !important;}
+
+    /*----- main image -------*/
+    body[yahoo] .main-image img{width: 280px !important; height: auto !important;}
+
+    /* ====== divider ====== */
+    body[yahoo] .divider img{width: 280px !important;}
+    body[yahoo] .align-center{text-align: center !important;}
+
+
+    /*-------- container --------*/
+    body[yahoo] .container590{width: 280px !important;}
+    body[yahoo] .container580{width: 240px !important;}
+    body[yahoo] .container1{width: 260px !important;}
+    body[yahoo] .container2{width: 240px !important;}
+    body[yahoo] .container3{width: 220px !important;}
+
+    /*------- CTA -------------*/
+    body[yahoo] .cta-button{width: 240px !important;}
+    body[yahoo] .cta-text{font-size: 16px !important;}
+  }
 </style>
 
-<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
-    <table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="eeeeee" style="background-size: 100% 100%; background-position: top center; padding: 0px 20px;" class="main-bg">
+    <tbody>
         <tr>
-            <td align="center" valign="top">
-                <table cellspacing="0" cellpadding="0" border="0" width="650">
-                    <tr>
-                        <td valign="top"><a href="{{store url=""}}">
-                                            <img src="{{var logo_url}}" alt="{{var logo_alt}}"  
-                                 style="margin-bottom:10px;" border="0"/>
-                            </a></td>
-                    </tr>
-                </table>
-                <table cellspacing="0" cellpadding="0" border="0" width="650">
-                    <tr>
-                        <td valign="top">
-                            <p>Hello,</p>
-                            <p>Your friend, {{var customer_name}}, just tried to send you a gift of <b>{{var points_transferred}}</b> at
-                            <a href="{{store url=""}}">{{var store_name}}</a>, but couldn't do this because you don't have a registered account yet.</p>
-                            <p>Join {{var customer_name}} now by <a href="{{store url="customer/account/create"}}">creating an account at {{var store_name}}</a> and never miss this chance again!</p>
+            <td height="35" style="font-size: 35px; line-height: 35px;">&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <table border="0" align="center" width="510" cellpadding="0" cellspacing="0" class="container590 bg_color" style="text-align: left;">
+                    <tr align="left">
+                        <td align="center">
+                            <a href="{{store url}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}"  style="margin-bottom:10px;" border="0"/></a>
                         </td>
                     </tr>
                 </table>
-
             </td>
         </tr>
-    </table>
-</div>
+
+        <tr>
+            <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+        </tr>
+        
+        <tr>
+            <td>
+                <table border="0" align="center" width="510" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="container590 bg_color" style="border-radius: 4px; border: 1px solid #d2d2d2; padding: 0px 15px;">
+                    <tbody>
+                        <tr>
+                            <td height="40" style="font-size: 40px; line-height: 40px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="color: #181c27; font-size: 30px; font-family: 'Oxygen', sans-serif; mso-line-height-rule: exactly; line-height: 30px;" class="title_color main-header">
+                                <!-- ======= section header ======= -->
+                                <div class="editable_text" style="line-height: 38px;">
+                                    <div class="text_container" style="padding: 0px 20px;">Hello,</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="30" style="font-size: 30px; line-height: 30px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="color: #818c92; font-size: 16px; font-family: 'Varela', sans-serif; mso-line-height-rule: exactly; line-height: 24px;" class="resize-text text_color">
+                                <div class="editable_text" style="line-height: 24px">
+                                    <!-- ======= section text ======= -->
+                                    <span class="text_container">
+                                        Your friend, <strong>{{var customer_name}}</strong>, just tried to send you a gift of 
+                                        <strong>{{var points_transferred}}</strong> at <a href="{{store url}}">{{var store_name}}</a>, 
+                                        but couldn't do this because you don't have a registered account yet.
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="45" style="font-size: 30px; line-height: 30px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <span class="resize-text text_color" style="color: #818c92; font-size: 14px; font-family: 'Varela', sans-serif; mso-line-height-rule: exactly; line-height: 24px;">
+                                    Join <strong>{{var customer_name}}</strong> now by <a href="{{store url="customer/account/create"}}">creating an account at {{var store_name}}</a> and never miss this chance again!
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="50" style="font-size: 50px; line-height: 50px;">&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td align="center" style="background-size: 100% 100%; background-position: top center;">
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#6db220">
+                                            <a href="{{store url}}" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 15px 30px; border: 1px solid #6db220; display: inline-block;">
+                                                <!--[if mso]>&nbsp;&nbsp;&nbsp;<![endif]-->
+                                                Join Now
+                                                <!--[if mso]>&nbsp;&nbsp;&nbsp;<![endif]-->
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td height="40" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        
+        <tr>
+            <td height="35" style="font-size: 35px; line-height: 35px;">&nbsp;</td>
+        </tr>
+    </tbody>
+</table>

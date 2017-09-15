@@ -11,10 +11,15 @@ class TBT_Reports_Ajax_LogController extends TBT_Reports_AjaxController
     {
         $logDir = Mage::getBaseDir('log');
         $logFile = $logDir . DS . 'tbtreports.log';
+        $helper = Mage::helper('rewards/debug');
+        
         if (file_exists($logFile)) {
-            header('Content-type: text/plain');
+            $this->getResponse()->setHeader('Content-Type', 'text/plain', true);
+            
+            $helper->printMessage('<pre>');
             readfile($logFile);
-            exit();
+            $helper->printMessage('</pre>');
         }
     }
 }
+

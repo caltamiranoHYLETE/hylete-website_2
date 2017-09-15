@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL:
@@ -12,17 +12,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -134,7 +134,7 @@ class TBT_Rewards_Model_Salesrule_Rule extends Mage_SalesRule_Model_Rule impleme
         }
         $collection = Mage::getModel ( 'rewards/salesrule_rule' )->getResourceCollection ()->addFieldToFilter ( "points_action", array ('IN' => $allowedActions ) );
         if ($onle_active) {
-            $collection = $collection->addFilter ( "is_active", '1' );
+            $collection = $collection->addFieldToFilter ( "is_active", '1' );
         }
         return $collection;
     }
@@ -177,7 +177,23 @@ class TBT_Rewards_Model_Salesrule_Rule extends Mage_SalesRule_Model_Rule impleme
             throw new Exception ( Mage::helper ( 'rewards' )->__ ( "The Points Amount (X) field must be greater than zero (0).  If you don't want customers to redeem any points, why are you making shopping cart points redemption rule?" ) );
         }
 
+        /**
+         * Support for other integrations that are checking for simple action index that does not exist
+         */
+        if (!$this->getSimpleAction()) {
+            $this->setSimpleAction(null);
+        }
+
         return parent::_beforeSave ();
+    }
+    
+    /**
+     * Track rule data
+     */
+    public function _afterSave()
+    {
+        Mage::helper('rewards/tracking')->sendRuleData('shopping cart', $this);
+        return parent::_afterSave();
     }
 
     /**
@@ -205,7 +221,7 @@ class TBT_Rewards_Model_Salesrule_Rule extends Mage_SalesRule_Model_Rule impleme
 
         $conditions = $this->getConditionsSerialized();
         if (!empty($conditions)) {
-            $conditions = unserialize($conditions);
+            $conditions = Mage::helper('rewards/serializer')->unserializeData($conditions);
             if (is_array($conditions) && !empty($conditions)) {
                 $this->getConditions()->loadArray($conditions);
             }
@@ -229,7 +245,7 @@ class TBT_Rewards_Model_Salesrule_Rule extends Mage_SalesRule_Model_Rule impleme
 
         $actions = $this->getActionsSerialized();
         if (!empty($actions)) {
-            $actions = unserialize($actions);
+            $actions = Mage::helper('rewards/serializer')->unserializeData($actions);
             if (is_array($actions) && !empty($actions)) {
                 $this->getActions()->loadArray($actions);
             }

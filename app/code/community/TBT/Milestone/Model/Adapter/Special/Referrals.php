@@ -13,4 +13,3 @@ class TBT_Milestone_Model_Adapter_Special_Referrals extends TBT_Milestone_Model_
     }
 }
 
-?>

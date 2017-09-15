@@ -42,6 +42,12 @@ Whoops, it looks like you have an invalid PHP version.</h3></div><p>Magento supp
     exit;
 }
 
+//PATCH elvin@VAIMO
+if (file_exists('/var/www/pre_forbid.php')) {
+    require_once '/var/www/pre_forbid.php';
+}
+//~PATCH
+
 /**
  * Compilation includes configuration file
  */

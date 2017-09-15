@@ -11,7 +11,7 @@ class TBT_Rewards_Model_Review_Review extends TBT_Rewards_Model_Special_Configab
 	}
 	
 	public function getNewCustomerConditions() {
-		return array (self::ACTION_CODE => Mage::helper ( 'rewards' )->__ ( 'Writes a review' ) );
+		return array (self::ACTION_CODE => Mage::helper ( 'rewards' )->__ ( 'Rates or Reviews a product' ) );
 	}
 	
 	public function visitAdminConditions(&$fieldset) {

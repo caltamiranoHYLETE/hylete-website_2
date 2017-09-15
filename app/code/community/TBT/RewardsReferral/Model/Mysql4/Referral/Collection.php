@@ -100,5 +100,136 @@ class TBT_RewardsReferral_Model_Mysql4_Referral_Collection extends Mage_Core_Mod
 
         return $this;
     }
+    
+    /**
+     * Prepare Referral Signups Collection based on range
+     * @param string $range
+     * @return \TBT_RewardsReferral_Model_Mysql4_Referral_Collection
+     */
+    public function prepareMetricsSignups($range)
+    {
+        $select = $this->getSelect();
+        $select->join(new Zend_Db_Expr('(SELECT @aux := 0)'), '');
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'quantity' => new Zend_Db_Expr(
+                '@aux := @aux + COUNT(rewardsref_referral_id)'
+            ),
+            'range' => new Zend_Db_Expr(
+                "MAX(".$this->_getRangeExpression($range, 'created_ts').")"
+            )
+        ));
+        
+        $select->group($this->_getRangeExpression($range, 'created_ts'));
+
+        $select->where("DATE_FORMAT(created_ts, '%Y-%m-%d') >= '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+        return $this;
+    }
+    
+    /**
+     * Getter for Total Referral Signups before range
+     * @param string $range
+     * @return int|float
+     */
+    public function getTotalSignupsBeforePeriod($range)
+    {
+        $select = clone $this->getSelect();
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $dateRange = Mage::helper('tbtreports/adminhtml_metrics_data')
+            ->getDateRangeMetrics($range, 0, 0);
+
+        $select->columns(array(
+            'quantity' => new Zend_Db_Expr(
+                'COUNT(rewardsref_referral_id)'
+            )
+        ));
+        
+        $select->where("DATE_FORMAT(created_ts, '%Y-%m-%d') < '" . $dateRange['from']->toString('Y-MM-dd') . "'");
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['quantity'];
+    }
+    
+    /**
+     * Getter for Total Referral Signups by Date
+     * @param string $range
+     * @return int|float
+     */
+    public function getTotalSignupsByDate($startDate = null, $after = true)
+    {
+        $select = clone $this->getSelect();
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        $select->columns(array(
+            'quantity' => new Zend_Db_Expr(
+                'COUNT(rewardsref_referral_id)'
+            )
+        ));
+        
+        if ($startDate) {
+            $operand = ($after) ? '>=' : '<';
+            $select->where("DATE_FORMAT(created_ts, '%Y-%m-%d') ". $operand ." '" . $startDate . "'");
+        }
+        
+        $connection = $this->getConnection();
+        $result = $connection->fetchRow($select);
+        
+        return (float) $result['quantity'];
+    }
+    
+    /**
+     * Get range expression
+     *
+     * @param string $range
+     * @return Zend_Db_Expr
+     */
+    protected function _getRangeExpression($range, $attribute = '{{attribute}}')
+    {
+        switch ($range)
+        {
+            case '30d':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '3m':
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m-%d');
+                break;
+            case '1y':
+            case 'custom':
+            default:
+                $expression = $this->getConnection()->getDateFormatSql($attribute, '%Y-%m');
+                break;
+        }
+
+        return $expression;
+    }
+    
+    /**
+     * Retrieve query for attribute with timezone conversion
+     *
+     * @param string $range
+     * @param string $attribute
+     * @param mixed $from
+     * @param mixed $to
+     * @return string
+     */
+    protected function _getTZRangeOffsetExpression($range, $attribute, $from = null, $to = null)
+    {
+        return str_replace(
+            '{{attribute}}',
+            Mage::getResourceModel('sales/report_order')
+                    ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
+            $this->_getRangeExpression($range)
+        );
+    }
 
 }

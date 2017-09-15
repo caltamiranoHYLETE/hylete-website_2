@@ -2,13 +2,23 @@
 <config>
     <modules>
         <TBT_Testsweet>
-            <version>1.0.1.2</version>
+            <version>1.0.2</version>
         </TBT_Testsweet>
     </modules>
 
     <testsweet>
         <!-- if a new set of tests require a version change then they can go under a new tag -->
         <tests>
+            <rewards>
+                <suites>
+                    <birthday_points>TBT_Testsweet_Model_Test_Suite_Rewards_Birthday_Points</birthday_points>
+                    <database_tables>TBT_Testsweet_Model_Test_Suite_Rewards_Database_Tables</database_tables>
+                    <!--<database_schema>TBT_Testsweet_Model_Test_Suite_Rewards_Database_Schema</database_schema>-->
+                    <module_issue>TBT_Testsweet_Model_Test_Suite_Rewards_Module_Issue</module_issue>
+                    <template_points>TBT_Testsweet_Model_Test_Suite_Rewards_Template_Points</template_points>
+                    <template_migration>TBT_Testsweet_Model_Test_Suite_Rewards_Template_Migration</template_migration>
+                </suites>
+            </rewards>
             <core_php>
                 <suites>
                     <version>TBT_Testsweet_Model_Test_Suite_Php_Core</version>
@@ -59,6 +69,13 @@
                 <class>TBT_Testsweet_Model</class>
             </testsweet>
         </models>
+        <resources>
+            <rewards_setup>
+                <setup>
+                    <class>TBT_Testsweet_Model_Mysql4_Setup</class>
+                </setup>
+            </rewards_setup>
+        </resources>
         <helpers>
             <testsweet>
                 <class>TBT_Testsweet_Helper</class>

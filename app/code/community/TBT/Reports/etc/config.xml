@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TBT_Reports>
-            <version>1.0.0.0</version>
+            <version>1.0.0</version>
         </TBT_Reports>
     </modules>
 
@@ -56,6 +56,14 @@
                     </tbtreports_observer_order_place_after>
                 </observers>
             </sales_order_place_after>
+            <st_rewards_manage_diagnostics_reinstalldb_before>
+                <observers>
+                    <tbtreports_before_rewards_manage_diagnostics_reinstalldb>
+                        <class>tbtreports/observer_diagnostics</class>
+                        <method>reinstallDb</method>
+                    </tbtreports_before_rewards_manage_diagnostics_reinstalldb>
+                </observers>
+            </st_rewards_manage_diagnostics_reinstalldb_before>
         </events>
         <models>
             <tbtreports>
@@ -75,7 +83,7 @@
             <tbtreports_setup>
                 <setup>
                     <module>TBT_Reports</module>
-                    <class>TBT_Rewards_Model_Mysql4_Setup</class>
+                    <class>TBT_Reports_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

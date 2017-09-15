@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -114,26 +114,9 @@ class TBT_Rewards_Model_Currency extends Mage_Core_Model_Abstract implements TBT
 		return $cap;
 	}
 
-	public function _afterSave() {
-		// Order was not changed, so it must be new or existing.
-		/* I don't think this is actually used ... ? */
-		if ($this->getOrderId ()) {
-			$ref = Mage::getModel ( 'rewards/transfer_reference' )->loadByTransferAndReference ( $this->getId (), $this->getOrderId () );
-			$o->setData ( $this->getData () );
-		}
-	}
-
 	public function _beforeDelete() {
-                throw new Exception ( "Deleted currencies is not supported yet because of
-                complications it makes ot all other related transfers." );
-		return parent::_beforeSave ();
-	}
-
-	public function _afterDelete() {
-		// TODO: Change all rules that are associated with giving points in this currency
-		// 		 to instead give points of no qty
-		//		 Next, send a warning to the administrator????
-		return parent::_afterDelete ();
+                throw new Exception ( "Deleting currencies is not supported because of
+                complications it causes on associated transfers." );
 	}
 
 	/**

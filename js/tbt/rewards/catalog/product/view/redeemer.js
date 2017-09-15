@@ -1,11 +1,11 @@
 
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *     https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -169,7 +169,6 @@ function feignPriceChange(rule_id) {
  * @return
  */
 function updateRemptionUsesSelector(rule_id, retain_value) {
-
     var init_value = retain_value ? retain_value : usesSelect.value ;
 
     if(rule_id == '') {
@@ -178,6 +177,20 @@ function updateRemptionUsesSelector(rule_id, retain_value) {
         usesSelect.innerHTML = '';
         var uses = 1;
         var amt = rule_options[rule_id]['amount'];
+        
+        var finalPrice = getProductPriceBeforeRedemptions();
+        
+        if (rule_options[rule_id]['points_action'] == "deduct_by_amount_spent") {
+            var monetaryStep = rule_options[rule_id]['monetary_step'];
+
+            var multiplier = Math.ceil(finalPrice / monetaryStep);
+            amt = rule_options[rule_id]['points_amt'] * multiplier;
+        }
+        
+        var priceDispositionAux = sweettooth.ProductView.CatalogRules.helper.priceAdjuster(finalPrice, rule_options[rule_id]['effect']);
+        var newPriceDispositionAux = finalPrice - priceDispositionAux;
+        rule_options[rule_id]['price_disposition'] = newPriceDispositionAux.toFixed(2);
+        
         var curr = rule_options[rule_id]['currency_id'];
         var max_uses = rule_options[rule_id]['max_uses'];
         var relevant_customer_points = customer_points ? customer_points[curr] : default_guest_points;
@@ -215,3 +228,83 @@ function updateRemptionUsesSelector(rule_id, retain_value) {
         usesContainer.show();
     }
 }
+
+var sweettooth =  typeof sweettooth !== 'undefined' ? sweettooth : window.sweettooth || {};
+sweettooth.ProductView = sweettooth.ProductView || {};
+
+/**
+ * Handle Catalog Rules on Product View
+ */
+sweettooth.ProductView.CatalogRules = {
+    /**
+     * Update rules definitions based on product configured options
+     * @param {string} url
+     * @returns {undefined}
+     */
+    updateRulesOptionsOnProductOptionChange: function(url) {
+        var self = this;
+        
+        new Ajax.Request(url, {
+            parameters: self.prepareProductBuyRequest(),
+            asynchronous: false,
+            onSuccess: function(transport) {
+                var response = transport.responseJSON;
+
+                if (response && response.hasOwnProperty('rule_map')) {
+                    rule_options = response.rule_map;
+                }
+            }.bind(this)
+        });
+    },
+    /**
+     * Updates points-only product points cost
+     * @param {string} url
+     * @returns {undefined}
+     */
+    updatePointsTotalProductPointsOnly: function (url) {
+        var self = this;
+        $('points-only-price').addClassName('points-price-wait-msg');
+        
+        new Ajax.Updater(
+            "points-only-price", url,
+            {
+                method:'post',
+                parameters: self.prepareProductBuyRequest(),
+                asynchronous: true,
+                onComplete: function() {
+                    $('points-only-price').removeClassName('points-price-wait-msg');
+                }
+            }            
+        );
+    },
+    /**
+     * Prepare product buy request from form elements
+     * @returns {Hash.toQueryString|Object.toQueryString}
+     */
+    prepareProductBuyRequest: function() {
+        var fields = $$('.product-view').first().select('input', 'select', 'textarea');
+
+        return Form.serializeElements(fields, true);
+    },
+    helper: {
+        priceAdjuster: function(price, code) {
+            if (code.indexOf("-") > -1) {
+                if (code.indexOf("%") > -1) {
+                    var fx    = 1 + code.replace("%", "") / 100;
+                    price = price * fx;
+                } else {
+                    price = price + parseFloat(code);
+                }
+            } else {
+                if (code.indexOf("%") > -1) {
+                    var fx    = code.replace("%", "") / 100;
+                    price = price * fx;
+                } else {
+                    price = parseFloat(code);
+                }
+            }
+
+            return price;
+        }
+    }
+};

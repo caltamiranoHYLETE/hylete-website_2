@@ -1,9 +1,0 @@
-<?xml version="1.0"?> 
-    <config> 
-    <modules> 
-      <Vaimo_AutoCleanMergedFiles> 
-        <codePool>local</codePool> 
-        <active>true</active> 
-      </Vaimo_AutoCleanMergedFiles> 
-    </modules> 
-    </config>

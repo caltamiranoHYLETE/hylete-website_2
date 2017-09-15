@@ -4,15 +4,13 @@
             <h1><?php echo $this->__('Earn rewards for sharing your purchase.'); ?></h1>
         </div>
 
-        
-        <?php $productCollection = $this->getOrder()->getAllVisibleItems(); ?>
+        <?php $productsToRender = $this->getProductsToRender(); ?>
         <?php $helper = $this->helper('catalog/output'); ?>
-        <?php $collectionSize = count($productCollection); ?>
+        <?php $collectionSize = count($productsToRender); ?>
         <?php $columnCount = $this->getColumnCount(); ?>
         <?php $i = 0; ?>
         
-        <?php foreach ($productCollection as $item): ?>
-            <?php $product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+        <?php foreach ($productsToRender as $product): ?>
             
             <?php if ($i++ % $columnCount === 0): ?>
                 <ul class="products-grid">

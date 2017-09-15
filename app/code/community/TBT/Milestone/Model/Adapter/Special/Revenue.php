@@ -17,3 +17,4 @@ class TBT_Milestone_Model_Adapter_Special_Revenue extends TBT_Milestone_Model_Ad
         return "<strong>[" . (string) Mage::app()->getStore()->getBaseCurrencyCode() . "]</strong>";
     }
 }
+

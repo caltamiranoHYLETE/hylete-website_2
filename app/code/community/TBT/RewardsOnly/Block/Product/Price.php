@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL: 
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -42,13 +42,9 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_RewardsOnly_Block_Product_Price extends Mage_Catalog_Block_Product_Price
+class TBT_RewardsOnly_Block_Product_Price extends TBT_Rewards_Block_Product_List_Price
 {
-	protected $_product = null;
-	
-	protected function _prepareLayout() {
-		return parent::_prepareLayout();
-	}
+    protected $_product = null;
 	
 	
     /**
@@ -146,18 +142,22 @@ class TBT_RewardsOnly_Block_Product_Price extends Mage_Catalog_Block_Product_Pri
 	 * @param Mage_Catalog_Model_Product $product [ = null ]
 	 * @return array()
 	 */
-	public function getRedeemableOptions() {
-		Varien_Profiler::start('TBT_REWARDS: Get Redeemable Options');
-		$applicable_rules = array();
-    	$product = $this->getProduct();
+	public function getRedeemableOptions() 
+        {
+            Varien_Profiler::start('TBT_REWARDS: Get Redeemable Options');
+            $applicableRules = array();
+            $product = $this->getProduct();
     	
-    	try {
-			$applicable_rules = $product->getRedeemableOptions($this->getCurrentCustomer(), $product);
-    	} catch (Exception $e) {
-    		die("An error occured trying to apply the redemption while adding the product to your cart: ". $e->getMessage());	
-    	}
-		Varien_Profiler::stop('TBT_REWARDS: Get Redeemable Options');
-    	return $applicable_rules;
+            try {
+                $applicableRules = $product->getRedeemableOptions($this->getCurrentCustomer(), $product);
+            } catch (Exception $e) {
+                $message = "An error occured trying to apply the redemption while adding the product to your cart: ". $e->getMessage();
+                Mage::getSingleton('core/session')->addError($message);
+                Mage::helper('rewards/debug')->log($message);
+            }
+            
+            Varien_Profiler::stop('TBT_REWARDS: Get Redeemable Options');
+            return $applicableRules;
 	}
 	
 	/**

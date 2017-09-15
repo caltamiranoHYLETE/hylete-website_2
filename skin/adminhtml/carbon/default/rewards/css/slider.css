@@ -71,3 +71,9 @@ A.sliderHandle
 {
     width: 222px;
 }
+
+/* SALES ORDER CREATE */
+.catalogSliderCaption { width: auto; margin: 0; max-width:190px; }
+.catalogSliderCaptionRow { height: 19px; }
+.catalogSliderCaptionRow td { padding-left: 5px; padding-right: 3px; vertical-align: middle; }
+#catalogSliderRail { margin-top: 5px; }

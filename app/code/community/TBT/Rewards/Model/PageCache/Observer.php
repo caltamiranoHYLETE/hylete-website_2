@@ -23,6 +23,10 @@ class TBT_Rewards_Model_PageCache_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
+        
+        if (!Mage::helper('rewards/version')->isMageEnterprise()) {
+            return $this;
+        }
 
         $event = $observer->getEvent();
         if (!$event) {
@@ -36,7 +40,7 @@ class TBT_Rewards_Model_PageCache_Observer
         if (!$this->_getClearCache($transfer)) {
             return $this;
         }
-
+        
         // we clear rewards header balance FPC cache by tag
         $cacheTag = md5(TBT_Rewards_Model_PageCache_Container_HeaderCustomerBalance::CACHE_TAG_PREFIX . $transfer->getCustomerId());
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($cacheTag));
@@ -56,11 +60,9 @@ class TBT_Rewards_Model_PageCache_Observer
             TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED,
             TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED
         );
-        if (in_array($transfer->getStatus(), $statuses) ||
-            ($transfer->getStatus() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT
-                && $transfer->getReasonId() == TBT_Rewards_Model_Transfer_Reason_Redemption::REASON_TYPE_ID)) {
-
-            return true;
+        if (in_array($transfer->getStatusId(), $statuses) ||
+            ($transfer->getStatusId() == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT)) {
+                return true;
         }
 
         return false;

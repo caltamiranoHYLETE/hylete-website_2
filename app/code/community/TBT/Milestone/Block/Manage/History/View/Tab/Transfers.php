@@ -1,5 +1,41 @@
 <?php
 
+/**
+ * Sweet Tooth
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the SWEET TOOTH POINTS AND REWARDS
+ * License, which extends the Open Software License (OSL 3.0).
+ * The Sweet Tooth License is available at this URL:
+ * https://www.sweettoothrewards.com/terms-of-service
+ * The Open Software License is available at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
+ * not held liable for any inconsistencies or abnormalities in the
+ * behaviour of this code.
+ * By adding to, editing, or in any way modifying this code, the Licensee
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
+ * provided Sweet Tooth License.
+ * Upon discovery of modified code in the process of support, the Licensee
+ * is still held accountable for any and all billable time Sweet Tooth spent
+ * during the support process.
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
+ * behaviour of this code if caused by other framework extension.
+ */
+
+/**
+ * Milestone Manage History Transfers Tab
+ *
+ * @category   TBT
+ * @package    TBT_Milestone
+ * @copyright  Copyright (c) 2016 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
+ * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
+ */
 class TBT_Milestone_Block_Manage_History_View_Tab_Transfers extends Mage_Adminhtml_Block_Widget_Grid implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     protected $_collection = null;
@@ -10,7 +46,7 @@ class TBT_Milestone_Block_Manage_History_View_Tab_Transfers extends Mage_Adminht
         parent::_construct();
 
         $this->setId('milestoneRuleLogTransfers');
-        $this->setDefaultSort('creation_ts');
+        $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
@@ -22,15 +58,10 @@ class TBT_Milestone_Block_Manage_History_View_Tab_Transfers extends Mage_Adminht
     {
         if (is_null($this->_collection)) {
             $ruleLog          = $this->_getCurrentLog();
-            $milestoneDetails = $ruleLog->getMilestoneDetails();
-            $referenceTypeId  = $milestoneDetails['condition']['reference_type_id'];
-
             $this->_collection = Mage::getModel('rewards/transfer')->getCollection()
-                ->addFilter('reference_table.reference_id', $ruleLog->getRuleId())
-                ->addFilter('reference_table.reference_type', $referenceTypeId)
-                ->addFilter('customer_id', $ruleLog->getCustomerId())
-                ->selectPointsCaption('points')
-                ->addAllReferences();
+                ->addFieldToFilter('reference_id', $ruleLog->getId())
+                ->addFieldToFilter('customer_id', $ruleLog->getCustomerId())
+                ->selectPointsCaption('points');
         }
 
         $this->setCollection($this->_collection);
@@ -40,7 +71,7 @@ class TBT_Milestone_Block_Manage_History_View_Tab_Transfers extends Mage_Adminht
 
     protected function _prepareColumns()
     {
-         if ($this->_columnsSet) {
+        if ($this->_columnsSet) {
             return parent::_prepareColumns();
         }
 
@@ -69,7 +100,7 @@ class TBT_Milestone_Block_Manage_History_View_Tab_Transfers extends Mage_Adminht
         ));
 
         $statuses = Mage::getSingleton('rewards/transfer_status')->getOptionArray();
-        $this->addColumn('status', array(
+        $this->addColumn('status_id', array(
             'header'  => Mage::helper('tbtmilestone')->__('Status'),
             'align'   => 'left',
             'width'   => '80px',

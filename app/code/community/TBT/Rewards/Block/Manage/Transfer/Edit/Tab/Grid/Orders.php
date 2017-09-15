@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -54,24 +54,8 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 	
 	protected function _prepareCollection() {
 		
-		if (Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.1.1' )) {
-			// @mhadianfard -a 3/01/12 (fix_1277): Magento uses 'sales/order_grid_collection' to populate this collection. we should do the same.
-			 
-			// $billingAliasName = 'billing_o_a';
-			// $shippingAliasName = 'shipping_o_a';		
-			// $collection = Mage::getModel ( "sales/order" )->getCollection ()->addAttributeToSelect ( '*' )->addAddressFields ()->addExpressionFieldToSelect ( 'billing_firstname', "{{billing_firstname}}", array ('billing_firstname' => "$billingAliasName.firstname" ) )->addExpressionFieldToSelect ( 'billing_lastname', "{{billing_lastname}}", array ('billing_lastname' => "$billingAliasName.lastname" ) )->addExpressionFieldToSelect ( 'shipping_firstname', "{{shipping_firstname}}", array ('shipping_firstname' => "$shippingAliasName.firstname" ) )->addExpressionFieldToSelect ( 'shipping_lastname', "{{shipping_lastname}}", array ('shipping_lastname' => "$shippingAliasName.lastname" ) )->addExpressionFieldToSelect ( 'billing_name', "CONCAT({{billing_firstname}}, ' ', {{billing_lastname}})", array ('billing_firstname' => "$billingAliasName.firstname", 'billing_lastname' => "$billingAliasName.lastname" ) )->addExpressionFieldToSelect ( 'shipping_name', 'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})', array ('shipping_firstname' => "$shippingAliasName.firstname", 'shipping_lastname' => "$shippingAliasName.lastname" ) );
-			
-			$collection = Mage::getResourceModel('sales/order_grid_collection');
-			
-		} else if (Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.1.0' )) {
-			$collection = Mage::getModel ( "sales/order" )->getCollection ()->addAttributeToSelect ( '*' )->joinAttribute ( 'billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left' )->joinAttribute ( 'billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left' )->joinAttribute ( 'shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left' )->joinAttribute ( 'shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left' );
-			/* addExpressionAttributeToSelect is broken for 1.4.1 */
-		} else {
-			$collection = Mage::getResourceModel ( 'sales/order_collection' )->addAttributeToSelect ( '*' )->joinAttribute ( 'billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left' )->joinAttribute ( 'billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left' )->joinAttribute ( 'shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left' )->joinAttribute ( 'shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left' )->addExpressionAttributeToSelect ( 'billing_name', 'CONCAT({{billing_firstname}}, " ", {{billing_lastname}})', array ('billing_firstname', 'billing_lastname' ) )->addExpressionAttributeToSelect ( 'shipping_name', 'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})', array ('shipping_firstname', 'shipping_lastname' ) );
-		}
-				
-		//@mhadianfard -a 3/01/12: limit the list to applicable orders only
-		$collection->addFieldToFilter ( 'entity_id', array ('in' => $this->_getSelectedOrders () ) );
+                $collection = Mage::getResourceModel('sales/order_grid_collection')
+                    ->addFieldToFilter ( 'entity_id', array ('in' => $this->_getSelectedOrders () ) );
 		
 		$this->setCollection ( $collection );
 		return parent::_prepareCollection ();
@@ -94,10 +78,10 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 				$customerIds = 0;
 			}
 			if ($column->getFilter ()->getValue ()) {
-				$this->getCollection ()->addFieldToFilter ( 'order_id', array ('in' => $customerIds ) );
+				$this->getCollection ()->addFieldToFilter ( 'entity_id', array ('in' => $customerIds ) );
 			} else {
 				if ($customerIds) {
-					$this->getCollection ()->addFieldToFilter ( 'order_id', array ('nin' => $customerIds ) );
+					$this->getCollection ()->addFieldToFilter ( 'entity_id', array ('nin' => $customerIds ) );
 				}
 			}
 		} else {
@@ -131,27 +115,9 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 		}
 		
 		$this->addColumn ( 'created_at', array ('header' => Mage::helper ( 'sales' )->__ ( 'Purchased On' ), 'index' => 'created_at', 'type' => 'datetime', 'width' => '100px' ) );
-		
-		/* $this->addColumn('billing_firstname', array(
-          'header' => Mage::helper('sales')->__('Bill to First name'),
-          'index' => 'billing_firstname',
-          ));
 
-          $this->addColumn('billing_lastname', array(
-          'header' => Mage::helper('sales')->__('Bill to Last name'),
-          'index' => 'billing_lastname',
-          )); */
 		$this->addColumn ( 'billing_name', array ('header' => Mage::helper ( 'sales' )->__ ( 'Bill to Name' ), 'index' => 'billing_name' ) );
 		
-		/* $this->addColumn('shipping_firstname', array(
-          'header' => Mage::helper('sales')->__('Ship to First name'),
-          'index' => 'shipping_firstname',
-          ));
-
-          $this->addColumn('shipping_lastname', array(
-          'header' => Mage::helper('sales')->__('Ship to Last name'),
-          'index' => 'shipping_lastname',
-          )); */
 		$this->addColumn ( 'shipping_name', array ('header' => Mage::helper ( 'sales' )->__ ( 'Ship to Name' ), 'index' => 'shipping_name' ) );
 		
 		$this->addColumn ( 'base_grand_total', array ('header' => Mage::helper ( 'sales' )->__ ( 'G.T. (Base)' ), 'index' => 'base_grand_total', 'type' => 'currency', 'currency' => 'store_currency_code' ) );
@@ -162,8 +128,6 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 		
 		$this->addColumn ( 'action', array ('header' => Mage::helper ( 'rewards' )->__ ( 'Action' ), 'width' => '100', 'type' => 'action', 'getter' => 'getId', 'actions' => array (array ('caption' => Mage::helper ( 'rewards' )->__ ( 'View' ), 'url' => array ('base' => 'adminhtml/sales_order/view' ), 'field' => 'order_id' ) ), 'filter' => false, 'sortable' => false, 'index' => 'stores', 'is_system' => true ) );
 		
-		//$this->addRssList('rss/order/new', Mage::helper('sales')->__('New Order RSS'));
-		
 
 		return parent::_prepareColumns ();
 	}
@@ -173,6 +137,8 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 	}
 	
 	protected function _getSelectedOrders() {
+        $this->_addOrderIdToTransferData();
+        
 		if (Mage::getSingleton ( 'adminhtml/session' )->getTransferData ()) {
 			$formData = Mage::getSingleton ( 'adminhtml/session' )->getTransferData ();
 			$orderIds = isset ( $formData ['order_id'] ) ? $formData ['order_id'] : array ();
@@ -189,5 +155,20 @@ class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Grid_Orders extends Mage_Adminh
 		}
 		return $orderIds;
 	}
+
+    protected function _addOrderIdToTransferData()
+    {
+        $transfer = Mage::registry('transfer_data');
+
+        if ($transfer->isOrder()) {
+            $orderId = $transfer->getReferenceId();
+
+            $transfer->setData( 'order_id', $orderId );
+            Mage::unregister('transfer_data');
+            Mage::register( 'transfer_data', $transfer );
+        }
+
+        return $this;
+    }
 
 }

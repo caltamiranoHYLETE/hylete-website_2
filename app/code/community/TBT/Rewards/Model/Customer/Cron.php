@@ -11,10 +11,11 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
     const XML_PATH_POINT_SEND_CUSTOMER_GROUP                = 'rewards/pointSummaryEmails/customer_group';
     const XML_PATH_POINT_SEND_EMAILS                        = 'rewards/pointSummaryEmails/allow_points_summary_email';
     const XML_PATH_POINT_SUMMARY_LAST_EXECUTION_TIME        = 'rewards/pointSummaryEmails/last_execution_time';
+    
+    protected $_canUseIndex;
 
     /**
      * Customer Cron Model that handles points notification emails
-     *
      */
     public function sendPointNotifications()
     {
@@ -25,7 +26,7 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
         $now = time();
         $lastExecuted = intval(Mage::getStoreConfig(self::XML_PATH_POINT_SUMMARY_LAST_EXECUTION_TIME));
         if (!empty($lastExecuted) && $now - $lastExecuted < 24 * 60 * 60) {
-            return $this;             // Already executed less than 24 hours ago, so skip
+            return $this; /* Already executed less than 24 hours ago, so skip */
             
         } else {
             Mage::getConfig()->saveConfig(self::XML_PATH_POINT_SUMMARY_LAST_EXECUTION_TIME, $now);
@@ -33,7 +34,6 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
             Mage::app()->reinitStores();
         }
         
-        //get all customers that need notification
         $customerCollection = Mage::getModel('rewards/customer')
                 ->getCollection()
                 ->addNameToSelect()
@@ -41,7 +41,15 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
                     array('eq' => 1),
                     array('null' => true)
                 ), 'left');
-
+        
+        if ($this->canUseIndex()) {
+            $customerCollection->getSelect()
+                ->joinInner(
+                    array('rewards' => Mage::getSingleton('core/resource')->getTableName('rewards_customer_index_points')),
+                    'e.entity_id = rewards.customer_id'
+                );
+        }
+        
         $customerCollection->setPageSize(100);
         $pages = $customerCollection->getLastPageNumber();
         $currentPage = 1;
@@ -49,16 +57,17 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
         do {
             $customerCollection->setCurPage($currentPage);
             $customerCollection->load();
-                                
+
             foreach ($customerCollection as $customer) {
-                $customer = Mage::getModel('rewards/customer')->load($customer->getId());
-    
-                if($this->isValidSendPointNotifications($customer)) {
-                     $this->_sendEmail($customer);
+                if (!$this->canUseIndex()) {
+                    $customer = Mage::getModel('rewards/customer')->load($customer->getId());
+                }
+                
+                if ($this->isValidSendPointNotifications($customer)) {
+                    $this->_sendEmail($customer);
                 }
             }
             
-            //clear collection and free memory
             $currentPage++;
             $customerCollection->clear();
         } while ($currentPage <= $pages);
@@ -79,32 +88,37 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
         /* @var $translate Mage_Core_Model_Translate */
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
-        /* @var $email Mage_Core_Model_Email_Template */
-        $email = Mage::getModel('core/email_template');
+        $emailHelper = Mage::helper('rewards/email');
+        $helper = Mage::helper('rewards');
+        
         $sender = array(
             'name' => strip_tags(Mage::helper('rewards/expiry')->getSenderName($customer->getStoreId())),
             'email' => strip_tags(Mage::helper('rewards/expiry')->getSenderEmail($customer->getStoreId()))
         );
-        $email->setDesignConfig(array(
-            'area' => 'frontend',
-            'store' => $customer->getStoreId())
-        );
-
-        $unsubscribeUrl = Mage::getUrl('rewards/customer_notifications/unsubscribe/') . 'customer/' . urlencode(serialize($customer->getId()));
 
         $vars = array(
             'customer_name' => $customer->getName(),
             'customer_email' => $customer->getEmail(),
-            'store_name' => $customer->getStore()->getName(),
-            'points_balance' => (string) $customer->getPointsSummary(),
-            'pending_points' => (string) $customer->getPendingPointsSummary(),
-            'has_pending_points' => $customer->hasPendingPoints(),
-            'unsubscribe_url' => $unsubscribeUrl
+            'store_name' => $customer->getStore()->getFrontendName(),
+            'points_balance' => (string) $helper->getPointsString($customer->getCustomerPointsUsable()),
+            'pending_points' => (string) $helper->getPointsString($customer->getCustomerPointsPendingEvent()),
+            'has_pending_points' => ($customer->getCustomerPointsPendingEvent() > 0)
         );
-        $email->sendTransactional($template, $sender, $customer->getEmail(), $customer->getName(), $vars);
+        
+        if ($this->canUseIndex()) {
+            $vars['points_balance'] = (string) $helper->getPointsString($customer->getCustomerPointsUsable());
+            $vars['pending_points'] = (string) $helper->getPointsString($customer->getCustomerPointsPendingEvent());
+            $vars['has_pending_points'] = ($customer->getCustomerPointsPendingEvent() > 0);
+        } else {
+            $vars['points_balance'] = (string) $customer->getPointsSummary();
+            $vars['pending_points'] = (string) $customer->getPendingPointsSummary();
+            $vars['has_pending_points'] = $customer->hasPendingPoints();
+        }
+        
+        $result = $emailHelper->sendTransactional($template, $sender, $customer, $vars);
         $translate->setTranslateInline(true);
 
-        return $email->getSentSuccess();
+        return $result;
     }
 
     /**
@@ -146,15 +160,29 @@ class TBT_Rewards_Model_Customer_Cron extends Varien_Object
      */
     public function isValidSendNoPoint(TBT_Rewards_Model_Customer $customer)
     {
-        $noPointStr = Mage::helper ( 'rewards' )->getPointsString (array());// get no points string
+        $noPointStr = Mage::helper ( 'rewards' )->getPointsString (array());
 
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_POINT_SEND_NO_POINT, $customer->getStoreId())
+        if (
+            !Mage::getStoreConfigFlag(self::XML_PATH_POINT_SEND_NO_POINT, $customer->getStoreId())
             && $customer->getPointsSummary() == $noPointStr
-            && $customer->getPendingPointsSummary() == $noPointStr
         ) {
             return false;
         }
 
         return true;
     }
+    
+    /**
+     * Can use points indexer?
+     * @return bool
+     */
+    protected function canUseIndex()
+    {
+        if (is_null($this->_canUseIndex)) {
+            $this->_canUseIndex = Mage::helper('rewards/customer_points_index')->useIndex();
+        }
+        
+        return $this->_canUseIndex;
+    }
 }
+

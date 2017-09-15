@@ -32,52 +32,54 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Main extends Mage_Adminhtml_Block_Template implements Mage_Adminhtml_Block_Widget_Tab_Interface {
-	
-	public function __construct() {
-		parent::__construct ();
-	}
-	
-	/**
-	 * ######################## TAB settings #################################
-	 */
-	public function getTabLabel() {
-		return $this->__ ( "Points & Rewards" );
-	}
-	
-	public function getTabTitle() {
-		return $this->__ ( "Points & Rewards" );
-	}
-	
-	public function canShowTab() {
-		if (! $this->getCustomer ()->getId ()) {
-			return false;
-		}
-		return Mage::helper ( 'rewards/config' )->showCustomerEditPointsTab ();
-	}
-	
-	public function isHidden() {
-		return false;
-	}
-	
-	/**
-	 * Retrieve available customer
-	 *
-	 * @return TBT_Rewards_Model_Customer
-	 */
-	public function getCustomer() {
-		if ($this->hasCustomer ()) {
-			return Mage::getModel('rewards/customer')->getRewardsCustomer($this->getData ( 'customer' ));
-		}
-		if (Mage::registry ( 'current_customer' )) {
-			return Mage::getModel('rewards/customer')->getRewardsCustomer(Mage::registry ( 'current_customer' ));
-		}
-		if (Mage::registry ( 'customer' )) {
-			return Mage::getModel('rewards/customer')->getRewardsCustomer(Mage::registry ( 'customer' ));
-		}
-		Mage::throwException ( Mage::helper ( 'customer' )->__ ( 'Can\'t get customer instance' ) );
-	}
+class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Main extends Mage_Adminhtml_Block_Template implements Mage_Adminhtml_Block_Widget_Tab_Interface 
+{
+    /**
+     * ######################## TAB settings #################################
+     */
+    public function getTabLabel() 
+    {
+        return $this->__ ( "Points & Rewards" );
+    }
 
+    public function getTabTitle()
+    {
+        return $this->__ ( "Points & Rewards" );
+    }
+
+    public function canShowTab() 
+    {
+        if (! $this->getCustomer ()->getId ()) {
+            return false;
+        }
+        
+        return Mage::helper ( 'rewards/config' )->showCustomerEditPointsTab ();
+    }
+
+    public function isHidden() 
+    {
+        return false;
+    }
+	
+    /**
+     * Retrieve available customer
+     * @return TBT_Rewards_Model_Customer
+     */
+    public function getCustomer() 
+    {
+        if ($this->hasCustomer ()) {
+            return Mage::getModel('rewards/customer')->getRewardsCustomer($this->getData ( 'customer' ));
+        }
+
+        if (Mage::registry ( 'current_customer' )) {
+            return Mage::getModel('rewards/customer')->getRewardsCustomer(Mage::registry ( 'current_customer' ));
+        }
+
+        if (Mage::registry ( 'customer' )) {
+            return Mage::getModel('rewards/customer')->getRewardsCustomer(Mage::registry ( 'customer' ));
+        }
+
+        Mage::throwException ( Mage::helper ( 'customer' )->__ ( 'Can\'t get customer instance' ) );
+    }
 }
 
-?>

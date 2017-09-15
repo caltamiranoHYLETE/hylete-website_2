@@ -3,16 +3,29 @@
 class TBT_RewardsReferral_Model_Sales_Order_Payment_Observer extends TBT_Rewards_Model_Sales_Order_Payment_Observer
 {
     /**
-     * Observes 'rewards_sales_order_payment_automatic_cancel'.
-     * Automatically cancels affiliate point transfers, if it is a mass admin cancel
-     * operation, a payment failure at checkout (paypal, authorize.net), or if
-     * Magento prior to 1.4.1.1 and it's a single admin order cancel.
-     * @param  Varien_Event_Observer $observer
-     * @return $this
+     * Cancel affiliate transfers
+     * 
+     * @param Varien_Event_Observer $observer
+     * @return TBT_RewardsReferral_Model_Sales_Order_Creditmemo_Observer
+     * @event controller_action_postdispatch_adminhtml_sales_order_cancel
      */
     public function automaticCancelAffiliate($observer)
     {
-        $order = $observer->getEvent()->getOrder();
+        $action = $observer->getControllerAction();
+
+        if ($action) {
+            $params = $action->getRequest()->getParams();
+            $order = Mage::getModel('sales/order')->load($params['order_id']);
+        } else {
+            $payment = $observer->getEvent()->getPayment();
+
+            if ($payment) {
+                $order = $payment->getOrder();
+            } else {
+                $order = $observer->getEvent()->getOrder();
+            }
+        }
+        
         if (!$order) {
             return $this;
         }
@@ -21,21 +34,16 @@ class TBT_RewardsReferral_Model_Sales_Order_Payment_Observer extends TBT_Rewards
 
             $displayMessages = false;
 
-            $affiliateTransferReferences = Mage::getResourceModel( 'rewardsref/referral_order_transfer_reference_collection' )
-                ->addTransferInfo()
-                ->filterAssociatedWithOrder($order->getId());
-            $affiliateTransfers = array();
+            $affiliateTransfers = Mage::getResourceModel('rewardsref/transfer_collection')
+                ->filterReferralTransfers($order->getId(), false);
 
-            foreach ($affiliateTransferReferences as $affiliateReference) {
-                $affiliateTransfer = Mage::getModel('rewardsref/transfer')->load($affiliateReference->getRewardsTransferId());
-                $affiliateTransfers[] = $affiliateTransfer;
-
-                if (($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
-                    $affiliateTransfer->setStatus ( $affiliateTransfer->getStatus (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
+            foreach ($affiliateTransfers as $affiliateTransfer) {
+                if (($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) || ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_APPROVAL)) {
+                    $affiliateTransfer->setStatusId ( $affiliateTransfer->getStatusId (), TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED );
                     $affiliateTransfer->save ();
                     $affiliateTransfer->setCanceled(1);
                     $displayMessages = true;
-                } else if ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
+                } else if ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED) {
                     try {
                         // try to revoke the transfer and keep track of the new transfer ID to notify admin
                         $revokedTransferId = $affiliateTransfer->revoke()->getId();
@@ -45,7 +53,7 @@ class TBT_RewardsReferral_Model_Sales_Order_Payment_Observer extends TBT_Rewards
                         $affiliateTransfer->setRevokedTransferId(null);
                         continue;
                     }
-                } else if ($affiliateTransfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
+                } else if ($affiliateTransfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_CANCELLED) {
                     // transfer was already canceled (by admin, probably), so we just notify him
                     $affiliateTransfer->setCanceled(0);
                     $displayMessages = true;

@@ -1,8 +1,8 @@
 <?php
 
 
-class TBT_Rewards_Model_Salesrule_List extends Varien_Object {
-	
+class TBT_Rewards_Model_Salesrule_List extends Varien_Object 
+{	
 	protected $list = array();
 	
 	public function getList() {
@@ -77,6 +77,16 @@ class TBT_Rewards_Model_Salesrule_List extends Varien_Object {
 	public function out() {
 		return "[". $this->getCsv() . "]";
 	}
+        
+    /**
+     * clears the list
+     */
+    public function reset()
+    {
+        $this->list = array();
+
+        return $this;
+    }
 
 
 	/**
@@ -100,3 +110,4 @@ class TBT_Rewards_Model_Salesrule_List extends Varien_Object {
         return $this;
 	}
 }
+

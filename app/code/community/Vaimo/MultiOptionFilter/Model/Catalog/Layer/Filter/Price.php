@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,44 +20,15 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Price
 {
     protected $_resourceProxy;
 
-    public function _getResource()
-    {
-        if (!$this->_resourceProxy) {
-            $this->_resourceProxy = Mage::getSingleton(('multioptionfilter/proxy_price'))
-                ->create($this, parent::_getResource());
-        }
-
-        return $this->_resourceProxy;
-    }
-    protected function _renderItemLabelFromTo($fromPrice, $toPrice)
-    {
-        $store = Mage::app()->getStore();
-        $fromPrice = $store->formatPrice($fromPrice);
-        $toPrice = $store->formatPrice($toPrice);
-
-        return Mage::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
-    }
-
-    /**
-     * Apply price range filter to collection
-     *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param $filterBlock
-     *
-     * @return Mage_Catalog_Model_Layer_Filter_Price
-     */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        /**
-         * Filter must be string: $index,$range
-         */
         if (!$filter = $request->getParam($this->getRequestVar())) {
             return $this;
         }
@@ -76,8 +47,7 @@ class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Price extends Mage_Cata
 
             if (count($filter) != 2) {
                 /**
-                 * in 1.7 we have minus as separator
-                 * @src http://svn.magentocommerce.com/source/branches/1.7/app/code/core/Mage/Catalog/Model/Layer/Filter/Price.php::_getItemsData
+                 * Backwards compatibility towards M1.7
                  */
                 $filter = explode('-', $originalFilter);
 
@@ -91,5 +61,26 @@ class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Price extends Mage_Cata
         }
 
         return parent::apply($requestClone, $filterBlock);
+    }
+
+    public function _getResource()
+    {
+        if (!$this->_resourceProxy) {
+            $this->_resourceProxy = Mage::getSingleton('multioptionfilter/runtime_proxyFactories_price')
+                ->create($this, parent::_getResource());
+        }
+
+        return $this->_resourceProxy;
+    }
+
+    protected function _renderItemLabelFromTo($fromPrice, $toPrice)
+    {
+        $store = Mage::app()->getStore();
+
+        return Mage::helper('catalog')->__(
+            '%s - %s',
+            $store->formatPrice($fromPrice),
+            $store->formatPrice($toPrice)
+        );
     }
 }

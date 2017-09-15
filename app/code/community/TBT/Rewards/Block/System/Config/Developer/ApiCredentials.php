@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WDCA
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   WDCA
+ * @category   Sweet Tooth
  * @package    TBT_Enhancedgrid
  * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)

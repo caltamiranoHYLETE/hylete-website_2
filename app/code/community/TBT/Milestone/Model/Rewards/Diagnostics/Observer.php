@@ -11,19 +11,17 @@ class TBT_Milestone_Model_Rewards_Diagnostics_Observer extends Varien_Object
      * @param  Varien_Event $observer
      * @return this
      */
-    public function reinstalldb($observer)
+    public function reinstallDb(Varien_Event_Observer $observer)
     {
         $code = self::CORE_RESOURCE_CODE;
-        echo "<br>Deleting core_resource table entry with code '{$code}'...";
-        flush();
+        Mage::helper('rewards/debug')->printMessage("<br />Deleting core_resource table entry with code '{$code}'...");
+        
         $conn = Mage::getSingleton('core/resource')->getConnection('core_write');
         $conn->beginTransaction();
         $this->_clearDbInstallMemory($conn, $code);
-        echo "Done<br>";
-        flush();
+        Mage::helper('rewards/debug')->printMessage("Done<br />");
 
         $conn->commit();
-
         return $this;
     }
 
@@ -36,3 +34,4 @@ class TBT_Milestone_Model_Rewards_Diagnostics_Observer extends Varien_Object
     }
 
 }
+

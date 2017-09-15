@@ -22,7 +22,7 @@ class TBT_Milestone_Model_Adapter_Special_Inactivity extends TBT_Milestone_Model
                 " Also, customer activity logs must be fully enabled. You can activate the logs %shere%s. %sLearn more%s.",
                 "<i><a href=\"{$configLink}\" target=\"_blank\">", 
                 "</a></i>",
-                "<i><a href=\"http://help.sweettoothrewards.com/article/106-inactivity-milestone\" target=\"_blank\">",
+                "<i><a href=\"http://support.magerewards.com/article/1728-inactivity-milestone\" target=\"_blank\">",
                 "</a></i>"
             );
         }
@@ -30,3 +30,4 @@ class TBT_Milestone_Model_Adapter_Special_Inactivity extends TBT_Milestone_Model
         return $comment;
     }
 }
+

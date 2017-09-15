@@ -1050,6 +1050,29 @@ iframe {
     height: 120px;
 }
 
+/* success page */
+.order-item-row .item-options dt {
+    font-weight: bold;
+    float: left;
+    width: 50px;
+}
+
+.order-item-row .color .option-title {
+    width: 50px;
+    text-transform: lowercase;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.order-item-row .order-item-row__image {
+    float: left;
+    margin-right: 10px;
+}
+
+.checkout-onepage-success .hidden-checkout {
+    display: none;
+}
+
 /* Elevio */
 #elevio-base-menu {
     z-index: 999 !important; /* Change z-index on elevio when active */

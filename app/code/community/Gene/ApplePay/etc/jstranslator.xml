@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<jstranslator>
+    <braintree-applepay-error translate="message" module="gene_applepay">
+        <message>An error was encountered whilst trying to determine shipping rates for your order.</message>
+    </braintree-applepay-error>
+</jstranslator>
+

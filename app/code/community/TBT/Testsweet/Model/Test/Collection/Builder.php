@@ -34,8 +34,7 @@ class TBT_Testsweet_Model_Test_Collection_Builder extends TBT_Testsweet_Model_Ab
                                     //TODO: warning test is skipped because testsweet needs an upgrade to version $r->getRequireTestsweetVersion()
                                 }
                             } catch (Exception $ex) {
-                                //TODO : deal with this possible error some other way?
-                                echo $ex->getMessage();
+                                Mage::helper('testsweet')->printMessage($ex->getMessage());
                             }
                         }
                     }

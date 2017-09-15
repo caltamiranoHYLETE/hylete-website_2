@@ -30,7 +30,7 @@
         <resources>
             <rewards translate="title" module="rewardsapi">
                 <model>rewardsapi/api</model>
-                <title>Sweet Tooth API</title>
+                <title>MageRewards API</title>
                 <acl>rewards</acl>
                 <methods>
                     <getcustomeridbyemail translate="title" module="rewardsapi">
@@ -70,13 +70,13 @@
                     </transfer_exception>
                     <api_usage_exception>
                         <code>202</code>
-                        <message>A problem with your Sweet Tooth installation.</message>
+                        <message>A problem with your MageRewards installation.</message>
                     </api_usage_exception>
                 </faults>
             </rewards>
             <rewards_sales_order translate="title" module="rewardsapi">
                 <model>rewardsapi/sales_order_api</model>
-                <title>Sweet Tooth Sales API</title>
+                <title>MageRewards Sales API</title>
                 <acl>rewards_sales_order</acl>
                 <methods>
                     <list translate="title" module="rewardsapi">
@@ -110,7 +110,7 @@
         <acl>
             <resources>
                 <rewards translate="title" module="rewardsapi">
-                    <title>Sweet Tooth API</title>
+                    <title>MageRewards API</title>
                     <sort_order>3</sort_order>
                     <getcustomeridbyemail translate="title" module="rewardsapi">
                         <title>Fetch the customer ID by the e-mail and website id</title>
@@ -126,7 +126,7 @@
                     </maketransfer>
                 </rewards>
                 <rewards_sales_order translate="title" module="rewardsapi">
-                    <title>Sweet Tooth Sales API</title>
+                    <title>MageRewards Sales API</title>
                     <sort_order>4</sort_order>
                     <list translate="title" module="rewardsapi">
                         <title>Fetch a list of orders</title>

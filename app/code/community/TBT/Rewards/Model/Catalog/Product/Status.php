@@ -39,4 +39,3 @@ class TBT_Rewards_Model_Catalog_Product_Status extends Mage_Catalog_Model_Produc
 
 }
 
-?>

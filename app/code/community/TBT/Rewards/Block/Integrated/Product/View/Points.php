@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -47,7 +47,11 @@ class TBT_Rewards_Block_Integrated_Product_View_Points extends TBT_Rewards_Block
 
     
     protected function _prepareLayout()
-    {   
+    {
+        if ($this->getNameInLayout() === 'rewards.integrated.product.view.points.bundle') {
+            return parent::_prepareLayout();
+        }
+        
         /*
          * For compatibility with MC 1.9+ and third party modules,
          * 
@@ -56,25 +60,25 @@ class TBT_Rewards_Block_Integrated_Product_View_Points extends TBT_Rewards_Block
          * If it does exist, make sure it's one that can output our block ('core/text_list').
          * If the product.info template doesn't output the "other" block, then we fall back on the default way this block was supposed to render.
          * */
-		if (Mage::helper('rewards/theme')->getPackageName() === "rwd"){		    	
+		if (Mage::helper('rewards/theme')->getPackageName() === "rwd"){
 	        $productInfoBlock = $this->getLayout()->getBlock('product.info');
 	        if ($productInfoBlock) {
 	            $otherBlock = $productInfoBlock->getChild('other');
-	            if (!$otherBlock){	            	
-	                $otherBlock = $this->getLayout()->createBlock('core/text_list', 'other')->append($this);	                
+	            if (!$otherBlock){
+	                $otherBlock = $this->getLayout()->createBlock('core/text_list', 'other')->append($this);
 	                $productInfoBlock->append($otherBlock);
 	            } else if ($otherBlock instanceof Mage_Core_Block_Text_List) {
 	                $newBlock = $this->getLayout()->createBlock('core/text_list', 'rewards.integrated.product.view.points.output')->append($this);
 	                $otherBlock->insert($newBlock, '', false);
 	            }
-	            
+
 	            // For some reason when cache is enabled, this block starts acting up.
-	            // Will disable cache for this block on the RWD theme	            
-				$this->setCacheLifetime(null);	            	            
+	            // Will disable cache for this block on the RWD theme
+				$this->setCacheLifetime(null);
 	        }
 		}
         
-        return parent::_prepareLayout();;    
+        return parent::_prepareLayout();
     }
     
     protected function _toHtml() {
@@ -83,6 +87,41 @@ class TBT_Rewards_Block_Integrated_Product_View_Points extends TBT_Rewards_Block
         } else {
             return "";
         }
+    }
+
+    /**
+     * This function will append points spending/earning block html to bundle product customize_button child block for
+     * Magento Enterprise, because here Magento uses a sliding view to 'Customize and Buy' bundle products, so we
+     * display blocks on customize bundle product view.
+     * If this block was previously rendered by other process then this block will be rendered as empty
+     * @return \TBT_Rewards_Block_Integrated_Product_View_Points
+     */
+    public function appendBlockHtmlToParentIfBundleAndEnterprise()
+    {
+        if (
+            $this->getLayout()->getBlock('rewards.integrated.product.view.points.output')
+            || ($this->getLayout()->getBlock('other') && $this->getLayout()->getBlock('other')->getChild('rewards.integrated.product.view.points'))
+        ) {
+            return $this;
+        }
+
+        $versionHelper = Mage::helper("rewards/version");
+        
+        if ( !Mage::registry('current_product')
+            || Mage::registry('current_product')->getTypeId() != "bundle"
+            || !$this->getParentBlock() instanceof Mage_Catalog_Block_Product_View
+            || $this->getParentBlock()->getBlockAlias() != "product.info.addtocart"
+            || !$versionHelper->isMageEnterprise()
+        ) {
+            return $this;
+        }
+
+        $layoutAppend = Mage::getModel('rewards/helper_layout_action_append')
+            ->setParentBlock($this->getParentBlock())
+            ->add($this, 'before')
+            ->append();
+
+        return $this;
     }
 }
 

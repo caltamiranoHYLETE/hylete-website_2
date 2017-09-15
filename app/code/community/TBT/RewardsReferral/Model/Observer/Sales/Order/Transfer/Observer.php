@@ -40,15 +40,14 @@ class TBT_RewardsReferral_Model_Observer_Sales_Order_Transfer_Observer extends T
 
         $orderId = $adjuster->getOrder()->getId();
 
-        $affiliateTransferReferences = Mage::getResourceModel( 'rewardsref/referral_order_transfer_reference_collection' )
-                ->addTransferInfo()
-                ->filterAssociatedWithOrder($orderId);
+        $affiliateTransfers = Mage::getResourceModel('rewardsref/transfer_collection')
+            ->filterReferralTransfers($orderId, false);
 
 
-        foreach ($affiliateTransferReferences as $affiliateReference) {
-            $affiliateTransfer = Mage::getModel('rewardsref/transfer')->load($affiliateReference->getRewardsTransferId());
+        foreach ($affiliateTransfers as $affiliate) {
+            $affiliateTransfer = Mage::getModel('rewardsref/transfer')->load($affiliate->getRewardsTransferId());
 
-            if ($affiliateTransfer->getStatus() == self::TRANSFER_STATUS_CANCELLED) {
+            if ($affiliateTransfer->getStatusId() == self::TRANSFER_STATUS_CANCELLED) {
                 continue;
             }
 
@@ -105,32 +104,30 @@ class TBT_RewardsReferral_Model_Observer_Sales_Order_Transfer_Observer extends T
     /**
      * Creates a brand new affiliate order transfer and associates it with an order.
      * @param int $points The amount of points for the transfer
-     * @param int $currencyId The currency of the transfer
      * @param int $status The status of the new transfer (usually Approved or Pending)
      * @param int $customerId The customer ID to whom to give the transfer, in this case, the affiliate customer ID
      * @param int $orderId The order ID to which the transfer should be associated
      * @param string $comments The comments for the new transfer
      * @return self
      */
-    protected function _makeAdjustmentTransfer($points, $currencyId, $status, $customerId, $orderId, $comments = "Points adjustment")
+    protected function _makeAdjustmentTransfer($points, $status, $customerId, $orderId, $comments = "Points adjustment")
     {
         $affiliateId = $customerId;
         // the $customerID is the referred customer's ID
         $customerId = $this->getOrder()->getCustomerId();
+        $reasonId = Mage::helper('rewards/transfer_reason')->getReasonId('adjustment');
 
-        $reasonId = TBT_RewardsReferral_Model_Transfer_Reason_Order::REASON_TYPE_ID;
-
-        $newTransfer = Mage::getModel('rewardsref/transfer')->create($points, $currencyId, $affiliateId, $customerId, $comments, $reasonId, $status, $orderId);
+        $newTransfer = Mage::getModel('rewardsref/transfer')->create($points, $affiliateId, $customerId, $comments, $reasonId, $status, $orderId);
 
         if (!$newTransfer) {
             Mage::throwException(
-                $this->__("Failed to adjust points on this order.  Please contact Sweet Tooth support.")
+                $this->__("Failed to adjust points on this order.  Please contact MageRewards support.")
             );
         }
 
-        if (!$newTransfer->setStatus(null, $status)) {
+        if (!$newTransfer->setStatusId(null, $status)) {
             Mage::throwException(
-                $this->__("Failed to adjust points on this order.  Please contact Sweet Tooth support.")
+                $this->__("Failed to adjust points on this order.  Please contact MageRewards support.")
             );
         }
 

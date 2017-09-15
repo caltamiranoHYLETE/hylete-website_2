@@ -45,7 +45,7 @@ class TBT_Rewards_Model_Mysql4_Reports_Customer_Collection extends Mage_Reports_
             FROM customer_entity ce
             Left JOIN rewards_transfer rt ON (
               rt.customer_id = ce.entity_id AND
-              (rt.status = 5 OR (rt.status = 4 AND rt.quantity < 0))
+              (rt.status_id = 5 OR (rt.status_id = 4 AND rt.quantity < 0))
             )
             GROUP BY ce.entity_id
             ORDER BY points_balance DESC

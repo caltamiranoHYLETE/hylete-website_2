@@ -41,7 +41,7 @@ class TBT_RewardsApi_Model_Api extends Mage_Sales_Model_Api_Resource {
         $transfers = $transfer->getCollection();
 
         if (isset($filters['updated_at']) && isset($filters['updated_at']['from'])) {
-            $transfers->addFieldToFilter('last_update_ts', array('from' => $filters['updated_at']['from']));
+            $transfers->addFieldToFilter('updated_at', array('from' => $filters['updated_at']['from']));
         }
 
         if (isset($pageSize)) {
@@ -93,18 +93,17 @@ class TBT_RewardsApi_Model_Api extends Mage_Sales_Model_Api_Resource {
             if ($status == null)
                 $status = TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED;
             if ($reason == null)
-                $reason = TBT_Rewards_Model_Transfer_Reason::REASON_ADMIN_ADJUSTMENT;
+                $reason = Mage::helper('rewards/transfer_reason')->getReasonId('adjustment');
             //load in transfer model
             $transfer = Mage::getModel('rewards/transfer');
             //Load it up with information
             $transfer->setId(null)
                     ->setCustomerId($customer_id) // the id of the customer that these points will be going out to
-                    ->setCurrencyId($points_currency_id) // in versions of sweet tooth 1.0-1.2 this should be set to "1"
                     ->setQuantity($points_quantity) // number of points to transfer.  This number can be negative or positive, but not zero
                     ->setComments($comments); //This is optional
             $transfer->setReasonId($reason);
             //Checks to make sure you can actually move the transfer into the new status
-            if ($transfer->setStatus(null, $status)) { // STATUS_APPROVED would transfer the points in the approved status to the customer
+            if ($transfer->setStatusId(null, $status)) { // STATUS_APPROVED would transfer the points in the approved status to the customer
                 $transfer->save(); //Save everything and execute the transfer
             }
         } catch (Exception $e) {
@@ -116,7 +115,7 @@ class TBT_RewardsApi_Model_Api extends Mage_Sales_Model_Api_Resource {
     public function _noStFault() {
         try {
             if (Mage::getConfig()->getModuleConfig('TBT_Rewards')->is('active', 'false')) {
-                throw new Exception(Mage::helper('rewardsapi')->__("Sweet Tooth must be installed on the server in order to use the Sweet Tooth API"));
+                throw new Exception(Mage::helper('rewardsapi')->__("MageRewards must be installed on the server in order to use the MageRewards API"));
             }
         } catch (Exception $e) {
             $this->_fault('api_usage_exception', $e->getMessage());

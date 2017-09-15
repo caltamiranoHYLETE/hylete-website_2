@@ -25,10 +25,10 @@ class TBT_Milestone_Block_Manage_History_View_Tabs extends Mage_Adminhtml_Block_
 
         $ruleLog = $this->_getCurrentLog();
 
-        if ($ruleLog->getActionType() == 'grantpoints' && $ruleLog->getMilestoneDetails()) {
+        if ($ruleLog->getActionType() == TBT_Rewards_Model_Special_Action::ACTION_TYPE_GRANT_POINTS && $ruleLog->getMilestoneDetails()) {
             $this->addTab('action_executed_section', array(
-                'label'   => Mage::helper('tbtmilestone')->__('Points Rewards'),
-                'title'   => Mage::helper('tbtmilestone')->__('Points Rewards'),
+                'label'   => Mage::helper('tbtmilestone')->__('Point Transfers'),
+                'title'   => Mage::helper('tbtmilestone')->__('Point Transfers'),
                 'content' => $this->getLayout()->createBlock('tbtmilestone/manage_history_view_tab_transfers')->toHtml(),
                 'active'  => false,
             ));

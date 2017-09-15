@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widgets>
     <rewardssocial2_social_buttons type="rewardssocial2/widget_social" translate="name description">
-        <name>Sweet Tooth Social Buttons</name>
-        <description>This widget adds Sweet Tooth social buttons to the page.</description>
+        <name>MageRewards Social Buttons</name>
+        <description>This widget adds MageRewards social buttons to the page.</description>
         <parameters>
             <social_buttons_selector translate="label">
                 <label>Social Buttons to Display</label>
@@ -18,7 +18,7 @@
             <template>
                 <required>1</required>
                 <visible>0</visible>
-                <label>Sweet Tooth Social Button Template</label>
+                <label>MageRewards Social Button Template</label>
                 <type>text</type>
                 <value>rewardssocial2/buttons.phtml</value>
             </template>

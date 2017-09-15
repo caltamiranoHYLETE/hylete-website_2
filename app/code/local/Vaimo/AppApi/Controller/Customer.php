@@ -21,7 +21,7 @@
  * @category    Vaimo
  * @package     Vaimo_AppApi
  * @copyright   Copyright (c) 2009-2016 Vaimo AB
- * @author      Tobias Åström
+ * @author      Tobias ï¿½strï¿½m
  */
 
 class Vaimo_AppApi_Controller_Customer extends Vaimo_AppApi_Controller_Action

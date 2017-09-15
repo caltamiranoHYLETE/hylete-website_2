@@ -37,7 +37,7 @@
     
     
     <div class="block block-layered-nav">
-        <h3 class="visible-xs visible-sm show-mobile-filter"><?php echo $this->__('filter and sort'); ?> <span class="fa icon-angle-down"></span></h3>
+        <h3 class="visible-xs visible-sm show-mobile-filter"><?php echo $this->__('filter and sort'); ?> <span class="fa fa-angle-down"></span></h3>
         <ul id="narrow-by-list" class="filter">
             <li class="hidden-inline-block-xs hidden-inline-block-sm"><h3><?php echo $this->__('filter by'); ?>:</h3></li>
 
@@ -52,7 +52,7 @@
                             $_count = ($_count > 0) ? ' (' . $_count . ')' : '';
                             ?>
                             <li data-togglelink="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter" data-togglespeed="0">
-                                <span><?php echo $this->__($_filter->getName()) ?></span><?php echo $_count;?><span class="fa icon-angle-down"></span></i>
+                                <span><?php echo $this->__($_filter->getName()) ?></span><?php echo $_count;?><span class="fa fa-angle-down"></span></i>
                             </li>
                             <div data-togglecontent="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter"><?php echo $_filter->getHtml() ?></div>
                         <?php endif ?>

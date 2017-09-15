@@ -44,7 +44,7 @@
 <?php if(!$_productCollection->count()): ?>
     <p class="note-msg"><?php echo $this->__('There are no products matching the selection.'); ?></p>
 <?php else: ?>
-    <div class="category-products">
+    <div class="category-products js-products">
         <?php echo $this->getChildHtml('product_list.before_toolbar'); ?>
         <ol class="products-grid row">
             <?php foreach ($_productCollection as $_product): ?>
@@ -56,7 +56,10 @@
                         </div>
                     </li>
                 <?php else: ?>
-                    <?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : ''; ?>
+                    <?php
+                        $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
+                        $_retailValue = $_product->getRetailValue();
+                    ?>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status;?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
                             <?php if ($_product->getTypeId() == 'style'): ?>
@@ -74,9 +77,31 @@
                                 <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
-
+                                <?php if ($_retailValue): ?>
+                                    <div class="retail-value retail-value--category js-tooltip-container">
+                                        <?php echo Mage::helper('core')->currency($_retailValue); ?>
+                                        <?php echo $this->__('retail value'); ?>
+                                        <?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
+                                            <span class="retail-value__link js-tooltip-link">
+                                                <span class="fa fa-question"></span>
+                                            </span>
+                                            <div class="tooltip js-tooltip">
+                                                <span class="js-tooltip-close">X</span>
+                                                <div class="tooltip__arrow">
+                                                    <?php echo $_retailValueTooltip; ?>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if ($_product->isSaleable()): ?>
-                                    <?php echo $this->getPriceHtml($_product, true); ?>
+                                    <?php if ($_retailValue): ?>
+                                        <div class="price-with-retail-value price-with-retail-value--category">
+                                    <?php endif; ?>
+                                        <?php echo $this->getPriceHtml($_product, true); ?>
+                                    <?php if ($_retailValue): ?>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php else:?>
                                     <p class="status-message">
                                         <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>

@@ -65,7 +65,7 @@ class TBT_Reports_Block_Adminhtml_Dashboard extends Mage_Adminhtml_Block_Templat
     {
         $notificationLink = Mage::getBlockSingleton('index/adminhtml_notifications')->getManageUrl();
         $notificationLinkText = $this->__('Index Management');
-        $notification = $this->__("Some metric data is not available until you've rebuilt missing %s indexes", "Sweet&nbsp;Tooth");
+        $notification = $this->__("Some metric data is not available until you've rebuilt missing %s indexes", "MageRewards");
 
         return "{$notification}: <a href='{$notificationLink}'>{$notificationLinkText}</a>";
     }

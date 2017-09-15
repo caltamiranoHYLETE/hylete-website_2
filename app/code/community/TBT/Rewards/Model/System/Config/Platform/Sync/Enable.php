@@ -34,7 +34,7 @@ class TBT_Rewards_Model_System_Config_Platform_Sync_Enable extends Mage_Core_Mod
             ->setup();
         Mage::getConfig()->cleanCache();
 
-        $this->_success("SweetToothApp.com data sync has been successfully enabled.");
+        $this->_success("account.magerewards.com data sync has been successfully enabled.");
 
         return $this;
     }
@@ -43,7 +43,7 @@ class TBT_Rewards_Model_System_Config_Platform_Sync_Enable extends Mage_Core_Mod
     {
         /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('core/session');
-        $session->addError("Problem setting up SweetToothApp.com data sync: " . $exception->getMessage());
+        $session->addError("Problem setting up account.magerewards.com data sync: " . $exception->getMessage());
         Mage::logException($exception);
 
         return $this;

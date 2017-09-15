@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -54,7 +54,7 @@ class TBT_Rewards_Block_Manage_Customer_Points_Grid extends Mage_Adminhtml_Block
         $this->setDefaultSort('entity_id');
         $this->setSaveParametersInSession(true);
         
-        if(Mage::helper('rewards/customer_points_index')->useIndex()){
+        if (Mage::helper('rewards/customer_points_index')->useIndex()) {
             $this->_useIndex = true;
         }
     }
@@ -82,27 +82,28 @@ class TBT_Rewards_Block_Manage_Customer_Points_Grid extends Mage_Adminhtml_Block
 
     /**
      * If we should be using the customer points balance index table, this will join the index table to this grid collection
-     * @note: TODO this is a copy from the class TBT_Rewards_Block_Manage_Transfer_Edit_Tab_Customer_Grid. We should be using a decorator design pattern here.
      * @param unknown_type $collection
      */
     protected function _joinCustomerPointsIndex($collection = null)
     {
-        if (!$this->_useIndex) {
-            // Shouldn't be using the customer points index.
-            return $this;
+        if ($this->_useIndex) {
+            $collection = ($collection == null) ? $this->getCollection() : $collection;
+
+            $points_index_table = Mage::getResourceModel('rewards/customer_indexer_points')->getIdxTable();
+            $collection->getSelect()->joinLeft(
+                array('points_index' => $points_index_table), 
+                'e.entity_id = points_index.customer_id'
+            );
+        } else {
+            $transfersTable = Mage::getSingleton('core/resource')->getTableName('rewards/transfer');
+            $statusApproved = TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED;
+            $subquery = "(SELECT SUM(t.quantity) FROM {$transfersTable} t WHERE t.customer_id = e.entity_id AND status_id = {$statusApproved})";
+            $collection->getSelect()->columns(array("customer_points_usable" => new Zend_Db_Expr($subquery)));
         }
-
-        $collection = ($collection == null) ? $this->getCollection() : $collection;
-
-        $points_index_table = Mage::getResourceModel('rewards/customer_indexer_points')->getIdxTable();
-        $collection->getSelect()->joinLeft(
-            array('points_index' => $points_index_table), 
-            'e.entity_id = points_index.customer_id'
-        );
         
         $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
-                
-        if($columnId == "customer_points_usable"){
+
+        if ($columnId == "customer_points_usable"){
             $dir = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
             $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
             $collection->getSelect()->order("customer_points_usable ".$dir);
@@ -131,14 +132,6 @@ class TBT_Rewards_Block_Manage_Customer_Points_Grid extends Mage_Adminhtml_Block
             'index' => 'entity_id',
             'type' => 'number'
         ));
-        /* $this->addColumn('firstname', array(
-          'header'    => Mage::helper('customer')->__('First Name'),
-          'index'     => 'firstname'
-          ));
-          $this->addColumn('lastname', array(
-          'header'    => Mage::helper('customer')->__('Last Name'),
-          'index'     => 'lastname'
-          )); */
         $this->addColumn('name', array(
             'header' => Mage::helper('customer')->__('Name'),
             'index' => 'name',
@@ -227,7 +220,7 @@ class TBT_Rewards_Block_Manage_Customer_Points_Grid extends Mage_Adminhtml_Block
             'header' => Mage::helper('rewards')->__('Points'),
             'width' => '220px',
             'renderer' => 'rewards/manage_grid_renderer_points',
-            'sortable' => $this->_useIndex,
+            'sortable' => true,
             'filter' => false,
             'index'    => 'customer_points_usable'
          ));
@@ -243,25 +236,8 @@ class TBT_Rewards_Block_Manage_Customer_Points_Grid extends Mage_Adminhtml_Block
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()->setFormFieldName('customer');
 
-        //        $this->getMassactionBlock()->addItem('delete', array(
-        //             'label'    => Mage::helper('customer')->__('Delete'),
-        //             'url'      => $this->getUrl('*/*/massDelete'),
-        //             'confirm'  => Mage::helper('customer')->__('Are you sure?')
-        //        ));
-        //
-        //        $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
-        //             'label'    => Mage::helper('customer')->__('Subscribe to newsletter'),
-        //             'url'      => $this->getUrl('*/*/massSubscribe')
-        //        ));
-        //
-        //        $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
-        //             'label'    => Mage::helper('customer')->__('Unsubscribe from newsletter'),
-        //             'url'      => $this->getUrl('*/*/massUnsubscribe')
-        //        ));
-        //
         $currencies = Mage::helper('rewards/currency')->getAvailCurrencyOptions();
         $cids = Mage::helper('rewards/currency')->getAvailCurrencyIds();
-        //array_unshift($currencies, array('label'=> '', 'value'=> ''));
 
         $mass_transfer_fields = array('points' => array(
             'name' => 'quantity',

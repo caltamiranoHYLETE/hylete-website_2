@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,7 +20,7 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Block_Layer_Filter_Option_Selector extends Vaimo_MultiOptionFilter_Block_Template
@@ -42,7 +42,8 @@ class Vaimo_MultiOptionFilter_Block_Layer_Filter_Option_Selector extends Vaimo_M
     public function getSelectedOptionsMapping()
     {
         if ($this->_selectedOptionsMapping === null) {
-            $this->_selectedOptionsMapping = Mage::helper('multioptionfilter')->getAllSelectedLayerOptions(true);
+            $this->_selectedOptionsMapping = Mage::helper('multioptionfilter')
+                ->getAllSelectedLayerOptions(true);
         }
 
         return $this->_selectedOptionsMapping;
@@ -51,8 +52,8 @@ class Vaimo_MultiOptionFilter_Block_Layer_Filter_Option_Selector extends Vaimo_M
     public function getSelectedOptionsMappingAsJson()
     {
         $filtersWithSelectedOptions = $this->getSelectedOptionsMapping();
-
         $selectedOptions = array();
+
         foreach ($filtersWithSelectedOptions as $filter) {
             $selectedOptions[$filter['code']] = $filter['selected'];
         }
@@ -62,8 +63,8 @@ class Vaimo_MultiOptionFilter_Block_Layer_Filter_Option_Selector extends Vaimo_M
 
     public function getFilterSequenceAsJson()
     {
-        $sequence = Mage::helper('multioptionfilter')->getFilterRequestVarsInRenderSequence();
-
-        return json_encode($sequence);
+        return json_encode(
+            Mage::helper('multioptionfilter')->getFilterRequestVarsInRenderSequence()
+        );
     }
 }

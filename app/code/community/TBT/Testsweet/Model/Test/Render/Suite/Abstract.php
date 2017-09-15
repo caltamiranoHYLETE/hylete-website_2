@@ -43,6 +43,5 @@ abstract class TBT_Testsweet_Model_Test_Render_Suite_Abstract extends TBT_Testsw
     public function getReportRender() {
         return $this->_report_render;
     }
-    
-
 }
+

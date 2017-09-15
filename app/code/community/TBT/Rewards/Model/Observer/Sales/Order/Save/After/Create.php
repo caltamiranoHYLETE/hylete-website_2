@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -133,13 +133,6 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
 
         $cart_transfers = $this->_getCartTransfers();
 
-        //@nelkaake Monday March 29, 2010 03:55:05 AM : Reset points spending
-        //@mhadianfard: to prevent race condition when observer is called more than once, do a check before clearing
-        if ($order->getIncrementId () == $cart_transfers->getIncrementId ()) {
-            Mage::getSingleton ( 'rewards/session' )->setPointsSpending ( 0 );
-        }
-
-
         // Clear memory of points transfers and order
         $cart_transfers->clearIncrementId ();
         $cart_transfers->clearCartPoints ();
@@ -156,7 +149,7 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
     {
         $catalog_transfers = Mage::getSingleton ( 'rewards/observer_sales_catalogtransfers' );
 
-        if ($order->getIncrementId () != $catalog_transfers->getIncrementId ()) {
+        if ($order->getIncrementId() != $catalog_transfers->getIncrementId()) {
             return $this;
         }
 
@@ -209,7 +202,6 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
                 try {
                     $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints (
                         $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_AMT] * $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_APPLICABLE_QTY],
-                        $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_CURRENCY_ID],
                         $order,
                         $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_RULE_ID] );
                 } catch ( Exception $ex ) {
@@ -241,7 +233,6 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
                 try {
                     $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints (
                         $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_AMT] * $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_APPLICABLE_QTY] * - 1,
-                        $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_CURRENCY_ID],
                         $order,
                         $transfer_points [TBT_Rewards_Model_Catalogrule_Rule::POINTS_RULE_ID]
                     );
@@ -268,7 +259,7 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
             }
 
             try {
-                $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints ( $cart_points ['amount'], $cart_points ['currency'], $order, $cart_points ['rule_id'] );
+                $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints ( $cart_points ['amount'], $order, $cart_points ['rule_id'] );
             } catch ( Exception $ex ) {
                 throw new Mage_Core_Exception ( $ex->getMessage () );
             }
@@ -292,7 +283,8 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
             try {
                 $points = $this->_getRewardsSession ()->calculateCartPoints ( $rule_id, $order->getAllItems (), true );
             } catch ( Exception $e ) {
-                die ( $e->getMessage () );
+                Mage::logException($e);
+                throw new Mage_Core_Exception($e->getMessage());
             }
 
             // If no point samount was retrieved, continue on to the next redemption
@@ -302,7 +294,7 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
 
             // Try to transfer points to the customer
             try {
-                $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints ( $points ['amount'], $points ['currency'], $order, $rule_id );
+                $is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferOrderPoints ( $points ['amount'], $order, $rule_id );
             } catch ( Exception $ex ) {
                 throw new Mage_Core_Exception ( $ex->getMessage () );
             }
@@ -423,7 +415,16 @@ class TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create
     {
         //Mage::helper('rewards/debug')->noticeBacktrace("Adding msg with _dispatchCheckoutMsg: ". $message->getText());
         $message->setIdentifier('TBT_Rewards_Model_Observer_Sales_Order_Save_After_Create(pending points)');
-        Mage::getSingleton('core/session')->addMessage($message);
+        
+        if (
+            Mage::app()->getStore()->isCurrentlySecure()
+            && Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.9.1.0')
+        ) {
+            Mage::getSingleton('core/session')->addMessage($message);
+        } else {
+            Mage::getSingleton('checkout/session')->addMessage($message);
+        }
+
         return $this;
     }
 

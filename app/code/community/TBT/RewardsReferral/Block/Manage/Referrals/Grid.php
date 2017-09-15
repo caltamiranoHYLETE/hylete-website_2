@@ -76,6 +76,11 @@ class TBT_RewardsReferral_Block_Manage_Referrals_Grid extends Mage_Adminhtml_Blo
             'index' => 'referral_name',
             'renderer' => 'rewardsref/manage_grid_renderer_referral',
         ));
+        
+        $this->addColumn('affiliate_email', array(
+            'header' => Mage::helper('rewardsref')->__('Affiliate Email'),
+            'index' => 'email',
+        ));
 
         $this->addColumn('referral_email', array(
             'header' => Mage::helper('rewardsref')->__('Referral Email'),
@@ -122,5 +127,5 @@ class TBT_RewardsReferral_Block_Manage_Referrals_Grid extends Mage_Adminhtml_Blo
         $this->getCollection()->walk('afterLoad');
         parent::_afterLoadCollection();
     }
-
 }
+

@@ -18,4 +18,3 @@ class TBT_Milestone_Model_Adapter_Special_Membership extends TBT_Milestone_Model
     }
 }
 
-?>

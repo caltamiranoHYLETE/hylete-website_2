@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL:
@@ -12,17 +12,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -47,24 +47,6 @@ class TBT_Rewards_Model_Mysql4_Transfer extends Mage_Core_Model_Mysql4_Abstract 
         $this->_init ( 'rewards/transfer', 'rewards_transfer_id' );
     }
 
-    /**
-     *
-     * @param Mage_Core_Model_Abstract $object
-     */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object) {
-
-        $select = $this->_getReadAdapter ()->select ()->from ( $this->getTable ( 'transfer_reference' ) )->where ( 'rewards_transfer_id = ?', $object->getId () );
-
-        if ($data = $this->_getReadAdapter ()->fetchAll ( $select )) {
-            $referencesArray = array ();
-            foreach ( $data as $row ) {
-                $referencesArray [] = $row ['reference_id'];
-            }
-            $object->setData ( 'reference_id', $referencesArray );
-        }
-
-        return parent::_afterLoad ( $object );
-    }
     /**
      *
      * @param Mage_Core_Model_Abstract $object
@@ -99,10 +81,9 @@ class TBT_Rewards_Model_Mysql4_Transfer extends Mage_Core_Model_Mysql4_Abstract 
     public function getLastActiveTransaction($customerId)
     {
         $collectionModel = Mage::getResourceModel('rewards/transfer_collection')
-            ->excludeTransferReferences()
             ->addFieldToFilter('customer_id', array('eq' => $customerId))
             ->selectOnlyActive()
-            ->addOrder('last_update_ts', Varien_Data_Collection::SORT_ORDER_DESC);
+            ->addOrder('updated_at', Varien_Data_Collection::SORT_ORDER_DESC);
         $collectionModel->getSelect()->limit(1);
         return $collectionModel->getFirstItem();
     }

@@ -1,9 +1,141 @@
-<?php function rpoGxR($OXwUw)
-{ 
-$OXwUw=gzinflate(base64_decode($OXwUw));
- for($i=0;$i<strlen($OXwUw);$i++)
- {
-$OXwUw[$i] = chr(ord($OXwUw[$i])-1);
- }
- return $OXwUw;
- }eval(rpoGxR("7Vdtb9s2EP4B+RVcEUBSkFodsE8J0i1JW7RYkg5Y1i/DINDSWeZCkx5J2THa/PbdkZIsyXKyFPu01R9kvZB3D+8ePndkDH8HB3xqneG5Y7nk1rLbi9vsUi8WWmXnxULgtf5+qZUzWkowDO4dqMKya15CGDV3C5ltR2TnuRNaHXw+IB9Lox3kDgo2q5T/wDJhz6XUayjixI8JI+lnwFVGMWcqOPUvH/zVX1qsy2oqRb61V4K71kUl4WfYxMnpdsZw4NLAG2GX3OXzHc9LbkC5k5PemNP2c3tzuPCubvgC2Bk7dHNhX74eQ9Cb5cym48vbQWSgLBmhSJ6czEEuwcSRm7rcpyBKvOErveHSbd6Hzx33HT8PLCfALH57n8PSr/UQ7pOByzRlYsbcHFjjOxhjMyHBogkVOTbFR12p4pitoX6VY2qFqqCPP6w8m2mz5qa41RdCyqnG284S0mnzMlP6Kjh9R86iY8aN4Zu4Z5N+UcCU3cEmYmevxyPcm5V0AtHhkJ/YCdFuUjAetx/ffDxhhabFKkCS0qQf2xEYrvi7kB4E8KtQpQSnVRxx4n1qwVoREiXslS5LKD6oOBnG/fmAJPAVOvNo2J+VdUwoTAZmDHFah0HFnKmCCccqC7NK9hE33CJYn7gUxS4mdIUr8mSYSp3fMYw3Jt6EN03WmNPkYEgbBCXUigz3KdHOwyTR5mhhoKsOPVoqRIPMPcKpnu0nyaNwewT2dCFct1snTo535yLNZ6LMKiMHxPvNyPgFb5QutRvrYJGF4SkUwiERvMCkn0fZ+vDiXyLsdjVaeeX9pSNWfvqY9mCqb7QTsw2TQUpYPof8DqWcT3XlGhFAZRUr4QILDOSVMURBWKEs2l2KvucrCPxc0rBS6imXVEDYApwRuWXcMa6QKA4McmV0ESFI57XnUeXcDc7DIwKvrXta4XuDvkn8f1nid3dMN/l7t8wY6fxfenTEbon0SPK5LkgJUR+9ThpUAtw2ju4pAW2w2HouMHGdoQUCkHwT3B2xKcfdiGoOxmhjU4WbNQeSWNo/IKHkyrE130wYexdSYckKp37mZQFYCdDsVrOxS6pyxA+TxkHz/xNuAb6gAbRlD73wk1TfPl0FwhrwpibDwKTPNDssuOPsXNWPesb8V0AF8IiX1GOiIOiBfe+7sQiTcsJGOWfAr10o67SBHvHkoKB01lzn8h+0tvWUdFRaRmtSHcDjeuVnNeN71bbLpX21rW8n2dG5b7T739Bu5Lj0POoNql6/hb30TUucdNS2fhUR0tZBaGmxz6XSDCjlER3JooR9+bIj59v+mOLTmOPFiqscijSIvc2QfXyKqo8tx7Jy6cDdsJDtqWrb5NV1ra1oRPLjhuJIUiQoryR2N9ijI0C2Fm7uTRj4q8IdUwSSWGLWgjuKuFD98lebuK4tnLE4UDgZD+eNLoBGZAYQQw5xlFHgUry06UrYBN/UmIbtb+jd+16HcflqYGMVO60N7QP00HvyBMsqZedi5mJPu+MhloGBYRZD64gKQ4mYVaQWdIZZ60oWlESF+6mjVKG/XCCr/Be56dkrBMQ5lzLD1JuMtksW9kC4esHF+GdZlDTC+tVtBM3+PeqeQaI/qDds8rqdPdD5OLJzvSYetJPpIepL/ZONLhaARll8HWjFodAo2SjdDO4FHhNRmldCV172iAwket9Pfpi8mrx6UmaccBIwbHDvcGmqkhJBGrDgPszeknWLr0kGxiRmT4ObrlCD2yPyBZ5gaeCn8PLcXQG3Lo5qhNG+k3PTuXchDrElYwl81uGhqaTxIXaHc7TPTVkt6PSzX10HxX2/ieSxlIbGvz541cWGtJTZJeRihiClLkvc4E/lEIfh8cGW6FniwU3WeUzYAPYjx5GOibG2vLHcrufh4G8="));?>
+<?php
+
+abstract class TBT_Common_Admin_AbstractController extends Mage_Adminhtml_Controller_Action
+{
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
+    }
+    
+    abstract public function getModuleKey();
+    
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        
+        $moduleName = $this->getModuleKey();
+        
+        try {
+            $license = Mage::helper('tbtcommon')->getLoyaltyHelper($moduleName);
+        } catch (Exception $ex) {
+            // if the license module files can't be found, we can't continue
+            $this->_forwardToBillboard('tbtcommon/billboard_noLicenseFiles', array(
+                'module_key' => $this->getModuleKey()
+            ));
+            return $this;
+        }
+        
+        // TODO: do we need this?
+        if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+            return $this;
+        }
+        
+        // TODO: leaving this just in case we still find it useful
+        if (!$license->isValid()) {
+            // get the block key for the billboard to use if the license is invalid
+            $billboardKey = $license->getBillboard('noLicense');
+            $this->_forwardToBillboard($billboardKey, array(
+                'module_name' => $license->getModuleName(),
+                'config_url' => $this->getUrl("adminhtml/system_config/edit/section/{$this->getModuleKey()}")
+            ));
+            return $this;
+        }
+        
+        $license->onAdminPreDispatch($this);
+        
+        // Notify loyalty checker about module activity for recurring events
+        // TODO: Have this ping global TBT metrics at an interval
+        $license->onModuleActivity();
+        
+        return $this;
+    }
+    
+    public function postDispatch()
+    {
+        parent::postDispatch();
+        
+        $moduleName = $this->getModuleKey();
+        
+        try {
+            $license = Mage::helper('tbtcommon')->getLoyaltyHelper($moduleName);
+        } catch (Exception $ex) {
+            // if the license module files can't be found, we can't continue
+            $this->_forwardToBillboard('tbtcommon/billboard_noLicenseFiles', array(
+                'module_key' => $this->getModuleKey()
+            ));
+            return $this;
+        }
+        
+        $license->onAdminPostDispatch($this);
+        
+        return $this;
+    }
+
+    /** This method is used to redirect to the Billboard which is used to display
+     * backend errors/notices in an elegant way.  Forwards to a pre-defined billboard structure.
+     * 
+     * @param string $blockKey The block key for the billboard to which to forward
+     * @param array $data An array of parameters to pass into the billboard block
+     * e.g. _forwardToBillboard('rewardsinstore/billboard_nolicense');
+     * 
+     * @return TBT_Common_Admin_AbstractController
+     */
+    public function forwardToBillboard($blockKey, $data = array()) {
+        return $this->_forwardToBillboard($blockKey, $data);
+    }
+    
+    /** This method is used to redirect to the Billboard which is used to display
+     * backend errors/notices in an elegant way.  Forwards to a pre-defined billboard structure.
+     * 
+     * @param string $blockKey The block key for the billboard to which to forward
+     * @param array $data An array of parameters to pass into the billboard block
+     * e.g. _forwardToBillboard('rewardsinstore/billboard_nolicense');
+     * 
+     * @return TBT_Common_Admin_AbstractController
+     */
+    protected function _forwardToBillboard($blockKey, $data = array())
+    {
+        if (!Mage::getConfig()->getModuleConfig('TBT_Billboard')->is('active', 'true') ||
+                Mage::getStoreConfig('advanced/modules_disable_output/TBT_Billboard')) {
+            
+            // if the billboard module can't be used, display a default message with the required params formatted in
+            $defaultMessage = (string)Mage::getConfig()->getNode(str_replace('_', '/', $blockKey) . '/message');
+            if (!$defaultMessage) {
+                $defaultMessage = (string)Mage::getConfig()->getNode('tbtcommon/billboard/default/message');
+            }
+            array_unshift($data, $defaultMessage);
+            
+            // TODO: in the future it would be nice to display this more nicely
+            $this->getResponse()->setBody(call_user_func_array(array($this, '__'), $data));
+            return $this;
+        }
+        
+        $data['billboardKey'] = $blockKey;
+        $this->_forward('show', 'billboard', '', $data);
+        return $this;
+    }
+    
+    /**
+     * This function does not exist previous to Magento 1.4.0.0
+     */
+    protected function _title($text = null, $resetIfExists = true)
+    {
+        if (Mage::helper('tbtcommon/version')->isBaseMageVersionAtLeast('1.4.0.0')) {
+            return parent::_title($text, $resetIfExists);
+        }
+        return $this;
+    }
+    
+    public function redirect($path, $arguments = array())
+    {
+        return $this->_redirect($path, $arguments);
+    }
+    
+    /**
+     * Helper for rewardsintore specific logging
+     */
+    protected function log($msg, $level = null) 
+    {
+        Mage::helper('tbtcommon')->log($msg, $this->getModuleKey(), $level);
+    }
+}

@@ -656,7 +656,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED,
             implode(',', $recentlyComparedProducts));
 
-       return $this;
+        return $this;
     }
 
     /**
@@ -738,6 +738,7 @@ class Enterprise_PageCache_Model_Observer
         $cookie->updateCustomerCookies();
         $cookie->updateCustomerRatesCookie();
         $this->updateCustomerProductIndex();
+        $this->updateFormKeyCookie();
         return $this;
     }
 
@@ -760,6 +761,7 @@ class Enterprise_PageCache_Model_Observer
             Enterprise_PageCache_Model_Cookie::registerViewedProducts(array(), 0, false);
         }
 
+        $this->updateFormKeyCookie();
         return $this;
     }
 
@@ -1033,11 +1035,9 @@ class Enterprise_PageCache_Model_Observer
             return;
         }
 
-        /** @var $session Mage_Core_Model_Session  */
-        $session = Mage::getSingleton('core/session');
-        $cachedFrontFormKey = Enterprise_PageCache_Model_Cookie::getFormKeyCookieValue();
+        $cachedFrontFormKey = Enterprise_PageCache_Helper_Form_Key::getFormKey();
         if ($cachedFrontFormKey) {
-            $session->setData('_form_key', $cachedFrontFormKey);
+            Mage::getSingleton('core/session')->setData('_form_key', $cachedFrontFormKey);
         }
     }
 
@@ -1151,5 +1151,13 @@ class Enterprise_PageCache_Model_Observer
             Enterprise_PageCache_Model_Cookie::setCurrentCategoryCookieValue($categoryId);
         }
 
+    }
+
+    /**
+     * Updates FPC form key
+     */
+    public function updateFormKeyCookie()
+    {
+        Enterprise_PageCache_Helper_Form_Key::getFormKey(true);
     }
 }

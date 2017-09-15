@@ -27,7 +27,7 @@ FEED;
         $afterHtml = $this->_getAfterHtml();
         
         $data = array(
-            'label'      => Mage::helper('rewards')->__("Connect to Sweet Tooth"),
+            'label'      => Mage::helper('rewards')->__("Connect to MageRewards"),
             'onclick'    => $onClickJs,
             'class'      => "",
             'comment'    => "",
@@ -68,6 +68,6 @@ FEED;
     
     protected function _getSignupUrl()
     {
-        return "http://www.sweettoothrewards.com/pricing/";
+        return "http://www.magerewards.com/pricing/";
     }
 }

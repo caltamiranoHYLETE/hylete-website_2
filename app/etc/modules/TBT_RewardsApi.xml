@@ -4,7 +4,7 @@
         <TBT_RewardsApi>
             <active>true</active>
             <codePool>community</codePool>
-            <!-- Dependent on TBT_Rewards (Sweet Tooth) -->
+            <!-- Dependent on TBT_Rewards (MageRewards) -->
             <depends>
                 <TBT_RewardsPlat/>
             </depends>

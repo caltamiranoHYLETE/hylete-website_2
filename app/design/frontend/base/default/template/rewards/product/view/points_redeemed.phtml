@@ -44,14 +44,17 @@ $show_slider = true;
         function updateSlider() {
             var rule_id = $('redemption_rule').value;
             if (rule_id !== "") {
+                var finalPrice = getProductPriceBeforeRedemptions();
+                
                 if (rule_options[rule_id]['points_action'] == "deduct_by_amount_spent") {
-                    var finalPrice = getProductPriceBeforeRedemptions();
                     var monetaryStep = rule_options[rule_id]['monetary_step'];
-
                     var multiplier = Math.ceil(finalPrice / monetaryStep);
                     rule_options[rule_id]["amount"] = rule_options[rule_id]['points_amt'] * multiplier;
                 }
 
+                var priceDispositionAux = sweettooth.ProductView.CatalogRules.helper.priceAdjuster(finalPrice, rule_options[rule_id]['effect']);
+                var newPriceDispositionAux = finalPrice - priceDispositionAux;
+                rule_options[rule_id]['price_disposition'] = newPriceDispositionAux.toFixed(2);
             }
         }
 
@@ -66,8 +69,10 @@ $show_slider = true;
             // add listener to all form select boxes
             $$('.product-view select').each( function(e){
                 e.observe("change", function(e) {
-                    updateSlider();
-                    syncWithCustomOptions();
+                    window.setTimeout(function(){
+                        updateSlider();
+                        syncWithCustomOptions();
+                    }, 200);
                 });
             });
 
@@ -81,16 +86,12 @@ $show_slider = true;
             // add listener to all form input boxes
             $$('.product-options input').each( function(e){
                 e.observe("click", function(e1) {
-                    if (e.value !== "") {
-                        updateSlider();
-                    }
-                    syncWithCustomOptions();
-                });
-            });
-
-            $$('.product-options select').each( function(e){
-                e.observe("change", function(e) {
-                    syncWithCustomOptions();
+                    window.setTimeout(function(){
+                        if (e.value !== "") {
+                            updateSlider();
+                        }
+                        syncWithCustomOptions();
+                    }, 200);
                 });
             });
 
@@ -98,6 +99,18 @@ $show_slider = true;
             $$('div.product-options textarea').each( function(e){
                 e.observe("change", function(e) {
                     syncWithCustomOptions();
+                });
+            });
+
+            /**
+             * Bind ST events to swatches
+             */
+            $$('.configurable-swatch-list > li > a').each( function(e){
+                e.observe("click", function(e1) {
+                    window.setTimeout(function(){
+                        updateSlider();
+                        syncWithCustomOptions();
+                    }, 200);
                 });
             });
 

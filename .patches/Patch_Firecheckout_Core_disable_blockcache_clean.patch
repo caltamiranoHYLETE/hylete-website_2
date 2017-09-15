@@ -1,0 +1,18 @@
+--- app/code/community/TM/Core/etc/config.xml	Wed Jun 07 19:25:55 2017 +0000
++++ app/code/community/TM/Core/etc/config.xml	Wed Jun 07 19:40:21 2017 +0000
+@@ -81,6 +81,7 @@
+                     </tmcore>
+                 </observers>
+             </controller_action_predispatch>
++            <!-- PATCH elvin@VAIMO no custom block cache cleaning!
+             <catalog_product_save_commit_after>
+                 <observers>
+                     <tmcore>
+@@ -89,6 +90,7 @@
+                     </tmcore>
+                 </observers>
+             </catalog_product_save_commit_after>
++            //~PATCH -->
+         </events>
+         <translate>
+             <modules>

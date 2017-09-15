@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TBT_RewardsPlat>
-            <version>1.7.5.3</version>
+            <version>1.7.6</version>
         </TBT_RewardsPlat>
     </modules>
     <admin>
@@ -135,15 +135,15 @@
             <!-- // END: // Module warning if you have other rewards modules installed -->
             
             
-            <controller_action_predispatch_adminhtml_manage_diagnostics_reinstalldb>
+            <st_rewards_manage_diagnostics_reinstalldb_before>
                 <observers>
                     <rewardsplat_diagnostics_reinstalldb>
                         <type>singleton</type>
                         <class>rewardsplat/diagnostics_observer</class>
-                        <method>reinstalldb</method>
+                        <method>reinstallDb</method>
                     </rewardsplat_diagnostics_reinstalldb>
                 </observers>
-            </controller_action_predispatch_adminhtml_manage_diagnostics_reinstalldb>
+            </st_rewards_manage_diagnostics_reinstalldb_before>
             
         </events>
     </global>

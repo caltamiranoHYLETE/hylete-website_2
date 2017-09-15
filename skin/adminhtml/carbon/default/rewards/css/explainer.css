@@ -1,0 +1,76 @@
+/***** Basics *****/
+.sweettooth-explainer { max-width: 800px; margin: 0 auto; font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; color: inherit; text-transform: initial; padding: 0 10px 60px 10px; }
+.sweettooth-explainer i { font-size: 50px; width: 50px; height: 50px; border-radius: 50px; font-size: 30px; line-height: 50px; background-color: white; }
+.sweettooth-explainer .program-summary h1, .std .sweettooth-explainer section h1 { text-align: center; font-size: 350%; font-weight: bold; color: #333; text-transform: none; font-family: inherit; }
+.sweettooth-explainer .program-description, .sweettooth-explainer .section-description, .sweettooth-explainer .explainer-box span { font-size: larger; font-family: inherit; }
+.sweettooth-explainer .section-description { text-align: left; margin-bottom: 40px; }
+.sweettooth-explainer .explainer-box h3 { font-size: large; font-weight: bold; font-family: inherit; text-transform: initial; margin-bottom: 0; }
+.sweettooth-explainer .explainer-box img { display: inline-block; }
+.sweettooth-explainer .cta-wrapper { text-align: center; }
+.sweettooth-explainer .cta-button { font-family: 'Lato'; text-decoration: none; padding: 15px 40px; display: inline-block; margin: 30px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; outline: none; position: relative; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; color: #fff; -webkit-transition: none; -moz-transition: none; transition: none; border-radius: 5px; margin-bottom: 0; }
+.sweettooth-explainer .cta-button:hover { top: 2px; }
+.sweettooth-explainer .cta-button:active { top: 6px; }
+.sweettooth-explainer:after { content: ''; position: absolute; z-index: -1; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; }
+.sweettooth-explainer .points-on-orders { text-align: center; padding-top: 25px; }
+.sweettooth-explainer .points-on-orders .explainer-box { width: 45%; padding: 10px; position: relative; }
+.sweettooth-explainer .points-on-orders .explainer-box img, .sweettooth-explainer .points-on-orders .explainer-box i { position: absolute; top: -25px; }
+.sweettooth-explainer .points-on-orders .explainer-box.left img, .sweettooth-explainer .points-on-orders .explainer-box.left i { left: -25px; }
+.sweettooth-explainer .points-on-orders .explainer-box.right img, .sweettooth-explainer .points-on-orders .explainer-box.right i { right: -25px; }
+.sweettooth-explainer section { padding-bottom: 55px; }
+.sweettooth-explainer section h2, .std .sweettooth-explainer section h2 { margin-bottom: 25px; text-align: left; font-weight: bold; color: inherit; text-transform: none; font-family: inherit; color: #333; }
+.sweettooth-explainer .accentuate { font-weight: bold; }
+.sweettooth-explainer .earn-points { text-align: center; }
+.sweettooth-explainer .earn-points .row { margin-bottom: 40px; }
+.sweettooth-explainer .earn-points .explainer-box { display: inline-block; width: 30%; }
+.sweettooth-explainer .refer-friend { padding-bottom: 15px; }
+.sweettooth-explainer .faq { font-size: larger; padding-bottom: 15px; }
+.sweettooth-explainer .faq dt { font-weight: bold; font-size: medium; text-decoration: underline; }
+.sweettooth-explainer .faq dd { margin-bottom: 25px; }
+.sweettooth-explainer .left { float: left; }
+.sweettooth-explainer .right { float: right; }
+.sweettooth-explainer .clear { clear: both; }
+
+/***** Colors *****/
+.gold.sweettooth-explainer .program-summary h1 { border-bottom: 1px solid #ac9456; }
+.gold.sweettooth-explainer section h2 { border-bottom: 1px solid #8F7C4B; }
+.gold.sweettooth-explainer .accentuate { color: #ac9456; }
+.gold.sweettooth-explainer i { color: #ac9456; border: 1px solid #8F7C4B; }
+.gold.sweettooth-explainer .cta-button { background: #ac9456; box-shadow: 0 6px #8F7C4B; }
+.gold.sweettooth-explainer .cta-button:hover { box-shadow: 0 4px #8F7C4B; }
+.gold.sweettooth-explainer .cta-button:active { box-shadow: 0 0 #8F7C4B; }
+.gold.sweettooth-explainer .points-on-orders .explainer-box { border: 1px solid #8F7C4B; }
+
+.red.sweettooth-explainer .program-summary h1 { border-bottom: 1px solid #c0392b; }
+.red.sweettooth-explainer section h2 { border-bottom: 1px solid #9B2114; }
+.red.sweettooth-explainer .accentuate { color: #9B2114; }
+.red.sweettooth-explainer i { color: #c0392b; border: 1px solid #720B00; }
+.red.sweettooth-explainer .cta-button { background: #c0392b; box-shadow: 0 6px #9B2114; }
+.red.sweettooth-explainer .cta-button:hover { box-shadow: 0 4px #9B2114; }
+.red.sweettooth-explainer .cta-button:active { box-shadow: 0 0 #9B2114; }
+.red.sweettooth-explainer .points-on-orders .explainer-box { border: 1px solid #720B00; }
+
+.blue.sweettooth-explainer .program-summary h1 { border-bottom: 1px solid #2980b9; }
+.blue.sweettooth-explainer section h2 { border-bottom: 1px solid #07507F; }
+.blue.sweettooth-explainer .accentuate { color: #2980b9; }
+.blue.sweettooth-explainer i { color: #2980b9; border: 1px solid #07507F; }
+.blue.sweettooth-explainer .cta-button { background: #2980b9; box-shadow: 0 6px #07507F; }
+.blue.sweettooth-explainer .cta-button:hover { box-shadow: 0 4px #07507F; }
+.blue.sweettooth-explainer .cta-button:active { box-shadow: 0 0 #07507F; }
+.blue.sweettooth-explainer .points-on-orders .explainer-box { border: 1px solid #07507F; }
+
+.green.sweettooth-explainer .program-summary h1 { border-bottom: 1px solid #326829; }
+.green.sweettooth-explainer section h2 { border-bottom: 1px solid #1E5216; }
+.green.sweettooth-explainer .accentuate { color: #326829; }
+.green.sweettooth-explainer i { color: #326829; border: 1px solid #1E5216; }
+.green.sweettooth-explainer .cta-button { background: #326829; box-shadow: 0 6px #1E5216; }
+.green.sweettooth-explainer .cta-button:hover { box-shadow: 0 4px #1E5216; }
+.green.sweettooth-explainer .cta-button:active { box-shadow: 0 0 #1E5216; }
+.green.sweettooth-explainer .points-on-orders .explainer-box { border: 1px solid #1E5216; }
+
+/***** Mobile *****/
+@media handheld, only screen and (max-width: 480px) {
+    .sweettooth-explainer .earn-points .row { margin-bottom: 0; }
+    .sweettooth-explainer .earn-points .explainer-box { margin: 20px 0; width: 100%; }
+    .sweettooth-explainer .points-on-orders .explainer-box { margin: 20px 0; width: 100%; }
+}
+

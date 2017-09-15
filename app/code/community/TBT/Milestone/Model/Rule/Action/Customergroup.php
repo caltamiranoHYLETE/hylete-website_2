@@ -2,13 +2,14 @@
 
 class TBT_Milestone_Model_Rule_Action_Customergroup extends TBT_Milestone_Model_Rule_Action
 {
-    public function execute($customerId)
+    public function execute($customerId, $milestoneLog)
     {
         try {
             // save this data for the rule log
             $customer                                    = Mage::getModel('customer/customer')->load($customerId);
+            $milestone = array();
             $milestone['condition']['message']           = "Reached a " . $this->getRuleCondition()->getMilestoneDescription();
-            $milestone['condition']['reference_type_id'] = $this->getRuleCondition()->getPointsReferenceTypeId();
+            $milestone['condition']['reason_id']         = $this->getRuleCondition()->getReasonId();
             $milestone['action']['from']                 = $customer->getGroupId();
             $milestone['action']['to']                   = $this->getCustomerGroupId();
             $this->getRule()->setMilestoneDetails($milestone);

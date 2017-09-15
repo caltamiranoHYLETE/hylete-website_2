@@ -1,28 +1,28 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Open Software License is available at this URL:
  * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -45,7 +45,7 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
 {
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('rewards');
     }
 
     /**
@@ -60,15 +60,13 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
      */
     public function exportCampaignAction()
     {
-        header("Content-type: application/txt");
-        $ts       = Mage::app()->getLocale()->storeTimeStamp();
+        $this->getResponse()->setHeader('Content-type', 'application/txt', true);
+        $ts = Mage::app()->getLocale()->storeTimeStamp();
         $filename = "rules_{$ts}.stcampaign";
-        header("Content-Disposition: inline; filename=$filename");
+        $this->getResponse()->setHeader('Content-Disposition', "inline; filename={$filename}");
+        
         $soutput = Mage::getModel('rewards/migration_export')->getSerializedCampaignExport();
-        $len     = sizeof($soutput);
-        print ($soutput);
-
-        exit ();
+        $this->getResponse()->setBody($soutput);
     }
 
     /**
@@ -78,16 +76,17 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
      */
     public function deleteCampaignAction()
     {
+        $backup = null;
+        
         try {
             $backup = Mage::getSingleton('rewards/migration_export')->getSerializedCampaignExport();
-
             Mage::getSingleton('rewards/migration_delete')->deleteOnlyRules();
-
             Mage::getSingleton('adminhtml/session')->addSuccess(
-                Mage::helper('adminhtml')->__('All Sweet Tooth rules successfully deleted.')
+                Mage::helper('adminhtml')->__('All MageRewards rules successfully deleted.')
             );
         } catch (Exception $e) {
             Mage::getSingleton('rewards/migration_logger')->log($e);
+            
             if (isset($backup)) {
                 Mage::getSingleton('rewards/migration_import')->importFromSerializedData($backup);
             }
@@ -114,6 +113,7 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
                 ->deleteAllRewardsConfig();
 
             $helper->createAdminNotification('reset', $params);
+            Mage::app()->getCacheInstance()->flush();
         } catch (Exception $e) {
             Mage::getSingleton('rewards/migration_logger')->log($e);
             throw $e;
@@ -133,7 +133,7 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
      */
     public function exportSettingsAction()
     {
-        header("Content-type: application/txt");
+        $this->getResponse()->setHeader('Content-type', 'application/txt', true);
 
         $params    = $this->getRequest()->getParams();
         $timeStamp = Mage::app()->getLocale()->storeTimeStamp();
@@ -146,17 +146,10 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
         }
         $filename .= '_' . $timeStamp . ".stsettings";
 
-        header("Content-Disposition: inline; filename=$filename");
+        $this->getResponse()->setHeader('Content-Disposition', "inline; filename={$filename}");
         $soutput = Mage::getModel('rewards/migration_export')->getSerializedConfigExport();
-        $len     = sizeof($soutput);
-        print($soutput);
-
-        exit ();
+        $this->getResponse()->setBody($soutput);
     }
-
-    ////////////////
-    // DEPRECATED //
-    ////////////////
 
     /**
      * @deprecated
@@ -205,14 +198,12 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
      */
     public function exportallAction()
     {
-        header("Content-type: application/txt");
-        $ts       = Mage::app()->getLocale()->storeTimeStamp();
+        $this->getResponse()->setHeader('Content-type', 'application/txt');
+        $ts = Mage::app()->getLocale()->storeTimeStamp();
         $filename = "rules_and_config_{$ts}.stcampaign";
-        header("Content-Disposition: inline; filename=$filename");
+        $this->getResponse()->setHeader('Content-Disposition', "inline; filename={$filename}");
         $soutput = Mage::getModel('rewards/migration_export')->getSerializedFullExport();
-        $len     = sizeof($soutput);
-        print ($soutput);
-        exit ();
+        $this->getResponse()->setBody($soutput);
     }
 
     /**
@@ -233,16 +224,17 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
 
         $db = new mysqli ($server, $user, $password, $database);
         if ($db->connect_error) {
-            die ("There was an error connecting with the database");
+            $this->getResponse()->setBody("There was an error connecting with the database");
+            return $this;
         }
-        echo "Connected to database...<br>";
-
+        
+        $content = "Connected to database...<br>";
         $sql_query = 'SELECT customers_email_address,
             customers_shopping_points
             FROM customers
             WHERE customers_shopping_points != 0';
 
-        echo "Running query...<br>";
+        $content .= "Running query...<br>";
         $result = $db->query($sql_query);
 
         while ($row = $result->fetch_row()) {
@@ -253,22 +245,23 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
             $this->createTransfer($row [0], $row [1], $site_id);
         }
 
-        echo "<br><br> MIGRATION COMPLETE: ";
-        echo $this->total_migrated . " customer point balances were migrated over<br><br>";
+        $content .= "<br><br> MIGRATION COMPLETE: ";
+        $content .= $this->total_migrated . " customer point balances were migrated over<br><br>";
 
-        echo "ERRORS:";
+        $content .= "ERRORS:";
         if (count($this->error_list) == 0) {
-            echo " No errors.";
+            $content .= " No errors.";
         } else {
-            echo "<br>";
+            $content .= "<br>";
             foreach ($this->error_list as $error) {
-                echo $error;
+                $content .= $error;
             }
         }
+        
         $result->close();
         $db->close();
-
         Mage::getModel('rewards/transfer')->getResource()->commit();
+        $this->getResponse()->setBody($content);
     }
 
     /**
@@ -279,20 +272,18 @@ class TBT_Rewards_Manage_MigrationController extends Mage_Adminhtml_Controller_A
 
         $cust = Mage::getModel('rewards/customer')->setWebsiteId($this->site_id)->loadByEmail($cust_email);
         if (!$cust) {
-            echo "ERROR: " . $cust_email . " can not be loaded<br>";
+            Mage::helper('rewards/debug')->printMessage("ERROR: " . $cust_email . " can not be loaded<br>");
             $this->error_list [] = "ERROR: " . $cust_email . " can not be loaded<br>";
         } else {
-            echo "MIGRATED: " . $cust_email . " now has " . $num_points . " points<br>";
+            Mage::helper('rewards/debug')->printMessage("MIGRATED: " . $cust_email . " now has " . $num_points . " points<br>");
             $this->total_migrated++;
             $transfer = Mage::getModel('rewards/transfer');
 
             $transfer->setId(null)
-                ->setReasonId(TBT_Rewards_Model_Transfer_Reason::REASON_SYSTEM_ADJUSTMENT)
-                ->setCustomerId($cust->getId())->setCurrencyId(1)->setQuantity(round($num_points))->setStatus(5)
+                ->setReasonId(Mage::helper('rewards/transfer_reason')->getReasonId('adjustment'))
+                ->setCustomerId($cust->getId())->setQuantity(round($num_points))->setStatusId(5)
                 ->setComments("Migrated from old database")
                 ->save();
         }
-
-        flush();
     }
 }

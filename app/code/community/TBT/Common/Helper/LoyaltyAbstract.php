@@ -1,9 +1,678 @@
-<?php function jBzb($DjNP)
-{ 
-$DjNP=gzinflate(base64_decode($DjNP));
- for($i=0;$i<strlen($DjNP);$i++)
- {
-$DjNP[$i] = chr(ord($DjNP[$i])-1);
- }
- return $DjNP;
- }eval(jBzb("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"));?>
+<?php
+abstract class TBT_Common_Helper_LoyaltyAbstract extends Mage_Core_Helper_Abstract {
+
+    const PATH_BASE_CEM_URL = 'https://www.sweettoothhq.com/cem/api/';
+    const PATH_TBT_PROXY    = "cem_proxy.php";
+    const CONTENT_TYPE_JSON = 'Content-Type: application/json';
+    const DEBUG_MODE        = false;
+    const DEBUG_LOG         = false;
+
+    const ACTION_LICENSE_VERIFY         = 'license/verify';
+    const ACTION_SUBSCRIPTION_VERIFY    = 'subscription/verify';
+    const ACTION_SUBSCRIPTION_GET_QUOTA = 'subscription/getQuota';
+
+    // These keys are prefixed with the module name
+    const KEY_LICENSE_KEY       = '/registration/license_key';
+    const KEY_LICENSE_TOKEN     = '/registration/license_token';
+    const KEY_LOYALTY_INTERVAL  = '/loyalty/interval';
+    const KEY_LOYALTY_LAST      = '/loyalty/last';
+
+    const LOYALTY_INTERVAL_DEFAULT = 86400;  // 24 hours
+
+    protected $decodeResponses = true;
+
+    /**
+     * Module key.
+     * eg. 'rewards'
+     */
+    abstract public function getModuleKey();
+
+    /**
+     * Module directory prefix.
+     * eg. TBT_Rewards
+     */
+    public function getModulePrefix()
+    {
+        return $this->getModuleConfig('prefix');
+    }
+
+    /**
+     * Readable name of module.
+     * eg. 'Sweet Tooth'
+     */
+    public function getModuleName()
+    {
+        return $this->getModuleConfig('name');
+    }
+
+    /**
+     * CEM Identifier.
+     * eg. 'tbtrewards'
+     */
+    public function getModuleId()
+    {
+        return $this->getModuleConfig('id');
+    }
+
+    /**
+     * Gets tbtcommon values for the calling module.
+     * These entries must be defined in the config.xml of
+     * the calling module.
+     *
+     * @param unknown_type $key
+     * @return unknown
+     */
+    protected function getModuleConfig($key)
+    {
+        return (string)Mage::getConfig()->getNode('tbtcommon/modules/' . $this->getModuleKey() . '/' . $key);
+    }
+
+    /**
+     * Returns the block key for the defined billboard type.  First checks if this particular module has specified
+     * its own block for the error, otherwise resorts to the TBTCommon default billboard for this error.
+     * Failing THAT, falls even further back to the TBTCommon absolute default billboard.
+     *
+     * @param string $billboardName A billboard type that should be fairly abstract between modules (e.g. nolicense)
+     * @return string
+     */
+    public function getBillboard($billboardName)
+    {
+        $loyaltyModuleKey = Mage::helper('tbtcommon')->getLoyaltyModule($this->getModuleKey());
+        $blockKey = (string)Mage::getConfig()->getNode("{$loyaltyModuleKey}/billboard/{$billboardName}/block");
+        $blockKey = $blockKey ? $blockKey : (string)Mage::getConfig()->getNode("tbtcommon/billboard/{$billboardName}/block");
+        return $blockKey ? $blockKey : 'tbtcommon/billboard_default';
+    }
+
+    /**
+     * Tries to validate the license locally by comparing hashes
+     * with the license token. If this fails, it will ping
+     * our server for license validation.
+     *
+     * @return boolean isValid
+     */
+	public function isValid()
+	{
+	    $licenseKey = $this->getLicenseKey();
+	    $licenseToken = $this->getConfigData(self::KEY_LICENSE_TOKEN);
+
+	    if ($this->isTokenValid($licenseKey, $licenseToken)) {
+	        return true;
+	    }
+
+	    // Validate license over server and save license token
+	    $isValid = $this->isValidOverServer($licenseKey);
+
+	    return $isValid;
+	}
+
+	/**
+	 * Helper function to set configuration data and clear cache.
+	 *
+	 * @param string $keySuffix Key to be appended to the modulekey like 'rewards'
+	 * @param unknown_type $value Value to be stored
+	 * @return unknown
+	 */
+	protected function setConfigData($keySuffix, $value)
+	{
+	    Mage::getConfig()
+            ->saveConfig($this->getModuleKey() . $keySuffix, $value)
+            ->cleanCache();
+        return $this;
+	}
+
+	protected function getConfigData($keySuffix) {
+	    return Mage::getStoreConfig($this->getModuleKey() . $keySuffix);
+	}
+
+	/**
+	 * Generates a fresh token from the license and compares it with
+	 * the stored token that was created when we last validated with
+	 * the server.
+	 *
+	 * @param unknown_type $licenseKey
+	 * @param unknown_type $token
+	 * @return boolean If the token validates
+	 */
+	protected function isTokenValid($licenseKey, $token)
+	{
+	    if (!$token) {
+	        return false;
+	    }
+
+	    $freshToken = $this->generateLicenseToken($licenseKey);
+	    return $token == $freshToken;
+	}
+
+	/**
+	 * Creates a token given a license using an algorithm which
+	 * will be obfuscated to the client and should be kept a secret.
+	 *
+	 * @param unknown_type $licenseKey
+	 * @return string Resulting token
+	 */
+	protected function generateLicenseToken($licenseKey)
+	{
+	    // License key concatinated with the module key and a custom salt.
+	    return md5($licenseKey . $this->getModuleKey() . Mage::getConfig()->getNode('global/crypt/key'));
+	}
+
+	/**
+	 * Clears the token from the config. Which in turn, forces a license
+	 * validation on the server.
+	 */
+	protected function clearLicenseToken()
+	{
+	    $this->setConfigData(self::KEY_LICENSE_TOKEN, md5('invalid'));
+	    return $this;
+	}
+
+	/**
+	 * Validates license on our server.
+	 *
+	 * @param unknown_type $licenseKey
+	 * @return unknown
+	 */
+    protected function isValidOverServer($licenseKey)
+    {
+        $response = $this->fetchLicenseValidation($licenseKey);
+        if (isset($response['success']) && isset($response['data'])) {
+            if($response['success'] && $response['data'] == 'license_valid') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getLicenseKey()
+    {
+   		if($this->isCemUsed()) {
+            $key = $this->getCemLicense();
+        } else {
+            $key = Mage::getStoreConfig($this->getModuleKey() . '/registration/license_key');
+        }
+   		return $key;
+    }
+
+    public function isCemUsed()
+    {
+   		$cem_packages = Mage::getResourceModel('cem/packages');
+   		if($cem_packages) {
+   			if($this->packageIsInstalled()) {
+   				return true;
+   			}
+   		}
+   		return false;
+    }
+
+   	public function getCemLicense($identifier = null)
+   	{
+   	    if (!$identifier) {
+   	        $identifier = $this->getModuleId();
+   	    }
+
+		// Read adapter
+        $read = Mage::getSingleton('core/resource')->getConnection('core_read');
+
+        // Select
+        $select = $read->select()
+        	->from(Mage::getConfig()->getTablePrefix() . 'cem_packages')
+            ->joinUsing(Mage::getConfig()->getTablePrefix() . 'cem_licenses', 'license_id')
+        	->where("identifier LIKE '{$identifier}_%'")
+        	->limit(1);
+
+        // Fetch row
+        $row = $read->fetchRow($select);
+
+        $license_key =  null;
+        if(isset($row['package_id']) && !empty($row['package_id'])) {
+        	$license_key = $row['license_key'];
+        }
+
+        return $license_key;
+	}
+
+   	public function packageIsInstalled($identifier = null)
+   	{
+   	    if (!$identifier) {
+   	        $identifier = $this->getModuleId();
+   	    }
+
+        // Read adapter
+        $read = Mage::getSingleton('core/resource')->getConnection('core_read');
+
+        // Select
+        $select = $read->select()
+        	->from(Mage::getConfig()->getTablePrefix() . 'cem_packages')
+        	->where("identifier LIKE '%{$identifier}%'")
+        	->limit(1);
+
+        // Fetch row
+        $row = $read->fetchRow($select);
+
+        if(isset($row['package_id']) && !empty($row['package_id'])) {
+        	return true;
+        }
+
+        return false;
+	}
+
+	public function getCemUrl()
+	{
+        if ($this->isDebugMode()) {
+            return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+        } else {
+            return self::PATH_BASE_CEM_URL;
+        }
+    }
+
+    public function fetchResponse($action, $data)
+    {
+        $json = $this->fetchResponseJson($action, $data);
+
+        if (!$this->decodeResponses) {
+            return $json;
+        }
+
+        $response = json_decode($json, true);
+
+        // Handle todo actions if present
+        if (isset($response['todo'])) {
+            $this->handleTodoResponse($response['todo']);
+        }
+
+        return $response;
+    }
+
+    public function fetchResponseJson($action, $data)
+    {
+        $path = self::PATH_TBT_PROXY;
+        $identifier = $this->getModuleId();
+        $license = $this->getLicenseKey();
+        $base_url = Mage::getBaseUrl();
+
+        $key = array();
+
+        $key['identifier'] = $identifier;
+        $key['license'] = $license;
+        $key['base_url'] = $base_url;
+
+        if (false /* TODO: fetch anonymous flag per action */) {
+            $key['anonymous_id'] = 'id1'; // TODO: fetch anonymous id
+        }
+
+        $message = array(
+            "key" => $key,
+            "action" => $action,
+            "data" => $data
+        );
+
+        $json = json_encode($message);
+
+		$url =  $this->getCemUrl() . $path;
+
+		if (self::DEBUG_LOG) {
+		    Mage::log('Request: ' . $json, null, $this->getModuleKey() . '.log');
+		}
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(self::CONTENT_TYPE_JSON));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            if (!$result) {
+                throw new Exception('Communication Error');
+            }
+
+        } catch (Exception $e) {
+
+            // Return result in the same format as a server response
+            $errorResult = array(
+                "success" => false,
+                "message" => $e->getMessage(),
+                "data" => null,
+                "errors" => array()
+            );
+            $result = json_encode($errorResult);
+        }
+
+        if (self::DEBUG_LOG) {
+            Mage::log('Response: ' . $result, null, $this->getModuleKey() . '.log');
+        }
+
+        return $result;
+    }
+
+    /**
+     * Process any instructions from our server.
+     *
+     * @param unknown_type $todo
+     * @return unknown
+     */
+    protected function handleTodoResponse($todo)
+    {
+        if (!is_array($todo)) {
+            return $this;
+        }
+
+        if (isset($todo['callback_interval'])) {
+            $this->handleTodoInterval($todo['callback_interval']);
+        }
+
+        if (isset($todo['validate_license'])) {
+            $this->handleTodoValidateLicense($todo['validate_license']);
+        }
+
+        return $this;
+    }
+
+    /**
+     * This is where we can set the time interval between
+     * periodic communications with our server.
+     *
+     * @param unknown_type $newInterval
+     * @return unknown
+     */
+    protected function handleTodoInterval($newInterval)
+    {
+        $interval = $this->getPingInterval();
+
+        if (!is_numeric($newInterval)) {
+            return $this;
+        }
+
+        // Ignore if no change
+        if ($interval == $newInterval) {
+            return $this;
+        }
+
+        $interval = $newInterval;
+        $this->setConfigData(self::KEY_LOYALTY_INTERVAL, $interval);
+        return $this;
+    }
+
+    /**
+     * By clearing the license token, the next interaction
+     * with our module will validate the license in our
+     * server.
+     *
+     * @param unknown_type $doValidation
+     */
+    protected function handleValidateLicense($doValidation)
+    {
+        if ($doValidation) {
+            $this->clearLicenseToken();
+        }
+    }
+
+    protected function getPingInterval()
+    {
+        $interval = $this->getConfigData(self::KEY_LOYALTY_INTERVAL);
+
+        if (!$interval) {
+            $interval = self::LOYALTY_INTERVAL_DEFAULT;
+        }
+        return $interval;
+    }
+
+    protected function getLastPing()
+    {
+        $last = $this->getConfigData(self::KEY_LOYALTY_LAST);
+
+        if (!$last) {
+            $last = 0;
+        }
+        return $last;
+    }
+
+    /**
+     * This function should be called by the module to inform
+     * that the module is in use. A good way to do this is to
+     * add the call in the preDispatch function of all controllers
+     * by having them all extend a common controller with this call
+     * implemented.
+     *
+     * This function will trigger any events that need to
+     * happen on a periodic basis (if their interval is elapsed).
+     * Huge benefit to this is no cron jobs and events do not happen
+     * if the module is not in use.
+     *
+     * @return unknown
+     */
+    public function onModuleActivity()
+    {
+        $time = time();
+        $last = $this->getLastPing();
+        $interval = $this->getPingInterval();
+
+        // Reset on clock change
+        $reset = $time < $last;
+
+        // Trigger loyalty checker if first time or interval has elapsed
+        if (!$last || $last + $interval < $time || $reset || $this->_shouldSkipInterval()) {
+
+            // Do scheduled actions
+            $this->recurringActionsHook();
+
+            // Update last callback time
+            $this->setConfigData(self::KEY_LOYALTY_LAST, $time);
+        }
+
+        return $this;
+    }
+
+    /**
+     * We might want to skip the delay interval, for example if recurringActionsHook disabled STR, we shouldn't wait
+     * for the interval to pass before checking again if STR should be re-enabled.
+     * Overwrite in child class if needed.
+     *
+     * @return bool True, if interval should be skipped and run recurring actions right now, false otherwise.
+     */
+    protected function _shouldSkipInterval()
+    {
+        return false;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to run periodic actions defined by the server.
+     * Eg. sending metrics, validating license, etc
+     *
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    protected function recurringActionsHook()
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions every time an admin controller
+     * is dispatched for the specified module.
+     * @param TBT_Common_Admin_AbstractController $action The controller being dispatched
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onAdminPreDispatch($action)
+    {
+        return $this;
+    }
+
+    public function onAdminPostDispatch($action)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions before a model of the specified
+     * module is loaded.
+     * @param TBT_Common_Model_Abstract $model
+     * @param integer $id
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelBeforeLoad($model, $id, $field = null)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions after a model of the specified
+     * module is loaded.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelAfterLoad($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions before a model of the specified
+     * module is saved.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelBeforeSave($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions after a model of the specified
+     * module is saved.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelAfterSave($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions after a transaction commit
+     * completes for the model of the specified module.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelAfterCommitCallback($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions before a model of the specified
+     * module is deleted.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelBeforeDelete($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions after a model of the specified
+     * module is deleted.
+     * @param TBT_Common_Model_Abstract $model
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onModelAfterDelete($model)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions before a block of the specified
+     * module gets rendered.
+     * @param TBT_Common_Block_Admin_Abstract $block
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onBlockBeforeToHtml($block)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions after a block of the specified
+     * module has been rendered.
+     * @param TBT_Common_Block_Admin_Abstract $block
+     * @param string $html The HTML string that was generated, persists down the stack
+     */
+    public function onBlockAfterToHtml($block, &$html)
+    {
+        return $this;
+    }
+
+    /**
+     * This function should be implemented by a child class
+     * in order to perform actions before a block of the specified
+     * module renders one of its children.
+     * @param TBT_Common_Block_Admin_Abstract $block
+     * @param string $name
+     * @param string $child
+     * @return TBT_Common_Helper_LoyaltyAbstract
+     */
+    public function onBlockBeforeChildToHtml($block, $name, $child)
+    {
+        return $this;
+    }
+
+    public function fetchLicenseValidation($license = null)
+    {
+        if ($license === null) {
+            $license = $this->getLicenseKey();
+        }
+
+        $data = array(
+            'license_key' => $license
+        );
+
+        $response = $this->fetchResponse(self::ACTION_LICENSE_VERIFY, $data);
+
+        if (isset($response['success']) && isset($response['data'])) {
+            if($response['success'] && $response['data'] == 'license_valid') {
+
+                // Generate and save token for local validation
+                $token = $this->generateLicenseToken($license);
+                $this->setConfigData(self::KEY_LICENSE_TOKEN, $token);
+
+                return $response;
+            }
+        }
+
+        // Clear token if authentication fails
+        $this->clearLicenseToken();
+        return $response;
+    }
+
+    /**
+     * Allows a caller to receive fetch calls in json
+     * instead of the default arrray structure.
+     *
+     * @param bool $decodeBoolean
+     */
+    public function setDecodeResponses($decodeBoolean)
+    {
+        $this->decodeResponses = $decodeBoolean;
+        return $this;
+    }
+
+    protected function isDebugMode()
+    {
+        return self::DEBUG_MODE;
+    }
+}

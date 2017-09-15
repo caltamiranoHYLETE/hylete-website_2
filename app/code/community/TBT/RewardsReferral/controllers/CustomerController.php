@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -60,39 +60,12 @@ class TBT_RewardsReferral_CustomerController extends Mage_Core_Controller_Front_
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
             $session = Mage::getSingleton('core/session');
             $name = trim((string) strip_tags($this->getRequest()->getPost('name')));
-            $msg = trim((string) strip_tags($this->getRequest()->getPost('msg')));
-            $email = trim((string) strip_tags($this->getRequest()->getPost('email')));
 
-            $customerSession = Mage::getSingleton('rewards/session');
-            $sess_customer = $customerSession->getSessionCustomer();
+            $invitationService = Mage::getModel('rewardsref/service_invite');
+
             try {
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException($this->__('Please enter a valid email address.'));
-                }
-
-                if ($name == '') {
-                    Mage::throwException($this->__("Please enter your referral's name."));
-                }
-                $referralModel = Mage::getModel('rewardsref/referral');
-
-                $customer = Mage::getModel('rewards/customer')
-                        ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-                        ->loadByEmail($email);
-
-                if ($referralModel->isSubscribed($email)) {
-                    Mage::throwException($this->__('You or somebody else has already invited %s.', $email));
-                } elseif ($sess_customer->getEmail() == $email) {
-                    Mage::throwException($this->__("%s is your own e-mail address.", $email));
-                } elseif ($customer->getEmail() == $email) {
-                    Mage::throwException($this->__("%s is already signed up to the store.", $email));
-                } else {
-                    $subscribe_result = $referralModel->subscribe($sess_customer, $email, $name, $msg);
-                    if ($subscribe_result) {
-                        $session->addSuccess($this->__('Thank you!  Your referral e-mail to %s has been sent.', $name));
-                    } else {
-                        $session->addError($this->__('There was a problem with the invitation.'));
-                    }
-                }
+                $invitationService->initDataFromRequest()->sendInvitation();
+                $session->addSuccess($this->__('Thank you!  Your referral e-mail to %s has been sent.', $name));
             } catch (Mage_Core_Exception $e) {
                 $session->addException($e, $this->__('%s', $e->getMessage()));
             } catch (Exception $e) {
@@ -106,18 +79,60 @@ class TBT_RewardsReferral_CustomerController extends Mage_Core_Controller_Front_
         return $this;
     }
 
+    public function resendInviteAction()
+    {
+        $hashIdsHelper = Mage::helper('rewards/hashids');
+
+        $referralId = $hashIdsHelper->decryptIds(
+            urldecode($this->getRequest()->getParam('id'))
+        );
+
+
+        $session = Mage::getSingleton('core/session');
+
+        $referralModel = Mage::getModel('rewardsref/referral')
+            ->load($referralId);
+
+        if (!$referralModel || !$referralModel->getId()) {
+            $session->addError(
+                Mage::helper('rewardsref')->__('There was a problem resending the invitation.')
+            );
+
+            $this->_redirect('*/*/');
+            return $this;
+        }
+
+        $invitationService = Mage::getModel('rewardsref/service_invite');
+
+        try {
+            $invitationService->setName($referralModel->getReferralName())
+                ->setEmail($referralModel->getReferralEmail())
+                ->setInvitationMessage($referralModel->getInvitationMessage());
+
+            $invitationService->sendInvitation(true);
+            
+            $session->addSuccess($this->__('Your referral e-mail to %s has been sent.', $referralModel->getReferralName()));
+        } catch (Mage_Core_Exception $exc) {
+            $session->addException($exc, $this->__('%s', $exc->getMessage()));
+        } catch (Exception $exc) {
+            $session->addException($exc, $this->__('There was a problem resending the invitation.'));
+            Mage::logException($exc);
+        }
+
+        $this->_redirect('*/*/');
+        return $this;
+    }
+
     // this is required for the plaxo address book callback to work
-    public function plaxocbAction() {
+    public function plaxocbAction() 
+    {
         $protocol = 'http:';
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == TRUE) {
             $protocol = 'https:';
         }
 
-        echo <<<FEED
-<html><head>
-<script type="text/javascript" src="$protocol//www.plaxo.com/ab_chooser/abc_comm.jsdyn"></script>
-</head><body></body></html>
-FEED;
+        $content = "<html><head><script type=\"text/javascript\" src=\"{$protocol}//www.plaxo.com/ab_chooser/abc_comm.jsdyn\"></script></head><body></body></html>";
+        $this->getResponse()->setBody($content);
     }
 
 
@@ -148,33 +163,20 @@ FEED;
             return $this;
         }
 
-        $customerSession = Mage::getSingleton('rewards/session');
-        $sess_customer = $customerSession->getSessionCustomer();
+        $invitationService = Mage::getModel('rewardsref/service_invite');
 
         foreach ($contacts as $contact) {
             try {
                 $name = $contact[0];
                 $email = $contact[1];
 
-                $referralModel = Mage::getModel('rewardsref/referral');
-                $customer = Mage::getModel('rewards/customer')
-                        ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-                        ->loadByEmail($email);
+                $invitationService->clearInstance()
+                    ->setName($name)
+                    ->setEmail($email)
+                    ->setInvitationMessage($message);
 
-                if ($referralModel->isSubscribed($email)) {
-                    $session->addError($this->__('You or somebody else has already invited %s.', $email));
-                } elseif ($sess_customer->getEmail() == $email) {
-                    $session->addError($this->__("%s is your own e-mail address.", $email));
-                } elseif ($customer->getEmail() == $email) {
-                    $session->addError($this->__("%s is already signed up to the store.", $email));
-                } else {
-                    $subscribe_result = $referralModel->subscribe($sess_customer, $email, $name, $message, $subject);
-                    if ($subscribe_result) {
-                        $session->addSuccess($this->__('Your referral e-mail to %s has been sent.', $name));
-                    } else {
-                        $session->addError($this->__('There was a problem with the invitation for %s.', "\"{$name}\" <{$email}>"));
-                    }
-                }
+                $invitationService->sendInvitation();
+                $session->addSuccess($this->__('Your referral e-mail to %s has been sent.', $name));
             } catch (Mage_Core_Exception $e) {
                 $session->addException($e, $this->__('%s', $e->getMessage()));
             } catch (Exception $e) {
@@ -299,4 +301,32 @@ FEED;
 
         return $this;
     }
+    
+    /**
+     * Unsubscribe the customer from referral emails
+     */
+    public function unsubscribeAction()
+    {
+        $encryptedCustomerId = $this->getRequest()->getParam('customer');
+        
+        if ($encryptedCustomerId) {
+            $customerId = (int) urldecode(base64_decode($encryptedCustomerId));
+            
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            $customer = Mage::getModel('rewards/customer')->getRewardsCustomer($customer);
+            
+            if ($customer->getId()) {
+                try {
+                    $customer->setRewardsrefNotifyOnReferral(0)->save();
+                    Mage::getSingleton('core/session')->addSuccess($this->__("You have been successfully unsubscribed."));   
+                } catch (Exception $e) {
+                    Mage::getSingleton('core/session')->addException($e, $this->__('There was a problem unsubscribing you from this notification.'));
+                }
+            }
+        }
+        
+        $this->_redirect('/');
+        return $this;
+    }
 }
+

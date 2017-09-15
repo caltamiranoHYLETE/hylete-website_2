@@ -1,7 +1,7 @@
 <?php
 
-class TBT_Rewards_Block_Checkout_Onepage_Shipping_Redeem extends Mage_Core_Block_Template {
-	
+class TBT_Rewards_Block_Checkout_Onepage_Shipping_Redeem extends Mage_Core_Block_Template 
+{	
 	protected function _construct() {
 		parent::_construct ();
 		$this->setTemplate ( 'rewards/checkout/onepage/shippingmethod/redeem.phtml' );
@@ -47,7 +47,5 @@ class TBT_Rewards_Block_Checkout_Onepage_Shipping_Redeem extends Mage_Core_Block
 	protected function _getRewardsSess() {
 		return Mage::getSingleton ( 'rewards/session' );
 	}
-
 }
 
-?>

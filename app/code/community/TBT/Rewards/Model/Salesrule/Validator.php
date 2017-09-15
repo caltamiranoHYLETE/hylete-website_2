@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -12,17 +12,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -398,8 +398,6 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 	 * Recalulates the shipping discount taking into account whether or not
 	 * a redemption rule is applied by the user.
 	 *
-	 * @author Jay El <nelkaake@wdca.ca>
-	 * 
 	 * @param Mage_Sales_Model_Quote_Address &$address
 	 * @param Mage_Sales_Model_Quote_Item_Abstract &$item
 	 * @param array $applied_redemptions
@@ -458,8 +456,6 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 	}
 	
 	/**
-	 * @author Jared Ty <jtyler@wdca.ca>
-	 * 
 	 * @param unknown_type $quote
 	 * @param unknown_type $address
 	 * @param unknown_type $item
@@ -519,7 +515,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				
 				//@mhadianfard -c 16/11/10: 
 				$cartRules = $this->cart_fixed_rules;
-				// WDCA CODE BEGIN
+				// Sweet Tooth CODE BEGIN
 				
 
 				//@nelkaake -a 28/11/10: First calculate the total discount on the cart
@@ -545,7 +541,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 					}
 				}
 				
-				// WDCA CODE END
+				// Sweet Tooth CODE END
 				$this->cart_fixed_rules = $cartRules;
 				$address->setCartFixedRules ( $cartRules );
 				break;
@@ -567,7 +563,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			
 			case 'cart_fixed' :
 				$cartRules = $this->cart_fixed_rules;
-				// WDCA CODE BEGIN
+				// Sweet Tooth CODE BEGIN
 				if (Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.2.0' )) {
 					if (empty ( $this->_rulesItemTotals [$rule->getId ()] )) {
 						Mage::throwException ( Mage::helper ( 'salesrule' )->__ ( 'Item totals are not set for rule.' ) );
@@ -608,7 +604,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 					$address->setCartFixedRules ( $cartRules );
 				}
 				
-				// WDCA CODE END
+				// Sweet Tooth CODE END
 				$this->cart_fixed_rules = $cartRules;
 				$address->setCartFixedRules ( $cartRules );
 				break;
@@ -640,7 +636,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 		$this->total_discount_reversed += $discountAmount;
 		$this->total_base_discount_reversed += $baseDiscountAmount;
 		
-		//WDCA BEGIN
+		//Sweet Tooth BEGIN
 		$discountAmount = $quote->getStore ()->roundPrice ( $discountAmount );
 		$baseDiscountAmount = $quote->getStore ()->roundPrice ( $baseDiscountAmount );
 		
@@ -669,7 +665,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$fullDiscountAmount = $dada;
 			$fullBaseDiscountAmount = $base_dada;
 		}
-		//WDCA END
+		//Sweet Tooth END
 		
 
 		//@nelkaake Added on Wednesday May 5, 2010: 
@@ -872,7 +868,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				continue;
 			}
 			
-			// WDCA BEGIN 
+			// Sweet Tooth BEGIN 
 			//@nelkaake -a 16/11/10: 
 			$points_rule = $this->getRule ( $rule->getId () );
 			if ($points_rule->isPointsRule ()) {
@@ -880,7 +876,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 					$rule->setPointsDiscountAmount ( 0 );
 				}
 			}
-			// WDCA END 
+			// Sweet Tooth END 
 			
 
 			$discountAmount = 0;
@@ -994,7 +990,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 	public function processFreeShipping(Mage_Sales_Model_Quote_Item_Abstract $item) {
 		$address = $this->_getAddress ( $item );
 		$item->setFreeShipping ( false );
-		$applied_redemptions = explode ( ",", $item->getAppliedRuleIds () ); //@nelkaake 04/03/2010 4:53:44 PM : WDCA
+		$applied_redemptions = explode ( ",", $item->getAppliedRuleIds () ); //@nelkaake 04/03/2010 4:53:44 PM : Sweet Tooth
 		foreach ( $this->_getRules () as $rule ) {
 			/* @var $rule Mage_SalesRule_Model_Rule */
 			if (! $this->_canProcessRule ( $rule, $address )) {
@@ -1004,7 +1000,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			if (! $rule->getActions ()->validate ( $item )) {
 				continue;
 			}
-			//@nelkaake 04/03/2010 4:58:03 PM : WDCA CODE BEGIN
+			//@nelkaake 04/03/2010 4:58:03 PM : Sweet Tooth CODE BEGIN
 			$rewards_rule = $this->getRule ( $rule->getId () );
 			// if it's a rdemption rule and it's not applied, continue on...
 			if ($rewards_rule->isRedemptionRule ()) {
@@ -1012,7 +1008,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 					continue;
 				}
 			}
-			// WDCA CODE END
+			// Sweet Tooth CODE END
 			
 
 			switch ($rule->getSimpleFreeShipping ()) {
@@ -1081,9 +1077,9 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				continue;
 			}
 			
-			// WDCA CODE BEGIN
+			// Sweet Tooth CODE BEGIN
 			$rewards_rule = $this->getRule ( $rule->getId () );
-			// WDCA CODE END
+			// Sweet Tooth CODE END
 			
 
 			if ($rule->getIsValid () !== true) {
@@ -1228,7 +1224,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$item->setDiscountAmount ( $discountAmount );
 			$item->setBaseDiscountAmount ( $baseDiscountAmount );
 			
-			//@nelkaake 2/6/2010 2:34:20 PM : WDCA CODE BEGIN (just added the if statement)
+			//@nelkaake 2/6/2010 2:34:20 PM : Sweet Tooth CODE BEGIN (just added the if statement)
 			if (! $rewards_rule->isPointsRule ()) {
 				switch ($rule->getSimpleFreeShipping ()) {
 					case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM :
@@ -1240,7 +1236,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 						break;
 				}
 			}
-			//@nelkaake 2/6/2010 2:34:38 PM : WDCA CODE END
+			//@nelkaake 2/6/2010 2:34:38 PM : Sweet Tooth CODE END
 			
 
 			$appliedRuleIds [$rule->getRuleId ()] = $rule->getRuleId ();
@@ -1307,9 +1303,9 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				continue;
 			}
 			
-			// WDCA CODE BEGIN
+			// Sweet Tooth CODE BEGIN
 			$rewards_rule = $this->getRule ( $rule->getId () );
-			// WDCA CODE END
+			// Sweet Tooth CODE END
 			
 
 			$qty = $item->getTotalQty ();
@@ -1427,7 +1423,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$item->setBaseDiscountAmount ( $baseDiscountAmount );
 			
 			//@nelkaake -a 16/11/10: 
-			//@nelkaake 2/6/2010 2:34:20 PM : WDCA CODE BEGIN (just added the if statement)
+			//@nelkaake 2/6/2010 2:34:20 PM : Sweet Tooth CODE BEGIN (just added the if statement)
 			if (! $rewards_rule->isPointsRule ()) {
 				switch ($rule->getSimpleFreeShipping ()) {
 					case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM :
@@ -1439,7 +1435,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 						break;
 				}
 			}
-			//@nelkaake 2/6/2010 2:34:38 PM : WDCA CODE END
+			//@nelkaake 2/6/2010 2:34:38 PM : Sweet Tooth CODE END
 			
 
 			$appliedRuleIds [$rule->getRuleId ()] = $rule->getRuleId ();
@@ -1447,7 +1443,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$this->_maintainAddressCouponCode ( $address, $rule );
 			$this->_addDiscountDescription ( $address, $rule );
 			
-			//@nelkaake 2/6/2010 2:34:20 PM : WDCA CODE BEGIN (just added the if statement)
+			//@nelkaake 2/6/2010 2:34:20 PM : Sweet Tooth CODE BEGIN (just added the if statement)
 			if ($rule->getStopRulesProcessing ()) {
 				//@nelkaake Don't break the loop if this is a rewards rule: 
 				if (! $rewards_rule->isRedemptionRule ()) {
@@ -1455,7 +1451,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				}
 			}
 		
-		//@nelkaake 2/6/2010 2:34:38 PM : WDCA CODE END
+		//@nelkaake 2/6/2010 2:34:38 PM : Sweet Tooth CODE END
 		
 
 		}
@@ -1503,9 +1499,9 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 				continue;
 			}
 			
-			// WDCA CODE BEGIN
+			// Sweet Tooth CODE BEGIN
 			$rewards_rule = $this->getRule ( $rule->getId () );
-			// WDCA CODE END
+			// Sweet Tooth CODE END
 			
 
 			$qty = $this->_getItemQty ( $item, $rule );
@@ -1632,7 +1628,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$item->setBaseDiscountAmount ( $baseDiscountAmount );
 			
 			//@nelkaake -a 16/11/10: 
-			//@nelkaake 2/6/2010 2:34:20 PM : WDCA CODE BEGIN (just added the if statement)
+			//@nelkaake 2/6/2010 2:34:20 PM : Sweet Tooth CODE BEGIN (just added the if statement)
 			if (! $rewards_rule->isPointsRule ()) {
 				switch ($rule->getSimpleFreeShipping ()) {
 					case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM :
@@ -1644,7 +1640,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 						break;
 				}
 			}
-			//@nelkaake 2/6/2010 2:34:38 PM : WDCA CODE END
+			//@nelkaake 2/6/2010 2:34:38 PM : Sweet Tooth CODE END
 			
 
 			$appliedRuleIds [$rule->getRuleId ()] = $rule->getRuleId ();
@@ -1652,7 +1648,7 @@ class TBT_Rewards_Model_Salesrule_Validator extends Mage_SalesRule_Model_Validat
 			$this->_maintainAddressCouponCode ( $address, $rule );
 			$this->_addDiscountDescription ( $address, $rule );
 			
-			//@nelkaake 2/6/2010 2:34:20 PM : WDCA CODE BEGIN (just added the if statement)
+			//@nelkaake 2/6/2010 2:34:20 PM : Sweet Tooth CODE BEGIN (just added the if statement)
 			if ($rule->getStopRulesProcessing ()) {
 				//@nelkaake Don't break the loop if this is a rewards rule: 
 				if ($rewards_rule->isRedemptionRule ()) {

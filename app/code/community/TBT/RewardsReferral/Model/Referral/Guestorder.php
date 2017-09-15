@@ -59,7 +59,7 @@ class TBT_RewardsReferral_Model_Referral_Guestorder extends TBT_RewardsReferral_
 
     public function getTransferReasonId()
     {
-        return TBT_RewardsReferral_Model_Transfer_Reason_Guestorder::REASON_TYPE_ID;
+        return Mage::helper('rewards/transfer_reason')->getReasonId('referral_order_guest');
     }
 
     protected function _getApplicableReferralOrderRules()
@@ -124,7 +124,6 @@ class TBT_RewardsReferral_Model_Referral_Guestorder extends TBT_RewardsReferral_
                 $transferStatus = Mage::getStoreConfig('rewards/InitialTransferStatus/ReferralOrder');
                 $transfer->create(
                     $points_amount,
-                    $currencyId,
                     $affiliate->getId(),
                     -2,
                     $this->getReferralTransferMessage(null),
@@ -164,15 +163,7 @@ class TBT_RewardsReferral_Model_Referral_Guestorder extends TBT_RewardsReferral_
 
     public function getReferrerDetails()
     {
-        // get referrer email from customer session
-        $referrerEmail = Mage::getSingleton('core/session')->getReferrerEmail();
-        if (!$referrerEmail) {
-            return false;
-        }
-
-        // get referrer details
-        $referrer = Mage::getModel('rewards/customer')->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-            ->loadByEmail($referrerEmail);
+        $referrer = Mage::helper('rewardsref/code')->getReferrer(true);
 
         if (!$referrer) {
             return false;

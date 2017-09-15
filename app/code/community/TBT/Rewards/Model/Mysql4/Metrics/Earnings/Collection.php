@@ -35,25 +35,22 @@ class TBT_Rewards_Model_Mysql4_Metrics_Earnings_Collection extends TBT_Rewards_M
         $adapter = $this->getConnection();
 
         $subSelect = $adapter->select()
-            ->from(array('transfer_table' => $this->getTable('rewards/transfer')),
-                array('customer_id', 'quantity', 'creation_ts', 'status'))
-            ->joinLeft(
-                array('reference_table' => $this->getTable('rewards/transfer_reference')),
-                'transfer_table.rewards_transfer_id = reference_table.rewards_transfer_id'
-                . ' AND transfer_table.source_reference_id = reference_table.rewards_transfer_reference_id',
-                array()
-            )
-            ->where('quantity > 0')
-            ->columns(array('CONCAT_WS("_", IFNULL(reference_type, 0), reason_id) AS distribution_reason'));
+            ->from(array('transfer_table' => $this->getTable('rewards/transfer')), array(
+                'transfer_table.customer_id', 
+                'transfer_table.quantity', 
+                'transfer_table.created_at', 
+                'transfer_table.status_id', 
+                'transfer_table.reason_id'))
+            ->where('quantity > 0');
 
         $select->reset(Zend_Db_Select::FROM)
             ->reset(Zend_Db_Select::COLUMNS)
             ->from(array('main_table' => $subSelect), $this->_getSelectedColumns());
 
         if (!$this->isTotals()) {
-            $select->group(array($this->_periodFormat, 'distribution_reason'));
+            $select->group(array($this->_periodFormat, 'reason_id'));
         } elseif ($this->isChart()) {
-            $select->group(array('distribution_reason'));
+            $select->group(array('reason_id'));
         }
 
         return $this;
@@ -78,7 +75,7 @@ class TBT_Rewards_Model_Mysql4_Metrics_Earnings_Collection extends TBT_Rewards_M
             $this->_selectedColumns['period'] = $this->_periodFormat;
         }
 
-        $this->_selectedColumns['distribution_reason'] = 'distribution_reason';
+        $this->_selectedColumns['reason_id'] = 'reason_id';
         $this->_selectedColumns['customer_id']         = 'customer_id';
         $this->_selectedColumns['total_points']        = 'SUM(quantity)';
 
@@ -119,10 +116,10 @@ class TBT_Rewards_Model_Mysql4_Metrics_Earnings_Collection extends TBT_Rewards_M
 
         // apply date range filter if needed
         if ($this->_from !== null) {
-            $select->where('creation_ts >= ?', $this->_from);
+            $select->where('created_at >= ?', $this->_from);
         }
         if ($this->_to !== null) {
-            $select->where('creation_ts <= ?', $this->_to);
+            $select->where('created_at <= ?', $this->_to);
         }
 
         $this->_totalEarnedPoints = $adapter->fetchOne($select);

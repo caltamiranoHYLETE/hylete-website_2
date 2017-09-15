@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -90,32 +90,28 @@ class TBT_RewardsSocial2_Helper_Migration extends Mage_Core_Helper_Abstract
                     ->setExtra($this->fetchDataForAction('extra', $action, $entry))
                     ->save();
 
-                // Fetching and Loading Transfer Reference Model
-                $reference = null;
+                // Fetching and Loading Transfer Model
+                $transfer = null;
                 if ($action === 'twitter_follow') {
                     if (isset($entry['is_following']) && $entry['is_following']) {
-                        $reference = Mage::getModel('rewards/transfer_reference')->fetchReferenceByCustomerAndReason(
+                        $transfer = Mage::getModel('rewardssocial2/transfer')->loadByCustomerAndReason(
                             $this->fetchDataForAction('customer_id', $action, $entry),
-                            34 // Deprecated Constant from TBT_Rewardssocial
+                            Mage::helper('rewards/transfer_reason')->getReasonId('social_twitter_follow')
                         );
                     }
                 } else {
-                    $reference = Mage::getModel('rewards/transfer_reference')->loadByReference(
+                    $transfer = Mage::getModel('rewardssocial2/transfer')->loadFromData(
+                        $this->fetchDataForAction('customer_id', $action, $entry),
                         $this->fetchDataForAction('entry_id', $action, $entry),
-                        $this->fetchDataForAction('reference_type_id', $action, $entry)
+                        $this->fetchDataForAction('new_reason_id', $action, $entry)
                     );
                 }
 
-                if ($reference && $reference->getId()) {
-                    // Updating Transfer Reference entry
-                    $reference->setReferenceId($actionModel->getId())
-                        ->setReferenceType(TBT_RewardsSocial2_Model_Transfer_Reference::REFERENCE_TYPE_ID)
-                        ->save();
-
-                    // Updating Transfer Reason Id
-                    Mage::getModel('rewards/transfer')->load($reference->getRewardsTransferId())
+                // Updating Transfer Reason Id
+                if ($transfer && $transfer->getId()) {
+                    $transfer->setReferenceId($actionModel->getId())
                         ->setReasonId($this->fetchDataForAction('new_reason_id', $action, $entry))
-                        ->setSkipLastUpdateTs(true)
+                        ->setSkipUpdatedAt(true)
                         ->save();
                 }
 
@@ -159,7 +155,7 @@ class TBT_RewardsSocial2_Helper_Migration extends Mage_Core_Helper_Abstract
                 if ($action === 'referral_share') {
                     return 'facebook_share_referral';
                 } elseif ($action === 'purchase_share') {
-                    return ($entry['type_id'] == 1) ? 'facebook_referral_share' : 'twitter_tweet_purchase';
+                    return ($entry['type_id'] == 1) ? 'facebook_share_purchase' : 'twitter_tweet_purchase';
                 } else {
                     return $action;
                 }
@@ -187,46 +183,26 @@ class TBT_RewardsSocial2_Helper_Migration extends Mage_Core_Helper_Abstract
             case 'entry_id': 
                 $key = $action . '_id';
                 return (isset($entry[$key])) ? $entry[$key] : null;
-            case 'reference_type_id':
-                // Deprecated Constants from TBT_Rewardssocial
-                switch ($action) {
-                    case 'facebook_like':
-                        return 60; 
-                    case 'facebook_share':
-                        return 74;
-                    case 'twitter_tweet':
-                        return 70;
-                    case 'twitter_follow':
-                        return null;
-                    case 'google_plusone':
-                        return 73;
-                    case 'pinterest_pin':
-                        return 71;
-                    case 'referral_share':
-                        return 72;
-                    case 'purchase_share':
-                        return ($entry['type_id'] == 1) ? 80 : 83;
-                }
             case 'new_reason_id':
                 switch ($action) {
                     case 'facebook_like':
-                        return TBT_RewardsSocial2_Model_Reason_FacebookLike::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_facebook_like');
                     case 'facebook_share':
-                        return TBT_RewardsSocial2_Model_Reason_FacebookShare::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_facebook_share');
                     case 'twitter_tweet':
-                        return TBT_RewardsSocial2_Model_Reason_TwitterTweet::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_twitter_tweet');
                     case 'twitter_follow':
-                        return TBT_RewardsSocial2_Model_Reason_TwitterFollow::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_twitter_follow');
                     case 'google_plusone':
-                        return TBT_RewardsSocial2_Model_Reason_GooglePlusOne::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_google_plusone');
                     case 'pinterest_pin':
-                        return TBT_RewardsSocial2_Model_Reason_PinterestPin::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_pinterest_pin');
                     case 'referral_share':
-                        return TBT_RewardsSocial2_Model_Reason_ReferralShare::REASON_TYPE_ID;
+                        return Mage::helper('rewards/transfer_reason')->getReasonId('social_referral_share');
                     case 'purchase_share':
-                        return ($entry['type_id'] == 1) 
-                            ? TBT_RewardsSocial2_Model_Reason_PurchaseShareFacebook::REASON_TYPE_ID
-                            : TBT_RewardsSocial2_Model_Reason_PurchaseShareTwitter::REASON_TYPE_ID;
+                        return ($entry['type_id'] == 1)
+                            ? Mage::helper('rewards/transfer_reason')->getReasonId('social_facebook_share_purchase')
+                            : Mage::helper('rewards/transfer_reason')->getReasonId('social_twitter_tweet_purchase');
                 }
         }
     }

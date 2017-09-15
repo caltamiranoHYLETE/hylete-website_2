@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Copyright (c) 2009-2016 Vaimo AB
  *
@@ -25,17 +25,17 @@
  */
 ?>
 
-<?php 
+<?php
 $customer = Mage::getSingleton('customer/session')->getCustomer();
 
 if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
     <a class="account-button logged-in" href="<?php echo $this->getUrl('customer/account');?>">
-        <span class="sprite-account-logged-in"></span>
-        <span class="hidden-inline-block-xs hidden-inline-block-sm welcomeTextNormalHeader"><?php echo $customer->getFirstname(); ?></span>
+        <span class="fa fa-user-o"></span>
+        <span class="hidden-inline-block-xs hidden-inline-block-sm welcomeTextNormalHeader"><?php echo $this->escapeHtml($customer->getFirstname()) ?></span>
     </a>
 <?php else:?>
     <a class="account-button" href="<?php echo $this->getUrl('customer/account/login');?>">
-        <span class="sprite-account"></span>
+        <span class="fa fa-user-o"></span>
         <span class="hidden-inline-block-xs hidden-inline-block-sm"><?php echo $this->__('log in / join');?></span>
     </a>
 <?php endif;?>

@@ -90,7 +90,8 @@ class TBT_RewardsReferral_Model_Observer_Refer extends Varien_Object implements 
     {
 
         try {
-            $model = Mage::getModel('rewardsref/referral_order')->setOrder($order);
+            $model = Mage::getModel('rewardsref/referral_order')
+                ->setOrder($order);
             $child = Mage::getModel('rewards/customer')->load($order->getCustomerId());
 
             $model->triggerEvent($child, $order->getId());

@@ -85,51 +85,47 @@ class TBT_Milestone_Model_Rule_Action extends Varien_Object
      */
     protected function _sendEmail($customer, $template, $message = null)
     {
+        if (!$template) {
+            return true;
+        }
+        
         /* @var $translate Mage_Core_Model_Translate */
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
-
-        /* @var $email Mage_Core_Model_Email_Template */
-        $email = Mage::getModel('core/email_template');
         $sender = array(
                 'name' => strip_tags($this->_getHelper('config')->getMailSenderName($customer->getStoreId())),
                 'email' => strip_tags($this->_getHelper('config')->getMailSenderEmail($customer->getStoreId()))
         );
-
-        $email->setDesignConfig(array(
-                'area' => 'frontend',
-                'store' => $customer->getStoreId())
-        );
+        
         $rewardsCustomer = Mage::getModel('rewards/customer')->getRewardsCustomer($customer);
         $customerGroup = Mage::getModel('customer/group')->load($this->getCustomerGroupId());
-
+        $emailHelper = Mage::helper('rewards/email');
+        
         $vars = array(
-                'logo_url'                              => Mage::getDesign()->getSkinUrl(Mage::getStoreConfig('design/header/logo_src')),
-                'logo_alt'                              => Mage::getStoreConfig('design/header/logo_alt'),
-                'customer_name'                         => $customer->getName(),
-                'customer_firstname'                    => $customer->getFirstname(),
-                'customer_email'                        => $customer->getEmail(),
-                'customer_points_balance'               => (string) $rewardsCustomer->getPointsSummary(),
-                'customer_pending_points'               => (string) $rewardsCustomer->getPendingPointsSummary(),
-                'customer_has_pending_points'           => $rewardsCustomer->hasPendingPoints(),
-                'customer_affiliate_url'                => (string) Mage::helper('rewardsref/url')->getUrl($rewardsCustomer),
-                'customer_referral_code'                => (string) Mage::helper('rewardsref/code')->getCode($rewardsCustomer->getEmail()),
-                'customer_referral_shortcode'           => (string) Mage::helper('rewardsref/shortcode')->getCode($rewardsCustomer->getId()),
-                'store_name'                            => $customer->getStore()->getName(),
-                'milestone_description'                 => $this->getRuleCondition()->getMilestoneDescription(),
-                'milestone_message'                     => !empty($message) ? $message : "",
-                'milestone_target'                      => $this->getRule()->getCondition()->getThreshold(),
-                'milestone_details_condition'           => $this->getRule()->getConditionType(),
-                'milestone_details_action'              => $this->getRule()->getActionType(),
-                'milestone_details_points_amount'       => $this->getPointsAmount(),
-                'milestone_details_points_string'       => $this->getPointsObject(),
-                'milestone_details_customer_group_id'   => $this->getCustomerGroupId(),
-                'milestone_details_customer_group_name' => $customerGroup->getId() ? $customerGroup->getCode() : null
+            'customer_name'                         => $customer->getName(),
+            'customer_firstname'                    => $customer->getFirstname(),
+            'customer_email'                        => $customer->getEmail(),
+            'customer_points_balance'               => (string) $rewardsCustomer->getPointsSummary(),
+            'customer_pending_points'               => (string) $rewardsCustomer->getPendingPointsSummary(),
+            'customer_has_pending_points'           => $rewardsCustomer->hasPendingPoints(),
+            'customer_affiliate_url'                => (string) Mage::helper('rewardsref/url')->getUrl($rewardsCustomer),
+            'customer_referral_code'                => (string) Mage::helper('rewardsref/code')->getCode($rewardsCustomer->getEmail()),
+            'customer_referral_shortcode'           => (string) Mage::helper('rewardsref/shortcode')->getCode($rewardsCustomer->getId()),
+            'store_name'                            => $customer->getStore()->getFrontendName(),
+            'milestone_description'                 => $this->getRuleCondition()->getMilestoneDescription(),
+            'milestone_message'                     => !empty($message) ? $message : "",
+            'milestone_target'                      => $this->getRule()->getCondition()->getThreshold(),
+            'milestone_details_condition'           => $this->getRule()->getConditionType(),
+            'milestone_details_action'              => $this->getRule()->getActionType(),
+            'milestone_details_points_amount'       => $this->getPointsAmount(),
+            'milestone_details_points_string'       => $this->getPointsObject(),
+            'milestone_details_customer_group_id'   => $this->getCustomerGroupId(),
+            'milestone_details_customer_group_name' => $customerGroup->getId() ? $customerGroup->getCode() : null
         );
 
-        $email->sendTransactional($template, $sender, $customer->getEmail(), $customer->getName(), $vars);
+        $result = $emailHelper->sendTransactional($template, $sender, $customer, $vars);
         $translate->setTranslateInline(true);
-        return $email->getSentSuccess();
+        return $result;
     }
 
     /**

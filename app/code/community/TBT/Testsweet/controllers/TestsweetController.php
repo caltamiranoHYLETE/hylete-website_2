@@ -8,14 +8,17 @@ class TBT_Testsweet_TestsweetController extends Mage_Adminhtml_Controller_Action
         return true;
     }
     
-    public function allAction() {
+    public function allAction() 
+    {
         /* @var $test TBT_Testsweet_Model_Test_Abstract */
         Mage::getModel('testsweet/test')->all();
     }
 
-    public function indexAction() {
-        echo "<pre>";
+    public function indexAction() 
+    {
+        $helper = Mage::helper('testsweet');
+        $helper->printMessage("<pre>");        
         $this->allAction();
-        echo "</pre>";
+        $helper->printMessage("</pre>");
     }
 }

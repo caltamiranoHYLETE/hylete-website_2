@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  *
  * The Open Software License is available at this URL:
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -223,7 +223,8 @@ _addContent ( $block )->_addLeft ( $this->getLayout ()->createBlock ( 'rewards/m
                 $yearStart = date("Y", strtotime($rule->getFromDate()));
                 $yearEnd = date("Y", strtotime($effectiveEnd));
                 $yearDiff = $yearEnd - $yearStart; // roughly how many years the rule has lasted
-
+                $signUpDate = $customer->getCreatedAt();
+                
                 $birthdays = 0;
                 // loop through each year the rule was supposedly active
                 for ($i = 0; $i <= $yearDiff; $i++) {
@@ -234,7 +235,11 @@ _addContent ( $block )->_addLeft ( $this->getLayout ()->createBlock ( 'rewards/m
                     $tempBd = "{$year}-{$birthday}";
 
                     // check if the customer's birthday fell within the span (could be bounded by rule start or end)
-                    if ($tempBd >= $start && $tempBd <= $end) {
+                    if (
+                        strtotime($tempBd) >= strtotime($start)
+                        && strtotime($tempBd) <= strtotime($end)
+                        && strtotime($tempBd) >= strtotime($signUpDate)
+                    ) {
                         $birthdays++; // increment the number of birthdays the customer was SUPPOSED to have
                     }
                 }
@@ -244,8 +249,7 @@ _addContent ( $block )->_addLeft ( $this->getLayout ()->createBlock ( 'rewards/m
                 // but we don't have much of a better method
                 $bdTransfers = Mage::getResourceModel('rewards/transfer_collection')
                     ->addFieldToFilter('customer_id', $customer->getId())
-                    ->addFieldToFilter('reason_id', TBT_Rewards_Model_Birthday_Reason::REASON_TYPE_ID)
-                    ->addFieldToFilter('currency_id', $rule->getPointsCurrencyId())
+                    ->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('birthday'))
                     ->addFieldToFilter('quantity', $rule->getPointsAmount());
                 $missedBirthdays = $birthdays - count($bdTransfers); // how many birthday rewards have we missed?
                 for ($i = 0; $i < $missedBirthdays; $i++) {

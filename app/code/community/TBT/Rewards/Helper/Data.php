@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -33,7 +33,7 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -42,17 +42,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -86,17 +86,45 @@ class TBT_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
      * Note: at one point this returned a TBT_Rewards_Block_Points object
      * This has been revised to force the return type as string
      *
-     * @param array $points_array
-     *
+     * @param array|int $points_array
      * @return string
      */
-    public function getPointsString($points_array, $formatPoints = false)
+    public function getPointsString($points_array, $formatPoints = false, $pointsNumberFormat = true)
     {
+        if (!is_array($points_array)) {
+            $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
+            $points_array = array($defaultCurrencyId => $points_array);
+        }
+        
         $pointsString = (string)Mage::getModel('rewards/points')->add($points_array)
-                                    ->setFormatPoints($formatPoints)
-                                    ->getRendering();
+            ->setFormatPoints($formatPoints)
+            ->getRendering();
 
+        if ($pointsNumberFormat) {
+            $pointsNumber = (int) $pointsString;
+            $pointsString = str_replace(
+                $pointsNumber, 
+                $this->formatNumberByLocale($pointsNumber),
+                $pointsString
+            );
+        }
+        
         return $pointsString;
+    }
+    
+    /**
+     * Adds . and , as separators for thousands and decimals based on current locale
+     * @param int|float $val
+     * @return string
+     */
+    public function formatNumberByLocale($val)
+    {
+        return Zend_Locale_Format::toNumber(
+            $val, 
+            array(
+                'locale' => new Zend_Locale(Mage::app()->getLocale()->getLocale())
+            )
+        );
     }
 
     /**
@@ -133,7 +161,7 @@ class TBT_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
             } else {
                 $fx = ( float )$code;
                 if ($reverse_currency) {
-                    $fx = ( float )Mage::app()->getStore()->convertPrice(( float )$code);
+                    $fx = ( float )$this->_getAggregatedCart()->getStore()->convertPrice(( float )$code);
                 }
                 $price = $price + $fx;
             }
@@ -144,12 +172,12 @@ class TBT_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
             } else {
                 $fx = ( float )$code;
                 if ($reverse_currency) {
-                    $fx = ( float )Mage::app()->getStore()->convertPrice(( float )$code);
+                    $fx = ( float )$this->_getAggregatedCart()->getStore()->convertPrice(( float )$code);
                 }
                 $price = $fx;
             }
         }
-        $price = Mage::app()->getStore()->roundPrice($price);
+        $price = $this->_getAggregatedCart()->getStore()->roundPrice($price);
 
         return $price;
     }
@@ -615,5 +643,48 @@ class TBT_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
         }
         
         return $this->rulesExist;
+    }
+
+    /**
+     * Format price based on aggregated store
+     * @param string|decimal $price
+     * @return string
+     */
+    public function formatPriceForAllAreas($price)
+    {
+        return $this->_getAggregatedCart()->getStore()->formatPrice($price);
+    }
+
+    /**
+     * Aggregation Cart instance
+     * @return TBT_Rewards_Model_Sales_Aggregated_Cart
+     */
+    protected function _getAggregatedCart()
+    {
+        return Mage::getSingleton('rewards/sales_aggregated_cart');
+    }
+    
+    /**
+     * get Sweet Tooth version
+     * @return string
+     */
+    public function getExtensionVersion()
+    {
+        return (string)Mage::getConfig()->getNode('modules/TBT_Rewards/version');
+    }
+
+    /**
+     * Helper method used in layout for enabling or disabling rewards cart discounts full summary
+     * @return string
+     */
+    public function removeDiscountRenderer()
+    {
+        $config = Mage::helper('rewards/config')->displayCartDiscountFullSummary();
+
+        if (!$config) {
+            return 'discount';
+        }
+
+        return 'tbt_rewards_discount_renderer_block_that_does_not_exist';
     }
 }

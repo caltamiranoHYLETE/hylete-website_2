@@ -18,16 +18,14 @@ class TBT_Milestone_Block_Manage_Grid_Renderer_Milestone_Action extends Mage_Adm
             return 'Data Not Available.';
         }
 
-        if ($row->getActionType() == 'customergroup') {
-            // if action type is 'customergroup'
+        if ($row->getActionType() == TBT_Rewards_Model_Special_Action::ACTION_TYPE_CUSTOMER_GROUP) {
             $element = $this->_getCustomerGroupName($milestoneDetails['action']['from']) . '  =>  '
                 . $this->_getCustomerGroupName($milestoneDetails['action']['to']);
 
             return $element;
         }
 
-        if ($row->getActionType() == 'grantpoints') {
-            // if action type is 'grantpoints'
+        if ($row->getActionType() == TBT_Rewards_Model_Special_Action::ACTION_TYPE_GRANT_POINTS) {
             $element = Mage::getModel('rewards/points')->setPoints(1, $milestoneDetails['action']['points']);
         }
 

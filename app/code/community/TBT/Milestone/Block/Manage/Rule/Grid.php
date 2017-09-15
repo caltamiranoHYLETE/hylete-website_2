@@ -51,21 +51,6 @@ class TBT_Milestone_Block_Manage_Rule_Grid extends Mage_Adminhtml_Block_Widget_G
         return parent::_prepareColumns();
     }
 
-    /* TODO: hopefully add massaction stuff later
-    protected function _prepareMassaction()
-    {
-        $this->setMassactionIdField ( 'rewards_transfer_id' );
-        $this->getMassactionBlock ()->setFormFieldName ( 'transfers' );
-
-        $this->getMassactionBlock ()->addItem ( 'delete', array ('label' => Mage::helper ( 'rewards' )->__ ( 'Delete' ), 'url' => $this->getUrl ( '~/~/massDelete' ), 'confirm' => Mage::helper ( 'rewards' )->__ ( 'Are you sure?' ) ) );
-
-        $statuses = Mage::getSingleton ( 'rewards/transfer_status' )->genSelectableStatuses ();
-
-        $this->getMassactionBlock ()->addItem ( 'status', array ('label' => Mage::helper ( 'rewards' )->__ ( 'Change status' ), 'url' => $this->getUrl ( '~/~/massStatus', array ('_current' => true ) ), 'additional' => array ('visibility' => array ('name' => 'status', 'type' => 'select', 'class' => 'required-entry', 'label' => Mage::helper ( 'rewards' )->__ ( 'Status' ), 'values' => $statuses ) ) ) );
-
-        return $this;
-    }*/
-
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));

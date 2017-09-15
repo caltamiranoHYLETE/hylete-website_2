@@ -27,7 +27,7 @@
  * Sweet Tooth Inc. is not responsible for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by another framework extension.
  * If you did not receive a copy of the license, please send an email to
- * contact@sweettoothhq.com or call 1-855-699-9322, so we can send you a copy
+ * contact@magerewards.com or call 1-855-699-9322, so we can send you a copy
  * immediately.
  *
  * @copyright  Copyright (c) 2012 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
@@ -40,7 +40,7 @@
  *
  * @category   TBT
  * @package    TBT_Rewards
- * @author     Sweet Tooth Team <contact@sweettoothhq.com>
+ * @author     Sweet Tooth Team <contact@magerewards.com>
  */
 class TBT_Rewards_Block_System_Config_Platform_ForgotPassword extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
@@ -76,7 +76,8 @@ FEED;
         return $forgotPassHtml;
     }
 
-    protected function _getForgotPassLink($domain) {
-    	return "https://www.sweettoothrewards.com/login/forgot/";
+    protected function _getForgotPassLink($domain)
+    {
+    	return "https://account.magerewards.com/admin/index/forgotpassword/";
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -12,17 +12,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -82,7 +82,13 @@ class TBT_Rewards_Model_Salesrule_Discount_Validator extends Mage_SalesRule_Mode
 		if ($this->isValidRedemption ( $rule, $quote, $item )) { 
 			$valid->add ( $rule );
 			if($rule->isVariablePointsRule()) {
-				$applied->add($rule);
+                if ($quote->getPointsSpending() > 0) {
+                    $applied->add($rule);
+                } else {
+                    if ($applied->hasRule($rule)) {
+                        $applied->remove($rule);
+                    }
+                }
 			}
 			if ($applied->hasRule ( $rule )) {
 				$valid_applied->add ( $rule );
@@ -124,7 +130,7 @@ class TBT_Rewards_Model_Salesrule_Discount_Validator extends Mage_SalesRule_Mode
 		return $valid_applied->hasRuleId ( $rule->getId () );
 	
 	}
-	
+
 	/**
 	 * 
 	 * Enter description here ...
@@ -210,8 +216,6 @@ class TBT_Rewards_Model_Salesrule_Discount_Validator extends Mage_SalesRule_Mode
 	 * TODO does this need to be here?
 	 * @deprecated does this need to be here?
 	 *
-	 * @author Jay El <nelkaake@wdca.ca>
-	 * 
 	 * @param Mage_Sales_Model_Quote_Address &$address
 	 * @param Mage_Sales_Model_Quote_Item_Abstract &$item
 	 * @param array $applied_redemptions
@@ -257,5 +261,17 @@ class TBT_Rewards_Model_Salesrule_Discount_Validator extends Mage_SalesRule_Mode
 	private function _getRedeemer() {
 		return Mage::getSingleton ( 'rewards/redeem' );
 	}
+
+    /**
+     * Reset Deltas before collecting discounts for each item
+     * @return \TBT_Rewards_Model_Salesrule_Discount_Validator
+     */
+    public function resetDeltas()
+    {
+        $this->_roundingDeltas = array();
+        $this->_baseRoundingDeltas = array();
+
+        return $this;
+    }
 
 }

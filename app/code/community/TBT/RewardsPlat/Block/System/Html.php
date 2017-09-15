@@ -1,6 +1,6 @@
 <?php
 /**
- * WDCA
+ * Sweet Tooth
  *  
  * NOTICE OF LICENSE
  *
@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   WDCA
+ * @category   Sweet Tooth
  * @package    TBT_Enhancedgrid
  * @copyright  Copyright (c) 2014 Sweet Tooth Inc. (http://www.sweettoothrewards.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -40,16 +40,12 @@ class TBT_RewardsPlat_Block_System_Html extends TBT_Rewards_Block_System_Html {
 		
 		//  (core v{$st_core_ver}, api v{$st_api_ver}, points-only v{$st_only_ver})
         $html .= "
-            <p>You are currently running Sweet Tooth Platinum Version {$st_plat_ver}.</p>
+            <p>You are currently running MageRewards Version {$st_plat_ver}.</p>
             
-            <p>Check out the <a href='https://www.sweettoothrewards.com/wiki' target='st_docs'>Sweet Tooth documentation</a> or 
-            <a href='https://www.wdca.ca/support' target='st_support'>contact the support team</a> if you need help.</p>
-            
-            <p>For updates, please subscribe to the <a href='https://www.getsweettooth.com/news' target='_blank'>Sweet Tooth news blog</a>.</p>
+            <p>Check out the <a href='http://www.magerewards.com/resources/' target='st_docs'>MageRewards documentation</a> or 
+            <a href='http://support.magerewards.com/' target='st_support'>contact the support team</a> if you need help.</p>
         ";
         
-		$html .= Mage::getBlockSingleton('rewards/manage_widget_loyalty')->toHtml();
-		
 		$html .= "
             </div>
 		";

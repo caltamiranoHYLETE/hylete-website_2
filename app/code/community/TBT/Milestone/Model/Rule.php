@@ -35,17 +35,18 @@ class TBT_Milestone_Model_Rule extends Mage_Core_Model_Abstract
 
         $action = $this->getAction();
 
-        $action->setCustomerId($customerId);
-        $action->execute($customerId);
-
         $currentTimestamp = Mage::helper('tbtmilestone')->getUtcTimestamp();
-        Mage::getModel('tbtmilestone/rule_log')->setRuleId($this->getId())
+        $ruleLog = Mage::getModel('tbtmilestone/rule_log')
+            ->setRuleId($this->getId())
             ->setRuleName($this->getName())
             ->setConditionType($this->getConditionType())
             ->setActionType($this->getActionType())
-            ->setMilestoneDetails($this->getMilestoneDetails())
             ->setCustomerId($customerId)
-            ->setExecutedDate($currentTimestamp)
+            ->setExecutedDate($currentTimestamp);
+        
+        $action->setCustomerId($customerId);
+        $action->execute($customerId, $ruleLog);
+        $ruleLog->setMilestoneDetails($this->getMilestoneDetails())
             ->save();
 
         return $this;
@@ -58,8 +59,8 @@ class TBT_Milestone_Model_Rule extends Mage_Core_Model_Abstract
         }
 
         $rules = $this->getCollection()
-                      ->addFieldToFilter('is_enabled', 1)
-                      ->addFieldToFilter('condition_type', array('in' => $conditionTypes));
+            ->addFieldToFilter('is_enabled', 1)
+            ->addFieldToFilter('condition_type', array('in' => $conditionTypes));
 
         return $rules;
     }
@@ -229,8 +230,8 @@ class TBT_Milestone_Model_Rule extends Mage_Core_Model_Abstract
     {
         if (!$this->hasLoadedCondition()) {
             $this->_condition = $this->_getConditionFactory()->create($this->getConditionType())
-                                     ->setData($this->getConditionDetails())
-                                     ->setRule($this);
+                ->setData($this->getConditionDetails())
+                ->setRule($this);
         }
 
         return $this->_condition;
@@ -243,8 +244,8 @@ class TBT_Milestone_Model_Rule extends Mage_Core_Model_Abstract
     {
         if (!$this->hasLoadedAction()) {
             $this->_action = $this->_getActionFactory()->create($this->getActionType())
-                                  ->setData($this->getActionDetails())
-                                  ->setRule($this);
+                ->setData($this->getActionDetails())
+                ->setRule($this);
         }
 
         return $this->_action;

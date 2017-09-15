@@ -14,3 +14,12 @@
     font-weight: bold;
     text-decoration: line-through;
 }
+
+.points-price-wait-msg[data-update-msg] {
+    visibility: hidden;
+}
+
+.points-price-wait-msg[data-update-msg]:after {
+    visibility: visible;
+    content: attr(data-update-msg);
+}

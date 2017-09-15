@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,7 +20,7 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer_Filter_Attribute
@@ -28,14 +28,40 @@ class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Attribute extends Mage_
     protected $_currentRequest;
     protected $_resourceProxy;
 
-    public function _getResource()
+    public function getResetValue()
     {
-        if (!$this->_resourceProxy) {
-            $this->_resourceProxy = Mage::getSingleton(('multioptionfilter/proxy_attribute'))
-                ->create($this, parent::_getResource());
+        $value = parent::getResetValue();
+
+        if (!empty($value)) {
+            return $value;
         }
 
-        return $this->_resourceProxy;
+        if (!$this->_currentRequest) {
+            return $value;
+        }
+
+        $filter = $this->_currentRequest->getParam($this->_requestVar);
+        $selectedOptions = explode(',', $filter);
+
+        if (count($selectedOptions) <= 1) {
+            return $value;
+        }
+
+        /** @var Vaimo_MultiOptionFilter_Model_Filter_Item $currentItem */
+        if (!$currentItem = $this->getData(Vaimo_MultiOptionFilter_Helper_Filter::TARGETED_OPTION_ITEM)) {
+            return $value;
+        }
+
+        $key = $currentItem->getValue();
+
+        $selectedOptions = array_flip($selectedOptions);
+
+        if (isset($selectedOptions[$key])) {
+            unset($selectedOptions[$key]);
+            $value = implode(',', array_keys($selectedOptions));
+        }
+
+        return $value;
     }
 
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
@@ -74,6 +100,16 @@ class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Attribute extends Mage_
         return $this;
     }
 
+    public function _getResource()
+    {
+        if (!$this->_resourceProxy) {
+            $this->_resourceProxy = Mage::getSingleton('multioptionfilter/runtime_proxyFactories_attribute')
+                ->create($this, parent::_getResource());
+        }
+
+        return $this->_resourceProxy;
+    }
+
     protected function _createItem($label, $value, $count = 0)
     {
         return Mage::getModel('multioptionfilter/filter_item', array(
@@ -82,41 +118,5 @@ class Vaimo_MultiOptionFilter_Model_Catalog_Layer_Filter_Attribute extends Mage_
             'value' => $value,
             'count' => $count
         ));
-    }
-
-    public function getResetValue()
-    {
-        $value = parent::getResetValue();
-
-        if (!empty($value)) {
-            return $value;
-        }
-
-        if (!$this->_currentRequest) {
-            return $value;
-        }
-
-        $filter = $this->_currentRequest->getParam($this->_requestVar);
-        $selectedOptions = explode(',', $filter);
-
-        if (count($selectedOptions) <= 1) {
-            return $value;
-        }
-
-        /** @var Vaimo_MultiOptionFilter_Model_Filter_Item $currentItem */
-        if (!$currentItem = $this->getData(Vaimo_MultiOptionFilter_Helper_Filter::TARGETED_OPTION_ITEM)) {
-            return $value;
-        }
-
-        $key = $currentItem->getValue();
-
-        $selectedOptions = array_flip($selectedOptions);
-
-        if (isset($selectedOptions[$key])) {
-            unset($selectedOptions[$key]);
-            $value = implode(',', array_keys($selectedOptions));
-        }
-
-        return $value;
     }
 }

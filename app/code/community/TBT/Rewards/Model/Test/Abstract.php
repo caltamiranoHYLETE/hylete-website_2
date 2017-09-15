@@ -1,16 +1,18 @@
 <?php
-class TBT_Rewards_Model_Test_Abstract extends Varien_Object {
-	
+
+class TBT_Rewards_Model_Test_Abstract extends Varien_Object 
+{
 	/**
 	 * Output content
 	 * @param mixed $content
 	 */
-	public function o($content) {
-		if(!$this->getOutputAdapter()) {
-			echo $content; 
-		}
-		flush();
-		return $this;
+	public function o($content) 
+        {
+            if (!$this->getOutputAdapter()) {
+                Mage::helper('rewards/debug')->printMessage($content);
+            }
+            
+            return $this;
 	}
 	
 	

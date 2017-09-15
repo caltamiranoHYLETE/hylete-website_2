@@ -60,9 +60,8 @@ class TBT_Milestone_Block_Manage_History_View_Tab_General extends Mage_Adminhtml
             $basicsFieldset->addField('points', 'label', array(
                 'name'  => 'points',
                 'bold'  => true,
-                'label' => $this->__("Points Rewarded"),
-                'title' => $this->__("Points Rewarded"),
-                'note'  => "You can find the created points transfer in the <i>Points Rewards</i> tab on the left.",
+                'label' => $this->__("Points Amount Rewarded"),
+                'title' => $this->__("Points Amount Rewarded")
             ));
         }
 

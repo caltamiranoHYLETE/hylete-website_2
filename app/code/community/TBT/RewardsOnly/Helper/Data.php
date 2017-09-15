@@ -112,6 +112,10 @@ class TBT_RewardsOnly_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function isPointsOnly($item)
     {
+        if (!Mage::helper('rewards/config')->allowCatalogRulesInAdminOrderCreate()) {
+            return false;
+        }
+        
         $customer = $item->getQuote()->getCustomer();
         $ruleSelector = Mage::helper('rewardsonly/config')->getRedemptionSelectionAlgorithm();
         

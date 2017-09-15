@@ -512,11 +512,11 @@ abstract class SweetToothClient
         if (!$this->matchPath($method, $path, $paths_without_auth))
         {
             if (!$this->_apiKey) {
-                throw new SweetToothSdkException("Sweet Tooth API Key not specified.",
+                throw new SweetToothSdkException("MageRewards API Key not specified.",
                     SweetToothSdkException::CREDENTIALS_NOT_SPECIFIED);
             }
             if (!$this->_apiSecret) {
-                throw new SweetToothSdkException("Sweet Tooth API Secret not specified.",
+                throw new SweetToothSdkException("MageRewards API Secret not specified.",
                     SweetToothSdkException::CREDENTIALS_NOT_SPECIFIED);
             }
         }
@@ -607,13 +607,13 @@ abstract class SweetToothClient
         	         $msg = "The request cannot be fulfilled due to bad syntax in the client application. This could be caused by running outdated software.";
         	         break;
         	    case "Pest_Unauthorized":
-        	        $msg = "You are not allowed to access this function of Sweet Tooth.";
+        	        $msg = "You are not allowed to access this function of MageRewards.";
         	        break;
         	    case "Pest_Forbidden":
         	        $msg = "The request was a legal request, but the server is refusing to respond to it.";
         	        break;
         	    case "Pest_NotFound":
-        	        $msg = "Either your account does not exist, or you're trying to do something that the Sweet Tooth server doesn't know how to do.";
+        	        $msg = "Either your account does not exist, or you're trying to do something that the MageRewards server doesn't know how to do.";
         	        break;
         	    case "Pest_MethodNotAllowed":
         	        $msg = "The function you are trying to perform is not allowed by your account.";
@@ -634,19 +634,19 @@ abstract class SweetToothClient
         	        $msg = "An ambiguous error occured on the server that we could not specifically identify.";
         	        break;
         	    case "Pest_UnknownResponse":
-        	        $msg = "We could not understand the response from the Sweet Tooth server while trying to log you in.".
+        	        $msg = "We could not understand the response from the MageRewards server while trying to log you in.".
         	       	        " Please check your server's connection to the internet.".
         	       	        " It is possible that our servers are currently down, but very unlikely.";
         	        break;
         	    default:
         	        //Returns generic message definined in ApiException class
-        	        $msg = "An undefined error has been returned from Sweet Tooth servers.";
+        	        $msg = "An undefined error has been returned from MageRewards servers.";
         	        break;
         	}
 
     	}
 
-    	$msg .= " Contact the Sweet Tooth support team support@sweettoothhq.com if the problem persists.";
+    	$msg .= " Contact the MageRewards support team support@magerewards.com if the problem persists.";
 
     	$exception =  new SweetToothApiException(array("message"=> $msg, "code"=> $code));
 

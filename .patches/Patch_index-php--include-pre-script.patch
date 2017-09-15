@@ -1,0 +1,15 @@
+--- index-o.php	2017-09-05 13:12:03.000000000 +0000
++++ index.php	2017-09-05 13:14:12.000000000 +0000
+@@ -42,6 +42,12 @@
+     exit;
+ }
+ 
++//PATCH elvin@VAIMO
++if (file_exists('/var/www/pre_forbid.php')) {
++    require_once '/var/www/pre_forbid.php';
++}
++//~PATCH
++
+ /**
+  * Compilation includes configuration file
+  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,10 +20,19 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
 interface Vaimo_MultiOptionFilter_Model_Resource_Statement_ConverterInterface
 {
-    public function convert($statement);
+    /**
+     * @return string
+     */
+    public function getMatchPattern();
+
+    /**
+     * @param array $matches
+     * @return string
+     */
+    public function convert(array $matches);
 }

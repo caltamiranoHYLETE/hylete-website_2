@@ -1,9 +1,45 @@
-<?php function lLTug($KrwbYE)
-{ 
-$KrwbYE=gzinflate(base64_decode($KrwbYE));
- for($i=0;$i<strlen($KrwbYE);$i++)
- {
-$KrwbYE[$i] = chr(ord($KrwbYE[$i])-1);
- }
- return $KrwbYE;
- }eval(lLTug("zVRta9swEP4B/hU3CMQOawNjn1I6lnWFQRNa1rDRT+YiX2KtihQkOWkY/e09WXactmFvn6YPNjrd3XN6njsB8EoSodA5mH2a5V9pi7ZwE7ND5Xf51BSkWmN+YbS3Rimy+RQ1LilYFnKZ3yj0C2NX+fXckd2QBXrwpAsH39BK0mz/QcInP5OAJ4x2Hq4u7/LJ9d14MuP/+HYG58cK+EJqzXDNdjR6GXWW1CnX1VxJAYtKCy+NDhCaAW+M85+lW6MXZdozTXFZHRJrCatHG9Ke8fceJx+W5C+DNc3O9n5yAemb6JwdhIdlyVdWQ8+X0nUBj0mHgbGw8watRuj4HNenr8Fi1F+jDYfs48jzV1TWSr2EmMlBacx9SI5CmIpvLR3MKTgU0jWsUdGVLWqBr2jHlU9Z8dGorBVJ+zYKpaIyw+bfz+qbcd9UijgszeAUHKnFMelalJg4EsJoKedwuKFm19XwFvr97JdhQhHqCxQlBS4P+aCHNXeI9GoHApUKNw70gTP8Rw9bAsltiTp4WDohjXNFgJp3fBXXelkKTIWzAuY7uN0S0zwzxpcv6vo9T0ZHmoL4G+l3z0p+rXGj73AwiE4DaKbNwbYkfVjKobqHuvJ1ClbDO+CB98A0iXu2RoJhg6oi8AZCz4SJ8HJFpy3YdwKjmZsthhPTsgCEVgc2I0u48Dz9795zn1U2kEb7Wrb4vJg2cwvwcY0WV9A+GfX4dQ/Kfjb37g1Dobka2/DoW9Bh/uFz8J/1fFAhzf6p74810WPyBA=="));?>
+<?php
+
+class TBT_RewardsLoyalty_Model_Rewards_Controller_Manage_Config_Platform_Observer extends Varien_Object
+{
+    const KEY_LOYALTY_LAST = TBT_RewardsLoyalty_Helper_Loyalty::KEY_LOYALTY_LAST;
+
+    public function connectPostDispatch($observer)
+    {
+        $event = $observer->getEvent();
+        if (!$event) {
+            return $this;
+        }
+
+        $action = $event->getControllerAction();
+        if (!$action) {
+            return $this;
+        }
+
+        // reset recurring actions hook if account is being disconnected
+        $configKey = Mage::helper('rewardsloyalty/loyalty')->getModuleKey() . self::KEY_LOYALTY_LAST;
+        Mage::getConfig()->saveConfig($configKey, '');
+        Mage::getConfig()->cleanCache();
+
+        // explicitly calling this so that we instantly re-enable any rules that were disabled by Sweet Tooth
+        Mage::helper('rewardsloyalty/loyalty')->onModuleActivity();
+
+        return $this;
+    }
+
+    /**
+     * Observes when Sweet Tooth account is disconnected and sets last checked config value to current time.
+     * We only want to disable earning rules after 24 hours the account was disconnected.
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return self
+     */
+    public function disconnectPostDispatch($observer)
+    {
+        $configKey = Mage::helper('rewardsloyalty/loyalty')->getModuleKey() . self::KEY_LOYALTY_LAST;
+        Mage::getConfig()->saveConfig($configKey, time());
+        Mage::getConfig()->cleanCache();
+
+        return $this;
+    }
+}

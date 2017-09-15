@@ -19,7 +19,7 @@
                 <?php echo $this->__("Points Spent") ?>
             </td>
             <td style="width: 66px;">
-                <span class="price" style="padding: 2px;"><?php echo $this->getPointsSpent() ?></span>
+                <span class="price" style="padding: 2px;"><?php echo ($this->canAdjustPoints()) ? $this->getPointsSpent() : 0; ?></span>
             </td>
         </tr>
         <tr class="points_lbl">
@@ -27,7 +27,7 @@
                 <?php echo $this->__("Points Earned") ?>
             </td>
             <td style="width: 66px;">
-                <span class="price" style="padding: 2px;"><?php echo $this->getPointsEarned() ?></span>
+                <span class="price" style="padding: 2px;"><?php echo ($this->canAdjustPoints()) ? $this->getPointsEarned() : 0; ?></span>
             </td>
         </tr>
         <tr class="points_adjust" style="display: none;">
@@ -36,7 +36,7 @@
             </td>
             <td style="padding: 3px 20px 3px 10px;">
                 <input type="number" name="<?php echo $this->getFieldWrapper() ?>[adjustment_points_spent]"
-                    value="<?php echo $this->getPointsSpent() ?>"
+                    value="<?php echo ($this->canAdjustPoints()) ? $this->getPointsSpent() : 0; ?>"
                     class="input-text not-negative-amount" style="width: 60px; text-align: right;" id="points_spent"
                     min="0" max="<?php echo ($this->getCustomerBalance() + $this->getPointsSpent()) ?>"
                     onchange="checkSpendingsAgainstBalance();" />
@@ -48,16 +48,22 @@
             </td>
             <td style="padding: 3px 20px 3px 10px;">
                 <input type="number" name="<?php echo $this->getFieldWrapper() ?>[adjustment_points_earned]"
-                    value="<?php echo $this->getPointsEarned() ?>"
+                    value="<?php echo ($this->canAdjustPoints()) ? $this->getPointsEarned() : 0; ?>"
                     class="input-text not-negative-amount" style="width: 60px; text-align: right;"
                     id="points_earned" min="0" />
             </td>
         </tr>
     </tbody>
 </table>
-<span class="points_adjust_lnk" style="padding-right: 20px;">
-    <a href="javascript://" onclick="enablePointsFields();"><?php echo $this->__("Click Here to Adjust Points") ?></a>
-</span>
+<?php if ($this->canAdjustPoints()): ?>
+    <span class="points_adjust_lnk" style="padding-right: 20px;">
+        <a href="javascript://" onclick="enablePointsFields();"><?php echo $this->__("Click Here to Adjust Points") ?></a>
+    </span>
+<?php endif; ?>
 <span id="points_adjust_error" style="padding-right: 20px; font-weight: bold; color: #FF0000; display: none;">
     <?php echo $this->__("This exceeds the customer's balance of %s.", $this->getCustomerBalanceString()) ?>
 </span>
+<?php if (!$this->canAdjustPoints()): ?>
+    <div class="hide-next-divider"></div>
+<?php endif; ?>
+<div style="clear:both;"></div>

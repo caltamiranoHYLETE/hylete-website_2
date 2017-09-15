@@ -21,7 +21,6 @@
 "Referral was successfully deleted","Referral was successfully deleted"
 "Please select referrals","Please select referrals"
 "Referral Program","Referral Program"
-"Extension Developed By WWW.WDCA.CA","Extension Developed By WWW.WDCA.CA"
 "Show referral link","Show referral link"
 "Show in onepage checkout","Show in onepage checkout"
 "Show in create account page","Show in create account page"
@@ -139,7 +138,7 @@ Edit,Edit
 Email,Email
 "Email Address","Email Address"
 Email:,Email:
-"Failed to adjust points on this order.  Please contact Sweet Tooth support.","Failed to adjust points on this order.  Please contact Sweet Tooth support."
+"Failed to adjust points on this order.  Please contact MageRewards support.","Failed to adjust points on this order.  Please contact MageRewards support."
 Fax,Fax
 "Forgot Your Password?","Forgot Your Password?"
 "From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.","From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information."
@@ -282,7 +281,7 @@ Delete,Delete
 "Show the prefererences section in the customer's My Referrals section.","Show the prefererences section in the customer's My Referrals section."
 "Show the referral e-mail/code box in the new account creation page.","Show the referral e-mail/code box in the new account creation page."
 "Show the referral e-mail/code box in the onepage checkout registration section.","Show the referral e-mail/code box in the onepage checkout registration section."
-"This is the URL or path that Sweet Tooth will redirect the visitor to after it registers the referral into the session. The default value is blank, which redirects the visitor to the home page.","This is the URL or path that Sweet Tooth will redirect the visitor to after it registers the referral into the session. The default value is blank, which redirects the visitor to the home page."
+"This is the URL or path that MageRewards will redirect the visitor to after it registers the referral into the session. The default value is blank, which redirects the visitor to the home page.","This is the URL or path that MageRewards will redirect the visitor to after it registers the referral into the session. The default value is blank, which redirects the visitor to the home page."
 "This list will automatically refresh every 5 seconds","This list will automatically refresh every 5 seconds"
 Unknown,Unknown
 "When a customer refers another customer, the person who referred the new customer will receive this e-mail.","When a customer refers another customer, the person who referred the new customer will receive this e-mail."

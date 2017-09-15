@@ -15,7 +15,7 @@ class TBT_Rewards_Block_Manage_Widget_Popup extends Mage_Adminhtml_Block_Widget
         parent::_construct();
         
         $this->setTemplate('rewards/widget/popup.phtml')
-            ->setTitle($this->__("Sweet Tooth"))
+            ->setTitle($this->__("MageRewards"))
             ->setIconType('SEVERITY_NOTICE')
             ->setIconCaption($this->__("notice"));
         

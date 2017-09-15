@@ -1,0 +1,33 @@
+--- app/design/frontend/base/default/template/rewards/spender/additional/firecheckout-o.phtml	2017-08-16 13:10:10.000000000 +0000
++++ app/design/frontend/base/default/template/rewards/spender/additional/firecheckout.phtml	2017-08-16 13:10:49.000000000 +0000
+@@ -9,16 +9,19 @@
+             this.logMessage(result.message);
+         } else {
+             var fetchReviewUrl = '<?php echo $this->getUrl('rewards/firecheckout_redeem/review', array('_forced_secure' => $this->getRequest()->isSecure())) ?>';
+-
+-            new Ajax.Request(fetchReviewUrl, {
+-                onSuccess: function (t) {
+-                    var html = t.responseText;
+-                    html = html.replace('checkout-review-submit', 'st-checkout-review-submit');
+-
+-                    $('checkout-review-load').update(html);
+-                    $('st-checkout-review-submit').remove();
+-                }
+-            });
++            // PATCH elvin@VAIMO
++            // use firecheckout "magic" method updateSections()
++            checkout.updateSections(['payment-method', 'review']);
++//            new Ajax.Request(fetchReviewUrl, {
++//                onSuccess: function (t) {
++//                    var html = t.responseText;
++//                    html = html.replace('checkout-review-submit', 'st-checkout-review-submit');
++//
++//                    $('checkout-review-load').update(html);
++//                    $('st-checkout-review-submit').remove();
++//                }
++//            });
++            //~ PATCH
+         }
+     };
+ </script>
+\ No newline at end of file

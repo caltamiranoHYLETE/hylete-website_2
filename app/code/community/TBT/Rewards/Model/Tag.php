@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  * 
  * NOTICE OF LICENSE
  * 
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS 
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS 
  * License, which extends the Open Software License (OSL 3.0).
 
  * The Open Software License is available at this URL: 
@@ -13,17 +13,17 @@
  * 
  * DISCLAIMER
  * 
- * By adding to, editing, or in any way modifying this code, WDCA is 
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is 
  * not held liable for any inconsistencies or abnormalities in the 
  * behaviour of this code. 
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the 
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the 
  * provided Sweet Tooth License. 
  * Upon discovery of modified code in the process of support, the Licensee 
- * is still held accountable for any and all billable time WDCA spent 
+ * is still held accountable for any and all billable time Sweet Tooth spent 
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension. 
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension. 
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to 
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy 
@@ -86,9 +86,9 @@ class TBT_Rewards_Model_Tag extends Mage_Tag_Model_Tag {
 	 */
 	protected function approvePendingTransfers() {
 		foreach ( $this->getAssociatedTransfers () as $transfer ) {
-			if ($transfer->getStatus () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
+			if ($transfer->getStatusId () == TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT) {
 				//Move the transfer status from pending to approved, and save it!
-				$transfer->setStatus ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
+				$transfer->setStatusId ( TBT_Rewards_Model_Transfer_Status::STATUS_PENDING_EVENT, TBT_Rewards_Model_Transfer_Status::STATUS_APPROVED );
 				$transfer->save ();
 			}
 		}
@@ -97,18 +97,23 @@ class TBT_Rewards_Model_Tag extends Mage_Tag_Model_Tag {
 	/**
 	 * Loops through each Special rule. If it applies, create a new pending transfer.
 	 */
-	protected function onNewTag() {
-		$ruleCollection = Mage::getSingleton ( 'rewards/special_validator' )->getApplicableRulesOnTag ();
-		foreach ( $ruleCollection as $rule ) {
-			$is_transfer_successful = $this->createPendingTransfer ( $rule );
-			
-			if ($is_transfer_successful) {
-				//Alert the customer on the distributed points  
-				$pts = Mage::getModel ( 'rewards/points' )->setPoints ( $rule );
-				$msg = Mage::helper ( 'rewards' )->__ ( 'You will receive %s upon approval of this tag.', $pts );
-				Mage::getSingleton ( 'core/session' )->addSuccess ( $msg );
-			}
-		}
+	protected function onNewTag() 
+        {
+            $ruleCollection = Mage::getSingleton('rewards/special_validator')->getApplicableRulesOnTag();
+            foreach ($ruleCollection as $rule) {
+                $isTransferSuccessful = $this->createPendingTransfer($rule);
+
+                if ($isTransferSuccessful) {
+                    $initialTransferStatusForTag = Mage::helper('rewards/config')->getInitialTransferStatusAfterTag();
+                    $message = ($initialTransferStatusForTag == 5) 
+                        ? 'You received %s for this tag'
+                        : 'You will receive %s upon approval of this tag';
+
+                    $pts = Mage::getModel('rewards/points')->setPoints($rule);
+                    $msg = Mage::helper('rewards')->__($message, $pts);
+                    Mage::getSingleton('core/session')->addSuccess($msg);
+                }
+            }
 	}
 	
 	/**
@@ -118,7 +123,7 @@ class TBT_Rewards_Model_Tag extends Mage_Tag_Model_Tag {
 	 */
 	protected function createPendingTransfer($rule) {
 		try {
-			$is_transfer_successful = Mage::helper ( 'rewards/transfer' )->transferTagPoints ( $rule->getPointsAmount (), $rule->getPointsCurrencyId (), $this->getId (), Mage::getSingleton ( 'customer/session' )->getCustomerId (), $rule->getId () );
+			$is_transfer_successful = Mage::getModel('rewards/tag_transfer')->transferTagPoints ( $rule->getPointsAmount (), $this->getId (), Mage::getSingleton ( 'customer/session' )->getCustomerId (), $rule->getId () );
 		} catch ( Exception $ex ) {
 			Mage::getSingleton ( 'core/session' )->addError ( $ex->getMessage () );
 		}
@@ -149,9 +154,8 @@ class TBT_Rewards_Model_Tag extends Mage_Tag_Model_Tag {
 	 * @return array(TBT_Rewards_Model_Transfer)   
 	 */
 	protected function getAssociatedTransfers() {
-		return Mage::getModel ( 'rewards/transfer' )->getTransfersAssociatedWithTag ( $this->getId () );
+		return Mage::getModel ( 'rewards/tag_transfer' )->getTransfersAssociatedWithTag ( $this->getId () );
 	}
 
 }
 
-?>

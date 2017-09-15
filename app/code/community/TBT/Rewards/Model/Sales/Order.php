@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -45,7 +45,7 @@
  * sales_order_delete_before
  * sales_order_delete_after
  *
- * @author      WDCA Team (http://www.wdca.ca)
+ * @author      Sweet Tooth Team (http://www.sweettoothrewards.com)
  */
 class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
 {
@@ -53,6 +53,17 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
     protected $points_spent  = null;
 
     const ENTITY = 'order';
+    
+    const CACHE_TAG = 'sales_order';
+    
+    /**
+     * Model cache tag for clear cache in after save and after delete
+     *
+     * When you use true - all cache will be clean
+     *
+     * @var string || true
+     */
+    protected $_cacheTag    = self::CACHE_TAG;
     
     /**
      * Loads in a order and returns a points order
@@ -70,9 +81,9 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
      *
      * @return array
      */
-    public function getTotalEarnedPoints()
+    public function getTotalEarnedPoints($forceRecalculate = false)
     {
-        if ($this->points_earned != null) {
+        if ($this->points_earned != null && !$forceRecalculate) {
             return $this->points_earned;
         }
 
@@ -84,14 +95,15 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
         $revokedSums = $associatedDistributions->selectRevokerTransfers()
             ->sumPoints();
 
+        $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
         $pointsEarned = array();
         foreach ($pointSums as $points) {
-            $pointsEarned[$points->getCurrencyId()] = (int) $points->getPointsCount();
+            $pointsEarned[$defaultCurrencyId] = (int) $points->getPointsCount();
         }
 
         $pointsRevoked = array();
         foreach ($revokedSums as $points) {
-            $pointsRevoked[$points->getCurrencyId()] = (int) $points->getPointsCount();
+            $pointsRevoked[$defaultCurrencyId] = (int) $points->getPointsCount();
         }
 
         $this->points_earned = Mage::helper('rewards/array')->mergeByAddition($pointsEarned, $pointsRevoked);
@@ -161,14 +173,15 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
         $revokedSums = $associatedRedemptions->selectRevokerTransfers()
             ->sumPoints();
 
+        $defaultCurrencyId = Mage::helper('rewards/currency')->getDefaultCurrencyId();
         $pointsSpent = array();
         foreach ($pointSums as $points) {
-            $pointsSpent[$points->getCurrencyId()] = -$points->getPointsCount();
+            $pointsSpent[$defaultCurrencyId] = -$points->getPointsCount();
         }
 
         $pointsRevoked = array();
         foreach ($revokedSums as $points) {
-            $pointsRevoked[$points->getCurrencyId()] = -$points->getPointsCount();
+            $pointsRevoked[$defaultCurrencyId] = -$points->getPointsCount();
         }
 
         $this->points_spent = Mage::helper('rewards/array')->mergeByAddition($pointsSpent, $pointsRevoked);
@@ -195,7 +208,7 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
     {
         $transferCollection = Mage::getModel ( 'rewards/transfer' )->getCollection ();
         $transferCollection->addFieldToFilter ( 'reference_id', $this->getId () );
-        $transferCollection->addFieldToFilter ( 'reference_type', TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER );
+        $transferCollection->addFieldToFilter('reason_id', Mage::helper('rewards/transfer_reason')->getReasonId('order'));
 
         return $transferCollection;
     }
@@ -274,22 +287,16 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
                 continue;
             }
 
-            // if customer logged in OR this is a nominal order (recurring)
-            if ($this->_getRewardsSession()->isCustomerLoggedIn() || is_null($order->getConvertingFromQuote())) {
+            if (
+                $this->_getRewardsSession()->isCustomerLoggedIn() 
+                || is_null($order->getConvertingFromQuote()) 
+                || $this->_getRewardsSession ()->isAdminMode()
+                || $order->getCustomerId()
+            ) {
                 $points = $this->_getRewardsSession ()->calculateCartPoints ( $rule_id, $order_items, false );
                 if ($points) {
                     if ($points ['amount']) {
                         $cart_transfers->addCartPoints ( $points );
-                    }
-                }
-
-            //TODO:Fix for bug 108, will be moved for abstraction in the rewards session
-            } else if ($this->_getRewardsSession ()->isAdminMode ()) {
-                $points = $this->_getRewardsSession()->calculateCartPoints($rule_id, $order_items, false);
-
-                if ($points) {
-                    if ($points ['amount']) {
-                        $cart_transfers->addCartPoints($points);
                     }
                 }
             } else {
@@ -365,6 +372,73 @@ class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
     public function getCatalogDiscounts()
     {
         return 0;
+    }
+
+    /**
+     * Map Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @return array
+     */
+    public function getRewardsCartDiscountMapItems()
+    {
+        if (is_null($this->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($this->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
+    }
+
+    /**
+     * Map Invoice Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @param string $invoice
+     * @return array
+     */
+    public function getInvoiceRewardsCartDiscountMapItems($invoice)
+    {
+        if (is_null($invoice->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($invoice->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
+    }
+
+    /**
+     * Map Creditmemo Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @param string $creditmemo
+     * @return array
+     */
+    public function getCreditmemoRewardsCartDiscountMapItems($creditmemo)
+    {
+        if (is_null($creditmemo->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($creditmemo->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
+    }
+
+    /**
+     * Map Item Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @param mixed $item
+     * @return array
+     */
+    public function getItemRewardsCartDiscountMapItems($item)
+    {
+        if (!$item) {
+            return array();
+        }
+
+        if (is_null($item->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($item->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
     }
 
     /**

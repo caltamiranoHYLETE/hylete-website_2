@@ -10,7 +10,6 @@
  * amount against the customer's balance, which can result in a negative points balance for the customer.
  *
  * This class will also NOT trigger any observer events including the very important points index table.
- * Lastly, this class will NOT create or manipulate a transfer reference model.
  *
  * Don't use this class if you're unsure about any of the above. Use TBT_Rewards_Model_Transfer instead.
  *
@@ -34,10 +33,10 @@ class TBT_Rewards_Model_Transfer_Simple extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $now = now();
-        $this->setData('last_update_ts', $now);
-        if (!$this->getData('creation_ts')) {
-            $this->setData('creation_ts', $now);
+        $now = Mage::getModel('core/date')->gmtDate();
+        $this->setData('updated_at', $now);
+        if (!$this->getData('created_at')) {
+            $this->setData('created_at', $now);
         }
 
         parent::_beforeSave();

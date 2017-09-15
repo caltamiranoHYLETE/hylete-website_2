@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  *
  * The Open Software License is available at this URL:
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -122,7 +122,7 @@ class TBT_Rewards_Model_Birthday_Validator extends TBT_Rewards_Model_Special_Val
                 return false;
             }
             $customer_group_ids = explode(",", $rule->getCustomerGroupIds());
-            if (!$this->isInGroup($customer, $customer_group_ids)) {
+            if (!$this->isInGroup($customer, $customer_group_ids, false)) {
                 return false;
             }
             if (!$rule->isApplicableToWebsite($customer->getWebsiteId())) {
@@ -146,23 +146,30 @@ class TBT_Rewards_Model_Birthday_Validator extends TBT_Rewards_Model_Special_Val
     }
 
     /**
-     *
-     * @param Mage_Model_Customer $customer
+     * @param Mage_Customer_Model_Customer $customer
      * @return bool return true if the customer has a rewardable birthday today
      */
     public function isCustomerBirthdayRewardValidToday($customer)
     {
         $dateField = TBT_Rewards_Model_Birthday_Validator::birthday_field;
+        $dateOfBirth = $customer->getData($dateField);
+        
         // check birthday is set
-        if (empty($customer[$dateField])) {
+        if (empty($dateOfBirth)) {
             return false;
         }
 
         // check birthday is today
-        $birthdayTimestamp = strtotime($customer[$dateField]);
+        $birthdayTimestamp = strtotime($dateOfBirth);
         $birthMonthDay = date('m-d', $birthdayTimestamp);
         $nowMonthDay = $this->_getHelper()->getMagentoDate('m-d');
         if ($birthMonthDay != $nowMonthDay) {
+            return false;
+        }
+        
+        // check if account was created after this years birthday
+        $thisYearsBirthday = Mage::getModel('core/date')->gmtDate("Y-{$birthMonthDay} 00:00:00");
+        if (strtotime($customer->getCreatedAt()) > strtotime($thisYearsBirthday)) {
             return false;
         }
 
@@ -187,7 +194,7 @@ class TBT_Rewards_Model_Birthday_Validator extends TBT_Rewards_Model_Special_Val
             return true;
         }
 
-        $lastTransferTime = strtotime($recentTransfer->getCreationTs());
+        $lastTransferTime = strtotime($recentTransfer->getCreatedAt());
 
         // use system datetime not Magento's because transfers are relative to system time
         $timeNow = time();

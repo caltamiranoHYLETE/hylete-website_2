@@ -415,10 +415,9 @@ class Enterprise_PageCache_Model_Processor
             $isProcessed = false;
         }
 
-        $formKey = Enterprise_PageCache_Model_Cookie::getFormKeyCookieValue();
+        $formKey = Enterprise_PageCache_Helper_Form_Key::getFormKey();
         if (!$formKey) {
-            $formKey = Enterprise_PageCache_Helper_Data::getRandomString(16);
-            Enterprise_PageCache_Model_Cookie::setFormKeyCookieValue($formKey);
+            $formKey = Enterprise_PageCache_Helper_Form_Key::getFormKey(true);
         }
 
         Enterprise_PageCache_Helper_Form_Key::restoreFormKey($content, $formKey);

@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -117,7 +117,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
                 //@nelkaake Thursday April 22, 2010 02:28:43 AM : check for variable usable rules
                 $rr_model = Mage::helper ( 'rewards/rule' )->getSalesRule ( $rr );
                 if ($rr_model->getPointsAction () == TBT_Rewards_Model_Salesrule_Actions::ACTION_DISCOUNT_BY_POINTS_SPENT) {
-                    if ($this->getPointsSpending() > 0) {
+                    if ($quote->getPointsSpending() > 0) {
                         return true;
                     }
                 } else {
@@ -148,6 +148,11 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
                 $item->setEarnedPointsHash(Mage::helper('rewards')->hashIt(array()));
                 return false;
             }
+        }
+
+        if (!$this->_getCfg()->allowCatalogRulesInAdminOrderCreate()) {
+            $item->setEarnedPointsHash(Mage::helper('rewards')->hashIt(array()));
+            return false;
         }
 
         return true;
@@ -233,6 +238,10 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
     public function updateItemCatalogPoints($quote = null) {
         if ($quote == null) {
             $quote = &$this;
+        }
+
+        if (!Mage::helper('rewards/config')->allowCatalogRulesInAdminOrderCreate()) {
+            return $quote;
         }
 
         Mage::dispatchEvent('rewards_update_catalog_points', array('quote' => $quote));
@@ -394,9 +403,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
 
         /* Start checking ALL points spent against customer balance */
         foreach ($spent_points as $currency_id => $points_amount) {
-            $checkoutMethod = Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.0.0' ) ?
-                $this->getCheckoutMethod(true) :
-                $this->getCheckoutMethod();
+            $checkoutMethod = $this->getCheckoutMethod(true);
 
             if ($checkoutMethod == Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
                 Mage::getSingleton("rewards/session")->clear();
@@ -418,7 +425,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
                     $customer_id = $this->getCustomer()->getId();
                 }
 
-                Mage::helper('rewards/debug')->log("Order failed due to an EARNING rule attempting to DEDUCT points from the customer.  Please contact Sweet Tooth Support immediately.   Quote ID: [{$this->getId()}], Customer ID: [{$customer_id}], Point Earnings: [{$points['amount']}]");
+                Mage::helper('rewards/debug')->log("Order failed due to an EARNING rule attempting to DEDUCT points from the customer.  Please contact MageRewards Support immediately.   Quote ID: [{$this->getId()}], Customer ID: [{$customer_id}], Point Earnings: [{$points['amount']}]");
 
                 // log out the customer if they're registering at checkout, to ensure they can't place order again
                 $checkoutMethod = Mage::helper ( 'rewards' )->isBaseMageVersionAtLeast ( '1.4.0.0' ) ?
@@ -456,7 +463,27 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
 
         if ($reserveIncrementId) {
             $this->reserveOrderId();
-            $catalog_transfers->setIncrementId($this->getReservedOrderId());
+            $catalog_transfers->setIncrementId($this->getRealIncrementId());
+        }
+    }
+    
+    /**
+     * Get the correct increment id (it's different when an order is edited)
+     * @return string
+     */
+    public function getRealIncrementId()
+    {
+        $request = Mage::app()->getRequest();
+        $handle = $request->getRouteName() 
+            . '_' . $request->getControllerName()
+            . '_' . $request->getActionName();
+        
+        if ($handle === 'adminhtml_sales_order_edit_save') {
+            $oldOrder = Mage::getSingleton('adminhtml/session_quote')->getOrder();
+            $originalIncrementId = ($oldOrder->hasOriginalIncrementId()) ? $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
+            return $originalIncrementId . '-' . ($oldOrder->getEditIncrement() + 1);
+        } else {
+            return $this->getReservedOrderId();
         }
     }
 
@@ -476,7 +503,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
         //        Mage::log("Discountable tax \$\$ is {$tax_total}.");
         return $tax_total;
     }
-    public function getTotalBaseShipping($cart_rule_id = null) {
+    public function getTotalBaseShipping($cart_rule_id = null, $skipAppliedValidation = false) {
         $total_shipping = 0;
         foreach ( $this->getAllItems () as $item ) {
 
@@ -486,7 +513,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
                 continue;
             if ($item->getParentItem ())
                 continue;
-            if (! empty ( $cart_rule_id ) && ! $item_applied->hasRuleId ( $cart_rule_id ))
+            if (! empty ( $cart_rule_id ) && ! $item_applied->hasRuleId ( $cart_rule_id ) && !$skipAppliedValidation)
                 continue;
             $shipaddr = $item->getQuote ()->getShippingAddress ();
             $total_shipping = $shipaddr->getBaseShippingAmount (); //@nelkaake 17/03/2010 12:04:27 AM : This is like this on purpose
@@ -499,16 +526,21 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
         return $total_shipping;
     }
 
-    public function getTotalBaseAdditional($rule) {
+    public function getTotalBaseAdditional($rule, $skipAppliedValidation = false)
+    {
         $total_additional = 0;
-        if ($rule->getApplyToShipping ()) {
-            $total_additional += $this->getTotalBaseShipping ( $rule->getId () );
-        }
-        if (Mage::helper ( 'tax' )->discountTax ( $this->getStore () ) && ! Mage::helper ( 'tax' )->applyTaxAfterDiscount ( $this->getStore () )) {
-            $total_additional += $this->getTotalBaseTax ();
 
+        if ($rule->getApplyToShipping ()) {
+            $total_additional += $this->getTotalBaseShipping ( $rule->getId () , $skipAppliedValidation);
+        }
+
+        if (
+            Mage::helper('tax')->discountTax($this->getStore())
+            && !Mage::helper('tax')->applyTaxAfterDiscount($this->getStore())
+        ) {
             // We need to subtract the amount that was already discounted from the tax by catalog rules.
-            if (! Mage::helper ( 'tax' )->priceIncludesTax ( $this->getStore () )) {
+            if (!Mage::helper('tax')->priceIncludesTax($this->getStore())) {
+                $total_additional += $this->getTotalBaseTax ();
                 $total_additional -= $this->getRewardsDiscountTaxAmount ();
             }
         }
@@ -516,7 +548,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
         return $total_additional;
     }
 
-    public function getAssociatedBaseTotal($cart_rule_id) {
+    public function getAssociatedBaseTotal($cart_rule_id, $skipAppliedValidation = false) {
         $price = 0;
         //Mage::log("Checking total against rule #{$cart_rule_id}");
         // Get the store configuration
@@ -531,7 +563,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
                     continue;
                 }
 
-                if (! $item_applied->hasRuleId ( $cart_rule_id )) {
+                if (! $item_applied->hasRuleId ( $cart_rule_id ) && !$skipAppliedValidation) {
                     continue;
                 }
                 if ($prices_include_tax) {
@@ -628,8 +660,10 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
 
         $quote = &$this;
         $store = $quote->getStore ();
-        $applied = Mage::getModel ( 'rewards/salesrule_list_valid_applied' )->initQuote ( $this );
-        $rule_ids = $applied->getList ();
+        $applied = Mage::getModel('rewards/salesrule_list_valid_applied')->initQuote($this);
+
+        $applicable = Mage::getModel('rewards/salesrule_list_valid_applicable')->initQuote($this);
+        $rule_ids = array_merge($applied->getList(), $applicable->getList());
 
         // First select the highest priority rule that applies to the quote
         $highest_priority_rule = $this->_getHighestPriorityRule ( $rule_ids );
@@ -637,7 +671,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
 
         if ($highest_priority_rule != null) {
             $spendings_discount = $this->getTotalBaseRewardsSpendingDiscount ();
-            $quote_total = $this->getAssociatedBaseTotal ( $highest_priority_rule->getId () ) + $this->getTotalBaseAdditional ( $salesrule );
+            $quote_total = $this->getAssociatedBaseTotal ( $highest_priority_rule->getId () , true) + $this->getTotalBaseAdditional ( $salesrule , true);
 
             $quote_total_before_discounts = $quote_total;
             //echo("Discountable total is $quote_total_before_discounts + {$this->getShippingAddress()->getDiscountAmount()} + $spendings_discount = {$quote_total}.");
@@ -693,6 +727,12 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
             if ($max_points_spent) {
                 $max = min($max, $max_points_spent);
             }
+            
+            $numberOfSliderRules = Mage::getSingleton('rewards/session')->getSliderRulesCount();
+            if ($numberOfSliderRules > 1) {
+                $max = (int)($max / $numberOfSliderRules);
+            }
+            
             $customer_balance = $this->_getRewardsSession()->getCustomer()->getUsablePointsBalance($salesrule->getPointsCurrencyId());
             $max = min($max, $customer_balance);
 
@@ -752,11 +792,7 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
     }
     public function getMaxSpendablePoints() {
         $this->_calculateMaxPointsUsage();
-
-        $spentCatalogPoints = Mage::getSingleton('rewards/session')->getCatalogPointsSpentOnCart();
-        $spentCatalogPoints = (array_key_exists(1, $spentCatalogPoints)) ? $spentCatalogPoints[1] : 0;
-
-        $maxUsablePoints = $this->getData('max_spendable_points') - $spentCatalogPoints;
+        $maxUsablePoints = $this->getData('max_spendable_points');
         
         return max($maxUsablePoints, 0);
     }
@@ -771,20 +807,123 @@ class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
 
     public function getPointsSpending()
     {
-        $session = $this->_getRedemptionSession();
-
-        if (!$session->hasPointsSpending()) {
-            $session->setPointsSpending(0);
-        }
-
-        return (int) $session->getPointsSpending();
+        return (int) $this->getData('rewards_points_spending');
     }
 
     public function setPointsSpending($pointsQuantity)
     {
-        $session = $this->_getRedemptionSession();
-        $session->setPointsSpending($pointsQuantity);
+        $this->setData('rewards_points_spending', (int) $pointsQuantity);
+
         return $this;
+    }
+
+    /**
+     * Map Rewards Shopping Cart Spending Rules discount amounts and labels
+     * @param TBT_Rewards_Model_Salesrule_Rule $rule
+     * @param float $baseDiscountAmount
+     * @param float $discountAmount
+     * @return \TBT_Rewards_Model_Sales_Quote
+     */
+    public function appendRewardsCartDiscountAmounts($item, $rule, $baseDiscountAmount, $discountAmount)
+    {
+        /**
+         * Append Rewards Cart Discount Amounts to Quote
+         */
+        $rewardsDiscountMap = $this->getRewardsCartDiscountMap();
+
+        if (is_null($rewardsDiscountMap)) {
+            $rewardsDiscountMap = array();
+        } else {
+            $rewardsDiscountMap = json_decode($this->getRewardsCartDiscountMap(), true);
+        }
+
+        if (!is_array($rewardsDiscountMap)) {
+            return $this;
+        }
+
+        if (!isset($rewardsDiscountMap[$rule->getId()])) {
+            $rewardsDiscountMap[$rule->getId()] = array(
+                'label' => ($rule->getStoreLabel()) ?: '',
+                'base_discount_amount' => $baseDiscountAmount,
+                'discount_amount' => $discountAmount,
+                'rule_id' => $rule->getId(),
+                'rule_type' => 'rewards_shopping_cart_rule'
+            );
+        } else {
+            $rewardsDiscountMap[$rule->getId()]['base_discount_amount'] += $baseDiscountAmount;
+            $rewardsDiscountMap[$rule->getId()]['discount_amount'] += $discountAmount;
+        }
+
+        $jsonRewardsCartDiscountMap = json_encode($rewardsDiscountMap);
+        $this->setRewardsCartDiscountMap($jsonRewardsCartDiscountMap);
+
+        /**
+         * Append Rewards Cart Discount Amounts to Quote Item
+         */
+        $itemRewardsDiscountMap = $item->getRewardsCartDiscountMap();
+
+        if (is_null($itemRewardsDiscountMap)) {
+            $itemRewardsDiscountMap = array();
+        } else {
+            $itemRewardsDiscountMap = json_decode($item->getRewardsCartDiscountMap(), true);
+        }
+
+        if (!is_array($itemRewardsDiscountMap)) {
+            return $this;
+        }
+
+        if (!isset($itemRewardsDiscountMap[$rule->getId()])) {
+            $itemRewardsDiscountMap[$rule->getId()] = array(
+                'label' => ($rule->getStoreLabel()) ?: '',
+                'base_discount_amount' => $baseDiscountAmount,
+                'discount_amount' => $discountAmount,
+                'rule_id' => $rule->getId(),
+                'rule_type' => 'rewards_shopping_cart_rule'
+            );
+        } else {
+            $itemRewardsDiscountMap[$rule->getId()]['base_discount_amount'] += $baseDiscountAmount;
+            $itemRewardsDiscountMap[$rule->getId()]['discount_amount'] += $discountAmount;
+        }
+
+        $jsonItemRewardsCartDiscountMap = json_encode($itemRewardsDiscountMap);
+        $item->setRewardsCartDiscountMap($jsonItemRewardsCartDiscountMap);
+
+        return $this;
+    }
+
+    /**
+     * Map Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @return array
+     */
+    public function getRewardsCartDiscountMapItems()
+    {
+        if (is_null($this->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($this->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
+    }
+
+    /**
+     * Map Item Rewards Shopping Cart Spending Rules discount amounts and labels as array
+     * @param mixed $item
+     * @return array
+     */
+    public function getItemRewardsCartDiscountMapItems($item)
+    {
+        if (!$item) {
+            return array();
+        }
+        
+        if (is_null($item->getRewardsCartDiscountMap())) {
+            return array();
+        }
+
+        $mapItems = json_decode($item->getRewardsCartDiscountMap(), true);
+
+        return $mapItems;
     }
 
     protected function _getRedemptionSession()

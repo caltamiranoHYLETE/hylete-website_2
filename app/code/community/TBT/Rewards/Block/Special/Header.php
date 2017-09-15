@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -14,17 +14,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -78,6 +78,25 @@ class TBT_Rewards_Block_Special_Header extends Mage_Core_Block_Template
         }
         
         return $class;
+    }
+    
+    /**
+     * Appends the html for this block to the parent block
+     * @param null|string $ifConfigPath
+     * @return \TBT_Rewards_Block_Integrated_Customer_Summary
+     */
+    public function appendBlockHtmlToParent($ifConfigPath = null)
+    {
+        $packageName = Mage::helper('rewards/theme')->getPackageName();
+        if (Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.9.2.0') && $packageName === 'rwd') {
+            $layoutAppend = Mage::getModel('rewards/helper_layout_action_append')
+                ->setParentBlock($this->getParentBlock())
+                ->setIfConfig($ifConfigPath)
+                ->add($this, 'after')
+                ->append();
+        }
+        
+        return $this;
     }
 
 }

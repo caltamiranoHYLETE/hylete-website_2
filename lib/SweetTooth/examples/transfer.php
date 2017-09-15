@@ -6,20 +6,22 @@ include_once(dirname(__FILE__).'/../SweetTooth.php');
 $apiKey = '';
 $apiSecret = '';
 $subdomain = '';
+$stdout = fopen('php://output', 'w');
 
 if (!$apiKey || !$apiSecret || !$subdomain) {
-    echo "You need to enter the apiKey, apiSecret, and subdomain in transfer.php.
+    $content = "You need to enter the apiKey, apiSecret, and subdomain in transfer.php.
         If you don't have channel keys yet, run channel.php to create one.
     ";
+    fwrite($stdout, $content);
+    fclose($stdout);
     return;
 }
 
 // Instanciate new SweetTooth with account credentials
 $st = new SweetTooth($apiKey, $apiSecret, $subdomain);
-
 $transferData = generateTransferData();
 
-echo "
+$content = "
     <div>
         Creating transfer with data:<br/>
         <pre>" . print_r($transferData, true) . "</pre>
@@ -27,17 +29,19 @@ echo "
     <br/>
 ";
 
+fwrite($stdout, $content);
 try {
     // Create a magento channel for our new account
     $transfer = $st->transfer()->create($transferData);
 } catch (Exception $e) {
-    // Something went wrong!
-    echo 'Error creating your transfer: ' . $e->getMessage();
+    $content = 'Error creating your transfer: ' . $e->getMessage();
+    fwrite($stdout, $content);
+    fclose($stdout);
     return;
 }
 
 // Awesome, your account and channel was created!
-$result = "
+$content = "
    <div>
        Transfer info:<br/>
        <pre>" . print_r($transfer, true) . "</pre>
@@ -45,12 +49,12 @@ $result = "
    <br/>
 ";
 
-echo $result;
+fwrite($stdout, $content);
+fclose($stdout);
 
 /*
  * Below are function to generate sample data
  */
-
 function generateTransferUser()
 {
     $firstNamesArray = array("John", "Sally", "Herman", "Allison", "Annie", "Jeanne");
@@ -95,4 +99,3 @@ function generateTransferData()
     return $transferData;
 }
 
-?>

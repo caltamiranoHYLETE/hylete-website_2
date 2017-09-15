@@ -1,0 +1,23 @@
+<?php if ($this->isKlaviyoEnabled()): ?>
+  <script text="text/javascript">
+    var _learnq = _learnq || [],
+        _learnqData;
+
+    _learnq.push(['account', '<?php echo $this->getKlaviyoAccountId(); ?>']);
+
+    (function () {
+        if (typeof hyleteInfo !== 'undefined') {
+            if (hyleteInfo.account && hyleteInfo.account.customer_logged_in) {
+                _learnqData = {
+                    $email: hyleteInfo.account.customer_email,
+                    $first_name: hyleteInfo.account.customer_firstname,
+                    $last_name: hyleteInfo.account.customer_lastname
+                };
+                _learnq.push(['identify', _learnqData]);
+            }
+        }
+    })();
+
+    (function () { var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true; b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js'; var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a); })();
+  </script>
+<?php endif; ?>

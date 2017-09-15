@@ -1,0 +1,9 @@
+<?xml version="1.0"?> 
+    <config> 
+    <modules> 
+      <Icommerce_RandMergedCssJsFilename>
+        <codePool>local</codePool> 
+        <active>true</active>
+      </Icommerce_RandMergedCssJsFilename>
+    </modules> 
+    </config>

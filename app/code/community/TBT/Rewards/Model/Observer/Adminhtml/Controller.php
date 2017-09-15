@@ -1,10 +1,19 @@
 <?php
 
-try {
-    include_once (Mage::getBaseDir('lib') . DS. 'SweetTooth' . DS . 'etc' . DS . 'SdkException.php');
-    include_once (Mage::getBaseDir('lib') . DS. 'SweetTooth' . DS . 'etc' . DS . 'ApiException.php');
-} catch (Exception $e) {
-    die(__FILE__ . ": Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+$dependencies = array(
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'etc' . DS . 'SdkException.php',
+    Mage::getBaseDir('lib') . DS . 'SweetTooth' . DS . 'etc' . DS . 'ApiException.php'
+);
+
+foreach ($dependencies as $dependency) {
+    if (file_exists($dependency) && is_readable($dependency)) {
+        include_once($dependency);
+    } else {
+        $message = Mage::helper('rewards')->__("Wasn't able to load lib/SweetTooth.php.  Download rewardsplatformsdk.git and run the installer to symlink it.");
+        Mage::getSingleton('core/session')->addError($message);
+        Mage::helper('rewards/debug')->log($message);
+        return $this;
+    }
 }
 
 class TBT_Rewards_Model_Observer_Adminhtml_Controller extends Varien_Object
@@ -81,15 +90,15 @@ class TBT_Rewards_Model_Observer_Adminhtml_Controller extends Varien_Object
      */
     protected function _notify($account, $percent)
     {
-        $transfers_used = $account['billing']['transfers_used'];
-        $transfers_total = $account['billing']['transfers_total'];
+        $quotaUsed = $account['billing']['quota_used'];
+        $totalQuota = $account['billing']['total_quota'];
         $plan = $account['billing']['plan'];
         $url = urldecode($account['login_url']);
 
         $severity = Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE;
         $date = date("c", time());
-        $title = Mage::helper('rewards')->__("You have used %s%% of your Sweet Tooth subscription", $percent);
-        $description = Mage::helper('rewards')->__("You have used %s points transfers out of %s total available transfers on your %s subscription plan.  You can upgrade at any time; go to the [billing_url]Billing section[/billing_url] of your Sweet Tooth Account.", $transfers_used, $transfers_total, $plan);
+        $title = Mage::helper('rewards')->__("You have used %s%% of your MageRewards subscription", $percent);
+        $description = Mage::helper('rewards')->__("You have used %s points transfers out of %s total available transfers on your %s subscription plan.  You can upgrade at any time; go to the [billing_url]Billing section[/billing_url] of your MageRewards Account.", $quotaUsed, $totalQuota, $plan);
         $description = Mage::helper('tbtcommon/strings')->getTextWithLinks($description, 'billing_url',
             $url, array('target' => 'window'));
 

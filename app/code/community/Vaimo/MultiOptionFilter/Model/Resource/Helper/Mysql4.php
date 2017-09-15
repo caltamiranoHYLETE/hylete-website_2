@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,59 +20,44 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
 
-class Vaimo_MultiOptionFilter_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
+class Vaimo_MultiOptionFilter_Model_Resource_Helper_Mysql4
 {
-    public function setCountsToDistinctMode($select)
+    const VALUE_SEPARATOR = ',';
+
+    public static function escapeTableName($name)
     {
-        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
-
-        array_walk_recursive($columns, function(&$item) use ($select) {
-            if (strstr($item, 'COUNT(') === false) {
-                return;
-            }
-
-            $select->distinct(false);
-
-            $item = new Zend_Db_Expr(str_replace(
-                array('COUNT(*)', 'COUNT(', 'COUNT(DISTINCT DISTINCT'),
-                array('COUNT(DISTINCT e.entity_id)', 'COUNT(DISTINCT ', 'COUNT(DISTINCT'),
-                $item
-            ));
-        });
-
-        $select->setPart(Zend_Db_Select::COLUMNS, $columns);
+        return Mage_DB_Mysqli::TABLE_ESCAPER . $name . Mage_DB_Mysqli::TABLE_ESCAPER . '.';
     }
 
-    public function changeJoinConditions(
-        $select, Vaimo_MultiOptionFilter_Model_Resource_Statement_ConverterInterface $converter, $aliasFilter = array()
-    ) {
-        $from = $select->getPart(Zend_Db_Select::FROM);
-        $keys = $aliasFilter ?: array_keys($from);
+    public function getSearchValuesForTableNames($names)
+    {
+        return array_merge(
+            array_map(array($this, 'escapeTableName'), $names),
+            array_map(function ($item) {
+                return ' ' . $item . '.';
+            }, $names),
+            array_map(function ($item) {
+                return '(' . $item . '.';
+            }, $names)
+        );
+    }
 
-        foreach ($keys as $key) {
-            if (!isset($from[$key])) {
-                continue;
-            }
-
-            $partItem = &$from[$key];
-
-            if (!isset($partItem['joinCondition']) || !$partItem['joinCondition']) {
-                continue;
-            }
-
-            if (!$condition = $converter->convert($partItem['joinCondition'])) {
-                continue;
-            }
-
-            $partItem['joinCondition'] = $condition;
-            unset($partItem);
+    /**
+     * @param $select
+     * @param callable $interceptor
+     * @return mixed
+     */
+    public function createInterceptedClone($select, \Closure $interceptor)
+    {
+        if (!$select) {
+            return false;
         }
 
-        $select->setPart(Zend_Db_Select::FROM, $from);
-
-        return $select;
+        return Mage::helper('multioptionfilter/proxy')->createInstance(clone $select, array(
+            '__toString' => $interceptor
+        ));
     }
 }

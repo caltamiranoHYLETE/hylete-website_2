@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  * https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -49,6 +49,12 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
      *  Stores the discount applied for a given rule id
      */
     protected $_hadDisc = array();
+    
+    /**
+     * All processed rules 
+     * @var array
+     */
+    protected $proccessedRules = array();
 
     /**
      * Remove rules from valid rules list when deleting an item
@@ -88,9 +94,10 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
 
         $rule    = $event->getRule();
         $rule_id = $rule->getId();
+        $this->proccessedRules[] = $rule_id;
 
         $is_applicable = false;
-
+        
         try {
             //@nelkaake -a 11/03/11: FIRSTLY, if it's not a points rule, skip it and let Magento do it's thing.
             if (!Mage::helper('rewards/rule')->isPointsRule($rule)) {
@@ -162,7 +169,6 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
      */
     public function checkRedemptionCouponAfter($o)
     {
-
         $this->setRequest($o->getControllerAction()->getRequest());
         $this->setResponse($o->getControllerAction()->getResponse());
         $couponCode = ( string )$this->getRequest()->getParam('coupon_code');
@@ -171,21 +177,15 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
         $current_customer_group_id = Mage::getSingleton('rewards/session')->getCustomer()->getGroupId();
         $current_website_id        = Mage::app()->getStore()->getWebsiteId();
 
-        if (Mage::helper('rewards')->isBaseMageVersionAtLeast('1.4.1.0')) {
-            $coupon = Mage::getModel('salesrule/coupon');
-            $coupon->load($couponCode, 'code');
-            $rr = Mage::getModel('rewards/salesrule_rule')->load($coupon->getRuleId());
-        } else {
-            $rrs = Mage::getModel('rewards/salesrule_rule')->getCollection();
-            $rrs->addFilter("coupon_code", $couponCode);
-            $rr = $rrs->getFirstItem();
-        }
+        $coupon = Mage::getModel('salesrule/coupon');
+        $coupon->load($couponCode, 'code');
+        $rr = Mage::getModel('rewards/salesrule_rule')->load($coupon->getRuleId());
 
         $is_redem = Mage::getSingleton('rewards/salesrule_actions')->isRedemptionAction($rr->getPointsAction());
         if ($is_redem) {
-            if ($couponCode == $this->_getQuote()->getCouponCode()) { //applying redemption coupon
-                $this->_redirect('rewards/cart_redeem/cartadd', array("rids" => $rr->getId()));
-            }
+            ($couponCode == $this->_getQuote()->getCouponCode())
+                ? $this->_redirect('rewards/cart_redeem/cartadd', array("rids" => $rr->getId(), "redirect-to-cart" => true))
+                : $this->_redirect('rewards/cart_redeem/cartremove', array("rids" => $rr->getId(), "redirect-to-cart" => true));
         }
 
         return $this;
@@ -205,20 +205,16 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
 
         //@nelkaake Changed on Saturday July 17, 2010:
         $current_customer_group_id = Mage::getSingleton('rewards/session')->getCustomer()->getGroupId();
-        $current_website_id        = Mage::app()->getStore()->getWebsiteId();
-        $rrs                       = Mage::getModel('rewards/salesrule_rule')->getCollection();
+        $current_website_id = Mage::app()->getStore()->getWebsiteId();
 
-        if (Mage::helper('rewards')->isBaseMageVersionAtLeast('1.4.1.0')) {
-            $rrs->setValidationFilter($current_website_id, $current_customer_group_id, $couponCode);
-        } else {
-            $rrs->addFilter("coupon_code", $couponCode);
-        }
-
-        $rr       = $rrs->getFirstItem();
+        $rrs = Mage::getModel('rewards/salesrule_rule')->getCollection();
+        $rrs->setValidationFilter($current_website_id, $current_customer_group_id, $couponCode);
+        
+        $rr = $rrs->getFirstItem();
         $is_redem = Mage::getSingleton('rewards/salesrule_actions')->isRedemptionAction($rr->getPointsAction());
         if ($is_redem) {
             if ($couponCode != $this->_getQuote()->getCouponCode()) { //applying redemption coupon
-                $this->_redirect('rewards/cart_redeem/cartremove', array("rids" => $rr->getId()));
+                $this->_redirect('rewards/cart_redeem/cartremove', array("rids" => $rr->getId(), "redirect-to-cart" => true));
             }
         }
 
@@ -233,6 +229,12 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
     public function resetCartDiscounts($o)
     {
         $quote = $o->getEvent()->getQuote();
+
+        $quote->setRewardsCartDiscountMap(null);;
+
+        foreach ($quote->getAllItems() as $quoteItem) {
+            $quoteItem->setRewardsCartDiscountMap(null);
+        }
 
         //@nelkaake -a 11/03/11: Reset the counting discount field
         foreach ($quote->getAllAddresses() as $address) {
@@ -256,6 +258,28 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
     public function cleanup($o)
     {
         $quote = $o->getEvent()->getQuote();
+        $validAppliedModel = Mage::getModel('rewards/salesrule_list_applied')->initQuote($quote);
+        $validApplicableModel = Mage::getModel('rewards/salesrule_list_valid_applicable')->initQuote($quote);
+        
+        $processedRules = array_unique($this->proccessedRules);
+        $validAppliedRules = $validAppliedModel->getList();
+        $validApplicableRules = $validApplicableModel->getList();
+        
+        foreach (array_diff($validAppliedRules, $processedRules) as $inactiveRule) {
+            $validAppliedModel->remove($inactiveRule);
+        }
+        
+        foreach (array_diff($validApplicableRules, $processedRules) as $inactiveRule) {
+            $validApplicableModel->remove($inactiveRule);
+        }
+         
+        $validAppliedModel->saveToQuote($quote);
+        $validApplicableModel->saveToQuote($quote);
+        $validAppliedList = $validAppliedModel->getList();
+		
+        if (empty($validAppliedList)) {
+            $quote->setPointsSpending(0);
+        }
 
         //@nelkaake -a 11/03/11: Reset the counting discount field
         foreach ($quote->getAllAddresses() as $address) {
@@ -264,9 +288,51 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
             }
         }
 
+        $this->cleanAppliedRuleIds($quote, $validAppliedList);
+
         return $this;
     }
-    
+
+    public function cleanAppliedRuleIds(&$quote, $validAppliedList)
+    {
+        if (!$quote->getAppliedRuleIds()) {
+            return $this;
+        }
+
+        $ruleHelper = Mage::helper('rewards/rule');
+        
+        $quoteAppliedRuleIds = explode(',',$quote->getAppliedRuleIds());
+        $ruleIdsToBeRemoved = array();
+
+        foreach ($quoteAppliedRuleIds as $quoteAppliedRuleId) {
+            $rule = Mage::helper ( 'rewards/rule' )->getSalesrule ( $quoteAppliedRuleId );
+
+            if (!$rule->isPointsRule()) {
+                continue;
+            }
+
+            if (!$rule->isRedemptionRule ()) {
+                continue;
+            }
+
+            if (!in_array($quoteAppliedRuleId, $validAppliedList)) {
+                $ruleIdsToBeRemoved[] = $quoteAppliedRuleId;
+            }
+        }
+
+        $quote->setAppliedRuleIds(
+            $ruleHelper->removeValuesFromStringArray($quote->getAppliedRuleIds(), $ruleIdsToBeRemoved)
+        );
+
+        foreach ($quote->getAllItems() as $quoteItem) {
+            $quoteItem->setAppliedRuleIds(
+                $ruleHelper->removeValuesFromStringArray($quoteItem->getAppliedRuleIds(), $ruleIdsToBeRemoved)
+            );
+        }
+
+        return $this;
+    }
+
     /**
      * This resets shopping cart discount labels. Gets triggered after totals are collected,
      * on event 'sales_quote_collect_totals_before'
@@ -470,9 +536,17 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
      */
     public function couponCodeFix($observer)
     {
+        if (!Mage::helper('rewards/version')->isBaseMageVersionAtLeast('1.8.0.0')) {
+            return $this;
+        }
+
         $order = $observer->getEvent()->getOrder();
 
         if (!$order) {
+            return $this;
+        }
+
+        if (!$order->getAppliedRuleIds()) {
             return $this;
         }
 
@@ -484,34 +558,10 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
         $customerId = $order->getCustomerId();
 
         // use each rule (and apply to customer, if applicable)
-        if ($order->getDiscountAmount() == 0) {
-            foreach ($ruleIds as $ruleId) {
-                if (!$ruleId) {
-                    continue;
-                }
-                $rule = Mage::getModel('salesrule/rule');
-                $rule->load($ruleId);
-                if ($rule->getId()) {
-                    $rule->setTimesUsed($rule->getTimesUsed() + 1);
-                    $rule->save();
+        if ($order->getDiscountAmount() == 0 && count($ruleIds) > 0) {
+            $salesRuleResource = Mage::getResourceModel('rewards/wrap_salesrule');
+            $salesRuleResource->updateSalesrulesTimesUsed($ruleIds, $customerId);
 
-                    if ($customerId) {
-                        $ruleCustomer = Mage::getModel('salesrule/rule_customer');
-                        $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
-
-                        if ($ruleCustomer->getId()) {
-                            $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed() + 1);
-                        }
-                        else {
-                            $ruleCustomer
-                            ->setCustomerId($customerId)
-                            ->setRuleId($ruleId)
-                            ->setTimesUsed(1);
-                        }
-                        $ruleCustomer->save();
-                    }
-                }
-            }
             $coupon = Mage::getModel('salesrule/coupon');
             /** @var Mage_SalesRule_Model_Coupon */
             $coupon->load($order->getCouponCode(), 'code');
@@ -526,3 +576,4 @@ class TBT_Rewards_Model_Salesrule_Observer extends Varien_Object
         }
     }
 }
+

@@ -25,4 +25,24 @@ class TBT_RewardsReferral_Model_Mysql4_Referral extends Mage_Core_Model_Mysql4_A
         return $result;
     }
 
+    /**
+     * Load By Referral Child Id
+     * @param type $customerId
+     * @return array
+     */
+    public function loadByReferralId($customerId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('rewardsref/referral'))
+            ->where('referral_child_id = ?', $customerId);
+
+        $result = $this->_getReadAdapter()->fetchRow($select);
+
+        if (!$result) {
+            return array();
+        }
+
+        return $result;
+    }
+
 }

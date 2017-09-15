@@ -19,8 +19,8 @@
 	            <?php $_odd = ''; ?>
 	            <?php foreach ($_referred as $_friend): ?>
 	                <tr>
-	                    <?php ?><td><?php echo $_friend->getReferralName() ?></td><?php ?>
-	                    <td class="hidden-xs"><?php echo $_friend->getReferralEmail() ?></td>
+	                    <?php ?><td><?php echo $this->escapeHtml($_friend->getReferralName()) ?></td><?php ?>
+	                    <td class="hidden-xs"><?php echo $this->escapeHtml($_friend->getReferralEmail()) ?></td>
 	                    <td class="a-left hidden-xs"><?php echo $this->getStatusCaption( (int)($_friend->getReferralStatus()) ); ?></td>
 	                    <td class="pull-right">
 	                        <?php echo $this->getAccumulatedReferralPoints($_friend); ?>

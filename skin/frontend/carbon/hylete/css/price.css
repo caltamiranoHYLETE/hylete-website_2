@@ -5,12 +5,33 @@
     display: inline-block;
 }
 
+.catalog-category-view .old-price,
+.catalog-category-view .special-price {
+    font-size: 13px;
+}
+
 .old-price .price {
     text-decoration: line-through;
 }
 
 .price-box .special-price {
     margin-left: 10px;
+}
+
+.category-products .price-box .regular-price .price,
+.price-box .regular-price .price,
+.price-box .special-price .price,
+.category-products .price-box .special-price,
+.category-products .price-box .special-price .price  {
+    font-weight: bold;
+}
+
+.category-products .price-box .old-price {
+    font-weight: 100;
+}
+
+.price-label {
+    display: none;
 }
 
 div.price-box p {

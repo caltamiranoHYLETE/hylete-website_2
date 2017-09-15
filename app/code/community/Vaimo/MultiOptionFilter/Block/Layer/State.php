@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2009-2016 Vaimo AB
+ * Copyright (c) 2009-2017 Vaimo Group
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -21,8 +21,9 @@
  *
  * @category    Vaimo
  * @package     Vaimo_MultiOptionFilter
- * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ * @copyright   Copyright (c) 2009-2017 Vaimo Group
  */
+
 class Vaimo_MultiOptionFilter_Block_Layer_State extends Mage_Catalog_Block_Layer_State
 {
     /**
@@ -33,17 +34,21 @@ class Vaimo_MultiOptionFilter_Block_Layer_State extends Mage_Catalog_Block_Layer
     public function getClearUrl()
     {
         $filterState = array();
+
         foreach ($this->getActiveFilters() as $item) {
             $paramName = $item->getFilter()->getRequestVar();
             $filterState[$paramName] = $item->getFilter()->getCleanValue();
-            if (null === $filterState[$paramName]) {
+
+            if ($filterState[$paramName] === null) {
                 $params[$paramName] = null;
             }
         }
-        $params['_current'] = true;
-        $params['_use_rewrite'] = true;
-        $params['_query'] = $filterState;
-        $params['_escape'] = true;
-        return Mage::getUrl('*/*/*', $params);
+
+        return Mage::getUrl('*/*/*', array_replace($params, array(
+            '_current' => true,
+            '_use_rewrite' => true,
+            '_query' => $filterState,
+            '_escape' => true
+        )));
     }
 }

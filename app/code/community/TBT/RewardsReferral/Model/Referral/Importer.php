@@ -9,6 +9,8 @@ class TBT_RewardsReferral_Model_Referral_Importer extends TBT_Rewards_Model_Impo
 	protected $_importerType = "rewardsref/referral_importer";	
 	protected $_emailSubject = "Your referrals list has finished importing";
 	protected $_csvHeaders = array();
+        
+        // locks the import - used to validate the file without actually importing anything
 	protected $_isDryRun = false;
 	
 	/* Store indices of titles on first line of csv file */
@@ -169,7 +171,7 @@ class TBT_RewardsReferral_Model_Referral_Importer extends TBT_Rewards_Model_Impo
 		}
 	
 		if ($this->_printToStdOut) {
-			echo "\n\nImport complete!\n";
+                    Mage::helper('rewards/debug')->printMessage("Import complete!");
 		}
 		
 		$this->markEndOfImport();
@@ -208,7 +210,7 @@ class TBT_RewardsReferral_Model_Referral_Importer extends TBT_Rewards_Model_Impo
 		$report .= "Details are below:\n\n\n\n";
 		
 		if (count($this->_errors) > 0) {
-			$report .= "<b><i>" . count($this->_errors) . " enteries</i></b> <b style=\"color: red;\">failed</b> because of errors:\n\n";
+			$report .= "<b><i>" . count($this->_errors) . " entries</i></b> <b style=\"color: red;\">failed</b> because of errors:\n\n";
 			$report .= "<table  border=\"1\" cellpadding=\"5\" cellspacing=\"0\" width=\"80%\" style=\"border: 1px solid black; border-collapse: collapse;\">";
 			$report .= "	<tr>";
 			$report .= "		<th style=\"text-align:left\">line_number</th>";

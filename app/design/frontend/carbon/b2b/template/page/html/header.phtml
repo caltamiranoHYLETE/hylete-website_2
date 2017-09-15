@@ -44,9 +44,9 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 
     <div class="container">
         <div class="left">
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa icon-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa icon-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa icon-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa fa-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
             <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><span class="sprite-mobile-menu"></span></a>
             <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
                 <a class="mobile-search visible-inline-block-xs visible-inline-block-sm">
@@ -87,7 +87,7 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
             <?php endif; ?>
 
             <?php if ($_shiptoCms->getIsActive()):?>
-                <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa icon-angle-down"></span></a>
+                <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa fa-angle-down"></span></a>
             <?php endif;?>
             <?php echo $this->getChildHtml('header.welcome'); ?>
             <?php echo $this->getChildHtml('headerCart'); ?>
@@ -100,11 +100,11 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 
     <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
         <div class="container follow-us">
-            <a href="http://instagram.com/trainhylete" target="_blank"><span class="fa icon-instagram"></span></a>
-            <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa icon-twitter"></span></a>
-            <a href="http://www.facebook.com/hylete" target="_blank"><span class="fa icon-facebook"></span></a>
-            <a href="http://www.youtube.com/trainHYLETE" target="_blank"><span class="fa icon-youtube"></span></a>
-            <a href="http://pinterest.com/explore/trainhylete" target="_blank"><span class="fa icon-pinterest"></span></a>
+            <a href="http://instagram.com/trainhylete" target="_blank"><span class="fa fa-instagram"></span></a>
+            <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa fa-twitter"></span></a>
+            <a href="http://www.facebook.com/hylete" target="_blank"><span class="fa fa-facebook"></span></a>
+            <a href="http://www.youtube.com/trainHYLETE" target="_blank"><span class="fa fa-youtube"></span></a>
+            <a href="http://pinterest.com/explore/trainhylete" target="_blank"><span class="fa fa-pinterest"></span></a>
         </div>
     </div>
 

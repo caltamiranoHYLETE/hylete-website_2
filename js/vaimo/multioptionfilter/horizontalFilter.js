@@ -15,7 +15,7 @@
                 filterTitleCloseOptions: 'mouseleave'
             }
         },
-        _generateSelectorHelpers: function() {
+        _generateSelectorHelpers: function () {
             var selectors = this.options.selectors;
             var classes = this.options.classes;
 
@@ -26,7 +26,7 @@
 
             this._super();
         },
-        initiate: function() {
+        initiate: function () {
             if (this.isTouchDevice === true) {
                 this.initEventHandlersForTouch();
             } else {
@@ -35,29 +35,47 @@
 
             this._super();
         },
-        initEventHandlersForTouch: function() {
+        initEventHandlersForTouch: function () {
             var $document = $(document);
 
-            $document.off(this.options.eventNames.filterTitleToggleOptions, this.options.selectors.filterTitles, $.proxy(this.onFilterTitleToggleOptions, this));
-            $document.on(this.options.eventNames.filterTitleToggleOptions, this.options.selectors.filterTitles, $.proxy(this.onFilterTitleToggleOptions, this));
+            $document.off(
+                this.options.eventNames.filterTitleToggleOptions,
+                this.options.selectors.filterTitles,
+                this.onFilterTitleToggleOptions.bind(this)
+            );
+
+            $document.on(
+                this.options.eventNames.filterTitleToggleOptions,
+                this.options.selectors.filterTitles,
+                this.onFilterTitleToggleOptions.bind(this)
+            );
         },
-        initEventHandlersForNonTouch: function() {
+        initEventHandlersForNonTouch: function () {
             var $document = $(document);
 
-            $document.on(this.options.eventNames.filterTitleOpenOptions, this.options.selectors.filterTitles, $.proxy(this.onFilterTitleOpenOptions, this));
-            $document.on(this.options.eventNames.filterTitleCloseOptions, this.options.selectors.shownOptions, $.proxy(this.onFilterTitleCloseOptions, this));
+            $document.on(
+                this.options.eventNames.filterTitleOpenOptions,
+                this.options.selectors.filterTitles,
+                this.onFilterTitleOpenOptions.bind(this)
+            );
+
+            $document.on(
+                this.options.eventNames.filterTitleCloseOptions,
+                this.options.selectors.shownOptions,
+                this.onFilterTitleCloseOptions.bind(this)
+            );
         },
-        _getOptionWrapper: function(filterTitle) {
+        _getOptionWrapper: function (filterTitle) {
             return $(filterTitle).next();
         },
-        _showFilterOptions: function($filterTitle, $optionsWrapper) {
+        _showFilterOptions: function ($filterTitle, $optionsWrapper) {
             var classes = this.options.classes;
 
             $filterTitle.addClass(classes.shownOptions);
             $optionsWrapper.addClass(classes.shownOptions);
             $optionsWrapper.find(this.options.selectors.filterBlock).addClass(classes.shownOptions);
         },
-        _openFilter: function(filterTitle) {
+        _openFilter: function (filterTitle) {
             var $filterTitle = $(filterTitle);
             var $optionsWrapper = this._getOptionWrapper(filterTitle);
             var titlePosition = $filterTitle.position();
@@ -69,11 +87,10 @@
 
             this._showFilterOptions($filterTitle, $optionsWrapper);
         },
-        _closeAllFilters: function() {
-            var selectors = this.options.selectors;
-            $(selectors.shownOptions).removeClass(this.options.classes.shownOptions);
+        _closeAllFilters: function () {
+            $(this.options.selectors.shownOptions).removeClass(this.options.classes.shownOptions);
         },
-        _closeFilterByNode: function($node) {
+        _closeFilterByNode: function ($node) {
             var selectors = this.options.selectors;
             var classes = this.options.classes;
 
@@ -85,11 +102,11 @@
 
             return true;
         },
-        onFilterTitleOpenOptions: function(event) {
+        onFilterTitleOpenOptions: function (event) {
             this._closeAllFilters();
             this._openFilter($(event.currentTarget));
         },
-        onFilterTitleCloseOptions: function(event) {
+        onFilterTitleCloseOptions: function (event) {
             var $toElement = $(event.toElement);
             if (!$toElement.length) {
                 $toElement = $(event.relatedTarget);
@@ -97,7 +114,7 @@
 
             this._closeFilterByNode($toElement);
         },
-        onFilterTitleToggleOptions: function(event) {
+        onFilterTitleToggleOptions: function (event) {
             var selectors = this.options.selectors;
             var showOptionClass = this.options.classes.shownOptions;
             var $eventTarget = $(event.currentTarget);
@@ -116,24 +133,24 @@
      * Restoring the visual state of the drop-downs
      */
     $.widget('vaimo.mofSelector', $.vaimo.mofSelector, {
-        _closeFilterByNode: function($node) {
+        _closeFilterByNode: function ($node) {
             if (this._super($node)) {
                 $.vaimo.mofSelector.shownFilters = [];
             }
         },
-        _closeAllFilters: function() {
+        _closeAllFilters: function () {
             this._super();
 
             $.vaimo.mofSelector.shownFilters = [];
         },
-        _openFilter: function(filterTitle) {
+        _openFilter: function (filterTitle) {
             this._super(filterTitle);
 
             var shownFilters = [];
             var sequence = this.sequence();
             var shownOptionsClass = this.options.classes.shownOptions;
 
-            $(this.options.selectors.filterTitles).each(function(i, titleItem) {
+            $(this.options.selectors.filterTitles).each(function (i, titleItem) {
                 if (!$(titleItem).hasClass(shownOptionsClass)) {
                     return;
                 }
@@ -143,7 +160,7 @@
 
             $.vaimo.mofSelector.shownFilters = shownFilters;
         },
-        apply: function(activeFilters) {
+        apply: function (activeFilters) {
             this._super(activeFilters);
 
             var sequence = this.sequence();
@@ -153,7 +170,7 @@
                 shownFilters = [];
             }
 
-            $(this.options.selectors.filterTitles).each(function(i, titleItem) {
+            $(this.options.selectors.filterTitles).each(function (i, titleItem) {
                 var filterCode = sequence[i];
 
                 if (shownFilters.indexOf(filterCode) < 0) {

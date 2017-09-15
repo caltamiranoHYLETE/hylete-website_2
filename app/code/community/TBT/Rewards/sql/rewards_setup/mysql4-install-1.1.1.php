@@ -89,28 +89,6 @@ Mage::helper( 'rewards/mysql4_install' )->addFKey( $installer, "FK_TRANSFER_CUST
 
 Mage::helper( 'rewards/mysql4_install' )->attemptQuery( $installer, 
     "
-CREATE TABLE IF NOT EXISTS `{$this->getTable('rewards_transfer_reference')}` (
-    `rewards_transfer_reference_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `reference_type` INT(11) NOT NULL,
-    `reference_id` INT(11) NOT NULL,
-    `rewards_transfer_id` INT(11) NOT NULL,
-    `rule_id` INT(11),
-    PRIMARY KEY (`rewards_transfer_reference_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8;
-" );
-
-// Add foreign key constraint to points transfers table
-Mage::helper( 'rewards/mysql4_install' )->addFKey( $installer, 'rewards_transfer_reference_fk', 
-    $this->getTable( 'rewards_transfer_reference' ), 'rewards_transfer_id', $this->getTable( 'rewards_transfer' ), 'rewards_transfer_id', 
-    'CASCADE', 'NO ACTION' );
-
-$this->attemptQuery("
-    ALTER TABLE `{$this->getTable('rewards/transfer_reference')}`
-    ADD INDEX `REWARDS_TRANSFER_REFERENCE_REFERENCE_TYPE_REFERENCE_ID_FK` (`reference_type`, `reference_id`);
-");
-
-Mage::helper( 'rewards/mysql4_install' )->attemptQuery( $installer, 
-    "
 INSERT INTO `{$this->getTable('rewards_currency')}` (`caption`,`value`,`active`,`image`,`image_width`,`image_height`,`image_write_quantity`,`font`,`font_size`,`font_color`)
     SELECT '','1','1','','','','','','',''
         FROM dual

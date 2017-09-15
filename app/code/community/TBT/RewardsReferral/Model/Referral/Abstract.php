@@ -1,10 +1,10 @@
 <?php
 /**
- * WDCA - Sweet Tooth
+ * Sweet Tooth
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the WDCA SWEET TOOTH POINTS AND REWARDS
+ * This source file is subject to the Sweet Tooth SWEET TOOTH POINTS AND REWARDS
  * License, which extends the Open Software License (OSL 3.0).
  * The Sweet Tooth License is available at this URL:
  *      https://www.sweettoothrewards.com/terms-of-service
@@ -13,17 +13,17 @@
  *
  * DISCLAIMER
  *
- * By adding to, editing, or in any way modifying this code, WDCA is
+ * By adding to, editing, or in any way modifying this code, Sweet Tooth is
  * not held liable for any inconsistencies or abnormalities in the
  * behaviour of this code.
  * By adding to, editing, or in any way modifying this code, the Licensee
- * terminates any agreement of support offered by WDCA, outlined in the
+ * terminates any agreement of support offered by Sweet Tooth, outlined in the
  * provided Sweet Tooth License.
  * Upon discovery of modified code in the process of support, the Licensee
- * is still held accountable for any and all billable time WDCA spent
+ * is still held accountable for any and all billable time Sweet Tooth spent
  * during the support process.
- * WDCA does not guarantee compatibility with any other framework extension.
- * WDCA is not responsbile for any inconsistencies or abnormalities in the
+ * Sweet Tooth does not guarantee compatibility with any other framework extension.
+ * Sweet Tooth is not responsbile for any inconsistencies or abnormalities in the
  * behaviour of this code if caused by other framework extension.
  * If you did not receive a copy of the license, please send an email to
  * support@sweettoothrewards.com or call 1.855.699.9322, so we can send you a copy
@@ -77,10 +77,8 @@ abstract class TBT_RewardsReferral_Model_Referral_Abstract extends TBT_RewardsRe
      */
     public function getAccumulatedPoints($referralobj)
     {
-        $references    = Mage::getResourceModel( 'rewardsref/referral_transfer_reference_collection' );
-        $points_earned = $references->getAccumulatedPoints( $referralobj );
-
-        return $points_earned;
+        return Mage::getResourceModel('rewardsref/transfer_collection')
+            ->getAccumulatedPoints($referralobj);
     }
 
     /**
@@ -89,10 +87,8 @@ abstract class TBT_RewardsReferral_Model_Referral_Abstract extends TBT_RewardsRe
      */
     public function getPendingReferralPoints($referralobj)
     {
-        $references    = Mage::getResourceModel( 'rewardsref/referral_transfer_reference_collection' );
-        $points_earned = $references->getPendingReferralPoints( $referralobj );
-
-        return $points_earned;
+        return Mage::getResourceModel('rewardsref/transfer_collection')
+            ->getPendingReferralPoints($referralobj);
     }
 
     public function hasReferralPoints()
@@ -108,10 +104,23 @@ abstract class TBT_RewardsReferral_Model_Referral_Abstract extends TBT_RewardsRe
             return false;
         }
 
+        $current_website = false;
+
         $parent_details = array();
         // If "Per Website"
         if ($parent_id && Mage::getSingleton("customer/config_share")->isWebsiteScope()) {
-            $current_website = Mage::app()->getStore()->getWebsiteId();
+            if ($this->getReferralChildId()) {
+                $referralCustomer = Mage::getModel('rewards/customer')->load($this->getReferralChildId());
+
+                if ($referralCustomer && $referralCustomer->getId()) {
+                    $current_website = $referralCustomer->getWebsiteId();
+                }
+            }
+
+            if (false === $current_website) {
+                $current_website = $this->_getAggregatedCurrentWebsiteId();
+            }
+            
             $parent_details  = Mage::getModel('rewards/customer')->load($parent_id);
 
             if ($parent_details->getWebsiteId() != $current_website) {
@@ -120,6 +129,37 @@ abstract class TBT_RewardsReferral_Model_Referral_Abstract extends TBT_RewardsRe
         }
 
         return true;
+    }
+
+    /**
+     * Getter for Aggregated Website Id
+     * @return int|boolean
+     */
+    protected function _getAggregatedCurrentWebsiteId()
+    {
+        $currentWebsiteId = false;
+
+        $currentCustomer = Mage::registry('customer');
+
+        if (!$currentWebsiteId && $currentCustomer) {
+            $currentWebsiteId = $currentCustomer->getWebsiteId();
+        }
+
+        $currentCustomer = Mage::registry('current_customer');
+
+        if (!$currentWebsiteId && $currentCustomer) {
+            $currentWebsiteId = $currentCustomer->getWebsiteId();
+        }
+
+        if (!$currentWebsiteId) {
+            $currentWebsiteId = Mage::getSingleton('rewards/sales_aggregated_cart')->getWebsiteId();
+        }
+
+        if (!$currentWebsiteId) {
+            $currentWebsiteId = Mage::app()->getWebsite()->getId();
+        }
+
+        return $currentWebsiteId;
     }
 
     /**
@@ -187,6 +227,22 @@ abstract class TBT_RewardsReferral_Model_Referral_Abstract extends TBT_RewardsRe
             }
         } catch (Exception $e) {
             Mage::logException($e);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Initialize Referral
+     * @param Mage_Customer_Model_Customer $customer
+     * @return \TBT_RewardsReferral_Model_Referral_Abstract
+     */
+    public function initReferral(Mage_Customer_Model_Customer $customer)
+    {
+        $this->loadByReferralId($customer->getId());
+
+        if (!$this->getId()) {
+            $this->loadByEmail($customer->getEmail());
         }
 
         return $this;

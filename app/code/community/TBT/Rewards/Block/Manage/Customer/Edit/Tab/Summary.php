@@ -32,19 +32,8 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Summary extends Mage_Adminhtml_Block_Widget_Grid implements Mage_Adminhtml_Block_Widget_Tab_Interface {
-	
-	protected function _construct() {
-		parent::_construct ();
-	
-		// 		$this->_headerText = Mage::helper('rewards')->__('Transfer Manager');
-	// 		$this->setTemplate('rewards/customer/edit/tab/summary.phtml');
-	}
-	
-	protected function _prepareLayout() {
-		parent::_prepareLayout ();
-	}
-	
+class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Summary extends Mage_Adminhtml_Block_Widget_Grid implements Mage_Adminhtml_Block_Widget_Tab_Interface 
+{	
 	/**
 	 * Fetches a summary of the points that customer has.
 	 *
@@ -73,7 +62,7 @@ class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Summary extends Mage_Adminhtml_
 	 * @return string
 	 */
 	public function getCustomerPendingPointsSummary() {
-		$pts = $this->htmlEscape ( $this->_getCustomer ()->getPendingPointsSummary () );
+		$pts = $this->htmlEscape ( $this->_getCustomer ()->getPositivePendingPointsSummary () );
 		$pts = Mage::helper ( 'rewards' )->emphasizeThePoints ( $pts );
 		return $pts;
 	}
@@ -89,17 +78,30 @@ class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Summary extends Mage_Adminhtml_
 	public function hasOnHoldPoints() {
 		return $this->_getCustomer ()->hasPointsOnHold ();
 	}
+        
+    /**
+    * The number of days until points expire
+    * @return int
+    */
+    public function getDaysUntilExpiry()
+    {
+        return Mage::getModel('rewards/expiry')->getDaysUntilExpiry($this->_getCustomer());
+    }
+
+    /**
+     * The date of the day that points will expire
+     * @return Date
+     */
+    public function getExpiryDate()
+    {
+        $expiryDate = Mage::getModel('rewards/expiry')->getExpiryDate($this->_getCustomer());
+        return $expiryDate;
+    }
 	
 	/**
 	 * Fetches the rewards customer for this session
 	 *
 	 * @return TBT_Rewards_Model_Customer
-	 */
-	
-	/**
-	 * Retrieve available customer
-	 *
-	 * @return Mage_Model_Customer
 	 */
 	public function _getCustomer() {
 	    if ($this->hasCustomer ()) {
@@ -132,7 +134,5 @@ class TBT_Rewards_Block_Manage_Customer_Edit_Tab_Summary extends Mage_Adminhtml_
 	public function isHidden() {
 		return false;
 	}
-
 }
 
-?>

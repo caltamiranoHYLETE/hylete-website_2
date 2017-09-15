@@ -63,7 +63,7 @@ class TBT_Reports_Model_Customer extends TBT_Rewards_Model_Customer
         $collection = Mage::getModel('rewardsref/referral')
             ->getCollection()
             ->excludeCustomerData()
-            ->addIdOrEmailFilter($this->getId(), $this->getEmail());
+            ->addIdOrEmailFilter($this->getId(), addslashes($this->getEmail()));
 
         $collection->getSelect()->limit(1);
         return $collection->getFirstItem();
@@ -202,14 +202,14 @@ class TBT_Reports_Model_Customer extends TBT_Rewards_Model_Customer
             ->filterTransferMode()
             ->addFieldToFilter('customer_id', $this->getId())
             ->onlyPositiveTransfers()
-            ->onlyForReferenceTypes(TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER)
+            ->onlyForReasons(Mage::helper('rewards/transfer_reason')->getReasonId('order'))
             ->limitPeriod(
                 $startDate->toString(TBT_Rewards_Helper_Datetime::FORMAT_MYSQL_DATETIME_ZEND),
                 $endDate->toString(TBT_Rewards_Helper_Datetime::FORMAT_MYSQL_DATETIME_ZEND)
             )->forceJoins();
         $orderTransfersSelect = $orderTransfers->prepareCollection()->getSelect()
             ->reset(Zend_Db_Select::COLUMNS)
-            ->columns('reference_id', 'reference_table')
+            ->columns('reference_id')
             ->group('reference_id');
 
         if (!$returnOrderCollection) return $orderTransfers;
@@ -247,14 +247,15 @@ class TBT_Reports_Model_Customer extends TBT_Rewards_Model_Customer
         $startDate = clone $endDate;
         $startDate->sub(1, Zend_Date::YEAR);
 
+        $reasonHelper = Mage::helper('rewards/transfer_reason');
         $orderTransfers = $this->_getTransferCollection()
             ->filterTransferMode()
             ->addFieldToFilter('customer_id', $this->getId())
             ->onlyPositiveTransfers()
-            ->excludeReasons(TBT_Rewards_Model_Birthday_Reason::REASON_TYPE_ID)
-            ->excludeReferenceTypes(
-                TBT_Milestone_Model_Rule_Condition_Inactivity::POINTS_REFERENCE_TYPE_ID,
-                TBT_Rewards_Model_Transfer_Reference::REFERENCE_ORDER
+            ->excludeReasons(
+                $reasonHelper->getReasonId('birthday'),
+                $reasonHelper->getReasonId('milestone_inactivity'),
+                $reasonHelper->getReasonId('order')
             )
             ->limitPeriod(
                 $startDate->toString(TBT_Rewards_Helper_Datetime::FORMAT_MYSQL_DATETIME_ZEND),
