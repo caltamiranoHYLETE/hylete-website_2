@@ -1,0 +1,36 @@
+{
+    "require": {
+        "magento-hackathon/magento-composer-installer": "3.0.*",
+        "globale/magento_package": "dev-release",
+        "globale/sdk": "dev-release"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://hylete@bitbucket.org/globaleteam/magento_v1.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://hylete@bitbucket.org/globaleteam/php_sdk.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://hylete@bitbucket.org/globaleteam/weew_config.git"
+        }
+
+    ],
+    "extra": {
+        "magento-root-dir": ".",
+        "magento-force": true,
+        "magento-deploystrategy": "copy",
+        "magento-deploy-ignore": {
+            "globale/magento_package": [
+                "/app/etc/modules/Globale_Browsing.xml",
+                "/app/etc/modules/Globale_EFPC.xml",
+                "/app/etc/modules/Globale_ExternalERP.xml",
+                "/app/etc/modules/Globale_DataProvider.xml"
+            ]
+        }
+
+    }
+}
