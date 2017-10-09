@@ -1,0 +1,6 @@
+<?php // set redirect customer to Global-e checkout page ?>
+<?php if($this->IsDisplayProceedToCheckoutButton()): ?>
+    <div class="buttons-set checkout_as_guest">
+        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Checkout as Guest')) ?>" class="button" onclick="window.location='<?php echo $this->getInternationalCheckoutPageLink(); ?>';"><span><span><?php echo $this->__('Checkout as Guest'); ?></span></span></button>
+    </div>
+<?php endif; ?>

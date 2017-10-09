@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_BrowsingLite>
+            <version>1.0.0</version>
+        </Globale_BrowsingLite>
+    </modules>
+    <global>
+        <models>
+            <globale_browsinglite>
+                <class>Globale_BrowsingLite_Model</class>
+            </globale_browsinglite>
+        </models>
+        <blocks>
+            <globale_browsinglite>
+                <class>Globale_BrowsingLite_Block</class>
+            </globale_browsinglite>
+        </blocks>
+    </global>
+
+
+    <frontend>
+        <events>
+            <!-- Add GlobalE_Gem_Data cookie -->
+            <customer_session_init>
+                <observers>
+                    <globale_session_init>
+                        <type>singleton</type>
+                        <class>Globale_BrowsingLite_Model_Observers_Initialize</class>
+                        <method>initCookieData</method>
+                    </globale_session_init>
+                </observers>
+            </customer_session_init>
+
+            <!-- Final Product View Price Update -->
+            <catalog_controller_product_view>
+                <observers>
+                    <globale_update_product_prices>
+                        <type>singleton</type>
+                        <class>Globale_BrowsingLite_Model_Observers_Product</class>
+                        <method>updateProductsFixedPrices</method>
+                    </globale_update_product_prices>
+                </observers>
+            </catalog_controller_product_view>
+
+            <!-- Product Collection Price Update -->
+            <catalog_product_collection_load_after>
+                <observers>
+                    <globale_update_product_collection_by_fixed_prices_attributes>
+                        <type>singleton</type>
+                        <class>Globale_BrowsingLite_Model_Observers_Product</class>
+                        <method>updateCollectionProductsFixedPrices</method>
+                    </globale_update_product_collection_by_fixed_prices_attributes>
+                </observers>
+            </catalog_product_collection_load_after>
+
+        </events>
+
+
+        <routers>
+            <browsing>
+                <use>standard</use>
+                <args>
+                    <module>Globale_BrowsingLite</module>
+                    <frontName>international-ge</frontName>
+                </args>
+            </browsing>
+        </routers>
+
+        <layout>
+            <updates>
+                <globale_browsing>
+                    <file>globale/browsing_lite.xml</file>
+                </globale_browsing>
+            </updates>
+        </layout>
+    </frontend>
+</config>

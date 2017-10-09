@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_Order>
+            <version>1.1.0</version>
+        </Globale_Order>
+    </modules>
+    <global>
+        <models>
+
+            <globale_order>
+                <class>Globale_Order_Model</class>
+                <resourceModel>orders_resource</resourceModel>
+            </globale_order>
+
+            <orders_resource>
+                <class>Globale_Order_Model_Resource</class>
+                <entities>
+                    <orders>
+                        <table>globale_orders</table>  <!-- Actual table name in sql  -->
+                    </orders>
+                    <details>
+                        <table>globale_order_details</table>  <!-- Actual table name in sql  -->
+                    </details>
+                    <addresses>
+                        <table>globale_order_addresses</table>  <!-- Actual table name in sql  -->
+                    </addresses>
+                    <shipping>
+                        <table>globale_order_shipping</table>  <!-- Actual table namedata sql  -->
+                    </shipping>
+                    <payment>
+                        <table>globale_order_payment</table>  <!-- Actual table name in sql  -->
+                    </payment>
+                    <products>
+                        <table>globale_order_products</table>  <!-- Actual table name in sql  -->
+                    </products>
+                    <discounts>
+                        <table>globale_order_discounts</table>  <!-- Actual table name in sql  -->
+                    </discounts>
+                </entities>
+            </orders_resource>
+            <sales>
+                <rewrite>
+                    <order>Globale_Order_Model_Rewrite_Sales_Order</order>
+                </rewrite>
+            </sales>
+        </models>
+        <resources>
+            <globale_order_setup>
+                <setup>
+                    <module>Globale_Order</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </globale_order_setup>
+            <orders_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </orders_write>
+            <orders_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </orders_read>
+        </resources>
+        <blocks>
+            <sales>
+                <rewrite>
+                    <!--  My Account  -->
+                    <order_totals>Globale_Order_Block_Rewrite_Sales_Order_Totals</order_totals>
+                    <order_recent>Globale_Order_Block_Rewrite_Sales_Order_Recent</order_recent>
+                    <order_history>Globale_Order_Block_Rewrite_Sales_Order_History</order_history>
+                    <order_info>Globale_Order_Block_Rewrite_Sales_Order_Info</order_info>
+                </rewrite>
+            </sales>
+
+            <tax>
+                <rewrite>
+                    <!--  Tax In My Account  -->
+                    <sales_order_tax>Globale_Order_Block_Rewrite_Tax_Sales_Order_Tax</sales_order_tax>
+                </rewrite>
+            </tax>
+        </blocks>
+
+        <events>
+            <!-- Will update api core -->
+            <sales_order_save_after>
+                <observers>
+                    <globale_order_status_update>
+                        <class>Globale_Order_Model_Observers_Order</class>
+                        <method>orderStatusUpdated</method>
+                    </globale_order_status_update>
+                </observers>
+            </sales_order_save_after>
+
+            <!-- sales_order_payment_place_end -->
+            <sales_order_payment_place_end>
+                <observers>
+                    <globale_update_order_totals>
+                        <class>Globale_Order_Model_Observers_Order</class>
+                        <method>orderTotalsUpdatedProcess</method>
+                    </globale_update_order_totals>
+                </observers>
+            </sales_order_payment_place_end>
+        </events>
+    </global>
+    <adminhtml>
+        <events>
+            <!-- send Parcel to Global-e once a global-e order is shipped -->
+            <sales_order_shipment_save_after>
+                <observers>
+                    <shipmentsave>
+                        <type>model</type>
+                        <class>globale_order/observers_shipment</class>
+                        <method>salesOrderShipmentSaveAfter</method>
+                    </shipmentsave>
+                </observers>
+            </sales_order_shipment_save_after>
+        </events>
+    </adminhtml>
+    <frontend>
+        <events>
+            <!-- My Account - Update Order totals prices  -->
+            <sales_order_load_after>
+                <observers>
+                    <globale_myaccount_order_update>
+                        <type>singleton</type>
+                        <class>Globale_Order_Model_Observers_MyAccount</class>
+                        <method>changeOrderTotals</method>
+                    </globale_myaccount_order_update>
+                </observers>
+            </sales_order_load_after>
+
+        </events>
+    </frontend>
+</config>

@@ -1,0 +1,14 @@
+<?php $CustomerInfo = $this->getCustomerInformation(); ?>
+<?php
+if($CustomerInfo){
+    $Country = strtolower($CustomerInfo->getCountryISO());
+}
+else {
+    // get default country
+    $Country = strtolower($this->getBaseCountry());
+}
+?>
+<div class="gleContainer f32">
+    <span class="gleSwitcherLabel"><?php echo $this->__('Ship to') ?>:</span>
+    <a href="" class="gleShowSwitcher flag flag <?php echo $Country; ?>"></a>
+</div>

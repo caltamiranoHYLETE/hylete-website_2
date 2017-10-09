@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+
+        <!-- Include Global-e CSS  -->
+        <reference name="head">
+            <block type="globale_browsinglite/clientCss" name="globale_client_css"
+                   template="globale/browsinglite/client_css.phtml"/>
+        </reference>
+
+        <!-- Include Global-e JS before body ends -->
+        <reference name="before_body_end">
+            <block type="globale_browsinglite/clientJs" name="globale_client_js"
+                   template="globale/browsinglite/client_js.phtml"/>
+        </reference>
+
+    </default>
+</layout>

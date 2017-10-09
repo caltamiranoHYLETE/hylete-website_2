@@ -3,3 +3,5 @@
 /app/etc/local.xml
 /.idea/
 /forms/
+/vendor/
+/var/
