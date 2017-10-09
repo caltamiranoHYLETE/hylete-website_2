@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_DataProvider>
+            <version>1.0.0</version>
+        </Globale_DataProvider>
+    </modules>
+</config>

@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_Base>
+            <version>1.4.0</version>
+        </Globale_Base>
+    </modules>
+    <global>
+        <models>
+            <globale_base>
+                <class>Globale_Base_Model</class>
+            </globale_base>
+            <!-- Rewrite Magento Tax configuration for displaying prices in Global-e mode including tax -->
+            <tax>
+                <rewrite>
+                    <config>Globale_Base_Model_Rewrite_Tax_Config</config>
+                </rewrite>
+            </tax>
+        </models>
+        <helpers>
+            <globale_base>
+                <class>Globale_Base_Helper</class>
+            </globale_base>
+        </helpers>
+        <events>
+            <controller_front_init_before>
+                <observers>
+                    <globale_init>
+                        <type>singleton</type>
+                        <class>Globale_Base_Model_Observers_Initialize</class>
+                        <method>initializeSDK</method>
+                    </globale_init>
+                </observers>
+            </controller_front_init_before>
+
+
+
+            <adminhtml_cache_refresh_type>
+                <observers>
+                    <globale_clear_cache>
+                        <class>Globale_Base_Model_Observers_Cache</class>
+                        <method>clearCache</method>
+                    </globale_clear_cache>
+                </observers>
+            </adminhtml_cache_refresh_type>
+        </events>
+        <cache>
+            <types>
+                <globale>
+                    <label>Global-e</label>
+                    <description>Global-e International shopping.</description>
+                    <tags>globale</tags>
+                </globale>
+            </types>
+        </cache>
+        <resources>
+            <globale_product_setup>
+                <setup>
+                    <module>Globale_Base</module>
+                </setup>
+            </globale_product_setup>
+        </resources>
+
+        <api2>
+            <auth_adapters>
+                <globale_auth module="api2" translate="label">
+                    <model>globale_base/api2_auth_adapter</model>
+                    <label>globale_auth</label>
+                    <enabled>1</enabled>
+                    <order>15</order>
+                </globale_auth>
+            </auth_adapters>
+        </api2>
+
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <globale_settings>
+                                            <title>Global-e Settings</title>
+                                            <sort_order>99</sort_order>
+                                        </globale_settings>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <globale_save_product_list>
+                        <class>Globale_Base_Model_Observers_Product</class>
+                        <method>saveProductsList</method>
+                    </globale_save_product_list>
+                </observers>
+            </catalog_product_save_after>
+            <catalog_product_attribute_update_after>
+                <observers>
+                    <globale_save_product_list>
+                        <class>Globale_Base_Model_Observers_Product</class>
+                        <method>massSaveProductsList</method>
+                    </globale_save_product_list>
+                </observers>
+            </catalog_product_attribute_update_after>
+            <!-- adding Global-e Order Id into Magento's default Orders Grid. -->
+            <sales_order_grid_collection_load_before>
+                <observers>
+                    <globale_admin_extendedgrid>
+                        <model>Globale_Base_Model_Observers_Admin</model>
+                        <method>salesOrderGridCollectionLoadBefore</method>
+                    </globale_admin_extendedgrid>
+                </observers>
+            </sales_order_grid_collection_load_before>
+            <!-- adding Global-e print barcode button into Magento order page. -->
+            <controller_action_layout_render_before_adminhtml_sales_order_view>
+                <observers>
+                    <globale_admin_print_barcode>
+                        <class>Globale_Base_Model_Observers_Admin</class>
+                        <method>addBarcodeButton</method>
+                    </globale_admin_print_barcode>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_sales_order_view>
+        </events>
+        <layout>
+            <updates>
+                <globale_base>
+                    <file>globale/admin.xml</file>
+                </globale_base>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <carriers>
+            <globale>
+                <active>1</active>
+                <model>globale_base/carrier</model>
+                <title>International Shipping</title>
+                <sort_order>10</sort_order>
+                <sallowspecific>0</sallowspecific>
+            </globale>
+        </carriers>
+        <payment>
+            <globale>
+                <active>1</active>
+                <model>globale_base/payment</model>
+                <order_status>pending</order_status>
+                <title>International Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </globale>
+        </payment>
+        <globale_settings>
+            <checkout_settings>
+                <ext_order_id>1</ext_order_id>
+            </checkout_settings>
+        </globale_settings>
+    </default>
+</config>

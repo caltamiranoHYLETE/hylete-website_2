@@ -1,0 +1,50 @@
+[
+  {
+    "ProductCode": "acj0006s",
+    "VATRateType": {
+      "VATRateTypeCode": "Global-e_13",
+      "Name": "Germany (DE) Default VAT",
+      "Rate": 19.000000,
+      "InternalVATRateTypeId": 13
+    },
+    "CountryCode": "DE",
+    "IsRestricted": false,
+    "RestrictionMessage": "",
+    "IsVerified": false,
+    "TTL": 86400,
+    "IsForbidden": false,
+    "ForbiddenMessage": ""
+  },
+  {
+    "ProductCode": "msj013",
+    "VATRateType": {
+      "VATRateTypeCode": "Global-e_13",
+      "Name": "Germany (DE) Default VAT",
+      "Rate": 19.000000,
+      "InternalVATRateTypeId": 13
+    },
+    "CountryCode": "DE",
+    "IsRestricted": false,
+    "RestrictionMessage": "",
+    "IsVerified": false,
+    "TTL": 86400,
+    "IsForbidden": false,
+    "ForbiddenMessage": ""
+  },
+  {
+    "ProductCode": "msj012",
+    "VATRateType": {
+      "VATRateTypeCode": "Global-e_13",
+      "Name": "Germany (DE) Default VAT",
+      "Rate": 19.000000,
+      "InternalVATRateTypeId": 13
+    },
+    "CountryCode": "DE",
+    "IsRestricted": false,
+    "RestrictionMessage": "",
+    "IsVerified": false,
+    "TTL": 86400,
+    "IsForbidden": false,
+    "ForbiddenMessage": ""
+  }
+]

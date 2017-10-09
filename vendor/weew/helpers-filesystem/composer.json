@@ -1,0 +1,24 @@
+{
+    "name": "weew/helpers-filesystem",
+    "description": "Collection of useful filesystem helpers.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxim Kott",
+            "email": "maximkott@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/file.php",
+            "src/directory.php"
+        ]
+    },
+    "require": {
+        "weew/helpers-string": "^1.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
+        "satooshi/php-coveralls": "^0.6.1"
+    }
+}

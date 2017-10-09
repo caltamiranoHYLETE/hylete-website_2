@@ -1,0 +1,48 @@
+<?php
+/**
+ * Shopping cart totals template
+ *
+ * @see Mage_Checkout_Block_Cart_Totals
+ * @var $this Mage_Checkout_Block_Cart_Totals
+ */
+?>
+<?php if ($this->canApplyMsrp()): ?>
+    <div class="cart-msrp-totals"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></div>
+<?php else: ?>
+    <table id="shopping-cart-totals-table" style="width:100%">
+        <col />
+        <col width="1" />
+        <tfoot>
+        <tr>
+            <td class="a-right" style="" colspan="1">
+                <strong><?php echo $this->__('Cart Total'); ?></strong>
+            </td>
+            <td class="a-right" style="">
+                <strong>
+                    <?php
+                    /**@var $Quote Mage_Sales_Model_Quote */
+                    $Quote = Mage::getModel('checkout/session')->getQuote();
+
+					$PriceIncludesTax = Mage::getModel('tax/config')->priceIncludesTax();
+
+					//@TODO  - Check the solution with different cases
+					if($PriceIncludesTax){
+						$CartTotalBeforeShipping = $Quote->getGrandTotal();
+						$ShippingAmount = $Quote->getShippingAddress()->getShippingAmount();
+						$CartTotal = ($CartTotalBeforeShipping - $ShippingAmount);
+                    }else{
+						$CartTotal = $Quote->getSubtotalWithDiscount();
+                    }
+
+
+                    ?>
+                    <span class="price"><?php echo Mage::helper('core')->formatPrice($CartTotal); ?></span>
+                </strong>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <?php echo $this->renderTotals(); ?>
+        </tbody>
+    </table>
+<?php endif; ?>

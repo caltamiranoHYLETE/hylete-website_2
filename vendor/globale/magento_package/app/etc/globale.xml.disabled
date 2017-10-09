@@ -1,0 +1,20 @@
+<config>
+    <global>
+        <models>
+            <globale_base>
+                <class>Globale_Base_Model</class>
+            </globale_base>
+        </models>
+        <cache>
+            <request_processors>
+                <ee>Globale_Base_Model_Processor</ee>
+            </request_processors>
+        </cache>
+        <globale>
+            <api>
+                <base_url>https://connect2.bglobale.com/</base_url>
+                <secret_key>73f49fd1-15e3-46cd-ad50-a1c3fc936de5</secret_key>
+            </api>
+        </globale>
+    </global>
+</config>

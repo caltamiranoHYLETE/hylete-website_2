@@ -1,0 +1,95 @@
+{
+  "name": "globale/magento_package",
+  "type": "magento-module",
+  "description": "Global-E integration with magento.",
+  "require": {
+        "symfony/filesystem": "2.8.*",
+        "globale/sdk": "*"
+  },
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "https://bitbucket.org/globaleteam/php_sdk.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://bitbucket.org/globaleteam/weew_config.git"
+    }
+
+  ],
+
+  "autoload": {
+    "psr-4": { "Globale\\": "./src" }
+  },
+
+  "extra": {
+    "map": [
+      [
+        "app/code/community/Globale",
+        "app/code/community/Globale"
+      ],
+      [
+        "app/etc/modules/Globale_Base.xml",
+        "app/etc/modules/Globale_Base.xml"
+      ],
+      [
+        "app/etc/modules/Globale_Browsing.xml",
+        "app/etc/modules/Globale_Browsing.xml"
+      ],
+      [
+        "app/etc/modules/Globale_BrowsingLite.xml",
+        "app/etc/modules/Globale_BrowsingLite.xml"
+      ],
+      [
+        "app/etc/modules/Globale_DataProvider.xml",
+        "app/etc/modules/Globale_DataProvider.xml"
+      ],
+      [
+        "app/etc/modules/Globale_EFPC.xml",
+        "app/etc/modules/Globale_EFPC.xml"
+      ],
+      [
+        "app/etc/modules/Globale_ExternalERP.xml",
+        "app/etc/modules/Globale_ExternalERP.xml"
+      ],
+      [
+        "app/etc/modules/Globale_FixedPrices.xml",
+        "app/etc/modules/Globale_FixedPrices.xml"
+      ],
+      [
+        "app/etc/modules/Globale_Order.xml",
+        "app/etc/modules/Globale_Order.xml"
+      ],
+
+      [
+        "app/design/frontend/base/default/layout/globale",
+        "app/design/frontend/base/default/layout/globale"
+      ],
+      [
+        "app/design/frontend/base/default/template/globale",
+        "app/design/frontend/base/default/template/globale"
+      ],
+      [
+        "js/globale",
+        "js/globale"
+      ],
+      [
+        "skin/frontend/base/default/css/globale",
+        "skin/frontend/base/default/css/globale"
+      ],
+      [
+        "skin/frontend/base/default/images/globale",
+        "skin/frontend/base/default/images/globale"
+      ],
+      [
+        "app/design/adminhtml/default/default/layout/globale",
+        "app/design/adminhtml/default/default/layout/globale"
+      ],
+      [
+        "app/design/adminhtml/default/default/template/globale",
+        "app/design/adminhtml/default/default/template/globale"
+      ]
+    ]
+  }
+}

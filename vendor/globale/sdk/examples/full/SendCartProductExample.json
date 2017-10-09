@@ -1,0 +1,109 @@
+{
+  "shippingDetails": {
+    "UserId": "45787",
+    "UserIdNumber": "",
+    "UserIdNumberType":
+    {
+      "UserIdNumberTypeId": "",
+      "Name": ""
+    },
+    "FirstName": "Ehud",
+    "LastName": "Bichman",
+    "Company": "",
+    "MiddleName": "",
+    "Salutation": "",
+    "Email": "ehud.bichman@global-e.com",
+    "Phone1": "0000000000",
+    "Phone2": "",
+    "Fax": "",
+    "Address1": "",
+    "Address2": "",
+    "City": "",
+    "StateOrProvince": "",
+    "Zip": "00000",
+    "CountryCode": "US"
+  },
+  "billingDetails": {
+    "UserId": "45787",
+    "UserIdNumber": "",
+    "UserIdNumberType":
+    {
+      "UserIdNumberTypeId": "",
+      "Name": ""
+    },
+    "FirstName": "Ehud",
+    "LastName": "Bichman",
+    "Company": "",
+    "MiddleName": "",
+    "Salutation": "",
+    "Email": "ehud.bichman@global-e.com",
+    "Phone1": "0000000000",
+    "Phone2": "",
+    "Fax": "",
+    "Address1": "",
+    "Address2": "",
+    "City": "",
+    "StateOrProvince": "",
+    "Zip": "00000",
+    "CountryCode": "US"
+  },
+  "priceCoefficientRate": 1,
+  "includeVAT": 6,
+  "MerchantCartToken": "085666e3569dc616806760825a30c2ec",
+  "originalCurrencyCode": "GBP",
+  "preferedCultureCode": "en-GB",
+  "inputDataCultureCode": "en-GB",
+  "shippingOptionsList": {
+    "Carrier": "globaleintegration",
+    "CarrierTitle": "globaleintegration",
+    "CarrierName": "globaleintegration",
+    "Code": "globaleintegration_standard",
+    "Method": "standard",
+    "MethodTitle": "Standard",
+    "MethodDescription": "",
+    "Price": 0
+  },
+  "MerchantCartHash": "085666e3569dc616806760825a30c2ec",
+  "doNotChargeVAT": 0,
+  "ProductsList": [
+    {
+      "IsBlockedForGlobalE": false,
+      "ProductCode": "test1",
+      "Name": "This is a test Product",
+      "ProductGroupCode": null,
+      "Description": "Black",
+      "IsBundle": false,
+      "URL": "http://localhost/magento_sp_dev/index.php/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html",
+      "GenericHSCode": "",
+      "OriginCountryCode": "GB",
+      "Weight": 2.8000,
+      "Width": 2.01,
+      "Height": 2.5,
+      "Length": 320.00,
+      "Volume": "",
+      "ImageURL": "http://localhost/magento_sp_dev/media/catalog/product/s/o/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.jpg",
+      "ImageHeight": "",
+      "ImageWidth": "",
+      "Categories": null,
+      "Brand": "",
+      "ListPrice": 99.95,
+      "OriginalListPrice": 100.00,
+      "SalePrice": 132.95,
+      "OriginalSalePrice": 100.00,
+      "LocalVATRateType":
+      {
+        "VATRateTypeCode": "2",
+        "Name": "VATworld",
+        "Rate": "20.000"
+      },
+      "VATRateType":
+      {
+        "VATRateTypeCode": "2",
+        "Name": "VATworld",
+        "Rate": "20.000"
+      },
+      "OrderedQuantity": 1,
+      "CartItemId": 229
+    }
+  ]
+}

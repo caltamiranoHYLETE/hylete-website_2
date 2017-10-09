@@ -1,0 +1,21 @@
+{
+  "Country": {
+    "Code": "IL",
+    "Name": "Israel",
+    "DefaultCurrencyCode": "ILS"
+  },
+  "Region": {
+    "Code": "",
+    "Name": "",
+    "CountryCode": ""
+  },
+  "City": {
+    "Code": "",
+    "Name": ""
+  },
+  "IPRange": {
+    "From": "281474247895040",
+    "To": "281474247895551",
+    "Type": "IPV6"
+  }
+}

@@ -1,0 +1,9 @@
+# OS stuff
+.idea/
+.cache/
+.project/
+.git
+# Misc
+var/
+vendor/
+src/SDK/Settings_dev.php

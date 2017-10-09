@@ -1,0 +1,98 @@
+{
+  "shippingDetails": {
+    "UserId": "45787",
+    "UserIdNumber": "",
+    "FirstName": "Kirill",
+    "LastName": "Chud",
+    "Company": "",
+    "MiddleName": "",
+    "Salutation": "",
+    "Email": "asda@asda.com",
+    "Phone1": "0000000000",
+    "Phone2": "",
+    "Fax": "",
+    "Address1": "US",
+    "Address2": "",
+    "City": "San-Francisco",
+    "StateOrProvince": "California",
+    "Zip": "94115",
+    "CountryCode": "US"
+  },
+  "billingDetails": {
+    "UserId": "45787",
+    "UserIdNumber": "",
+    "FirstName": "Kirill",
+    "LastName": "Chud",
+    "Company": "",
+    "MiddleName": "",
+    "Salutation": "",
+    "Email": "asda@asda.com",
+    "Phone1": "0000000000",
+    "Phone2": "",
+    "Fax": "",
+    "Address1": "US",
+    "Address2": "",
+    "City": "San-Francisco",
+    "StateOrProvince": "California",
+    "Zip": "94115",
+    "CountryCode": "US"
+  },
+  "priceCoefficientRate": 1,
+  "includeVAT": 6,
+  "merchantCartToken": "085666e3569dc616806760825a30c2ec",
+  "originalCurrencyCode": "GBP",
+  "preferedCultureCode": "en-GB",
+  "inputDataCultureCode": "en-GB",
+  "shippingOptionsList": {
+    "Carrier": "globaleintegration",
+    "CarrierTitle": "globaleintegration",
+    "CarrierName": "globaleintegration",
+    "Code": "globaleintegration_standard",
+    "Method": "standard",
+    "MethodTitle": "Standard",
+    "MethodDescription": "",
+    "Price": 0.00
+  },
+  "merchantCartHash": "085666e3569dc616806760825a30c2ec",
+  "doNotChargeVAT": 0,
+  "ProductsList": [
+    {
+      "IsBlockedForGlobalE": false,
+      "ProductCode": "LR023964.C8",
+      "Name": "LR023964",
+      "ProductGroupCode": null,
+      "Description": null,
+      "IsBundle": false,
+      "URL": "",
+      "GenericHSCode": "",
+      "OriginCountryCode": "GB",
+      "Weight": "3.87",
+      "Width": "0.00",
+      "Height": "0.00",
+      "Length": "320.00",
+      "Volume": "",
+      "ImageURL": "",
+      "ImageHeight": "",
+      "ImageWidth": "",
+      "Categories": null,
+      "Brand": "",
+      "ListPrice": 389.28,
+      "OriginalListPrice": 299.88,
+      "SalePrice": 389.28,
+      "OriginalSalePrice": 299.88,
+      "LocalVATRateType":
+      {
+        "VATRateTypeCode": "2",
+        "Name": "VATworld",
+        "Rate": "20.000"
+      },
+      "VATRateType":
+      {
+        "VATRateTypeCode": "2",
+        "Name": "VATworld",
+        "Rate": "20.000"
+      },
+      "OrderedQuantity": 1
+    }
+  ]
+}

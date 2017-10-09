@@ -1,0 +1,16 @@
+{
+  "OrderId": "testID",
+  "OrderStatus": {
+    "OrderStatusCode": "DEL_12",
+    "Name": "Delayed"
+  },
+  "OrderStatusReason": {
+    "OrderStatusReasonCode": "1009",
+    "Name": "InventoryMissing"
+  },
+  "ConfirmationNumber": "1234",
+  "TrackingServiceName": "Fedex",
+  "TrackingServiceSite": "http://www.fedex.com",
+  "TrackingNumber": "1234",
+  "TrackingURL": "http://www.fedex.com/Track?id=1234"
+}

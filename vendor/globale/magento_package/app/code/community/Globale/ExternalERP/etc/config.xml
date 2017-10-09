@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_ExternalERP>
+            <version>1.0.0</version>
+        </Globale_ExternalERP>
+    </modules>
+</config>

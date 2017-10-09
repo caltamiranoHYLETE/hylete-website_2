@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globale_EFPC>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Globale_Base/>
+            </depends>
+        </Globale_EFPC>
+    </modules>
+</config>
