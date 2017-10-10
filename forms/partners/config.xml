@@ -1,0 +1,760 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<partners>
+	<partner id="1983567">
+		<name>HYLETE</name>
+		<pageTitle>HYLETE - Powered by HYLETE</pageTitle>
+		<path>pbh</path>
+		<banner>/banners/HY_pbH_LP_Misc_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Our promise to you is to deliver premium performance apparel and gear that powers your functional-fitness lifestyle, while continuously pushing the limits to support and strengthen the HYLETE nation.</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1983567</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId/>
+		<mailchimpGroupName/>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>PBH-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>true</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="38425">
+		<name>SweatWorks</name>
+		<pageTitle>SweatWorks</pageTitle>
+		<path>sweatworks</path>
+		<banner>/banners/SweatWorks_LandingPage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome SweatWorks Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>38425</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>SweatWorks</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>SWX-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="151">
+		<name>Robb Wolf</name>
+		<pageTitle>Welcome Robb Wolf Athletes</pageTitle>
+		<path>robbwolf</path>
+		<banner>/banners/RobbWolf_LandingPage_980x419.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Robb Wolf Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>151</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Robb Wolf</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>WOLF-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="406556">
+		<name>Wildfire</name>
+		<pageTitle>Welcome Wildfire Athletes</pageTitle>
+		<path>wildfire</path>
+		<banner>/banners/Wildfire_LandingPage_980x419.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Wildfire Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>406556</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>wildfire</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>WF-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1450253">
+		<name>Quiana Welch</name>
+		<pageTitle>Welcome Friends of Quiana Welch</pageTitle>
+		<path>welch</path>
+		<banner>/banners/QWelch_HYLETEPros_Landing.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Friends of Quiana Welch</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1450253</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId/>
+		<mailchimpGroupName/>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>QW-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="15861">
+		<name>Eric Cardona</name>
+		<pageTitle>Welcome Friends of Eric Cardona</pageTitle>
+		<path>cardona</path>
+		<banner>/banners/ECardona_HYLETEPros_Landing.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Friends of Eric Cardona</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>15861</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId/>
+		<mailchimpGroupName/>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>EC-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1450355">
+		<name>Becca Day</name>
+		<pageTitle>Welcome Friends of Becca Day</pageTitle>
+		<path>day</path>
+		<banner>/banners/BDay_HYLETEPros_Landing.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Friends of Becca Day</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1450355</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId/>
+		<mailchimpGroupName/>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>BD-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1450354">
+		<name>Rob Blackwell</name>
+		<pageTitle>Welcome Friends of Rob Blackwell</pageTitle>
+		<path>blackwell</path>
+		<banner>/banners/Blackwell_HYLETEPros_Landing.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Friends of Rob Blackwell</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1450354</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId/>
+		<mailchimpGroupName/>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>RB-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="67927">
+		<name>Andy McDermott</name>
+		<pageTitle>Welcome Friends of Andy McDermott</pageTitle>
+		<path>andymcdermott</path>
+		<banner>/banners/AndyMcDermott_LandingPage_980x419.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Friends of Andy McDermott</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>67927</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Andy Mcdermott</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>AM-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="35158">
+		<name>Dragon Door</name>
+		<pageTitle>Welcome Dragon Door Trainers</pageTitle>
+		<path>dragondoor</path>
+		<banner>/banners/large-original-hy_dragondoor_landingpage_980x325_20160224.jpg</banner>
+		<theme>green</theme>
+		<title>The HYLETE trainer program welcomes all Dragon Door certified trainers and coaches to sign up today!</title>
+		<introtext>The HYLETE trainer program welcomes all Dragon Door certified trainers and coaches to sign up today!</introtext>
+		<step1>40% off all orders on HYLETE.com (no minimum quantities)</step1>
+		<step2>double HYLETE points on all purchases (earn HYLETE points for added discounts)</step2>
+		<step3>future product development input</step3>
+		<step4>dedicated brand experience manager</step4>
+		<step5/>
+		<mageGroupId>6</mageGroupId>
+		<netsuiteId>35158</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>721</mailchimpGroupId>
+		<mailchimpGroupName>Dragon Door</mailchimpGroupName>
+		<useCoupon>false</useCoupon>
+		<personalCode>false</personalCode>
+		<genericCode/>
+		<cloneCode/>
+		<codePrefix/>
+		<codeName/>
+		<showReferral>false</showReferral>
+		<showGym>true</showGym>
+		<showStandard>trainer</showStandard>
+	</partner>
+	<partner id="188">
+		<name>WOD Talk</name>
+		<pageTitle>Welcome WOD Talk Athletes</pageTitle>
+		<path>wodtalk</path>
+		<banner>/banners/WODTalk_LandingPage_980x419.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome WOD Talk Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>188</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>WOD Talk</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>WOD-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="88403">
+		<name>PocketWOD</name>
+		<pageTitle>Welcome PocketWOD Athletes</pageTitle>
+		<path>pocketwod</path>
+		<banner>/banners/pocketwod_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome PocketWOD Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>88403</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>PocketWOD</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>PWOD-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="236">
+		<name>Fit2Fat2Fit</name>
+		<pageTitle>Welcome Fit2Fat2Fit Athletes</pageTitle>
+		<path>fit2fat2fit</path>
+		<banner>/banners/Fit2Fat2Fit_LandingPage_980x419.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Fit2Fat2Fit Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>236</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Fit2Fat2Fit</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>F2F-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="783113">
+		<name>Virtual Event Bag</name>
+		<pageTitle>Welcome Event Participants</pageTitle>
+		<path>veb</path>
+		<banner>/banners/VirtualEventBags_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Event Participants</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>783113</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Virtual Event Bags</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>VEB-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="188">
+		<name>Metcon TV</name>
+		<pageTitle>Welcome Metcon TV Athletes</pageTitle>
+		<path>metcontv</path>
+		<banner>/banners/MetconTV_LandingPage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Metcon TV Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>188</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Metcon TV</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>MTV-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="14713">
+		<name>Dr Mike</name>
+		<pageTitle>Welcome Dr Mike Athletes</pageTitle>
+		<path>drmike</path>
+		<banner>/banners/DrMike_LandingPage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Dr Mike Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>14713</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Dr Mike</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>DRM-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="67933">
+		<name>Max Shank</name>
+		<pageTitle>Welcome Max Shank Athletes</pageTitle>
+		<path>maxshank</path>
+		<banner>/banners/MaxShank_LandingPage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Max Shank Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>67933</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Max Shank</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>MAX-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="15365">
+		<name>Al Kavadlo</name>
+		<pageTitle>Welcome Al Kavadlo Athletes</pageTitle>
+		<path>alkavadlo</path>
+		<banner>/banners/Al-Kavadlo_LandingPage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Al Kavadlo Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>15365</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Al Kavadlo</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>AK-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="713263">
+		<name>O.U.R. Rescue</name>
+		<pageTitle>Welcome O.U.R. Rescue Athletes</pageTitle>
+		<path>our</path>
+		<banner>/banners/OUR_LP_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome O.U.R. Rescue Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>713263</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>O.U.R. Rescue</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>OUR-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1756154">
+		<name>Danny Nichols</name>
+		<pageTitle>Welcome Danny Nichols Athletes</pageTitle>
+		<path>nichols</path>
+		<banner>/banners/original-dnichols_hyletepros_landing.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Danny Nichols Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1756154</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Danny Nichols</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>DN-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+	</partner>
+	<partner id="1660421">
+		<name>Festivus Games</name>
+		<pageTitle>Welcome Festivus Games Athletes</pageTitle>
+		<path>festivus</path>
+		<banner>/banners/hy_festivus_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Festivus Games Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1660421</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Festivus Games</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>FG-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="129">
+		<name>Mark De Grasse</name>
+		<pageTitle>Welcome Mark De Grasse Athletes</pageTitle>
+		<path>megamad</path>
+		<banner>/banners/original-markdegrasse_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Mark De Grasse Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>129</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Mark De Grasse</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>MM-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1947049">
+		<name>Zen Planner</name>
+		<pageTitle>Welcome Zen Planner Athletes</pageTitle>
+		<path>zenplanner</path>
+		<banner>/banners/original-hy_zenplanner_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Zen Planner Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1947049</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Zen Planner</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>ZEN-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showGym>true</showGym>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="2000171">
+		<name>Strength Crate</name>
+		<pageTitle>Welcome Strength Crate Athletes</pageTitle>
+		<path>strengthcrate</path>
+		<banner>/banners/original-hy_strengthcrate_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Strength Crate Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>2000171</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Strength Crate</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>SC-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showGym>false</showGym>
+		<showStandard>true</showStandard>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1978864">
+		<name>BattleFrog</name>
+		<pageTitle>Welcome BattleFrog Athletes</pageTitle>
+		<path>battlefrog</path>
+		<banner>/banners/large-original-hy_battlefrog_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome BattleFrog Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1978864</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>BattleFrog</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>BF-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showGym>false</showGym>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="1994172">
+		<name>Veev</name>
+		<pageTitle>Welcome Veev Athletes</pageTitle>
+		<path>veev</path>
+		<banner>/banners/large-original-hy_veev_landingpage_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome Veev Athletes</title>
+		<introtext>How do we maximize performance and deliver value?</introtext>
+		<step1>create your account and receive a one-time promotion for $25 (orders of $50 or more) off your first purchase</step1>
+		<step2>purchase 1 item; pay retail value</step2>
+		<step3>purchase any 2 to 3 items; 20% off your entire order</step3>
+		<step4>purchase any 4+ items; 40% off your entire order</step4>
+		<step5></step5>
+		<mageGroupId>1</mageGroupId>
+		<netsuiteId>1994172</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList>786eb5a94d</mailchimpList>
+		<mailchimpGroupId>693</mailchimpGroupId>
+		<mailchimpGroupName>Veev</mailchimpGroupName>
+		<useCoupon>true</useCoupon>
+		<personalCode>true</personalCode>
+		<genericCode/>
+		<cloneCode>20174</cloneCode>
+		<codePrefix>VEEV-</codePrefix>
+		<codeName>Powered By HYLETE $25</codeName>
+		<showReferral>false</showReferral>
+		<showGym>false</showGym>
+		<showStandard>true</showStandard>
+	</partner>
+	<partner id="13179">
+		<name>Active Advantage</name>
+		<pageTitle>Welcome to the HYLETE Active Advantage program</pageTitle>
+		<path>active</path>
+		<banner>/banners/original-hynation_activeadvantagemember_980x325.jpg</banner>
+		<theme>green</theme>
+		<title>Welcome to the HYLETE Active Advantage program</title>
+		<introtext>As an Active Advantage member, you'll receive 40% off every order at HYLETE.com. No code necessary. Just create your account and log in to receive your discount.</introtext>
+		<mageGroupId>8</mageGroupId>
+		<netsuiteId>13179</netsuiteId>
+		<redirect>/customer/account/login/</redirect>
+		<mailchimpList></mailchimpList>
+		<mailchimpGroupId></mailchimpGroupId>
+		<mailchimpGroupName></mailchimpGroupName>
+		<useCoupon>false</useCoupon>
+		<personalCode>false</personalCode>
+		<genericCode/>
+		<cloneCode></cloneCode>
+		<codePrefix></codePrefix>
+		<codeName></codeName>
+		<showReferral>false</showReferral>
+		<showGym>false</showGym>
+		<showStandard>false</showStandard>
+	</partner>
+</partners>

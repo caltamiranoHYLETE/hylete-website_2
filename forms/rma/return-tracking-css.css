@@ -1,0 +1,22 @@
+
+#tracking-results th {
+    padding: 5px;
+}
+
+#tracking-results td {
+    padding: 5px;
+}
+
+#tracking-results tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#tracking-results tr:nth-child(even) {
+    background-color: #e2e2e2;
+}
+
+#tracking-results .headlineTrack{
+    font-size:14px;
+    height:34px;
+    border-bottom:1px solid #4b4b4b;
+}

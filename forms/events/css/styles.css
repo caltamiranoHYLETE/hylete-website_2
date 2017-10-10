@@ -1,0 +1,72 @@
+body > .container {
+	border-top: none;
+}
+
+#content_area h1 {
+	line-height:1;
+	margin: 10px 0 5px 0;
+}
+
+#head-container{
+	display:block;
+	min-width: 100%;
+	width:100%;
+	background-color:#000000;
+	min-height:40px;
+	margin-top:-1px;
+}
+
+input[type=checkbox] {
+	margin-right:5px;
+}
+
+#logo-container{
+	margin-top: -1px;
+	width:150px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.h_logo {
+	width:100%;
+	height:auto;
+	padding:10px;
+}
+
+#eventCodeForm fieldset {
+	min-width:300px;
+	max-width:300px;
+}
+
+.winner_wrapper {
+	width:99%;
+}
+
+.winner_block {
+	padding:10px;
+	background:#eeeeee;
+	border:1px solid #cccccc;
+}
+
+.modal-header {
+	text-align: center;
+	font-size: 20px;
+	height:46px;
+}
+
+#myModal {
+	display:none;
+}
+
+#myModal button {
+	height:20px;
+}
+
+.modal-body {
+	text-align:center;
+	padding:0;
+	margin:10px;
+	min-height:200px;
+}
+
