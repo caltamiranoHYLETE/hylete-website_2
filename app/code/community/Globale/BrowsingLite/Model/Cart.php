@@ -101,8 +101,12 @@ class Globale_BrowsingLite_Model_Cart {
             $LoyaltyPointsTotal = $RewardSession->getSessionCustomer()->getPoints();
             $LoyaltyPointsEarned = $RewardSession->getTotalPointsEarning();
 
-            $Arr['LoyaltyPointsTotal'] = $LoyaltyPointsTotal[1];
-            $Arr['LoyaltyPointsEarned'] = $LoyaltyPointsEarned[1];
+            if(isset($LoyaltyPointsTotal[1])){
+                $Arr['LoyaltyPointsTotal'] = $LoyaltyPointsTotal[1];
+            }
+            if(isset($LoyaltyPointsEarned[1])){
+                $Arr['LoyaltyPointsEarned'] = $LoyaltyPointsEarned[1];
+            }
             $Arr['LoyaltyPointsSpent'] = $RewardSession->getPointsSpending();
         }
 

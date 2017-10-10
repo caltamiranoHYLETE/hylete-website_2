@@ -4,3 +4,5 @@
 /.idea/
 /forms/
 /var/
+/forms/feeds/cpc_feed.xml
+/forms/feeds/ready_pulse_product_feed.xml

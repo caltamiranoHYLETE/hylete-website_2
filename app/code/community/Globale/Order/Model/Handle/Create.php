@@ -28,8 +28,21 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
         /** @var $store Mage_Core_Model_Store */
         $Store = Mage::getSingleton('core/store')->load($StoreCode);
 
-        /** @var $Quote Mage_Sales_Model_Quote */
-        $Quote = Mage::getModel('sales/quote')->setStore($Store)->load($Request->CartId);
+        if(Mage::helper('core')->isModuleEnabled('TBT_Rewards')) {
+            /** @var $Session Mage_Adminhtml_Model_Session_Quote */
+            $Session = Mage::getSingleton ( 'adminhtml/session_quote' );
+            $Session->setStoreId($Store->getId());
+            $Session->setQuoteId($Request->CartId);
+            /** @var $Quote Mage_Sales_Model_Quote */
+            $Quote = $Session->getQuote();
+
+        }
+        else{
+            /** @var $Quote Mage_Sales_Model_Quote */
+            $Quote = Mage::getModel('sales/quote')->setStore($Store)->load($Request->CartId);
+        }
+
+
 
         Mage::register('GlobaleOrderRequest', $Request);
 
@@ -106,6 +119,12 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
 		$Quote->getBillingAddress()->setShouldIgnoreValidation(true);
 
         $Quote->getPayment()->importData(array('method' => 'globale'));
+
+        // Rewards point injection
+        if(Mage::helper('core')->isModuleEnabled('TBT_Rewards')){
+            Mage::getSingleton('rewards/session')->setPointsSpending($Request->LoyaltyPointsSpent);
+            $Quote->setPointsSpending($Request->LoyaltyPointsSpent);
+        }
 
     }
 
