@@ -8,8 +8,8 @@ return array(
     'MerchantID' => 0,
     'MerchantGUID' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     'EnvDetails' => array(
-        'Version'                 => '1.1.6',
-        'LastUpdated'             => '07/08/2017',
+        'Version'                 => '2.0.0',
+        'LastUpdated'             => '15/10/2017',
 		'WebStoreCode'            => '',
 		'WebStoreInstanceCode'    => ''
 
