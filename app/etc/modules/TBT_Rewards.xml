@@ -11,6 +11,7 @@
                 <Mage_Sales/>
                 <Mage_Customer/>
                 <Mage_Tax/>
+                <Globale_Order/>
             </depends>
         </TBT_Rewards>
     </modules>
