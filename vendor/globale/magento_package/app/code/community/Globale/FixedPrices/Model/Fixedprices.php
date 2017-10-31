@@ -158,12 +158,19 @@ class Globale_FixedPrices_Model_Fixedprices extends Mage_Core_Model_Abstract
      */
     public function deleteFixedPricesDB($Row){
 
-        if(empty($Row['currency_code'])) $Row['currency_code'] = array('null' => true);
+        // Currency code or Country code can be set with NULL value
+		if(empty($Row['currency_code'])) {
+			$Row['currency_code'] = array('null' => true);
+		}
+        if(empty($Row['country_code'])) {
+            $Row['country_code'] = array('null' => true);
+        }
         /** @var  Globale_FixedPrices_Model_Resource_Fixedprices_Collection $matches */
         $Matches = $this->getResourceCollection()
             ->addFieldToFilter('product_code', $Row['product_code'])
             ->addFieldToFilter('country_code', $Row['country_code'])
             ->addFieldToFilter('currency_code', $Row['currency_code']);
+
         /** @var Globale_FixedPrices_Model_Fixedprices $Item */
         foreach ($Matches as $Item){
             $Item->delete();

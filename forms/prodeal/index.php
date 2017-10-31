@@ -41,7 +41,7 @@ if($_SERVER['SERVER_NAME'] != "vaimo.hylete.com") {
         <div class="col-md-1 column"></div>
         <div class="col-md-10 column" id="container-first">
 		<div class="banner-container">
-			<img class="img-v2 center-block"  src="/forms/img/banners/large-hynation_prodeal_980x325_1.jpg"  width="100%;"/>
+			<img class="img-v2 center-block"  src="img/large-large-hy_prodeal_1170.jpg"  width="100%;"/>
 		 </div>
 		 <div class="row clearfix">
             <div class="col-md-12 column" id="container-second">

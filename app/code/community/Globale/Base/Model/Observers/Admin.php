@@ -10,6 +10,12 @@ class Globale_Base_Model_Observers_Admin
      */
     public function salesOrderGridCollectionLoadBefore(Varien_Event_Observer $Observer){
 
+    	//Apply Grid changes on main order grid only
+		$OriginalPathInfo = Mage::app()->getRequest()->getOriginalPathInfo();
+		if (strpos($OriginalPathInfo, '/sales_order/') === false) {
+			return;
+		}
+
         $Collection = $Observer->getOrderGridCollection();
         $Select = $Collection->getSelect();
         $Select->joinLeft(

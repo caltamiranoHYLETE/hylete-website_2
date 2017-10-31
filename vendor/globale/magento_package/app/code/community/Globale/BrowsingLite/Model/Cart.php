@@ -3,7 +3,7 @@
 use GlobalE\SDK\Models\Common\Request;
 use GlobalE\SDK\Models\Common\Response;
 
-class Globale_BrowsingLite_Model_Cart {
+class Globale_BrowsingLite_Model_Cart extends Mage_Core_Model_Abstract {
 
     /**
      * @param $CartId
@@ -67,7 +67,7 @@ class Globale_BrowsingLite_Model_Cart {
             $CartInfo->setIsFreeShipping(false);
         }
 
-        $LoyaltyPointsArray = $this->getLoyaltyPoints();
+        $LoyaltyPointsArray = $this->getLoyaltyPoints($Quote);
 
         if(!empty($LoyaltyPointsArray['LoyaltyPointsTotal'])) {
             $CartInfo->setLoyaltyPointsTotal($LoyaltyPointsArray['LoyaltyPointsTotal']);
@@ -91,9 +91,10 @@ class Globale_BrowsingLite_Model_Cart {
 
     /**
      * Get Loyalty Points from TBT_Rewards Session
+     * @param Mage_Sales_Model_Quote $Quote
      * @return array
      */
-    protected function getLoyaltyPoints(){
+    protected function getLoyaltyPoints(Mage_Sales_Model_Quote $Quote){
 
         $Arr = array();
         if(Mage::helper('core')->isModuleEnabled('TBT_Rewards')){
@@ -107,7 +108,7 @@ class Globale_BrowsingLite_Model_Cart {
             if(isset($LoyaltyPointsEarned[1])){
                 $Arr['LoyaltyPointsEarned'] = $LoyaltyPointsEarned[1];
             }
-            $Arr['LoyaltyPointsSpent'] = $RewardSession->getPointsSpending();
+            $Arr['LoyaltyPointsSpent'] = $Quote->getPointsSpending();
         }
 
         return $Arr;
@@ -303,7 +304,8 @@ class Globale_BrowsingLite_Model_Cart {
      */
     public function getCartToken($Params){
 
-        $LoyaltyPointsArray = $this->getLoyaltyPoints();
+        $Quote = Mage::getModel('checkout/cart')->getQuote();
+        $LoyaltyPointsArray = $this->getLoyaltyPoints($Quote);
         $Params = array_merge($Params, $LoyaltyPointsArray);
         $BaseUrl = 'https:' . Mage::getStoreConfig(Globale_Base_Model_Settings::GEM_BASE_URL)  . 'checkout/GetCartToken?';
         $Url = $BaseUrl . http_build_query($Params);

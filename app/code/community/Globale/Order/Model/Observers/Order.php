@@ -119,6 +119,10 @@ class Globale_Order_Model_Observers_Order {
                 ->setRowTotalInclTax($Product->InternationalPrice * $Product->Quantity)
                 ->setDiscountAmount($OrdersModel->getProductDiscount($Request->SubTotalIncl, $TotalDiscount, $Product->InternationalPrice, $Product->Quantity));
 
+            //support TBT_Rewards
+            $OrderItem->setRowTotalAfterRedemptionsInclTax($OrderItem->getBaseRowTotalInclTax());
+            $OrderItem->setRowTotalAfterRedemptions($OrderItem->getBaseRowTotal());
+
             $OrderItem->setTaxPercent($Product->VATRate);
 
             $BaseSubTotal += $Product->Price * $Product->Quantity / $Tax;
@@ -215,6 +219,10 @@ class Globale_Order_Model_Observers_Order {
                 ->setPriceInclTax($Product->InternationalPrice)
                 ->setRowTotalInclTax($Product->InternationalPrice * $Product->Quantity)
                 ->setDiscountAmount($OrdersModel->getProductDiscount($Request->SubTotalIncl, $TotalDiscount, $Product->InternationalPrice, $Product->Quantity));
+
+            //support TBT_Rewards
+            $OrderItem->setRowTotalAfterRedemptionsInclTax($OrderItem->getRowTotalInclTax());
+            $OrderItem->setRowTotalAfterRedemptions($OrderItem->getRowTotal());
 
             $OrderItem->setTaxPercent($Product->VATRate);
 
