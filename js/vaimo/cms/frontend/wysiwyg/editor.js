@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     var updateCounter = 0;
 
@@ -122,6 +122,13 @@
 
             var selector = this.options.selectors.editableBlocks + ':not([data-raptor-initialised])';
 
+            if (document.body.classList.contains('vcms-editing-active')) {
+                $('[class*="raptor-ui-"]:not(.vcms-raptor-ui)')
+                    .addClass('vcms-ui')
+                    .find('input,select,button,label')
+                    .addClass('vcms-ui');
+            }
+
             recordQueue.forEach(function(mutation) {
                 var nodes = mutation.addedNodes;
 
@@ -206,7 +213,20 @@
                 }
 
                 options.io.trigger('read', response);
+
+                if (response.error) {
+                    return response.error;
+                }
             }.bind(this);
+
+            raptor.pnotify = function(editorMessage) {
+                $.notify(editorMessage.text, {
+                    className: editorMessage.type,
+                    globalPosition: 'bottom right',
+                    showAnimation: 'fadeIn',
+                    hideAnimation: 'fadeOut'
+                });
+            };
 
             return configuration;
         },
@@ -266,7 +286,8 @@
                             uriSave: options.imageEditor
                         }
                     },
-                    cssPrefix: 'vcms-'
+                    cssPrefix: 'vcms-',
+                    resetUi: true // Some dialogs relied on this to be false to a range bug that we fixed
                 });
             });
         },

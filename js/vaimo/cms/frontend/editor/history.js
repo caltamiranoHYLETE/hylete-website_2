@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.cmsEditorHistory', {
         options: {
@@ -8,24 +8,30 @@
         _create: function() {
             this.history = [];
 
-            var that = this;
-
             this.options.io.addHandler('error', function() {
-                var lastAction = that.history.pop();
+                var lastAction = this.history.last();
 
                 if (typeof lastAction !== 'function') {
                     return;
                 }
 
-                lastAction();
-            });
+                setTimeout(function() {
+                    lastAction(lastAction.attachedState);
+                }, 150);
+            }.bind(this));
+        },
+        attachState: function(state) {
+            var lastAction = this.history.last();
+
+            lastAction.attachedState = state;
+        },
+        registerNoop: function() {
+            this.history.push(function() {});
         },
         registerAction: function(observer, action, selector, handle) {
-            var that = this;
-
             var actionTracker = function(event) {
-                that.history.push(function() {
-                    handle.apply(event.target, [event]);
+                this.history.push(function(state) {
+                    handle.apply(event.target, [event, state]);
                 });
 
                 handle.apply(event.target, [event]);

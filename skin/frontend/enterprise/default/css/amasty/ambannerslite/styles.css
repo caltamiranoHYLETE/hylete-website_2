@@ -1,0 +1,22 @@
+.ampromo-label{
+    float: right;
+    position: absolute;
+    z-index: 500;
+}
+
+.ampromo-gift .product-image{
+    float: left;
+}
+
+.ampromo-gift li{
+    margin: 10px 10px;
+    float: left;
+}
+
+.ampromo-product-name{
+    font-weight: bold;
+}
+
+.add-to-cart-wrapper .product-options {
+    margin-bottom: 10px;
+}

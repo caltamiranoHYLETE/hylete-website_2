@@ -114,10 +114,15 @@ class TBT_Rewards_Model_Helper_Layout_Action_Append
      */
     public function add($block, $position = 'before')
     {
+        //PATCH https://jira.vaimo.com/browse/HYL-540
+        if (Mage::registry('vaimo_cms_edit_mode') === true) {
+            return $this;
+        }
+        //~PATCH
         if ($block instanceof Mage_Core_Block_Abstract) {
             $block = $block->toHtml();
         }
-        
+
         if ($position === 'after') {
             $this->_afterBlockHtml .= $block;
         } else {

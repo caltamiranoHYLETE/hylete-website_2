@@ -112,6 +112,8 @@
             <action method="addCss"><stylesheet>css/vaimo/cms/lib/fix/raptor.css</stylesheet><group>vcms-raptor</group></action>
             <action method="addJs"><js>vaimo/cms/lib/fixes/raptor.utils.js</js><group>vcms-raptor</group></action>
             <action method="addJs"><js>vaimo/cms/lib/fixes/raptor.js</js><group>vcms-raptor</group></action>
+
+            <action method="addJs"><js>vaimo/cms/lib/extend/raptor-phone-link.js</js><group>vcms-raptor</group></action>
         </reference>
 
         <reference name="cms.editor.js">
@@ -139,6 +141,7 @@
             <block type="vaimo_cms/page_editor" name="vaimo_cms.page_editor">
                 <action method="useInstance"><name>vaimo.cms.loaderindicator.js</name><as>loaderIndicator</as></action>
                 <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+                <action method="useInstance"><name>vaimo.cms.history.js</name><as>history</as></action>
             </block>
         </reference>
     </vcms_page_editor>
@@ -161,6 +164,18 @@
         </reference>
     </vcms_loader_indicator>
 
+    <vcms_editor_heartbeat>
+        <reference name="head">
+            <action method="addJs"><js>vaimo/cms/frontend/editor/heartbeat.js</js><group>vcms</group></action>
+        </reference>
+
+        <reference name="cms.editor.js">
+            <block type="vaimo_cms/editor_heartbeat" name="vaimo.cms.editor.heartbeat.js">
+                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
+            </block>
+        </reference>
+    </vcms_editor_heartbeat>
+
     <vcsm_base_editor>
         <reference name="head">
             <action method="addJs"><js>vaimo/cms/lib/fixes/general.js</js><group>vcms-raptor</group></action>
@@ -178,6 +193,9 @@
             <action method="addCss"><stylesheet>css/vaimo/cms/toolbar.css</stylesheet><group>vcms</group></action>
 
             <action method="addJs"><js>vaimo/cms/frontend/navigate.js</js><group>vcms</group></action>
+
+            <action method="addJs"><js>vaimo/cms/lib/notify.min.js</js><group>vcms</group></action>
+            <action method="addCss"><stylesheet>css/vaimo/cms/notifications.css</stylesheet><group>vcms</group></action>
         </reference>
 
         <reference name="after_body_start">
@@ -200,18 +218,6 @@
             </block>
         </reference>
     </vcsm_base_editor>
-
-    <vcms_editor_heartbeat>
-        <reference name="head">
-            <action method="addJs"><js>vaimo/cms/frontend/editor/heartbeat.js</js><group>vcms</group></action>
-        </reference>
-
-        <reference name="cms.editor.js">
-            <block type="vaimo_cms/editor_heartbeat" name="vaimo.cms.editor.heartbeat.js">
-                <action method="useInstance"><name>vaimo.cms.io.js</name><as>io</as></action>
-            </block>
-        </reference>
-    </vcms_editor_heartbeat>
 
     <cms_edit_mode>
         <update handle="vcsm_base_editor"/>

@@ -47,8 +47,17 @@ class Vaimo_Cms_Model_Structure_Editor extends Vaimo_Cms_Model_Editor_Abstract
         /* @var $widgetHelper Vaimo_Cms_Helper_Widget */
         $widgetHelper = $factory->getHelper('vaimo_cms/widget');
 
+        $storeId = $this->getApp()->getStore()->getId();
+
         if (isset($arguments['structure_id'])) {
             $structure->load($arguments['structure_id']);
+
+            if (!$structure->getId()) {
+                throw Mage::exception(
+                    'Vaimo_Cms',
+                    sprintf('Outdated placement information. Content possibly discarded (id=%s)', $arguments['structure_id'])
+                );
+            }
         }
 
         $structureItems = array_filter((array)$arguments['structure']);
@@ -70,10 +79,32 @@ class Vaimo_Cms_Model_Structure_Editor extends Vaimo_Cms_Model_Editor_Abstract
         /** @var Vaimo_Cms_Model_Page $target */
         $page = $factory->getModel('vaimo_cms/page', array(
             'handle' => $arguments['handle'],
-            'store' => (int)$this->getApp()->getStore()->getId()
+            'store' => (int)$storeId
         ));
 
+        $pageHelper = Mage::helper('vaimo_cms/page');
+
+        $stagedStructure = $pageHelper->getStagedStructureForReference(
+            $page,
+            $arguments['block_reference'],
+            $arguments['revision']
+        );
+
+        $shouldAllowUpdates = $pageHelper->shouldAllowUpdate(
+            $structure,
+            $stagedStructure,
+            isset($arguments['oldStructure']) ? $arguments['oldStructure'] : $structure->getOrigStructureData()
+        );
+
+        if (!$shouldAllowUpdates) {
+            throw Mage::exception(
+                'Vaimo_Cms',
+                'Conflicting placement information. Please reload the page.'
+            );
+        }
+
         $page->assignStructure($structure, \Vaimo_Cms_Helper_Page::DRAFT);
+
         $page->save();
     }
 
@@ -104,7 +135,11 @@ class Vaimo_Cms_Model_Structure_Editor extends Vaimo_Cms_Model_Editor_Abstract
 
         $data = array(
             'structures' => array(
-                array('reference' => $reference, 'id' => $structureId, 'items' => $structure->getStructureData())
+                array(
+                    'reference' => $reference,
+                    'id' => $structureId,
+                    'items' => $structure->getStructureData()
+                )
             ),
             'html' => ''
         );

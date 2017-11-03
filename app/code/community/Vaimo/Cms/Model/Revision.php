@@ -495,7 +495,10 @@ class Vaimo_Cms_Model_Revision extends Vaimo_Cms_Model_Abstract
 
             if ($validationResult !== true) {
                 throw Mage::exception(
-                    'Vaimo_Cms', $validationResult, Vaimo_Cms_Exception::STRUCTURE_VALIDATION_FAILURE);
+                    'Vaimo_Cms',
+                    $validationResult,
+                    Vaimo_Cms_Exception::STRUCTURE_VALIDATION_FAILURE
+                );
             }
 
             if ($structure->hasWidgetDataChanges()) {

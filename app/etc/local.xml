@@ -28,10 +28,10 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Wed, 17 May 2017 13:58:53 +0000]]></date>
+            <date><![CDATA[Thu, 02 Nov 2017 13:36:31 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[91067f0fe4f8c06f44a8df423c7d40aa]]></key>
+            <key><![CDATA[d1c911be14c39078e6d9db9e7c75b7d7]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
@@ -41,9 +41,9 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[hylete_dev]]></username>
-                    <password><![CDATA[9SHP$#aq4kjYUML2]]></password>
-                    <dbname><![CDATA[hylete-dev]]></dbname>
+                    <username><![CDATA[root]]></username>
+                    <password><![CDATA[eWcqNHRVnT4sgnnF]]></password>
+                    <dbname><![CDATA[hylete]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
@@ -52,7 +52,7 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[db]]></session_save>
+        <session_save><![CDATA[files]]></session_save>
     </global>
     <admin>
         <routers>

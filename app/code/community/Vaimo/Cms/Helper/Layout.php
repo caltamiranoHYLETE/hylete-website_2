@@ -41,16 +41,19 @@ class Vaimo_Cms_Helper_Layout extends Vaimo_Cms_Helper_Abstract
 
             foreach ($blockDefinitionsWithLabels as $blockDefinition) {
                 $nameInLayout = $blockDefinition->getAttribute('name');
-                if (isset($allBlocks[$nameInLayout])) {
-                    $blockWithLabel = $allBlocks[$nameInLayout];
 
-                    if ($blockWithLabel->hasDisableContentPageContainer()) {
-                        continue;
-                    }
+                if (!isset($allBlocks[$nameInLayout])) {
+                    continue;
+                }
 
-                    if ($blockWithLabel instanceof Mage_Core_Block_Text_List) {
-                        $this->_blockDefinitionsWithLabels[$nameInLayout] = $blockWithLabel;
-                    }
+                $blockWithLabel = $allBlocks[$nameInLayout];
+
+                if ($blockWithLabel->hasDisableContentPageContainer()) {
+                    continue;
+                }
+
+                if ($blockWithLabel instanceof Mage_Core_Block_Text_List) {
+                    $this->_blockDefinitionsWithLabels[$nameInLayout] = $blockWithLabel;
                 }
             }
         }
@@ -88,16 +91,18 @@ class Vaimo_Cms_Helper_Layout extends Vaimo_Cms_Helper_Abstract
                 continue;
             }
 
-            if ($block = $layout->getBlock($target)) {
-                $children = $block->getChild();
+            if (!$block = $layout->getBlock($target)) {
+                continue;
+            }
 
-                foreach ($children as $name => $child) {
-                    if (isset($widgets[$name])) {
-                        continue;
-                    }
+            $children = $block->getChild();
 
-                    $block->unsetChild($name);
+            foreach ($children as $name => $child) {
+                if (isset($widgets[$name])) {
+                    continue;
                 }
+
+                $block->unsetChild($name);
             }
         }
 
@@ -187,21 +192,5 @@ class Vaimo_Cms_Helper_Layout extends Vaimo_Cms_Helper_Abstract
 
             $block->addData($item);
         }
-    }
-
-    public function cleanLayoutCacheForHandles($handles)
-    {
-        $tags = array();
-
-        foreach (array_unique($handles) as $handle) {
-            $tags[] = Vaimo_Cms_Model_Layout_Update::CACHE_TAG . '_' . $handle;
-        }
-
-        if (!count($tags)) {
-            return;
-        }
-
-        $cache = $this->getFactory()->getHelper('vaimo_cms/cache');
-        $cache->cleanTags($tags);
     }
 }

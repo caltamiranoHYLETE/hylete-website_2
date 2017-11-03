@@ -1,0 +1,10 @@
+.vcms-edit-mode .notifyjs-corner {
+    z-index: 99999;
+}
+
+.vcms-edit-mode .notifyjs-bootstrap-info,
+.vcms-edit-mode .notifyjs-bootstrap-success,
+.vcms-edit-mode .notifyjs-bootstrap-error {
+    background-image: none;
+    padding-left: 15px;
+}

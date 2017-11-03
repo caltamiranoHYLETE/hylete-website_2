@@ -1,0 +1,5 @@
+<?php
+
+class Devweb_PaypalRedirect_Model_PaypalUk_Api_Express_Nvp extends Devweb_PaypalRedirect_Model_PaypalUk_Api_Nvp
+{
+}

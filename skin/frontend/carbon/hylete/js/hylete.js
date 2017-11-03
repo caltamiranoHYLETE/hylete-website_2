@@ -25,6 +25,11 @@ jQuery(document).ready(function ($) {
         $(this).closest('.toggle').find('.content-data').slideToggle('fast');
     });
 
+    $('.footer-heading').click(function() {
+        $(this).toggleClass('active');
+        return false;
+    });
+
     var menuSearch = $('.menu-search'),
         $mobileSearch = $('.mobile-search'),
         $mobileSearchWrapper = $('.mobile-search-wrapper'),

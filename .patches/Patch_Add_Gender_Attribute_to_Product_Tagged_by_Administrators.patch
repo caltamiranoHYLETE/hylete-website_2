@@ -1,0 +1,31 @@
+--- app/code/core/Mage/Adminhtml/Block/Tag/Assigned/Grid-o.php	2017-09-27 16:05:16.000000000 +0200
++++ app/code/core/Mage/Adminhtml/Block/Tag/Assigned/Grid.php	2017-09-27 16:05:16.000000000 +0200
+@@ -113,6 +113,7 @@
+             ->addAttributeToSelect('name')
+             ->addAttributeToSelect('attribute_set_id')
+             ->addAttributeToSelect('type_id')
++            ->addAttributeToSelect('gender')
+             //->addAttributeToFilter('status', array(''))
+             ->joinField('qty',
+                 'cataloginventory/stock_item',
+@@ -218,6 +219,20 @@
+                 'index'         => 'price',
+         ));
+ 
++        $genders = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'gender')->getSource()->getAllOptions(false);
++
++        $gender = array_column($genders, 'label', 'value');
++
++        if (!empty($gender)) {
++            $this->addColumn('gender',
++                array(
++                    'header'    => Mage::helper('catalog')->__('Gender'),
++                    'index'     => 'gender',
++                    'type'      => 'options',
++                    'options'   => $gender,
++                ));
++        }
++
+         $this->addColumn('visibility',
+             array(
+                 'header'    => Mage::helper('catalog')->__('Visibility'),

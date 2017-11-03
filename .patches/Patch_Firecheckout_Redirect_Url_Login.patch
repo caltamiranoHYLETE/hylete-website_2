@@ -1,0 +1,11 @@
+--- app/code/local/TM/FireCheckout/controllers/IndexController-o.php	2017-09-27 16:55:23.000000000 +0200
++++ app/code/local/TM/FireCheckout/controllers/IndexController.php	2017-09-27 16:55:23.000000000 +0200
+@@ -2003,7 +2003,7 @@
+             if (!empty($login['username']) && !empty($login['password'])) {
+                 try {
+                     $session->login($login['username'], $login['password']);
+-                    $result['redirect'] = Mage::helper('firecheckout')->getFirecheckoutUrl();
++                    $result['redirect'] = (!empty($login['referer'])) ? $login['referer'] : Mage::helper('firecheckout')->getFirecheckoutUrl();
+                     $result['success'] = true;
+                 } catch (Mage_Core_Exception $e) {
+                     switch ($e->getCode()) {

@@ -475,5 +475,4 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
         }
         return $this->_arrayHelper;
     }
-
 }

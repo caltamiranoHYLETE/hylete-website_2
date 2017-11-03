@@ -118,4 +118,42 @@ class Vaimo_Cms_Helper_Page extends Vaimo_Cms_Helper_Abstract
             $structureHelper->createStructureBlock($structure, $layout);
         }
     }
+
+    public function getStagedStructureForReference($page, $reference, $revisionId)
+    {
+        $structures = $page->getStageStructures($revisionId);
+
+        if (!isset($structures[$reference])) {
+            return false;
+        }
+
+        return $structures[$reference];
+    }
+
+    public function shouldAllowUpdate($structure, $storedStructure, $structureDataBefore)
+    {
+        if (!$storedStructure) {
+            return true;
+        }
+
+        if (!$structureId = $structure->getId()) {
+            return !count($storedStructure->getStructureData());
+        }
+
+        $structureHelper = Mage::helper('vaimo_cms/structure');
+
+        if ($structureId == $storedStructure->getId()) {
+            return !$structureHelper->hasPositionalDifferences(
+                $structure->getOrigStructureData(),
+                $structureDataBefore,
+                'widget_page_id'
+            );
+        }
+
+        return !$structureHelper->hasPositionalDifferences(
+            $structure->getOrigStructureData(),
+            $storedStructure->getStructureData(),
+            'clone_of'
+        );
+    }
 }

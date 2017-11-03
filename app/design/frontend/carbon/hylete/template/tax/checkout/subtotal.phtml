@@ -34,12 +34,21 @@
 $checkoutHelper = $this->helper('hylete/checkout');
 
 $priceDifference = $checkoutHelper->getCartDifferenceAmount();
+
+/** @var Mage_Customer_Model_Session $_customerSession */
+$_customerSession = Mage::getSingleton('customer/session');
+
+$_customerGroupId = $_customerSession->getCustomerGroupId();
 ?>
 
 <?php if ($this->helper('customer')->isLoggedIn()): ?>
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price" colspan="<?php echo $this->getColspan(); ?>">
-           <?php echo $this->__('HYLETE price');?>:
+        <?php if ($_customerGroupId == 6 || $_customerGroupId == 8 || $_customerGroupId == 9 || $_customerGroupId == 10 || $_customerGroupId == 17 || $_customerGroupId == 37 ): ?>
+            <?php echo $this->__('HYLETE price'); ?>
+        <?php else: ?>
+           <?php echo $this->__('price');?>:
+        <?php endif; ?>
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
            <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue() + $priceDifference) ?>

@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     /**
      * Change after back-ported from M2 (1 line)

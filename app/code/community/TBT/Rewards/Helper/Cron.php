@@ -58,17 +58,11 @@ class TBT_Rewards_Helper_Cron extends Mage_Core_Helper_Abstract
      * @return string timestamp
      */
     public function getCronTimestamp() {
-        /** @var Mage_Core_Model_Resource_Config_Data_Collection $configDataCollection */
-        $configDataCollection = Mage::getResourceModel('core/config_data_collection');
-
-        $configDataCollection->addFieldToFilter('scope', 'default');
-        $configDataCollection->addFieldToFilter('scope_id', 0);
-        $configDataCollection->addFieldToFilter('path', array('eq' => 'testsweet/crontest/timestamp'));
-
-        /** @var Mage_Core_Model_Config_Data $configData */
-        $configData = $configDataCollection->getFirstItem();
-
-        return (string)$configData->getValue();
+        //PATCH elvin@vaimo take direct value from config table, not cached value
+        //$timestamp = Mage::getStoreConfig('testsweet/crontest/timestamp');
+        $timestamp = Mage::getSingleton('testsweet/observer_crontest')->getCronTimestamp();
+        //~PATCH
+        return $timestamp;
     }
 
     /**

@@ -1,4 +1,6 @@
 ;raptor(function($) {
+    'use strict';
+
     /**
      * Container for original Raptor methods that have been monkey-patched/fixed
      */
@@ -39,16 +41,23 @@
     };
 
     /**
-     * FIX: make sure that local link's base url is correct & don't open dialog partially off-screen
+     * FIX: make sure that local link's base url is correct & don't open dialog partially off-screen & make
+     * sure that selection in case a LINK was just added is correctly wrapping the created A
      */
     jQuery.vaimoRaptorOriginalMethods.ui.linkCreate = jQuery.vaimoRaptorOriginalMethods.ui.linkCreate || {};
     jQuery.vaimoRaptorOriginalMethods.ui.linkCreate.getDialog = raptorModel.ui.linkCreate.getDialog;
 
     raptorModel.ui.linkCreate.getDialog = function() {
-        var dialog = jQuery.vaimoRaptorOriginalMethods.ui.linkCreate.getDialog.apply(this);
+        var element = jQuery.vaimoRaptorUtils.selectionGetElement();
 
-        var label = dialog.find('label[for="raptor-internal-href"]');
-        label.html(this.options.baseUrl);
+        if (element.is('a')) {
+            jQuery.vaimoRaptorUtils.selectionSelectInner(element[0]);
+        }
+
+        var dialog = jQuery.vaimoRaptorOriginalMethods.ui.linkCreate.getDialog.apply(this, arguments);
+
+        dialog.find('label[for="raptor-internal-href"]')
+            .html(this.options.baseUrl);
 
         return dialog;
     };

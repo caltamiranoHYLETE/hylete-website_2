@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.cmsWidgetEditor', $.vaimo.cmsEditorBase, {
         options: {
@@ -43,7 +43,7 @@
             var that = this;
             var selectors = this.options.selectors;
 
-            var editAction = function() {
+            var editAction = function(event, widgetConfiguration) {
                 var $widget = that._resolveWidgetFromDomNode(this);
 
                 if (!$widget.length) {
@@ -51,7 +51,7 @@
                     return
                 }
 
-                that.open($widget);
+                that.open($widget, widgetConfiguration);
             };
 
             if (this.options.history) {
@@ -113,7 +113,7 @@
                 this.options.handlers[name] = handler;
             }
         },
-        open: function($widget) {
+        open: function($widget, widgetConfiguration) {
             var idAttributeName = this.options.attributes.id;
             var paramsAttributeName = this.options.attributes.params;
             var parentAttributeNames = this.options.attributes.parents;
@@ -128,6 +128,10 @@
 
             if (this.options.storeId) {
                 data['store'] = this.options.storeId;
+            }
+
+            if (widgetConfiguration) {
+                data['configuration'] = encodeURIComponent(widgetConfiguration);
             }
 
             if ($widget) {
@@ -182,6 +186,8 @@
 
             if (this.options.name) {
                 colorBoxOptions.onComplete = function() {
+                    $('#colorbox').addClass('vcms-ui');
+
                     setTimeout(function() {
                         $('.cboxIframe').attr('name', widgetEditor.options.name);
                     }, 200);
@@ -243,7 +249,11 @@
                     data['parameters'] = transport.params;
                     data[widgetEditor.options.requestIdAttribute] = id;
 
-                    widgetEditor._save(data, Translator.translate('Saving Widget'));
+                    widgetEditor.options.history.attachState(data.parameters);
+
+                    widgetEditor._save(data, Translator.translate('Saving Widget'), undefined, {
+                        message: 'Widget updated'
+                    });
                 } else {
                     var targetId = $widget.attr(idAttributeName);
 
@@ -262,6 +272,7 @@
 
             colorBoxOptions.onClosed = function() {
                 window.removeEventListener(messageName, configReceiver);
+                $('#colorbox').removeClass('vcms-ui');
             };
 
             $.colorbox(colorBoxOptions);

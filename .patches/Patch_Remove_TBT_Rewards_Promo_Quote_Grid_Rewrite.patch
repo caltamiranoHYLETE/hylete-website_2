@@ -1,0 +1,11 @@
+--- app/code/community/TBT/Rewards/etc/config-o.xml	2017-10-16 11:59:14.000000000 +0200
++++ app/code/community/TBT/Rewards/etc/config.xml	2017-10-16 11:59:34.000000000 +0200
+@@ -863,7 +863,7 @@
+             <adminhtml>
+                 <rewrite>
+                     <promo_catalog_grid>TBT_Rewards_Block_Adminhtml_Promo_Catalog_Grid</promo_catalog_grid>
+-                    <promo_quote_grid>TBT_Rewards_Block_Adminhtml_Promo_Quote_Grid</promo_quote_grid>
++                    <!--promo_quote_grid>TBT_Rewards_Block_Adminhtml_Promo_Quote_Grid</promo_quote_grid-->
+                     <customer_edit>TBT_Rewards_Block_Manage_Customer_Edit</customer_edit>
+                     <sales_order_create_search_grid_renderer_product>TBT_Rewards_Block_Adminhtml_Sales_Order_Create_Search_Grid_Renderer_Product</sales_order_create_search_grid_renderer_product>
+                     <sales_order_create_items_grid>TBT_Rewards_Block_Adminhtml_Sales_Order_Create_Items_Grid</sales_order_create_items_grid>

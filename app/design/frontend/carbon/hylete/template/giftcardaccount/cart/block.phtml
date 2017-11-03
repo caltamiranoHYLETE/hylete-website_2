@@ -38,11 +38,15 @@
     </span>
     <form id="giftcard-form" action="<?php echo $this->getAddCartActionUrl() ?>" method="post">
         <fieldset>
-            <label for="giftcard_code"><?php echo $this->__('enter the gift card code') ?></label>
-            <span><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" /></span>
-            <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo Mage::helper('core')->quoteEscape($this->__('apply gift card')) ?>"><?php echo $this->__('apply gift card') ?></button>
-            <br />
-            <a class="check-gc-status" onclick="checkGiftCardStatus();" value="<?php echo Mage::helper('core')->quoteEscape($this->__('check gift card balance')) ?>"><?php echo $this->__('check gift card balance') ?></a>
+            <label for="giftcard_code"><?php echo $this->__('enter a gift card code if you have one') ?></label>
+            <div class="clearfix">
+            <div class="pull-left"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" /></div>
+            <div class="pull-left button-section">
+                <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo Mage::helper('core')->quoteEscape($this->__('apply gift card')) ?>"><?php echo $this->__('apply gift card') ?></button>
+                <p>or</p>
+                <a class="check-gc-status" onclick="checkGiftCardStatus();" value="<?php echo Mage::helper('core')->quoteEscape($this->__('check balance')) ?>"><?php echo $this->__('check balance') ?></a>
+            </div>
+            </div>
         </fieldset>
     </form>
 

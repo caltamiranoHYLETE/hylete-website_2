@@ -115,12 +115,17 @@ class Vaimo_Hylete_Helper_Checkout extends Mage_Core_Helper_Abstract
         $taxHelper = Mage::helper('tax');
 
         if (in_array($groupId, $this->_getGroupIds())) {
-            return $taxHelper->__('VIP Team Pricing');
+            return $taxHelper->__('Team Pricing');
         } elseif ($groupId == $this->getDefaultCustomerGroupId()) {
             return $total->getTitle();
         }
 
-        return $taxHelper->__('Exclusive Pricing');
+        if ($groupId == 37) {
+            return $taxHelper->__('Investor Pricing');
+        }
+        else {
+            return $taxHelper->__('Exclusive Pricing');
+        }
     }
 
     /**

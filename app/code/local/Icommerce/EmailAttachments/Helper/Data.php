@@ -86,7 +86,7 @@ class Icommerce_EmailAttachments_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $io->streamOpen($fileName, 'r');
-        $isFileLocked = $io->streamLock(true);
+        $isFileLocked = $io->streamLock(false);
         if ($isFileLocked) {
             while (false !== ($line = $io->streamRead())) {
                 $content .= $line;

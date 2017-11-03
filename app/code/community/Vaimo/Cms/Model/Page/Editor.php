@@ -75,11 +75,15 @@ class Vaimo_Cms_Model_Page_Editor extends Vaimo_Cms_Model_Editor_Abstract
         $this->setTargetedStructures($structureIds);
     }
 
-    public function getResponse()
+    public function getResponse($arguments)
     {
         $layout = $this->getApp()->getLayout();
 
-        $structures = $this->getTargetedStructures();
+        if (!$structures = $this->getTargetedStructures()) {
+            $page = $this->_getPage();
+            $structures = $page->getStageStructures($arguments['revision']);
+        }
+
         $structureHelper = $this->getFactory()->getHelper('vaimo_cms/structure');
 
         return array(

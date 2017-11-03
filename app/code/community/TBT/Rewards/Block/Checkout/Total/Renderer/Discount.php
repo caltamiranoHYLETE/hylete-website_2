@@ -41,7 +41,7 @@
  * @subpackage  Block
  * @author      Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Block_Checkout_Total_Renderer_Discount extends Mage_Tax_Block_Checkout_Discount
+class TBT_Rewards_Block_Checkout_Total_Renderer_Discount extends Amasty_Rules_Block_Checkout_Discount
 {
     /**
      * Main Constructor

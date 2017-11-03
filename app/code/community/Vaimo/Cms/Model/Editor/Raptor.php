@@ -30,12 +30,20 @@ class Vaimo_Cms_Model_Editor_Raptor extends Vaimo_Cms_Model_Abstract
      */
     protected $_fileManager;
 
+    /**
+     * @var Vaimo_Cms_Helper_Data
+     */
+    protected $_helper;
+
     public function __construct(array $args = array())
     {
         parent::__construct($args);
 
         $this->_fileManager = isset($args['fileManager']) ?
             $args['fileManager'] : $this->getFactory()->getModel('vaimo_cms/fileManager');
+
+        $this->_helper = isset($args['helper']) ?
+            $args['helper'] : $this->getFactory()->getHelper('vaimo_cms');
     }
 
     public function getStoragePath($filename, $thumbnail = false)
@@ -51,10 +59,12 @@ class Vaimo_Cms_Model_Editor_Raptor extends Vaimo_Cms_Model_Abstract
      * @param $path
      * @param $start
      * @param $limit
+     * @param $sort
+     * @param $direction
      * @param $searchString
      * @return array
      */
-    public function getFiles($path, $start, $limit, $searchString)
+    public function getFiles($path, $start, $limit, $sort, $direction, $searchString)
     {
         $filesCollection = $this->_fileManager->getFilesCollection($path);
 
@@ -85,6 +95,7 @@ class Vaimo_Cms_Model_Editor_Raptor extends Vaimo_Cms_Model_Abstract
         }
 
         $total = $filesCollection->getSize();
+        $files = $this->_helper->sortArrayItemsByKey($files, $sort, $direction);
         $filteredTotal = count($files);
 
         return array(

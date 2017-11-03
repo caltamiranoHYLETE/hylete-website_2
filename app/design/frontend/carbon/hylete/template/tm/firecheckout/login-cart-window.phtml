@@ -1,0 +1,90 @@
+<?php if (Mage::getSingleton('customer/session')->isLoggedIn()): return; endif; ?>
+<div id="firecheckout-login-window" class="firecheckout-set fc-form-compact" style="display: none;">
+    <div class="fc-window-title">
+        <span><?php echo $this->__('Login into your Account') ?></span>
+    </div>
+    <form action="<?php echo $this->getUrl('firecheckout/index/login', array('_secure'=>(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'))) ?>" method="post" id="firecheckout-login-form">
+        <div class="content">
+            <ul class="form-list">
+                <li class="wide">
+                    <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                    <div class="input-box">
+                        <input type="email" name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                    </div>
+                </li>
+                <li class="wide">
+                    <label for="pass" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
+                        <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="link-forgot-password" title="<?php echo $this->__('Forgot your password?') ?>"><?php echo $this->__('Forgot?') ?></a>
+                    </div>
+                </li>
+                <?php echo $this->getChildHtml('form.additional.info'); ?>
+            </ul>
+        </div>
+        <div class="buttons-set">
+            <button type="submit" class="button btn-hero" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+        </div>
+        <input type="hidden" name="login[referer]" value="<?php echo $this->getUrl('checkout/cart', ['_secure'=>(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on')])?>"/>
+        <?php echo $this->getBlockHtml('formkey') ?>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+        var loginForm = new VarienForm('firecheckout-login-form', true);
+
+        $$('#firecheckout-login-window .link-forgot-password').each(function(el) {
+            el.observe('click', function(e) {
+                Event.stop(e);
+                var email = $('email'),
+                    messageContainer = $('firecheckout-login-form');
+
+                FC.ForgotPassword.forgot(email, messageContainer, el);
+            });
+        });
+
+        $('firecheckout-login-form').observe('submit', function(e) {
+            if (typeof event != 'undefined') { // ie9 fix
+                event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            }
+            Event.stop(e);
+
+            if (!loginForm.validator.validate()) {
+                return false;
+            }
+
+            if ($('send2')) {
+                FC.Loader.toggle(true, $('send2'));
+            }
+
+            new Ajax.Request($('firecheckout-login-form').action, {
+                parameters: $('firecheckout-login-form').serialize(),
+                onSuccess: function(transport) {
+                    FC.Messenger.clear('firecheckout-login-form');
+
+                    var response = transport.responseText.evalJSON();
+                    if (response.error) {
+                        FC.Utils.shake($('firecheckout-login-form').up('.firecheckout-window'));
+                        FC.Messenger.add(response.error, 'firecheckout-login-form', 'error');
+                        var captchaEl = $('user_login');
+                        if (captchaEl && captchaEl.captcha) {
+                            captchaEl.captcha.refresh(captchaEl.previous('img.captcha-reload'));
+                            // try to focus input element:
+                            var inputEl = $('captcha_' + id);
+                            if (inputEl) {
+                                inputEl.focus();
+                            }
+                        }
+                    }
+                    if (response.redirect) {
+                        document.location = response.redirect;
+                        return;
+                    }
+                    if ($('send2')) {
+                        FC.Loader.toggle(false, $('send2'));
+                    }
+                }
+            });
+        });
+    //]]>
+    </script>
+</div>

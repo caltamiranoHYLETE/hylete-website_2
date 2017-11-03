@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     /**
      * Change after back-ported from M2 (17 lines)
@@ -510,7 +510,7 @@
                             classes.push(overlayManager.options.classes.hide);
                         }
 
-                        classes.push('js-markup-overlay');
+                        classes.push('js-markup-overlay vcms-ui');
 
                         if (classes.length) {
                             extraOptions += ' class="' + classes.join(' ') + '"';
