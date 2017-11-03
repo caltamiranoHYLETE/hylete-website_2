@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     /**
      * Change after back-ported from M2 (3 lines)
@@ -19,10 +19,10 @@
             widgetEditor: false,
             previewGenerator: false,
             markup: {
-                editor: '<div class="{{CLASS}}" style="{{STYLE}}"><ul></ul></div>' +
+                editor: '<div class="vcms-ui {{CLASS}}" style="{{STYLE}}"><ul></ul></div>' +
                     '<div class="vcms-grid-placeholder vcms-hide" style="{{STYLE}}">' +
                     '<div class="vcms-grid-placeholder-item"></div></div>',
-                editorItem: '<li class="{{CLASS}}" {{EXTRA}}>{{CONTENT}}</li>'
+                editorItem: '<li class="vcms-ui {{CLASS}}" {{EXTRA}}>{{CONTENT}}</li>'
             },
             selectors: {
                 widgetName: '.js-vcms-widget-name',
@@ -122,12 +122,15 @@
             var toolbar = selectors.toolbarButtonGroup;
 
             this.options.history.registerAction(
-                selectors.container, 'click', selectors.editStructureButton, $.proxy(this.editStructure, this));
+                selectors.container,
+                'click',
+                selectors.editStructureButton,
+                $.proxy(this.editStructure, this)
+            );
 
             $(toolbar.save).click($.proxy(this.saveStructure, this));
             $(toolbar.cancel).click($.proxy(this.cancelStructure, this));
             $(toolbar.addCmsBlock).click($.proxy(this.addCmsBlock, this));
-            $(toolbar.addStandardOutputBlock).click($.proxy(this.addStandardContentOutputWidget, this, null, null));
 
             $(selectors.container).on('click', '.vcms-grid-placeholder', $.proxy(this.addCmsBlock, this));
 
@@ -300,7 +303,7 @@
             }.bind(this));
         },
 
-        editStructure: function (event) {
+        editStructure: function (event, structureItems) {
             var $button = $(event.target);
 
             if ($button.hasClass('disabled')) {
@@ -312,7 +315,14 @@
             this.currentStructureOverlay = this.options.overlayManager.getOriginInfoForNode(event.target);
 
             var structureReference = this.currentStructureOverlay.value;
+
             var structure = this._getStructureDefinition(structureReference);
+
+            if (structureItems) {
+                structure = $.extend({}, structure, {
+                    items: structureItems
+                });
+            }
 
             this.loaderIndicator.show('Preparing the editor');
 
@@ -331,7 +341,7 @@
                         $editor.removeClass('vcms-hide');
                     }
                 }.bind(this));
-            }.bind(this), 10);
+            }.bind(this), 150);
         },
 
         saveStructure: function (event) {
@@ -339,7 +349,17 @@
 
             this._close();
 
-            this._save(data, __('Saving Structure'));
+            this.options.history.attachState(data.structure);
+
+            var definition = this._getStructureDefinition(data.block_reference);
+
+            if (definition && definition.items) {
+                data.oldStructure = definition.items;
+            }
+
+            this._save(data, __('Saving Structure'), undefined, {
+                message: 'Content placement updated'
+            });
         },
 
         _serialize: function (extra) {

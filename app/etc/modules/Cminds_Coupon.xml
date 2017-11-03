@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Cminds_Coupon>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Cminds_Coupon>
+    </modules>
+</config>

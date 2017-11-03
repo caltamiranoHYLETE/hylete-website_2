@@ -80,6 +80,15 @@ class Vaimo_Cms_Helper_Editor extends Vaimo_Cms_Helper_Abstract
         return true;
     }
 
+    public function hasProcessingFailures($response)
+    {
+        $resultBody = Zend_Json_Decoder::decode($response->getBody());
+
+        return $response->getHttpResponseCode() == 200 && isset($resultBody['error'])
+            || $response->getHttpResponseCode() == 400
+            || $response->getHttpResponseCode() == 500;
+    }
+
     public function getActionUri($action)
     {
         $factory = $this->getFactory();
@@ -229,5 +238,48 @@ class Vaimo_Cms_Helper_Editor extends Vaimo_Cms_Helper_Abstract
         }
 
         return $storeReference;
+    }
+
+    public function executeRouterAction($actionCallback, \Closure $failureHandler = null)
+    {
+        try {
+            $result = $actionCallback();
+        } catch (Exception $e) {
+            if ($failureHandler) {
+                $failureHandler();
+            }
+
+            if (Mage::getIsDeveloperMode() || $e instanceof Vaimo_Cms_Exception) {
+                $code = 400;
+                $message = $e->getMessage();
+                $trace = $e->getTraceAsString();
+            } else {
+                $code = 500;
+                $message = 'Internal error encountered while processing editor command';
+                $trace = '';
+            }
+
+            $result = array_filter(array(
+                'code' => $code,
+                'error' => $message,
+                'trace' => $trace
+            ));
+
+            Mage::logException($e);
+        }
+
+        return $result;
+    }
+
+    public function rollback()
+    {
+        $factory = $this->getFactory();
+
+        $factory->getSingleton('core/resource')
+            ->getConnection('write')
+            ->rollback();
+
+        $factory->getSingleton('vaimo_cms/cache')
+            ->rollback();
     }
 }

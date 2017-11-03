@@ -12,6 +12,13 @@
     }
 }
 
+/* Desktop */
+@media (min-width: 768px) {
+    .footer-heading .fa-angle-right {
+        display: none !important;
+    }
+}
+
 /* Extra small devices */
 @media (max-width: 767px) {
     #footer {
@@ -19,15 +26,15 @@
         margin-top: 0;
         padding-bottom: 0;
     }
-    
+
     #footer .container {
         padding: 0;
     }
-    
+
     #footer .col-sm-3:last-child .content {
         border: none;
     }
-    
+
     #footer h5.heading {
         border-bottom: none;
         border-top: 1px #000000 solid;
@@ -53,20 +60,20 @@
         margin: 0;
         padding: 0 10px 10px 10px;
     }
-    
+
     #footer .content p {
         margin-left: 25px;
     }
-    
+
     #footer .content p:first-child {
         margin-top: 0;
     }
-    
+
     #footer .content p a {
         display: block;
         padding: 5px 0;
     }
-    
+
     .newsletter {
         margin-bottom: 0;
     }
@@ -74,12 +81,12 @@
     .klaviyo_field_group > span {
         margin: 0;
     }
-    
+
     .newsletter form {
         display: inline-block;
         text-align: left;
     }
-    
+
     .newsletter label {
         display: block;
         margin-bottom: 15px;

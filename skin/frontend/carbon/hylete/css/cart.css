@@ -124,8 +124,6 @@
     margin-bottom: 5px;
 }
 
-
-
 /* Options Tool Tip */
 .cart .item-options dd {
     padding-left: 10px;
@@ -170,7 +168,9 @@
 }
 
 .discounts h2 {
-    margin: 25px 0 5px 0;
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .discounts label {
@@ -179,16 +179,15 @@
 }
 
 .discounts input {
-    margin: 25px 15px 0 0;
-    width: 200px;
+    margin: 25px 5px 0 0;
+    width: 220px;
 }
 
 .check-gc-status {
     display: inline-block;
 }
 
-.discounts button,
-.check-gc-status {
+.discounts button {
     margin: 25px 0 0 0;
     vertical-align: top;
 }
@@ -197,10 +196,38 @@
     margin-right: 15px;
 }
 
+.discounts button {
+    width: 140px;
+}
+
 .discounts .validation-advice {
     left: 0;
     margin-top: 3px;
     position: absolute;
+}
+
+.discount,
+.giftcard {
+    padding-left: 26px;
+}
+
+.giftcard button {
+    display: block;
+}
+
+.giftcard form .button-section p {
+    text-align: center;
+    margin: 8px 0;
+}
+
+.giftcard form .button-section a {
+    display: block;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.giftcard form .button-section a:hover {
+    text-decoration: none;
 }
 
 .cart .btn-proceed-checkout {
@@ -215,6 +242,40 @@
 
 .cart .totals table {
     width: 100%;
+}
+
+.promo-content {
+    display: none;
+    margin-top: 20px;
+}
+
+.open-promo:checked ~ .promo-content {
+    display: block;
+}
+
+.giftcard-content {
+    display: none;
+    margin-top: 20px;
+}
+
+.open-giftcard:checked ~ .giftcard-content {
+    display: block;
+}
+
+.coupons-wrapper-logged .cart-points-spender {
+    display: inline-block;
+}
+
+.coupons-wrapper-logged .promo-wrapper {
+
+}
+
+.coupons-wrapper {
+    margin-top: 29px;
+}
+
+.giftcard-wrapper {
+    margin: 20px 0;
 }
 
 .cart .totals th {
@@ -235,14 +296,50 @@
 }
 
 .cart .totals button {
-    margin: 25px 0 0 0;
+    margin: 0;
+}
+
+.cart .totals .cart-below-checkout-button {
+    margin-top: 25px;
+}
+
+.cart .totals .cart-above-checkout-button {
+    height: 25px;
+    display: block;
+}
+
+.page-title .cart-title {
+    width: 100%;
+    float: none;
+    text-align: center;
+    font-size: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d3d3d3;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .cart .continue-shopping {
-    float: right;
+    float: left;
     display: inline-block;
-    margin-top: 20px;
     text-align: center;
+    margin: 5px 5px 5px 0;
+    padding: 5px 5px 5px 0;
+}
+
+p.actions button#empty_cart_button {
+    font-weight: normal;
+    padding: 0;
+}
+
+.button-text {
+    border: none;
+}
+
+.button-text:hover {
+    background: transparent;
+    color: #000;
+    text-decoration: underline;
 }
 
 .qty-controls {
@@ -315,4 +412,280 @@
     font-size: 15px;
 }
 
+/** Buttons from firecheckout **/
 
+cart-login:after {
+    clear: both;
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.button-login-facebook {
+    background: #3b5998 none repeat scroll 0 0;
+    border-color: #3b5998;
+    color: #fff;
+}
+
+.login-section-action {
+    float: left;
+    width: 49%;
+}
+
+.login-section-button {
+    margin: 0;
+    font-weight: bold;
+    height: 40px;
+    padding: 10px 12px;
+    text-align: center;
+    display: block;
+}
+
+.login-section-actions::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.login-section-action .fa {
+    font-size: 16px;
+    margin-right: 3px;
+    vertical-align: text-bottom;
+}
+
+.login-section-action:first-child {
+    margin-right: 2%;
+}
+
+.login-section-action:first-child > div > p {
+    margin: 8px 0 4px;
+}
+
+.login-section-action .button-create-account {
+    font-size: 12px;
+    text-decoration: underline;
+    display: block;
+}
+
+.login-section-action .button-create-account:hover {
+    text-decoration: none;
+}
+
+.firecheckout-set button.btn-checkout, .firecheckout-set button.btn-primary, .firecheckout-window button.button {
+    background-color: #34baf3;
+}
+
+.firecheckout-set input.input-text, .firecheckout-set .form-list select, .firecheckout-set select, .firecheckout-set textarea {
+    border-color: #d3d3d3;
+}
+
+.firecheckout-set .field .input-box, .firecheckout-set .wide .input-box, .firecheckout-set .captcha-input-container .input-box {
+    position: relative;
+}
+
+.cart-collaterals .discounts {
+    padding-top: 22px;
+}
+
+.link-forgot-password, .firecheckout-window a.link-forgot-password {
+    float: right;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.firecheckout-window a {
+    color: #1152ad;
+}
+
+.firecheckout-index-index .giftcard {
+    padding-left: 0;
+}
+
+.firecheckout-index-index #checkout-giftcard-load {
+    padding: 0 23px;
+}
+
+.firecheckout-index-index #checkout-giftcard-load .b-discount__title {
+    padding: 0;
+}
+
+.firecheckout-index-index #checkout-giftcard-load .b-discount__title span {
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: lowercase;
+}
+
+.rewards-box-spend-minicart.discount h2 {
+    margin: 0;
+}
+
+.rewards-box-spend-minicart {
+    padding-left: 0;
+}
+
+.coupons-checkboxes {
+    padding-left: 16px;
+}
+
+/* Cart page checkboxes */
+.open-promo,
+.open-giftcard {
+    position: relative;
+}
+
+.open-promo + label::before,
+.open-giftcard + label::before {
+    display: none !important;
+}
+
+.open-promo,
+.open-giftcard {
+    -webkit-appearance: none;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    background: none;
+    box-shadow: 0 0 0 0 #aaa inset !important;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    outline: 0;
+    width: 18px !important;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px 0 0 !important;
+    top: 0;
+    vertical-align: middle;
+    display: inline-block !important;
+}
+
+.open-promo::after,
+.open-giftcard::after {
+    content: ' ';
+    background-image: url(../images/checkmark.png);
+    background-size: 12px 10px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    -webkit-transition: all 0.2s ease-in-out 0.1s;
+    transition: all 0.2s ease-in-out 0.1s;
+    transform: scale(0.2);
+    opacity: 0;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+}
+
+.open-promo:checked,
+.open-giftcard:checked {
+    box-shadow: 0 0 0 10px #888 inset !important;
+    border: none;
+}
+
+.open-promo:checked::after,
+.open-giftcard:checked::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.amrules-amount {
+    vertical-align: top;
+}
+
+.totals tr.summary-total .amrules-discount-label {
+    text-align: left;
+    float: left;
+    padding-left: 0;
+}
+
+.cart .totals .a-right.amrules-discount-wrapper {
+    padding-left: 15px;
+}
+
+.amrules-discount {
+    margin-left: -15px;
+}
+
+.summary-total .fa-angle-up {
+    margin-left: 15px;
+    transform: rotate(90deg);
+}
+
+.summary-total.show-details .fa-angle-up {
+    transform: rotate(0deg);
+}
+
+.cart-collaterals .rewards-box-spend-minicart .cartSlider {
+    width: 270px;
+}
+
+.cart-collaterals .rewards-box-spend-minicart .cartSlider .slider {
+    position: relative;
+}
+
+.cart-collaterals .rewards-box-spend-minicart .cartSlider .btn-slider-reduce-points,
+.cart-collaterals .rewards-box-spend-minicart .cartSlider .btn-slider-increase-points {
+    height: 18px;
+    width: 20px;
+}
+
+.cart-collaterals .rewards-box-spend-minicart .cartSlider .btn-slider-increase-points {
+    top: 18px !important;
+    position: absolute !important;
+}
+
+.amrules-discount-label-no-link {
+    cursor: default;
+}
+
+.checkoutsuccess-block-wrapper .order-item-row-wrapper,
+.order-details .order-item-row-wrapper {
+    display: block;
+    overflow: hidden;
+}
+
+.checkoutsuccess-block-wrapper .order-item-row__image {
+    margin-top: 10px;
+}
+
+.checkoutsuccess-block-wrapper dl {
+    clear: both;
+}
+
+.checkoutsuccess-block-wrapper dt,
+.order-details dt {
+    float: left;
+    padding: 0;
+    margin: 0 20px 10px 0;
+    clear: both;
+}
+
+.checkoutsuccess-block-wrapper dd {
+    float: left;
+    width: 50%;
+    margin: 0 !important;
+}
+
+.sales-order-view .order-details dl dd {
+    vertical-align: top;
+    float: left;
+    width: 80%;
+    margin: 0 0 10px 0;
+}
+
+.sweettooth-point-spender .cartSlider .cartSlider_cell {
+    margin-left: 20px;
+    position: absolute;
+    top: 17px;
+}

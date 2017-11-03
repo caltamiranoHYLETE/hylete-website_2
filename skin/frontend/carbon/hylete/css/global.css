@@ -1095,3 +1095,7 @@ iframe {
 .fancybox-title-float-wrap {
     z-index: 99996 !important;
 }
+
+a.hm-btn-img {
+    width: 100%;
+}

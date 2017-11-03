@@ -574,6 +574,16 @@
     }
 }
 
+@media (min-width: 768px) {
+    .mobile-nav#toggle-nav {
+        display: none !important;
+    }
+
+    .cdz-menu {
+        display: block!important;
+    }
+}
+
 @media (max-width: 767px) {
     #header .container {
         padding: 0 15px;
@@ -581,5 +591,21 @@
 
     #header .logo {
         width: 87px;
+    }
+
+    .cdz-menu {
+        display: none;
+    }
+
+    .cdz-menu .groupmenu .item.level-top > .menu-link {
+        padding: 11px;
+    }
+
+    .cdz-menu .item.level-top {
+        overflow-x: hidden;
+    }
+
+    .mobile-nav#toggle-nav {
+        display: inline-block !important;
     }
 }

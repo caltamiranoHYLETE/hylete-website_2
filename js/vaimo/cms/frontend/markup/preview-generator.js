@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.markupPreviewGenerator', {
         options: {

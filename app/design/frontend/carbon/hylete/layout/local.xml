@@ -176,6 +176,10 @@
                 <type>skin_js</type>
                 <name>js/tooltip.js</name>
             </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/mobile-menu.js</name>
+            </action>
         </reference>
 
         <reference name="top.links">
@@ -1037,6 +1041,18 @@
                 <params/>
             </action>
             <action method="addItem">
+                <type>skin_css</type>
+                <name>tm/firecheckout/css/components/window.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>tm/firecheckout/css/components/form.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>tm/firecheckout/css/components/buttons.css</name>
+            </action>
+            <action method="addItem">
                 <type>js</type>
                 <name>varien/weee.js</name>
                 <group>cart</group>
@@ -1045,6 +1061,37 @@
                 <type>skin_js</type>
                 <name>js/discount.js</name>
             </action>
+
+            <action method="addItem" ifconfig="firecheckout/design/hide_field_labels"><type>skin_css</type><name>tm/firecheckout/css/components/form-compact.css</name></action>
+            <action method="addItem" ifconfig="firecheckout/design/hide_field_labels"><type>skin_js</type><name>tm/firecheckout/js/components/form-compact.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>tm/firecheckout/css/components/animation.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>tm/firecheckout/css/components/loader.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/lib/cleave.js/cleave.min.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>tm/firecheckout/lib/flatpickr/flatpickr.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/lib/flatpickr/flatpickr.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/lib/matchMedia.js/matchMedia.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/lib/matchMedia.js/matchMedia.addListener.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/prototype.sticky-kit.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/platform.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/rtl.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/utils.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/sticky.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/calendar.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/ajax.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/cart.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/date-element.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/dependent-fields.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/hylete-fc-forgot-password.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/form-field-manager.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/form-autofill.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/cc.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/messenger.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/taxvat.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/validator.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/window.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>tm/firecheckout/js/components/layout-tablet.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/stay-checked.js</name></action>
             <action method="setRobots">
                 <value>NOINDEX,FOLLOW</value>
             </action>
@@ -1053,6 +1100,12 @@
             <action method="setTemplate" ifconfig="carbon/settings/is_enterprise">
                 <template>checkout/cart/crosssell.phtml</template>
             </action>
+        </reference>
+        <reference name="content">
+            <block type="core/text_list" name="firecheckout.top.container" as="firecheckout.top.container"/>
+            <block type="core/template" name="customer.login" template="tm/firecheckout/login-cart-window.phtml"/>
+            <block type="customer/account_forgotpassword" name="customer.forgot" template="tm/firecheckout/forgotpassword.phtml"/>
+            <block type="core/template" name="persistent.login" template="tm/firecheckout/persistent.phtml"/>
         </reference>
     </checkout_cart_index>
 

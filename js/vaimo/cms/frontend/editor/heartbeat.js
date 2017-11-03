@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.cmsHeartBeat',  $.vaimo.cmsEditorBase, {
         options: {
@@ -27,7 +27,7 @@
         _update: function(data) {
             this.failures = 0;
 
-            if (data != '1') {
+            if (data !== '1') {
                 return;
             }
 

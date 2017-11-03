@@ -113,6 +113,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id')
+            ->addAttributeToSelect('gender')
             //->addAttributeToFilter('status', array(''))
             ->joinField('qty',
                 'cataloginventory/stock_item',
@@ -217,6 +218,20 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
                 'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index'         => 'price',
         ));
+
+        $genders = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'gender')->getSource()->getAllOptions(false);
+
+        $gender = array_column($genders, 'label', 'value');
+
+        if (!empty($gender)) {
+            $this->addColumn('gender',
+                array(
+                    'header'    => Mage::helper('catalog')->__('Gender'),
+                    'index'     => 'gender',
+                    'type'      => 'options',
+                    'options'   => $gender,
+                ));
+        }
 
         $this->addColumn('visibility',
             array(

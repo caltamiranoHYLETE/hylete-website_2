@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <cminds_coupon translate="label">
+            <label>Custom Coupons Error Messages</label>
+            <tab>sales</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label" module="cminds_coupon">
+                    <label>General configuration</label>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <module_enabled translate="label">
+                            <label>Module enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </module_enabled>
+                        <coupon_doesnt_exists translate="label">
+                            <label>Message when coupon does not exist</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </coupon_doesnt_exists>
+                        <coupon_doesnt_apply_conditions translate="label">
+                            <label>Coupon code exist but do not apply to the rule conditions</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </coupon_doesnt_apply_conditions>
+                        <coupon_code_is_expired translate="label">
+                            <label>Coupon code exist but is expired</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </coupon_code_is_expired>
+                        <user_not_in_assigned_group translate="label">
+                            <label>Customer doesn't belong to the assigned customer group</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </user_not_in_assigned_group>
+                        <over_used translate="label">
+                            <label>Message when coupon was used more than it can be used</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </over_used>
+                        <over_used_customer translate="label">
+                            <label>Message when coupon was used more than it can be used in customer group</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </over_used_customer>
+                        <default_error_message translate="label">
+                            <label>Any other error messages applies</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </default_error_message>
+                        <coupon_code_is_correct translate="label">
+                            <label>Default success message</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use the shortcode %s to display the coupon code used by the customer</comment>
+                            <depends>
+                                <module_enabled>1</module_enabled>
+                            </depends>
+                        </coupon_code_is_correct>
+                    </fields>
+                </general>
+            </groups>
+        </cminds_coupon>
+    </sections>
+</config>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
  * @package Amasty_Promocopy
  */
 class Amasty_Promocopy_Block_Adminhtml_Promo_Quote_Grid extends Mage_Adminhtml_Block_Promo_Quote_Grid
@@ -113,7 +113,7 @@ class Amasty_Promocopy_Block_Adminhtml_Promo_Quote_Grid extends Mage_Adminhtml_B
             'by_percent'  => Mage::helper('ampromocopy')->__('Price Percent'),
             'by_fixed'    => Mage::helper('ampromocopy')->__('Product Amount'),
             'cart_fixed'  => Mage::helper('ampromocopy')->__('Cart Amount'),
-            'buy_x_get_y' => Mage::helper('ampromocopy')->__('Buy X get Y'),
+            'buy_x_get_y' => Mage::helper('ampromocopy')->__('Buy N products, and get next same products free.'),
             'ampromo_items' => Mage::helper('ampromocopy')->__('Auto add promo items with products'),
             'ampromo_cart' => Mage::helper('ampromocopy')->__('Auto add promo items for the whole cart'),
             'ampromo_product' => Mage::helper('ampromocopy')->__('Auto add the same product'),

@@ -75,11 +75,25 @@ class Vaimo_Cms_Adminhtml_Vaimocms_RaptorController extends Vaimo_Cms_Controller
             $searchString = $params['search'];
         }
 
+        $sort = 'mtime';
+        if (isset($params['sort'])) {
+            $sort = $params['sort'];
+        }
+
+        $direction = Varien_Data_Collection::SORT_ORDER_ASC;
+
+        if (
+            isset($params['direction'])
+            && in_array(strtoupper($params['direction']), array(Varien_Data_Collection::SORT_ORDER_ASC, Varien_Data_Collection::SORT_ORDER_DESC))
+        ) {
+            $direction = strtoupper($params['direction']);
+        }
+
         $result = null;
 
         switch($action) {
             case 'list':
-                $result = $this->_raptor->getFiles($path, $params['start'], $params['limit'], $searchString);
+                $result = $this->_raptor->getFiles($path, $params['start'], $params['limit'], $sort, $direction, $searchString);
                 break;
             case 'upload':
                 $result = $this->_raptor->uploadFile('file');

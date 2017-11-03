@@ -1,0 +1,14 @@
+--- app/code/community/TBT/Rewards/Model/Helper/Layout/Action/Append-o.php	2017-10-16 12:22:05.000000000 +0200
++++ app/code/community/TBT/Rewards/Model/Helper/Layout/Action/Append.php	2017-10-16 12:27:13.000000000 +0200
+@@ -114,6 +114,11 @@
+      */
+     public function add($block, $position = 'before')
+     {
++        //PATCH https://jira.vaimo.com/browse/HYL-540
++        if (Mage::registry('vaimo_cms_edit_mode') === true) {
++            return $this;
++        }
++        //~PATCH
+         if ($block instanceof Mage_Core_Block_Abstract) {
+             $block = $block->toHtml();
+         }

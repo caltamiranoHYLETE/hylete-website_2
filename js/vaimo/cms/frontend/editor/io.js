@@ -1,5 +1,5 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.cmsEditorIO', {
         _create: function() {
@@ -50,18 +50,24 @@
             }.bind(this));
 
             connection.error(function(request) {
+                var transport = {};
+
+                try {
+                    transport = JSON.parse(request.responseText);
+                } catch (e) {}
+
                 try {
                     if (handlers) {
-                        handlers.error();
+                        handlers.error(transport, request.responseText);
                     }
 
-                    var transport = JSON.parse(request.responseText);
-
-                    if (transport.error) {
-                        this.trigger('error', transport);
-
-                        return;
+                    if (!transport.error) {
+                        transport.error = 'Unknown error';
                     }
+
+                    this.trigger('error', transport);
+
+                    return;
                 } catch (e) {}
 
                 console.error('Error encountered on read');

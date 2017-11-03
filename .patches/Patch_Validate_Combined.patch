@@ -1,0 +1,11 @@
+--- app/code/core/Mage/SalesRule/Model/Rule/Condition/Product/Combine.php	2017-10-10 16:51:05.000000000 +0200
++++ app/code/core/Mage/SalesRule/Model/Rule/Condition/Product/Combine.php	2017-10-10 16:51:05.000000000 +0200
+@@ -216,7 +216,7 @@
+         $valid = parent::validate($object);
+         if (!$valid && $product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+             $children = $object->getChildren();
+-            if ($children && count($children) > 0 && $children[0]) {
++            if (is_array($children) and isset($children[0])) {
+                 $child = $children[0];
+ 
+                 /** @var Mage_Catalog_Model_Product $childProduct */

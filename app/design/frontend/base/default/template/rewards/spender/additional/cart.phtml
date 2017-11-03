@@ -46,8 +46,10 @@
                 Element.extend(checkoutLinks[i]).show();
             }
         } else {
-            $('shopping-cart-totals-table').insert({after: result.totals});
-            $('shopping-cart-totals-table').remove();
+            $$('table#shopping-cart-totals-table').each(function(d) { 
+                d.insert({after: result.totals}); 
+                d.remove(); 
+            });
             
             if (checkoutLink) {
                 checkoutLink.show();

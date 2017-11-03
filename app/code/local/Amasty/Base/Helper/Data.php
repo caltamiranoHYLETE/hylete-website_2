@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
  * @package Amasty_Base
  */  
 class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
@@ -145,9 +145,15 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_rewrite')->toHtml() .
                 Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_event')->toHtml();
     }
-    
+
     public function getParentClasses($class){
-        return array_values(class_parents($class));
+        $parents = @class_parents($class);
+        if ($parents === false) {
+            $result = array('<span style="color:red">error occurred</span>');
+        } else {
+            $result = array_values($parents);
+        }
+        return $result;
     }
 
     public function getEventsList()
@@ -165,5 +171,17 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $data;
+    }
+
+    /**
+     * @param $filename
+     * @return mixed
+     */
+    public static function sanitizeFileName($filename)
+    {
+        $chars = array(" ", '"', "'", "&", "/", "\\", "?", "#");
+
+        // every forbidden character is replace by an underscore
+        return str_replace($chars, '_', $filename);
     }
 }

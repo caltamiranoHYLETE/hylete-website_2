@@ -214,4 +214,17 @@ class Vaimo_Cms_Helper_Data extends Vaimo_Cms_Helper_Abstract
 
         return implode($glue, $filteredSelection);
     }
+
+    public function sortArrayItemsByKey($items, $key, $direction = Varien_Data_Collection::SORT_ORDER_ASC)
+    {
+        $direction = strtoupper($direction);
+
+        usort($items, function($a, $b) use ($key, $direction) {
+            $result = $a[$key] > $b[$key] ? 1 : ($a[$key] < $b[$key] ? -1 : 0);
+
+            return Varien_Data_Collection::SORT_ORDER_ASC === $direction ? $result : -$result;
+        });
+
+        return $items;
+    }
 }

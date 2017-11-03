@@ -29,11 +29,7 @@ class Vaimo_Cms_Model_Editor_Model_Processor extends Vaimo_Cms_Model_Abstract
 
     public function execute($model, $method, $arguments)
     {
-        $failSafe = $this->getFactory()->getSingleton('vaimo_cms/execution_failsafe');
-
-        $result = $failSafe->execute(function() use ($model, $method, &$arguments) {
-            return $model->$method($arguments);
-        });
+        $result = $model->$method($arguments);
 
         $this->_lastCallArguments = $arguments;
 

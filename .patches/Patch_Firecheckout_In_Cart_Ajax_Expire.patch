@@ -1,0 +1,11 @@
+--- app/code/core/Mage/Checkout/controllers/OnepageController-o.php	2017-09-27 13:27:04.000000000 +0200
++++ app/code/core/Mage/Checkout/controllers/OnepageController.php	2017-09-27 13:25:54.000000000 +0200
+@@ -104,7 +104,7 @@
+         }
+         $action = strtolower($this->getRequest()->getActionName());
+         if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
+-            && !in_array($action, array('index', 'progress'))
++            && !in_array($action, array('index', 'progress', 'forgotpassword', 'login'))
+         ) {
+             $this->_ajaxRedirectResponse();
+             return true;

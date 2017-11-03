@@ -1,10 +1,15 @@
 @media (min-width: 768px) {
-    .discount-giftcard {
-        display: block !important;
-    }
-
     .mobile-product-qty {
         display: none;
+    }
+
+    .coupons-checkboxes {
+        margin-left: 9%;
+        width: 57% !important;
+    }
+
+    .cart-login {
+        min-width: 300px;
     }
 }
 
@@ -18,18 +23,33 @@
     }
 }
 
+@media (min-width: 1200px) {
+    .cart-login {
+        margin-left: -60px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .discounts input {
+        width: 175px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 991px) {
     .discounts .giftcard .validation-advice {
         padding-left: 3px;
     }
-}
 
+    .cart-login {
+        margin-left: -60px;
+    }
+}
 
 @media (max-width: 991px) {
     .cart .page-title {
         border-top: none;
     }
-    
+
     .discounts input {
         width: 200px;
     }
@@ -38,6 +58,10 @@
         border-top: 1px #e5e5e5 solid;
         margin: 20px 0;
         padding: 15px 0;
+    }
+
+    .coupons-wrapper {
+        padding-bottom: 10px;
     }
 }
 
@@ -78,7 +102,7 @@
         padding-left: 0;
         padding-top: 20px;
     }
-        
+
     .cart-table .product-name.has-options {
         margin-top: 0;
     }
@@ -103,7 +127,7 @@
     .cart-table .th-title {
         padding-left: 15px;
     }
-    
+
     .checkout-cart-index .col-main .cart {
         padding: 0 10px;
     }
@@ -125,10 +149,10 @@
         width: 230px;
     }
 
-    .discounts .tbt-reward.active .icon-angle-right:before{
+    .discounts .tbt-reward.active .icon-angle-right:before {
         content: "\f107";
     }
-    
+
     .checkout-cart-index .cart .page-title {
         border-top: none;
     }
@@ -138,12 +162,18 @@
         margin: 0;
     }
 
-    .checkout-cart-index .col-main >.page-title,
+    .checkout-cart-index .col-main > .page-title,
     .checkout-cart-index .cart-empty {
         margin: 0 10px;
     }
 
     #shopping-cart-table thead {
         display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    .discounts input {
+        width: 99px;
     }
 }

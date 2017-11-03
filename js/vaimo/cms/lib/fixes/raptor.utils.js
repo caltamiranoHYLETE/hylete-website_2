@@ -1,4 +1,6 @@
 ;raptor(function($) {
+    'use strict';
+
     /**
      * Standard raptor utilities (without ANY changes to them), that are not accessible from outside of Raptor.
      */
@@ -155,11 +157,23 @@
 
     function selectionGetElement(range, selection) {
         selection = selection || rangy.getSelection();
+
         if (!selectionExists()) {
-            return new jQuery;
+            return $();
         }
-        var range = selectionRange(),
-            commonAncestor;
+
+        var commonAncestor;
+
+        range = selectionRange();
+
+        if (range.startContainer.nextElementSibling === range.endContainer.parentNode) {
+            return $(range.endContainer.parentNode);
+        }
+
+        if (range.startContainer.nextElementSibling === range.endContainer) {
+            return $(range.endContainer);
+        }
+
         // Check if the common ancestor container is a text node
         if (range.commonAncestorContainer.nodeType === Node.TEXT_NODE) {
             // Use the parent instead
@@ -167,7 +181,44 @@
         } else {
             commonAncestor = range.commonAncestorContainer;
         }
+
         return $(commonAncestor);
+    }
+
+    function extend(parent, extension) {
+        var _parentMethods = {};
+
+        var extensionPoint;
+
+        if (typeof parent === 'string') {
+            extensionPoint = raptor.fn.raptor.Raptor;
+
+            parent.split('.').forEach(function (key) {
+                extensionPoint = extensionPoint[key];
+            });
+        } else {
+            extensionPoint = parent.prototype;
+        }
+
+        Object.keys(extension).forEach(function(key) {
+            if (extensionPoint[key]) {
+                _parentMethods[key] = extensionPoint[key];
+
+                extensionPoint[key] = function () {
+                    var _vcmsSuper = this._vcmsSuper;
+
+                    this._vcmsSuper = _parentMethods[key];
+
+                    var result = extension[key].apply(this, arguments);
+
+                    this._vcmsSuper = _vcmsSuper;
+
+                    return result;
+                };
+            } else {
+                extensionPoint[key] = extension[key];
+            }
+        });
     }
 
     /**
@@ -187,6 +238,7 @@
         selectionFindWrappingAndInnerElements: selectionFindWrappingAndInnerElements,
         selectionGetElement: selectionGetElement,
         selectionExists: selectionExists,
-        selectionRange: selectionRange
+        selectionRange: selectionRange,
+        extend: extend
     };
 });

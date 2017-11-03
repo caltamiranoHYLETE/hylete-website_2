@@ -1,4 +1,6 @@
 ;(function($) {
+    'use strict';
+
     /**
      * FIX: hide Range.detach() deprecation warning. The function no longer does anything.
      */

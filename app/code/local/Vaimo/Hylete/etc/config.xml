@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Vaimo_Hylete>
-            <version>0.3.1</version>
+            <version>0.3.2</version>
         </Vaimo_Hylete>
     </modules>
     <global>
@@ -25,6 +25,11 @@
             <hylete>
                 <class>Vaimo_Hylete_Model</class>
             </hylete>
+            <amrules>
+                <rewrite>                
+                    <promotions>Vaimo_Hylete_Model_Amrules_Promotions</promotions>
+                </rewrite>
+            </amrules>
         </models>
         <resources>
             <hylete_setup>
@@ -78,14 +83,14 @@
                     </vaimo_hylete>
                 </observers>
             </websiterestriction_frontend>
-            <core_session_abstract_add_message>
+            <!--core_session_abstract_add_message>
                 <observers>
                     <vaimo_hylete>
                         <class>hylete/observer</class>
                         <method>customCouponMessages</method>
                     </vaimo_hylete>
                 </observers>
-            </core_session_abstract_add_message>
+            </core_session_abstract_add_message-->
 
             <controller_action_predispatch_checkout_cart_add>
                 <observers>

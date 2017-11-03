@@ -67,7 +67,9 @@ class Vaimo_Cms_Model_Adminhtml_Observer extends Vaimo_Cms_Model_Abstract
             return;
         }
 
-        $cmsStore = $this->_factory->getModel('vaimo_cms/store', array(
+        $factory = $this->getFactory();
+
+        $cmsStore = $factory->getModel('vaimo_cms/store', array(
             'store' => $store->getId()
         ));
 
@@ -87,8 +89,8 @@ class Vaimo_Cms_Model_Adminhtml_Observer extends Vaimo_Cms_Model_Abstract
 
         $cmsStore->save();
 
-        $this->getFactory()->getHelper('vaimo_cms/layout')
-            ->cleanLayoutCacheForHandles($handles);
+        $factory->getSingleton('vaimo_cms/cache')
+            ->clean($handles);
     }
 
     /**

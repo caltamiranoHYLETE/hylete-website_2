@@ -2003,7 +2003,7 @@ class TM_FireCheckout_IndexController extends Mage_Checkout_OnepageController
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
                     $session->login($login['username'], $login['password']);
-                    $result['redirect'] = Mage::helper('firecheckout')->getFirecheckoutUrl();
+                    $result['redirect'] = (!empty($login['referer'])) ? $login['referer'] : Mage::helper('firecheckout')->getFirecheckoutUrl();
                     $result['success'] = true;
                 } catch (Mage_Core_Exception $e) {
                     switch ($e->getCode()) {

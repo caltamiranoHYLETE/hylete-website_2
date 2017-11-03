@@ -59,46 +59,29 @@ class Vaimo_Cms_Model_Editor_Observer extends Vaimo_Cms_Model_Abstract
     {
         $action = $observer->getAction();
         $request = $action->getRequest();
+        $factory = $this->getFactory();
 
-        $helper = $this->getFactory()
-            ->getHelper('vaimo_cms/editor');
+        $helper = $factory->getHelper('vaimo_cms/editor');
 
-        $router = $helper->getRouterForAction($action->getFullActionName());
+        $router = $helper->getRouterForAction(
+            $action->getFullActionName()
+        );
 
         if (!$helper->shouldProcessRequest($action)) {
             return;
         }
 
-        $errorCode = 400;
-
-        try {
-            $result = $router->process($request->getParams());
-        } catch (Vaimo_Cms_Exception $e) {
-            $errorCode = 200;
-
-            $result = array(
-                'error' => $e->getMessage()
-            );
-
-            Mage::logException($e);
-        } catch (Exception $e) {
-            $errorCode = 500;
-
-            if (Mage::getIsDeveloperMode()) {
-                $message = $e->getMessage();
-                $trace = $e->getTraceAsString();
-            } else {
-                $message = 'Internal error encountered while processing editor command';
-                $trace = '';
-            }
-
-            $result = array_filter(array(
-                'error' => $message,
-                'trace' => $trace
-            ));
-
-            Mage::logException($e);
+        if ($request->isXmlHttpRequest()) {
+            Mage::register('vcms_editor_update_action', true);
         }
+
+        $result = $helper->executeRouterAction(function () use ($router, $request, $factory) {
+            $factory->getSingleton('core/resource')
+                ->getConnection('write')
+                ->beginTransaction();
+
+            return $router->process($request->getParams());
+        });
 
         if (!$result) {
             return;
@@ -106,11 +89,16 @@ class Vaimo_Cms_Model_Editor_Observer extends Vaimo_Cms_Model_Abstract
 
         $action->setFlag('', 'no-renderLayout', true);
 
-        if (isset($result['error'])) {
-            $action->getResponse()
-                ->setHttpResponseCode($errorCode)
-                ->setBody(Vaimo_Cms_Json_Encoder::encode($result));
+        if (!isset($result['error'])) {
+            return;
         }
+
+        $response = $action->getResponse();
+        $response->setHttpResponseCode(isset($result['code']) ? $result['code'] : 400);
+
+        $response->setBody(
+            Vaimo_Cms_Json_Encoder::encode($result)
+        );
     }
 
     /**
@@ -124,38 +112,50 @@ class Vaimo_Cms_Model_Editor_Observer extends Vaimo_Cms_Model_Abstract
         $action = $observer->getControllerAction();
         $request = $action->getRequest();
         $response = $action->getResponse();
+        $factory = $this->getFactory();
 
-        $helper = $this->getFactory()
-            ->getHelper('vaimo_cms/editor');
+        /** @var Vaimo_Cms_Helper_Editor $editorUtils */
+        $editorUtils = $factory->getHelper('vaimo_cms/editor');
 
-        if (!$helper->shouldProcessResponse($action)) {
+        if (!$editorUtils->shouldProcessResponse($action)) {
             return;
         }
 
-        $resultBody = Zend_Json_Decoder::decode($response->getBody());
-
-        if ($response->getHttpResponseCode() == 200 && isset($resultBody['error'])) {
+        if ($editorUtils->hasProcessingFailures($response)) {
+            $editorUtils->rollback();
             return;
         }
 
+        $router = $editorUtils->getRouterForAction(
+            $action->getFullActionName()
+        );
 
-        if ($response->getHttpResponseCode() == 400) {
+        $result = $editorUtils->executeRouterAction(function () use ($router, $request, $factory) {
+            $response = $router->getResponse(
+                $request->getParams()
+            );
+
+            $factory->getSingleton('core/resource')
+                ->getConnection('write')
+                ->commit();
+
+            return $response;
+        }, function () use ($editorUtils) {
+            $editorUtils->rollback();
+        });
+
+        if (!$result) {
             return;
         }
 
-        if ($response->getHttpResponseCode() == 500) {
-            return;
+        if (isset($result['error'])) {
+            $response = $action->getResponse();
+            $response->setHttpResponseCode(isset($result['code']) ? $result['code'] : 400);
         }
 
-        $router = $helper->getRouterForAction($action->getFullActionName());
-
-        if (!$routerResponse = $router->getResponse($request->getParams())) {
-            return;
-        }
-
-        $encodedResponse = Vaimo_Cms_Json_Encoder::encode($routerResponse);
-
-        $response->setBody($encodedResponse);
+        $response->setBody(
+            Vaimo_Cms_Json_Encoder::encode($result)
+        );
     }
 
     /**

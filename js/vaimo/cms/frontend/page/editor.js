@@ -1,8 +1,9 @@
 ;(function ($) {
-    "use strict";
+    'use strict';
 
     $.widget('vaimo.cmsPageEditor', $.vaimo.cmsEditorBase, {
         options: {
+            history: false,
             selectors: {
                 toolbarButtonsGroup: '',
                 toolbarButtons: {
@@ -26,12 +27,15 @@
         _create: function() {
             this._super();
 
+            $(document.body).addClass('vcms-edit-mode');
+
             this.options.io.addHandler('write', this._addRevisionToPost.bind(this));
             this.options.io.addHandler('read', this._updateToolbar.bind(this));
 
             var selectors = this.options.selectors;
-            $(selectors.toolbarButtons.save).click($.proxy(this._publish, this));
-            $(selectors.toolbarButtons.cancel).click($.proxy(this._discard, this));
+
+            $(selectors.toolbarButtons.save).click(this._publish.bind(this));
+            $(selectors.toolbarButtons.cancel).click(this._discard.bind(this));
 
             if (!this.options.initial) {
                 return;
@@ -53,14 +57,23 @@
                 revision: this.options.revision
             };
 
-            this._save(data, Translator.translate('Publishing Draft'), 'save');
+            this.options.history.registerNoop();
+
+            this._save(data, Translator.translate('Publishing Draft'), 'save', {
+                message: 'Page changes published'
+            });
         },
         _discard: function() {
             var data = {
                 revision: this.options.revision
             };
 
-            this._save(data, Translator.translate('Discarding Draft'), 'cancel');
+            this.options.history.registerNoop();
+
+            this._save(data, Translator.translate('Discarding Draft'), 'cancel', {
+                type: 'info',
+                message: 'Content updates discarded'
+            });
         },
         _update: function(data) {
             var options = this.options;
@@ -101,6 +114,10 @@
         },
         _updateToolbar: function(response) {
             if (typeof response != 'object') {
+                return;
+            }
+
+            if (response.error && response.page_draft === undefined) {
                 return;
             }
 

@@ -18,12 +18,15 @@
 .raptor-ui-file-manager-dialog h3,
 .raptor-ui-file-manager-dialog h4,
 .raptor-ui-file-manager-dialog h5,
-.raptor-ui-file-manager-dialog h6
-{
+.raptor-ui-file-manager-dialog h6 {
     font-size: initial;
     font-weight: initial;
 }
 
 .raptor-ui-link-create-dialog input {
     margin: initial;
+}
+
+#raptor-telephone {
+    margin-left: 10px;
 }

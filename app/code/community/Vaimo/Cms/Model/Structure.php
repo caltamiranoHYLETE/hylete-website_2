@@ -317,16 +317,23 @@ class Vaimo_Cms_Model_Structure extends Vaimo_Cms_Model_Abstract implements
                 continue;
             }
 
-            $parameters = $itemManager->getWidgetParameters($item, $handle, $reference);
+            $itemConfig = $itemManager->getWidgetParameters($item, $handle, $reference);
 
-            if (empty($parameters)) {
+            if (empty($itemConfig)) {
                 continue;
             }
 
-            $parameters['title'] = $factory->getHelper('vaimo_cms')->__('Widget created by Vaimo_Cms');
+            if ($itemConfig['parameters'] === false) {
+                throw Mage::exception(
+                    'Vaimo_Cms',
+                    'Widget creation failure. Could not solve parameters'
+                );
+            }
+
+            $itemConfig['title'] = $factory->getHelper('vaimo_cms')->__('Widget created by Vaimo_Cms');
 
             $widget = $widgetCreator->create(
-                $parameters,
+                $itemConfig,
                 $pages,
                 $this->getStoreIds()
             );

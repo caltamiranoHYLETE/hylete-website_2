@@ -110,6 +110,10 @@ class Vaimo_Cms_Block_Structure extends Vaimo_Cms_Block_Abstract
 
     protected function _generateErrorOutput($pageId, Exception $exception)
     {
+        if (Mage::registry('vcms_editor_update_action')) {
+            throw $exception;
+        }
+
         Mage::logException($exception);
 
         return $this->getFactory()->getHelper('vaimo_cms')

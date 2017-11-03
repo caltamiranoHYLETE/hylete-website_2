@@ -166,6 +166,10 @@ class Vaimo_Cms_Helper_Structure extends Vaimo_Cms_Helper_Abstract
         $structureData = $from->getStructureData();
 
         foreach ($structureData as &$item) {
+            if (!isset($item['widget_page_id'])) {
+                continue;
+            }
+
             $widget = $to->getItem($item['widget_page_id'], 'clone_of');
 
             if (!$widget) {
@@ -185,6 +189,13 @@ class Vaimo_Cms_Helper_Structure extends Vaimo_Cms_Helper_Abstract
             ->getStructureStoreView($structureId, $storeId);
 
         $widget = $structure->findItem($widgetPageId, array('widget_page_id', 'clone_of'));
+
+        if (!$widget) {
+            throw Mage::exception(
+                'Vaimo_Cms',
+                sprintf('Failed to save widget draft (id=%s). Possibly discarded content?', $widgetPageId)
+            );
+        }
 
         $widget = array_merge($widget, array(
             'widget_parameters' => $structure->getParametersForItem($widget['widget_page_id'])
@@ -222,5 +233,39 @@ class Vaimo_Cms_Helper_Structure extends Vaimo_Cms_Helper_Abstract
         }
 
         return true;
+    }
+
+    public function hasPositionalDifferences($structureItemsA, $structureItemsB, $idKey)
+    {
+        $positionKeys = array_flip(array('col', 'row', 'size_x', 'size_y'));
+
+        $structureItemsById = array();
+
+        foreach ($structureItemsB as $item) {
+            if (!isset($item[$idKey])) {
+                continue;
+            }
+
+            $structureItemsById[$item[$idKey]] = $item;
+        }
+
+        if (count($structureItemsA) != count($structureItemsById)) {
+            return true;
+        }
+
+        foreach ($structureItemsA as $item) {
+            $draftItemPosition = array_intersect_key(
+                $structureItemsById[$item['widget_page_id']],
+                $positionKeys
+            );
+
+            if (!array_diff_assoc(array_intersect_key($item, $positionKeys), $draftItemPosition)) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

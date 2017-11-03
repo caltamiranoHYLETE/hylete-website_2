@@ -1,0 +1,15 @@
+--- app/design/frontend/base/default/template/rewards/spender/additional/cart-o.phtml	2017-09-26 17:24:01.000000000 +0200
++++ app/design/frontend/base/default/template/rewards/spender/additional/cart.phtml	2017-09-26 17:28:38.000000000 +0200
+@@ -46,8 +46,10 @@
+                 Element.extend(checkoutLinks[i]).show();
+             }
+         } else {
+-            $('shopping-cart-totals-table').insert({after: result.totals});
+-            $('shopping-cart-totals-table').remove();
++            $$('table#shopping-cart-totals-table').each(function(d) { 
++                d.insert({after: result.totals}); 
++                d.remove(); 
++            });
+             
+             if (checkoutLink) {
+                 checkoutLink.show();

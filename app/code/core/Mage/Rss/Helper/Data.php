@@ -39,14 +39,25 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     const XML_PATH_RSS_ACTIVE = 'rss/config/active';
 
+    /** @var Mage_Rss_Model_Session  */
+    private $_rssSession;
+
+    /** @var Mage_Admin_Model_Session  */
+    private $_adminSession;
+
+    public function __construct()
+    {
+        $this->_rssSession = Mage::getSingleton('rss/session');
+        $this->_adminSession = Mage::getSingleton('admin/session');;
+    }
+
     /**
      * Authenticate customer on frontend
      *
      */
     public function authFrontend()
     {
-        $session = Mage::getSingleton('rss/session');
-        if ($session->isCustomerLoggedIn()) {
+        if ($this->_rssSession->isCustomerLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
@@ -65,17 +76,24 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function authAdmin($path)
     {
-        $session = Mage::getSingleton('rss/session');
-        if ($session->isAdminLoggedIn()) {
-            return;
+        if (!$this->_rssSession->isAdminLoggedIn() || !$this->_adminSession->isLoggedIn()) {
+            list($username, $password) = $this->authValidate();
+            Mage::getSingleton('adminhtml/url')->setNoSecret(true);
+            $user = $this->_adminSession->login($username, $password);
+        } else {
+            $user = $this->_rssSession->getAdmin();
         }
-        list($username, $password) = $this->authValidate();
-        Mage::getSingleton('adminhtml/url')->setNoSecret(true);
-        $adminSession = Mage::getSingleton('admin/session');
-        $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('admin/user')->login($username, $password);
-        if ($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)) {
-            $session->setAdmin($user);
+        if ($user && $user->getId() && $user->getIsActive() == '1' && $this->_adminSession->isAllowed($path)) {
+            $adminUserExtra = $user->getExtra();
+            if ($adminUserExtra && !is_array($adminUserExtra)) {
+                $adminUserExtra = Mage::helper('core/unserializeArray')->unserialize($user->getExtra());
+            }
+            if (!isset($adminUserExtra['indirect_login'])) {
+                $adminUserExtra = array_merge($adminUserExtra, array('indirect_login' => true));
+                $user->saveExtra($adminUserExtra);
+            }
+            $this->_adminSession->setIndirectLogin(true);
+            $this->_rssSession->setAdmin($user);
         } else {
             $this->authFailed();
         }

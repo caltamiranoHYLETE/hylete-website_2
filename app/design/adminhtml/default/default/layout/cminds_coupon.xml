@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_promo_quote_edit>
+        <reference name="promo_quote_edit_tabs">
+            <action method="addTab">
+                <name>coupon_errors</name>
+                <block>cminds_coupon/promo_quote_edit_tab_errors</block>
+            </action>
+        </reference>
+    </adminhtml_promo_quote_edit>
+</layout>

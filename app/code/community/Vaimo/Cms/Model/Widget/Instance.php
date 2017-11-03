@@ -68,9 +68,10 @@ class Vaimo_Cms_Model_Widget_Instance extends Mage_Widget_Model_Widget_Instance
 
         $factory = $this->getFactory();
 
-        $handles = $factory->getHelper('vaimo_cms/widget')->getAllRelevantLayoutHandles($this);
+        $handles = $factory->getHelper('vaimo_cms/widget')
+            ->getAllRelevantLayoutHandles($this);
 
-        $factory->getHelper('vaimo_cms/layout')
-            ->cleanLayoutCacheForHandles($handles);
+        $factory->getSingleton('vaimo_cms/cache')
+            ->clean($handles);
     }
 }

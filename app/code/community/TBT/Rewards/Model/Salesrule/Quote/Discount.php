@@ -42,7 +42,7 @@
  * @package    TBT_Rewards
  * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Model_Salesrule_Quote_Discount extends Mage_SalesRule_Model_Quote_Discount
+class TBT_Rewards_Model_Salesrule_Quote_Discount extends Amasty_Rules_Model_SalesRule_Quote_Discount
 {
     /**
      * Collect address discount amount
