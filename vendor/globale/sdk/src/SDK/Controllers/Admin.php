@@ -120,13 +120,8 @@ class Admin extends BaseController {
 	 */
     protected function GetBarCodeUrl($OrderId){
 
-		$BaseBarCodeUrl = Core\Settings::get('AppSettings.ServerSettings.BarcodeGeneratorURL.Value');
-
-		if(empty($BaseBarCodeUrl)){
-			$AppModel = new Models\App();
-			$AppModel->initAppSettings();
-			$BaseBarCodeUrl = Core\Settings::get('AppSettings.ServerSettings.BarcodeGeneratorURL.Value');
-		}
+		$AppModel = new Models\App();
+		$BaseBarCodeUrl = $AppModel->getAppSetting('AppSettings.ServerSettings.BarcodeGeneratorURL.Value');
 
 		$MerchantID = Core\Settings::get('MerchantID');
 

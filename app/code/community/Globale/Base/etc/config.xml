@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Globale_Base>
-            <version>2.0.2</version>
+            <version>2.1.0</version>
         </Globale_Base>
     </modules>
     <global>
@@ -159,9 +159,9 @@
             </globale>
         </payment>
         <globale_settings>
-            <checkout_settings>
+            <order_settings>
                 <ext_order_id>1</ext_order_id>
-            </checkout_settings>
+            </order_settings>
         </globale_settings>
     </default>
 </config>

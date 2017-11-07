@@ -132,6 +132,7 @@ class Globale_FixedPrices_Model_Product extends Mage_Core_Model_Abstract {
         $Product->setSpecialPrice($FixedPrice['special_price']);
         $Product->setSpecialFromDate($FixedPrice['date_from']);
         $Product->setSpecialToDate($FixedPrice['date_to']);
+		$Product->setFinalPrice(null);
         $Product->setGlobaleFixedPrices(true);
     }
 

@@ -71,9 +71,9 @@ class Customer extends Singleton {
 
             $CookieDomain = Core\Settings::get('Cookies.Domain');
             if(!empty($CookieDomain)){
-                if(substr($CookieDomain, 1) != "."){
-                    $CookieDomain = "." . $CookieDomain;
-                }
+				$CookieDomain = ltrim($CookieDomain,'.');
+            	$CookieDomain = "." . $CookieDomain;
+
             }
             else{
                 $CookieDomain = $_SERVER['HTTP_HOST'];

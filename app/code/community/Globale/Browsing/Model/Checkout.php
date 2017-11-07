@@ -473,4 +473,6 @@ class Globale_Browsing_Model_Checkout extends Mage_Core_Model_Abstract {
         $this->Quote = $Quote;
     }
 
+
+
 }

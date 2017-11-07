@@ -52,13 +52,15 @@ class Globale_Order_Model_Shipping extends Mage_Core_Model_Abstract
      */
     public function processGlobaleParcel(Varien_Event_Observer $Observer, $GlobaleOrder) {
 
-        /** @var GlobalE\SDK\SDK $GlobaleSDK */
-        $GlobaleSDK = Mage::registry('globale_sdk');
-        /**@var $CurrencyModel Globale_Browsing_Model_Initializer */
-        $InitializerModel = Mage::getModel('globale_browsing/initializer');
-        $InitializerModel->OnPageLoad($GlobaleSDK);
+		/** @var GlobalE\SDK\SDK $GlobaleSDK */
+		$GlobaleSDK = Mage::registry('globale_sdk');
 
-        $EnableAutomaticManifestProcess = Core\Settings::get('AppSettings.ServerSettings.EnableAutomaticManifestProcess.Value');
+        $EnableAutomaticManifestProcess = $GlobaleSDK->Browsing()
+			->GetAppSetting('AppSettings.ServerSettings.EnableAutomaticManifestProcess.Value');
+
+		$UseShipmentTrackingAsParcelCode = $GlobaleSDK->Browsing()
+			->GetAppSetting('AppSettings.ServerSettings.UseShipmentTrackingAsParcelCode.Value');
+
         /** @var Mage_Sales_Model_Order_Shipment $Shipment */
         $Shipment = $Observer->getEvent()->getShipment();
 
@@ -66,27 +68,40 @@ class Globale_Order_Model_Shipping extends Mage_Core_Model_Abstract
         $Order = $Shipment->getOrder();
         $Status = $Order->getStatus();
 
+        $ShipmentTracks = $Shipment->getAllTracks();
 		$ShipmentOrigData = $Shipment->getOrigData();
 
-        if(!empty($ShipmentOrigData) || $EnableAutomaticManifestProcess != 'false' || $Status == 'completed' || count($ShippedItems) === 0){
+
+			// We will NOT create parcel if :
+		// EnableAutomaticManifestProcess != 'false' OR Order Status = completed OR shipping doesn't have items
+		// + If Using Shipment Incremental id As ParcelCode (default way) : this is NOT first Shipping save
+		// + If Using ShipmentTracking As ParcelCode : Shipping have <> 1 tracking
+		if( $EnableAutomaticManifestProcess != false || $Status == 'completed' || count($ShippedItems) === 0 ||
+			($UseShipmentTrackingAsParcelCode == true && count($ShipmentTracks) != 1 ) ||
+			($UseShipmentTrackingAsParcelCode != true && !empty($ShipmentOrigData) )
+		){
             return;
         }
 
-        $Parcel = $this->createParcel($Shipment);
+        $Parcel = $this->createParcel($Shipment,$UseShipmentTrackingAsParcelCode );
+
+
 
         $Response = $GlobaleSDK->Admin()->UpdateParcelDispatch($GlobaleOrder->getGlobaleOrderId(), array($Parcel));
 
-        if($Response->getSuccess() && $this->isPartiallyShipped($Order)){
-            $this->changeStatusPartially($Order);
-        }
-    }
+		if ($Response->getSuccess() && $this->isPartiallyShipped($Order)) {
+			$this->changeStatusPartially($Order);
+		}
+	}
+
 
     /**
      * Create the Global-e Parcel that will be sent via UpdateParcelDispatch API.
      * @param Mage_Sales_Model_Order_Shipment $Shipment
+	 * @param boolean $UseShipmentTrackingAsParcelCode
      * @return Request\Parcel
      */
-    public function createParcel(Mage_Sales_Model_Order_Shipment $Shipment){
+    protected function createParcel(Mage_Sales_Model_Order_Shipment $Shipment, $UseShipmentTrackingAsParcelCode = false){
 
         $ShippedItems = $Shipment->getAllItems();
         $ParcelProductArray = array();
@@ -100,8 +115,17 @@ class Globale_Order_Model_Shipping extends Mage_Core_Model_Abstract
             $ParcelProductArray[] = $ParcelProduct;
         }
 
+		if($UseShipmentTrackingAsParcelCode === true){
+			$AllTracks = $Shipment->getAllTracks();
+			/**@var $Track Globale_Browsing_Model_Rewrite_Sales_Order_Shipment_Track */
+			$Track = $AllTracks[0];
+			$ParcelCode = $Track->getNumber();
+		}else{
+			$ParcelCode = $Shipment->getIncrementId();
+		}
+
         $Parcel = new Request\Parcel();
-        $Parcel->setParcelCode( $Shipment->getIncrementId() );
+        $Parcel->setParcelCode( $ParcelCode );
         $Parcel->setProducts( $ParcelProductArray );
 
         return $Parcel;

@@ -10,25 +10,27 @@ class Globale_Base_Model_Observers_Admin
      */
     public function salesOrderGridCollectionLoadBefore(Varien_Event_Observer $Observer){
 
-    	//Apply Grid changes on main order grid only
+		//Apply Grid changes on main order grid only
 		$OriginalPathInfo = Mage::app()->getRequest()->getOriginalPathInfo();
 		if (strpos($OriginalPathInfo, '/sales_order/') === false) {
 			return;
 		}
 
-        $Collection = $Observer->getOrderGridCollection();
-        $Select = $Collection->getSelect();
-        $Select->joinLeft(
-            array(
-                'globale'=>$Collection->getTable('globale_order/orders')
-            ),
-            'globale.order_id=main_table.increment_id',
-            array(
-                'globale_order_id'=>'globale_order_id'
-            )
-        );
+		$Collection = $Observer->getOrderGridCollection();
 
-    }
+		/**@var $Select Varien_Db_Select */
+		$Select = $Collection->getSelect();
+
+		$Select->joinLeft(
+			array(
+				'globale' => $Collection->getTable('globale_order/orders')
+			),
+			'globale.order_id=main_table.increment_id',
+			array(
+				'globale_order_id' => 'globale_order_id'
+			)
+		);
+	}
 
     /**
      * Get Global-e Barcode URL and open a new window to print it.

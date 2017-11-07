@@ -76,6 +76,28 @@ class App {
 		Core\Settings::setBulk($AppSettings, "AppSettings");
 	}
 
+	/**
+	 * Get AppSetting Value by Key
+	 * @param string $Key
+	 * @return string|boolean|array App Setting Value
+	 */
+	public function getAppSetting($Key){
+		$Value = Core\Settings::get($Key);
+		if(empty($Value)){
+			$this->initAppSettings();
+			$Value = Core\Settings::get($Key);
+		}
+
+		//if Value == true/false -> change string to Boolean
+		$BoolValues = array ('true','false');
+		if(is_string($Value) && in_array(trim($Value),$BoolValues)){
+			$Value = filter_var(trim($Value), FILTER_VALIDATE_BOOLEAN);
+		}
+
+		return $Value;
+
+	}
+
 
 
 	/**

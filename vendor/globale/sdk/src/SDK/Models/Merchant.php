@@ -55,7 +55,7 @@ class Merchant {
      * @return bool
      * @access protected
      */
-    protected function IsNotValidMerchantGuid($MerchantGuid) {
-        return ($MerchantGuid !== Core\Settings::get('MerchantGUID'));
+    public function IsNotValidMerchantGuid($MerchantGuid) {
+        return (strtolower($MerchantGuid) !== strtolower(Core\Settings::get('MerchantGUID')));
     }
 }

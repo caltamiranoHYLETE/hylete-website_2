@@ -1,17 +1,9 @@
 <?php
-
 use GlobalE\SDK\SDK;
-use GlobalE\SDK\Models;
 use GlobalE\SDK\Models\Common\Response;
 
 class Globale_Browsing_Model_Initializer
 {
-	const ALLOW_REDIRECTS_CONFIG = 'globale_settings/browsing_settings/allow_redirects';
-
-	const NOT_ALLOW_REDIRECTS = 0;
-	const REDIRECT_TYPE_301 = 1;
-	const REDIRECT_TYPE_302 = 2;
-
 	/**
 	 *  Initialize SDK and Magento Browsing settings
 	 *  Event ==> controller_front_init_before - frontend
@@ -29,10 +21,11 @@ class Globale_Browsing_Model_Initializer
 			return;
 		}
 
-		$AllowRedirects = Mage::getStoreConfig(self::ALLOW_REDIRECTS_CONFIG);
-		if ($AllowRedirects != self::NOT_ALLOW_REDIRECTS) {
-			$this->HandleGlobaleRedirects($GlobaleSDK, $AllowRedirects);
-		}
+
+		/**@var $RedirectModel Globale_Browsing_Model_Redirect */
+		$RedirectModel = Mage::getModel('globale_browsing/redirect');
+		$RedirectModel->handleRedirect($GlobaleSDK);
+
 
 
 		$this->initIsUserSupportedByGlobale($GlobaleSDK);
@@ -69,61 +62,6 @@ class Globale_Browsing_Model_Initializer
 			/**@var $UserSupportedByGlobaleResponse Response\Data */
 			$UserSupportedByGlobale = $UserSupportedByGlobaleResponse->getData();
 			Mage::register('globale_user_supported', $UserSupportedByGlobale);
-		}
-	}
-
-
-	/**
-	 * Handle redirect according to redirect type setting
-	 * @param SDK $GlobaleSDK
-	 * @param $RedirectType
-	 */
-	public function HandleGlobaleRedirects(SDK $GlobaleSDK, $RedirectType)	{
-		//redirecting based on SiteURL returned from Global-e Country API
-		$CountryObj = $GlobaleSDK->Browsing()->GetCountries();
-		if ($CountryObj->getSuccess()) {
-			/**@var $CountryObj Response\Data */
-			/**@var $CountryObjData Models\Country */
-			$CountryObjData = $CountryObj->getData();
-			$CurrentCountry = $CountryObjData->getCountry();
-			$CurrentCountrySiteURL = preg_replace('/https?:\/\/(www\.)?/', '', rtrim($CurrentCountry->SiteURL, '/'));
-			$CurrentBaseUrl = Mage::helper('core/url')->getCurrentUrl();
-			$CurrentUrl = preg_replace('/https?:\/\/(www\.)?/', '', rtrim($CurrentBaseUrl, '/'));
-
-			if (!empty($CurrentCountrySiteURL) && strpos($CurrentUrl, rtrim($CurrentCountrySiteURL, '/')) === false) {
-				$CurrentUrlParts = explode('/', $CurrentUrl);
-				$CurrentUrlStoreCode = $CurrentUrlParts[1];
-				$CurrentCountryUrlParts = explode('/', $CurrentCountrySiteURL);
-				$CurrentCountryUrlStoreCode = $CurrentCountryUrlParts[1];
-				if (!empty($CurrentUrlStoreCode)) {
-					$RedirectUrl = str_replace($CurrentUrlStoreCode, $CurrentCountryUrlStoreCode, $CurrentBaseUrl);
-				} else {
-					if (substr($CurrentBaseUrl, -1) == '/') {
-						$RedirectUrl = $CurrentBaseUrl . $CurrentCountryUrlStoreCode . '/';
-					} else {
-						$RedirectUrl = $CurrentBaseUrl . '/' . $CurrentCountryUrlStoreCode . '/';
-					}
-				}
-
-
-				// Switch between redirects types
-				switch ($RedirectType) {
-					case self::REDIRECT_TYPE_301:
-						$RedirectTypeValue = 301;
-						break;
-
-					case self::REDIRECT_TYPE_302:
-						$RedirectTypeValue = 302;
-						break;
-
-					default:
-						//
-						return;
-				}
-
-				header("Location: " . $RedirectUrl, TRUE, $RedirectTypeValue);
-				exit();
-			}
 		}
 	}
 

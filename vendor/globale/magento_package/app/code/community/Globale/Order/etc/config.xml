@@ -118,6 +118,7 @@
                     </shipmentsave>
                 </observers>
             </sales_order_shipment_save_after>
+
         </events>
     </adminhtml>
     <frontend>

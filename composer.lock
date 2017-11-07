@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "eloquent/composer-config-reader",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eloquent/composer-config-reader.git",
-                "reference": "873dfd6d2b38c14bf1bfd0deb0f54ac7e11d1a14"
+                "reference": "ee83a1cad8f68508f05b30c376003045a7cdfcd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eloquent/composer-config-reader/zipball/873dfd6d2b38c14bf1bfd0deb0f54ac7e11d1a14",
-                "reference": "873dfd6d2b38c14bf1bfd0deb0f54ac7e11d1a14",
+                "url": "https://api.github.com/repos/eloquent/composer-config-reader/zipball/ee83a1cad8f68508f05b30c376003045a7cdfcd8",
+                "reference": "ee83a1cad8f68508f05b30c376003045a7cdfcd8",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "parser",
                 "reader"
             ],
-            "time": "2016-12-20T03:37:03+00:00"
+            "time": "2017-11-02T01:07:08+00:00"
         },
         {
             "name": "eloquent/enumeration",
@@ -155,7 +155,7 @@
             "source": {
                 "type": "git",
                 "url": "https://hylete@bitbucket.org/globaleteam/magento_v1.git",
-                "reference": "6cd923753a10df8b484584aa2c0279ced7fc1857"
+                "reference": "4c55ca041c4064724fd281bd0170d6b46fcfce63"
             },
             "require": {
                 "globale/sdk": "*",
@@ -236,7 +236,7 @@
                 }
             },
             "description": "Global-E integration with magento.",
-            "time": "2017-10-30T14:36:01+00:00"
+            "time": "2017-11-07T08:24:34+00:00"
         },
         {
             "name": "globale/sdk",
@@ -244,7 +244,7 @@
             "source": {
                 "type": "git",
                 "url": "https://hylete@bitbucket.org/globaleteam/php_sdk.git",
-                "reference": "9b107cb52fb801cc18c7920ef7a486e9b627ce26"
+                "reference": "69d17a4cd9967d93909d9a63d43870d25ea8e7ba"
             },
             "require": {
                 "globale/config": "7.7.7",
@@ -263,7 +263,7 @@
                 }
             },
             "description": "Global-E PHP SDK.",
-            "time": "2017-10-15T13:11:29+00:00"
+            "time": "2017-11-02T09:10:55+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

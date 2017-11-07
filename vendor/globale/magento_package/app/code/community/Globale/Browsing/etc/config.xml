@@ -229,6 +229,17 @@
                 </observers>
             </catalog_controller_product_view>
 
+            <!-- Product Price Update -->
+            <catalog_product_load_after>
+                <observers>
+                    <globale_update_product_prices_on_load>
+                        <type>singleton</type>
+                        <class>Globale_Browsing_Model_Observers_Product</class>
+                        <method>updateProductPrices</method>
+                    </globale_update_product_prices_on_load>
+                </observers>
+            </catalog_product_load_after>
+
             <!-- Product Collection Price Update -->
             <catalog_product_collection_load_after>
                 <observers>
@@ -294,6 +305,17 @@
                     </globale_beatify_configurable_price>
                 </observers>
             </catalog_product_type_configurable_price>
+
+            <!-- redirect from Local to Globale Checkout -->
+            <controller_action_predispatch>
+                <observers>
+                    <globale_checkout_redirect>
+                        <class>Globale_Browsing_Model_Observers_Checkout</class>
+                        <method>redirectToGlobaleCheckout</method>
+                    </globale_checkout_redirect>
+                </observers>
+            </controller_action_predispatch>
+
         </events>
         <layout>
             <updates>
@@ -303,4 +325,11 @@
             </updates>
         </layout>
     </frontend>
+    <default>
+        <globale_settings>
+            <browsing_settings>
+                <keep_original_uri_on_redirect>1</keep_original_uri_on_redirect>
+            </browsing_settings>
+        </globale_settings>
+    </default>
 </config>

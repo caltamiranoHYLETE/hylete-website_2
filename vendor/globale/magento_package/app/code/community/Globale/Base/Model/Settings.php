@@ -7,26 +7,34 @@ use GlobalE\SDK\Core;
  */
 class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 
-    const MERCHANT_ID                = 'globale_settings/api_settings/merchant_id';
-    const MERCHANT_GUID              = 'globale_settings/api_settings/merchant_guid';
-	const API_BASE_URL               = 'globale_settings/api_settings/api_base_url';
-	const API_LOG_ENABLE             = 'globale_settings/api_settings/log_enabled';
-	const API_LOG_PATH               = 'globale_settings/api_settings/log_path';
-	const GEM_BASE_URL               = 'globale_settings/api_settings/gem_base_url';
-	const CLIENT_BASE_URL            = 'globale_settings/browsing_settings/client_base_url';
-    const REWRITE_CURRENCY_SWITCHER  = 'globale_settings/browsing_settings/currency_switcher';
-    const MODULES_DISABLE_OUTPUT     = 'globale_settings/browsing_settings/modules_disable_output';
-    const JS_ON_SUCCESS              = 'globale_settings/checkout_settings/js_on_success';
-    const EXT_ORDER_ID               = 'globale_settings/checkout_settings/ext_order_id';
+    const MERCHANT_ID                   = 'globale_settings/api_settings/merchant_id';
+    const MERCHANT_GUID                 = 'globale_settings/api_settings/merchant_guid';
+	const API_BASE_URL                  = 'globale_settings/api_settings/api_base_url';
+	const API_LOG_ENABLE                = 'globale_settings/api_settings/log_enabled';
+	const API_LOG_PATH                  = 'globale_settings/api_settings/log_path';
+	const GEM_BASE_URL                  = 'globale_settings/api_settings/gem_base_url';
+	const ENGLISH_STORE_ID              = 'globale_settings/api_settings/english_store_id';
 
-    const ENGLISH_STORE_ID           = 'globale_settings/api_settings/english_store_id';
-    const IS_LOGIN_BEFORE_CHECKOUT   = 'globale_settings/browsing_settings/login_before_checkout';
-    const INTERNATIONAL_PAYMENT_STATUS  = 'globale_settings/international_payment/order_status';
+	const CLIENT_BASE_URL               = 'globale_settings/browsing_settings/client_base_url';
+	const REWRITE_CURRENCY_SWITCHER     = 'globale_settings/browsing_settings/currency_switcher';
+	const MODULES_DISABLE_OUTPUT        = 'globale_settings/browsing_settings/modules_disable_output';
+	const IS_LOGIN_BEFORE_CHECKOUT      = 'globale_settings/browsing_settings/login_before_checkout';
 
-    const CATALOG_PRICE_AS_FIXED     = 'globale_settings/products_settings/catalog_price_as_fixed_prices';
+	const ALLOW_SERVER_REDIRECTS        = 'globale_settings/browsing_settings/allow_redirects';
+	const SUPPORTED_STORE_LIST          = 'globale_settings/browsing_settings/supported_store_list';
+	const KEEP_ORIGINAL_URI             = 'globale_settings/browsing_settings/keep_original_uri_on_redirect';
+
+	const JS_ON_SUCCESS                 = 'globale_settings/checkout_settings/js_on_success';
+	const NATIVE_CHECKOUT_ROUTES_LIST   = 'globale_settings/checkout_settings/native_checkout_routes_list';
+
+	const CATALOG_PRICE_AS_FIXED        = 'globale_settings/products_settings/catalog_price_as_fixed_prices';
+
+	const EXT_ORDER_ID                  = 'globale_settings/order_settings/ext_order_id';
+
+	const INTERNATIONAL_PAYMENT_STATUS  = 'globale_settings/international_payment/order_status';
 
 
-    /**
+	/**
      * Get Global-e API settings from magento configuration settings and save them in the SDK settings.
 	 * @param boolean $RestMode - if call in api REST mode
      */
@@ -61,7 +69,7 @@ class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 		}
     }
 
-    public function getJsOnSuccess(){
+	public function getJsOnSuccess(){
         return Mage::getStoreConfig(self::JS_ON_SUCCESS);
     }
 
@@ -102,5 +110,40 @@ class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
     public function getInternationalPaymentStatus() {
         return Mage::getStoreConfig(self::INTERNATIONAL_PAYMENT_STATUS);
     }
+
+	/**
+	 * get the list of checkout routs that need to be redirected to GE checkout for GE users
+	 * @return string
+	 */
+	public function getNativeCheckoutRoutesList(){
+		return Mage::getStoreConfig(self::NATIVE_CHECKOUT_ROUTES_LIST);
+	}
+
+
+	/**
+	 * Get settings configuration, if server redirects is allowed
+	 * @return int
+	 */
+	public function getAllowServerRedirects(){
+		return Mage::getStoreConfig(self::ALLOW_SERVER_REDIRECTS);
+	}
+
+
+	/**
+	 * Get settings configuration, if keep_original_uri else redirect to base URI
+	 * @return bool
+	 */
+	public function getKeepOriginalUri(){
+		return Mage::getStoreConfig(self::KEEP_ORIGINAL_URI);
+	}
+
+	/**
+	 * Get the list of supported stores --> for example '/us, /eu, / '
+	 * @return bool
+	 */
+	public function getSupportedStoreList(){
+		return Mage::getStoreConfig(self::SUPPORTED_STORE_LIST);
+	}
+
 
 }

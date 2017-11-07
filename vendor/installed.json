@@ -1,7 +1,7 @@
 [
     {
         "packageName": "globale\/magento_package",
-        "version": "dev-release-6cd923753a10df8b484584aa2c0279ced7fc1857",
+        "version": "dev-release-4c55ca041c4064724fd281bd0170d6b46fcfce63",
         "installedFiles": [
             "\/app\/code\/community\/Globale\/Base\/data\/globale_product_setup\/install-1.0.0.php",
             "\/app\/code\/community\/Globale\/Base\/etc\/api2.xml",
@@ -56,6 +56,7 @@
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Currency.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Initializer.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Item.php",
+            "\/app\/code\/community\/Globale\/Browsing\/Model\/Observers\/Checkout.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Observers\/Initialize.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Observers\/Item.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Observers\/Product.php",
@@ -67,6 +68,7 @@
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Products\/Types\/Virtual.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Quote\/Address\/Total\/Base.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Quote\/Address\/Total\/Preparing.php",
+            "\/app\/code\/community\/Globale\/Browsing\/Model\/Redirect.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Rewrite\/Catalog\/Layer\/Filter\/Price.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Rewrite\/Catalog\/Product\/Option\/Type\/Date.php",
             "\/app\/code\/community\/Globale\/Browsing\/Model\/Rewrite\/Catalog\/Product\/Option\/Type\/Default.php",

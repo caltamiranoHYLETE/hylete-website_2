@@ -19,9 +19,10 @@ class Browsing extends BaseController {
 
     /**
      * Init client SDK
+	 * @var boolean $SwitcherInBlockingMode - if true the switcher will be loaded in blocking mode
      * @return Response
      */
-    protected function LoadClientSDK(){
+    protected function LoadClientSDK($SwitcherInBlockingMode = false){
 
     	$AppModel = new Models\App();
 
@@ -32,11 +33,8 @@ class Browsing extends BaseController {
 			$WebClientVersion = Core\Settings::get('AppVersion.WebClientVersion');
 		}
 
-        $ClientSettings = Core\Settings::get('AppSettings.ClientSettings');
-		if(empty($ClientSettings)){
-			$AppModel->initAppSettings();
-			$ClientSettings = Core\Settings::get('AppSettings.ClientSettings');
-		}
+		$AppModel = new Models\App();
+		$ClientSettings = $AppModel->getAppSetting('AppSettings.ClientSettings');
 
 
         if(!empty($WebClientVersion) && !empty($ClientSettings)) {
@@ -83,13 +81,17 @@ class Browsing extends BaseController {
 				$Country = Models\Country::getSingleton();
 				$IsCountryOperatedByGlobale = $Country->IsCountryOperatedByGlobale($CustomerDetails->getCountryISO());
 
-                if($IsCountryOperatedByGlobale){
-					$Output .= "gle('LoadWelcome', '{$JsConfig['CountryISO']}', '{$JsConfig['CultureCode']}', '{$JsConfig['CurrencyCode']}');\r\n";
+				// If $SwitcherInBlockingMode = true - add LoadShippingSwitcherEx, else LoadWelcome + LoadShippingSwitcher
+				if($SwitcherInBlockingMode){
+					$Output .= "gle(\"LoadShippingSwitcherEx\", true, null ,true);";
+				}else{
+					if($IsCountryOperatedByGlobale){
+						$Output .= "gle('LoadWelcome', '{$JsConfig['CountryISO']}', '{$JsConfig['CultureCode']}', '{$JsConfig['CurrencyCode']}');\r\n";
+					}
+					$Output .= "gle(\"LoadShippingSwitcher\", '{$JsConfig['CountryISO']}', '{$JsConfig['CultureCode']}', '{$JsConfig['CultureCode']}',false);";
 				}
 
-
-                $Output .= "gle(\"LoadShippingSwitcher\", '{$JsConfig['CountryISO']}', '{$JsConfig['CultureCode']}', '{$JsConfig['CultureCode']}',false);";
-                return new Response\Data(true, $Output);
+				return new Response\Data(true, $Output);
 
             } else {
                 return new Response(false,'Customer information was not initialized');
@@ -128,6 +130,18 @@ class Browsing extends BaseController {
 
         return new Response(true);
     }
+
+	/**
+	 * Get AppSetting Value by Key
+	 * @param $AppSettingKey
+	 * @return string|boolean|array
+	 */
+    protected function GetAppSetting($AppSettingKey){
+		$AppModel = new Models\App();
+		$AppSettingValue = $AppModel->getAppSetting($AppSettingKey);
+		return $AppSettingValue;
+
+	}
 
     /**
      * Get customer information: CurrencyCode, CountryISO, CultureCode
