@@ -41,9 +41,9 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[eWcqNHRVnT4sgnnF]]></password>
-                    <dbname><![CDATA[hylete]]></dbname>
+                    <username><![CDATA[hylete_dev]]></username>
+                    <password><![CDATA[9SHP$#aq4kjYUML2]]></password>
+                    <dbname><![CDATA[hylete-dev]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
