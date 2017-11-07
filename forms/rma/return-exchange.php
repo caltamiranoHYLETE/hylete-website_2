@@ -1,8 +1,6 @@
 <?php
 //if($_SERVER['SERVER_PORT'] != '443') { header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); exit(); }
 
-//if($_SERVER['SERVER_PORT'] = '443') { header('Location: http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); exit(); }
-
 function test_input($data) {
     if( isset($_POST[$data]) ) {
         $postData = $_POST[$data];
@@ -54,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
-    <script type="text/javascript" src="/forms/js/return-exchange-script.js?version20170616"></script>
+    <script type="text/javascript" src="/forms/js/config.js"></script>
+    <script type="text/javascript" src="/forms/js/return-exchange-script.js"></script>
 
 </head>
 <body>
@@ -65,10 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div id="loading_area">
         <?php if($orderId == "") {
-                echo "<h3>No Order Number Was Entered Into The Form.<br>Please Try Again.</h3>";
-            } else{
-                echo "<h3 id='loadingMessage'>Your Order Was Found! Loading Items...</h3><img id='loadingImage' src=\"/forms/img/ajax-loader.gif\" border=\"0\" />";
-            }
+            echo "<h3>No Order Number Was Entered Into The Form.<br>Please Try Again.</h3>";
+        } else{
+            echo "<h3 id='loadingMessage'>Your Order Was Found! Loading Items...</h3><img id='loadingImage' src=\"/forms/img/ajax-loader.gif\" border=\"0\" />";
+        }
         ?>
     </div>
 
@@ -95,17 +94,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img src="/forms/img/return-label.png">
                         </a>
                         <div style="text-align: left;">
-                        <h2>steps for a smooth return:</h2>
-                        <ul style="list-style-type: circle; list-style-position: inside;">
-                            <li>Keep the tags on or include them in your return</li>
-                            <li>Only return the items you have selected on the form. Any differences will cause delays in processing.</li>
-                            <li>Exchanges and refunds will be processed once we receive and process your package</li>
-                            <li>Send it in! Return authorizations expire after 60 days</li>
-                        </ul>
+                            <h2>steps for a smooth return:</h2>
+                            <ul style="list-style-type: circle; list-style-position: inside;">
+                                <li>Keep the tags on or include them in your return</li>
+                                <li>Only return the items you have selected on the form. Any differences will cause delays in processing.</li>
+                                <li>Exchanges and refunds will be processed once we receive and process your package</li>
+                                <li>Send it in! Return authorizations expire after 60 days</li>
+                            </ul>
                             <br/>
                         </div>
                     </div>
+                    <div id="nonreturnable_contact" style="display:none;">
+                        <form id="nonreturnable_contactForm" method="post" action="xxx.php">
+                            <h2>create a support ticket</h2>
+                            <p>Fill out the email address below to create a support ticket for your return.</p>
+                            <ul class="form-list">
+                                <li>
+                                    <label for="nonreturnable_subject">Subject:</label>
+                                    <p style="text-align: left;">item assistance return request for order: <?php echo strtoupper($orderId); ?></p>
+                                </li>
+                                <li>
+                                    <label for="nonreturnable_email" class="required">Email Address <span class="required">*</span></label>
+                                    <input type="email" id="nonreturnable_email" class="input-text required-entry validate-email validation-passed" title="Email Address" autocomplete="off" required data-msg="Please enter your email address"/>
+                                </li>
+                                <li>
+                                    <label for="nonreturnable_comments">Comments</label>
+                                    <textarea id="nonreturnable_comments"></textarea>
+                                </li>
+                                <li><input style="width:200px;" class="button" type="submit" value="submit"></li>
+                            </ul>
+                        </form>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -137,11 +158,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <?php
                     if($isAdmin == "true") {
-                    ?>
+                        ?>
                         <span class="spacer"></span>
                         <input type="radio" value="exchange" id="exchange_other_choice" name="refund-or-exchange">
                         <label id="exchangeOtherTooltip" class="choice_text">&nbsp;Exchange For Other Item</label>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
@@ -154,16 +175,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="errorNotice" id="productErrorNotice"></div>
 
         <form id="productForm" autocomplete="off">
-        <div id="product_table_area">
+            <div id="product_table_area">
 
-        </div>
+            </div>
         </form>
 
         <hr>
 
         <div class="steps">Enter or verify your contact information. If exchanging, this is the address we will send the new order to.</div>
         <div class="errorNotice" id="addressErrorNotice"></div>
-        <form id="addressForm" method="post" action="xxx.php">
+        <form id="addressForm" method="post" action="">
             <fieldset id="address_fields">
                 <label>first name <span class="required">*</span></label><br><input type="text" name="firstName" id="firstName" required data-msg="Please enter your first name"/>
                 <br><label>last name <span class="required">*</span></label><br><input type="text" name="lastName" id="lastName" required data-msg="Please enter your last name"/>
@@ -246,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </fieldset>
 
             <div id="sectionProcessing" align="center" style="display: none;"><label for="form_submit">creating label, please wait...</label><br />
-                <img src="/forms/img/ajax-loader.gif"  border="0" />
+                <img src="/forms/img/ajax-loader.gif" border="0" />
             </div>
             <div id="errorShow" style="display:none;">
                 <table style="width:90%">

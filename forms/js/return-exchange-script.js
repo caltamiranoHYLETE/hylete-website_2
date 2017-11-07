@@ -3,6 +3,8 @@
  */
 jQuery(document).ready(function(){
 
+    alert(urlBase);
+
     var orderId = jQuery("#orderId").val();
     var ignoreClearance = jQuery("#ignoreClearance").val();
     var isAdmin = jQuery("#isAdmin").val();
@@ -17,13 +19,10 @@ jQuery(document).ready(function(){
         jQuery('#choice1').tooltip("destroy");
     });
 
-    //"http://localhost:60601
-    //https://pbhservice.hylete.com
     if(orderId != "") {
         var requestData = { orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin };
         jQuery.ajax({ url: "../lib/proxy.php",
-            //data: {requrl: "http://localhost:60601/hyletePBHService.asmx/GetReturnProductTable?" + jQuery.param(requestData) },
-            data: {requrl: "https://pbhservice.hylete.com/hyletePBHService.asmx/GetReturnProductTable?" + jQuery.param(requestData) },
+            data: {requrl: urlBase + "GetReturnProductTable?" + jQuery.param(requestData) },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
@@ -37,6 +36,7 @@ jQuery(document).ready(function(){
                     jQuery("#firstName").val(data.FirstName);
                     jQuery("#lastName").val(data.LastName);
                     jQuery("#email").val(data.Email);
+                    jQuery("#nonreturnable_email").val(data.Email);
                     jQuery("#address1").val(data.Address1);
                     jQuery("#address2").val(data.Address2);
                     jQuery("#city").val(data.City);
@@ -68,6 +68,16 @@ jQuery(document).ready(function(){
                         }
                     }
 
+                    jQuery('a.nonreturnable_contact').click(function() {
+                        jQuery('#modal-message').hide();
+                        jQuery('#print-label-area').hide();
+                        jQuery('#nonreturnable_contact').show();
+
+                        jQuery('#choice1').tooltip("destroy");
+
+                        jQuery("#myModal").modal();
+                    });
+
                     jQuery('.select_exchange:disabled').wrap(function() {
                         return '<div class="exchangeTooltip" />';
                     });
@@ -81,8 +91,8 @@ jQuery(document).ready(function(){
                         jQuery("#content_area").fadeIn();
                     });
 
-                    setTimeout(showReturnTooltip, 3000);
-                    setTimeout(showPlusTooltip, 4000);
+                    setTimeout(showReturnTooltip, 2000);
+                    setTimeout(showPlusTooltip, 3000);
                 }
             }
         });
@@ -95,6 +105,37 @@ jQuery(document).ready(function(){
     var showReturnTooltip = function() {
         jQuery('#choice1').tooltip("show");
     };
+
+    jQuery("#nonreturnable_contactForm").validate ({
+        rules: {
+            nonreturnable_email: { required: true}
+        },
+        submitHandler: function() {
+
+            var email = jQuery("#nonreturnable_email").val();
+            var comments = jQuery("#nonreturnable_comments").val();
+            var firstName = jQuery("#firstName").val();
+            var lastName = jQuery("#lastName").val();
+
+            var requestData = { orderId: orderId, email: email, comments: comments, firstName: firstName, lastName: lastName };
+
+            jQuery.ajax({
+                url: "../lib/proxy.php",
+                data: {requrl: urlBase + "QueueReturnSupportEmail?" + jQuery.param(requestData)},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //if we don't have any errors, we will show the customer a return label
+                    //console.log(data);
+                    if (data.success == 'false') {
+                        jQuery('#nonreturnable_contactForm').html("<h1>Message Failed!</h1><p>There was a problem creating your ticket. An message has been sent to technical support to resolve the issue.</p>");
+                    } else {
+                        jQuery('#nonreturnable_contactForm').html("<h1>Message Sent!</h1><p>We appreciate your patience while our brand reps work on responding to you as soon as possible. Thanks for your support.</p>");
+                    }
+                }
+            })
+        }
+    });
 
     jQuery('#exchange_other_choice').on('click', function() {
         jQuery(".select_exchange").fadeOut(function() {

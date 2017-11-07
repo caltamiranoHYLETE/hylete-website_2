@@ -12,17 +12,17 @@
 <meta property="og:description" content="Performance Cross Training Apparel" />
 <link rel="shortcut icon" href="//www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
 
-<link rel="stylesheet" type="text/css" href="/media/css/5faceca00c3148479453fc6e46a2b43b.1.0.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/media/css/f92e344302cbea810509bf8feda03642.4.0.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="smart-return.css" media="all" />
 <script src="/forms/js/jquery.js"></script>
 <script src="/forms/js/jquery-ui-1.11/jquery-ui.min.js"></script>
 <script src="/forms/js/jquery.validate.min.js"></script>
-<script src="/forms/js/smart-return.js?version=20160104"></script>
-<script type="text/javascript" src="/forms/js/iframeResizer.contentWindow.min.js"></script>
+<script src="/forms/js/smart-return.js"></script>
 
 </head>
 <body>
-    <div style="max-width:500px">
-    <form id="returnForm" method="post" action="process.php">
+    <div class="container">
+    <form id="returnForm" method="post" action="smart">
     <fieldset>
         <input type="hidden" name="isAdmin" id="isAdmin" value="true">
         <input type="checkbox" name="ignoreDates" id="ignoreDates" value="true"/>
@@ -35,6 +35,7 @@
         <input type="text" name="orderId" id="orderId"/>
         <input type="submit" value="submit" style="margin-top:10px;" />
     </fieldset>
+    </form>
     <div id="sectionProcessing" style="display:none">
         <h4>Searching for order, please wait...</h4><img alt="loading..." src="/forms/img/ajax-loader.gif" border="0" />
     </div>
@@ -47,6 +48,9 @@
                 <td id="errorMessage"></td>
             </tr>
         </table>
+    </div>
+    <div id="resultShow" style="display:none;">
+
     </div>
     <div style="display:none;" id="labelFound">
         <h2>A return has already been submitted for this order.</h2>
@@ -88,7 +92,6 @@
     <div style="display:none;" id="international">
         Your order was found. Proceed to the HYLETE International return form.
     </div>
-    </form>
     </div>
 <br><br><br><br>
 </body>

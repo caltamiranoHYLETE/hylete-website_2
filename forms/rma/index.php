@@ -21,7 +21,7 @@
         </script>
     </head>
     <body>
-        <form id="MakeARequest" name="MakeARequest" method="post" action="http://www.shipmentmanager.com/portal.aspx">    
+        <form id="MakeARequest" name="MakeARequest" method="post" action="https://www.shipmentmanager.com/portal.aspx">
             <input type="hidden" id="SLORequest" name="SLORequest" />
             Order ID: <input type="text" id="OrderID" />
             <input type="submit" value="Search" />

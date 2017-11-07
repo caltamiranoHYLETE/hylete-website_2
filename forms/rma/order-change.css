@@ -1,0 +1,43 @@
+.results {
+    margin-top:20px;
+}
+
+.return-order {
+    margin-bottom:10px;
+    clear:both;
+}
+
+.passed-date {
+    clear:both;
+    background-color: #ffa2a2;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.can-return img{
+    margin-right:10px;
+}
+
+.can-return{
+    clear:both;
+    background-color: #9bbb59;
+    padding:10px;
+    margin-bottom:10px;
+    font-size:1.3em;
+}
+
+.return-found img{
+    margin-right:10px;
+}
+
+.return-found {
+    clear:both;
+    background-color: #9bbb59;
+    padding:10px;
+    margin-bottom:10px;
+    font-size:1.3em;
+}
+
+.comments {
+    margin-top:10px;
+}

@@ -1,0 +1,59 @@
+.return-order {
+    margin-bottom:10px;
+    clear:both;
+}
+
+.return-order h1, h2{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+.return-item {
+    clear:both;
+    display:block;
+    overflow:auto;
+    height:100%;
+}
+
+.return-item img{
+    margin-top:2px;
+}
+
+.passed-date {
+    clear:both;
+    background-color: #ffa2a2;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.can-return img{
+    margin-right:10px;
+}
+
+.can-return{
+    clear:both;
+    background-color: #9bbb59;
+    padding:10px;
+    margin-bottom:10px;
+    font-size:1.3em;
+}
+
+.return-found img{
+    margin-right:10px;
+}
+
+.return-found {
+    clear:both;
+    background-color: #9bbb59;
+    padding:10px;
+    margin-bottom:10px;
+    font-size:1.3em;
+}
+
+.return_thumbnail {
+    display: block;
+    width: auto;
+    max-width: 75px;
+    height: auto;
+    border:1px solid #999999;
+    margin-right:10px;
+}

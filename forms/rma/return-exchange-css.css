@@ -255,6 +255,22 @@ input[class="small_input"] {
     height: 10px;
 }
 
+.form-list label{
+    float:left;
+    text-align: right;
+    margin-right:5px;
+}
+
+.form-list textarea{
+    max-width:70%;
+    min-width:70%;
+    horiz-align: left;
+}
+
+.form-list {
+    width:90%;
+}
+
 @media (max-width: 767px) {
     body .container { margin:3px; }
     #product_table thead{
@@ -349,4 +365,9 @@ input[class="small_input"] {
         display: block;
         height: 10px;
     }
+
+    #form-list label {
+        float:left;
+    }
+
 }

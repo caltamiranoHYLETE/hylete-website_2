@@ -54,7 +54,7 @@ function getOrderLocation() {
     
     	require '../lib/nusoap/nusoap.php';
     	//$client = new nusoap_client('http://localhost:60601/hyletePBHService.asmx?WSDL', 'WSDL');
-    	$client = new nusoap_client('https://pbhservice.hylete.com/hyletePBHService.asmx?WSDL', 'WSDL');
+    	//$client = new nusoap_client('https://pbhservice.hylete.com/hyletePBHService.asmx?WSDL', 'WSDL');
     	$client->timeout = 200;
     	$client->response_timeout = 600;
     	
