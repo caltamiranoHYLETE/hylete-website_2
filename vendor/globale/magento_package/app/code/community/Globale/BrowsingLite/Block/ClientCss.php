@@ -19,7 +19,8 @@ class Globale_BrowsingLite_Block_ClientCss extends Mage_Core_Block_Template {
 	 * @return boolean
 	 */
 	public function useLinkRel(){
-		return Mage::helper('core')->isModuleEnabled('Globale_Browsing') == false;
+		return Mage::helper('core')->isModuleEnabled('Globale_Browsing') == false &&
+			Mage::getModel('globale_base/settings')->getEnableGemInclude();
 	}
 
 }

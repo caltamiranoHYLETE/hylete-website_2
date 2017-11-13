@@ -56,6 +56,7 @@ class Globale_Browsing_Model_Initializer
 	 * @param SDK $GlobaleSDK
 	 */
 	protected function initIsUserSupportedByGlobale(SDK $GlobaleSDK) {
+		Mage::unregister('globale_user_supported');
 
 		$UserSupportedByGlobaleResponse = $GlobaleSDK->Browsing()->IsUserSupportedByGlobale();
 		if ($UserSupportedByGlobaleResponse->getSuccess()) {

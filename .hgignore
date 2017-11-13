@@ -7,3 +7,5 @@
 /forms/feeds/cpc_feed.xml
 /forms/feeds/ready_pulse_product_feed.xml
 /forms/create/create.php
+/forms/js/config.js
+/forms/config.php

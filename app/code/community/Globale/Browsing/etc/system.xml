@@ -68,7 +68,10 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <sort_order>20</sort_order>
-                            <comment>Modules that output for them will be disabled if user is operated by Global-e</comment>
+                            <comment>
+                                <![CDATA[Modules that output for them will be disabled if user is operated by Global-e <br />
+                                <strong> * "Remove All Selected" option is for enable all modules</strong>]]>
+                            </comment>
                         </modules_disable_output>
                         <login_before_checkout>
                             <label>Allow login/registration before checkout</label>

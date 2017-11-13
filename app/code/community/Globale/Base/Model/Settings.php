@@ -15,6 +15,9 @@ class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 	const GEM_BASE_URL                  = 'globale_settings/api_settings/gem_base_url';
 	const ENGLISH_STORE_ID              = 'globale_settings/api_settings/english_store_id';
 
+	const ENABLE_GEM_INCLUDE            = 'globale_settings/browsing_lite_settings/enable_gem_include';
+	const TRACKING_JS                   = 'globale_settings/browsing_lite_settings/tracking_js';
+
 	const CLIENT_BASE_URL               = 'globale_settings/browsing_settings/client_base_url';
 	const REWRITE_CURRENCY_SWITCHER     = 'globale_settings/browsing_settings/currency_switcher';
 	const MODULES_DISABLE_OUTPUT        = 'globale_settings/browsing_settings/modules_disable_output';
@@ -139,10 +142,26 @@ class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 
 	/**
 	 * Get the list of supported stores --> for example '/us, /eu, / '
-	 * @return bool
+	 * @return string
 	 */
 	public function getSupportedStoreList(){
 		return Mage::getStoreConfig(self::SUPPORTED_STORE_LIST);
+	}
+
+	/**
+	 * Get configuration of enable include of GEM CSS/JS
+	 * @return int
+	 */
+	public function getEnableGemInclude(){
+		return Mage::getStoreConfig(self::ENABLE_GEM_INCLUDE);
+	}
+
+	/**
+	 * Get setting of Tracking JS
+	 * @return string
+	 */
+	public function getTrackingJs(){
+		return Mage::getStoreConfig(self::TRACKING_JS);
 	}
 
 

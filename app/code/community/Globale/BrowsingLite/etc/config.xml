@@ -75,4 +75,11 @@
             </updates>
         </layout>
     </frontend>
+    <default>
+        <globale_settings>
+            <browsing_lite_settings>
+                <enable_gem_include>1</enable_gem_include>
+            </browsing_lite_settings>
+        </globale_settings>
+    </default>
 </config>

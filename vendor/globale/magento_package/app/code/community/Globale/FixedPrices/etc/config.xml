@@ -61,8 +61,6 @@
                 </connection>
             </fixedprices_read>
         </resources>
-    </global>
-    <frontend>
         <events>
             <!-- Load fixed prices  -->
             <globale_build_products_request_before>
@@ -85,7 +83,7 @@
                 </observers>
             </globale_build_product_request_data>
         </events>
-    </frontend>
+    </global>
     <admin>
         <routers>
             <adminhtml>

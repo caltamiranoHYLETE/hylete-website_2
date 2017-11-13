@@ -12,6 +12,11 @@
         <reference name="before_body_end">
             <block type="globale_browsinglite/clientJs" name="globale_client_js"
                    template="globale/browsinglite/client_js.phtml"/>
+
+            <!-- Add JS include for tracking script -->
+            <block type="globale_browsinglite/trackingJs" name="globale_client_tracking"
+                   template="globale/browsinglite/tracking_js.phtml"/>
+
         </reference>
 
     </default>
