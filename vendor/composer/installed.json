@@ -986,12 +986,12 @@
     },
     {
         "name": "globale/sdk",
-        "version": "dev-release",
-        "version_normalized": "dev-release",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
         "source": {
             "type": "git",
             "url": "https://hylete@bitbucket.org/globaleteam/php_sdk.git",
-            "reference": "c2ed7a4446083233c0cbede26de4fc596279b67f"
+            "reference": "9dc0693ef5f4937cb135679e623149ed1e50e66e"
         },
         "require": {
             "globale/config": "7.7.7",
@@ -1003,7 +1003,7 @@
         "require-dev": {
             "phpunit/phpunit": "3.*"
         },
-        "time": "2017-11-12T16:09:48+00:00",
+        "time": "2017-11-12T16:13:07+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -1015,18 +1015,18 @@
     },
     {
         "name": "globale/magento_package",
-        "version": "dev-release",
-        "version_normalized": "dev-release",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
         "source": {
             "type": "git",
             "url": "https://hylete@bitbucket.org/globaleteam/magento_v1.git",
-            "reference": "c6aadec3db7781032ae1b1c5ef73e6ea2b0e727f"
+            "reference": "baef31ffa626fe442b9c52dd3eb20b134f02d8e2"
         },
         "require": {
             "globale/sdk": "*",
             "symfony/filesystem": "2.8.*"
         },
-        "time": "2017-11-12T15:52:14+00:00",
+        "time": "2017-11-12T16:15:06+00:00",
         "type": "magento-module",
         "extra": {
             "map": [
