@@ -166,7 +166,7 @@
 ############################################
 ## rewrite everything else to index.php
 
-    RewriteRule .* index.php [L]
+
 
     RewriteCond %{HTTP_HOST} ^hylete.com
     RewriteRule ^(.*)$ https://www.hylete.com/$1 [R=301,L]
@@ -230,6 +230,8 @@
     RewriteCond %{REQUEST_URI}  ^/team$ [OR,NC]
     RewriteCond %{REQUEST_URI}  ^/team/$ [NC]
     RewriteRule ^(.*)$ /compete-team-application/ [R=301,L]
+
+    RewriteRule .* index.php [L]
 
 </IfModule>
 
