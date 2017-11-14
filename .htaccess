@@ -168,6 +168,69 @@
 
     RewriteRule .* index.php [L]
 
+    RewriteCond %{HTTP_HOST} ^hylete.com
+    RewriteRule ^(.*)$ https://www.hylete.com/$1 [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/SMB17$ [NC]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/home/smb17 [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/31$ [NC]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/home/31hc17 [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/31login$ [NC]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/login/31hc17 [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/men/charity/operation-underground-railroad$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/women/charity/operation-underground-railroad$ [NC]
+    RewriteRule ^(.*)$ /operation-underground-railroad [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/men/charity/scratch-my-belly$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/women/charity/scratch-my-belly$ [NC]
+    RewriteRule ^(.*)$ /scratch-my-belly [R=301,L]
+
+    RewriteCond %{REQUEST_URI}  ^/men/charity/team-rubicon$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/women/charity/team-rubicon$ [NC]
+    RewriteRule ^(.*)$ /team-rubicon [R=301,L]
+
+
+    RewriteCond %{REQUEST_URI}  ^/men/charity/national-breast-cancer-awareness-foundation$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/women/charity/national-breast-cancer-awareness-foundation$ [NC]
+    RewriteRule ^(.*)$ /nbcf [R=301,L]
+
+    RewriteRule ^pbh/?(.*) /create-your-account [QSA,L,NC]
+
+    RewriteRule ^robbwolf/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30582-3d1487 [QSA,L,NC]
+    RewriteRule ^sweatworks/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30378-da2c9b [QSA,L,NC]
+    RewriteRule ^megamad/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30431-7af5a7 [QSA,L,NC]
+    RewriteRule ^alkavadlo/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30441-ac952c [QSA,L,NC]
+    RewriteRule ^andymcdermott/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30448-1dc17d [QSA,L,NC]
+    RewriteRule ^wodtalk/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=37242-153fda [QSA,L,NC]
+
+    RewriteCond %{REQUEST_URI}  ^/wildfire/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/cardona/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/welch/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/blackwell/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/dragondoor/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/metcontv/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/drmike/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/maxshank/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/nichols/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/festivus/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/strengthcrate/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/battlefrog/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/veev/?(.*) [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/npgl$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/npgl/$ [NC]
+    RewriteRule ^(.*)$ / [R=301,L]
+
+    RewriteRule ^C3? https://www.hylete.com/c3 [L]
+
+    RewriteRule ^prodeal/?(.*) /forms/prodeal/$1 [QSA,L,NC]
+
+    RewriteCond %{REQUEST_URI}  ^/team$ [OR,NC]
+    RewriteCond %{REQUEST_URI}  ^/team/$ [NC]
+    RewriteRule ^(.*)$ /compete-team-application/ [R=301,L]
+
 </IfModule>
 
 
