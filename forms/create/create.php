@@ -6,6 +6,7 @@
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="/forms/js/challenge-global.js"></script>
+    <script src="/forms/js/config.js"></script>
     <script src="/forms/create/create.js"></script>
 
 </head>

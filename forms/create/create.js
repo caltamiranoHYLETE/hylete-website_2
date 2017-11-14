@@ -2,12 +2,12 @@ jQuery( document ).ready(function() {
 
     var custEmail = getQueryString("email");
     var codeId = getQueryString("codeid");
+    var formId = getQueryString("formId");
 
     if(codeId == null || custEmail == null) {
         jQuery("#wb-errorMessage").text("Some data we need is missing. Please make sure you filled out the form correctly and try again.").show();
     } else{
-        var urlBase =  "https://pbhservice.hylete.com/hyletePBHService.asmx/";
-        var requestData = {email: custEmail, codeId: codeId, expiration: '4'};
+        var requestData = {email: custEmail, codeId: codeId, expiration: '4', formId: formId};
 
         jQuery.ajax({
             url: "/forms/lib/proxy.php",

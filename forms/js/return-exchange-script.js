@@ -3,8 +3,6 @@
  */
 jQuery(document).ready(function(){
 
-    alert(urlBase);
-
     var orderId = jQuery("#orderId").val();
     var ignoreClearance = jQuery("#ignoreClearance").val();
     var isAdmin = jQuery("#isAdmin").val();
