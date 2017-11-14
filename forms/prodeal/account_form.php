@@ -1,5 +1,5 @@
 <!--- Registration Frame Begins -->
-<form id="regForm" method="post" autocomplete="off" action="/partners/process.php">
+<form id="regForm" method="post" autocomplete="off" action="process.php">
 <fieldset>
 <div id="registerRightDiv" align="center">
 	<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="my_table">   
