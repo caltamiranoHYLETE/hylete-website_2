@@ -55,7 +55,7 @@ jQuery( document ).ready(function() {
 
                     //alert('HERE!');
 
-                    console.log(data);
+                    //console.log(data);
 
 					jQuery('#sectionProcessing').hide();
 
@@ -64,18 +64,20 @@ jQuery( document ).ready(function() {
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
                         var jsonObj = jQuery.parseJSON(data.GetReturnOrdersResult);
-                        console.log(jsonObj);
+                        //console.log(jsonObj);
 
                         //if we only have one order found we will process it
                         if(jsonObj.length == 1) {
                             //console.log(JSON.stringify(jsonObj[0], null, 4));
                             processSingle(jsonObj[0]);
-						} else{
+                        } else if (jsonObj.length == 0) {
+                            html += "<h2>No order was found matching that order number. Please try again.</h2>";
+                        } else{
 
                             html += "<h2>We found multiple shipments for this order number. Please review each shipment for the product(s) you need to return.</h2>";
                             //We are going to loop through the returned orders
                             for (var i in jsonObj) {
-                                console.log(JSON.stringify(jsonObj[i], null, 4));
+                                //console.log(JSON.stringify(jsonObj[i], null, 4));
 
                                 if (jsonObj[i].OrderFound) {
 

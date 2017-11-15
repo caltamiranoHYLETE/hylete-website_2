@@ -43,7 +43,7 @@ jQuery( document ).ready(function() {
                         dataType: "json",
                         cache: false,
                         success: function(data) {
-                            console.log(data);
+                            //console.log(data);
 
                             jQuery('#sectionProcessing').hide();
 
@@ -79,7 +79,7 @@ jQuery( document ).ready(function() {
                         dataType: "json",
                         cache: false,
                         success: function(data) {
-                            console.log(data);
+                            //console.log(data);
 
                             jQuery('#sectionProcessing').hide();
 
@@ -125,7 +125,7 @@ jQuery( document ).ready(function() {
                 dataType: "json",
                 cache: false,
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
 
                     jQuery('#sectionProcessing').hide();
 

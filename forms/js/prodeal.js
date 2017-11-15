@@ -168,7 +168,7 @@ $( document ).ready(function() {
 
 					$('#sectionProcessing').hide();
 
-					console.log(data);
+					//console.log(data);
 
 					if(data.success == 'false') {
 						$('#errorMessage').html(data.message);
@@ -177,7 +177,7 @@ $( document ).ready(function() {
 					} else {
 						var jsonObj = $.parseJSON('[' + data.CreateProDealMemberResult + ']');
 
-						console.log(jsonObj);
+						//console.log(jsonObj);
 
 						breakMe: {
 

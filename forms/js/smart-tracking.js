@@ -48,7 +48,7 @@ jQuery( document ).ready(function() {
 							for (var i = 0; i < jsonObj[0].length; i++) {
 								var foundObj = jsonObj[0][i];
 
-								console.log(foundObj);
+								//console.log(foundObj);
 
 								if(foundObj.Errors != "") {
 									jQuery('#notFound').fadeOut('500', function () {
