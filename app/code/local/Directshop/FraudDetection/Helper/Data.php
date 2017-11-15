@@ -97,8 +97,8 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 		$order = $payment->getOrder();
 		$address = $order->getBillingAddress();
 		$shipAddress = $order->getShippingAddress();
-		
-		if (!($shipAddress && $shipAddress->getCountry()) || !($address && $address->getCountry()))
+
+        if (!($shipAddress && $shipAddress->getCountry()) || !($address && $address->getCountry()))
 		{
 			$shipAddress = ($shipAddress && $shipAddress->getCountry()) ? $shipAddress : $address;
 			$address = ($address && $address->getCountry()) ? $address : $shipAddress;
@@ -209,6 +209,17 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 				return array("errmsg" => "Required field $field is missing.", "err" => "FATAL_ERROR");	
 			}
 		}
+
+		//ignore global-e
+        if ($payment->getMethod() == "globale")
+        {
+            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
+
+        if ($payment->getMethod() == "cashondelivery")
+        {
+            return array("errmsg" => "Cash On Delivery Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
 		
 		// check for IP exceptions
 		$exceptions = @unserialize(Mage::getStoreConfig('frauddetection/general/ipexceptions'));
