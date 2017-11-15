@@ -9,20 +9,24 @@
  
 class Directshop_FraudDetection_Model_Payment_Observer
 {
-	
 	public function call_maxmind($observer)
 	{
 		$event = $observer->getEvent();
 		$payment = $event->getPayment();
 		$order = $payment->getOrder();
-		
+
+        Mage::log($payment, null, 'globale-observer.log');
+        Mage::log($event, null, 'globale-observer.log');
+        Mage::log($order, null, 'globale-observer.log');
+
 		$res = Mage::helper('frauddetection')->normaliseMaxMindResponse(Mage::helper('frauddetection')->getMaxMindResponse($payment));
 		
 		// don't save the order if there's a fatal error
 		if (empty($res['err']) || !in_array($res['err'], Directshop_FraudDetection_Model_Result::$fatalErrors))
 		{
-            $payment_method_code = $payment->getMethodInstance()->getCode();
-			if($payment_method_code != "globale") {
+            $payment_method_code = $order->getPayment()->getMethodInstance()->getCode();
+
+            if($payment_method_code != "globale") {
                 Mage::helper('frauddetection')->saveFraudData($res, $order);
                 $order->setFraudDataTemp($res);
 
@@ -33,6 +37,7 @@ class Directshop_FraudDetection_Model_Payment_Observer
                     $order->hold();
                 }
             }
+
 		}
 	}
 	
