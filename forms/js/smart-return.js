@@ -83,6 +83,15 @@ jQuery( document ).ready(function() {
 
                                     html += "<div class='return-order'><h1>" + jsonObj[i].OrderId + "</h1>";
 
+                                    if (jsonObj[i].IsGovX == true) {
+
+                                        BuildGovxHtml(html);
+
+                                        html += displayItems(jsonObj[i]);
+                                        html+= "<hr></div>";
+                                        continue;
+                                    }
+
                                     //Passed Date Section
                                     if (jsonObj[i].PassedDate == true) {
 
@@ -165,6 +174,37 @@ jQuery( document ).ready(function() {
 	
 });
 
+function BuildGovxHtml() {
+
+    var html = "";
+    html += "<p>Looks like your Hylete order was originally placed through GovX.com!</p>";
+
+    html += "<p>If you are not 100% satisfied with your purchase, you can return your item(s) within 30 days of purchase for a full product refund directly through GovX.com.</p>";
+
+    html += "<p>GovX will cover the cost of your return shipping! It's easy, and it's FREE!</p>";
+
+    html += "<p>To request a Return follow these steps: <ol>";
+    html += "<li>Log in to your account on GovX.com</li>";
+    html += "<li>Click on My Account in the upper right hand corner of the page and select the Orders tab</li>";
+    html += "<li>Click on the Return button for the order that contains the item you wish to return</li>";
+    html += "<li>Fill out the form and submit</li>";
+    html += "</ol></p>";
+
+    html += "<p>GovX will grant a full refund provided: <ol>";
+    html += "<li>All items are returned in the original state in which they were received (unworn). Clothing and shoes cannot be worn and all tags must be attached</li>";
+    html += "<li>All items are returned in original packaging with original contents </li>";
+    html += "<li>All items are shipped in an appropriately sized box with adequate protection to ensure the product is not damaged during transport </li>";
+    html += "</ol></p>";
+
+    html += "<p>Please note we cannot accept returns for Clearance items. Clearance items are always final sale.</p>";
+
+    html += "<p>Need a different size? No problem! After you have received your free return shipping label, take advantage of flat rate shipping on all GovX orders to go ahead and purchase the correct size! If you have any other questions, feel free to contact us at 888-468-5511 or email wegotyourback@govx.com.</p>";
+
+    alert(html);
+
+    return html;
+}
+
 function processSingle(returnObject) {
     if(returnObject.Error != "") {
         jQuery('#notFound').fadeOut('500', function () {
@@ -178,6 +218,20 @@ function processSingle(returnObject) {
         if(returnObject.OrderFound) {
 
             html += "<div class='return-order'><h1>" + returnObject.OrderId + "</h1>";
+
+            if (returnObject.IsGovX == true) {
+
+                html += BuildGovxHtml();
+                alert(html);
+
+                html += displayItems(returnObject);
+                html += "</div>";
+
+                jQuery('#resultShow').html(html);
+                jQuery('#resultShow').fadeIn('500');
+
+                return;
+            }
 
             //Passed Date Section
             if (returnObject.PassedDate == true) {
