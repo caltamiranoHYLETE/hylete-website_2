@@ -195,7 +195,7 @@ function BuildGovxHtml() {
     html += "<p>Please note we cannot accept returns for Clearance items. Clearance items are always final sale.</p>";
 
     html += "<p>Need a different size? No problem! After you have received your free return shipping label, take advantage of flat rate shipping on all GovX orders to go ahead and purchase the correct size! If you have any other questions, feel free to contact us at 888-468-5511 or email wegotyourback@govx.com.</p>";
-
+    
     return html;
 }
 
