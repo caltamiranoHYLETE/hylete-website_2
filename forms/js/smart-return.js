@@ -53,10 +53,6 @@ jQuery( document ).ready(function() {
 	        })
 	            .success(function(data) {
 
-                    //alert('HERE!');
-
-                    //console.log(data);
-
 					jQuery('#sectionProcessing').hide();
 
 					if(data.success == 'false') {
@@ -200,8 +196,6 @@ function BuildGovxHtml() {
 
     html += "<p>Need a different size? No problem! After you have received your free return shipping label, take advantage of flat rate shipping on all GovX orders to go ahead and purchase the correct size! If you have any other questions, feel free to contact us at 888-468-5511 or email wegotyourback@govx.com.</p>";
 
-    alert(html);
-
     return html;
 }
 
@@ -222,7 +216,6 @@ function processSingle(returnObject) {
             if (returnObject.IsGovX == true) {
 
                 html += BuildGovxHtml();
-                alert(html);
 
                 html += displayItems(returnObject);
                 html += "</div>";
