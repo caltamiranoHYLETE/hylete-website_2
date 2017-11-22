@@ -115,7 +115,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 		{
 				$h["requested_type"] = $reqType;
 		}
-        
+
         //ignore global-e
         if ($payment->getMethod() == "globale")
         {

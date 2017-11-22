@@ -81,7 +81,16 @@ jQuery( document ).ready(function() {
 
                                     if (jsonObj[i].IsGovX == true) {
 
-                                        BuildGovxHtml(html);
+                                        html += BuildGovxHtml();
+
+                                        html += displayItems(jsonObj[i]);
+                                        html+= "<hr></div>";
+                                        continue;
+                                    }
+
+                                    if (jsonObj[i].IsGlobale == true) {
+
+                                        html += BuildGlobaleHtml(jsonObj[i]);
 
                                         html += displayItems(jsonObj[i]);
                                         html+= "<hr></div>";
@@ -170,10 +179,21 @@ jQuery( document ).ready(function() {
 	
 });
 
+function BuildGlobaleHtml(obj) {
+
+    var html = "";
+
+    html += "<p><b>It looks like your order was shipped by our international shipping partner. Returns can easily be completed through their returns portal.</b></p>";
+
+    html += "<p><a href='https://web.global-e.com/returns/portal/mZyt?orderID=" + obj.PoOrder + "&email=" + obj.Email + "'>Click here to begin your return.</a></p>";
+
+    return html;
+}
+
 function BuildGovxHtml() {
 
     var html = "";
-    html += "<p><h4>Looks like your Hylete order was originally placed through GovX.com!</h4></p>";
+    html += "<p><h4>It looks like your HYLETE order was originally placed through GovX.com!</h4></p>";
 
     html += "<p>If you are not 100% satisfied with your purchase, you can return your item(s) within 30 days of purchase for a full product refund directly through GovX.com.</p>";
 
@@ -216,6 +236,19 @@ function processSingle(returnObject) {
             if (returnObject.IsGovX == true) {
 
                 html += BuildGovxHtml();
+
+                html += displayItems(returnObject);
+                html += "</div>";
+
+                jQuery('#resultShow').html(html);
+                jQuery('#resultShow').fadeIn('500');
+
+                return;
+            }
+
+            if (returnObject.IsGlobale == true) {
+
+                html += BuildGlobaleHtml(returnObject);
 
                 html += displayItems(returnObject);
                 html += "</div>";
