@@ -124,9 +124,9 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
             return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
         }
 
-        Mage::log("Shipping Method: ".$address->getShippingMethod(), null, 'fraudcheck.log', true);
+        Mage::log("Shipping Method: ".$order->getShippingMethod(), null, 'fraudcheck.log', true);
 
-        if ($address->getShippingMethod() == "globale_standard")
+        if ($order->getShippingMethod() == "globale_standard")
         {
             return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
         }
@@ -137,9 +137,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
         {
             return array("errmsg" => "Cash On Delivery Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
         }
-
-
-		
+        
 		// Enter your license key here (Required)
 		$h["license_key"] = $licenseKey;
 
