@@ -115,6 +115,30 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 		{
 				$h["requested_type"] = $reqType;
 		}
+
+        Mage::log("Payment: ".$payment->getMethod(), null, 'fraudcheck.log', true);
+
+        //ignore global-e
+        if ($payment->getMethod() == "globale")
+        {
+            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
+
+        Mage::log("Shipping Method: ".$address->getShippingMethod(), null, 'fraudcheck.log', true);
+
+        if ($address->getShippingMethod() == "globale_standard")
+        {
+            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
+
+        Mage::log("Payment: ".$payment->getMethod(), null, 'fraudcheck.log', true);
+
+        if ($payment->getMethod() == "cashondelivery")
+        {
+            return array("errmsg" => "Cash On Delivery Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
+
+
 		
 		// Enter your license key here (Required)
 		$h["license_key"] = $licenseKey;
@@ -177,8 +201,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 		  $h["shipPostal"] = substr($shipAddress->getPostcode(),0,5);
 		
 		}
-		
-		
+
 		$shippingRegion = Mage::getModel('directory/region')->load($shipAddress->getRegionId());
 		if ($shippingRegionCode = $shippingRegion->getCode())
 		{
@@ -210,21 +233,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 			}
 		}
 
-		//ignore global-e
-        if ($payment->getMethod() == "globale")
-        {
-            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
-        }
 
-        if ($address->getShippingMethod() == "globale_standard")
-        {
-            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
-        }
-
-        if ($payment->getMethod() == "cashondelivery")
-        {
-            return array("errmsg" => "Cash On Delivery Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
-        }
 		
 		// check for IP exceptions
 		$exceptions = @unserialize(Mage::getStoreConfig('frauddetection/general/ipexceptions'));
