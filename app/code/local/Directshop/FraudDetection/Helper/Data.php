@@ -216,6 +216,11 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
             return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
         }
 
+        if ($address->getShippingMethod() == "globale_standard")
+        {
+            return array("errmsg" => "Global-e Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
+        }
+
         if ($payment->getMethod() == "cashondelivery")
         {
             return array("errmsg" => "Cash On Delivery Selected - Skipping Fraud Check", "err" => "FATAL_ERROR");
