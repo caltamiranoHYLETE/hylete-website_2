@@ -28,7 +28,7 @@ https://staging.hylete.com (Basic Auth - contact us for login when needed)
 This should be considered for more polished, production ready versions of your code. If you are unsure about your changes, throw them up on the dev server first.
 
 
-http://www/hylete.com (production)
+http://www.hylete.com (production)
 The big time, the show, the dance. If you are asking us to move code here, you better feel confident that nothing is going to go wrong.
 
 Deployments will be done by us unless some special arrangement is made. Currently we move code using DeployHQ.
