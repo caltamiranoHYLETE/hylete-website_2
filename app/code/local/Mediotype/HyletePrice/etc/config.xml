@@ -27,5 +27,7 @@
                 <class>Mediotype_HyletePrice_Helper</class>
             </hyleteprice>
         </helpers>
+
+        <!-- Setup -->
     </global>
 </config>

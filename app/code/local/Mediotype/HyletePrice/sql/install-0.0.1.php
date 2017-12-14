@@ -6,6 +6,7 @@
  * TODO: Confirm with Dale about need for 2 attributes; isn't "HyletePrice" just a re-labeling of the actual price?
  */
 
+// Initialize setup
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer = $this;
 $installer->startSetup();
@@ -56,4 +57,5 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'hylete_price', arr
 	'used_in_product_listing' => true
 ));
 
+// Finish setup
 $installer->endSetup();
