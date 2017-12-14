@@ -68,17 +68,17 @@ $_retailValue = $_product->getRetailValue();
                 <div class="retail-value js-tooltip-container">
                     <?php echo Mage::helper('core')->currency($_retailValue); ?>
                     <?php echo $this->__('retail price'); ?>
-                    <?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
-                        <a class="retail-value__link js-tooltip-link">
-                            <span class="fa fa-question"></span>
-                        </a>
-                        <div class="tooltip js-tooltip">
-                            <span class="js-tooltip-close">X</span>
-                            <div class="tooltip__arrow">
-                                <?php echo $_retailValueTooltip; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+<!--                    --><?php //if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
+<!--                        <a class="retail-value__link js-tooltip-link">-->
+<!--                            <span class="fa fa-question"></span>-->
+<!--                        </a>-->
+<!--                        <div class="tooltip js-tooltip">-->
+<!--                            <span class="js-tooltip-close">X</span>-->
+<!--                            <div class="tooltip__arrow">-->
+<!--                                --><?php //echo $_retailValueTooltip; ?>
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    --><?php //endif; ?>
                 </div>
             <?php endif; ?>
 
