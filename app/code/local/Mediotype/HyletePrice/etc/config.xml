@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Mediotype_HyletePrice>
+            <version>0.0.1</version>
+        </Mediotype_HyletePrice>
+    </modules>
+
+    <global>
+        <!-- Blocks -->
+        <blocks>
+            <hyleteprice>
+                <class>Mediotype_HyletePrice_Block</class>
+            </hyleteprice>
+        </blocks>
+
+        <!-- Models -->
+        <models>
+            <hyleteprice>
+                <class>Mediotype_HyletePrice_Model</class>
+            </hyleteprice>
+        </models>
+
+        <!-- Helpers -->
+        <helpers>
+            <hyleteprice>
+                <class>Mediotype_HyletePrice_Helper</class>
+            </hyleteprice>
+        </helpers>
+    </global>
+</config>
