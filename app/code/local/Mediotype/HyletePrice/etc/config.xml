@@ -7,35 +7,35 @@
     </modules>
 
     <global>
-        <!-- Blocks -->
         <blocks>
-            <hyleteprice>
+            <mediotype_hyleteprice>
                 <class>Mediotype_HyletePrice_Block</class>
-            </hyleteprice>
+            </mediotype_hyleteprice>
         </blocks>
 
-        <!-- Models -->
         <models>
-            <hyleteprice>
+            <mediotype_hyleteprice>
                 <class>Mediotype_HyletePrice_Model</class>
-            </hyleteprice>
+            </mediotype_hyleteprice>
         </models>
 
-        <!-- Helpers -->
         <helpers>
-            <hyleteprice>
+            <mediotype_hyleteprice>
                 <class>Mediotype_HyletePrice_Helper</class>
-            </hyleteprice>
+            </mediotype_hyleteprice>
         </helpers>
 
-        <!-- Resources / Setup -->
         <resources>
-            <hyleteprice_setup>
+            <mediotype_hyleteprice_setup>
                 <setup>
                     <module>Mediotype_HyletePrice</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
-            </hyleteprice_setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mediotype_hyleteprice_setup>
         </resources>
     </global>
 </config>

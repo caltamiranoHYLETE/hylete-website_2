@@ -3,7 +3,6 @@
         <Mediotype_HyletePrice>
             <active>true</active>
             <codePool>local</codePool>
-            <version>0.0.1</version>
         </Mediotype_HyletePrice>
     </modules>
 </config>
