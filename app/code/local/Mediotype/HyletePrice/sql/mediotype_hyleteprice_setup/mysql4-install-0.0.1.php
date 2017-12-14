@@ -15,9 +15,9 @@ $installer->startSetup();
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'retail_price', array(
 	'label' => 'Retail Price',
 	'group' => 'General',
-	'type' => 'int', // TODO: ?
-	'input' => 'text',
-	'source' => 'eav/entity_attribute_source_table',
+	'type' => 'decimal', // TODO: ?
+	'input' => 'price', // TODO: ?
+//	'source' => 'eav/entity_attribute_source_table',
 	'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
 	'visible' => true,
 	'required' => false,
@@ -38,9 +38,9 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'retail_price', arr
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'hylete_price', array(
 	'label' => 'Hylete Price',
 	'group' => 'General',
-	'type' => 'int', // TODO: ?
-	'input' => 'text',
-	'source' => 'eav/entity_attribute_source_table',
+	'type' => 'decimal', // TODO: ?
+	'input' => 'price', // TODO: ?
+//	'source' => 'eav/entity_attribute_source_table',
 	'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
 	'visible' => true,
 	'required' => false,

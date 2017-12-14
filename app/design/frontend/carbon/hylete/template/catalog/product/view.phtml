@@ -67,7 +67,7 @@ $_retailValue = $_product->getRetailValue();
             <?php if ($_retailValue): ?>
                 <div class="retail-value js-tooltip-container">
                     <?php echo Mage::helper('core')->currency($_retailValue); ?>
-                    <?php echo $this->__('retail value'); ?>
+                    <?php echo $this->__('retail price'); ?>
                     <?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
                         <a class="retail-value__link js-tooltip-link">
                             <span class="fa fa-question"></span>
@@ -88,6 +88,8 @@ $_retailValue = $_product->getRetailValue();
                         <div class="price-with-retail-value">
                     <?php endif; ?>
                         <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+                        <?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true); ?>
+                        <div><?php echo $_msrpPrice; ?></div>
                     <?php if ($_retailValue): ?>
                         </div>
                     <?php endif; ?>
