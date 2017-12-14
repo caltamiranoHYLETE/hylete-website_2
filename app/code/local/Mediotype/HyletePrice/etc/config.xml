@@ -28,6 +28,14 @@
             </hyleteprice>
         </helpers>
 
-        <!-- Setup -->
+        <!-- Resources / Setup -->
+        <resources>
+            <hyleteprice_setup>
+                <setup>
+                    <module>Mediotype_HyletePrice</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </hyleteprice_setup>
+        </resources>
     </global>
 </config>
