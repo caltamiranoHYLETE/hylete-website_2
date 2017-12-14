@@ -82,7 +82,7 @@
                                     <div class="retail-value retail-value--category js-tooltip-container">
                                         <?php //echo Mage::helper('core')->currency($_retailValue); ?>
 										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-                                        <?php echo $this->__('retail price'); ?>
+                                        <?php echo $this->__('Retail Price'); ?>
 <!--                                        --><?php //if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
 <!--                                            <span class="retail-value__link js-tooltip-link">-->
 <!--                                                <span class="fa fa-question"></span>-->
@@ -100,7 +100,7 @@
                                     <?php if ($_retailValue): ?>
                                         <div class="price-with-retail-value price-with-retail-value--category">
                                     <?php endif; ?>
-                                        <?php echo $this->getPriceHtml($_product, true); ?> hylete price
+                                        <?php echo $this->getPriceHtml($_product, true); ?>
                                     <?php if ($_retailValue): ?>
                                         </div>
                                     <?php endif; ?>
