@@ -8,9 +8,12 @@
 
     <global>
         <blocks>
-            <mediotype_hyleteprice>
-                <class>Mediotype_HyletePrice_Block</class>
-            </mediotype_hyleteprice>
+            <catalog>
+                <rewrite>
+                    <product_list>Mediotype_HyletePrice_Block_Catalog_Product_List</product_list>
+                    <product_view>Mediotype_HyletePrice_Block_Catalog_Product_View</product_view>
+                </rewrite>
+            </catalog>
         </blocks>
 
         <models>

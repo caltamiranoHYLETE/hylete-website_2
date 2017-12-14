@@ -3,6 +3,9 @@
         <Mediotype_HyletePrice>
             <active>true</active>
             <codePool>local</codePool>
+            <depends>
+                <Vaimo_Carbon/>
+            </depends>
         </Mediotype_HyletePrice>
     </modules>
 </config>
