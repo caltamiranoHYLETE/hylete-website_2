@@ -78,7 +78,7 @@
                                 <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
-                                <?php if ($_retailValue): ?> <!-- MYLES: "tooltipped" price rendering -->
+                                <?php if ($_msrpPrice): ?> <!-- MYLES: "tooltipped" price rendering -->
                                     <div class="retail-value retail-value--category js-tooltip-container">
                                         <?php //echo Mage::helper('core')->currency($_retailValue); ?>
 										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>

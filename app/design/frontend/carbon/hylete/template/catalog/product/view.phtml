@@ -37,6 +37,7 @@ $_product = $this->getProduct();
 $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
 $_retailValue = $_product->getRetailValue();
+$_msrpPrice = $_product->getMsrp();
 ?>
 
 
@@ -64,10 +65,9 @@ $_retailValue = $_product->getRetailValue();
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
             <?php endif; ?>
 
-            <?php if ($_retailValue): ?>
+            <?php if ($_msrpPrice): ?>
                 <div class="retail-value js-tooltip-container">
-					<?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true); ?>
-                    <?php echo $_msrpPrice; ?>
+					<?php echo $this->helper('core')->currency($_product->getMsrp(),true,true); ?>
                     <?php echo $this->__('Retail Price'); ?>
 <!--                    --><?php //if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
 <!--                        <a class="retail-value__link js-tooltip-link">-->
