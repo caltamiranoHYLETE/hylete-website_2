@@ -48,7 +48,7 @@ $_baseUrl = Mage::getBaseUrl();
     <?php else: ?>
         <?php
             $imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image';
-            $_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
+            $_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();  // MYLES: Tooltip load
         ?>
 
         <?php if ($listTitle = $this->getCollectionTitle()): ?>
@@ -65,9 +65,10 @@ $_baseUrl = Mage::getBaseUrl();
                 <?php
                 $_bootstrapClass = ($this->hasListDirection() == 'horizontal') ? 'col-xs-12 col-sm-4 col-md-4 col-lg-4' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12';
                 $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
-                $_retailValue = $_product->getRetailValue();
+//                $_retailValue = $_product->getRetailValue();
                 $_img = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(220);
                 $_imgMobile = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(500);
+                $_msrpPrice = $_product->getMsrp();
                 ?>
 
                 <li class="item <?php echo $_bootstrapClass;?> <?php echo $_status;?>">
@@ -89,12 +90,11 @@ $_baseUrl = Mage::getBaseUrl();
                             <a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a>
                         </h5>
                         <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
-                        <?php if ($_retailValue): ?>
+                        <?php if ($_msrpPrice): ?>
                             <div class="retail-value retail-value--category js-tooltip-container">
 <!--                                --><?php //echo Mage::helper('core')->currency($_retailValue); ?>
-								<?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true); ?>
-								<?php echo $_msrpPrice; ?>
-                                <?php echo $this->__('Retail Price'); ?>
+								<?php echo $this->helper('core')->currency($_msrpPrice,true,true); ?>
+								<?php echo $this->__('Retail Price'); ?>
 <!--                                --><?php //if ($_retailValueTooltip): ?>
 <!--                                    <span class="retail-value__link js-tooltip-link">-->
 <!--                                                <span class="fa fa-question"></span>-->
