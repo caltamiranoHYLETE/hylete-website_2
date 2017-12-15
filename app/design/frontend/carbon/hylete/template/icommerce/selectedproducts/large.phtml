@@ -91,19 +91,22 @@ $_baseUrl = Mage::getBaseUrl();
                         <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
                         <?php if ($_retailValue): ?>
                             <div class="retail-value retail-value--category js-tooltip-container">
-                                <?php echo Mage::helper('core')->currency($_retailValue); ?>
-                                <?php echo $this->__('retail value'); ?>
-                                <?php if ($_retailValueTooltip): ?>
-                                    <span class="retail-value__link js-tooltip-link">
-                                                <span class="fa fa-question"></span>
-                                            </span>
-                                    <div class="tooltip js-tooltip">
-                                        <span class="js-tooltip-close">X</span>
-                                        <div class="tooltip__arrow">
-                                            <?php echo $_retailValueTooltip; ?>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
+<!--                                --><?php //echo Mage::helper('core')->currency($_retailValue); ?>
+                                <!-- MYLES: For the 'icon II quad-blend v-neck'; the "selected items" is showing $0! -->
+								<?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true); ?>
+								<?php echo $_msrpPrice; ?>
+                                <?php echo $this->__('Retail Price'); ?>
+<!--                                --><?php //if ($_retailValueTooltip): ?>
+<!--                                    <span class="retail-value__link js-tooltip-link">-->
+<!--                                                <span class="fa fa-question"></span>-->
+<!--                                            </span>-->
+<!--                                    <div class="tooltip js-tooltip">-->
+<!--                                        <span class="js-tooltip-close">X</span>-->
+<!--                                        <div class="tooltip__arrow">-->
+<!--                                            --><?php //echo $_retailValueTooltip; ?>
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                --><?php //endif; ?>
                             </div>
                         <?php endif; ?>
                         <?php if ($_product->isSaleable()):?>
