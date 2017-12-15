@@ -13,16 +13,17 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 	public function getPriceLabelByCustomerGroup()
 	{
 		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+		$group = Mage::getModel('customer/group')->load($groupId);
 
-		if ($groupId == 37) {
-			$groupLabel = "Investor";
+		$label = $group->getCustomerGroupHyletePriceLabel();
 
-		} else {
-			$groupLabel = "Hylete";
+		if ($label == null) {
+			$group = Mage::getModel('customer/group')->load(0);
+			$label = $group->getCustomerGroupHyletePriceLabel();
 		}
 
 		$postamble = " Price";
 
-		return $groupLabel . $postamble;
+		return $label . $postamble;
 	}
 }
