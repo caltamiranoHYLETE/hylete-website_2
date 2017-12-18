@@ -5,6 +5,7 @@
             <codePool>local</codePool>
             <depends>
                 <Vaimo_Carbon/>
+                <Mage_Adminhtml/>
             </depends>
         </Mediotype_HyletePrice>
     </modules>

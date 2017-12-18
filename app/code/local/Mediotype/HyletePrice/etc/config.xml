@@ -14,6 +14,12 @@
                     <product_view>Mediotype_HyletePrice_Block_Catalog_Product_View</product_view>
                 </rewrite>
             </catalog>
+
+            <adminhtml>
+                <rewrite>
+                    <customer_group_edit_form>Mediotype_HyletePrice_Block_Adminhtml_Customer_Group_Edit_Form</customer_group_edit_form>
+                </rewrite>
+            </adminhtml>
         </blocks>
 
         <models>
@@ -32,7 +38,6 @@
             <mediotype_hyleteprice_setup>
                 <setup>
                     <module>Mediotype_HyletePrice</module>
-                    <!--<class>Mage_Eav_Model_Entity_Setup</class>-->
                 </setup>
 
                 <connection>
@@ -41,4 +46,16 @@
             </mediotype_hyleteprice_setup>
         </resources>
     </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mediotype_HyletePrice before="Mage_Adminhtml">Mediotype_HyletePrice_Adminhtml</Mediotype_HyletePrice>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 </config>
