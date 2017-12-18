@@ -21,6 +21,10 @@
  * @category    Vaimo
  * @package     Vaimo_Hylete
  * @copyright   Copyright (c) 2009-2016 Vaimo AB
+ *
+ * @author Myles Forrest <myles@mediotype.com>
+ *
+ * NOTE: This has been edited to accommodate the RETAIL PRICE / HYLETE PRICE changes
  */
 ?>
 <?php
@@ -91,6 +95,13 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
             <span class="qty-control qty-minus mobile"><span>-</span></span>
             <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" pattern="[0-9]*" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" onkeydown="if (event.keyCode == 13) {return false;}" />
             <span class="qty-control qty-plus mobile"><span>+</span></span>
+        </div>
+    </td>
+
+    <? $_msrpPrice = $_product->getMsrp(); ?>
+    <td class="a-center hidden-xs">
+        <div class="retail-value">
+            <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
         </div>
     </td>
 
