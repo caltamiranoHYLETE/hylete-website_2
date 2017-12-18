@@ -43,26 +43,27 @@ $_customerGroupId = $_customerSession->getCustomerGroupId();
 
 <?php if ($this->helper('customer')->isLoggedIn()): ?>
     <tr>
-        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price" colspan="<?php echo $this->getColspan(); ?>">
-        <?php if ($_customerGroupId == 6 || $_customerGroupId == 8 || $_customerGroupId == 9 || $_customerGroupId == 10 || $_customerGroupId == 17 || $_customerGroupId == 37 ): ?>
-            <?php echo $this->__('HYLETE price'); ?>
-        <?php else: ?>
-           <?php echo $this->__('price');?>:
-        <?php endif; ?>
+        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
+            colspan="<?php echo $this->getColspan(); ?>">
+            <!--        --><?php //if ($_customerGroupId == 6 || $_customerGroupId == 8 || $_customerGroupId == 9 || $_customerGroupId == 10 || $_customerGroupId == 17 || $_customerGroupId == 37 ): ?>
+            <!--            --><?php //echo $this->__('HYLETE price'); ?>
+            <!--        --><?php //else: ?>
+			<?php echo $this->__('Retail Value'); ?>:
+            <!--        --><?php //endif; ?>
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
-           <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue() + $priceDifference) ?>
+			<?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue() + $priceDifference) ?>
         </td>
     </tr>
 
-    <?php if ($priceDifference > 0): ?>
-    <tr>
-        <td style="<?php echo $this->getStyle() ?>" class="a-left" colspan="<?php echo $this->getColspan(); ?>">
-            <?php echo $checkoutHelper->getCustomSubtotalLabel($this->getTotal()); ?>:
-        </td>
-        <td style="<?php echo $this->getStyle() ?>" class="a-right">
-           <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
-        </td>
-    </tr>
-    <?php endif;?>
-<?php endif;?>
+	<?php if ($priceDifference > 0): ?>
+        <tr>
+            <td style="<?php echo $this->getStyle() ?>" class="a-left" colspan="<?php echo $this->getColspan(); ?>">
+				<?php echo $checkoutHelper->getCustomSubtotalLabel($this->getTotal()); ?>:
+            </td>
+            <td style="<?php echo $this->getStyle() ?>" class="a-right">
+				<?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+            </td>
+        </tr>
+	<?php endif; ?>
+<?php endif; ?>

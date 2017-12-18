@@ -10,3 +10,5 @@ This allows for simple control of displayed prices, including by customer group.
 To configure the "Hylete Price" verbiage based on customer groups, navigate to the adminhtml, then Customers > Customer Groups. Choose a group or create a new one. The form has a new input, which will be displayed instead of "Hylete" wherever a Hylete Price is displayed. Note that as indicated on the form, "Price" is automatically suffixed to this value!
 
 The "NOT LOGGED IN" user group is the "default" label; if a customer group doesn't have a label, then the label associated with Customer Group 0 will be used.
+
+Categories now have an attribute that lets our module know that a category is a clearance page, and will show the Hylete Price Group label for "NOT LOGGED IN" as well.

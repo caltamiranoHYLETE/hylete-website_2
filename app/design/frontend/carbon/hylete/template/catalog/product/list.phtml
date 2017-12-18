@@ -32,86 +32,94 @@
  */
 ?>
 <?php
-    /** @var Vaimo_Carbon_Block_Catalog_Product_List $this */
-    $_productCollection = $this->getLoadedProductCollection();
-    $_helper = $this->helper('catalog/output');
-    $_baseUrl = Mage::getBaseUrl();
-    $_productTypesWithOptions = array_flip(array('configurable', 'bundle', 'grouped'));
-    $_backitHelper = Mage::helper('hylete/backit');
+/** @var Vaimo_Carbon_Block_Catalog_Product_List $this */
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$_baseUrl = Mage::getBaseUrl();
+$_productTypesWithOptions = array_flip(array('configurable', 'bundle', 'grouped'));
+$_backitHelper = Mage::helper('hylete/backit');
+
+/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
+$_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
+$currentCategoryId = Mage::registry('current_category')->getId();
 ?>
 
 <?php echo Mage::helper('prevnextlocal/category')->getScript($_productCollection); ?>
-<?php if(!$_productCollection->count()): ?>
+<?php if (!$_productCollection->count()): ?>
     <p class="note-msg"><?php echo $this->__('There are no products matching the selection.'); ?></p>
 <?php else: ?>
     <div class="category-products js-products">
-        <?php echo $this->getChildHtml('product_list.before_toolbar'); ?>
+		<?php echo $this->getChildHtml('product_list.before_toolbar'); ?>
         <ol class="products-grid row">
-            <?php foreach ($_productCollection as $_product): ?>
-                <?php if ($_product->getTypeId() == 'cmsproduct'): ?>
+			<?php foreach ($_productCollection as $_product): ?>
+				<?php if ($_product->getTypeId() == 'cmsproduct'): ?>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 grid-cms-block"
-                        <?php if ($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_ALIGN_CODE)): ?> style="float: right" <?php endif; ?>>
+						<?php if ($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_ALIGN_CODE)): ?> style="float: right" <?php endif; ?>>
                         <div class="cms-block-widget">
-                            <?php echo $this->getLayout()->createBlock('cms/block', $_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->setBlockId($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->toHtml(); ?>
+							<?php echo $this->getLayout()->createBlock('cms/block', $_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->setBlockId($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->toHtml(); ?>
                         </div>
                     </li>
-                <?php else: ?>
-                    <?php
-                        $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
-                        $_retailValue = $_product->getRetailValue(); /* MYLES: Retrieval of retail value */
-					    $_msrpPrice = $_product->getMsrp();
-                    ?>
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status;?> <?php echo $_product->getTypeId(); ?>">
+				<?php else: ?>
+					<?php
+					$_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
+					$_retailValue = $_product->getRetailValue(); /* MYLES: Retrieval of retail value */
+					$_msrpPrice = $_product->getMsrp();
+					?>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
-                            <?php if ($_product->getTypeId() == 'style'): ?>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300, 200); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
+							<?php if ($_product->getTypeId() == 'style'): ?>
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300, 200); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
-                            <?php elseif ($_product->getTypeId() == 'blog'): ?>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300,200); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
+							<?php elseif ($_product->getTypeId() == 'blog'): ?>
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300, 200); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h5>
-                            <?php else: ?>
+							<?php else: ?>
                                 <div class="badges">
-                                    <?php if ($_product->getBadgeLabel() && $_badgeLabelText = $_product->getAttributeText('badge_label')):?>
+									<?php if ($_product->getBadgeLabel() && $_badgeLabelText = $_product->getAttributeText('badge_label')): ?>
                                         <div class="badge"><?php echo $this->escapeHtml($_badgeLabelText) ?></div>
-                                    <?php endif ?>
+									<?php endif ?>
                                 </div>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
-                                <?php if ($_msrpPrice): ?> <!-- MYLES: "tooltipped" price rendering -->
-                                    <div class="retail-value retail-value--category js-tooltip-container">
-                                        <?php //echo Mage::helper('core')->currency($_retailValue); ?>
-										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-                                        <?php echo $this->__('Retail Price'); ?>
-<!--                                        --><?php //if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
-<!--                                            <span class="retail-value__link js-tooltip-link">-->
-<!--                                                <span class="fa fa-question"></span>-->
-<!--                                            </span>-->
-<!--                                            <div class="tooltip js-tooltip">-->
-<!--                                                <span class="js-tooltip-close">X</span>-->
-<!--                                                <div class="tooltip__arrow">-->
-<!--                                                    --><?php //echo $_retailValueTooltip; ?>
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        --><?php //endif; ?>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($_product->isSaleable()): ?>
-                                    <?php if ($_retailValue): ?>
-                                        <div class="price-with-retail-value price-with-retail-value--category">
-                                    <?php endif; ?>
-                                        <?php echo $this->getPriceHtml($_product, true); ?>
-                                    <?php if ($_retailValue): ?>
-                                        </div>
-                                    <?php endif; ?>
-                                <?php else:?>
-                                    <p class="status-message">
-                                        <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                                    </p>
-                                <?php endif; ?>
-                                <?php $_backitHelper->setProduct($_product); ?>
 
-                                <?php if ($_backitHelper->isPreOrderProduct()): ?>
+								<?php if ($_msrpPrice && !$_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?> <!-- MYLES: TOOLTIPPED -->
+                                    <div class="retail-value retail-value--category js-tooltip-container">
+										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
+										<?php echo $this->__('Retail Value'); ?>
+										<?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
+                                            <span class="retail-value__link js-tooltip-link">
+                                                                                        <span class="fa fa-question"></span>
+                                                                                    </span>
+                                            <div class="tooltip js-tooltip">
+                                                <span class="js-tooltip-close">X</span>
+                                                <div class="tooltip__arrow">
+													<?php echo $_retailValueTooltip; ?>
+                                                </div>
+                                            </div>
+										<?php endif; ?>
+                                    </div>
+								<?php endif; ?>
+
+								<?php if ($_product->isSaleable()): ?>
+									<?php if ($_retailValue): ?>
+                                        <div class="price-with-retail-value price-with-retail-value--category">
+									<?php endif; ?>
+									<?php echo $this->getPriceHtml($_product, true); ?>
+									<?php if ($_retailValue): ?>
+                                        </div>
+									<?php endif; ?>
+								<?php else: ?>
+                                    <p class="status-message">
+										<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                                    </p>
+								<?php endif; ?>
+								<?php $_backitHelper->setProduct($_product); ?>
+
+								<?php if ($_backitHelper->isPreOrderProduct()): ?>
                                     <div class="pre-order">
                                         <div class="progress-wrap progress">
                                             <div class="progress-bar progress"></div>
@@ -119,36 +127,37 @@
                                         <div class="details">
                                     <span class="ship-date">
                                         <?php echo $this->__('est. ship date: '); ?>
-                                        <?php echo $_backitHelper->getShipDateText(); ?>
+										<?php echo $_backitHelper->getShipDateText(); ?>
                                     </span>
                                         </div>
                                     </div>
-                                <?php endif; ?>
-                                <?php if ($_backitHelper->isBackItProduct()): ?>
-                                    <?php $_backitPercentage = $_backitHelper->getBackingPercentage(); ?>
+								<?php endif; ?>
+								<?php if ($_backitHelper->isBackItProduct()): ?>
+									<?php $_backitPercentage = $_backitHelper->getBackingPercentage(); ?>
                                     <div class="back-it">
                                         <div class="progress-wrap progress">
-                                            <div class="progress-bar progress" style="width: <?php echo $_backitPercentage; ?>%;"></div>
+                                            <div class="progress-bar progress"
+                                                 style="width: <?php echo $_backitPercentage; ?>%;"></div>
                                         </div>
                                         <div class="details">
                                     <span class="progress-percentage">
                                         <?php echo $_backitPercentage . '%' . $this->__(' to goal'); ?>
                                     </span>
-                                    <span class="expire-date">
+                                            <span class="expire-date">
                                         <?php echo $_backitHelper->getBackItTimeLeft() . $this->__(' days left'); ?>
                                     </span>
                                         </div>
                                     </div>
-                                <?php endif; ?>
-                            <?php endif; ?>
+								<?php endif; ?>
+							<?php endif; ?>
                         </a>
                     </li>
-                <?php endif; ?>
-            <?php endforeach; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
         </ol>
 
         <div class="loadmore toolbar-bottom">
-            <?php echo $this->getToolbarBlock()->setTemplate('catalog/product/list/loadmore.phtml')->setCollection($_productCollection)->toHtml(); ?>
+			<?php echo $this->getToolbarBlock()->setTemplate('catalog/product/list/loadmore.phtml')->setCollection($_productCollection)->toHtml(); ?>
         </div>
     </div>
 <?php endif; ?>
