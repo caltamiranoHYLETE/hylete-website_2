@@ -15,7 +15,7 @@
 }
 
 .price-box .special-price {
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 .category-products .price-box .regular-price .price,
@@ -23,7 +23,7 @@
 .price-box .special-price .price,
 .category-products .price-box .special-price,
 .category-products .price-box .special-price .price  {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .category-products .price-box .old-price {
