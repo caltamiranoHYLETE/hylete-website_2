@@ -48,7 +48,7 @@ $_baseUrl = Mage::getBaseUrl();
 	<?php else: ?>
 		<?php
 		$imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image';
-		$_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();  // MYLES: Tooltip load
+		$_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
 		?>
 
 		<?php if ($listTitle = $this->getCollectionTitle()): ?>
@@ -65,7 +65,6 @@ $_baseUrl = Mage::getBaseUrl();
 				<?php
 				$_bootstrapClass = ($this->hasListDirection() == 'horizontal') ? 'col-xs-12 col-sm-6 col-md-6 col-lg-6' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12';
 				$_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
-//                $_retailValue = $_product->getRetailValue();
 				$_img = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(220);
 				$_imgMobile = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(500);
 				$_msrpPrice = $_product->getMsrp();
@@ -103,6 +102,7 @@ $_baseUrl = Mage::getBaseUrl();
                                     <div class="tooltip js-tooltip">
                                         <span class="js-tooltip-close">X</span>
                                         <div class="tooltip__arrow">
+                                            <?php ?>
 											<?php echo $_retailValueTooltip; ?>
                                         </div>
                                     </div>

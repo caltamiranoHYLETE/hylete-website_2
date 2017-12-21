@@ -8,7 +8,8 @@
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	/**
-	 *
+	 * @param $categoryId
+	 * @return mixed|string
 	 */
 	public function isClearanceCategory($categoryId)
 	{
@@ -35,12 +36,20 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 			$label = $group->getCustomerGroupHyletePriceLabel();
 		}
 
-		if ($this->isClearanceCategory($currentCategory)){
+		if ($this->isClearanceCategory($currentCategory)) {
 			$label = "Clearance";
 		}
 
 		$postamble = " Price";
 
 		return $label . $postamble;
+	}
+
+	/**
+	 * @param $customerGroupId
+	 */
+	public function getPriceDifferenceCmsBlockByCustomerGroup($customerGroupId)
+	{
+		return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
 	}
 }

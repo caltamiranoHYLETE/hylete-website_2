@@ -38,6 +38,8 @@ $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
 $_retailValue = $_product->getRetailValue();
 $_msrpPrice = $_product->getMsrp();
+
+$_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 ?>
 
 
@@ -69,7 +71,7 @@ $_msrpPrice = $_product->getMsrp();
                 <div class="retail-value retail-value--category js-tooltip-container">
 					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
 					<?php echo $this->__('Retail Value'); ?>
-					<?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
+					<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
                         <span class="price-diff" style="display:inline; z-index:10000;">
                             <span class="retail-value__link js-tooltip-link">
                                 <span class="fa fa-question"></span>
