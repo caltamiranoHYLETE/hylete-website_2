@@ -47,6 +47,16 @@
         </resources>
     </global>
 
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_hyleteprice>
+                    <file>mediotype_hyleteprice.xml</file>
+                </mediotype_hyleteprice>
+            </updates>
+        </layout>
+    </frontend>
+
     <admin>
         <routers>
             <adminhtml>
