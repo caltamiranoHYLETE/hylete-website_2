@@ -50,6 +50,6 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getPriceDifferenceCmsBlockByCustomerGroup($customerGroupId)
 	{
-		return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
+		return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('hylete_price_difference_verbiage_default')->toHtml();
 	}
 }
