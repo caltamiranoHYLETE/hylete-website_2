@@ -44,6 +44,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 
 // MYLES: Would prefer an MSRP total that is populated during collectTotals(), I think
 $cart = Mage::getModel('checkout/cart')->getQuote();
+$msrpPrice = 0.00;
 foreach ($cart->getAllItems() as $item) {
 	$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
 }
