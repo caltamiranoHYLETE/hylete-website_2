@@ -19,7 +19,7 @@
             <xsd:element name="zaiusEngageCustomersResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="jsonResult" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -35,7 +35,7 @@
             <xsd:element name="zaiusEngageProductsResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="jsonResult" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -51,7 +51,7 @@
             <xsd:element name="zaiusEngageOrdersResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="jsonResult" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -67,7 +67,7 @@
             <xsd:element name="zaiusEngageCreateCouponsResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="jsonResult" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -83,7 +83,7 @@
             <xsd:element name="zaiusEngageSubscribersResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="jsonResult" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
