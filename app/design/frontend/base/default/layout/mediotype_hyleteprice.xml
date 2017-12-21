@@ -1,10 +1,19 @@
 <layout version="0.1.0">
-    <default>
+    <catalog_category_default>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/price-differences.js</name>
             </action>
         </reference>
-    </default>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/price-differences.js</name>
+            </action>
+        </reference>
+    </catalog_category_layered>
 </layout>
