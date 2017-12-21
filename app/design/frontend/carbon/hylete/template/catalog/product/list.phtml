@@ -92,23 +92,18 @@ $currentCategoryId = Mage::registry('current_category')->getId();
 									<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
 									<?php echo $this->__('Retail Value'); ?>
 									<?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
-                                        <span class="retail-value__link js-tooltip-link">
-                                                                                        <span class="fa fa-question"></span>
-                                                                                    </span>
-                                        <div class="tooltip js-tooltip">
-                                            <span class="js-tooltip-close">X</span>
-                                            <div class="tooltip__arrow">
-												<?php echo $_retailValueTooltip; ?>
-                                            </div>
+                                        <a class="price-diff" href="#price-diff-data" style="display:inline;">
+                                            <span class="retail-value__link js-tooltip-link">
+                                                <span class="fa fa-question"></span>
+                                            </span>
+                                        </a>
+
+                                        <div style="display:none">
+                                            <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
                                         </div>
 									<?php endif; ?>
                                 </div>
 
-                                <a id="inline" href="#data">This shows content of element who has id="data"</a>
-
-                                <div style="display:none">
-                                    <div id="data">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-                                </div>
 							<?php endif; ?>
 
 							<?php if ($_product->isSaleable()): ?>
@@ -171,7 +166,7 @@ $currentCategoryId = Mage::registry('current_category')->getId();
 
 <script>
     jQuery("document").ready(function () {
-        jQuery("a#inline").fancybox({
+        jQuery("a.price-diff").fancybox({
             'hideOnContentClick': true
         });
     });
