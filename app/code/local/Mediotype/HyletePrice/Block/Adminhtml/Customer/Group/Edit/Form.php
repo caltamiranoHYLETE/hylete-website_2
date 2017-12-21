@@ -28,6 +28,17 @@ class Mediotype_HyletePrice_Block_Adminhtml_Customer_Group_Edit_Form extends Mag
 			)
 		);
 
+		$fs->addField('hylete_price_cms_block_identifier', 'text',
+			array(
+				'name' => 'hylete_price_cms_block_identifier',
+				'label' => 'Related CMS block identifier',
+				'title' => 'Related CMS block identifier',
+				'class' => '',
+				'note' => 'Max 64 characters; must be a Static CMS Block Identifier',
+				'required' => false
+			)
+		);
+
 		$customerGroup = Mage::registry('current_group');
 		if (Mage::getSingleton('adminhtml/session')->getCustomerGroupData()) {
 			$form->addValues(Mage::getSingleton('adminhtml/session')->getCustomerGroupData());

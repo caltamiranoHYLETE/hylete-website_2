@@ -32,8 +32,14 @@ class Mediotype_HyletePrice_Adminhtml_Customer_GroupController extends Mage_Admi
 
 				$customerGroupHyletePriceLabel = (string)$this->getRequest()->getParam('customer_group_hylete_price_label');
 
+				$cmsIdentifier = (string)$this->getRequest()->getParam('hylete_price_cms_block_identifier');
+
 				if (!empty($customerGroupHyletePriceLabel)) {
 					$customerGroup->setCustomerGroupHyletePriceLabel($customerGroupHyletePriceLabel);
+				}
+
+				if (!empty($cmsIdentifier)) {
+					$customerGroup->setHyletePriceCmsBlockIdentifier($cmsIdentifier);
 				}
 
 				$customerGroup->setTaxClassId($taxClass)->save();
