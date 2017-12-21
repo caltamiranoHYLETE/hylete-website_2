@@ -16,4 +16,13 @@
             </action>
         </reference>
     </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/price-differences.js</name>
+            </action>
+        </reference>
+    </catalog_product_view>
 </layout>

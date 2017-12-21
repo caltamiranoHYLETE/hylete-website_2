@@ -66,18 +66,18 @@ $_msrpPrice = $_product->getMsrp();
 			<?php endif; ?>
 
 			<?php if ($_msrpPrice): ?>
-                <div class="retail-value js-tooltip-container">
-					<?php echo $this->helper('core')->currency($_product->getMsrp(), true, true); ?>
+                <div class="retail-value retail-value--category js-tooltip-container">
+					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
 					<?php echo $this->__('Retail Value'); ?>
 					<?php if ($_retailValueTooltip = $this->getChildHtml('retail.value.tooltip')): ?>
-                        <a class="retail-value__link js-tooltip-link">
-                            <span class="fa fa-question"></span>
-                        </a>
-                        <div class="tooltip js-tooltip">
-                            <span class="js-tooltip-close">X</span>
-                            <div class="tooltip__arrow">
-								<?php echo $_retailValueTooltip; ?>
-                            </div>
+                        <span class="price-diff" style="display:inline; z-index:10000;">
+                            <span class="retail-value__link js-tooltip-link">
+                                <span class="fa fa-question"></span>
+                            </span>
+                        </span>
+
+                        <div style="display:none">
+                            <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
                         </div>
 					<?php endif; ?>
                 </div>
