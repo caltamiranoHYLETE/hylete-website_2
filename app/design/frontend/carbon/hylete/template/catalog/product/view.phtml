@@ -68,7 +68,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 			<?php endif; ?>
 
 			<?php if ($_msrpPrice): ?>
-                <div class="retail-value retail-value--category js-tooltip-container">
+                <div class="retail-value js-tooltip-container">
 					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
 					<?php echo $this->__('Retail Value'); ?>
 					<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
