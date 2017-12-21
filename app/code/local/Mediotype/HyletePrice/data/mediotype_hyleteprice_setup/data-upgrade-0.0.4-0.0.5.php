@@ -1,16 +1,37 @@
 <?php
 
-// MYLES: Below are the none data we need to insert with this script
+$customerGroup = Mage::getModel('customer/group')->load(0);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_default');
+$customerGroup->save();
 
-/*
-customer_group_id	customer_group_code			customer_group_hylete_price_label	hylete_price_cms_block_identifier
-0					NOT LOGGED IN				Hylete								hylete_price_difference_verbiage_default
-1					Everyday Athlete			NULL								hylete_price_difference_verbiage_default
-5					Pro Deal					NULL								hylete_price_difference_verbiage_other
-6					Influencer/Train Team		NULL								hylete_price_difference_verbiage_other
-8					Influencer/Compete Team		NULL								hylete_price_difference_verbiage_other
-9					Influencer/Service League	NULL								hylete_price_difference_verbiage_other
-10					Influencer/Gym Owner		NULL								hylete_price_difference_verbiage_other
-17					NASM						NULL								hylete_price_difference_verbiage_other
-37					HYLETE Investors			Investor							hylete_price_difference_verbiage_investor
-*/
+$customerGroup = Mage::getModel('customer/group')->load(1);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_default');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(5);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(6);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(8);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(9);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(10);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(17);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_other');
+$customerGroup->save();
+
+$customerGroup = Mage::getModel('customer/group')->load(37);
+$customerGroup->setData('hylete_price_cms_block_identifier', 'hylete_price_difference_verbiage_investor');
+$customerGroup->save();

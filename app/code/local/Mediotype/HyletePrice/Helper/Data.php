@@ -55,19 +55,12 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 		/** @var Mage_Customer_Model_Group $group */
 		$group = Mage::getModel('customer/group')->load($groupId);
 
-		// MYLES: Smells
-		$groupCode = $group->getCustomerGroupCode();
+		$groupCmsBlock = $group->getHyletePriceCmsBlockIdentifier();
 
-		switch ($groupCode) {
-			case "NOT LOGGED IN":
-			default:
-				return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('hylete_price_difference_verbiage_default')->toHtml();
-				break;
-
-			case "HYLETE Investors":
-				return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('hylete_price_difference_verbiage_investor')->toHtml();
+		if ($groupCmsBlock == null) {
+			$groupCmsBlock = "hylete_price_difference_verbiage_default";
 		}
 
-
+		return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
 	}
 }
