@@ -14,6 +14,7 @@ $installer->addAttribute(Mage_Catalog_Model_Category::ENTITY, 'is_hylete_price_c
 	'visible' => true,
 	'required' => false,
 	'visible_on_front' => true,
+	'user_defined' => true,
 	'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
 ));
 
