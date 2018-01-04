@@ -46,6 +46,37 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
+	 * @param $currentCategory
+	 * @return string
+	 */
+	public function getPriceLabelByCustomerGroupAndProduct($currentCategory, $currentProduct)
+	{
+		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+		$group = Mage::getModel('customer/group')->load($groupId);
+
+		$label = $group->getCustomerGroupHyletePriceLabel();
+
+		if ($label == null) {
+			$group = Mage::getModel('customer/group')->load(0);
+			$label = $group->getCustomerGroupHyletePriceLabel();
+		}
+
+		if ($this->isClearanceCategory($currentCategory)) {
+			$label = "Clearance";
+		}
+
+		$label .= " Price";
+
+		// MYLES: If customer is 'investor' and investor price is $30 and special price is $31, then
+		// $30 is shown, with the 'FLASH SALE' text. Need to account for this.
+		if($currentProduct->getIsOnFlashSale()) {
+			$label = "<span style=\"color:#34BAF3\">FLASH SALE</span>";
+		}
+
+		return $label;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function getPriceDifferenceCmsBlockByCustomerGroup()

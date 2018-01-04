@@ -44,7 +44,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 
 // MYLES: Would prefer an MSRP total that is populated during collectTotals(), I think
 $cart = Mage::getModel('checkout/cart')->getQuote();
-$msrpPrice = 0.00;
+$msrpPrice = 0.00; // MYLES: Items in the clearance category appear to have their price added twice here…
 foreach ($cart->getAllItems() as $item) {
 	$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
 }

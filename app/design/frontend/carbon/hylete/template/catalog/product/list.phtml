@@ -65,6 +65,7 @@ $currentCategoryId = Mage::registry('current_category')->getId();
 					$_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
 					$_retailValue = $_product->getRetailValue();
 					$_msrpPrice = $_product->getMsrp();
+					$_specialPrice = $_product->getSpecialPrice();
 					?>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
@@ -87,12 +88,11 @@ $currentCategoryId = Mage::registry('current_category')->getId();
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
 
-								<?php if ($_msrpPrice && !$_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
+								<?php if ($_specialPrice == null && $_msrpPrice && !$_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
                                     <div class="retail-value retail-value--category js-tooltip-container">
 										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-										<?php if((int) $_product->getIsOnFlashSale()) { echo "ON FLASH SALE!"; } ?>
 										<?php echo $this->__('Retail Value'); ?>
-										<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
+										<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup()): ?>
                                             <span class="price-diff" style="display:inline; z-index:10000;">
                                                 <span class="retail-value__link js-tooltip-link">
                                                     <span class="fa fa-question"></span>
@@ -105,6 +105,12 @@ $currentCategoryId = Mage::registry('current_category')->getId();
 										<?php endif; ?>
                                     </div>
 								<?php endif; ?>
+
+<!--								--><?php //if ($_specialPrice): ?>
+<!--                                    <div class="retail-value retail-value--category js-tooltip-container" style="color: #34BAF3;">-->
+<!--										--><?php //echo $this->__('FLASH SALE'); ?>
+<!--                                    </div>-->
+<!--								--><?php //endif; ?>
 
 								<?php if ($_product->isSaleable()): ?>
 									<?php if ($_retailValue): ?>

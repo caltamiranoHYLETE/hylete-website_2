@@ -33,6 +33,7 @@
  */
 ?>
 <?php
+/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 $currentCategoryId = Mage::registry('current_category')->getId();
 
@@ -215,12 +216,12 @@ $_layoutHandles = $this->getLayout()->getUpdate()->getHandles();
                     <?php if ($_finalPrice == $_price): ?>
 						<?php echo $_coreHelper->currency($_price, true, true) ?>
                         <span class="hylete-price-label">
-						    <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($currentCategoryId) ?>
+						    <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
                         </span>
 					<?php else: ?>
 						<?php echo $_coreHelper->currency($_finalPrice, true, true) ?>
                         <span class="hylete-price-label">
-						    <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($currentCategoryId) ?>
+						    <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
                         </span>
 					<?php endif; ?>
                 </span>
@@ -379,7 +380,7 @@ $_layoutHandles = $this->getLayout()->getUpdate()->getHandles();
 						<?php /*<span class="price-label"><?php echo $this->__('Special Price:') ?></span>*/ ?>
                         <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currency($_finalPrice, true, false) ?>
-					<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($currentCategoryId) ?>
+					<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
                 </span>
                     </p>
 				<?php endif; ?>

@@ -38,6 +38,7 @@ $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
 $_retailValue = $_product->getRetailValue();
 $_msrpPrice = $_product->getMsrp();
+$_isOnFlashSale = $_product->getIsOnFlashSale();
 
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 ?>
@@ -67,7 +68,8 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
 
-			<?php if ($_msrpPrice): ?>
+			<? // MYLES: Unsure if Hylete wants to show the Retail Value for flash sales… ?>
+			<?php if ($_msrpPrice && !$_isOnFlashSale): ?>
                 <div class="retail-value js-tooltip-container">
 					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
 					<?php echo $this->__('Retail Value'); ?>
