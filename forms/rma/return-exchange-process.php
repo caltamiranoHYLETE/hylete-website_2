@@ -100,7 +100,7 @@ function createReturn() {
         }
         if(!empty($_POST["notes"]))
         {
-            $return->notes = test_input($_POST["notes"]);
+            $return->notes = ""; //test_input($_POST["notes"]);
         }
 
         $skus = [];
