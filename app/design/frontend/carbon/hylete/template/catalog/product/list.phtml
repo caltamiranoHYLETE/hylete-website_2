@@ -90,6 +90,7 @@ $currentCategoryId = Mage::registry('current_category')->getId();
 								<?php if ($_msrpPrice && !$_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
                                     <div class="retail-value retail-value--category js-tooltip-container">
 										<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
+										<?php if((int) $_product->getIsOnFlashSale()) { echo "ON FLASH SALE!"; } ?>
 										<?php echo $this->__('Retail Value'); ?>
 										<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
                                             <span class="price-diff" style="display:inline; z-index:10000;">

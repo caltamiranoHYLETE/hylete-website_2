@@ -55,6 +55,18 @@
                 </mediotype_hyleteprice>
             </updates>
         </layout>
+
+        <events>
+            <catalog_product_collection_load_before>
+                <observers>
+                    <catalog_product_collection_load_before_custom_handler>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>addIsFlashSaleAttribute</method>
+                    </catalog_product_collection_load_before_custom_handler>
+                </observers>
+            </catalog_product_collection_load_before>
+        </events>
     </frontend>
 
     <admin>
