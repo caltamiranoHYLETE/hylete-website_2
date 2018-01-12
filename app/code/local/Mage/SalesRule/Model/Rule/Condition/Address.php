@@ -146,7 +146,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
 		if ($this->getAttribute() == 'discounted_subtotal') {
 			$op = $this->getOperator();
 
-			// "Discounted subtotal" is the subtotal less any applied discounts (discount amount is negative!)
+			// MYLES: "Discounted subtotal" is the subtotal less any applied discounts (discount amount is negative!)
 			$discountedSubtotal = $address->getSubtotal() + $address->getDiscountAmount();
 			$value = $this->getValue();
 
