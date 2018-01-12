@@ -144,11 +144,34 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
 
 		// MYLES: Validate the 'discounted_subtotal' attribute
 		if ($this->getAttribute() == 'discounted_subtotal') {
-			if ($address->getSubtotal() >= 100) { // MYLES: Need to parse the value part!
-				return true;
+			$op = $this->getOperator();
 
-			} else {
-				return false;
+			// Doesn't support array operators, and probably doesn't need to support "=="
+			switch ($op) {
+				case "==":
+					return $address->getSubtotal() == $this->getValue();
+					break;
+
+				case ">=":
+					return $address->getSubtotal() >= $this->getValue();
+					break;
+
+				case "<=":
+					return $address->getSubtotal() <= $this->getValue();
+					break;
+
+				case ">":
+					return $address->getSubtotal() > $this->getValue();
+					break;
+
+				case "<":
+					return $address->getSubtotal() < $this->getValue();
+					break;
+
+				default:
+					// An inappropriate operator was given; perhaps log? But definitely return false.
+					return false;
+					break;
 			}
 		}
 
