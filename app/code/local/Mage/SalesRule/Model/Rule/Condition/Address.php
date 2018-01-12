@@ -146,7 +146,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
 		if ($this->getAttribute() == 'discounted_subtotal') {
 			$op = $this->getOperator();
 
-			// Doesn't support array operators, and probably doesn't need to support "=="
+			// MYLES: Doesn't support array operators, and probably doesn't need to support "=="
 			switch ($op) {
 				case "==":
 					return $address->getSubtotal() == $this->getValue();
@@ -169,7 +169,8 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
 					break;
 
 				default:
-					// An inappropriate operator was given; perhaps log? But definitely return false.
+					// MYLES: An inappropriate operator was given; log and return false
+					Mage::log("Operator '" . $op . "' given for the discounted subtotal condition is not valid", null, "discounted_subtotal_operator_validation_fails.log");
 					return false;
 					break;
 			}
