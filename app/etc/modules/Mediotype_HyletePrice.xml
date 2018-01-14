@@ -6,6 +6,9 @@
             <depends>
                 <Vaimo_Carbon/>
                 <Mage_Adminhtml/>
+                <Amasty_Base/>
+                <Amasty_Rules/>
+                <Amasty_RulesPro/>
             </depends>
         </Mediotype_HyletePrice>
     </modules>

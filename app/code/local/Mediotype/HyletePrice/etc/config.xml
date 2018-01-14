@@ -57,6 +57,7 @@
         </layout>
 
         <events>
+            <!-- Event to add isFlashSaleAttribute to catalog_product_collection loads -->
             <catalog_product_collection_load_before>
                 <observers>
                     <catalog_product_collection_load_before_custom_handler>
@@ -68,6 +69,21 @@
             </catalog_product_collection_load_before>
         </events>
     </frontend>
+
+    <global>
+        <events>
+            <!-- Event that serves as an entry point into the poc for "base discount on original price" choice -->
+            <adminhtml_block_salesrule_actions_prepareform>
+                <observers>
+                    <amasty_rules_model_observer>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>handleFormCreation</method>
+                    </amasty_rules_model_observer>
+                </observers>
+            </adminhtml_block_salesrule_actions_prepareform>
+        </events>
+    </global>
 
     <admin>
         <routers>
