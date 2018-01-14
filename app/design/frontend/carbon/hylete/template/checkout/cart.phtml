@@ -40,6 +40,7 @@ $_customerSession = Mage::getSingleton('customer/session');
 
 $_customerGroupId = $_customerSession->getCustomerGroupId();
 
+/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 ?>
 
@@ -94,7 +95,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                 <th rowspan="<?php echo $mergedCells; ?>" class="th-title"><span class="nobr"><?php echo $this->__('product') ?></span></th>
                                 <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
                                     <span class="nobr">
-                                        <?php echo $this->__('Retail Value'); ?>
+                                        <?php echo $this->__('retail value'); ?>
                                     </span>
                                 </th>
                                 <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">

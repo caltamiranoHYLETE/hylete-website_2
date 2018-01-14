@@ -37,10 +37,10 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		if ($this->isClearanceCategory($currentCategory)) {
-			$label = "Clearance";
+			$label = "Clearance";  // MYLES: No reason not to make this configurable as well
 		}
 
-		$postamble = " Price";
+		$postamble = " price";
 
 		return $label . $postamble;
 	}
@@ -62,10 +62,10 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		if ($this->isClearanceCategory($currentCategory)) {
-			$label = "Clearance";
+			$label = "Clearance"; // MYLES: No reason not to make this configurable as well
 		}
 
-		$label .= " Price";
+		$label .= " price"; // MYLES: This is where the read to a configurable value in adminhtml needs to go
 
 		// MYLES: If customer is 'investor' and investor price is $30 and special price is $31, then
 		// $30 is shown, with the 'FLASH SALE' text. Need to account for this.

@@ -54,7 +54,7 @@ foreach ($cart->getAllItems() as $item) {
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
             colspan="<?php echo $this->getColspan(); ?>">
-			<?php echo $this->__('Retail Value'); ?>:
+			<?php echo $this->__('retail value'); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
 			<?php echo $this->helper('checkout')->formatPrice($msrpPrice) ?>

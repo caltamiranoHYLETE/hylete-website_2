@@ -7,7 +7,7 @@ $installer->addAttribute(Mage_Catalog_Model_Category::ENTITY, 'is_hylete_price_c
 	'group' => 'General Information',
 	'input' => 'select',
 	'type' => 'yesno',
-	'label' => 'Is this a Hylete Price Clearance category?',
+	'label' => 'Is this a HYLETE price clearance category?',
 	'source' => 'eav/entity_attribute_source_boolean',
 	'backend' => '',
 	'default' => 0,

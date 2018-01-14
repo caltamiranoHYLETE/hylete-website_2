@@ -68,11 +68,11 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
 
-			<? // MYLES: Unsure if Hylete wants to show the Retail Value for flash sales… ?>
+			<? // MYLES: Unsure if Hylete wants to show the 'retail value' for flash sales… ?>
 			<?php if ($_msrpPrice && !$_isOnFlashSale): ?>
                 <div class="retail-value js-tooltip-container">
 					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-					<?php echo $this->__('Retail Value'); ?>
+					<?php echo $this->__('retail value'); ?>
 					<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
                         <span class="price-diff" style="display:inline; z-index:10000;">
                             <span class="retail-value__link js-tooltip-link">
