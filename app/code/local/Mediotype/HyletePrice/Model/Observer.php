@@ -27,6 +27,8 @@ class Mediotype_HyletePrice_Model_Observer extends Amasty_Rules_Model_Observer
 	}
 
 	/**
+	 * MYLES: Currently this observer doesn't respond with any action, but I'm leaving it here for now.
+	 *
 	 * @param Varien_Event_Observer $observer
 	 * @return $this
 	 */
