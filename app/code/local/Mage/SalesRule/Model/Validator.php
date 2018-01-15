@@ -297,6 +297,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	 * In order for the aforementioned attribute to be settable, it has to be rendered during the *_before_form_creation
 	 * event; which requires a modification to 'app/code/local/Amasty/Rules/Block/Adminhtml/Promo/Quote/Edit.php'.
 	 *
+	 * This modification can be found in 'Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit'
+	 *
 	 * @param Mage_Sales_Model_Quote_Item_Abstract $item
 	 * @return $this
 	 */
