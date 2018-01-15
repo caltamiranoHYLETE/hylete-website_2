@@ -67,8 +67,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 
 		$label .= " price"; // MYLES: This is where the read to a configurable value in adminhtml needs to go
 
-		// MYLES: If customer is 'investor' and investor price is $30 and special price is $31, then
-		// $30 is shown, with the 'FLASH SALE' text. Need to account for this.
+		// MYLES: Determine what to do on collisions with group label
 		if($currentProduct->getIsOnFlashSale()) {
 			$label = "<span style=\"color:#34BAF3\">FLASH SALE</span>";
 		}

@@ -48,7 +48,7 @@ $_baseUrl = Mage::getBaseUrl();
 	<?php else: ?>
 		<?php
 		$imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image';
-		$_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml(); // MYLES: Tooltip load
+		$_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
 		?>
 
 		<?php if ($listTitle = $this->getCollectionTitle()): ?>
