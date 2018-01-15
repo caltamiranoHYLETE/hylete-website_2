@@ -332,7 +332,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				continue;
 			}
 
-			// MYLES: $rule has access to data->'price_selector' because of Amasty_Rules
+			// MYLES: $rule has access to data->'price_selector' because of Amasty_Rules;
+			// see Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit
 			$ruleTargetPrice = $rule->getPriceSelector();
 
 			if ($ruleTargetPrice == Amasty_Rules_Model_Observer::BASED_ON_ORIGINAL) {
