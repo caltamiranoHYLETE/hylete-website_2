@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+  <modules>
+    <Zaius_Engage>
+      <version>0.9.0</version>
+    </Zaius_Engage>
+  </modules>
+
+  <global>
+    <resources>
+      <zaius_engage_setup>
+        <setup>
+          <module>Zaius_Engage</module>
+          <class>Mage_Core_Model_Resource_Setup</class>
+        </setup>
+      </zaius_engage_setup>
+    </resources>
+
+    <events>
+      <cataloginventory_stock_item_save_after>
+        <observers>
+          <zaius_engage>
+            <class>zaius_engage/observer_stock_item</class>
+            <method>saveAfter</method>
+          </zaius_engage>
+        </observers>
+      </cataloginventory_stock_item_save_after>
+
+      <sales_order_place_after>
+        <observers>
+          <zaius_engage_order_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_order</class>
+            <method>orderPlaced</method>
+          </zaius_engage_order_observer>
+        </observers>
+      </sales_order_place_after>
+
+      <sales_order_save_after>
+        <observers>
+          <zaius_engage_order_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_order</class>
+            <method>orderSaved</method>
+          </zaius_engage_order_observer>
+        </observers>
+      </sales_order_save_after>
+
+      <sales_order_payment_cancel>
+        <observers>
+          <zaius_engage_order_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_order</class>
+            <method>cancel</method>
+          </zaius_engage_order_observer>
+        </observers>
+      </sales_order_payment_cancel>
+
+      <sales_order_payment_refund>
+        <observers>
+          <zaius_engage_order_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_order</class>
+            <method>refund</method>
+          </zaius_engage_order_observer>
+        </observers>
+      </sales_order_payment_refund>
+
+      <customer_save_after>
+        <observers>
+          <zaius_engage_customer_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_customer</class>
+            <method>entity</method>
+          </zaius_engage_customer_observer>
+        </observers>
+      </customer_save_after>
+
+      <customer_address_save_after>
+        <observers>
+          <zaius_engage_customer_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_customer</class>
+            <method>entityFromAddress</method>
+          </zaius_engage_customer_observer>
+        </observers>
+      </customer_address_save_after>
+    </events>
+
+    <blocks>
+      <zaius_engage>
+        <class>Zaius_Engage_Block</class>
+      </zaius_engage>
+    </blocks>
+
+   <models>
+      <zaius_engage>
+        <class>Zaius_Engage_Model</class>
+      </zaius_engage>
+    </models>
+
+    <helpers>
+      <zaius_engage>
+        <class>Zaius_Engage_Helper</class>
+      </zaius_engage>
+    </helpers>
+  </global>
+
+  <frontend>
+    <events>
+      <controller_action_layout_render_before>
+        <observers>
+          <zaius_engage_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer</class>
+            <method>render</method>
+          </zaius_engage_observer>
+        </observers>
+      </controller_action_layout_render_before>
+
+      <controller_action_layout_generate_blocks_after>
+        <observers>
+          <zaius_engage_navigation_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_navigation</class>
+            <method>browse</method>
+          </zaius_engage_navigation_observer>
+        </observers>
+      </controller_action_layout_generate_blocks_after>
+
+      <controller_action_layout_generate_blocks_after>
+        <observers>
+          <zaius_engage_product_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_product</class>
+            <method>listing</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </controller_action_layout_generate_blocks_after>
+
+      <controller_action_layout_generate_blocks_after>
+        <observers>
+          <zaius_engage_product_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_product</class>
+            <method>detail</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </controller_action_layout_generate_blocks_after>
+
+      <checkout_cart_add_product_complete>
+        <observers>
+          <zaius_engage_product_observer>
+            <class>zaius_engage/observer_product</class>
+            <method>addToCart</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </checkout_cart_add_product_complete>
+
+      <sales_quote_remove_item>
+        <observers>
+          <zaius_engage_product_observer>
+            <class>zaius_engage/observer_product</class>
+            <method>removeFromCart</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </sales_quote_remove_item>
+
+      <wishlist_add_product>
+        <observers>
+          <zaius_engage_product_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_product</class>
+            <method>wishlist</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </wishlist_add_product>
+
+      <customer_register_success>
+        <observers>
+          <zaius_engage_customer_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_customer</class>
+            <method>register</method>
+          </zaius_engage_customer_observer>
+        </observers>
+      </customer_register_success>
+
+      <customer_login>
+        <observers>
+          <zaius_engage_customer_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_customer</class>
+            <method>login</method>
+          </zaius_engage_customer_observer>
+        </observers>
+      </customer_login>
+
+      <customer_logout>
+        <observers>
+          <zaius_engage_customer_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_customer</class>
+            <method>logout</method>
+          </zaius_engage_customer_observer>
+        </observers>
+      </customer_logout>
+
+      <newsletter_subscriber_save_after>
+        <observers>
+          <zaius_engage_newsletter_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_newsletter</class>
+            <method>subscriptionChange</method>
+          </zaius_engage_newsletter_observer>
+        </observers>
+      </newsletter_subscriber_save_after>
+    </events>
+
+    <routers>
+      <zaius_engage>
+        <use>standard</use>
+        <args>
+          <module>Zaius_Engage</module>
+          <frontName>zaius_engage</frontName>
+        </args>
+      </zaius_engage>
+    </routers>
+  </frontend>
+
+  <adminhtml>
+    <events>
+      <catalog_product_save_after>
+        <observers>
+          <zaius_engage_product_observer>
+            <type>singleton</type>
+            <class>zaius_engage/observer_product</class>
+            <method>entity</method>
+          </zaius_engage_product_observer>
+        </observers>
+      </catalog_product_save_after>
+    </events>
+  </adminhtml>
+
+  <default>
+    <zaius_engage>
+      <zaius_config>
+        <zaius_newsletter_list_id>newsletter</zaius_newsletter_list_id>
+        <track_orders_on_frontend>1</track_orders_on_frontend>
+        <use_magento_customer_id>1</use_magento_customer_id>
+      </zaius_config>
+    </zaius_engage>
+  </default>
+
+</config>
