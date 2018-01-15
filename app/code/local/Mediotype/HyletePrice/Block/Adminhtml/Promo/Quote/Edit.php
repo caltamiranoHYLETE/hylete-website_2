@@ -246,13 +246,31 @@ class Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit extends Amasty_Rule
 
                 $('rule_price_selector').up().up().show();
                 $('rule_max_discount').up().up().show();
+                
+                // MYLES: This is the line that hides the additional 'price targets' for default magento promos!
 
-                if ($('rule_simple_action').value=='by_percent' || $('rule_simple_action').value=='by_fixed'
+				// MYLES: Removed the 'by_percent' from this if; added in it's own below…
+                if ($('rule_simple_action').value=='by_fixed'
                 || $('rule_simple_action').value=='cart_fixed' || $('rule_simple_action').value=='buy_x_get_y')
                 {
-                 	// MYLES: This is the line that hides the additional 'price targets' for default magento promos!
-                    //$('rule_price_selector').up().up().hide();
+                    $('rule_price_selector').up().up().hide();
                 }
+                
+                if ($('rule_simple_action').value=='by_percent')
+                {
+                 	// MYLES: This is the line that hides the additional 'price targets' for default magento promos!
+                    $('rule_price_selector').up().up().show();
+                    
+                    // MYLES: Remove options [1,3] from selector, since they don't apply here
+                    $$(\"select#rule_price_selector option\")[1].disabled=\"DISABLED\";
+                    $$(\"select#rule_price_selector option\")[3].disabled=\"DISABLED\";
+                } else {
+                	// MYLES: Add options [1,3] back to the selector to not break functionality
+                    $$(\"select#rule_price_selector option\")[1].disabled=\"\";
+                    $$(\"select#rule_price_selector option\")[3].disabled=\"\";
+                }
+                
+                // MYLES: End modifications
 
                 if ('ampromo_cart' == $('rule_simple_action').value) {
                     $('rule_simple_free_shipping').up().up().hide();
