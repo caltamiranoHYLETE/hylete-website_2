@@ -21,6 +21,11 @@
                 <type>skin_css</type>
                 <name>css/owl.carousel.min.css</name>
             </action>
+
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/owl.theme.default.css</name>
+            </action>
         </reference>
 
         <reference name="before_body_end">
