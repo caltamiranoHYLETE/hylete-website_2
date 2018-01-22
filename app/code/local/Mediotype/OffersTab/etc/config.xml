@@ -15,7 +15,7 @@
 
         <helpers>
             <mediotype_offerstab>
-                <class><Mediotype_OffersTab></Mediotype_OffersTab>_Helper</class>
+                <class>Mediotype_OffersTab_Helper</class>
             </mediotype_offerstab>
         </helpers>
     </global>

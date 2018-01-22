@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div class="container-fluid body-content">
     <div class="footer navbar-fixed-bottom">
         <div class="panel-group bottom0" id="accordion" role="tablist" aria-multiselectable="true">
@@ -11,35 +15,18 @@
                     <div class="panel-body ">
                         <!-- Owl Carousel -->
                         <div class="owl-carousel owl-theme" style="max-width:1170px; margin:0 auto;">
-                            <div class="item btm_tab_ctn">
-                                <h4>item 1</h4>
-                                <img src="<?php echo $this->getSkinUrl('images/mediotype/hylete/offerstab/offer-placeholder-img.png'); ?>"
-                                     alt=""/>
-                            </div>
+							<?php
+							// Myles: Load appropriate offers for display into the owl carousel
+							?>
 
-                            <div class="item btm_tab_ctn">
-                                <h4>item 1</h4>
-                                <img src="<?php echo $this->getSkinUrl('images/mediotype/hylete/offerstab/offer-placeholder-img.png'); ?>"
-                                     alt=""/>
-                            </div>
-
-                            <div class="item btm_tab_ctn">
-                                <h4>item 1</h4>
-                                <img src="<?php echo $this->getSkinUrl('images/mediotype/hylete/offerstab/offer-placeholder-img.png'); ?>"
-                                     alt=""/>
-                            </div>
-
-                            <div class="item btm_tab_ctn">
-                                <h4>item 1</h4>
-                                <img src="<?php echo $this->getSkinUrl('images/mediotype/hylete/offerstab/offer-placeholder-img.png'); ?>"
-                                     alt=""/>
-                            </div>
-
-                            <div class="item btm_tab_ctn">
-                                <h4>item 1</h4>
-                                <img src="<?php echo $this->getSkinUrl('images/mediotype/hylete/offerstab/offer-placeholder-img.png'); ?>"
-                                     alt=""/>
-                            </div>
+							<?php foreach ($this->_offers as $_offer): ?>
+                                <div class="item btm_tab_ctn">
+									<?php echo $this->getLayout()
+										->createBlock('cms/block')
+										->setBlockId($_offer->getBlockId())
+										->toHtml(); ?>
+                                </div>
+							<? endforeach; ?>
                         </div>
                         <!-- End Owl Carousel-->
                     </div>
