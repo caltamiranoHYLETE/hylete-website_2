@@ -29,7 +29,7 @@
         </reference>
 
         <reference name="before_body_end">
-            <block type="core/template" template="mediotype/hylete/offerstab/offerstab.phtml"/>
+            <block type="mediotype_offerstab/offers" template="mediotype/hylete/offerstab/offerstab.phtml"/>
         </reference>
     </default>
 </layout>
