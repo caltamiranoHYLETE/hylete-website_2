@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Mediotype_OffersTab>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Mediotype_OffersTab>
+    </modules>
+</config>

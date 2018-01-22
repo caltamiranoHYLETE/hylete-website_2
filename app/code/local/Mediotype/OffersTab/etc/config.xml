@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Mediotype_OffersTab>
+            <version>0.0.1</version>
+        </Mediotype_OffersTab>
+    </modules>
+
+    <global>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_offerstab>
+                    <file>mediotype_offerstab.xml</file>
+                </mediotype_offerstab>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+    </admin>
+</config>
