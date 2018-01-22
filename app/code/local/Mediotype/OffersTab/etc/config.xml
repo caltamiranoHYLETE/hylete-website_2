@@ -18,6 +18,18 @@
                 <class>Mediotype_OffersTab_Helper</class>
             </mediotype_offerstab>
         </helpers>
+
+        <resources>
+            <mediotype_offerstab_setup>
+                <setup>
+                    <module>Mediotype_OffersTab</module>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mediotype_offerstab_setup>
+        </resources>
     </global>
 
     <frontend>
