@@ -12,6 +12,12 @@
                 <class>Mediotype_OffersTab_Block</class>
             </mediotype_offerstab>
         </blocks>
+
+        <helpers>
+            <mediotype_offerstab>
+                <class><Mediotype_OffersTab></Mediotype_OffersTab>_Helper</class>
+            </mediotype_offerstab>
+        </helpers>
     </global>
 
     <frontend>
