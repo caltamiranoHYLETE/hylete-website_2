@@ -3,6 +3,22 @@
 <layout version="0.1.0">
     <!-- Default layout, loads most of the pages -->
     <default>
+        <reference name="head">
+            <action method="addJs">
+                <script>mediotype/hylete/offerstab/owl.carousel.min.js</script>
+            </action>
+
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/offerstab-bootstrap.css</name>
+            </action>
+
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/owl.carousel.min.css</name>
+            </action>
+        </reference>
+
         <reference name="before_body_end">
             <block type="core/template" template="mediotype/hylete/offerstab/offerstab.phtml"/>
         </reference>
