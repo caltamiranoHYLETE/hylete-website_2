@@ -8,6 +8,10 @@
                 <script>mediotype/hylete/offerstab/owl.carousel.min.js</script>
             </action>
 
+            <action method="addJs">
+                <script>mediotype/hylete/offerstab/offerstab-owl-config.js</script>
+            </action>
+
             <action method="addItem">
                 <type>skin_css</type>
                 <name>css/offerstab-bootstrap.css</name>
