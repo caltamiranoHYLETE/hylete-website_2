@@ -19,6 +19,14 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getFilteredOffers()
 	{
+		/**
+		 * We want to be able to specify which offers blocks to load by (at least):
+		 *    URL
+		 *    Product
+		 *    Category
+		 * Each of
+		 */
+
 		// MYLES: TODO: Test CMS block should be created by an SQL data script
 		$cmsBlock1 = Mage::getModel('cms/block')->load('offer_example_1');
 		$cmsBlock2 = Mage::getModel('cms/block')->load('offer_example_2');

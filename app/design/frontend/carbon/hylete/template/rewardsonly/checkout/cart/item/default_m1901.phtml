@@ -98,7 +98,7 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
         </div>
     </td>
 
-    <? $_msrpPrice = $_product->getMsrp(); ?>
+    <?php $_msrpPrice = $_product->getMsrp(); ?>
     <td class="a-center hidden-xs">
         <div class="retail-value">
             <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
