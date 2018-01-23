@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class Offer
+ * Class Mediotype_OffersTab_Model_Resource_Offer
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Mediotype_OffersTab_Offer extends Mage_Core_Model_Resource_Db_Abstract
+class Mediotype_OffersTab_Model_Resource_Offer extends Mage_Core_Model_Resource_Db_Abstract
 {
 	/**
 	 *

@@ -14,7 +14,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 	{
 		parent::__construct();
 
-		$this->setId('promo_offers');
+		$this->setId('offer_id');
 		$this->setDefaultSort('offer_id');
 	}
 

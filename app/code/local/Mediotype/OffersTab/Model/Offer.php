@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Offer
+ * Class Mediotype_OffersTab_Model_Offer
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
