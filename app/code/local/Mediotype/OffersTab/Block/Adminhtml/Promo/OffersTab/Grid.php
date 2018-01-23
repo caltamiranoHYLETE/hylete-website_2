@@ -52,6 +52,30 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 //			'renderer' => 'Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid_Renderer_Id',
 //		));
 
+		$this->addColumn('title', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Title'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'title',
+			'type' => 'text'
+		));
+
+		$this->addColumn('content', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Content'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'content',
+			'type' => 'text'
+		));
+
+		$this->addColumn('status', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Status'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'status',
+			'type' => 'text'
+		));
+
 		$this->addColumn('created_at', array(
 			'header' => Mage::helper('mediotype_offerstab')->__('Created At'),
 			'sortable' => true,
