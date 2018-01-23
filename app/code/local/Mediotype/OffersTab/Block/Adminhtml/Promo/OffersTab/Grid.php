@@ -56,7 +56,15 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 			'header' => Mage::helper('mediotype_offerstab')->__('Created At'),
 			'sortable' => true,
 			'width' => '60',
-			'index' => 'created_at',
+			'index' => 'created_time',
+			'type' => 'datetime'
+		));
+
+		$this->addColumn('updated_at', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Updated At'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'update_time',
 			'type' => 'datetime'
 		));
 
