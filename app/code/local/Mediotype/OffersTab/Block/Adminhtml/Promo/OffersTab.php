@@ -16,6 +16,6 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab extends Mage_Adminhtml
 
 		$this->_blockGroup = 'mediotype_offerstab';
 		$this->_controller = 'adminhtml_sales_order';
-		$this->_headerText = Mage::helper('mediotype_offerstab')->__('OffersTab');
+		$this->_headerText = Mage::helper('mediotype_offerstab')->__('Offers Tab');
 	}
 }

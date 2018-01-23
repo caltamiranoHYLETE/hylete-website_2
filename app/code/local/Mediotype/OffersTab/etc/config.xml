@@ -50,13 +50,23 @@
 
     <admin>
         <routers>
-            <mediotype_offerstab>
+            <mediotype>
                 <use>admin</use>
                 <args>
                     <module>Mediotype_OffersTab</module>
-                    <frontName>offerstab</frontName>
+                    <frontName>mediotype</frontName>
                 </args>
-            </mediotype_offerstab>
+            </mediotype>
         </routers>
     </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <mediotype_offerstab>
+                    <file>mediotype_offerstab.xml</file>
+                </mediotype_offerstab>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>

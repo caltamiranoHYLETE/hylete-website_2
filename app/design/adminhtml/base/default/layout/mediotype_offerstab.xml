@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <mediotype_adminhtml_index_index>
+        <reference name="content">
+            <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
+        </reference>
+    </mediotype_adminhtml_index_index>
+
+    <admin_mediotype_adminhtml_index_index>
+        <reference name="content">
+            <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
+        </reference>
+    </admin_mediotype_adminhtml_index_index>
+
+    <adminhtml_mediotype_index_index>
+        <reference name="content">
+            <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
+        </reference>
+    </adminhtml_mediotype_index_index>
+</layout>
