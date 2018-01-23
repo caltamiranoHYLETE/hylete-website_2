@@ -94,4 +94,13 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 
 		return parent::_prepareColumns();
 	}
+
+	/**
+	 * @param $row
+	 * @return string
+	 */
+	public function getRowUrl($row)
+	{
+		return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+	}
 }

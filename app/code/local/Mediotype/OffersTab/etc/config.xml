@@ -45,6 +45,18 @@
                     <use>core_setup</use>
                 </connection>
             </mediotype_offerstab_setup>
+
+            <mediotype_offerstab_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mediotype_offerstab_write>
+
+            <mediotype_offerstab_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mediotype_offerstab_read>
         </resources>
     </global>
 

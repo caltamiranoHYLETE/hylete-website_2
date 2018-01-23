@@ -4,6 +4,8 @@ $installer = $this;
 
 $installer->startSetup();
 
+// MYLES: Use PHP constructs, not raw SQL
+
 $installer->run("
 
 DROP TABLE IF EXISTS {$this->getTable('mediotype_offerstab/offer')};

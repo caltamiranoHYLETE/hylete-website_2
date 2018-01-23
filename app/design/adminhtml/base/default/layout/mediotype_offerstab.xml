@@ -1,22 +1,18 @@
 <?xml version="1.0"?>
 
 <layout version="0.1.0">
-    <!-- MYLES: Remove dupes -->
+    <!-- MYLES: This controller is no longer necessary, which means the associated layouts can also be removed -->
     <mediotype_adminhtml_index_index>
         <reference name="content">
             <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
         </reference>
     </mediotype_adminhtml_index_index>
 
-    <admin_mediotype_adminhtml_index_index>
+    <!-- Update for Offer Edit Form -->
+    <mediotype_adminhtml_offer_edit>
+        <update handle="editor"/>
         <reference name="content">
-            <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
+            <block type="mediotype_offerstab/adminhtml_form_edit_form" name="offer.form"/>
         </reference>
-    </admin_mediotype_adminhtml_index_index>
-
-    <adminhtml_mediotype_index_index>
-        <reference name="content">
-            <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>
-        </reference>
-    </adminhtml_mediotype_index_index>
+    </mediotype_adminhtml_offer_edit>
 </layout>
