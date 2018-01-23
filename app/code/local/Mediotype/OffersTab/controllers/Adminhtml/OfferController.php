@@ -62,7 +62,7 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 		$this->_title($model->getId() ? $model->getTitle() : $this->__('New'));
 
 		$this->_initAction()
-//			->_addContent($this->getLayout()->createBlock('mediotype_offerstab/adminhtml_promo_offerstab')->setData('action', $this->getUrl('*/*/save')))
+			->_addContent($this->getLayout()->createBlock('mediotype_offerstab/adminhtml_form_edit_form')->setData('action', $this->getUrl('*/*/save'))->setData('offer', $model))
 			->renderLayout();
 	}
 

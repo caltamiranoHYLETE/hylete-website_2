@@ -32,11 +32,20 @@ class Mediotype_OffersTab_Block_Adminhtml_Form_Edit_Form extends Mage_Adminhtml_
 		$fieldset->addField('title', 'text', array(
 			'name' => 'title',
 			'label' => $helper->__('Title'),
+			'value' => $this->getOffer()->getTitle()
 		));
 
-		if (Mage::registry('mediotype_offerstab')) {
-			$form->setValues(Mage::registry('mediotype_offerstab')->getData());
-		}
+		$fieldset->addField('content', 'text', array(
+			'name' => 'content',
+			'label' => $helper->__('Content'),
+			'value' => $this->getOffer()->getContent()
+		));
+
+		$fieldset->addField('status', 'text', array(
+			'name' => 'status',
+			'label' => $helper->__('Status'),
+			'value' => $this->getOffer()->getStatus()
+		));
 
 		return parent::_prepareForm();
 	}
