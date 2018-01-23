@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<config>
+    <menu>
+        <promo>
+            <children>
+                <mediotype_offerstab translate="title" module="mediotype_offerstab">
+                    <sort_order>10</sort_order>
+                    <title>OffersTab</title>
+                    <action>offerstab/adminhtml_index/index</action>
+                </mediotype_offerstab>
+            </children>
+        </promo>
+    </menu>
+
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+
+            <admin>
+                <children>
+                    <system translate="title" module="mediotype_offerstab">
+                        <title>Mediotype Offers Tab</title>
+                        <sort_order>1000</sort_order>
+                        <children>
+                            <mediotype_offerstab>
+                                <title>Mediotype Offers Tab</title>
+                            </mediotype_offerstab>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -7,6 +7,12 @@
     </modules>
 
     <global>
+        <models>
+            <mediotype_offerstab>
+                <class>Mediotype_OffersTab_Model</class>
+            </mediotype_offerstab>
+        </models>
+
         <blocks>
             <mediotype_offerstab>
                 <class>Mediotype_OffersTab_Block</class>
@@ -43,5 +49,14 @@
     </frontend>
 
     <admin>
+        <routers>
+            <mediotype_offerstab>
+                <use>admin</use>
+                <args>
+                    <module>Mediotype_OffersTab</module>
+                    <frontName>offerstab</frontName>
+                </args>
+            </mediotype_offerstab>
+        </routers>
     </admin>
 </config>
