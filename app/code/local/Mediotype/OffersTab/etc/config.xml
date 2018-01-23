@@ -10,7 +10,17 @@
         <models>
             <mediotype_offerstab>
                 <class>Mediotype_OffersTab_Model</class>
+                <resourceModel>mediotype_offerstab_resource</resourceModel>
             </mediotype_offerstab>
+
+            <mediotype_offerstab_resource>
+                <class>Mediotype_OffersTab_Model_Resource</class>
+                <entities>
+                    <offer>
+                        <table>mediotype_offerstab_offers</table>
+                    </offer>
+                </entities>
+            </mediotype_offerstab_resource>
         </models>
 
         <blocks>
