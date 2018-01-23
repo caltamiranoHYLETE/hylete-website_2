@@ -12,7 +12,9 @@ class Mediotype_OffersTab_Adminhtml_IndexController extends Mage_Adminhtml_Contr
 	 */
 	public function indexAction()
 	{
+		$this->_title($this->__('Sales'))->_title($this->__('Offers Tab'));
 		$this->loadLayout();
+		$this->_setActiveMenu('promo/mediotype_offerstab');
 		$this->renderLayout();
 	}
 }
