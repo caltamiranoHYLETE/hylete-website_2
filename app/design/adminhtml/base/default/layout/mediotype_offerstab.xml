@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <layout version="0.1.0">
+    <!-- MYLES: Remove dupes -->
     <mediotype_adminhtml_index_index>
         <reference name="content">
             <block type="core/template" name="mediotype.offerstab" template="mediotype/offerstab.phtml" before="-"/>

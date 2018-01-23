@@ -5,7 +5,7 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	/**
 	 * Grid constructor.
@@ -14,11 +14,8 @@ class Grid extends Mage_Adminhtml_Block_Widget_Grid
 	{
 		parent::__construct();
 
-		$this->setId('mediotype_orderstab_grid');
-		$this->setDefaultSort('increment_id');
-		$this->setDefaultDir('DESC');
-		$this->setSaveParametersInSession(true);
-		$this->setUseAjax(true);
+		$this->setId('promo_offers');
+		$this->setDefaultSort('offer_id');
 	}
 
 	/**
@@ -26,8 +23,7 @@ class Grid extends Mage_Adminhtml_Block_Widget_Grid
 	 */
 	protected function _prepareCollection()
 	{
-		$collection = [];
-
+		$collection = Mage::getModel('mediotype_offerstab/offer')->getCollection();
 		$this->setCollection($collection);
 
 		parent::_prepareCollection();
@@ -40,14 +36,30 @@ class Grid extends Mage_Adminhtml_Block_Widget_Grid
 	 */
 	protected function _prepareColumns()
 	{
-		return parent::_prepareColumns();
-	}
+		$this->addColumn('offer_id', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('ID'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'offer_id'
+		));
 
-	/**
-	 * @return mixed
-	 */
-	public function getGridUrl()
-	{
-		return $this->getUrl('*/*/grid', array('_current' => true));
+		// Custom renderer
+//		$this->addColumn('order_id', array(
+//			'header' => Mage::helper('mediotype_offerstab')->__('ID'),
+//			'sortable' => true,
+//			'width' => '60',
+//			'index' => 'offer_id',
+//			'renderer' => 'Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid_Renderer_Id',
+//		));
+
+		$this->addColumn('created_at', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Created At'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'created_at',
+			'type' => 'datetime'
+		));
+
+		return parent::_prepareColumns();
 	}
 }
