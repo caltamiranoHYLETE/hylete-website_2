@@ -30,22 +30,41 @@ class Mediotype_OffersTab_Block_Adminhtml_Form_Edit_Form extends Mage_Adminhtml_
 		));
 
 		$fieldset->addField('title', 'text', array(
-			'name' => 'title',
+			'name' => 'offer[title]',
 			'label' => $helper->__('Title'),
 			'value' => $this->getOffer()->getTitle()
 		));
 
 		$fieldset->addField('content', 'text', array(
-			'name' => 'content',
+			'name' => 'offer[content]',
 			'label' => $helper->__('Content'),
 			'value' => $this->getOffer()->getContent()
 		));
 
 		$fieldset->addField('status', 'text', array(
-			'name' => 'status',
+			'name' => 'offer[status]',
 			'label' => $helper->__('Status'),
 			'value' => $this->getOffer()->getStatus()
 		));
+
+		$fieldset->addField('offer_id', 'hidden', array(
+			'name' => 'offer[offer_id]',
+			'value' => $this->getOffer()->getOfferId()
+		));
+
+		// Provide a submit button
+		$fieldset->addField('submit', 'submit', array(
+			'label' => '',
+			'value' => 'Submit'
+		));
+
+		// Provide a delete button (currently just submits form)
+		if (!empty($this->getOffer()->getOfferId())) {
+			$fieldset->addField('delete', 'submit', array(
+				'label' => '',
+				'value' => 'Delete'
+			));
+		}
 
 		return parent::_prepareForm();
 	}

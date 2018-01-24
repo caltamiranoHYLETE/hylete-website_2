@@ -71,6 +71,33 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 	 */
 	public function saveAction()
 	{
+		$model = Mage::getModel('mediotype_offerstab/offer');
+
+		// Get params
+		$params = $this->getRequest()->getParams();
+		$offerData = $params["offer"];
+
+		if (!empty($offerData['offer_id'])) { // Saving an extant Offer
+			// Load
+			$model->load($offerData['offer_id']);
+
+			if (!$model->getId()) {
+				Mage::getSingleton('adminhtml/session')->addError($this->__('That Offer does not exist.'));
+			}
+
+			$model->setData($offerData);
+			$model->save();
+
+		} else { // Saving a new Offer
+			// Create
+			$model->setData($offerData);
+			$model->setData("offer_id", null);
+			$model->setData("created_time", time());
+			$model->setData("update_time", time());
+			$model->save();
+		}
+
+		$this->_redirect('*/*/edit', array('id' => $model->getId()));
 	}
 
 	/**
