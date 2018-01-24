@@ -60,6 +60,54 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 			'type' => 'text'
 		));
 
+		$this->addColumn('static_block_id', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Static Block Id'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'static_block_id',
+			'type' => 'text'
+		));
+
+		$this->addColumn('customer_group_ids', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Customer Group Ids'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'customer_group_ids',
+			'type' => 'text'
+		));
+
+		$this->addColumn('category_ids', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Category Ids'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'category_ids',
+			'type' => 'text'
+		));
+
+		$this->addColumn('product_ids', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Product Ids'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'product_ids',
+			'type' => 'text'
+		));
+
+		$this->addColumn('priority', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Priority'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'priority',
+			'type' => 'text'
+		));
+
+		$this->addColumn('landing_page_url', array(
+			'header' => Mage::helper('mediotype_offerstab')->__('Landing Page URL'),
+			'sortable' => true,
+			'width' => '60',
+			'index' => 'landing_page_url',
+			'type' => 'text'
+		));
+
 		$this->addColumn('status', array(
 			'header' => Mage::helper('mediotype_offerstab')->__('Status'),
 			'sortable' => true,
