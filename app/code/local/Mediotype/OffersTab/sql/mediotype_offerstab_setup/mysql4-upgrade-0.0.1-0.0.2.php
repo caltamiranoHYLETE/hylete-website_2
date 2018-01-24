@@ -21,7 +21,7 @@ $installer->getConnection()
 	->addColumn($installer->getTable('mediotype_offerstab/offer'), 'customer_group_ids', array(
 		'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
 		'size' => 255,
-		'nullable' => false,
+		'nullable' => true,
 		'comment' => 'Ids of Customer Groups to show this Offer to'
 	));
 
@@ -30,7 +30,7 @@ $installer->getConnection()
 	->addColumn($installer->getTable('mediotype_offerstab/offer'), 'category_ids', array(
 		'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
 		'size' => 255,
-		'nullable' => false,
+		'nullable' => true,
 		'comment' => 'Ids of Categories that this offer may show on'
 	));
 
@@ -39,7 +39,7 @@ $installer->getConnection()
 	->addColumn($installer->getTable('mediotype_offerstab/offer'), 'product_ids', array(
 		'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
 		'size' => 255,
-		'nullable' => false,
+		'nullable' => true,
 		'comment' => 'Ids of Products that this offer may show on'
 	));
 
@@ -47,7 +47,7 @@ $installer->getConnection()
 $installer->getConnection()
 	->addColumn($installer->getTable('mediotype_offerstab/offer'), 'priority', array(
 		'type' => Varien_Db_Ddl_Table::TYPE_INTEGER,
-		'nullable' => false,
+		'nullable' => true,
 		'comment' => 'Priority used for determining order of Offers'
 	));
 
@@ -55,7 +55,7 @@ $installer->getConnection()
 $installer->getConnection()
 	->addColumn($installer->getTable('mediotype_offerstab/offer'), 'landing_page_url', array(
 		'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
-		'nullable' => false,
+		'nullable' => true,
 		'size' => 255,
 		'comment' => 'If Offer is clicked through, redirect to this URL'
 	));

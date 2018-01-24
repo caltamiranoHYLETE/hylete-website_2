@@ -77,17 +77,18 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 		// Get params
 		$params = $this->getRequest()->getParams();
 		$offerData = $params["offer"];
+		$id = $this->getRequest()->getParam('id');
 
-		if (!empty($offerData['offer_id'])) { // Saving an extant Offer
+		if (!empty($id)) { // Saving an extant Offer
 			// Load
-			$model->load($offerData['offer_id']);
+			$model->load($id);
 
 			if (!$model->getId()) {
 				Mage::getSingleton('adminhtml/session')->addError($this->__('That Offer does not exist.'));
 			}
 
 			// Apply data, set update timestamp
-			$model->setData($offerData);
+			$model->addData($offerData);
 			$model->setData("update_time", time());
 
 			$model->save();
@@ -95,7 +96,6 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 		} else { // Saving a new Offer
 			// Create and apply our data
 			$model->setData($offerData);
-			$model->setData("offer_id", null);
 
 			// Set timestamps
 			$model->setData("created_time", time());
