@@ -8,7 +8,7 @@
 class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	/**
-	 * Mediotype_HyletePrice_Helper_Data constructor.
+	 * Mediotype_OffersTab_Helper_Data constructor.
 	 */
 	public function __construct()
 	{
@@ -40,23 +40,26 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	}
 
 	/**
-	 *
+	 * @return mixed
 	 */
 	protected function _getCurrentCategory()
 	{
+		return Mage::registry('current_category');
 	}
 
 	/**
-	 *
+	 * @return mixed
 	 */
 	protected function _getCurrentProduct()
 	{
+		return Mage::registry('current_product');
 	}
 
 	/**
-	 *
+	 * @return mixed
 	 */
 	protected function _getCurrentCustomerGroup()
 	{
+		return Mage::getSingleton('customer/session')->getCustomerGroupId();
 	}
 }
