@@ -21,6 +21,10 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getFilteredOffers()
 	{
+		$filterCategory = '';
+		$filterProduct = '';
+		$filterCustomerGroup = '';
+
 		$model = Mage::getModel('mediotype_offerstab/offer');
 		$collection = $model->getCollection();
 		$collection->load();
