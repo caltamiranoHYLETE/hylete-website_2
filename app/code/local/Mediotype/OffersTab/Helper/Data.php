@@ -16,30 +16,21 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 
 	/**
 	 * Responsible for returning a list of CMS static block ids to display
+	 *
+	 * MYLES: TODO: Filtering / SELECTing only matching Offers for display
 	 */
 	public function getFilteredOffers()
 	{
-		/**
-		 * We want to be able to specify which offers blocks to load by (at least):
-		 *    URL
-		 *    Product
-		 *    Category
-		 * Each of
-		 */
+		$model = Mage::getModel('mediotype_offerstab/offer');
+		$collection = $model->getCollection();
+		$collection->load();
 
-		// MYLES: TODO: Test CMS block should be created by an SQL data script
-		$cmsBlock1 = Mage::getModel('cms/block')->load('offer_example_1');
-		$cmsBlock2 = Mage::getModel('cms/block')->load('offer_example_2');
-		$cmsBlock3 = Mage::getModel('cms/block')->load('offer_example_3');
-		$cmsBlock4 = Mage::getModel('cms/block')->load('offer_example_4');
-		$cmsBlock5 = Mage::getModel('cms/block')->load('offer_example_5');
+		$offers = array();
 
-		return array(
-			$cmsBlock1,
-			$cmsBlock2,
-			$cmsBlock3,
-			$cmsBlock4,
-			$cmsBlock5
-		);
+		foreach ($collection->getItems() as $item) {
+			$offers[] = $item;
+		}
+
+		return $offers;
 	}
 }
