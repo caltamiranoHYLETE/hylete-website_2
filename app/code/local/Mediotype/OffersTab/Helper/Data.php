@@ -32,8 +32,57 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 
 		$offers = array();
 
-		foreach ($collection->getItems() as $item) {
-			$offers[] = $item;
+		foreach ($collection->getItems() as $offer) {
+			$categoryMatch = false;
+			$productMatch = false;
+			$customerGroupMatch = false;
+
+			$offerCategories = $offer->getCategoryIds();
+			$offerProducts = $offer->getProductIds();
+			$offerCustomerGroups = $offer->getCustomerGroupIds();
+
+			// Check categories
+			if ($offerCategories == NULL) {
+				$categoryMatch = true;
+
+			} else {
+				$categories = explode(",", $offerCategories);
+
+				if ($filterCategory != null && array_contains($categories, $filterCategory->getId())) {
+					$categoryMatch = true;
+				}
+			}
+
+			// Check products
+			if ($offerProducts == NULL) {
+				$productMatch = true;
+
+			} else {
+				$products = explode(",", $offerProducts);
+
+				if ($filterProduct != null && array_contains($products, $filterProduct->getId())) {
+					$productMatch = true;
+				}
+			}
+
+			// Check customer group
+			if ($offerCustomerGroups == NULL) {
+				$customerGroupMatch = true;
+
+			} else {
+				$customerGroups = explode(",", $offerCustomerGroups);
+
+				$filterCustomerGroup = (string) $filterCustomerGroup;
+
+				if (array_contains($customerGroups, $filterCustomerGroup)) {
+					$customerGroupMatch = true;
+				}
+			}
+
+			// Add to list if applicable
+			if ($categoryMatch && $productMatch && $customerGroupMatch) {
+				$offers[] = $offer;
+			}
 		}
 
 		return $offers;
