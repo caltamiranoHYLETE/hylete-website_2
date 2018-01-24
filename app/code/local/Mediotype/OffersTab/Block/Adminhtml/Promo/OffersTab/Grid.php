@@ -60,14 +60,6 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 			'type' => 'text'
 		));
 
-		$this->addColumn('content', array(
-			'header' => Mage::helper('mediotype_offerstab')->__('Content'),
-			'sortable' => true,
-			'width' => '60',
-			'index' => 'content',
-			'type' => 'text'
-		));
-
 		$this->addColumn('status', array(
 			'header' => Mage::helper('mediotype_offerstab')->__('Status'),
 			'sortable' => true,

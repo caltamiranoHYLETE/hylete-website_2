@@ -35,12 +35,6 @@ class Mediotype_OffersTab_Block_Adminhtml_Form_Edit_Form extends Mage_Adminhtml_
 			'value' => $this->getOffer()->getTitle()
 		));
 
-		$fieldset->addField('content', 'text', array(
-			'name' => 'offer[content]',
-			'label' => $helper->__('Content'),
-			'value' => $this->getOffer()->getContent()
-		));
-
 		$fieldset->addField('status', 'text', array(
 			'name' => 'offer[status]',
 			'label' => $helper->__('Status'),
