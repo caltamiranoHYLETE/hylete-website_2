@@ -21,12 +21,13 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getFilteredOffers()
 	{
-		$filterCategory = '';
-		$filterProduct = '';
-		$filterCustomerGroup = '';
+		$filterCategory = $this->_getCurrentCategory();
+		$filterProduct = $this->_getCurrentProduct();
+		$filterCustomerGroup = $this->_getCurrentCustomerGroup();
 
 		$model = Mage::getModel('mediotype_offerstab/offer');
 		$collection = $model->getCollection();
+		$collection->setOrder('priority', 'DESC');
 		$collection->load();
 
 		$offers = array();
@@ -36,5 +37,26 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		return $offers;
+	}
+
+	/**
+	 *
+	 */
+	protected function _getCurrentCategory()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function _getCurrentProduct()
+	{
+	}
+
+	/**
+	 *
+	 */
+	protected function _getCurrentCustomerGroup()
+	{
 	}
 }
