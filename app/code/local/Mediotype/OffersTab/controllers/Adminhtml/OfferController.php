@@ -93,6 +93,8 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 
 			$model->save();
 
+			Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Offer saved.'));
+
 		} else { // Saving a new Offer
 			// Create and apply our data
 			$model->setData($offerData);
@@ -102,6 +104,8 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 			$model->setData("update_time", time());
 
 			$model->save();
+
+			Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Offer saved.'));
 		}
 
 		$this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -113,7 +117,7 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 	public function deleteAction()
 	{
 		// If it was deleted, provide a message
-		Mage::getSingleton('adminhtml/session')->addError($this->__('Offer was deleted.'));
+		Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Offer was deleted.'));
 
 		$this->_redirect('*/*/');
 	}
