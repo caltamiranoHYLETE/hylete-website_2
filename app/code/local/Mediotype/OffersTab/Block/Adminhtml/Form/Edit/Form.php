@@ -55,7 +55,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Form_Edit_Form extends Mage_Adminhtml_
 		// Provide a submit button
 		$fieldset->addField('submit', 'submit', array(
 			'label' => '',
-			'value' => 'Submit'
+			'value' => 'Save'
 		));
 
 		// Provide a delete button (currently just submits form)

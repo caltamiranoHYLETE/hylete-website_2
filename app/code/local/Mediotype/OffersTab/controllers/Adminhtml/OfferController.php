@@ -29,6 +29,7 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 		$this->_addContent(
 			$this->getLayout()->createBlock('mediotype_offerstab/adminhtml_promo_offerstab')
 		);
+
 		$this->renderLayout();
 	}
 
@@ -85,15 +86,21 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 				Mage::getSingleton('adminhtml/session')->addError($this->__('That Offer does not exist.'));
 			}
 
+			// Apply data, set update timestamp
 			$model->setData($offerData);
+			$model->setData("update_time", time());
+
 			$model->save();
 
 		} else { // Saving a new Offer
-			// Create
+			// Create and apply our data
 			$model->setData($offerData);
 			$model->setData("offer_id", null);
+
+			// Set timestamps
 			$model->setData("created_time", time());
 			$model->setData("update_time", time());
+
 			$model->save();
 		}
 
@@ -105,6 +112,10 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 	 */
 	public function deleteAction()
 	{
+		// If it was deleted, provide a message
+		Mage::getSingleton('adminhtml/session')->addError($this->__('Offer was deleted.'));
+
+		$this->_redirect('*/*/');
 	}
 
 	/**
