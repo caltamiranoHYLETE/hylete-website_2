@@ -1,38 +1,42 @@
-<div class="container-fluid body-content">
-    <div class="footer navbar-fixed-bottom">
-        <div class="panel-group bottom0" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-primary">
-                <div class="panel-heading" role="tab" id="headingOne" style="cursor: pointer" data-toggle="collapse"
-                     data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <h4 class="panel-title"><i class="fa fa-tags"></i> today's deals</h4>
-                </div>
+<?php if (!empty($this->_offers)): ?>
 
-                <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
-                     aria-labelledby="headingOne">
-                    <div class="panel-body ">
-                        <!-- Owl Carousel -->
-                        <div class="owl-carousel owl-theme" style="max-width:1170px; margin:0 auto;">
-							<?php foreach ($this->_offers as $_offer): ?>
-                                <div class="item btm_tab_ctn">
-                                    <?php if ($_offer->getLandingPageUrl()): ?>
-                                    <a href="<?php echo $_offer->getLandingPageUrl(); ?>">
-                                    <?php endif; ?>
+    <div class="container-fluid body-content">
+        <div class="footer navbar-fixed-bottom">
+            <div class="panel-group bottom0" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingOne" style="cursor: pointer" data-toggle="collapse"
+                         data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <h4 class="panel-title"><i class="fa fa-tags"></i> today's deals</h4>
+                    </div>
 
-										<?php echo $this->getLayout()
-											->createBlock('cms/block')
-											->setBlockId($_offer->getStaticBlockId())
-											->toHtml(); ?>
+                    <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <div class="panel-body ">
+                            <!-- Owl Carousel -->
+                            <div class="owl-carousel owl-theme" style="max-width:1170px; margin:0 auto;">
+								<?php foreach ($this->_offers as $_offer): ?>
+                                    <div class="item btm_tab_ctn">
+										<?php if ($_offer->getLandingPageUrl()): ?>
+                                        <a href="<?php echo $_offer->getLandingPageUrl(); ?>">
+											<?php endif; ?>
 
-                                    <?php if ($_offer->getLandingPageUrl()): ?>
-                                    </a>
-                                    <?php endif; ?>
-                                </div>
-							<? endforeach; ?>
+											<?php echo $this->getLayout()
+												->createBlock('cms/block')
+												->setBlockId($_offer->getStaticBlockId())
+												->toHtml(); ?>
+
+											<?php if ($_offer->getLandingPageUrl()): ?>
+                                        </a>
+									<?php endif; ?>
+                                    </div>
+								<? endforeach; ?>
+                            </div>
+                            <!-- End Owl Carousel-->
                         </div>
-                        <!-- End Owl Carousel-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
+
