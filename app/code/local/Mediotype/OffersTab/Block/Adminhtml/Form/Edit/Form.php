@@ -95,17 +95,32 @@ class Mediotype_OffersTab_Block_Adminhtml_Form_Edit_Form extends Mage_Adminhtml_
 		));
 
 		// Provide a submit button
-		$fieldset->addField('submit', 'submit', array(
+		$fieldset->addField('submit-el', 'submit', array(
 			'label' => '',
 			'value' => 'Save'
 		));
 
 		// Provide a delete button (currently just submits form)
 		if (!empty($this->getOffer()->getOfferId())) {
-			$fieldset->addField('delete', 'submit', array(
+			$field = $fieldset->addField('delete', 'button', array(
+				'name' => 'delete',
 				'label' => '',
-				'value' => 'Delete'
+				'value' => 'Delete',
+				'onclick' => 'deleteOffer();'
 			));
+
+			$deleteUrl = $this->getUrl('*/*/delete', array('id' => $this->getOffer()->getOfferId()));
+
+			$field->setAfterElementHtml('
+				<script>
+				//< ![CDATA[
+				function deleteOffer() {
+				    $("edit_form").writeAttribute("action","' . $deleteUrl . '");
+				    $("edit_form").submit();
+				}
+				//]]>
+				</script>
+			');
 		}
 
 		return parent::_prepareForm();

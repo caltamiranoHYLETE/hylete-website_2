@@ -119,7 +119,7 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 		// If it was deleted, provide a message
 		Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Offer was deleted.'));
 
-		$this->_redirect('*/*/');
+		$this->_redirect('*/*/index');
 	}
 
 	/**
