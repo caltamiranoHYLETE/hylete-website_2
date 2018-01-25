@@ -87,6 +87,15 @@
                     </mediotype_offerstab>
                 </observers>
             </checkout_cart_product_update_after>
+
+            <checkout_cart_update_items_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductUpdateAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_update_items_after>
         </events>
 
         <routers>
