@@ -88,6 +88,16 @@
                 </observers>
             </checkout_cart_product_update_after>
         </events>
+
+        <routers>
+            <mediotype>
+                <use>standard</use>
+                <args>
+                    <module>Mediotype_OffersTab</module>
+                    <frontName>mediotype</frontName>
+                </args>
+            </mediotype>
+        </routers>
     </frontend>
 
     <admin>

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class CouponController
+ * Class Mediotype_OffersTab_CouponController
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class CouponController extends Mage_Core_Controller_Front_Action
+class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Action
 {
 	/**
 	 * Responsible for reading the parameter `coupon_code` and storing it in the session,
@@ -13,17 +13,28 @@ class CouponController extends Mage_Core_Controller_Front_Action
 	 */
 	public function applyAction()
 	{
-		// Ensure that the request has a `coupon_code` parameter
-		// If it does
-			// Store it in the session
-			// Notify the user with an addSuccess (?)
-			// If `url` parameter
-				// Redirect
+		// Ensure that the request has a `couponCode` parameter
+		$couponCode = $this->getRequest()->getParam('couponCode'); // MYLES: Validate the coupon code?
+		$redirectUrl = $this->getRequest()->getParam('redirectUrl');
 
-			// Else
-				// Do nothing (?)
-		
-		// Else
-			// Quietly do nothing?
+		// If it does
+		if ($couponCode) {
+			// Store it in the session
+			$checkoutSession = Mage::getSingleton("checkout/session");
+			$checkoutSession->setData("automaticCouponCode", $couponCode);
+
+			// Notify the user with an addSuccess (?)
+			$coreSession = Mage::getSingleton('core/session');
+			$coreSession->addSuccess("Coupon was added to cart and will automatically apply to your cart during checkout");
+
+			// If `url` parameter, redirect
+			if ($redirectUrl) {
+			}
+
+		} else {
+			// Do nothing (?)
+		}
+
+		// …
 	}
 }
