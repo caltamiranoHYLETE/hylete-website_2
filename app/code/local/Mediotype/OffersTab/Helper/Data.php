@@ -28,6 +28,7 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 		$model = Mage::getModel('mediotype_offerstab/offer');
 		$collection = $model->getCollection();
 		$collection->setOrder('priority', 'DESC');
+		$collection->addFieldToFilter('status', 1);
 		$collection->load();
 
 		$offers = array();
