@@ -16,8 +16,6 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 
 	/**
 	 * Responsible for returning a list of CMS static block ids to display
-	 *
-	 * MYLES: TODO: Filtering / SELECTing only matching Offers for display
 	 */
 	public function getFilteredOffers()
 	{
@@ -73,7 +71,7 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 			} else {
 				$customerGroups = explode(",", $offerCustomerGroups);
 
-				$filterCustomerGroup = (string) $filterCustomerGroup;
+				$filterCustomerGroup = (string)$filterCustomerGroup;
 
 				if (array_contains($customerGroups, $filterCustomerGroup)) {
 					$customerGroupMatch = true;

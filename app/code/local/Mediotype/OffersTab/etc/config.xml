@@ -68,6 +68,26 @@
                 </mediotype_offerstab>
             </updates>
         </layout>
+
+        <events>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductAddAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_product_add_after>
+
+            <checkout_cart_product_update_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductUpdateAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_product_update_after>
+        </events>
     </frontend>
 
     <admin>
