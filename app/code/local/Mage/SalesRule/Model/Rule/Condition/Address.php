@@ -147,7 +147,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
 			$op = $this->getOperator();
 
 			// MYLES: "Discounted subtotal" is the subtotal less any applied discounts (discount amount is negative)
-			$discountedSubtotal = $address->getSubtotal() + $address->getDiscountAmount();
+			$discountedSubtotal = $address->getSubtotal();
 			$value = $this->getValue();
 
 			// MYLES: Doesn't support array operators, and probably doesn't need to support "=="
