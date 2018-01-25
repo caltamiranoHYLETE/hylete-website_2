@@ -29,14 +29,28 @@ class Mediotype_OfferStab_Model_CouponObserver
 
 	/**
 	 * Responsible for applying automatically set coupons.
+	 *
+	 * @param $observer
+	 * @return $this
 	 */
 	protected function attemptAutomaticCouponApplication($observer)
 	{
-		// If session contains 'automatic_coupon_code'
-			// Apply the code
-			// Remove the code from the session
-			// Notify the user with an addSuccess (?)
+		$checkoutSession = Mage::getSingleton("checkout/session");
+		$couponCode = $checkoutSession->getData("automaticCouponCode");
 
-		// Else do nothing
+		// If session contains 'automatic_coupon_code'
+		if ($couponCode) {
+			// Apply the code
+			$result = Mage::getSingleton('checkout/cart')->getQuote()->setCouponCode($couponCode)->save();
+
+			// Remove the code from the session
+			$checkoutSession->unsetData("automaticCouponCode");
+
+			// Notify the user with an addSuccess
+			//$coreSession = Mage::getSingleton('core/session');
+			//$coreSession->addSuccess("Coupon `" . $couponCode . "` was successfully applied!");
+		}
+
+		return $this;
 	}
 }

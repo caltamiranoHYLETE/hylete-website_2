@@ -24,7 +24,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 	 * @param $currentCategory
 	 * @return string
 	 */
-	public function getPriceLabelByCustomerGroup($currentCategory)
+	public function getPriceLabelByCustomerGroup($currentCategory = null)
 	{
 		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 		$group = Mage::getModel('customer/group')->load($groupId);
@@ -36,7 +36,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 			$label = $group->getCustomerGroupHyletePriceLabel();
 		}
 
-		if ($this->isClearanceCategory($currentCategory)) {
+		if ($currentCategory && $this->isClearanceCategory($currentCategory)) {
 			$label = "Clearance";  // MYLES: No reason not to make this configurable as well
 		}
 

@@ -23,12 +23,13 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
 			$checkoutSession = Mage::getSingleton("checkout/session");
 			$checkoutSession->setData("automaticCouponCode", $couponCode);
 
-			// Notify the user with an addSuccess (?)
+			// Notify the user with an addSuccess
 			$coreSession = Mage::getSingleton('core/session');
-			$coreSession->addSuccess("Coupon was added to cart and will automatically apply to your cart during checkout");
+			$coreSession->addSuccess("Coupon `" . $couponCode ."` was added to cart and will automatically apply to your cart during checkout.");
 
 			// If `url` parameter, redirect
 			if ($redirectUrl) {
+				$this->_redirect($redirectUrl);
 			}
 
 		} else {
