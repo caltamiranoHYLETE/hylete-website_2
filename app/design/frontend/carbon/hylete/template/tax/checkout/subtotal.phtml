@@ -46,7 +46,9 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 $cart = Mage::getModel('checkout/cart')->getQuote();
 $msrpPrice = 0.00; // MYLES: If items are being duped here, then do a parent check on configurables
 foreach ($cart->getAllItems() as $item) {
-	$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
+	if (empty(Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId()))) {
+		$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
+	}
 }
 ?>
 
