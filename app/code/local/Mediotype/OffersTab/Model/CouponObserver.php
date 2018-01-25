@@ -41,14 +41,22 @@ class Mediotype_OfferStab_Model_CouponObserver
 		// If session contains 'automatic_coupon_code'
 		if ($couponCode) {
 			// Apply the code
-			$result = Mage::getSingleton('checkout/cart')->getQuote()->setCouponCode($couponCode)->save();
+			$checkoutSession->getQuote()->setCouponCode($couponCode)->save();
 
-			// Remove the code from the session
-			$checkoutSession->unsetData("automaticCouponCode");
+			// Refresh the totals so that the appliedRuleId is available in the removal block below
+			$checkoutSession->getQuote()->collectTotals()->save();
 
-			// Notify the user with an addSuccess
-			//$coreSession = Mage::getSingleton('core/session');
-			//$coreSession->addSuccess("Coupon `" . $couponCode . "` was successfully applied!");
+			// See if the coupon actually applied to the quote
+			$appliedRuleIds = $checkoutSession->getQuote()->getAppliedRuleIds();
+			$appliedRuleIds = explode(',', $appliedRuleIds);
+			$rules = Mage::getModel('salesrule/rule')->getCollection()->addFieldToFilter('rule_id', array('in' => $appliedRuleIds));
+
+			foreach ($rules as $rule) {
+				if ($rule->getCode() == $couponCode) {
+					// Remove the code from the session
+					$checkoutSession->unsetData("automaticCouponCode");
+				}
+			}
 		}
 
 		return $this;
