@@ -44,8 +44,10 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 
 // MYLES: Sum MSRPs for display
 $cart = Mage::getModel('checkout/cart')->getQuote();
-$msrpPrice = 0.00; // MYLES: If items are being duped here, then do a parent check on configurables
+$msrpPrice = 0.00;
+
 foreach ($cart->getAllItems() as $item) {
+    // MYLES: Configurable products need to only have the price of the children added
 	if (empty(Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId()))) {
 		$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
 	}
