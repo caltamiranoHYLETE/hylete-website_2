@@ -341,6 +341,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				$baseItemPrice = $item->getProduct()->getPrice();
 				$itemOriginalPrice = $item->getProduct()->getPrice();
 				$baseItemOriginalPrice = $item->getProduct()->getPrice();
+
+			} else if ($ruleTargetPrice == 4) {
+				$itemPrice = $item->getProduct()->getMsrp();
+				$baseItemPrice = $item->getProduct()->getMsrp();
+				$itemOriginalPrice = $item->getProduct()->getMsrp();
+				$baseItemOriginalPrice = $item->getProduct()->getMsrp();
 			}
 			// MYLES: End of changes
 
@@ -516,6 +522,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			$discountAmount = min($itemDiscountAmount + $discountAmount, $itemPrice * $qty);
 			$baseDiscountAmount = min($itemBaseDiscountAmount + $baseDiscountAmount, $baseItemPrice * $qty);
+
+			// MYLES: If we are targeting MSRP, set the "custom_price" to the MSRP, and the next time totals are collected, we will have the discount as expected
+			if ($ruleTargetPrice == 4) {
+				$item->setOriginalCustomPrice($item->getProduct()->getMsrp());
+			}
+			// MYLES: END CHANGES
 
 			$item->setDiscountAmount($discountAmount);
 			$item->setBaseDiscountAmount($baseDiscountAmount);
