@@ -33,13 +33,43 @@
 <?php endif; ?>
 <meta name="description" content="<?php echo $_textDescription; ?>" />
 <meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="<?php echo Mage::helper('core/url')->getCurrentUrl();?>" />
-<meta property="og:title" content="<?php echo $this->getTitle() ?>" />
-<meta property="og:description" content="<?php echo $_textDescription; ?>" />
-<?php if(Mage::registry('current_product') && Mage::registry('current_product')->getImage() != 'no_selection'): ?>
+
+
+<?php /* Open Graph Protocol for Facebook and SEO START */ ?>
+<?php if(Mage::registry('current_product')): ?>
+	<?php $product = Mage::registry('current_product'); ?>
+    <meta property="og:title" content="<?php echo ($product->getName()); ?>" />
+    <meta property="og:type" content="product" />
     <meta property="og:image" content="<?php echo Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'image')->resize(1200,630);?>" />
+    <meta property="og:url" content="<?php echo Mage::registry('product')->getProductUrl(); ?>" />
+    <meta property="og:description" content="<?php echo strip_tags(($product->getShortDescription())); ?>" />
+    <meta property="og:site_name" content="HYLETE" />
+    <meta property="og:product:price:amount" content="<?php echo Mage::registry('product')->getFinalPrice(); ?>" />
+    <meta property="og:product:price:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
+
+<?php elseif(Mage::registry('current_category')): ?>
+    <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+    <meta property="og:type" content="product.group" />
+    <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+    <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+    <meta property="og:site_name" content="HYLETE" />
+<?php elseif((Mage::getSingleton('cms/page')->getIdentifier() == 'home' &&
+	Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms')) : ?>
+    <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+    <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+    <meta property="og:site_name" content="HYLETE" />
+<?php else: ?>
+    <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+    <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+    <meta property="og:site_name" content="HYLETE" />
 <?php endif; ?>
+<?php /* Open Graph Protocol for Facebook and SEO END */ ?>
+
+
 <?php if($_metaAuthor = $_helper->getMetaAuthor()):?>
     <meta name="author" content="<?php echo $this->htmlEscape($_metaAuthor); ?>">
 <?php endif; ?>
