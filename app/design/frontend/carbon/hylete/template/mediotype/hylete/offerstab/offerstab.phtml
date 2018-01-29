@@ -1,12 +1,35 @@
+<script type="text/javascript">
+    $jQ = jQuery.noConflict();
+
+    $jQ(function () {
+        // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
+        $jQ('#greyMask').click(function () {
+            $jQ('#headingOne').trigger("click");
+        });
+
+        // Bind a click handler to toggle greyMask when #headingOne is clicked
+        $jQ('#headingOne').click(function () {
+            $jQ('#greyMask').toggle();
+        });
+    })
+</script>
+
 <?php if (!empty($this->_offers)): ?>
+    <div id="greyMask"
+         style="display: none; position: fixed; top: 0; left:0; width:100%; height:100%; background: #000; opacity: .25; z-index:1025;">
+    </div>
 
     <div class="container-fluid body-content">
         <div class="footer navbar-fixed-bottom">
             <div class="panel-group bottom0" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingOne" style="cursor: pointer" data-toggle="collapse"
-                         data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h4 class="panel-title"><i class="fa fa-tags"></i> <?php echo $this->_offersTabHelper->getTitle(); ?></h4>
+
+                    <div class="panel-heading" role="tab" id="headingOne" style="cursor: pointer"
+                         data-toggle="collapse"
+                         data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                         aria-controls="collapseOne">
+                        <h4 class="panel-title"><i
+                                    class="fa fa-tags"></i> <?php echo $this->_offersTabHelper->getTitle(); ?></h4>
                     </div>
 
                     <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
