@@ -35,6 +35,15 @@
                     <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
                          aria-labelledby="headingOne">
                         <div class="panel-body ">
+                            <?php $disclaimerBlock = Mage::getModel('cms/block')->load('offerstab-disclaimer'); if($disclaimerBlock && $disclaimerBlock->getIsActive()): ?>
+                                <div class="offerstab-disclaimer">
+                                    <?php echo $this->getLayout()
+                                        ->createBlock('cms/block')
+                                        ->setBlockId('offerstab-disclaimer')
+                                        ->toHtml(); ?>
+                                </div>
+                            <?php endif; ?>
+
                             <!-- Owl Carousel -->
                             <div class="owl-carousel owl-theme" style="max-width:1170px; margin:0 auto;">
 								<?php foreach ($this->_offers as $_offer): ?>
