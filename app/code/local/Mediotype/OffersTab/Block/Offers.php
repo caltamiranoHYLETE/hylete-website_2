@@ -7,6 +7,7 @@
  */
 class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
 {
+	/** @var Mediotype_OffersTab_Helper_Data $_offersTabHelper */
 	protected $_offersTabHelper;
 
 	protected $_offers; // Will hold array of offers to show user

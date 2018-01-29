@@ -7,6 +7,8 @@
  */
 class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 {
+	private $_title = "today's deals!";
+	
 	/**
 	 * Mediotype_OffersTab_Helper_Data constructor.
 	 */
@@ -109,5 +111,14 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	protected function _getCurrentCustomerGroup()
 	{
 		return Mage::getSingleton('customer/session')->getCustomerGroupId();
+	}
+
+	/**
+	 * Place holder until the adminhtml configuration pages
+	 * @return mixed
+	 */
+	public function getTitle()
+	{
+		return $this->_title;
 	}
 }
