@@ -63,6 +63,9 @@ class Mediotype_OfferStab_Model_CouponObserver
 	}
 
 	/**
+	 * Responsible for reverting the customPrice for a quote item to the original price if a coupn that was
+	 * targeting the MSRP is removed from the cart.
+	 *
 	 * @param Varien_Event_Observer $observer
 	 * @return $this
 	 */
