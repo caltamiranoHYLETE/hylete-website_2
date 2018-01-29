@@ -8,12 +8,16 @@
 class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	private $_title = "today's deals!";
-	
+	private $_hideOnUrls;
+
 	/**
 	 * Mediotype_OffersTab_Helper_Data constructor.
 	 */
 	public function __construct()
 	{
+		$this->_hideOnUrls = array(
+			'/us/checkout/cart/'
+		);
 	}
 
 	/**
@@ -120,5 +124,14 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	public function getTitle()
 	{
 		return $this->_title;
+	}
+
+	/**
+	 * @param $url
+	 * @return bool
+	 */
+	public function shouldShowForUrl($url)
+	{
+		return !array_contains($this->_hideOnUrls, $url);
 	}
 }

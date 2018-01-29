@@ -25,4 +25,13 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
 		// Populate $this->_offers appropriately
 		$this->_offers = $this->_offersTabHelper->getFilteredOffers();
 	}
+
+	/**
+	 *
+	 */
+	public function shouldShowOnPage()
+	{
+		$url = $this->getRequest()->getRequestUri();
+		return $this->_offersTabHelper->shouldShowForUrl($url);
+	}
 }
