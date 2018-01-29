@@ -96,6 +96,15 @@
                     </mediotype_offerstab>
                 </observers>
             </checkout_cart_update_items_after>
+
+            <controller_action_predispatch_checkout_cart_couponPost>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>revertPricesIfNecessary</method>
+                    </mediotype_offerstab>
+                </observers>
+            </controller_action_predispatch_checkout_cart_couponPost>
         </events>
 
         <routers>

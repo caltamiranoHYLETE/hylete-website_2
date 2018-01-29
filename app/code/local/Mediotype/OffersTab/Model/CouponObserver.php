@@ -61,4 +61,49 @@ class Mediotype_OfferStab_Model_CouponObserver
 
 		return $this;
 	}
+
+	/**
+	 * @param Varien_Event_Observer $observer
+	 * @return $this
+	 */
+	public function revertPricesIfNecessary(Varien_Event_Observer $observer)
+	{
+		/* @var Mage_Core_Controller_Front_Action $controller */
+		$controller = $observer->getControllerAction();
+		if ($controller->getRequest()->getParam('remove') == 1) {
+			$couponCode = $controller->getRequest()->getParam('coupon_code');
+
+			if ($couponCode) {
+				// Lookup coupon by code
+				$coupon = Mage::getModel('salesrule/coupon')->load($couponCode, 'code');
+				$rule = Mage::getModel('salesrule/rule')->load($coupon->getRuleId());
+
+				// Check coupon's price selector
+				$priceSelectorValue = $rule->getPriceSelector();
+
+				// If MSRP is target
+				if ($priceSelectorValue == "4") {
+					$quote = Mage::getSingleton('checkout/session')->getQuote();
+
+					// For each quote item, see if it has applied rule ids
+					foreach ($quote->getAllItems() as $item) {
+						if ($item->getAppliedRuleIds() == '') {
+							continue;
+						}
+
+						// If one of the applied rule ids matches our current rule id, then then revert custom pricing
+						foreach (explode(",", $item->getAppliedRuleIds()) as $ruleId) {
+							if ($ruleId == $rule->getId()) {
+								$item->setOriginalCustomPrice(null);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Myles: Don't need to do anything else; once this observer is done, there will be a collectTotals(…) call
+
+		return $this;
+	}
 }
