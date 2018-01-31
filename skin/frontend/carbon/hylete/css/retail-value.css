@@ -77,3 +77,15 @@
     font-size: 14px;
     color: #666;
 }
+
+.hylete-price-label-sm {
+    font-size: 13px;
+}
+
+.hylete-price-label-lg {
+    font-size: 16px;
+}
+
+.regular-price > .price {
+    font-size: 13px;
+}

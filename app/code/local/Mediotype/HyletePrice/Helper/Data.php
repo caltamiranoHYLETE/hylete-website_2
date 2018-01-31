@@ -75,6 +75,20 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 		return $label;
 	}
 
+    /**
+     * @param Mage_Catalog_Model_Product $currentProduct
+     * @param bool $isCategoryDetailsPage
+     * @return string
+     */
+	public function hasProductMSRP($currentProduct, $isProductDetailsPage = false)
+    {
+        if (!$currentProduct || !$currentProduct->getMsrp()) {
+            return '';
+        }
+
+        return 'hylete-price-label-' . ($isProductDetailsPage ? 'lg' : 'sm');
+    }
+
 	/**
 	 * @return mixed
 	 */
