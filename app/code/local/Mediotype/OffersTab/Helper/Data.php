@@ -15,9 +15,7 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function __construct()
 	{
-		$this->_hideOnUrls = array(
-			'/us/checkout/cart/'
-		);
+        $this->_hideOnUrls = $this->getOffersTabBlackList();
 	}
 
 	/**
@@ -125,6 +123,16 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 	{
 		return $this->_title;
 	}
+
+    /**
+     * Retrieve the blacklist system configuration and return it as an array
+     * @return array
+     */
+	public function getOffersTabBlackList()
+    {
+        $_blackList = str_replace(' ', '', Mage::getStoreConfig('mediotype_offerstab/general/black_list'));
+        return (!is_null($_blackList) ? explode(',', $_blackList) : []);
+    }
 
 	/**
 	 * @param $url

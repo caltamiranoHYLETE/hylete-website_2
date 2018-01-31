@@ -28,6 +28,13 @@
                             <mediotype_offerstab>
                                 <title>Mediotype Offers Tab</title>
                             </mediotype_offerstab>
+                            <config>
+                                <children>
+                                    <mediotype_offerstab translate="title" module="mediotype_offerstab">
+                                        <title>MedioType OffersTab</title>
+                                    </mediotype_offerstab>
+                                </children>
+                            </config>
                         </children>
                     </system>
                 </children>

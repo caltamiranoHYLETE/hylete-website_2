@@ -52,9 +52,10 @@ $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->dis
 $_minimalPriceValue = $_product->getMinimalPrice();
 $_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
 $_layoutHandles = $this->getLayout()->getUpdate()->getHandles();
+$_isProductDetailsPage = in_array('catalog_product_view', $_layoutHandles);
 ?>
 
-<?php if (in_array('catalog_product_view', $_layoutHandles)): ?>
+<?php if ($_isProductDetailsPage): ?>
     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 <?php endif; ?>
 <?php if (!$_product->isGrouped()): ?>
@@ -214,7 +215,7 @@ $_layoutHandles = $this->getLayout()->getUpdate()->getHandles();
                     <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"
                           itemprop="price">
                     <?php if ($_finalPrice == $_price): ?>
-						<?php echo $_coreHelper->currency($_price, true, true) ?>
+						<span class="<?php echo $_hyletePriceHelper->hasProductMSRP($_product, $_isProductDetailsPage) ?>"><?php echo $_coreHelper->currency($_price, true, true) ?></span>
                         <span class="hylete-price-label">
 						    <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
                         </span>
@@ -451,6 +452,6 @@ $_layoutHandles = $this->getLayout()->getUpdate()->getHandles();
         </div>
 	<?php endif; /* if ($this->getDisplayMinimalPrice() && $_minimalPrice): */ ?>
 <?php endif; /* if (!$_product->isGrouped()): */ ?>
-<?php if (in_array('catalog_product_view', $_layoutHandles)): ?>
+<?php if ($_isProductDetailsPage): ?>
     </div>
 <?php endif; ?>

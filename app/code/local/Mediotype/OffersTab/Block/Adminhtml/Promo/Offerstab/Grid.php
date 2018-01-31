@@ -5,7 +5,7 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	/**
 	 * Grid constructor.
@@ -49,7 +49,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid extends Mage_Admi
 //			'sortable' => true,
 //			'width' => '60',
 //			'index' => 'offer_id',
-//			'renderer' => 'Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab_Grid_Renderer_Id',
+//			'renderer' => 'Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid_Renderer_Id',
 //		));
 
 		$this->addColumn('title', array(

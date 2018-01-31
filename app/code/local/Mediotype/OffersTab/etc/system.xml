@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <mediotype_offerstab translate="label" module="mediotype_offerstab">
+            <label>MedioType OffersTab</label>
+            <sort_order>100</sort_order>
+        </mediotype_offerstab>
+    </tabs>
+    <sections>
+        <mediotype_offerstab translate="label" module="mediotype_offerstab">
+            <label>General</label>
+            <tab>mediotype_offerstab</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>999</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <black_list translate="label">
+                            <label>Black List</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>A comma delimited list of URLs (IE: /us/checkout/cart/)</comment>
+                        </black_list>
+                    </fields>
+                </general>
+            </groups>
+        </mediotype_offerstab>
+    </sections>
+</config>

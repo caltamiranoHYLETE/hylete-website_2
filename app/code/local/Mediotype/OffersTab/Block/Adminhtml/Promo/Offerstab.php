@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab
+ * Class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 	/**
-	 * Mediotype_OffersTab_Block_Adminhtml_Promo_OffersTab constructor.
+	 * Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab constructor.
 	 */
 	public function __construct()
 	{
