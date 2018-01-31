@@ -103,6 +103,8 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 				<?php endif; ?>
 			<?php endif; ?>
 
+            <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+
 			<?php if ($_backitHelper->isPreOrderProduct()): ?>
                 <div class="pre-order">
                     <div class="progress-wrap progress">
