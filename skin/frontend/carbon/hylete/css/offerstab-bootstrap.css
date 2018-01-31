@@ -69,6 +69,13 @@
     }
 }
 
+@media (max-width: 768px) {
+    .body-mask {
+        overflow: hidden;
+        position: relative;
+    }
+}
+
 .navbar-fixed-bottom {
     bottom: 0;
     margin-bottom: 0;
