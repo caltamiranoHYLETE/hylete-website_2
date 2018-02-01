@@ -5,7 +5,7 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	/**
 	 * Grid constructor.

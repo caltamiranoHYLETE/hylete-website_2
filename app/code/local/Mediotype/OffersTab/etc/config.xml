@@ -120,23 +120,23 @@
 
     <admin>
         <routers>
-            <mediotype>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Mediotype_OffersTab</module>
-                    <frontName>mediotype</frontName>
+                    <modules>
+                        <mediotype_offerstab after="Mage_Adminhtml">Mediotype_OffersTab_Adminhtml</mediotype_offerstab>
+                    </modules>
                 </args>
-            </mediotype>
+            </adminhtml>
         </routers>
     </admin>
 
-    <adminhtml>
-        <layout>
-            <updates>
-                <mediotype_offerstab>
-                    <file>mediotype_offerstab.xml</file>
-                </mediotype_offerstab>
-            </updates>
-        </layout>
-    </adminhtml>
+    <!--<adminhtml>-->
+        <!--<layout>-->
+            <!--<updates>-->
+                <!--<mediotype_offerstab>-->
+                    <!--<file>mediotype_offerstab.xml</file>-->
+                <!--</mediotype_offerstab>-->
+            <!--</updates>-->
+        <!--</layout>-->
+    <!--</adminhtml>-->
 </config>
