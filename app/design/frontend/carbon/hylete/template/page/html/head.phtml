@@ -53,8 +53,8 @@
     ?>
     <meta property="og:availability" content="<?php echo $avail ?>" />
     <meta property="og:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
-    <meta property="og:product:price:amount" content="<?php echo Mage::registry('product')->getFinalPrice(); ?>" />
-    <meta property="og:product:price:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
+    <meta property="og:price:amount" content="<?php echo Mage::registry('product')->getFinalPrice(); ?>" />
+    <meta property="og:price:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
 
 <?php elseif(Mage::registry('current_category')): ?>
     <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
