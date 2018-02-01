@@ -44,6 +44,15 @@
     <meta property="og:url" content="<?php echo Mage::registry('product')->getProductUrl(); ?>" />
     <meta property="og:description" content="<?php echo strip_tags(($product->getShortDescription())); ?>" />
     <meta property="og:site_name" content="HYLETE" />
+    <meta property="og:price" content="<?php echo Mage::registry('product')->getFinalPrice(); ?>" />
+    <?php
+    $avail = "In Stock";
+    if (!Mage::registry('product')->isSaleable()){
+		$avail = "Out of Stock";
+    }
+    ?>
+    <meta property="og:availability" content="<?php echo $avail ?>" />
+    <meta property="og:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
     <meta property="og:product:price:amount" content="<?php echo Mage::registry('product')->getFinalPrice(); ?>" />
     <meta property="og:product:price:currency" content="<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>" />
 
