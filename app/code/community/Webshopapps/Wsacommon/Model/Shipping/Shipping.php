@@ -34,7 +34,7 @@
  * @author     Karen Baker <sales@webshopapps.com>
  */
 
-class Webshopapps_Wsacommon_Model_Shipping_Shipping extends Mage_Shipping_Model_Shipping
+class Webshopapps_Wsacommon_Model_Shipping_Shipping extends Webshopapps_Wsacommon_Model_Shipping_Shipping_Amasty_Pure
 {
 
 
@@ -71,6 +71,7 @@ class Webshopapps_Wsacommon_Model_Shipping_Shipping extends Mage_Shipping_Model_
 		if(Mage::app()->getStore()->isAdmin()) {
 			$storeId = $request->getStoreId();
 		}
+
 
 		if (Mage::helper('wsacommon')->isModuleEnabled('Webshopapps_Dropcommon','carriers/dropship/active', $storeId)) {
 			if(Mage::helper('dropcommon')->calculateDropshipRates($storeId)) {//DROP-98
@@ -238,6 +239,8 @@ class Webshopapps_Wsacommon_Model_Shipping_Shipping extends Mage_Shipping_Model_
 				Mage::registry('insurance_shipmodel')->resetResult();
 			}
 		}
+
+		Mage::log('Amasty Collecting Rates', null, 'amasty.log', true);
 
 		parent::collectRates($request);
 
