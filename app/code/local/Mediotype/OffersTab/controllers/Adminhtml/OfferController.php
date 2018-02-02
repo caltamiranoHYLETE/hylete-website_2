@@ -32,7 +32,7 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
 
     public function editAction()
     {
-        $this->_title('Edit Manufacturer Labels');
+        $this->_title('Edit Offers');
         $this->_loadLayout();
         $this->_addContent($this->getLayout()->createBlock('mediotype_offerstab/adminhtml_offerstab_edit')->setData('action', $this->getUrl('*/*/save')));
         $this->renderLayout();
@@ -88,22 +88,6 @@ class Mediotype_OffersTab_Adminhtml_OfferController extends Mage_Adminhtml_Contr
             }
             $this->_redirectReferer();
         }
-    }
-
-    public function exportManufacturerLabelCsvAction()
-    {
-        $fileName = 'mediotype_offers.csv';
-        $grid = $this->getLayout()
-            ->createBlock('mediotype_offerstab/adminhtml_offerstab_grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
-    }
-
-    public function exportManufacturerLabelExcelAction()
-    {
-        $fileName = 'mediotype_offers.xml';
-        $grid = $this->getLayout()
-            ->createBlock('mediotype_offerstab/adminhtml_offerstab_grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 
     /**
