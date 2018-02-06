@@ -7,7 +7,7 @@
                 <mediotype_offerstab translate="title" module="mediotype_offerstab">
                     <sort_order>10</sort_order>
                     <title>Offers Tab</title>
-                    <action>adminhtml/offer/index</action>
+                    <action>adminhtml/offerstab/index</action>
                 </mediotype_offerstab>
             </children>
         </promo>

@@ -72,12 +72,16 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 			'value' => ''
 		));
 
-		$fieldset->addField('status', 'text', array(
+		$fieldset->addField('status', 'select', array(
 			'name' => 'status',
 			'label' => $helper->__('Status'),
 			'value' => '',
 			'class' => 'required-entry',
-			'required' => true
+			'required' => true,
+            'options'    => array(
+                '1' => Mage::helper('catalogrule')->__('Active'),
+                '0' => Mage::helper('catalogrule')->__('Inactive'),
+            ),
 		));
 
         $form->setValues($model->getData());

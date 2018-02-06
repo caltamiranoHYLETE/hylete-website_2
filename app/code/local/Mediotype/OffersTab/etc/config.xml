@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mediotype_OffersTab>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </Mediotype_OffersTab>
     </modules>
 
@@ -129,14 +129,4 @@
             </adminhtml>
         </routers>
     </admin>
-
-    <!--<adminhtml>-->
-        <!--<layout>-->
-            <!--<updates>-->
-                <!--<mediotype_offerstab>-->
-                    <!--<file>mediotype_offerstab.xml</file>-->
-                <!--</mediotype_offerstab>-->
-            <!--</updates>-->
-        <!--</layout>-->
-    <!--</adminhtml>-->
 </config>
