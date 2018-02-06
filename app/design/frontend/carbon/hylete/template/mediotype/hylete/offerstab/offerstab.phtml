@@ -2,11 +2,11 @@
     $jQ = jQuery.noConflict();
 
     $jQ(function () {
-        if (<?php echo $this->_offersTabExpand ?>) {
+        <?php if ($this->_offersTabExpand): ?>
             $jQ('#headingOne').trigger("click");
             $jQ('#greyMask').toggle();
             $jQ('body').toggleClass('body-mask');
-        }
+        <?php endif; ?>
 
         // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
         $jQ('#greyMask').click(function () {
