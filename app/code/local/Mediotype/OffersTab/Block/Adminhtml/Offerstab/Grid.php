@@ -5,7 +5,7 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	/**
 	 * Grid constructor.
@@ -120,7 +120,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid extends Mage_Admi
 			'header' => Mage::helper('mediotype_offerstab')->__('Created At'),
 			'sortable' => true,
 			'width' => '60',
-			'index' => 'created_time',
+			'index' => 'created_at',
 			'type' => 'datetime'
 		));
 
@@ -128,7 +128,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Promo_Offerstab_Grid extends Mage_Admi
 			'header' => Mage::helper('mediotype_offerstab')->__('Updated At'),
 			'sortable' => true,
 			'width' => '60',
-			'index' => 'update_time',
+			'index' => 'updated_at',
 			'type' => 'datetime'
 		));
 
