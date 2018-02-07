@@ -34,7 +34,7 @@
 }
 
 .collapse {
-    display: none;
+    height: 0;
 }
 
 .collapse.in {

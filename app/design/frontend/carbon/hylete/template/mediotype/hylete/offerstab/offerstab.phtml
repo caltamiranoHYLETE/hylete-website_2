@@ -2,6 +2,12 @@
     $jQ = jQuery.noConflict();
 
     $jQ(function () {
+        <?php if ($this->_offersTabExpand): ?>
+            $jQ('#headingOne').trigger("click");
+            $jQ('#greyMask').toggle();
+            $jQ('body').toggleClass('body-mask');
+        <?php endif; ?>
+
         // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
         $jQ('#greyMask').click(function () {
             $jQ('#headingOne').trigger("click");
@@ -33,7 +39,7 @@
                                     class="fa fa-tags"></i> <?php echo $this->_offersTabHelper->getTitle(); ?></h4>
                     </div>
 
-                    <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
                          aria-labelledby="headingOne">
                         <div class="panel-body ">
                             <?php $disclaimerBlock = Mage::getModel('cms/block')->load('offerstab-disclaimer'); if($disclaimerBlock && $disclaimerBlock->getIsActive()): ?>
@@ -62,7 +68,7 @@
                                         </a>
 									<?php endif; ?>
                                     </div>
-								<? endforeach; ?>
+								<?php endforeach; ?>
                             </div>
                             <!-- End Owl Carousel-->
                         </div>

@@ -8,7 +8,7 @@ $installer->startSetup();
 
 $installer->addAttribute(
 	Mage_Catalog_Model_Product::ENTITY,
-	'is-on-flash-sale',
+	'is_on_flash_sale',
 	array(
 		'group' => 'General',
 		'input' => 'select',
