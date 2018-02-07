@@ -39,7 +39,7 @@
                                     class="fa fa-tags"></i> <?php echo $this->_offersTabHelper->getTitle(); ?></h4>
                     </div>
 
-                    <div id="collapseOne" class="panel-collapse collapse notifications-scroll-area" role="tabpanel"
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
                          aria-labelledby="headingOne">
                         <div class="panel-body ">
                             <?php $disclaimerBlock = Mage::getModel('cms/block')->load('offerstab-disclaimer'); if($disclaimerBlock && $disclaimerBlock->getIsActive()): ?>
