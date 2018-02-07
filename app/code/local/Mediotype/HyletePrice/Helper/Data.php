@@ -7,91 +7,104 @@
  */
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
-	/**
-	 * @param $categoryId
-	 * @return mixed|string
-	 */
-	public function isClearanceCategory($categoryId)
-	{
-		$attributeValue = Mage::getModel('catalog/category')->load($categoryId)->getData('is_hylete_price_clearance');
-		if ($attributeValue == null) {
-			$attributeValue = "0";
-		}
-		return $attributeValue;
-	}
+    /**
+     * @param $categoryId
+     * @return mixed|string
+     */
+    public function isClearanceCategory($categoryId)
+    {
+        $attributeValue = Mage::getModel('catalog/category')->load($categoryId)->getData('is_hylete_price_clearance');
+        if ($attributeValue == null) {
+            $attributeValue = "0";
+        }
+        return $attributeValue;
+    }
 
-	/**
-	 * @param $currentCategory
-	 * @return string
-	 */
-	public function getPriceLabelByCustomerGroup($currentCategory)
-	{
-		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-		$group = Mage::getModel('customer/group')->load($groupId);
+    /**
+     * @param $currentCategory
+     * @return string
+     */
+    public function getPriceLabelByCustomerGroup($currentCategory = null)
+    {
+        $groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $group = Mage::getModel('customer/group')->load($groupId);
 
-		$label = $group->getCustomerGroupHyletePriceLabel();
+        $label = $group->getCustomerGroupHyletePriceLabel();
 
-		if ($label == null) {
-			$group = Mage::getModel('customer/group')->load(0);
-			$label = $group->getCustomerGroupHyletePriceLabel();
-		}
+        if ($label == null) {
+            $group = Mage::getModel('customer/group')->load(0);
+            $label = $group->getCustomerGroupHyletePriceLabel();
+        }
 
-		if ($this->isClearanceCategory($currentCategory)) {
-			$label = "Clearance";
-		}
+        if ($currentCategory && $this->isClearanceCategory($currentCategory)) {
+            $label = "clearance";  // MYLES: No reason not to make this configurable as well
+        }
 
-		$postamble = " Price";
+        $postamble = " price";
 
-		return $label . $postamble;
-	}
+        return $label . $postamble;
+    }
 
-	/**
-	 * @param $currentCategory
-	 * @return string
-	 */
-	public function getPriceLabelByCustomerGroupAndProduct($currentCategory, $currentProduct)
-	{
-		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-		$group = Mage::getModel('customer/group')->load($groupId);
+    /**
+     * @param $currentCategory
+     * @return string
+     */
+    public function getPriceLabelByCustomerGroupAndProduct($currentCategory, $currentProduct)
+    {
+        $groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $group = Mage::getModel('customer/group')->load($groupId);
 
-		$label = $group->getCustomerGroupHyletePriceLabel();
+        $label = $group->getCustomerGroupHyletePriceLabel();
 
-		if ($label == null) {
-			$group = Mage::getModel('customer/group')->load(0);
-			$label = $group->getCustomerGroupHyletePriceLabel();
-		}
+        if ($label == null) {
+            $group = Mage::getModel('customer/group')->load(0);
+            $label = $group->getCustomerGroupHyletePriceLabel();
+        }
 
-		if ($this->isClearanceCategory($currentCategory)) {
-			$label = "Clearance";
-		}
+        if ($this->isClearanceCategory($currentCategory)) {
+            $label = "clearance"; // MYLES: No reason not to make this configurable as well
+        }
 
-		$label .= " Price";
+        $label .= " price"; // MYLES: This is where the read to a configurable value in adminhtml needs to go
 
-		// MYLES: If customer is 'investor' and investor price is $30 and special price is $31, then
-		// $30 is shown, with the 'FLASH SALE' text. Need to account for this.
-		if($currentProduct->getIsOnFlashSale()) {
-			$label = "<span style=\"color:#34BAF3\">FLASH SALE</span>";
-		}
+        // MYLES: Determine what to do on collisions with group label
+        if($currentProduct->getIsOnFlashSale()) {
+            $label = "<span style=\"color:#34BAF3\">FLASH SALE</span>";
+        }
 
-		return $label;
-	}
+        return $label;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getPriceDifferenceCmsBlockByCustomerGroup()
-	{
-		$groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+    /**
+     * @param Mage_Catalog_Model_Product $currentProduct
+     * @param bool $isCategoryDetailsPage
+     * @return string
+     */
+    public function hasProductMSRP($currentProduct, $isProductDetailsPage = false)
+    {
+        if (!$currentProduct || !$currentProduct->getMsrp()) {
+            return '';
+        }
 
-		/** @var Mage_Customer_Model_Group $group */
-		$group = Mage::getModel('customer/group')->load($groupId);
+        return 'hylete-price-label-' . ($isProductDetailsPage ? 'lg' : 'sm');
+    }
 
-		$groupCmsBlock = $group->getHyletePriceCmsBlockIdentifier();
+    /**
+     * @return mixed
+     */
+    public function getPriceDifferenceCmsBlockByCustomerGroup()
+    {
+        $groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
-		if ($groupCmsBlock == null) {
-			$groupCmsBlock = "hylete_price_difference_verbiage_default";
-		}
+        /** @var Mage_Customer_Model_Group $group */
+        $group = Mage::getModel('customer/group')->load($groupId);
 
-		return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
-	}
+        $groupCmsBlock = $group->getHyletePriceCmsBlockIdentifier();
+
+        if ($groupCmsBlock == null) {
+            $groupCmsBlock = "hylete_price_difference_verbiage_default";
+        }
+
+        return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
+    }
 }
