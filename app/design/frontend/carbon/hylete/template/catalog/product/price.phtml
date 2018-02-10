@@ -35,7 +35,11 @@
 <?php
 /** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
-$currentCategoryId = Mage::registry('current_category')->getId();
+
+/**
+ * Temporary work around to prevent the page from half loading on upsells where there is no current category
+ */
+$currentCategoryId = (Mage::registry('current_category') ? Mage::registry('current_category')->getId() : $this->getProduct()->getCategoryIds()[0]);
 
 $_coreHelper = $this->helper('core');
 $_weeeHelper = $this->helper('weee');
