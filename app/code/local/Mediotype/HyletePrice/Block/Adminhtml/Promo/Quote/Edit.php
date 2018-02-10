@@ -255,7 +255,7 @@ class Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit extends Amasty_Rule
                     $('rule_price_selector').up().up().hide();
                 }
                 
-                if ($('rule_simple_action').value=='by_percent' || $('rule_simple_action').value=='by_fixed')
+                if ($('rule_simple_action').value=='by_percent' || $('rule_simple_action').value=='by_fixed' || $('rule_simple_action').value=='cart_fixed')
                 {
                  	// MYLES: This is the line that hides the additional 'price targets' for default magento promos!
                     $('rule_price_selector').up().up().show();
