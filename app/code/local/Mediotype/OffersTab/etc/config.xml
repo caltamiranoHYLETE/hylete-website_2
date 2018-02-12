@@ -21,6 +21,12 @@
                     </offer>
                 </entities>
             </mediotype_offerstab_resource>
+
+            <cminds_coupon>
+                <rewrite>
+                    <observer>Mediotype_OffersTab_Model_RewriteCmindObserver</observer>
+                </rewrite>
+            </cminds_coupon>
         </models>
 
         <blocks>
@@ -105,6 +111,15 @@
                     </mediotype_offerstab>
                 </observers>
             </controller_action_predispatch_checkout_cart_couponPost>
+
+            <mediotype_coupon_removal_check>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cmindRevertPricesIfNecessary</method>
+                    </mediotype_offerstab>
+                </observers>
+            </mediotype_coupon_removal_check>
         </events>
 
         <routers>
