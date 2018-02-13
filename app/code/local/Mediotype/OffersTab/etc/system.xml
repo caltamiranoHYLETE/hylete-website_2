@@ -27,12 +27,21 @@
                         <black_list translate="label">
                             <label>Black List</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment>A comma delimited list of URLs (IE: /us/checkout/cart/)</comment>
                         </black_list>
+                        <auto_open_offers>
+                            <label>Auto Open Offers</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>A parameter to pass in the URL to open the OffersTab. Leave blank to disable.</comment>
+                        </auto_open_offers>
                     </fields>
                 </general>
             </groups>

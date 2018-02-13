@@ -2,10 +2,14 @@
     $jQ = jQuery.noConflict();
 
     $jQ(function () {
-        <?php if ($this->_offersTabExpand): ?>
+        var offersTabBodyHeight = $jQ(window).height() - 3;
+        <?php if ($this->hasExpandOffer()): ?>
             $jQ('#headingOne').trigger("click");
             $jQ('#greyMask').toggle();
             $jQ('body').toggleClass('body-mask');
+
+            $jQ('body').css({'max-height': offersTabBodyHeight});
+            $jQ('body').css({'overflow': 'hidden'});
         <?php endif; ?>
 
         // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
@@ -17,6 +21,14 @@
         $jQ('#headingOne').click(function () {
             $jQ('#greyMask').toggle();
             $jQ('body').toggleClass('body-mask');
+
+            if ($jQ('body').hasClass('body-mask')) {
+                $jQ('body').css({'max-height': offersTabBodyHeight});
+                $jQ('body').css({'overflow': 'hidden'});
+            } else {
+                $jQ('body').css({'max-height': ''});
+                $jQ('body').css({'overflow': ''});
+            }
         });
     })
 </script>
