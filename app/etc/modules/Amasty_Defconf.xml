@@ -3,15 +3,15 @@
 /**
  * @author Amasty Team
  * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
- * @package Amasty_Base
+ * @package Amasty_Defconf
  */
 -->
 <config>
     <modules>
-        <Amasty_Base>
+        <Amasty_Defconf>
             <active>true</active>
             <codePool>local</codePool>
             <edition>community</edition>
-        </Amasty_Base>
+        </Amasty_Defconf>
     </modules>
 </config>

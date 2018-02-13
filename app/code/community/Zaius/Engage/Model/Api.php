@@ -187,16 +187,19 @@ class Zaius_Engage_Model_Api extends Mage_Api_Model_Resource_Abstract {
         'ua'                 => '',
         'order'              => $helper->buildOrder($mageOrder)
       );
-      $store = $mageOrder->getStore();
-      if ($store) {
-        if ($store->getWebsite()) {
-          $event['magento_website'] = $store->getWebsite()->getName();
-        }
-        if ($store->getGroup()) {
-          $event['magento_store'] = $store->getGroup()->getName();
-        }
-        $event['magento_store_view'] = $store->getName();
-      }
+
+      try {
+       $store = $mageOrder->getStore();
+       if ($store) {
+         if ($store->getWebsite()) {
+           $event['magento_website'] = $store->getWebsite()->getName();
+         }
+         if ($store->getGroup()) {
+           $event['magento_store'] = $store->getGroup()->getName();
+         }
+         $event['magento_store_view'] = $store->getName();
+       }
+      } catch (Mage_Core_Model_Store_Exception $e) { }
       $customerId = $mageOrder->getCustomerId();
       $customerIdToUse = $helper->getCustomerID($customerId);
       if (!empty($customerIdToUse)) {
