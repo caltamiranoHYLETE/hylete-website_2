@@ -10,35 +10,41 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
     /** @var Mediotype_OffersTab_Helper_Data $_offersTabHelper */
     protected $_offersTabHelper;
 
-    protected $_offers; // Will hold array of offers to show user
-
-    protected $_offersTabExpand = false;
+    /** @var array */
+    protected $_offers;
 
     /**
      * Mediotype_OffersTab_Block_Adminhtml_Offerstab constructor.
      */
     public function __construct()
     {
-        $offersTabExpand = $this->getRequest()->getParam('offers-tab-expand');
-
-        if ($offersTabExpand) {
-            $this->_offersTabExpand = true;
-        }
-
         $this->_offersTabHelper = Mage::helper("mediotype_offerstab");
-
-        // Populate $this->_offers appropriately
         $this->_offers = $this->_offersTabHelper->getFilteredOffers();
 
         parent::__construct();
     }
 
     /**
+     * Determine what pages to display the offerstab block on based on a comma delimited system configuration
+     *
      * @return bool
      */
     public function shouldShowOnPage()
     {
         $url = $this->getRequest()->getRequestUri();
         return $this->_offersTabHelper->shouldShowForUrl($url);
+    }
+
+    /**
+     * Has URL param to expand offers tab on page load
+     *
+     * @return bool
+     */
+    public function hasExpandOffer()
+    {
+        $offersAutoOpen = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers');
+        $offersTabExpand = $this->getRequest()->getParam($offersAutoOpen);
+
+        return ($offersTabExpand ? true : false);
     }
 }
