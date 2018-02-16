@@ -15,6 +15,7 @@
  */
 class Klaviyo_Reclaim_Model_Observer
 {
+    const QUOTE_ORDER_TIME_ADJUSTMENT_SECONDS = 5;
     /**
      * Cache for booleans for whether the Klaviyo is enabled for each store.
      *
@@ -189,13 +190,26 @@ class Klaviyo_Reclaim_Model_Observer
             }
         }
 
-        $timestamp = strtotime($quote->getUpdatedAt());
+        $quote_last_updated = strtotime($quote->getUpdatedAt());
+        // So we don't die sending checkout completed if there really is no order
+        $order_created_at = $quote_last_updated;
 
-        $tracker->track('Checkout Started', $customer_properties, $properties, $timestamp);
+        $order = Mage::getModel('sales/order')->load($quote->getEntityId(), 'quote_id');
+        // is_active isn't reliable enough to nest this in
+        if ($order->getId()) {
+            $order_created_at = strtotime($order->getCreatedAt());
+
+            // This can happen because of one page checkouts and other checkout extensions
+            if ($quote_last_updated >= $order_created_at) {
+              $quote_last_updated = $order_created_at - self::QUOTE_ORDER_TIME_ADJUSTMENT_SECONDS;
+            }
+        }
 
         if (!$quote->getIsActive()) {
-            $tracker->track('Checkout Completed', $customer_properties, $properties, $timestamp);
+            $tracker->track('Checkout Completed', $customer_properties, $properties, $order_created_at);
         }
+
+        $tracker->track('Checkout Started', $customer_properties, $properties, $quote_last_updated);
 
         return true;
     }

@@ -146,6 +146,25 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
     return Mage::getStoreConfig('reclaim/general/' . $setting_key, $store);
   }
 
+  public function getStoreInfo()
+  {
+    $stores = Mage::app()->getStores();
+
+    $store_info = array();
+    foreach ($stores as $store)
+    {
+        $store_id = $store->getId();
+
+        array_push($store_info, array(
+          'store_id' => $store_id,
+          'store_name' => $store->getName(),
+          'website_id' => $store->getWebsiteId(),
+          'base_url' => Mage::getUrl('', array('_store' => $store_id, '_nosid' => True)),
+        ));
+    }
+    return $store_info;
+  }
+
 
   /**
    * Checks whether the Klaviyo extension is enabled

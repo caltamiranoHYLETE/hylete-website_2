@@ -1,12 +1,14 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Base
- */  
+ */
+
+
 class Amasty_Base_Helper_Promo extends Mage_Core_Helper_Abstract
 {
-    function getNotificationsCollection()
+    public function getNotificationsCollection()
     {
         $collection = null;
         $inbox = Mage::getModel("adminnotification/inbox");
@@ -23,11 +25,10 @@ class Amasty_Base_Helper_Promo extends Mage_Core_Helper_Abstract
 
         }
 
-            
         return $collection;
     }
-    
-    function isSubscribed()
+
+    public function isSubscribed()
     {
         return Mage::getStoreConfig('ambase/feed/promo') == 1;
     }
