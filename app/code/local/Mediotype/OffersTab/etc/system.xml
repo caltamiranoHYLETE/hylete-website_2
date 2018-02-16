@@ -27,12 +27,39 @@
                         <black_list translate="label">
                             <label>Black List</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment>A comma delimited list of URLs (IE: /us/checkout/cart/)</comment>
                         </black_list>
+                        <offers_tab_title>
+                            <label>OffersTab Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>The text to display in the tab in the store front</comment>
+                        </offers_tab_title>
+                        <auto_open_offers_key>
+                            <label>Auto Open Offers Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>This would be the key "target" in the following example: ?target=offers_tab</comment>
+                        </auto_open_offers_key>
+                        <auto_open_offers_value>
+                            <label>Auto Open Offers Value</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>This would be the value "offers_tab" in the following example: ?target=offers_tab</comment>
+                        </auto_open_offers_value>
                     </fields>
                 </general>
             </groups>
