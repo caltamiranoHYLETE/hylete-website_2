@@ -42,9 +42,10 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
      */
     public function hasExpandOffer()
     {
-        $offersAutoOpen = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers');
-        $offersTabExpand = $this->getRequest()->getParam($offersAutoOpen);
+        $offersAutoOpenKey = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_key');
+        $offersAutoOpenValue = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_value');
+        $offersTabExpand = $this->getRequest()->getParam($offersAutoOpenKey);
 
-        return ($offersTabExpand ? true : false);
+        return ($offersTabExpand && $offersTabExpand == $offersAutoOpenValue ? true : false);
     }
 }
