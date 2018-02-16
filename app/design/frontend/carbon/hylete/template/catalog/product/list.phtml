@@ -43,6 +43,7 @@ $_backitHelper = Mage::helper('hylete/backit');
 /** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 $currentCategoryId = Mage::registry('current_category')->getId();
+$_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
 ?>
 
 <?php echo Mage::helper('prevnextlocal/category')->getScript($_productCollection); ?>
@@ -163,7 +164,9 @@ $currentCategoryId = Mage::registry('current_category')->getId();
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+                            <?php if ($_customerGroup == Mediotype_HyletePrice_Helper_Data::NOT_LOGGED_IN || $_customerGroup == Mediotype_HyletePrice_Helper_Data::EVERYDAY_ATHLETE): ?>
+                                <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+                            <?php endif; ?>
                         </a>
                     </li>
                 <?php endif; ?>

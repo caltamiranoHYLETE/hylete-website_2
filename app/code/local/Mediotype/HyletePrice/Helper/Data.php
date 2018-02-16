@@ -7,6 +7,9 @@
  */
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const NOT_LOGGED_IN = 0;
+    const EVERYDAY_ATHLETE = 1;
+
     /**
      * @param $categoryId
      * @return mixed|string
