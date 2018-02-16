@@ -7,12 +7,26 @@
 
 class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    protected function _getStaticBlockOptions()
+    {
+        return Mage::getModel('mediotype_offerstab/attribute_source_staticBlock');
+    }
+
 	/**
 	 * @return Mage_Adminhtml_Block_Widget_Form
 	 */
 	protected function _prepareForm()
 	{
         $id = $this->getRequest()->getParam('id');
+        $staticBlockOptions = $this->_getStaticBlockOptions()->getAllOptions();
+        $staticBlockOptionsSelect = array();
+
+        foreach ($staticBlockOptions as $option) {
+            foreach ($option as $value => $label) {
+                $staticBlockOptionsSelect[$option['value']] = $option['label'];
+            }
+        }
+
         $model = Mage::getModel('mediotype_offerstab/offer')->load($id);
         $form = new Varien_Data_Form([
             'id' => 'edit_form',
@@ -34,12 +48,13 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 			'required' => true
 		));
 
-		$fieldset->addField('static_block_id', 'text', array(
+		$fieldset->addField('static_block_id', 'select', array(
 			'name' => 'static_block_id',
 			'label' => $helper->__('Static Block Id'),
 			'value' => '',
 			'class' => 'required-entry',
-			'required' => true
+			'required' => true,
+            'options' => $staticBlockOptionsSelect
 		));
 
 		$fieldset->addField('customer_group_ids', 'text', array(
@@ -78,7 +93,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 			'value' => '',
 			'class' => 'required-entry',
 			'required' => true,
-            'options'    => array(
+            'options' => array(
                 '1' => Mage::helper('catalogrule')->__('Active'),
                 '0' => Mage::helper('catalogrule')->__('Inactive'),
             ),
