@@ -1,40 +1,71 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Base
- */  
+ */
+
+
 class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function isVersionLessThan($major=1, $minor=4)
+    /**
+     * @param string $moduleName the full module name, example Mage_Core
+     * @return boolean
+     */
+    public function isModuleEnabled($moduleName = null)
+    {
+        if (!Mage::getConfig()->getNode('modules/' . $moduleName)) {
+            return false;
+        }
+
+        $isActive = Mage::getConfig()->getNode('modules/' . $moduleName . '/active');
+        if (!$isActive || !in_array((string)$isActive, array('true', '1'))) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isEnterpriseEdition()
+    {
+        return Mage::getConfig()->getNode('modules/Enterprise_Enterprise');
+    }
+
+    public function isVersionLessThan($major = 1, $minor = 4)
     {
         $curr = explode('.', Mage::getVersion()); // 1.3. compatibility
         $need = func_get_args();
-        foreach ($need as $k => $v){
-            if ($curr[$k] != $v)
+        foreach ($need as $k => $v) {
+            if ($curr[$k] != $v) {
                 return ($curr[$k] < $v);
+            }
         }
         return false;
-    } 
-    
+    }
+
+    /**
+     * @deprecated
+     * @param $code
+     * @return bool
+     */
     public function isModuleActive($code)
     {
-        return ('true' == (string)Mage::getConfig()->getNode('modules/'.$code.'/active'));
-    } 
-    
-    function getRewritesList(){
+        return ('true' == (string)Mage::getConfig()->getNode('modules/' . $code . '/active'));
+    }
+
+    public function getRewritesList()
+    {
         $moduleFiles = glob(Mage::getBaseDir('etc') . DS . 'modules' . DS . '*.xml');
 
         if (!$moduleFiles) {
             return false;
         }
-        
+
         // load file contents
         $unsortedConfig = new Varien_Simplexml_Config();
         $unsortedConfig->loadString('<config/>');
         $fileConfig = new Varien_Simplexml_Config();
 
-        foreach($moduleFiles as $filePath) {
+        foreach ($moduleFiles as $filePath) {
             $fileConfig->loadFile($filePath);
             $unsortedConfig->extend($fileConfig);
         }
@@ -44,7 +75,7 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
         $sortedConfig->loadString('<config><modules/></config>');
 
         foreach ($unsortedConfig->getNode('modules')->children() as $moduleName => $moduleNode) {
-            if('true' === (string)$moduleNode->active) {
+            if ('true' === (string)$moduleNode->active) {
                 $sortedConfig->getNode('modules')->appendChild($moduleNode);
             }
         }
@@ -53,7 +84,7 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
 
         $_finalResult = array();
 
-        foreach($sortedConfig->getNode('modules')->children() as $moduleName => $moduleNode) {
+        foreach ($sortedConfig->getNode('modules')->children() as $moduleName => $moduleNode) {
             $codePool = (string)$moduleNode->codePool;
             $configPath = BP . DS . 'app' . DS . 'code' . DS . $codePool . DS . uc_words($moduleName, DS) . DS . 'etc' . DS . 'config.xml';
 
@@ -61,34 +92,35 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
 
             $rewriteBlocks = array('blocks', 'models', 'helpers');
 
-            foreach($rewriteBlocks as $param) {
-                if(!isset($_finalResult[$param])) {
+            foreach ($rewriteBlocks as $param) {
+                if (!isset($_finalResult[$param])) {
                     $_finalResult[$param] = array();
                 }
 
-                if($rewrites = $fileConfig->getXpath('global/' . $param . '/*/rewrite')) {
+                if ($rewrites = $fileConfig->getXpath('global/' . $param . '/*/rewrite')) {
                     foreach ($rewrites as $rewrite) {
                         $parentElement = $rewrite->xpath('../..');
-                        foreach($parentElement[0] as $moduleKey => $moduleItems) {
+                        foreach ($parentElement[0] as $moduleKey => $moduleItems) {
                             $moduleItemsArray['rewrite'] = array();
                             $moduleItemsArray['codePool'] = array();
-                            foreach ($moduleItems->rewrite as $rewriteLine)
-                            {
-                                foreach ($rewriteLine as $key => $value)
-                                {
+                            foreach ($moduleItems->rewrite as $rewriteLine) {
+                                foreach ($rewriteLine as $key => $value) {
                                     $moduleItemsArray['rewrite'][$key] = (string)$value;
                                     $moduleItemsArray['codePool'][$key] = $codePool;
                                 }
                             }
-                            if($moduleItems->rewrite) {
-                                $_finalResult[$param] = array_merge_recursive($_finalResult[$param], array($moduleKey => $moduleItemsArray));
+                            if ($moduleItems->rewrite) {
+                                $_finalResult[$param] = array_merge_recursive(
+                                    $_finalResult[$param],
+                                    array($moduleKey => $moduleItemsArray)
+                                );
                             }
                         }
                     }
                 }
             }
         }
-        
+
         return $_finalResult;
     }
 
@@ -97,16 +129,16 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    function getPossibleConflictsList()
+    public function getPossibleConflictsList()
     {
         $_finalResult = $this->getRewritesList();
-        
-        foreach(array_keys($_finalResult) as $groupType) {
 
-            foreach(array_keys($_finalResult[$groupType]) as $key) {
+        foreach (array_keys($_finalResult) as $groupType) {
+
+            foreach (array_keys($_finalResult[$groupType]) as $key) {
                 // remove some repeating elements after merging all parents 
-                foreach($_finalResult[$groupType][$key]['rewrite'] as $key1 => $value) {
-                    if(is_array($value)) {
+                foreach ($_finalResult[$groupType][$key]['rewrite'] as $key1 => $value) {
+                    if (is_array($value)) {
                         $_finalResult[$groupType][$key]['rewrite'][$key1] = array_unique($value);
                     }
 
@@ -119,40 +151,47 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
                         unset($_finalResult[$groupType][$key]['rewrite'][$key1]);
                         unset($_finalResult[$groupType][$key]['codePool'][$key1]);
                     }
-                } 
-                
+                }
+
                 // clear empty elements
-                if(count($_finalResult[$groupType][$key]['rewrite']) < 1) {
+                if (count($_finalResult[$groupType][$key]['rewrite']) < 1) {
                     unset($_finalResult[$groupType][$key]);
                 }
-                
-                
+
+
             }
-            
+
             // clear empty elements
-            if(count($_finalResult[$groupType]) < 1) {
+            if (count($_finalResult[$groupType]) < 1) {
                 unset($_finalResult[$groupType]);
             }
 
         }
-        
+
         return $_finalResult;
     }
-    
-    public function ajaxHtml(){        
-        return Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_general')->toHtml() . 
-                Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_conflict')->toHtml() .
-                Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_rewrite')->toHtml() .
-                Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_event')->toHtml();
+
+    public function ajaxHtml()
+    {
+        return Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_general')->toHtml() .
+            Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_conflict')->toHtml() .
+            Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_rewrite')->toHtml() .
+            Mage::app()->getLayout()->createBlock('ambase/adminhtml_debug_event')->toHtml();
     }
 
-    public function getParentClasses($class){
+    public function getParentClasses($class)
+    {
         $parents = @class_parents($class);
-        if ($parents === false) {
-            $result = array('<span style="color:red">error occurred</span>');
-        } else {
+        $result = null;
+
+        if ($parents !== false) {
             $result = array_values($parents);
+        } 
+
+        if (!$result || count($result) == 0) {
+            $result = array('<span style="color:red">error occurred</span>');
         }
+        
         return $result;
     }
 
@@ -175,6 +214,7 @@ class Amasty_Base_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param $filename
+     *
      * @return mixed
      */
     public static function sanitizeFileName($filename)
