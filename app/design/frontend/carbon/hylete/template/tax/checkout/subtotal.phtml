@@ -55,6 +55,7 @@ foreach ($cart->getAllItems() as $item) {
 ?>
 
 <?php //if ($this->helper('customer')->isLoggedIn()): ?>
+<?php if ($this->getTotal()->getAddress()->getBaseDiscountAmount() > 0): ?>
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
             colspan="<?php echo $this->getColspan(); ?>">
@@ -64,7 +65,7 @@ foreach ($cart->getAllItems() as $item) {
             <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getAddress()->getSubtotalWithDiscount()) ?>
         </td>
     </tr>
-
+<?php endif; ?>
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
             colspan="<?php echo $this->getColspan(); ?>">
@@ -80,7 +81,8 @@ foreach ($cart->getAllItems() as $item) {
 			<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_customerGroupId); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
-			<?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+            <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteSalesRulesForMsrpCalculation($this->getQuote())) ?>
+			<?php //echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
         </td>
     </tr>
 <?php //endif; ?>
