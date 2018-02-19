@@ -27,4 +27,16 @@ class Mediotype_HyletePrice_Model_Observer extends Amasty_Rules_Model_Observer
 
 		return $this;
 	}
+
+	public function calculateProductFinalPriceWithMsrp(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getProduct();
+        $msrp = $product->getMsrp();
+
+        if (is_null($msrp) || !$msrp) {
+            return false;
+        }
+
+        $product->setFinalPrice($msrp);
+    }
 }
