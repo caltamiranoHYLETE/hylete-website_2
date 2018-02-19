@@ -11,6 +11,8 @@
                 <Mage_Sales/>
                 <Mage_Customer/>
                 <Mage_Tax/>
+                <!-- HYL-40 - Temporary dependency due to Mage_Sales_Model_Quote rewrite conflict -->
+                <Amasty_Coupons/>
             </depends>
         </TBT_Rewards>
     </modules>
