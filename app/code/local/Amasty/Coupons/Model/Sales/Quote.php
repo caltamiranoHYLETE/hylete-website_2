@@ -375,37 +375,39 @@ class Amasty_Coupons_Model_Sales_Quote extends Mage_Sales_Model_Quote
     protected function _validateCouponCode()
     {
         $codes = $this->_getAppliedCoupons();
-        $validCodes = array();
-        $validatorModel = Mage::getModel('salesrule/validator');
-        $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        $websiteId = Mage::getModel('core/store')->load($quote->getStoreId())->getWebsiteId();
-        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $availableRules = Mage::getResourceModel('salesrule/rule_collection')
-            ->setValidationFilter($websiteId, $customerGroupId, $codes)
-            ->load();
-        $availableRulesIds = array();
-        foreach ($availableRules as $rule) {
-            $availableRulesIds[] = $rule->getId();
-        }
+//        $validCodes = array();
+//        $validatorModel = Mage::getModel('salesrule/validator');
+//        $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+//        $websiteId = Mage::getModel('core/store')->load($quote->getStoreId())->getWebsiteId();
+//        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+//        $availableRules = Mage::getResourceModel('salesrule/rule_collection')
+//            ->setValidationFilter($websiteId, $customerGroupId, $codes)
+//            ->load();
+//        $availableRulesIds = array();
+//        foreach ($availableRules as $rule) {
+//            $availableRulesIds[] = $rule->getId();
+//        }
 
-        foreach ($codes as $code) {
-            $isValid = false;
-            $coupon = Mage::getModel('salesrule/coupon')->load($code, 'code');
-            $rule = Mage::getModel('salesrule/rule')->load($coupon->getRuleId());
-            if (in_array($rule->getId(), $availableRulesIds)) {
-                $addresses = $this->getAllAddresses();
-                foreach ($addresses as $address) {
-                    $isValid = $validatorModel->canProcessRule($rule, $address);
-                }
-            }
-
-            if ($isValid) {
-                $validCodes[] = $code;
-            }
-        }
-        $validCodesString = implode(', ', $validCodes);
-        $this->setData('coupon_code', '');
-        $this->setData('coupon_code', $validCodesString);
+//        foreach ($codes as $code) {
+//            $isValid = false;
+//            $coupon = Mage::getModel('salesrule/coupon')->load($code, 'code');
+//            $rule = Mage::getModel('salesrule/rule')->load($coupon->getRuleId());
+//            if (in_array($rule->getId(), $availableRulesIds)) {
+//                $addresses = $this->getAllAddresses();
+//                if (count($addresses)>0) {
+//                    foreach ($addresses as $address) {
+//                        $isValid = $validatorModel->canProcessRule($rule, $address);
+//                    }
+//                }
+//            }
+//
+//            if ($isValid) {
+//                $validCodes[] = $code;
+//            }
+//        }
+//        $validCodesString = implode(', ', $validCodes);
+//        $this->setData('coupon_code', '');
+//        $this->setData('coupon_code', $validCodesString);
 
         if ($codes) {
             $addressHasCoupon = false;

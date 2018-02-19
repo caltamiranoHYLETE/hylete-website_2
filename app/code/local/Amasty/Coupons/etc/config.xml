@@ -98,11 +98,12 @@
                 <class>Amasty_Coupons_Model</class>
                 <resourceModel>amcoupons_mysql4</resourceModel>
             </amcoupons>
-            <sales>
-                <rewrite>
-                    <quote>Amasty_Coupons_Model_Sales_Quote</quote>
-                </rewrite>
-            </sales>
+            <!-- HYL-40 - Temporary fix, disabling the duplicate rewrite and having TBT extend their class -->
+            <!--<sales>-->
+                <!--<rewrite>-->
+                    <!--<quote>Amasty_Coupons_Model_Sales_Quote</quote>-->
+                <!--</rewrite>-->
+            <!--</sales>-->
             <salesrule>
                 <rewrite>
                     <validator>Amasty_Coupons_Model_SalesRule_Validator</validator>
