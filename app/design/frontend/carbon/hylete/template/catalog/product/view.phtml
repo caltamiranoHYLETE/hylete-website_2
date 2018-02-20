@@ -40,7 +40,9 @@ $_retailValue = $_product->getRetailValue();
 $_msrpPrice = $_product->getMsrp();
 $_isOnFlashSale = $_product->getIsOnFlashSale();
 
+/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
+$_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
 ?>
 
 
@@ -103,7 +105,9 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
 				<?php endif; ?>
 			<?php endif; ?>
 
-            <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+            <?php if ($_customerGroup == Mediotype_HyletePrice_Helper_Data::NOT_LOGGED_IN || $_customerGroup == Mediotype_HyletePrice_Helper_Data::EVERYDAY_ATHLETE): ?>
+                <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+            <?php endif; ?>
 
 			<?php if ($_backitHelper->isPreOrderProduct()): ?>
                 <div class="pre-order">
