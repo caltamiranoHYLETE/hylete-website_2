@@ -68,6 +68,15 @@
                     </catalog_product_collection_load_before_custom_handler>
                 </observers>
             </catalog_product_collection_load_before>
+            <catalog_product_get_final_price>
+                <observers>
+                    <calculate_product_final_price_with_msrp>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>calculateProductFinalPriceWithMsrp</method>
+                    </calculate_product_final_price_with_msrp>
+                </observers>
+            </catalog_product_get_final_price>
         </events>
     </frontend>
 
