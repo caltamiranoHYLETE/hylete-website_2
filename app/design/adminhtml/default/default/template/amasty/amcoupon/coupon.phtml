@@ -1,0 +1,33 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Coupons
+ */
+?>
+<div class="entry-edit box-left">
+    <div class="entry-edit-head">
+        <h4 class="icon-head"><?php echo Mage::helper('sales')->__('Apply Coupon Code') ?></h4>
+    </div>
+    <fieldset class="np">
+        <div class="content">
+            <p><input type="text" class="input-text" id="coupons:code" value="" name="coupon_code" style="width:200px" />&nbsp;<?php echo $this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))') ?></p>
+            <?php if($this->getCouponCode()): ?>
+                <?php foreach($this->getCouponCodes() as $couponCode) : ?>
+                    <p><strong><?php echo $this->escapeHtml($couponCode) ?>
+                        </strong> [
+                        <a href="#" onclick="order.applyCoupon('');
+                            order.applyCoupon('<?php echo $this->getCouponCodes($couponCode, true) ?>');
+                            return false;" title="<?php echo Mage::helper('sales')->__('Remove Coupon Code') ?>">
+                            <?php echo Mage::helper('sales')->__('Remove') ?>
+                        </a>]
+                    </p>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <script type="text/javascript">
+                order.overlay('shipping-method-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
+                order.overlay('address-shipping-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
+            </script>
+        </div>
+    </fieldset>
+</div>

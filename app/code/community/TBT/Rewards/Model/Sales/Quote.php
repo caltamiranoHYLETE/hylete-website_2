@@ -42,7 +42,12 @@
  * @package    TBT_Rewards
  * * @author     Sweet Tooth Inc. <support@sweettoothrewards.com>
  */
-class TBT_Rewards_Model_Sales_Quote extends Mage_Sales_Model_Quote {
+
+/**
+ * HYL-40 - Temporary fix, extending the Amasty Multiple Coupon model
+ */
+class TBT_Rewards_Model_Sales_Quote extends Amasty_Coupons_Model_Sales_Quote {
+
     /**
      * Loads in a quote and returns a points quote
      * This is just for developers using eclipse (for code assist)
