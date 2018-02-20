@@ -384,7 +384,7 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
                                 <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?>
                             <?php else: ?>
                                 <?php // Subtotal price ?>
-                                <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteItemSalesRulesForMsrpCalculation($_item)) ?>
+                                <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteItemSalesRulesForMsrpCalculation($_item, true)) ?>
                                 <?php //$rowTotal = (!is_null($_item->getCustomPrice()) ? ($_item->getCustomPrice() * $_item->getQty()) - $_item->getDiscountAmount() : $_item->getRowTotal()) ?>
                                 <?php //echo $this->helper('checkout')->formatPrice($rowTotal) ?>
 
