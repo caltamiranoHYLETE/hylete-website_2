@@ -117,14 +117,34 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
      * If the sales rules are targeting MSRP discount we want to return the original product price
      *
      * @param Mage_Sales_Model_Quote_Item $item
+     * @param bool $isSubtotal
      * @return string
      */
-    public function quoteItemSalesRulesForMsrpCalculation(Mage_Sales_Model_Quote_Item $item)
+    public function quoteItemSalesRulesForMsrpCalculation(Mage_Sales_Model_Quote_Item $item, $isSubtotal = false)
+    {
+        $itemPrice = (string) $item->getPrice();
+        $quote = $item->getQuote();
+        $hasMsrpTargetRule = $this->quoteHasMsrpTargetRule($quote);
+
+        if ($hasMsrpTargetRule && !$isSubtotal) {
+            $itemPrice = (string) $item->getProduct()->getPrice();
+        } elseif ($isSubtotal) {
+            $itemPrice = (string) $item->getProduct()->getMsrp();
+        }
+
+        return $itemPrice;
+    }
+
+    /**
+     * Check if the current quote has an MSRP target rule applied to it
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return bool
+     */
+    public function quoteHasMsrpTargetRule(Mage_Sales_Model_Quote $quote)
     {
         $hasMsrpTargetRule = false;
-        $couponCode = $item->getQuote()->getShippingAddress()->getCouponCode();
-        $originalPrice = $item->getProduct()->getPrice();
-        $price = $item->getPrice();
+        $couponCode = $quote->getCouponCode();
         $websiteId = Mage::app()->getWebsite()->getId();
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $rules = [];
@@ -142,37 +162,34 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
 
-        return ($hasMsrpTargetRule ? $originalPrice : $price);
+        return $hasMsrpTargetRule;
     }
 
+    /**
+     * Check if the quote specifically has an MSRP target rule applied to it and calculate the original subtotal
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return float|int
+     */
     public function quoteSalesRulesForMsrpCalculation(Mage_Sales_Model_Quote $quote)
     {
-        $hasMsrpTargetRule = 0;
-        $couponCode = $quote->getCouponCode();
-        $items = $quote->getAllVisibleItems();
+        $quoteSubTotal = $quote->getSubtotal();
+        $hasMsrpTargetRule = $this->quoteHasMsrpTargetRule($quote);
 
-        $originalPrice = $this->_calculateOriginalQuoteTotal($items);
-        $price = $quote->getSubtotal();
-        $websiteId = Mage::app()->getWebsite()->getId();
-        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $rules = [];
-
-        $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
-        $rules[$key] = Mage::getResourceModel('salesrule/rule_collection')
-            ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
-            ->load();
-
-        foreach ($rules[$key] as $rule) {
-            $ruleTargetPrice = $rule->getPriceSelector();
-
-            if ($ruleTargetPrice == self::PRODUCT_MSRP_PRICE_SELECTOR) {
-                $hasMsrpTargetRule = 1;
-            }
+        if ($hasMsrpTargetRule) {
+            $items = $quote->getAllVisibleItems();
+            $quoteSubTotal = $this->_calculateOriginalQuoteTotal($items);
         }
 
-        return ($hasMsrpTargetRule ? $originalPrice : $price);
+        return $quoteSubTotal;
     }
 
+    /**
+     * Calculation for the original subtotal as MSRP overrides the product price to correctly calculate totals
+     *
+     * @param $items
+     * @return int
+     */
     protected function _calculateOriginalQuoteTotal($items)
     {
         $originalPrice = 0;
