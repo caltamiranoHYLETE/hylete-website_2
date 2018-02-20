@@ -46,6 +46,21 @@
                 </connection>
             </mediotype_hyleteprice_setup>
         </resources>
+
+        <sales>
+            <quote>
+                <totals>
+                    <discountedsubtotal>
+                        <!-- This class is a model: -->
+                        <!--<class>mediotype_hyleteprice/sales_quote_address_total_discountedsubtotal</class>-->
+                        <after>discount</after>
+                        <before>shipping</before>
+                        <!-- These classes are blocks: -->
+                        <renderer>mediotype_hyleteprice/checkout_discountedsubtotal</renderer>
+                    </discountedsubtotal>
+                </totals>
+            </quote>
+        </sales>
     </global>
 
     <frontend>
@@ -70,21 +85,6 @@
             </catalog_product_collection_load_before>
         </events>
     </frontend>
-
-    <global>
-        <events>
-            <!-- Event that serves as an entry point into the poc for "base discount on original price" choice -->
-            <!--<adminhtml_block_salesrule_actions_prepareform>-->
-            <!--<observers>-->
-            <!--<amasty_rules_model_observer>-->
-            <!--<type>singleton</type>-->
-            <!--<class>Mediotype_HyletePrice_Model_Observer</class>-->
-            <!--<method>handleFormCreation</method>-->
-            <!--</amasty_rules_model_observer>-->
-            <!--</observers>-->
-            <!--</adminhtml_block_salesrule_actions_prepareform>-->
-        </events>
-    </global>
 
     <admin>
         <routers>
