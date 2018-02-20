@@ -7,6 +7,7 @@
  */
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const PRODUCT_MSRP_PRICE_SELECTOR = 4;
     const NOT_LOGGED_IN = 0;
     const EVERYDAY_ATHLETE = 1;
 
@@ -109,5 +110,76 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
+    }
+
+    /**
+     * Determine whether the original product price needs to be displayed based on the applied rules
+     * If the sales rules are targeting MSRP discount we want to return the original product price
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return string
+     */
+    public function quoteItemSalesRulesForMsrpCalculation(Mage_Sales_Model_Quote_Item $item)
+    {
+        $hasMsrpTargetRule = false;
+        $couponCode = $item->getQuote()->getShippingAddress()->getCouponCode();
+        $originalPrice = $item->getProduct()->getPrice();
+        $price = $item->getPrice();
+        $websiteId = Mage::app()->getWebsite()->getId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $rules = [];
+
+        $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
+        $rules[$key] = Mage::getResourceModel('salesrule/rule_collection')
+            ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
+            ->load();
+
+        foreach ($rules[$key] as $rule) {
+            $ruleTargetPrice = $rule->getPriceSelector();
+
+            if ($ruleTargetPrice == self::PRODUCT_MSRP_PRICE_SELECTOR) {
+                $hasMsrpTargetRule = true;
+            }
+        }
+
+        return ($hasMsrpTargetRule ? $originalPrice : $price);
+    }
+
+    public function quoteSalesRulesForMsrpCalculation(Mage_Sales_Model_Quote $quote)
+    {
+        $hasMsrpTargetRule = 0;
+        $couponCode = $quote->getCouponCode();
+        $items = $quote->getAllVisibleItems();
+
+        $originalPrice = $this->_calculateOriginalQuoteTotal($items);
+        $price = $quote->getSubtotal();
+        $websiteId = Mage::app()->getWebsite()->getId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $rules = [];
+
+        $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
+        $rules[$key] = Mage::getResourceModel('salesrule/rule_collection')
+            ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
+            ->load();
+
+        foreach ($rules[$key] as $rule) {
+            $ruleTargetPrice = $rule->getPriceSelector();
+
+            if ($ruleTargetPrice == self::PRODUCT_MSRP_PRICE_SELECTOR) {
+                $hasMsrpTargetRule = 1;
+            }
+        }
+
+        return ($hasMsrpTargetRule ? $originalPrice : $price);
+    }
+
+    protected function _calculateOriginalQuoteTotal($items)
+    {
+        $originalPrice = 0;
+        foreach ($items as $item) {
+            $originalPrice += $item->getProduct()->getPrice() * $item->getQty();
+        }
+
+        return $originalPrice;
     }
 }

@@ -142,7 +142,8 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
                         <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?>
                     <?php else: ?>
                         <?php // HYLETE Price ?>
-                        <?php echo $this->helper('checkout')->formatPrice($_item->getPrice()) ?>
+                        <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteItemSalesRulesForMsrpCalculation($_item)) ?>
+                        <?php //echo $this->helper('checkout')->formatPrice($_item->getPrice()) ?>
                         <?php //echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?>
                     <?php endif; ?>
 
@@ -383,8 +384,12 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
                                 <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?>
                             <?php else: ?>
                                 <?php // Subtotal price ?>
-                                <?php $rowTotal = (!is_null($_item->getCustomPrice()) ? ($_item->getCustomPrice() * $_item->getQty()) - $_item->getDiscountAmount() : $_item->getRowTotal()) ?>
-                                <?php echo $this->helper('checkout')->formatPrice($rowTotal) ?>
+                                <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteItemSalesRulesForMsrpCalculation($_item)) ?>
+                                <?php //$rowTotal = (!is_null($_item->getCustomPrice()) ? ($_item->getCustomPrice() * $_item->getQty()) - $_item->getDiscountAmount() : $_item->getRowTotal()) ?>
+                                <?php //echo $this->helper('checkout')->formatPrice($rowTotal) ?>
+
+                                <?php // Last correct subtotal ?>
+                                <?php //echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>
                             <?php endif; ?>
                         <?php endif; ?>
 
