@@ -7,7 +7,6 @@
  */
 class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 {
-	private $_title = "today's deals!";
 	private $_hideOnUrls;
 
 	/**
@@ -117,11 +116,12 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
 
 	/**
 	 * Place holder until the adminhtml configuration pages
-	 * @return mixed
+	 * @return string
 	 */
 	public function getTitle()
 	{
-		return $this->_title;
+        $offersTabTitle = Mage::getStoreConfig('mediotype_offerstab/general/offers_tab_title');
+	    return ($offersTabTitle ? $offersTabTitle : '');
 	}
 
     /**
