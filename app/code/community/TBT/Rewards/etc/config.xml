@@ -782,7 +782,7 @@
             <sales>
                 <rewrite>
                     <order>TBT_Rewards_Model_Sales_Order</order>
-                    <quote>TBT_Rewards_Model_Sales_Quote</quote>
+                    <!--<quote>TBT_Rewards_Model_Sales_Quote</quote>-->
                     <order_invoice_total_discount>TBT_Rewards_Model_Sales_Order_Invoice_Total_Discount</order_invoice_total_discount>
                     <order_creditmemo_total_discount>TBT_Rewards_Model_Sales_Order_Creditmemo_Total_Discount</order_creditmemo_total_discount>
                 </rewrite>

@@ -27,6 +27,13 @@
                     <observer>Mediotype_OffersTab_Model_RewriteCmindObserver</observer>
                 </rewrite>
             </cminds_coupon>
+
+            <!-- Myles: The Quote rewrite here is extending the TBT Quote, which is extending the  Amasty Quote -->
+            <sales>
+                <rewrite>
+                    <quote>Mediotype_OffersTab_Model_Sales_Quote</quote>
+                </rewrite>
+            </sales>
         </models>
 
         <blocks>

@@ -41,10 +41,10 @@ class Mediotype_OfferStab_Model_CouponObserver
         // If session contains 'automatic_coupon_code'
         if ($couponCode) {
             // Apply the code
-            $checkoutSession->getQuote()->setCouponCode($couponCode)->save();
+            $checkoutSession->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
 
             // Refresh the totals so that the appliedRuleId is available in the removal block below
-            $checkoutSession->getQuote()->collectTotals()->save();
+//            $checkoutSession->getQuote()->collectTotals()->save();
 
             // See if the coupon actually applied to the quote
             $appliedRuleIds = $checkoutSession->getQuote()->getAppliedRuleIds();
