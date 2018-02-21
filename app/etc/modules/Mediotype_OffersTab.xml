@@ -6,6 +6,7 @@
             <dependency>
                 <TBT_Rewards/>
                 <Cminds_Coupon/>
+                <Amasty_Coupons/>
             </dependency>
         </Mediotype_OffersTab>
     </modules>
