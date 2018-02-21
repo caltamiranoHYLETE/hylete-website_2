@@ -31,38 +31,58 @@
 
 <?php
 /** @var Vaimo_Hylete_Helper_Checkout $checkoutHelper */
-$checkoutHelper = $this->helper('hylete/checkout');
-
-$priceDifference = $checkoutHelper->getCartDifferenceAmount();
+//$checkoutHelper = $this->helper('hylete/checkout');
+//$priceDifference = $checkoutHelper->getCartDifferenceAmount();
 
 /** @var Mage_Customer_Model_Session $_customerSession */
 $_customerSession = Mage::getSingleton('customer/session');
 
 $_customerGroupId = $_customerSession->getCustomerGroupId();
+
+/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
+$_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
+
+// MYLES: Sum MSRPs for display
+$cart = Mage::getModel('checkout/cart')->getQuote();
+$msrpPrice = 0.00;
+
+foreach ($cart->getAllItems() as $item) {
+    // MYLES: Configurable products need to only have the price of the children added
+	if (empty(Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId()))) {
+		$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
+	}
+}
 ?>
 
-<?php if ($this->helper('customer')->isLoggedIn()): ?>
+<?php //if ($this->helper('customer')->isLoggedIn()): ?>
+<?php if ($this->getTotal()->getAddress()->getBaseDiscountAmount() > 0): ?>
     <tr>
-        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price" colspan="<?php echo $this->getColspan(); ?>">
-        <?php if ($_customerGroupId == 6 || $_customerGroupId == 8 || $_customerGroupId == 9 || $_customerGroupId == 10 || $_customerGroupId == 17 || $_customerGroupId == 37 ): ?>
-            <?php echo $this->__('HYLETE price'); ?>
-        <?php else: ?>
-           <?php echo $this->__('price');?>:
-        <?php endif; ?>
+        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
+            colspan="<?php echo $this->getColspan(); ?>">
+            <?php echo $this->__('discounted subtotal'); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
-           <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue() + $priceDifference) ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getAddress()->getSubtotalWithDiscount()) ?>
+        </td>
+    </tr>
+<?php endif; ?>
+    <tr>
+        <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
+            colspan="<?php echo $this->getColspan(); ?>">
+			<?php echo $this->__('retail value'); ?>:
+        </td>
+        <td style="<?php echo $this->getStyle() ?>" class="a-right">
+			<?php echo $this->helper('checkout')->formatPrice($msrpPrice) ?>
         </td>
     </tr>
 
-    <?php if ($priceDifference > 0): ?>
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left" colspan="<?php echo $this->getColspan(); ?>">
-            <?php echo $checkoutHelper->getCustomSubtotalLabel($this->getTotal()); ?>:
+			<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_customerGroupId); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
-           <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+            <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteSalesRulesForMsrpCalculation($this->getQuote())) ?>
+			<?php //echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
         </td>
     </tr>
-    <?php endif;?>
-<?php endif;?>
+<?php //endif; ?>

@@ -30,7 +30,7 @@ $installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
 $installer->startSetup();
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'retail_value', array(
-    'label' => 'Retail Value',
+    'label' => 'retail value',
     'group' => 'General',
     'type' => 'int',
     'input' => 'text',

@@ -4,11 +4,13 @@
     padding: 10px 0;
     font-size: 14px;
     color: #666;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .retail-value--category {
     padding: 0;
     font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .retail-value__link {
@@ -53,13 +55,37 @@
 }
 
 .price-with-retail-value .special-price .price {
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .price-with-retail-value--category {
+    font-family: 'Open Sans', sans-serif;
     font-size: 13px;
+    color: #000;
 }
 
 .hylete-price {
     text-transform: none;
+}
+
+.hylete-price-label {
+    color: #666;
+}
+
+.regular-price > .hylete-price-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #666;
+}
+
+.hylete-price-label-sm {
+    font-size: 13px;
+}
+
+.hylete-price-label-lg {
+    font-size: 16px;
+}
+
+.regular-price > .price {
+    font-size: 13px;
 }

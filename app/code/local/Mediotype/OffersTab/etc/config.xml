@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Mediotype_OffersTab>
+            <version>0.0.4</version>
+        </Mediotype_OffersTab>
+    </modules>
+
+    <global>
+        <models>
+            <mediotype_offerstab>
+                <class>Mediotype_OffersTab_Model</class>
+                <resourceModel>mediotype_offerstab_resource</resourceModel>
+            </mediotype_offerstab>
+
+            <mediotype_offerstab_resource>
+                <class>Mediotype_OffersTab_Model_Resource</class>
+                <entities>
+                    <offer>
+                        <table>mediotype_offerstab_offers</table>
+                    </offer>
+                </entities>
+            </mediotype_offerstab_resource>
+
+            <cminds_coupon>
+                <rewrite>
+                    <observer>Mediotype_OffersTab_Model_RewriteCmindObserver</observer>
+                </rewrite>
+            </cminds_coupon>
+        </models>
+
+        <blocks>
+            <mediotype_offerstab>
+                <class>Mediotype_OffersTab_Block</class>
+            </mediotype_offerstab>
+        </blocks>
+
+        <helpers>
+            <mediotype_offerstab>
+                <class>Mediotype_OffersTab_Helper</class>
+            </mediotype_offerstab>
+        </helpers>
+
+        <resources>
+            <mediotype_offerstab_setup>
+                <setup>
+                    <module>Mediotype_OffersTab</module>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mediotype_offerstab_setup>
+
+            <mediotype_offerstab_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mediotype_offerstab_write>
+
+            <mediotype_offerstab_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mediotype_offerstab_read>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_offerstab>
+                    <file>mediotype_offerstab.xml</file>
+                </mediotype_offerstab>
+            </updates>
+        </layout>
+
+        <events>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductAddAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_product_add_after>
+
+            <checkout_cart_product_update_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductUpdateAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_product_update_after>
+
+            <checkout_cart_update_items_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cartProductUpdateAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </checkout_cart_update_items_after>
+
+            <controller_action_predispatch_checkout_cart_couponPost>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>revertPricesIfNecessary</method>
+                    </mediotype_offerstab>
+                </observers>
+            </controller_action_predispatch_checkout_cart_couponPost>
+
+            <mediotype_coupon_removal_check>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>cmindRevertPricesIfNecessary</method>
+                    </mediotype_offerstab>
+                </observers>
+            </mediotype_coupon_removal_check>
+        </events>
+
+        <routers>
+            <mediotype>
+                <use>standard</use>
+                <args>
+                    <module>Mediotype_OffersTab</module>
+                    <frontName>mediotype</frontName>
+                </args>
+            </mediotype>
+        </routers>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mediotype_offerstab after="Mage_Adminhtml">Mediotype_OffersTab_Adminhtml</mediotype_offerstab>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

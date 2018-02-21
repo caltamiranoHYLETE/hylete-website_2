@@ -9,3 +9,7 @@
 /forms/create/create.php
 /forms/js/config.js
 /forms/config.php
+syntax: glob
+media/
+var/
+.idea/
