@@ -153,6 +153,7 @@ class Amasty_Rules_Model_Observer
                     self::BASED_ON_PREVIOUS => Mage::helper('amrules')->__('Price After Previous Discount(s)'),
                     self::BASED_ON_ORIGINAL => Mage::helper('amrules')->__('Original Price'),
                     self::BASED_ON_BIGGEST => Mage::helper('amrules')->__('Original Price. Apply the Biggest Discount.'),
+					4 => 'MSRP'
                 ),
                 'note'     => Mage::helper('amrules')->__('Biggest discount means additional discounts from catalog rules or special price are not summed up. We use the biggest one. Works with percent discounts only.'),
             ));

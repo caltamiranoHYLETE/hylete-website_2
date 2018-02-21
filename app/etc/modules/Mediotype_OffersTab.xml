@@ -1,0 +1,12 @@
+<config>
+    <modules>
+        <Mediotype_OffersTab>
+            <active>true</active>
+            <codePool>local</codePool>
+            <dependency>
+                <TBT_Rewards/>
+                <Cminds_Coupon/>
+            </dependency>
+        </Mediotype_OffersTab>
+    </modules>
+</config>

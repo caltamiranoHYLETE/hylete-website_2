@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Mediotype_HyletePrice>
+            <version>0.0.7</version>
+        </Mediotype_HyletePrice>
+    </modules>
+
+    <global>
+        <blocks>
+            <catalog>
+                <rewrite>
+                    <product_list>Mediotype_HyletePrice_Block_Catalog_Product_List</product_list>
+                    <product_view>Mediotype_HyletePrice_Block_Catalog_Product_View</product_view>
+                </rewrite>
+            </catalog>
+
+            <adminhtml>
+                <rewrite>
+                    <customer_group_edit_form>Mediotype_HyletePrice_Block_Adminhtml_Customer_Group_Edit_Form</customer_group_edit_form>
+                    <promo_quote_edit>Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit</promo_quote_edit>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <models>
+            <mediotype_hyleteprice>
+                <class>Mediotype_HyletePrice_Model</class>
+            </mediotype_hyleteprice>
+        </models>
+
+        <helpers>
+            <mediotype_hyleteprice>
+                <class>Mediotype_HyletePrice_Helper</class>
+            </mediotype_hyleteprice>
+        </helpers>
+
+        <resources>
+            <mediotype_hyleteprice_setup>
+                <setup>
+                    <module>Mediotype_HyletePrice</module>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mediotype_hyleteprice_setup>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_hyleteprice>
+                    <file>mediotype_hyleteprice.xml</file>
+                </mediotype_hyleteprice>
+            </updates>
+        </layout>
+
+        <events>
+            <!-- Event to add isFlashSaleAttribute to catalog_product_collection loads -->
+            <catalog_product_collection_load_before>
+                <observers>
+                    <catalog_product_collection_load_before_custom_handler>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>addIsFlashSaleAttribute</method>
+                    </catalog_product_collection_load_before_custom_handler>
+                </observers>
+            </catalog_product_collection_load_before>
+            <catalog_product_get_final_price>
+                <observers>
+                    <calculate_product_final_price_with_msrp>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>calculateProductFinalPriceWithMsrp</method>
+                    </calculate_product_final_price_with_msrp>
+                </observers>
+            </catalog_product_get_final_price>
+        </events>
+    </frontend>
+
+    <global>
+        <events>
+            <!-- Event that serves as an entry point into the poc for "base discount on original price" choice -->
+            <!--<adminhtml_block_salesrule_actions_prepareform>-->
+            <!--<observers>-->
+            <!--<amasty_rules_model_observer>-->
+            <!--<type>singleton</type>-->
+            <!--<class>Mediotype_HyletePrice_Model_Observer</class>-->
+            <!--<method>handleFormCreation</method>-->
+            <!--</amasty_rules_model_observer>-->
+            <!--</observers>-->
+            <!--</adminhtml_block_salesrule_actions_prepareform>-->
+        </events>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mediotype_HyletePrice before="Mage_Adminhtml">Mediotype_HyletePrice_Adminhtml</Mediotype_HyletePrice>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
