@@ -56,6 +56,25 @@ class Amasty_Coupons_Model_SalesRule_Validator extends Mage_SalesRule_Model_Vali
             if (!$rule->getActions()->validate($item)) {
                 continue;
             }
+
+            // MYLES: $rule has access to data->'price_selector' because of Amasty_Rules –
+            // see Mediotype_HyletePrice_Block_Adminhtml_Promo_Quote_Edit
+            $ruleTargetPrice = $rule->getPriceSelector();
+
+            if ($ruleTargetPrice == Amasty_Rules_Model_Observer::BASED_ON_ORIGINAL) {
+                $itemPrice = $item->getProduct()->getPrice();
+                $baseItemPrice = $item->getProduct()->getPrice();
+                $itemOriginalPrice = $item->getProduct()->getPrice();
+                $baseItemOriginalPrice = $item->getProduct()->getPrice();
+
+            } else if ($ruleTargetPrice == 4) {
+                $itemPrice = $item->getProduct()->getMsrp();
+                $baseItemPrice = $item->getProduct()->getMsrp();
+                $itemOriginalPrice = $item->getProduct()->getMsrp();
+                $baseItemOriginalPrice = $item->getProduct()->getMsrp();
+            }
+            // MYLES: End of changes
+
             $qty = $item->getTotalQty();
             $qty = $rule->getDiscountQty() ? min($qty, $rule->getDiscountQty()) : $qty;
             $rulePercent = min(100, $rule->getDiscountAmount());
@@ -175,6 +194,12 @@ class Amasty_Coupons_Model_SalesRule_Validator extends Mage_SalesRule_Model_Vali
              */
             $discountAmount     = min($item->getDiscountAmount()+$discountAmount, $itemPrice*$qty);
             $baseDiscountAmount = min($item->getBaseDiscountAmount()+$baseDiscountAmount, $baseItemPrice*$qty);
+
+            // MYLES: If we are targeting MSRP, set the "custom_price" to the MSRP, and the next time totals are collected, we will have the discount as expected
+            if ($ruleTargetPrice == 4) {
+                $item->setCustomPrice($item->getProduct()->getMsrp());
+            }
+            // MYLES: END CHANGES
 
             $item->setDiscountAmount($discountAmount);
             $item->setBaseDiscountAmount($baseDiscountAmount);

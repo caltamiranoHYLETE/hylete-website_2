@@ -40,11 +40,8 @@ class Mediotype_OfferStab_Model_CouponObserver
 
         // If session contains 'automatic_coupon_code'
         if ($couponCode) {
-            // Apply the code
+            // Apply the code and Refresh the totals so that the appliedRuleId is available in the removal block below
             $checkoutSession->getQuote()->setCouponCode($couponCode)->collectTotals()->save();
-
-            // Refresh the totals so that the appliedRuleId is available in the removal block below
-//            $checkoutSession->getQuote()->collectTotals()->save();
 
             // See if the coupon actually applied to the quote
             $appliedRuleIds = $checkoutSession->getQuote()->getAppliedRuleIds();
@@ -141,7 +138,7 @@ class Mediotype_OfferStab_Model_CouponObserver
                     // If one of the applied rule ids matches our current rule id, then then revert custom pricing
                     foreach (explode(",", $item->getAppliedRuleIds()) as $ruleId) {
                         if ($ruleId == $rule->getId()) {
-                            $item->setCustomPrice(null);
+                            $item->setOriginalCustomPrice(null);
                             $item->setPrice($item->getProduct()->getPrice());
                         }
                     }
@@ -149,7 +146,7 @@ class Mediotype_OfferStab_Model_CouponObserver
             }
         }
 
-        // Myles: Don't need to do anything else; once this observer is done, there will be a collectTotals(…) call
+		$quote->collectTotals();
 
         return $this;
     }
