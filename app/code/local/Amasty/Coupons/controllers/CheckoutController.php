@@ -52,6 +52,9 @@ class Amasty_Coupons_CheckoutController extends Mage_Core_Controller_Front_Actio
                 {
                     if ($this->_getQuote()->setCouponCode(implode(', ', $appliedCoupons))->save())
                     {
+                    	// MYLES: EDIT TO ANOTHER DEV'S MODULE; REWRITE!
+						Mage::dispatchEvent("mediotype_coupon_removal_check", ['quote' => $this->_getQuote(), 'couponCodeRemoved' => $codeToCancel]);
+
                         $this->_getSession()->addSuccess($this->__('Coupon code %s was canceled.', $codeToCancel));
                     }
                 }
