@@ -525,7 +525,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
             // MYLES: If we are targeting MSRP, set the "custom_price" to the MSRP, and the next time totals are collected, we will have the discount as expected
             if ($ruleTargetPrice == 4) {
-                $item->setCustomPrice($item->getProduct()->getMsrp());
+                $item->setOriginalCustomPrice($item->getProduct()->getMsrp());
             }
             // MYLES: END CHANGES
 

@@ -790,7 +790,7 @@
             <salesrule>
                 <rewrite>
                     <quote_discount>TBT_Rewards_Model_Salesrule_Quote_Discount</quote_discount>
-                    <validator>TBT_Rewards_Model_Salesrule_Discount_Validator</validator>
+                    <!--<validator>TBT_Rewards_Model_Salesrule_Discount_Validator</validator>-->
                 </rewrite>
             </salesrule>
 
