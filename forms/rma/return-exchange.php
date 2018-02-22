@@ -97,8 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h2>steps for a smooth return:</h2>
                             <ul style="list-style-type: circle; list-style-position: inside;">
                                 <li>Keep the tags on or include them in your return</li>
-                                <li>Only return the items you have selected on the form. Any differences will cause delays in processing.</li>
-                                <li>Exchanges and refunds will be processed once we receive and process your package</li>
+                                <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
+                                <li>Use the shipping label we provide you after you submit your RA</li>
+                                <li>Exchanges and refunds will be processed once we receive notification USPS has picked it up</li>
                                 <li>Send it in! Return authorizations expire after 60 days</li>
                             </ul>
                             <br/>
@@ -252,14 +253,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>postal code <span class="required">*</span></label><br><input type="text" name="postalCode" id="postalCode" required data-msg="Please enter your postal code"/>
 
                 <input type="checkbox" value="yes" name="acknowledge" id="acknowledge"/>
-                <label for="acknowledge"><span style="text-transform:uppercase">I</span> acknowledge that if the items <span style="text-transform:uppercase">I</span> am returning are missing tags, damaged (excluding manufacturer damage) or otherwise in a condition that makes them unfit for sale, <span style="text-transform:uppercase">I</span> may have to pay a restocking fee of $10.00.<span class="required">*</span></label>
+                <label for="acknowledge"><span style="text-transform:uppercase">I</span> acknowledge that <span style="text-transform:uppercase">I</span> am returning items that match my submitted return authorization exactly. <span style="text-transform:uppercase">I</span> also acknowledge that if the items <span style="text-transform:uppercase">I</span> am returning are missing tags, damaged (excluding manufacturer damage) or otherwise in a condition that makes them unfit for sale, <span style="text-transform:uppercase">I</span> may have to pay a restocking fee of $10.00.<span class="required">*</span></label>
 
                 <br><span style="display:block;text-align:right;color:red;">* required fields</span>
             </fieldset>
 
             <fieldset id="notes_fields">
-                <label>notes for customer service</label><textarea cols="20" rows=30" type="text" name="notes" id="notes" maxlength="1000"></textarea><br>
-                *This field is intended for feedback and does not serve to modify your return request.
+                <!--<label>notes for customer service</label><textarea cols="20" rows=30" type="text" name="notes" id="notes" maxlength="1000"></textarea><br>
+                *This field is intended for feedback and does not serve to modify your return request.-->
+                <div style="text-align: left;">
+                    <h2>steps for a smooth return:</h2>
+                    <ul style="list-style-type: circle; list-style-position: inside;">
+                        <li>Keep the tags on or include them in your return</li>
+                        <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
+                        <li>Use the shipping label we provide you after you submit your RA</li>
+                        <li>Exchanges and refunds will be processed once we receive notification USPS has picked up your package</li>
+                        <li>Send it in! Return authorizations expire after 60 days</li>
+                    </ul>
+                    <br/>
+                    <p>Please remember, the items you are returning must match your submitted return authorization exactly. Should you neglect to return items from your submitted return authorization or return different/additional items as not reflected on your submitted return authorization, you may be charged a fee for any differences.</p>
+                </div>
             </fieldset>
 
             <fieldset id="results_field">
