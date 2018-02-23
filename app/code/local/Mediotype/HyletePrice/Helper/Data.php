@@ -150,7 +150,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
         $hasMsrpTargetRule = false;
 
         if ($quote instanceof Mage_Checkout_Model_Session) {
-            return $hasMsrpTargetRule;
+            $quote = $quote->getQuote();
         }
 
         $couponCode = $quote->getCouponCode();
