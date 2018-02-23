@@ -145,9 +145,14 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Sales_Model_Quote $quote
      * @return bool
      */
-    public function quoteHasMsrpTargetRule(Mage_Sales_Model_Quote $quote)
+    public function quoteHasMsrpTargetRule($quote)
     {
         $hasMsrpTargetRule = false;
+
+        if ($quote instanceof Mage_Checkout_Model_Session) {
+            $quote = $quote->getQuote();
+        }
+
         $couponCode = $quote->getCouponCode();
         $websiteId = Mage::app()->getWebsite()->getId();
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
