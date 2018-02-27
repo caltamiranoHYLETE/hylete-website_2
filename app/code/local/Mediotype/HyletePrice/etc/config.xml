@@ -46,6 +46,22 @@
                 </connection>
             </mediotype_hyleteprice_setup>
         </resources>
+        <sales>
+            <quote>
+                <totals>
+                    <hyleteprice_discountedsubtotal>
+                        <class>mediotype_hyleteprice/total_discountedsubtotal</class>
+                        <after>shipping</after>
+                        <before>subtotal</before>
+                    </hyleteprice_discountedsubtotal>
+                    <hyleteprice_customergroupprice>
+                        <class>mediotype_hyleteprice/total_customer_group_price</class>
+                        <after>shipping</after>
+                        <before>subtotal</before>
+                    </hyleteprice_customergroupprice>
+                </totals>
+            </quote>
+        </sales>
     </global>
 
     <frontend>
@@ -106,4 +122,13 @@
             </adminhtml>
         </routers>
     </admin>
+
+    <default>
+        <sales>
+            <totals_sort>
+                <hyleteprice_discountedsubtotal>80</hyleteprice_discountedsubtotal>
+                <hyleteprice_customergroupprice>90</hyleteprice_customergroupprice>
+            </totals_sort>
+        </sales>
+    </default>
 </config>
