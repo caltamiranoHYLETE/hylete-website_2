@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <sales translate="label" module="sales">
+            <groups>
+                <totals_sort translate="label">
+                    <fields>
+                        <hyleteprice_discountedsubtotal translate="label">
+                            <label>Discounted Subtotal</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hyleteprice_discountedsubtotal>
+                        <hyleteprice_customergroupprice>
+                            <label>Customer Group Price</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hyleteprice_customergroupprice>
+                    </fields>
+                </totals_sort>
+            </groups>
+        </sales>
+    </sections>
+</config>

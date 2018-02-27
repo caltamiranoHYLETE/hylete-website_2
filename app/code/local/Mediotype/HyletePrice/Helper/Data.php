@@ -125,15 +125,16 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
         $itemPrice = (string) $item->getPrice();
         $quote = $item->getQuote();
         $hasMsrpTargetRule = $this->quoteHasMsrpTargetRule($quote);
+        $catalogProduct = $item->getProduct();
 
         if ($hasMsrpTargetRule && !$isSubtotal) {
-            $itemPrice = (string) $item->getProduct()->getPrice();
+            $itemPrice = (string) $catalogProduct->getPrice();
 
         } elseif ($isSubtotal && !$hasMsrpTargetRule) {
-        	$itemPrice = $item->getPrice() * $item->getQty();
+            $itemPrice = $item->getPrice() * $item->getQty();
 
         } else if ($isSubtotal && $hasMsrpTargetRule) {
-			$itemPrice = (string) $item->getProduct()->getMsrp() * $item->getQty(); // Qty
+			$itemPrice = (string) $catalogProduct->getMsrp() * $item->getQty(); // Qty
 		}
 
         return $itemPrice;
