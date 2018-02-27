@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+        <resources>
+            <allow>
+                <title>Allow Everything</title>
+            </allow>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <md_cybersource translate="title" module="md_cybersource">
+                                        <title>Magedelight Cybersource License Configuration</title>
+                                    </md_cybersource>
+                                    <payment>
+                                        <md_cybersource translate="title" module="md_cybersource">
+                                            <title>Magedelight Cybersource Configuration</title>
+                                        </md_cybersource>
+                                    </payment>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
