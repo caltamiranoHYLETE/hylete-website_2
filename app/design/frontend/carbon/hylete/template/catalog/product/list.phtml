@@ -110,6 +110,12 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                                         <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
                                         <?php echo $this->__('retail value'); ?>
                                         <?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup()): ?>
+                                            <span class="price-diff" style="display:inline; z-index:10000;">
+                                                <span class="retail-value__link js-tooltip-link">
+                                                    <span class="fa fa-question"></span>
+                                                </span>
+                                            </span>
+
                                             <div style="display:none">
                                                 <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
                                             </div>
