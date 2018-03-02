@@ -106,7 +106,7 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                                         <?php endif; ?>
                                     </div>
                                 <?php elseif ($_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
-                                    <div class="retail-value retail-value--category">
+                                    <div class="retail-value retail-value--category js-tooltip-container">
                                         <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
                                         <?php echo $this->__('retail value'); ?>
                                         <?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup()): ?>
