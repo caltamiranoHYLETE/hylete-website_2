@@ -381,13 +381,22 @@ $_isProductDetailsPage = in_array('catalog_product_view', $_layoutHandles);
                     </span>
                     </p>
 				<?php else: ?>
-                    <p class="special-price">
-						<?php /*<span class="price-label"><?php echo $this->__('Special Price:') ?></span>*/ ?>
-                        <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->currency($_finalPrice, true, false) ?>
-					<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
-                </span>
-                    </p>
+                    <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"
+                          itemprop="price">
+                        <?php $_priceLabel = $_hyletePriceHelper->getPriceLabelByCustomerGroupAndProduct($currentCategoryId, $_product) ?>
+
+                        <?php if ($_priceLabel == 'clearance price' && $_isProductDetailsPage): ?>
+                            <span class="hylete-price-label-lg"><?php echo $_coreHelper->currency($_price, true, true) ?></span>
+                            <span class="hylete-price-label">
+						    <?php echo $_priceLabel ?>
+                        </span>
+                        <?php else: ?>
+                            <?php echo $_coreHelper->currency($_finalPrice, true, true) ?>
+                            <span class="hylete-price-label">
+						    <?php echo $_priceLabel ?>
+                        </span>
+                        <?php endif; ?>
+                    </span>
 				<?php endif; ?>
 			<?php endif; ?>
 
