@@ -42,7 +42,8 @@
     margin-left: 18px;
 }
 
-.retail-value .price {
+.retail-value .price,
+.retail-value--totals .price {
     text-decoration: line-through;
 }
 
