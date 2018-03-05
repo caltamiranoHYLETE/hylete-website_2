@@ -116,6 +116,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         'data' => array(
           'version' => $version,
           'config'  => $config_details,
+          'store_info' => $helper->getStoreInfo(),
           'cron'    => $cron_details,
           'quotes'  => $quote_details
         )
@@ -224,12 +225,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         'customer_email' => $email,
         'remote_ip'      => $quote->getRemoteIp(),
         'num_items'      => count($quote->getItemsCollection()),
-        'is_active'      => $quote->getIsActive(),
-
-        'config'         => array(
-          'is_enabled' => $helper->isEnabled($store),
-          'api_key'    => $helper->getPublicApiKey($store) != NULL
-        )
+        'is_active'      => $quote->getIsActive()
       );
     }
 
