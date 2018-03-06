@@ -1,0 +1,81 @@
+3.1 	Fixed CustomErors logic to not throw error if rules not present
+3.2 	Changed to use WSACommon. Moved the method getitemTotals() into the common code.
+3.3 	product_ship_price not being initialised - missed in refactor
+3.4	    Added support for Insurance extension
+3.5 	Added support for filtering on item weight as well as cart weight via the CSV file
+3.6	    Added support for Dropship in main branch
+3.6.1	Set defaults for freight config in Dropship
+3.7	    Fixed issue where SURCHARGE_ORDER with price 0 was resulting in 0 shipping price output.
+3.8	    Fixed issues with item_weight and rules being required. Should have been optional.
+3.9	    Saves CSV to file system under var/export/yourcsv.csv.
+3.10	Added CSV uploaded lines notice. Added serial key check on save of shipping settings notice.
+3.11 	Updated to use version 2.0 of logger
+4.0	    New common library
+4.1	    New common library
+4.2 	Changed to use new logger. Fixed issue with ORDER totalling.
+4.3 	Added ability to list multiple zip code ranges on one line in the zip from column.
+ 	    Added support for multiple zipcode ranges on one line
+	    Added support for multiple customer groups on one row in csv
+	    Changed how customer group obtained to work around issue with True Edit Order extension
+4.4 	Added support for Handling Matrix
+4.5	    Workaround the TinyBrick extension issues
+4.6 	Modified product_ship_price to work when shipping group * set to EVERYTHING ELSE
+4.7	    Added support for Free shipping on cart to affect getItemTotals
+4.8     Added support for shipping price = -1 on ORDER_SINGLE and ORDER_MERGED
+5.0 	Fixed isModuleEnabled() calls when using multiple extensions so can disable each at store level with no impact. Moved to community
+5.1 	Moved back to local for backward compatibility reasons
+5.2	    Added ability to show an error message only when there's no rates found globally
+5.3	    Added extra check to ensure the product object is properly formed before trying to do anything with it.
+5.4	    Removed tax rewrite, added options to filter based on discount and base currency, improved admin interface, improved tax logic.
+5.5	    Updated to work with freight common.
+5.6	    Added new price info that is only picked up in dropship.
+5.7 	Added Export CSV button.
+5.8 	FREIGHT-19 Fixed issue with Shipping Override and Freight modules working together correctly
+5.9 	Added Install and Upgrade script 0.08 for compatibility for Magento 1.4 and 1.5
+5.10 	SO-8 Added ability to class Ground and Home Delivery as the same
+5.11	HOC-1 Updated to support adding liftgate fee even when free shipping
+5.12	COMMON-26 Added carrier code to csv export file name so works with multiple WSA extensions installed
+6.0     SO-10 Added WEIGHTINC support. Refactored attribute based code to simplify
+6.1     SO-14 Ignore shipping_price attribute when ProductRate is installed.
+6.2     SO-16 Added new feature where shipping price can be added to rates if no csv file is present
+6.3     SO-22 SO-14 Modified shipping price attribute logic to allow for ignoring, surcharging/replacing on no csv, and
+        surcharging only when rule matched.
+6.4     Added OVERRIDE_ITEM algorithm
+6.4.1  - DROP-39 - Throwing warning due to receiving string rather than a array. Old code was present that should have been removed in refactor
+6.5  - Added ability to discount by shipping price
+6.6  - SO-28 - New feature to allow different ORDER based on the address type of the order
+6.6.1  - Latest common
+6.7  - SO29 Fixed typo with SURCHARGE_ORDER_MERGED, SO-28 Added in new ITEM_RES, ITEM_COM to allow per item Residential/Commercial pricing
+6.8  - SO30 - Fixed declared value being passed to FedEx
+6.8  - SO30 - Fixed declared value being passed to FedEx
+6.8  - SO30 - Fixed declared value being passed to FedEx
+6.8.1  - SO-28 Added support for 2 new price attributes for residential/commercial
+6.9  - SO-32 Added support for ORDER_RES and ORDER_COM to work with freight extensions
+6.9.1  - COMMON-34 - Updated Common
+6.9.2  - SO-32 Fixed issue when freight is not installed
+6.9.3  - Updated Common
+6.10  - SO-34 Added RES/COM algorithms to the switch statement for -1 rules
+6.11  - SO-35 - Added support for per order shipping prices
+6.11.1  - SO-36 - Fixed issue with shipping_price being doubled
+6.12  - SO-39 Added ability to prevent shipping on delivery type if min delivery price not met. SO-38 Added support for custom attribute to hold the shipping_group
+6.13  - SO-33 Implemented -1 algorithm for free shipping
+6.13.1  - SO-40 - Typo fixed on desttype
+6.14  - SO-41 - Custom option for SKU
+6.14.1  - SO-41 - Custom option SKU change. Fixed issue wit shipping group being set to SKU
+6.14.2  - SO-41 - Custom option SKU change. Updated logic
+6.15  - SO-44 Added customer_id support to Shipping Override
+6.16  - SO-44 Ammended customer_id addition to allow both customer_group and customer_id filtering
+6.17  - SO-47 Fixed APO bug in magento that stopped filtering working correctly in ee1.13
+6.18  - SO-45 Implemented warehouse filtering. SO-49 Fixed issue with Dropship not working with Override. SO-48 Added csv support at default scope
+6.18.1  - COMMON-39 Fixed getProducts issue for freight in earlier magento versions
+6.19  - COMMON-44 Fixed logger output when sending debug
+6.19.1  - Latest Common
+6.19.2  - SO-50 Resolved issue with not using the cart price.
+6.19.3  - SO-51 Added check for csvLine count
+6.19.4  - SO-52 Fixed issue with ITEM overriding price when used with pattern matching.
+6.19.5  - New WSA Common
+6.19.6  - New version of WSA Common module to address SUPEE-6285
+6.19.7  - Latest WSA Common
+6.20  - SO-56 Added surcharge based on address type
+6.20.1  - SO-57 Fixed get warehouse logic for DropShip
+6.20.2  - SO-58 Ensure  isset

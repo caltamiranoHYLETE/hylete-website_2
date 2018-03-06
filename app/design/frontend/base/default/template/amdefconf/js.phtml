@@ -1,0 +1,29 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Defconf
+ */
+?>
+<?php 
+$selectedIds = $this->getAttributeIdsString();
+if ($selectedIds):
+?>
+    <script type="text/javascript">
+    defaultConfiguration = new amDefConf();
+	document.observe("dom:loaded", function() {
+	    if ('undefined' != typeof(spConfig)) {
+            spConfig.reloadImageBlockUrl = '<?php echo $this->getAmconfImageUlr()?>';
+        }
+  		defaultConfiguration.select(<?php echo $selectedIds; ?>);
+	});
+    </script>
+<?php elseif ($this->preselectFirstOptions()): ?>
+    <script type="text/javascript">
+        document.observe("dom:loaded", function() {
+            defaultConfiguration = new amDefConf();
+            defaultConfiguration.preselectFirst();
+        });
+    </script>
+<?php endif; ?>
+
