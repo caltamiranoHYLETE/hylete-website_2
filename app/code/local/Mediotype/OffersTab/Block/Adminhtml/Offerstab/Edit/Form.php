@@ -50,28 +50,28 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 
 		$fieldset->addField('static_block_id', 'select', array(
 			'name' => 'static_block_id',
-			'label' => $helper->__('Static Block Id'),
+			'label' => $helper->__('Static Block ID'),
 			'value' => '',
 			'class' => 'required-entry',
 			'required' => true,
             'options' => $staticBlockOptionsSelect
 		));
 
-		$fieldset->addField('customer_group_ids', 'text', array(
+		$fieldset->addField('customer_group_ids', 'multiselect', array(
 			'name' => 'customer_group_ids',
-			'label' => $helper->__('Customer Group Ids'),
-			'value' => ''
+			'label' => $helper->__('Customer Groups'),
+			'values' => Mage::getResourceModel('customer/group_collection')->toOptionArray(),
 		));
 
 		$fieldset->addField('category_ids', 'text', array(
 			'name' => 'category_ids',
-			'label' => $helper->__('Category Ids'),
+			'label' => $helper->__('Category IDs'),
 			'value' => ''
 		));
 
 		$fieldset->addField('product_ids', 'text', array(
 			'name' => 'product_ids',
-			'label' => $helper->__('Product Ids'),
+			'label' => $helper->__('Product IDs'),
 			'value' => ''
 		));
 
