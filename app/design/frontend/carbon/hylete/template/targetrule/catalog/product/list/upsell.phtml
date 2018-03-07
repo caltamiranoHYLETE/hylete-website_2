@@ -42,13 +42,21 @@
                     <h5 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
                     <p class="color"><?php echo $_item->getAttributeText('color') ?></p>
                     
+                    <?php if ($this->getChild('msrp_price')) : ?>
+                    <?php echo $this->getChild('msrp_price')->setProduct($_item)->toHtml(); ?>
+                    <?php endif; ?>
+
                     <?php if ($_item->isSaleable()):?>
-                        <?php echo $this->getPriceHtml($_item, true, '-related') ?>
+                    <?php echo $this->getPriceHtml($_item, true, '-related') ?>
                     <?php else:?>
-                        <p class="status-message">
-                            <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
-                        </p>
+                    <p class="status-message">
+                        <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
+                    </p>
                     <?php endif;?>
+
+                    <?php if ($this->getChild('multipack_offer')) : ?>
+                    <?php echo $this->getChild('multipack_offer')->setProduct($_item)->toHtml(); ?>
+                    <?php endif; ?>
                 </li>
                 <?php $_i++; ?>
             <?php endforeach ?>

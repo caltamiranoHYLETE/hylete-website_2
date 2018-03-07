@@ -89,7 +89,10 @@ body.catalog-category-view > .container {
     margin: 5px 0;
 }
 
-.products-grid .price-box,
+.products-grid .price-box {
+    margin: 5px 0 0;
+}
+
 .products-grid .status-message {
     margin: 5px 0 15px 0;
 }
