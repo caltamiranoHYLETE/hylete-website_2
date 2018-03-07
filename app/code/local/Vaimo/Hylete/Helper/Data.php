@@ -300,7 +300,19 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getSelectedProductsCollection(Icommerce_SelectedProducts_Block_Collection $block)
     {
-        $collectionAttributes = array('entity_id', 'sku', 'image', 'name', 'retail_value');
+        $collectionAttributes = array(
+            'entity_id',
+            'sku',
+            'image',
+            'name',
+            'msrp',
+            'special_price',
+            'special_from_date',
+            'special_to_date',
+            'special_price_label',
+            'multipack_offer',
+        );
+
         return $block->getCollection('all', $collectionGetAmount = 3, $collectionDescSort = true, $collectionAttributes);
     }
 }

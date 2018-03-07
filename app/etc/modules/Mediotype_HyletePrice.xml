@@ -9,6 +9,7 @@
                 <Amasty_Base/>
                 <Amasty_Rules/>
                 <Amasty_RulesPro/>
+                <Icommerce_SelectedProducts />
             </depends>
         </Mediotype_HyletePrice>
     </modules>

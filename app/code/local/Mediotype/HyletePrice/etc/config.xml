@@ -2,18 +2,29 @@
 <config>
     <modules>
         <Mediotype_HyletePrice>
-            <version>0.0.7</version>
+            <version>0.0.9</version>
         </Mediotype_HyletePrice>
     </modules>
 
     <global>
         <blocks>
+            <mediotype_hyleteprice>
+                <class>Mediotype_HyletePrice_Block</class>
+            </mediotype_hyleteprice>
+            
             <catalog>
                 <rewrite>
                     <product_list>Mediotype_HyletePrice_Block_Catalog_Product_List</product_list>
                     <product_view>Mediotype_HyletePrice_Block_Catalog_Product_View</product_view>
                 </rewrite>
             </catalog>
+
+            <selectedproducts>
+                <rewrite>
+                    <single>Mediotype_HyletePrice_Block_Selectedproducts_Single</single>
+                    <widget>Mediotype_HyletePrice_Block_Selectedproducts_Widget</widget>
+                </rewrite>
+            </selectedproducts>
 
             <adminhtml>
                 <rewrite>
@@ -39,8 +50,8 @@
             <mediotype_hyleteprice_setup>
                 <setup>
                     <module>Mediotype_HyletePrice</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
                 </setup>
-
                 <connection>
                     <use>core_setup</use>
                 </connection>
@@ -74,13 +85,12 @@
         </layout>
 
         <events>
-            <!-- Event to add isFlashSaleAttribute to catalog_product_collection loads -->
             <catalog_product_collection_load_before>
                 <observers>
                     <catalog_product_collection_load_before_custom_handler>
                         <type>singleton</type>
                         <class>Mediotype_HyletePrice_Model_Observer</class>
-                        <method>addIsFlashSaleAttribute</method>
+                        <method>addAttributeToSelect</method>
                     </catalog_product_collection_load_before_custom_handler>
                 </observers>
             </catalog_product_collection_load_before>
