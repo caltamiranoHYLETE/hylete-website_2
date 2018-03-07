@@ -2,18 +2,29 @@
 <config>
     <modules>
         <Mediotype_HyletePrice>
-            <version>0.0.8</version>
+            <version>0.0.9</version>
         </Mediotype_HyletePrice>
     </modules>
 
     <global>
         <blocks>
+            <mediotype_hyleteprice>
+                <class>Mediotype_HyletePrice_Block</class>
+            </mediotype_hyleteprice>
+            
             <catalog>
                 <rewrite>
                     <product_list>Mediotype_HyletePrice_Block_Catalog_Product_List</product_list>
                     <product_view>Mediotype_HyletePrice_Block_Catalog_Product_View</product_view>
                 </rewrite>
             </catalog>
+
+            <selectedproducts>
+                <rewrite>
+                    <single>Mediotype_HyletePrice_Block_Selectedproducts_Single</single>
+                    <widget>Mediotype_HyletePrice_Block_Selectedproducts_Widget</widget>
+                </rewrite>
+            </selectedproducts>
 
             <adminhtml>
                 <rewrite>

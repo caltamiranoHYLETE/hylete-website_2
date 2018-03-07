@@ -46,10 +46,7 @@ $_baseUrl = Mage::getBaseUrl();
         </div>
 
 	<?php else: ?>
-		<?php
-		$imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image';
-		$_retailValueTooltip = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('retail_value_tooltip')->toHtml();
-		?>
+		<?php $imageAttribute = $this->hasImageAttribute() ? $this->hasImageAttribute() : 'small_image'; ?>
 
 		<?php if ($listTitle = $this->getCollectionTitle()): ?>
             <div class="head">
@@ -65,10 +62,8 @@ $_baseUrl = Mage::getBaseUrl();
 				<?php
 				$_bootstrapClass = ($this->hasListDirection() == 'horizontal') ? 'col-xs-12 col-sm-4 col-md-4 col-lg-4' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12';
 				$_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
-//                $_retailValue = $_product->getRetailValue();
 				$_img = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(220);
 				$_imgMobile = $this->helper('catalog/image')->init($_product, $imageAttribute)->resize(500);
-				$_msrpPrice = $_product->getMsrp();
 				?>
 
                 <li class="item <?php echo $_bootstrapClass; ?> <?php echo $_status; ?>">
@@ -92,23 +87,11 @@ $_baseUrl = Mage::getBaseUrl();
                             <a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a>
                         </h5>
                         <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
-						<?php if ($_msrpPrice): ?>
-                            <div class="retail-value retail-value--category js-tooltip-container">
-								<?php echo $this->helper('core')->currency($_msrpPrice, true, true); ?>
-								<?php echo $this->__('retail value'); ?>
-								<?php if ($_retailValueTooltip): ?>
-                                    <span class="retail-value__link js-tooltip-link">
-                                                <span class="fa fa-question"></span>
-                                            </span>
-                                    <div class="tooltip js-tooltip">
-                                        <span class="js-tooltip-close">X</span>
-                                        <div class="tooltip__arrow">
-											<?php echo $_retailValueTooltip; ?>
-                                        </div>
-                                    </div>
-								<?php endif; ?>
-                            </div>
-						<?php endif; ?>
+						
+                        <?php if ($this->getChild('msrp_price')) : ?>
+                        <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
+                        <?php endif; ?>
+
 						<?php if ($_product->isSaleable()): ?>
 							<?php echo $this->getPriceHtml($_product, true) ?>
 						<?php else: ?>
@@ -117,6 +100,10 @@ $_baseUrl = Mage::getBaseUrl();
                             </p>
 						<?php endif; ?>
 					<?php endif ?>
+
+                    <?php if ($this->getChild('multipack_offer')) : ?>
+                    <?php echo $this->getChild('multipack_offer')->setProduct($_product)->toHtml(); ?>
+                    <?php endif; ?>
 
 					<?php if ($this->getShowBuyButton()): ?>
 						<?php if ($_product->getTypeId() == 'configurable' || !$_product->isSaleable()): ?>
