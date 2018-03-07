@@ -5,34 +5,31 @@
  */
 class Mediotype_HyletePrice_Model_Observer extends Amasty_Rules_Model_Observer
 {
-	/**
-	 * Observer constructor.
-	 */
-	public function __construct()
-	{
-	}
+    protected $_additionalAttributes = array('special_price_label');
 
-	/**
-	 * Responsible for adding the "is_on_flash_sale" attribute to catalog_product SELECTs
-	 *
-	 * @param Varien_Event_Observer $observer
-	 * @return $this
-	 */
-	public function addIsFlashSaleAttribute(Varien_Event_Observer $observer)
-	{
-		if ($observer) {
-			$collection = $observer->getEvent()->getCollection();
-			$collection->addAttributeToSelect('is_on_flash_sale');
-		}
+    /**
+     * Add additional price attributes to the collection select.
+     * @param Varien_Event_Observer $observer
+     * @return $this
+     */
+    public function addAttributeToSelect(Varien_Event_Observer $observer)
+    {
+        try {
+            $observer->getEvent()
+                ->getCollection()
+                ->addAttributeToSelect($this->_additionalAttributes);
+        } catch (Exception $error) {
+            Mage::logException($error);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * @param Varien_Event_Observer $observer
      * @return bool
      */
-	public function calculateProductFinalPriceWithMsrp(Varien_Event_Observer $observer)
+    public function calculateProductFinalPriceWithMsrp(Varien_Event_Observer $observer)
     {
         $quote = Mage::getSingleton('checkout/session');
         $hyletePriceHelper = Mage::helper('mediotype_hyleteprice');
