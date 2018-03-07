@@ -69,14 +69,28 @@
     text-transform: none;
 }
 
+.has-special-price .regular-price .price {
+    text-decoration: line-through;
+    color: #666;
+}
+
 .hylete-price-label {
     color: #666;
 }
 
-.regular-price > .hylete-price-label {
+.regular-price > .hylete-price-label,
+.special-price > .special-price-label {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     color: #666;
+}
+
+.special-price {
+    padding: 10px 0;
+}
+
+.special-price .price {
+    font-size: 16px;
 }
 
 .hylete-price-label-sm {

@@ -7,9 +7,10 @@
  */
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const PRODUCT_MSRP_PRICE_SELECTOR = 4;
-    const NOT_LOGGED_IN = 0;
-    const EVERYDAY_ATHLETE = 1;
+    const DEFAULT_SPECIAL_PRICE_LABEL   = 'Sale Price';
+    const PRODUCT_MSRP_PRICE_SELECTOR   = 4;
+    const NOT_LOGGED_IN                 = 0;
+    const EVERYDAY_ATHLETE              = 1;
 
     /**
      * @param $categoryId
@@ -25,58 +26,65 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param $currentCategory
+     * Generate a price type label for the current customer.
+     * @param  Mage_Catalog_Model_Product $product  Optional product model for clearance label check.
+     * @param integer $categoryId Optional category ID for clearance label check.
      * @return string
      */
-    public function getPriceLabelByCustomerGroup($currentCategory = null)
+    public function getPriceLabelByCustomerGroup(Mage_Catalog_Model_Product $product = null, $categoryId = null)
     {
-        $groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $group = Mage::getModel('customer/group')->load($groupId);
+        $groupId    = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $group      = Mage::getModel('customer/group')->load($groupId);
+        $typeId     = 'group';
+        $label      = $group->getCustomerGroupHyletePriceLabel();
 
-        $label = $group->getCustomerGroupHyletePriceLabel();
-
-        if ($label == null) {
+        if (is_null($label)) {
             $group = Mage::getModel('customer/group')->load(0);
             $label = $group->getCustomerGroupHyletePriceLabel();
         }
 
-        if ($currentCategory && $this->isClearanceCategory($currentCategory)) {
-            $label = "clearance";  // MYLES: No reason not to make this configurable as well
+        // Must consider special price since its generator may also create a clearance label
+        if ($categoryId && $product && $this->isClearanceCategory($categoryId) && !$this->hasSpecialPrice($product)) {
+            $label  = 'Clearance';
+            $typeId = 'clearance';
         }
 
-        $postamble = " price";
-
-        return $label . $postamble;
+        return sprintf(
+            '<span class="price-label-%s-%d">%s</span>',
+            $typeId,
+            $group->getId(),
+            $this->__("{$label} Price")
+        );
     }
 
     /**
-     * @param $currentCategory
+     * Generate a special price label for the given product.
+     * @param  Mage_Catalog_Model_Product $product    The product model.
+     * @param  integer                    $categoryId Optional category ID for clearance label check.
      * @return string
      */
-    public function getPriceLabelByCustomerGroupAndProduct($currentCategory, $currentProduct)
+    public function getSpecialPriceLabelHtml(Mage_Catalog_Model_Product $product, $categoryId = null)
     {
-        $groupId = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $group = Mage::getModel('customer/group')->load($groupId);
+        $label = $product->getResource()
+            ->getAttribute('special_price_label')
+            ->getSource()
+            ->getOptionText($product->getSpecialPriceLabel());
 
-        $label = $group->getCustomerGroupHyletePriceLabel();
-
-        if ($label == null) {
-            $group = Mage::getModel('customer/group')->load(0);
-            $label = $group->getCustomerGroupHyletePriceLabel();
+        // Allow label to override clearance category if set
+        if (!$label && $categoryId && $this->isClearanceCategory($categoryId)) {
+            $label = 'Clearance';
         }
 
-        if ($this->isClearanceCategory($currentCategory)) {
-            $label = "clearance"; // MYLES: No reason not to make this configurable as well
-        }
-
-        $label .= " price"; // MYLES: This is where the read to a configurable value in adminhtml needs to go
-
-        // MYLES: Determine what to do on collisions with group label
-        if($currentProduct->getIsOnFlashSale()) {
-            $label = "<span style=\"color:#34BAF3\">FLASH SALE</span>";
-        }
-
-        return $label;
+        //
+        // Sample output:
+        //   <span class="special-price-label price-label-option-id-1301 price-label-flash-sale">Flash Sale Price</span>
+        //
+        return sprintf(
+            '<span class="special-price-label price-label-option-id-%d price-label-%s">%s</span>',
+            (int) $product->getSpecialPriceLabel(),
+            Mage::getSingleton('catalog/product_url')->formatUrlKey($label),
+            $this->__($label ? "{$label} Price" : self::DEFAULT_SPECIAL_PRICE_LABEL)
+        );
     }
 
     /**
@@ -91,6 +99,23 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return 'hylete-price-label-' . ($isProductDetailsPage ? 'lg' : 'sm');
+    }
+
+    /**
+     * Determine whether the given product has an active special price.
+     * @param  Mage_Catalog_Model_Product $product The product model.
+     * @return boolean
+     */
+    public function hasSpecialPrice(Mage_Catalog_Model_Product $product)
+    {
+        return (float) $product->getPriceModel()
+            ->calculateSpecialPrice(
+                (float) $product->getPrice(),
+                (float) $product->getSpecialPrice(),
+                $product->getSpecialFromDate(),
+                $product->getSpecialToDate(),
+                $product->getStore()
+            ) !== (float) $product->getPrice();
     }
 
     /**
