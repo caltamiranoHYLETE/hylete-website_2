@@ -37,12 +37,6 @@ $_carbonHelper = $this->helper('carbon');
 $_product = $this->getProduct();
 $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
-$_retailValue = $_product->getRetailValue();
-$_msrpPrice = $_product->getMsrp();
-
-/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
-$_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
-$_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
 ?>
 
 
@@ -70,43 +64,21 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
 
-			<?php if ($_msrpPrice) : ?>
-                <div class="retail-value js-tooltip-container">
-					<?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-					<?php echo $this->__('retail value'); ?>
-					<?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(0)): ?>
-                        <span class="price-diff" style="display:inline; z-index:10000;">
-                            <span class="retail-value__link js-tooltip-link">
-                                <span class="fa fa-question"></span>
-                            </span>
-                        </span>
-
-                        <div style="display:none">
-                            <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
-                        </div>
-					<?php endif; ?>
-                </div>
-			<?php endif; ?>
+			<?php if ($this->getChild('msrp_price')) : ?>
+            <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
+            <?php endif; ?>
 
 			<?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
-				<?php if ($_product->isSaleable()): ?>
-					<?php if ($_retailValue): ?>
-                        <div class="price-with-retail-value">
-					<?php endif; ?>
-					<?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
-					<?php if ($_retailValue): ?>
-                        </div>
-					<?php endif; ?>
-				<?php else: ?>
-                    <p class="status-message">
-						<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                    </p>
+				<?php if ($_product->isSaleable()) : ?>
+				<?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+				<?php else : ?>
+                <p class="status-message">
+					<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                </p>
 				<?php endif; ?>
 			<?php endif; ?>
 
-            <?php if ($_customerGroup == Mediotype_HyletePrice_Helper_Data::NOT_LOGGED_IN || $_customerGroup == Mediotype_HyletePrice_Helper_Data::EVERYDAY_ATHLETE): ?>
-                <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
-            <?php endif; ?>
+            <?php echo $this->getChildHtml('multipack_offer'); ?>
 
 			<?php if ($_backitHelper->isPreOrderProduct()): ?>
                 <div class="pre-order">

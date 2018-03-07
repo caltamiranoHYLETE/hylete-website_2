@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Smile.io (Sweet Tooth) points prediction template extensions.
+ * Modified to output only when child content is available.
+ * @category  Template
+ * @package   carbon/hylete
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+?>
+<?php /* @var $this TBT_RewardsOnly_Block_Product_Predictpoints */ ?>
+<?php $points_adjusted_array = $this->getPredictedPoints(); ?>
+<?php $isRwdTheme = Mage::helper('rewards/theme')->getPackageName() === 'rwd'; ?>
+<?php $_partsHtml = trim($this->getPartsHtml()); ?>
+<?php if (!empty($_partsHtml)) : ?>
+<div class="points-prediction <?php echo $isRwdTheme? "rwd":""; ?>">
+    <?php echo $_partsHtml; ?>
+    <!--<?php echo $this->getProduct()->getId(); /* This is here to differentiate each product display so that we don't think it's already been printed out during auto-integration */ ?>-->
+</div>
+<?php endif; ?>
