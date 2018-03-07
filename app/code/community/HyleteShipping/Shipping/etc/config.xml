@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <HyleteShipping_Shipping>
+            <version>1.0.0</version>
+        </HyleteShipping_Shipping>
+    </modules>
+    <global>
+        <models>
+            <hyleteshipping_shipping>
+                <class>HyleteShipping_Shipping_Model</class>
+            </hyleteshipping_shipping>
+        </models>
+        <helpers>
+            <hyleteshipping_shipping>
+                <class>HyleteShipping_Shipping_Helper</class>
+            </hyleteshipping_shipping>
+        </helpers>
+    </global>
+    <default>
+        <carriers>
+            <hyleteshipping_shipping>
+                <active>1</active>
+                <sort_order>10</sort_order>
+                <model>hyleteshipping_shipping/carrier</model>
+                <title>Hylete Shipping</title>
+                <api_url>https://hylete.ngrok.io/shipping/rates</api_url>
+                <sallowspecific>1</sallowspecific>
+            </hyleteshipping_shipping>
+        </carriers>
+    </default>
+</config>
