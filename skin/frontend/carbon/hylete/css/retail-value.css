@@ -104,3 +104,13 @@
 .regular-price > .price {
     font-size: 13px;
 }
+
+.price-diff {
+    display: inline;
+    z-index: 10000;
+}
+
+.multipack-offer {
+    color: #34baf3;
+    padding-bottom: 15px;
+}

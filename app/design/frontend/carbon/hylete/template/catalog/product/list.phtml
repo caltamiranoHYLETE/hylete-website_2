@@ -34,16 +34,11 @@
 
 <?php
 /** @var Vaimo_Carbon_Block_Catalog_Product_List $this */
-$_productCollection = $this->getLoadedProductCollection();
-$_helper = $this->helper('catalog/output');
-$_baseUrl = Mage::getBaseUrl();
-$_productTypesWithOptions = array_flip(array('configurable', 'bundle', 'grouped'));
-$_backitHelper = Mage::helper('hylete/backit');
-
-/** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
-$_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
-$currentCategoryId = Mage::registry('current_category')->getId();
-$_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+$_productCollection         = $this->getLoadedProductCollection();
+$_helper                    = $this->helper('catalog/output');
+$_baseUrl                   = Mage::getBaseUrl();
+$_productTypesWithOptions   = array_flip(array('configurable', 'bundle', 'grouped'));
+$_backitHelper              = Mage::helper('hylete/backit');
 ?>
 
 <?php echo Mage::helper('prevnextlocal/category')->getScript($_productCollection); ?>
@@ -61,13 +56,8 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                             <?php echo $this->getLayout()->createBlock('cms/block', $_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->setBlockId($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->toHtml(); ?>
                         </div>
                     </li>
-                <?php else: ?>
-                    <?php
-                    $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : '';
-                    $_retailValue = $_product->getRetailValue();
-                    $_msrpPrice = $_product->getMsrp();
-                    $_specialPrice = $_product->getSpecialPrice();
-                    ?>
+                <?php else : ?>
+                    <?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : ''; ?>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
                             <?php if ($_product->getTypeId() == 'style'): ?>
@@ -89,48 +79,12 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
 
-                                <?php if ($_specialPrice == null && $_msrpPrice && !$_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
-                                    <div class="retail-value retail-value--category js-tooltip-container">
-                                        <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-                                        <?php echo $this->__('retail value'); ?>
-                                        <?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup()): ?>
-                                            <span class="price-diff" style="display:inline; z-index:10000;">
-                                                <span class="retail-value__link js-tooltip-link">
-                                                    <span class="fa fa-question"></span>
-                                                </span>
-                                            </span>
-
-                                            <div style="display:none">
-                                                <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php elseif ($_hyletePriceHelper->isClearanceCategory($currentCategoryId)): ?>
-                                    <div class="retail-value retail-value--category js-tooltip-container">
-                                        <?php echo Mage::helper('core')->currency($_msrpPrice); ?>
-                                        <?php echo $this->__('retail value'); ?>
-                                        <?php if ($_retailValueTooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup()): ?>
-                                            <span class="price-diff" style="display:inline; z-index:10000;">
-                                                <span class="retail-value__link js-tooltip-link">
-                                                    <span class="fa fa-question"></span>
-                                                </span>
-                                            </span>
-
-                                            <div style="display:none">
-                                                <div id="price-diff-data"><?php echo $_retailValueTooltip; ?></div>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
+                                <?php if ($this->getChild('msrp_price')) : ?>
+                                <?php echo $this->getChild('msrp_price')->addClass('retail-value--category')->setProduct($_product)->toHtml(); ?>
                                 <?php endif; ?>
 
                                 <?php if ($_product->isSaleable()): ?>
-                                    <?php if ($_retailValue): ?>
-                                        <div class="price-with-retail-value price-with-retail-value--category">
-                                    <?php endif; ?>
                                     <?php echo $this->getPriceHtml($_product, true); ?>
-                                    <?php if ($_retailValue): ?>
-                                        </div>
-                                    <?php endif; ?>
                                 <?php else: ?>
                                     <p class="status-message">
                                         <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
@@ -170,9 +124,10 @@ $_customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if ($_customerGroup == Mediotype_HyletePrice_Helper_Data::NOT_LOGGED_IN || $_customerGroup == Mediotype_HyletePrice_Helper_Data::EVERYDAY_ATHLETE): ?>
-                                <div class="multipack-offer" style="color: #34baf3;"><?php echo $_product->getAttributeText("multipack_offer"); ?></div>
+                            <?php if ($this->getChild('multipack_offer')) : ?>
+                            <?php echo $this->getChild('multipack_offer')->setProduct($_product)->toHtml(); ?>
                             <?php endif; ?>
+
                         </a>
                     </li>
                 <?php endif; ?>

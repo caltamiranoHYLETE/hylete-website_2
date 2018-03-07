@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * MSRP (Retail Value) price template.
+ * @category  Template
+ * @package   Mediotype_HyletePrice
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+?>
+<?php /* @var $this Mediotype_HyletePrice_Block_Catalog_Product_List_Msrp */ ?>
+<?php if ($this->getProduct()->getMsrp()) : ?>
+<?php $_tooltip = $this->helper('mediotype_hyleteprice')->getPriceDifferenceCmsBlockByCustomerGroup(); ?>
+<div class="retail-value js-tooltip-container <?php echo $this->getAdditionalClasses(); ?>">
+    <?php echo $this->helper('core')->currency($this->getProduct()->getMsrp()); ?>
+    <span><?php echo $this->__('retail value'); ?></span>
+    <?php if ($_tooltip) : ?>
+    <span class="price-diff">
+        <span class="retail-value__link js-tooltip-link">
+            <span class="fa fa-question"></span>
+        </span>
+    </span>
+    <div style="display:none;">
+        <div id="price-diff-data"><?php echo $_tooltip; ?></div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
