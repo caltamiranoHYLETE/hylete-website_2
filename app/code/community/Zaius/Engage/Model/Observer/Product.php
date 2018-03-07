@@ -5,8 +5,6 @@ class Zaius_Engage_Model_Observer_Product extends Zaius_Engage_Model_Observer {
     $helper = Mage::helper('zaius_engage');
     if ($helper->isEnabled()) {
       $product = $observer->getProduct();
-      Mage::log('Zaius product observer called via:' . get_class($observer));
-      Mage::log('Zaius product observer provided product: ' . get_class($product) . ' whose name was : ' . $product->getName());
       $entity = array();
       if ($helper->isCollectAllProductAttributes()) {
         $entity = Zaius_Engage_Model_ProductAttribute::getAttributes($product);
