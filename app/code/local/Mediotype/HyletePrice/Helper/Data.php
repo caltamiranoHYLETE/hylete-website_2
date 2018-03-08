@@ -176,10 +176,15 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
         $hasMsrpTargetRule = false;
 
         if ($quote instanceof Mage_Checkout_Model_Session) {
-            $quote = $quote->getQuote();
+            $connection = Mage::getSingleton('core/resource')->getConnection('sales_read');
+            $select     = $connection->select()
+                ->from(Mage::getResourceSingleton('sales/quote')->getMainTable(), array('coupon_code'))
+                ->where('entity_id = ?', $quote->getQuoteId());
+            $couponCode = $connection->fetchOne($select);
+        } else {
+            $couponCode = $quote->getCouponCode();
         }
 
-        $couponCode = $quote->getCouponCode();
         $websiteId = Mage::app()->getWebsite()->getId();
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $rules = [];
