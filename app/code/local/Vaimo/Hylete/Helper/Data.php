@@ -311,6 +311,8 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
             'special_to_date',
             'special_price_label',
             'multipack_offer',
+            'badge_label',
+            'color',
         );
 
         return $block->getCollection('all', $collectionGetAmount = 3, $collectionDescSort = true, $collectionAttributes);

@@ -41,6 +41,15 @@ class Mediotype_HyletePrice_Block_Selectedproducts_Widget extends Icommerce_Sele
     }
 
     /**
+     * Determine whether the current request is for a category listing.
+     * @return boolean
+     */
+    public function getIsCategoryListing()
+    {
+        return Mage::registry('current_category') ? true : false;
+    }
+
+    /**
      * Get the product collection.
      * Extended to apply custom widget parameters.
      * @param  string $attribute
@@ -53,13 +62,13 @@ class Mediotype_HyletePrice_Block_Selectedproducts_Widget extends Icommerce_Sele
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function getRealCollection(
-        $attribute          = 'all',
-        $num_get            = 3,
-        $desc               = true,
-        $attribs            = array('entity_id', 'sku', 'image', 'name'),
-        $attributesToFilter = array(), 
-        $instock_only       = 0, 
-        $xtra_options       = array()
+        $attribute = 'all',
+        $num_get = 3,
+        $desc = true,
+        $attribs = array('entity_id', 'sku', 'image', 'name'),
+        $attributesToFilter = array(),
+        $instock_only = 0,
+        $xtra_options = array()
     ) {
         $collection = parent::getRealCollection(
             $attribute,

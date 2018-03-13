@@ -39,4 +39,13 @@ class Mediotype_HyletePrice_Block_Selectedproducts_Single extends Icommerce_Sele
             );
         }
     }
+
+    /**
+     * Determine whether the current request is for a category listing.
+     * @return boolean
+     */
+    public function getIsCategoryListing()
+    {
+        return Mage::registry('current_category') ? true : false;
+    }
 }
