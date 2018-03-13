@@ -7,7 +7,7 @@
  */
 class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const DEFAULT_SPECIAL_PRICE_LABEL   = 'Sale Price';
+    const DEFAULT_SPECIAL_PRICE_LABEL   = 'Sale';
     const PRODUCT_MSRP_PRICE_SELECTOR   = 4;
     const NOT_LOGGED_IN                 = 0;
     const EVERYDAY_ATHLETE              = 1;
@@ -53,7 +53,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
             '<span class="price-label-%s-%d">%s</span>',
             $typeId,
             $group->getId(),
-            $this->__("{$label} Price")
+            $this->__($label)
         );
     }
 
@@ -83,7 +83,7 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
             '<span class="special-price-label price-label-option-id-%d price-label-%s">%s</span>',
             (int) $product->getSpecialPriceLabel(),
             Mage::getSingleton('catalog/product_url')->formatUrlKey($label),
-            $this->__($label ? "{$label} Price" : self::DEFAULT_SPECIAL_PRICE_LABEL)
+            $this->__($label ?: self::DEFAULT_SPECIAL_PRICE_LABEL)
         );
     }
 
@@ -154,13 +154,11 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($hasMsrpTargetRule && !$isSubtotal) {
             $itemPrice = (string) $catalogProduct->getPrice();
-
         } elseif ($isSubtotal && !$hasMsrpTargetRule) {
             $itemPrice = $item->getPrice() * $item->getQty();
-
         } else if ($isSubtotal && $hasMsrpTargetRule) {
-			$itemPrice = (string) $catalogProduct->getMsrp() * $item->getQty(); // Qty
-		}
+            $itemPrice = (string) $catalogProduct->getMsrp() * $item->getQty(); // Qty
+        }
 
         return $itemPrice;
     }

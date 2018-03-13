@@ -1,5 +1,9 @@
 /* Product prices ======================================================================================= */
 
+.price-box {
+    text-transform: lowercase;
+}
+
 .old-price,
 .special-price {
     display: inline-block;

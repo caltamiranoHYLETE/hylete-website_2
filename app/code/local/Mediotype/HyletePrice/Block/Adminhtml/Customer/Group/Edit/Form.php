@@ -23,7 +23,7 @@ class Mediotype_HyletePrice_Block_Adminhtml_Customer_Group_Edit_Form extends Mag
 				'label' => 'Hylete price label',
 				'title' => 'Hylete price label',
 				'class' => '',
-				'note' => 'Max 32 characters; "Price" is automatically suffixed.',
+				'note' => 'Max 32 characters',
 				'required' => false
 			)
 		);

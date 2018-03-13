@@ -64,16 +64,13 @@
     color: #000;
 }
 
-.hylete-price {
-    text-transform: none;
-}
-
 .has-special-price .regular-price .price {
     text-decoration: line-through;
     color: #666;
 }
 
 .hylete-price-label {
+    text-transform: none;
     color: #666;
 }
 
