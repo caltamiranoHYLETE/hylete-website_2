@@ -89,7 +89,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                     $node = array(
                         'node_id'               => $v['node_id'],
                         'parent_node_id'        => $v['parent_node_id'],
-                        'label'                 => $v['label'],
+                        'label'                 => $this->escapeHtml($v['label']),
                         'page_exists'           => $pageExists,
                         'page_id'               => $v['page_id'],
                         'current_page'          => (bool)$v['current_page']
@@ -112,7 +112,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                     $node = array(
                         'node_id'               => $item->getId(),
                         'parent_node_id'        => $item->getParentNodeId(),
-                        'label'                 => $item->getLabel(),
+                        'label'                 => $this->escapeHtml($item->getLabel()),
                         'page_exists'           => (bool)$item->getPageExists(),
                         'page_id'               => $item->getPageId(),
                         'current_page'          => (bool)$item->getCurrentPage(),
@@ -180,7 +180,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function getCurrentPageJson()
     {
         $data = array(
-            'label' => $this->quoteEscape($this->getPage()->getTitle()),
+            'label' => $this->escapeHtml($this->quoteEscape($this->getPage()->getTitle())),
             'id' => $this->getPage()->getId()
         );
 

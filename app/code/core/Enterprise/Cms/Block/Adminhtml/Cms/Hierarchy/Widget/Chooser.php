@@ -116,7 +116,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                     var cls = nodes[i].page_id ? "cms_page" : "cms_node";
                     var node = new Ext.tree.TreeNode({
                         id: nodes[i].node_id,
-                        text: nodes[i].label,
+                        text: nodes[i].label.escapeHTML(),
                         cls: cls,
                         expanded: nodes[i].page_exists,
                         allowDrop: false,

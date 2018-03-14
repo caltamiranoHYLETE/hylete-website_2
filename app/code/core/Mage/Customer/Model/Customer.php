@@ -67,6 +67,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const CACHE_TAG = 'customer';
 
     /**
+     * Minimum Password Length
+     */
+    const MINIMUM_PASSWORD_LENGTH = 6;
+
+    /**
+     * Maximum Password Length
+     */
+    const MAXIMUM_PASSWORD_LENGTH = 256;
+
+    /**
      * Model event prefix
      *
      * @var string
@@ -838,8 +848,19 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (!$this->getId() && !Zend_Validate::is($password , 'NotEmpty')) {
             $errors[] = Mage::helper('customer')->__('The password cannot be empty.');
         }
-        if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(6))) {
-            $errors[] = Mage::helper('customer')->__('The minimum password length is %s', 6);
+        if (
+            strlen($password)
+            && !Zend_Validate::is($password, 'StringLength', array(self::MINIMUM_PASSWORD_LENGTH))
+        ) {
+            $errors[] = Mage::helper('customer')
+                ->__('The minimum password length is %s', self::MINIMUM_PASSWORD_LENGTH);
+        }
+        if (
+            strlen($password)
+            && !Zend_Validate::is($password, 'StringLength', array('max' => self::MAXIMUM_PASSWORD_LENGTH))
+        ) {
+            $errors[] = Mage::helper('customer')
+                ->__('Please enter a password with at most %s characters.', self::MAXIMUM_PASSWORD_LENGTH);
         }
         $confirmation = $this->getPasswordConfirmation();
         if ($password != $confirmation) {

@@ -192,7 +192,8 @@
 
                 var node = new Ext.tree.TreeNode({
                     id: this.nodes[i].node_id,
-                    text: this.nodes[i].label,
+                    text: this.nodes[i].label_esc,
+                    input: this.nodes[i].label,
                     page_id: this.nodes[i].page_id,
                     identifier: this.nodes[i].identifier,
                     cls: cssClass,
@@ -309,7 +310,7 @@
             }
 
             if (!hasPageId) {
-                $('node_label').value = node.text;
+                $('node_label').value = node.attributes.input;
                 $('node_identifier').value = node.attributes.identifier;
             } else {
                 $('node_label_text').innerHTML = this.getEditPageAnchorHtml(node.attributes.page_id, node.text);
@@ -380,7 +381,8 @@
                 }
                 rootNode.appendChild(new Ext.tree.TreeNode({
                     id: '_' + this.increment,
-                    text: label,
+                    text: label.escapeHTML(),
+                    input: label,
                     identifier: identifier,
                     page_id: page_id,
                     cls: 'cms_page',
@@ -407,7 +409,7 @@
                     node_id: node.id,
                     parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
                     page_id: node.attributes.page_id,
-                    label: node.attributes.text,
+                    label: node.attributes.input,
                     identifier: node.attributes.identifier,
                     sort_order: node.parentNode.indexOf(node),
                     level: node.getDepth()
@@ -551,6 +553,7 @@
                 return false;
             }
 
+            var label = $('node_label').value;
             if (hasNodeId) {
                 var node_id = $('node_id').value,
                     node = this.tree.getNodeById(node_id),
@@ -565,13 +568,15 @@
                 }
 
                 if (!hasPageId) {
-                    node.setText($('node_label').value);
+                    node.setText(label.escapeHTML());
                     node.attributes.identifier = identifier;
+                    node.attributes.input = label;
                 }
             } else {
                 var node = new Ext.tree.TreeNode({
                     id: '_' + this.increment,
-                    text: $('node_label').value,
+                    text: label.escapeHTML(),
+                    input: label,
                     identifier: $('node_identifier').value,
                     page_id: null,
                     cls: 'cms_node',

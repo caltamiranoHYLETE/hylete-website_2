@@ -125,7 +125,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         foreach ($stores as $websiteId => $website) {
             $values[] = array(
-                'label' => $website['label'],
+                'label' => $this->escapeHtml($website['label']),
                 'value' => array()
             );
             if (isset($website['children']) && is_array($website['children'])) {
@@ -139,7 +139,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
                             );
                         }
                         $values[] = array(
-                            'label' => str_repeat($nonEscapableNbspChar, 4) . $group['label'],
+                            'label' => str_repeat($nonEscapableNbspChar, 4) .
+                                $this->escapeHtml($group['label']),
                             'value' => $options
                         );
                     }
