@@ -36,7 +36,7 @@
             <div class="cms-popup-description"></div>
             <div class="fieldset">
                 <div class="cms-hierarchy manage-form">
-                    <?php echo $this->getFormHtml() ?>
+                    <?php echo $this->escapeHtml($this->getFormHtml()); ?>
                 </div>
             </div>
         </div>
