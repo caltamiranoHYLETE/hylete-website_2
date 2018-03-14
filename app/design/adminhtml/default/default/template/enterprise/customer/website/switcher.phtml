@@ -30,10 +30,10 @@
 <?php echo $this->getHintHtml() ?>
 <select name="website_switcher" id="website_switcher" onchange="return switchWebsite(this);">
 <?php if ($this->hasDefaultOption()): ?>
-    <option value=""><?php echo $this->getDefaultStoreName() ?></option>
+    <option value=""><?php echo $this->escapeHtml($this->getDefaultStoreName()); ?></option>
 <?php endif; ?>
     <?php foreach ($websites as $website): ?>
-        <option value="<?php echo $website->getId() ?>"<?php if ($this->getStoreId() == $website->getId()): ?> selected="selected"<?php endif; ?>><?php echo $website->getName() ?></option>
+        <option value="<?php echo $website->getId() ?>"<?php if ($this->getStoreId() == $website->getId()): ?> selected="selected"<?php endif; ?>><?php echo $this->escapeHtml($website->getName()); ?></option>
     <?php endforeach; ?>
 </select>
 </p>

@@ -31,7 +31,7 @@
 <?php $stagingWebsites  = $this->getStagingWebsiteCollection(); ?>
 <?php $stagingWebsite   = $staging->getStagingWebsite(); ?>
 <div>
-    <h3 class="icon-head head-categories"><?php echo $staging->getName(); ?></h3>
+    <h3 class="icon-head head-categories"><?php echo $this->escapeHtml($staging->getName()); ?></h3>
 </div>
 <?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
     <table cellspacing="0" class="actions">
@@ -130,13 +130,13 @@
             <tr id="<?php echo $this->getId() ?>_website_template" style="display: none;">
                 <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
                     <input type="hidden" name="map[websites][from][]" class="validate-select-website staging-mapper-website-from" value="<?php echo $stagingWebsite->getId(); ?>" />
-                    <span><?php echo $stagingWebsite->getName(); ?></span>
+                    <span><?php echo $this->escapeHtml($stagingWebsite->getName()); ?></span>
                 </td>
                 <td class="mapper-select"><?php echo $this->__('Website: '); ?>&nbsp;&nbsp;&nbsp;
                     <select name="map[websites][to][]" class="validate-select-website staging-mapper-website-to">
                         <option value=""><?php echo $this->__('Select website to map'); ?></option>
                     <?php foreach ($masterWebsites as $website): ?>
-                        <option value="<?php echo $website->getId(); ?>"><?php echo $website->getName(); ?></option>
+                        <option value="<?php echo $website->getId(); ?>"><?php echo $this->escapeHtml($website->getName()); ?></option>
                     <?php endforeach; ?>
                     </select>
                 </td>
