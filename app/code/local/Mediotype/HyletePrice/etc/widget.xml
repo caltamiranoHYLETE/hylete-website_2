@@ -21,6 +21,42 @@
                 <description><![CDATA[Comma-delimited list of types (eg: simple,configurable)]]></description>
                 <sort_order>55</sort_order>
             </product_types>
+            <row_classes translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Row Classes</label>
+                <type>text</type>
+                <description><![CDATA[Optional CSS classes to apply to the row.]]></description>
+                <sort_order>125</sort_order>
+            </row_classes>
+            <item_classes translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Item Classes</label>
+                <type>text</type>
+                <description><![CDATA[Optional CSS classes applied to each item in a row.]]></description>
+                <sort_order>130</sort_order>
+            </item_classes>
         </parameters>
     </selectedproducts_view>
+    <selectedproducts_single>
+        <parameters>
+            <row_classes translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Row Classes</label>
+                <type>text</type>
+                <description><![CDATA[Optional CSS classes to apply to the row.]]></description>
+                <sort_order>125</sort_order>
+            </row_classes>
+            <item_classes translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Item Classes</label>
+                <type>text</type>
+                <description><![CDATA[Optional CSS classes applied to each item in a row.]]></description>
+                <sort_order>130</sort_order>
+            </item_classes>
+        </parameters>
+    </selectedproducts_single>
 </widgets>
