@@ -21,13 +21,14 @@
 <?php $_rowClasses          = $this->getRowClasses() ?: 'row'; ?>
 <?php $_itemClasses         = $this->getItemClasses() ?: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'; ?>
 
-<?php if ($_listDirection == 'horizontal') : ?>
+<?php if ($_listDirection == 'horizontal' && !$this->getItemClasses()) : ?>
 <?php $_itemClasses = 'col-xs-12 col-sm-4 col-md-4 col-lg-4'; ?>
 <?php endif; ?>
 
-<?php if (!$this->getIsCategoryListing() && !$this->getItemClasses()) : ?>
-<?php $_itemClasses = 'col-xs-12 col-sm-4 col-md-4 col-lg-4'; ?>
-<?php endif; ?>
+<?php // Removed: existing uses of the widget are not compatible with this behavior ?>
+<?php // if (!$this->getIsCategoryListing() && !$this->getItemClasses()) : ?>
+<?php // $_itemClasses = 'col-xs-12 col-sm-4 col-md-4 col-lg-4'; ?>
+<?php // endif; ?>
 
 <div class="selected-products category-products widget-size-medium">
 
