@@ -28,7 +28,7 @@
 <?php $helper = Mage::helper('merchandiser'); ?>
 
 <div class="page-title category-title">
-    <h1><?php echo $this->getCategory()->getName() ?></h1>
+    <h1><?php echo $this->escapeHtml($this->getCategory()->getName()); ?></h1>
 </div>
 
 <div id="category-link" class="top-button"></div>

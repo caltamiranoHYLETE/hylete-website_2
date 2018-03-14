@@ -43,7 +43,7 @@ $parameters = $this->getParameters();
 <?php foreach ($this->getAllStoreViewsList() as $store): ?>
     <div id="<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>" class="form-list">
         <dl style="margin-bottom:5px;">
-            <h3><?php echo $this->__('CMS Hierarchy for') . ' ' . $store['label'] ?></h3>
+            <h3><?php echo $this->__('CMS Hierarchy for') . ' ' . $this->escapeHtml($store['label']); ?></h3>
         </dl>
         <dl style="margin-bottom:5px;">
             <dt style="float:left;width:150px;height:25px;"><label for="options_<?php echo $uniqueHash; ?>_anchor_text_<?php echo $store['value']; ?>"><?php echo $this->__('Anchor Custom Text'); ?></label></dt>

@@ -63,7 +63,8 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
             'header'    => Mage::helper('enterprise_staging')->__('Website'),
             'index'     => 'name',
             'type'      => 'text',
-            'sortable'  => false
+            'sortable'  => false,
+            'escape'    => true,
         ));
 
         $this->addColumn('created_at', array(
@@ -133,7 +134,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
         foreach($collection as $backup) {
             $websiteId   = $backup->getMasterWebsiteId();
             $websiteName = $backup->getMasterWebsiteName();
-            $websites[$websiteId] = $websiteName;
+            $websites[$websiteId] = $this->escapeHtml($websiteName);
         }
 
         return $websites;
