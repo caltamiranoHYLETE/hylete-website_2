@@ -194,7 +194,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     {
         return array(
             '__ID__'    => $node->getId(),
-            '__LABEL__' => $node->getLabel(),
+            '__LABEL__' => $this->escapeHtml($node->getLabel()),
             '__HREF__'  => $node->getUrl()
         );
     }

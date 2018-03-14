@@ -212,7 +212,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             $inputTypeProp = $helper->getAttributeInputTypes($attribute->getFrontendInput());
 
             // input_filter
-            if ($inputTypeProp['filter_types']) {
+            if (isset($inputTypeProp['filter_types'])) {
                 $filterTypes = $helper->getAttributeFilterTypes();
                 $values = $form->getElement('input_filter')->getValues();
                 foreach ($inputTypeProp['filter_types'] as $filterTypeCode) {
@@ -222,7 +222,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             }
 
             // input_validation getAttributeValidateFilters
-            if ($inputTypeProp['validate_filters']) {
+            if (isset($inputTypeProp['validate_filters'])) {
                 $filterTypes = $helper->getAttributeValidateFilters();
                 $values = $form->getElement('input_validation')->getValues();
                 foreach ($inputTypeProp['validate_filters'] as $filterTypeCode) {
@@ -237,7 +237,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             $element = $form->getElement($elementId);
             $element->setScope($scope);
             if ($this->getAttributeObject()->getWebsite()->getId()) {
-                $element->setName('scope_' . $element->getName());
+                $element->setName('scope_' . Mage::helper('core')->escapeHtml($element->getName()));
             }
         }
 

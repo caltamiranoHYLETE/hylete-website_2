@@ -33,12 +33,12 @@
             <?php if ($_option['is_close']): ?>
                 </optgroup>
                 <?php else: ?>
-            <optgroup label="<?php echo $_option['label'] ?>" style="<?php echo $_option['style'] ?>">
+            <optgroup label="<?php echo $this->escapeHtml($_option['label']) ?>" style="<?php echo $_option['style'] ?>">
         <?php endif; ?>
             <?php continue ?>
             <?php endif; ?>
-        <option value="<?php echo $_value ?>" url="<?php echo $_option['url'] ?>" <?php echo $_option['selected']?'selected="selected"':'' ?> style="<?php echo $_option['style'] ?>">
-            <?php echo $_option['label'] ?>
+        <option value="<?php echo $this->escapeHtml($_value); ?>" url="<?php echo $_option['url'] ?>" <?php echo $_option['selected']?'selected="selected"':'' ?> style="<?php echo $_option['style'] ?>">
+            <?php echo $this->escapeHtml($_option['label']); ?>
         </option>
         <?php endforeach ?>
     </select>

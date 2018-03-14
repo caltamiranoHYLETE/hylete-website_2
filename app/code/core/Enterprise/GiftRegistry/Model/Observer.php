@@ -99,7 +99,11 @@ class Enterprise_GiftRegistry_Model_Observer
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(Mage::helper('enterprise_giftregistry')->getAddressIdPrefix() . $model->getId());
-                $object->setCustomerId($this->_getSession()->getCustomer()->getId());
+                if (   !$model->getCustomerId()
+	                || ($model->getCustomerId() == $this->_getSession()->getCustomer()->getId())
+                ) {
+                    $object->setCustomerId($this->_getSession()->getCustomer()->getId());
+                }
                 $object->addData($model->exportAddress()->getData());
             }
         }
