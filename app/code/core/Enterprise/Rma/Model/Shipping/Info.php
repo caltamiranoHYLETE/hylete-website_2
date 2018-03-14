@@ -103,7 +103,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Varien_Object
         /* @var $model Enterprise_Rma_Model_Rma */
         $model = Mage::getModel('enterprise_rma/rma');
         $rma = $model->load($this->getRmaId());
-        if (!$rma->getEntityId() || $this->getProtectCode() != $rma->getProtectCode()) {
+        if (!$rma->getEntityId() || $this->getProtectCode() !== $rma->getProtectCode()) {
             return false;
         }
         return $rma;
@@ -141,7 +141,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Varien_Object
     public function getTrackingInfoByTrackId()
     {
         $track = Mage::getModel('enterprise_rma/shipping')->load($this->getTrackId());
-        if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
+        if ($track->getId() && $this->getProtectCode() === $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }
         return $this->_trackingInfo;

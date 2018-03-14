@@ -87,7 +87,7 @@
                                 <?php echo Mage::helper('merchandiser')->__("Hero Products") ?> :
                             </td>
                             <td class="value">
-                                <input type="text" class="input-text" value="<?php echo $merchandiserValues['heroproducts']; ?>" id="group_198merchandiser_heroproducts" name="merchandiser[heroproducts]" style="width:350px" />
+                                <input type="text" class="input-text" value="<?php echo $this->escapeHtml($merchandiserValues['heroproducts']); ?>" id="group_198merchandiser_heroproducts" name="merchandiser[heroproducts]" style="width:350px" />
                                 <p class="note">
                                     <?php echo $this->__("Enter a comma separated list of SKUs that will always be displayed at the top of your category") ?>
                                 </p>

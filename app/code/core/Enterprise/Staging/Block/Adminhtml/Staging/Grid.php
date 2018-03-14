@@ -92,6 +92,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
             'header'    => Mage::helper('enterprise_staging')->__('Website Name'),
             'index'     => 'name',
             'type'      => 'text',
+            'escape'    => true,
         ));
 
         $this->addColumn('base_url', array(
