@@ -48,9 +48,9 @@ $msrpPrice = 0.00;
 
 foreach ($cart->getAllItems() as $item) {
     // MYLES: Configurable products need to only have the price of the children added
-	if (empty(Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId()))) {
-		$msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
-	}
+    if (empty(Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId()))) {
+        $msrpPrice += $item->getProduct()->getMsrp() * $item->getQty();
+    }
 }
 ?>
 
@@ -66,23 +66,23 @@ foreach ($cart->getAllItems() as $item) {
         </td>
     </tr>
 <?php endif; ?>
-    <tr>
+    <tr class="retail-value--totals">
         <td style="<?php echo $this->getStyle() ?>" class="a-left hylete-price"
             colspan="<?php echo $this->getColspan(); ?>">
-			<?php echo $this->__('retail value'); ?>:
+            <?php echo $this->__('retail value'); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
-			<?php echo $this->helper('checkout')->formatPrice($msrpPrice) ?>
+            <?php echo $this->helper('checkout')->formatPrice($msrpPrice) ?>
         </td>
     </tr>
 
     <tr>
         <td style="<?php echo $this->getStyle() ?>" class="a-left" colspan="<?php echo $this->getColspan(); ?>">
-			<?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_customerGroupId); ?>:
+            <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_customerGroupId); ?>:
         </td>
         <td style="<?php echo $this->getStyle() ?>" class="a-right">
             <?php echo $this->helper('checkout')->formatPrice(Mage::helper('mediotype_hyleteprice')->quoteSalesRulesForMsrpCalculation($this->getQuote())) ?>
-			<?php //echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+            <?php //echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
         </td>
     </tr>
 <?php //endif; ?>

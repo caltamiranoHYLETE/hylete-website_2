@@ -36,7 +36,7 @@
 <select name="staging_website_stores" id="staging_website_stores_<?php echo $this->getWebsite()->getId(); ?>" class="left-col-block">
     <option value=""><?php echo $this->__('Please, select a store view') ?></option>
     <?php foreach ($_storeCollection as $_store): ?>
-        <option value="<?php echo $_store->getId() ?>"><?php echo $_store->getName() ?></option>
+        <option value="<?php echo $_store->getId() ?>"><?php echo $this->escapeHtml($_store->getName()); ?></option>
     <?php endforeach; ?>
 </select>
 <button class="button" onclick="addStagingStore('<?php echo $this->getWebsite()->getId(); ?>'); return false;"><span><span><span><?php echo $this->__('Add'); ?></span></span></span></button>
