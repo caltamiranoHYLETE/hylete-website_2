@@ -46,6 +46,7 @@ $_weeeHelper            = $this->helper('weee');
 /* @var $_taxHelper Mage_Tax_Helper_Data */
 $_taxHelper             = $this->helper('tax');
 $_product               = $this->getProduct();
+$_priceModel            = $_product->getPriceModel();
 $_storeId               = $_product->getStoreId();
 $_id                    = $_product->getId();
 $_weeeSeparator         = '';
@@ -77,6 +78,7 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
         <?php $_price = $_taxHelper->getPrice($_product, $_product->getPrice()) ?>
         <?php $_regularPrice = $_taxHelper->getPrice($_product, $_product->getPrice(), $_simplePricesTax) ?>
         <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
+        <?php $_finalPriceNoSpecial = $_taxHelper->getPrice($_product, min($_price, $_priceModel->getGroupPrice($_product), $_priceModel->getTierPrice(null, $_product))); ?>
         <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
         <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
         <?php if ($_finalPrice >= $_price): ?>
@@ -217,7 +219,7 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
                 </span>
                 <?php else : ?>
                 <span class="regular-price"<?php echo !$_hasSpecialPrice ? $_extraPriceAttributes : ''; ?>>
-                    <span class="<?php echo $_hyletePriceHelper->hasProductMSRP($_product, $_isProductDetailsPage) ?>"><?php echo $_coreHelper->currency($_price, true, true) ?></span>
+                    <span class="<?php echo $_hyletePriceHelper->hasProductMSRP($_product, $_isProductDetailsPage) ?>"><?php echo $_coreHelper->currency($_finalPriceNoSpecial, true, true) ?></span>
                     <span class="hylete-price-label">
                         <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId) ?>
                     </span>
@@ -383,10 +385,10 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
                 <span class="regular-price"<?php echo $_hasSpecialPrice ? $_extraPriceAttributes : ''; ?>>
                     <?php $_priceLabel = $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId); ?>
                     <?php if ($_isProductDetailsPage && !$_hasSpecialPrice) : ?>
-                    <span class="hylete-price-label-lg"><?php echo $_coreHelper->currency($_price, true, true); ?></span>
+                    <span class="hylete-price-label-lg"><?php echo $_coreHelper->currency($_finalPriceNoSpecial, true, true); ?></span>
                     <span class="hylete-price-label"><?php echo $_priceLabel; ?></span>
                     <?php else : ?>
-                    <?php echo $_coreHelper->currency($_price, true, true); ?>
+                    <?php echo $_coreHelper->currency($_finalPriceNoSpecial, true, true); ?>
                     <span class="hylete-price-label"><?php echo $_priceLabel; ?></span>
                     <?php endif; ?>
                 </span>
