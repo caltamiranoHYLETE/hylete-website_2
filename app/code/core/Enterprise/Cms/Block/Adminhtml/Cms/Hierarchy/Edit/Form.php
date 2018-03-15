@@ -428,6 +428,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             } else {
                 $nodes[$i]['meta_chapter_section'] = '';
             }
+            $nodes[$i]['label_esc'] = $this->escapeHtml($nodes[$i]['label']);
         }
 
         return Mage::helper('core')->jsonEncode($nodes);

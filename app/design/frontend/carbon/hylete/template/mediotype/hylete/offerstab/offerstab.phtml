@@ -38,7 +38,7 @@
          style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width:100%; height:100%; background: #000; opacity: .25; z-index:1025;">
     </div>
 
-    <div class="container-fluid body-content">
+    <div class="container-fluid body-content" id="<?php echo $this->getContainerHtmlId(); ?>">
         <div class="footer navbar-fixed-bottom">
             <div class="panel-group bottom0" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-primary">
@@ -47,8 +47,10 @@
                          data-toggle="collapse"
                          data-parent="#accordion" href="#collapseOne" aria-expanded="true"
                          aria-controls="collapseOne">
-                        <h4 class="panel-title"><i
-                                    class="fa fa-tags"></i> <?php echo $this->_offersTabHelper->getTitle(); ?></h4>
+                        <h4 class="panel-title">
+                            <i class="fa fa-tags"></i>
+                            <span><?php echo $this->_offersTabHelper->getTitle(); ?></span>
+                        </h4>
                     </div>
 
                     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * Offers Tab module cache configuration.
+ * @category  Configuration
+ * @package   Mediotype_OffersTab
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+    
+-->
+<config>
+    <placeholders>
+        <offerstab_panel>
+            <block>mediotype_offerstab/offers</block>
+            <placeholder>OFFERSTAB_PANEL</placeholder>
+            <container>Mediotype_OffersTab_Model_PageCache_Container_Offers</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </offerstab_panel>
+    </placeholders>
+</config>

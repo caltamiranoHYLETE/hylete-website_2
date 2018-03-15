@@ -123,8 +123,8 @@ class OnTap_Merchandiser_Block_Adminhtml_Catalog_Product_List extends Mage_Catal
             }
 
             $resource = $product->getResource()->getAttribute($attributeCode);
-            $label = $resource->getFrontendLabel();
-            $value = $resource->getFrontend()->getValue($product);
+            $label = $this->escapeHtml($resource->getFrontendLabel());
+            $value = $this->escapeHtml($resource->getFrontend()->getValue($product));
 
             if ($value) {
                 if ($eavAttribute->getFrontendInput() == 'price') {

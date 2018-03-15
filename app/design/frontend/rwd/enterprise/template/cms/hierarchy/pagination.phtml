@@ -45,7 +45,7 @@
 
         <?php foreach ($this->getNodesInRange() as $node):?>
             <?php if ($node->getIsCurrent()):?>
-                <li class="current"><?php echo $this->getNodeLabel($node)?></li>
+                <li class="current"><?php echo $this->escapeHtml($this->getNodeLabel($node))?></li>
             <?php else: ?>
                 <li><a title="<?php echo $this->escapeHtml($node->getLabel())?>" href="<?php echo $node->getUrl()?>"><?php echo $this->getNodeLabel($node)?></a></li>
             <?php endif; ?>
