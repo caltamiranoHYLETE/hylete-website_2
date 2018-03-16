@@ -1,0 +1,295 @@
+<?php
+    /**
+    * Magedelight
+    * Copyright (C) 2015 Magedelight <info@magedelight.com>
+    *
+    * NOTICE OF LICENSE
+    *
+    * This program is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+    *
+    * @category MD
+    * @package MD_Cybersource
+    * @copyright Copyright (c) 2015 Mage Delight (http://www.magedelight.com/)
+    * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+    * @author Magedelight <info@magedelight.com>
+    */
+?>
+<?php $cards = $this->getCustomerCards(); ?>
+<?php $helper = Mage::helper("md_cybersource"); ?>
+<?php $code = "md_cybersource" ?>
+<?php //echo "<pre>";print_r($cards); ?>
+<table id="md-cybersource-cards" class="form-edit" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="address-list">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-customer-address-list"><?php echo $this->__("Saved Credit Cards") ?></h4>
+                </div>
+                <div class="fieldset">
+                    <?php if( $cards !== false && count($cards) ): ?>
+                        <ul id="cards-current-list">
+                            <?php foreach( $cards as $card ): ?>
+                                <?php $addressHtml = $helper->getFormatedAddress($card) ?>
+                                <li class="on" id="my-card-<?php echo $card['card_id'] ?>" style="cursor:default;">                                    
+                                        <a href="#" onclick="if(confirm('<?php echo $this->__('Are you sure want to delete credit card details?'); ?>')){csremoveCardFromList('<?php echo $card['card_id'] ?>');}" class="btn-remove-address" title="<?php echo $this->__("Remove Card") ?>">
+                                            <img src="<?php echo $this->getSkinUrl('images/cancel_icon.gif') ?>" alt="<?php echo $this->__("Remove Card") ?>" id="delete_button1">
+                                        </a>
+                                        <a href="#" onclick="cseditCardFromList('<?php echo $card['card_id']?>');" class="select_button btn-edit-address" title="<?php echo $this->__("Edit Card") ?>">
+                                            <img src="<?php echo $this->getSkinUrl('images/edit_icon.gif') ?>" alt="<?php echo $this->__("Edit Card") ?>">
+                                        </a>                                      
+                                    <h3 class="box-title"><?php echo $this->__('Card:').' '.'XXXXXX-'.$card['cc_last4']; ?></h3>
+                                    <address class="box-content">
+                                        <?php echo $addressHtml; ?>
+                                    </address>
+                                </li>
+                                <?php endforeach; ?>
+                        </ul>
+                        <?php else: ?>
+                        <ul>
+                            <li><?php  echo $this->__("No saved Cards are available.")  ?></li>
+                        </ul>
+                        <?php endif; ?>
+                </div>
+            </td>
+            <td id="md-cybersource-card-form">
+                <?php echo $this->getAddCardHtml(); ?>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+    var cs_cardDeleteAjaxUrl = '<?php echo $this->getUrl("adminhtml/mdcybersource_cards/delete",array("id"=>$this->getCustomer()->getId())) ?>';
+    var cs_cardEditAjaxUrl = '<?php echo $this->getUrl("adminhtml/mdcybersource_cards/edit",array("id"=>$this->getCustomer()->getId())) ?>';
+    var cs_cardSaveAjaxUrl = '<?php echo $this->getUrl("adminhtml/mdcybersource_cards/save",array("id"=>$this->getCustomer()->getId())) ?>';
+    var cs_cardUpdateAjaxUrl = '<?php echo $this->getUrl("adminhtml/mdcybersource_cards/update",array("id"=>$this->getCustomer()->getId())) ?>';
+    var requiredstateary='<?php echo json_encode(explode(",",Mage::getStoreConfig('general/region/state_required')));?>';
+    var jsonstate=JSON.parse(requiredstateary);
+    var cvvcheck='<?php echo Mage::getModel('md_cybersource/config')->isCardVerificationEnabled()?>';
+
+
+    function cseditCardFromList(cardid)
+    {
+        $('loading-mask').show();
+        new Ajax.Updater('md-cybersource-card-form', cs_cardEditAjaxUrl, {
+            method: 'post',
+            parameters: {customer_card_id:cardid},
+            evalScripts: true,
+            onComplete: function(data) {
+                $('loading-mask').hide();
+            }
+        });
+    }
+
+    function csremoveCardFromList(cardid)
+    {
+        $('loading-mask').show();
+        //$('my-card-'+cardid).hide();
+
+        new Ajax.Updater('md-cybersource-cards',cs_cardDeleteAjaxUrl, {
+            method: 'post',
+            parameters: {customer_card_id:cardid},
+            evalScripts: true,
+            onComplete: function(transport) {
+                Element.hide('loading-mask');
+
+                editCard(0);
+            }
+        });
+    }
+
+    function cssaveCardFromList()
+    {
+        var addfname=$('<?php echo $code ?>_firstname').getValue();
+        var addlname=$('<?php echo $code ?>_lastname').getValue();
+        var addstreet=$('<?php echo $code ?>_street').getValue();
+        var addcity=$('<?php echo $code ?>_city').getValue();
+        var addpost=$('<?php echo $code ?>_zip').getValue();
+        var addcountry=$('<?php echo $code ?>_country_id').getValue();
+        var addcctype=$('<?php echo $code ?>_cc_type').getValue();
+        var addccnumber=$('<?php echo $code ?>_cc_number').getValue();
+        var addexpmonth=$('<?php echo $code ?>_cc_exp_month').getValue();
+        var addexpyr=$('<?php echo $code ?>_cc_exp_year').getValue();
+        var addregionid=$('<?php echo $code ?>_region_id').getValue();
+        var addcvv=($('<?php echo $code ?>_cc_cid')) ? $('<?php echo $code ?>_cc_cid').getValue(): '';
+        var addphone=$('<?php echo $code ?>_telephone').getValue();
+
+        if(addfname.length && addlname.length && addstreet.length && addcity.length && addpost.length && addcountry.length && addcctype.length && addccnumber.length && addexpmonth.length && addexpyr.length && addphone.length){
+            if(cvvcheck=='1'){
+                if(!addcvv.length){
+                    alert('<?php echo $this->__('Please enter Card Verification Number.')?>');
+                    return false;  
+                }
+            }
+            for(var i = 0; i < jsonstate.length; i++) { 
+                if (jsonstate[i] == addcountry){
+                    if(!addregionid.length){
+                        alert('<?php echo $this->__('Please enter state.')?>');
+                        return false;  
+                    }  
+                } 
+            }
+            $('loading-mask').show();
+           // var maskedCard = $$('#md-cybersource-card-form input[name="<?php echo $code ?>[card_number_masked]"]')[0];
+            var paymentParam = {
+                firstname:$('<?php echo $code ?>_firstname').getValue(),
+                lastname:$('<?php echo $code ?>_lastname').getValue(),
+                company:$('<?php echo $code ?>_company').getValue(),
+                street:$('<?php echo $code ?>_street').getValue(),
+                city:$('<?php echo $code ?>_city').getValue(),
+                region_id:$('<?php echo $code ?>_region_id').getValue(),
+                state:$('<?php echo $code ?>_state').getValue(),
+                postcode:$('<?php echo $code ?>_zip').getValue(),
+                country_id:$('<?php echo $code ?>_country_id').getValue(),
+                telephone:$('<?php echo $code ?>_telephone').getValue(),
+                cc_type:$('<?php echo $code ?>_cc_type').getValue(),
+                cc_number:$('<?php echo $code ?>_cc_number').getValue(),
+                cc_exp_month:$('<?php echo $code ?>_cc_exp_month').getValue(),
+                cc_exp_year:$('<?php echo $code ?>_cc_exp_year').getValue(),
+                cc_cid:($('<?php echo $code ?>_cc_cid')) ? $('<?php echo $code ?>_cc_cid').getValue(): '',
+            };            
+
+                new Ajax.Updater('md-cybersource-cards', cs_cardSaveAjaxUrl, {
+                    method: 'post',
+                    parameters: paymentParam,
+                    evalScripts: true,
+                    onComplete: function(data) {
+                        Element.hide('loading-mask');
+
+                        editCard(0);
+                    }
+                });
+           
+        }
+        else{
+            alert('<?php echo $this->__('Please enter required fields.')?>');
+            return false;  
+
+        }
+    }
+
+    function csupdateCardFromList(){
+
+        var upfname=$('<?php echo $code ?>_firstname').getValue();
+        var uplname=$('<?php echo $code ?>_lastname').getValue();
+        var upstreet=$('<?php echo $code ?>_street').getValue();
+        var upcity=$('<?php echo $code ?>_city').getValue();
+        var uppost=$('<?php echo $code ?>_zip').getValue();
+        var upcountry=$('<?php echo $code ?>_country_id').getValue();
+        var upccaction=$('<?php echo $code ?>_cc_action').getValue();
+        var upcctype=$('<?php echo $code ?>_cc_type').getValue();
+        var upccnumber=$('<?php echo $code ?>_cc_number').getValue();
+        var upexpmonth=$('<?php echo $code ?>_cc_exp_month').getValue();
+        var upexpyr=$('<?php echo $code ?>_cc_exp_year').getValue();
+        var upregionid=$('<?php echo $code ?>_region_id').getValue();
+        var upcvv=($('<?php echo $code ?>_cc_cid')) ? $('<?php echo $code ?>_cc_cid').getValue(): '';
+        var upphone=$('<?php echo $code ?>_telephone').getValue();
+
+        if(upfname.length && uplname.length && upstreet.length && upcity.length && uppost.length && upcountry.length && upphone.length){
+            if(upccaction=='new'){
+                if(!upcctype.length || !upccnumber.length || !upexpmonth.length || !upexpyr.length){
+                    alert('<?php echo $this->__('Please enter required fields.')?>');
+                    return false;  
+                }
+                if(cvvcheck=='1'){
+                    if(!upcvv.length){
+                        alert('<?php echo $this->__('Please enter Card Verification Number.')?>');
+                        return false;  
+                    }
+                }
+            }
+            for(var i = 0; i < jsonstate.length; i++) { 
+                if (jsonstate[i] == upcountry){
+                    if(!upregionid.length){
+                        alert('<?php echo $this->__('Please enter state.')?>');
+                        return false;  
+                    }  
+                } 
+            }
+            $('loading-mask').show();
+            var ccAction = $('<?php echo $code ?>_cc_action');
+            var paymentParam = { 
+                card_id:$('<?php echo $code ?>_card_id').getValue(),
+                customer_id:$('<?php echo $code ?>_customer_id').getValue(),
+                cc_type:$('<?php echo $code ?>_cc_type').getValue(),
+                cc_number:$('<?php echo $code ?>_cc_number').getValue(),
+                cc_exp_month:$('<?php echo $code ?>_cc_exp_month').getValue(),
+                cc_exp_year:$('<?php echo $code ?>_cc_exp_year').getValue(),
+                cc_cid:($('<?php echo $code ?>_cc_cid')) ? $('<?php echo $code ?>_cc_cid').getValue(): '',
+                firstname:$('<?php echo $code ?>_firstname').getValue(),
+                lastname:$('<?php echo $code ?>_lastname').getValue(),
+                company:$('<?php echo $code ?>_company').getValue(),
+                street:$('<?php echo $code ?>_street').getValue(),
+                city:$('<?php echo $code ?>_city').getValue(),
+                region_id:$('<?php echo $code ?>_region_id').getValue(),
+                state:$('<?php echo $code ?>_state').getValue(),
+                postcode:$('<?php echo $code ?>_zip').getValue(),
+                country_id:$('<?php echo $code ?>_country_id').getValue(),
+                telephone:$('<?php echo $code ?>_telephone').getValue(),
+                cc_action:(ccAction) ? ccAction.value: 'new',
+            };
+            if($('<?php echo $code ?>_cc_cid') == null){
+                delete paymentParam.cc_cid;
+            }
+            new Ajax.Updater('md-cybersource-cards', cs_cardUpdateAjaxUrl, {
+                method: 'post',
+                parameters: paymentParam,
+                evalScripts: true,
+                onComplete: function(data) {
+                    Element.hide('loading-mask');
+
+                    editCard(0);
+                }
+            });
+        }
+        else{
+            alert('<?php echo $this->__('Please enter required fields.')?>');
+            return false;  
+
+        }
+    }
+
+    function cstoggleCards(selectedValue, current_card)
+    {
+        switch(selectedValue){
+            case 'existing':
+                $('<?php echo $code ?>_cc_type').disabled = true;
+                $('<?php echo $code ?>_cc_number').disabled = true;
+                $('<?php echo $code ?>_cc_exp_month').disabled = true;
+                $('<?php echo $code ?>_cc_exp_year').disabled = true;
+                if($('<?php echo $code ?>_cc_cid') != null){
+                    $('<?php echo $code ?>_cc_cid').disabled = true;
+                    $('<?php echo $code ?>_cc_cid').addClassName("disabled");
+                }
+                $('<?php echo $code ?>_cc_type').addClassName("disabled");
+                $('<?php echo $code ?>_cc_number').addClassName("disabled");
+                $('<?php echo $code ?>_cc_exp_month').addClassName("disabled");
+                $('<?php echo $code ?>_cc_exp_year').addClassName("disabled");
+                break;
+            case 'new':
+                $('<?php echo $code ?>_cc_type').disabled = false;
+                $('<?php echo $code ?>_cc_number').disabled = false;
+                $('<?php echo $code ?>_cc_exp_month').disabled = false;
+                $('<?php echo $code ?>_cc_exp_year').disabled = false;
+                if($('<?php echo $code ?>_cc_cid') != null){
+                    $('<?php echo $code ?>_cc_cid').disabled = false;
+                    $('<?php echo $code ?>_cc_cid').removeClassName("disabled");
+                }
+                $('<?php echo $code ?>_cc_type').removeClassName("disabled");
+                $('<?php echo $code ?>_cc_number').removeClassName("disabled");
+                $('<?php echo $code ?>_cc_exp_month').removeClassName("disabled");
+                $('<?php echo $code ?>_cc_exp_year').removeClassName("disabled");
+                break;
+        }
+    }
+</script>
