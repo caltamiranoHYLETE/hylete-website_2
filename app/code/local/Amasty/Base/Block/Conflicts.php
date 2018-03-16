@@ -1,9 +1,11 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Base
- */ 
+ */
+
+
 class Amasty_Base_Block_Conflicts extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
@@ -26,8 +28,6 @@ class Amasty_Base_Block_Conflicts extends Mage_Adminhtml_Block_System_Config_For
                 </script>";
         }
         
-//        $html .= Mage::getUrl('adminhtml/ambase/download');
-//	$html.= Amasty_Base_Model_Conflicts::run();
         $html .= $this->_getFooterHtml($element);
         return $html;
     }
