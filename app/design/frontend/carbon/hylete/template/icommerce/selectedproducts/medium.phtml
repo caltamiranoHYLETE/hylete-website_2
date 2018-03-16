@@ -18,6 +18,8 @@
 <?php $_listTitle           = $this->getCollectionTitle(); ?>
 <?php $_listDirection       = $this->getListDirection(); ?>
 <?php $_columnCount         = $this->getNumGet(); ?>
+<?php $_imageWidth          = $this->getImageWidth() ? (int) $this->getImageWidth() : 372; ?>
+<?php $_imageHeight         = $this->getImageHeight() ? (int) $this->getImageHeight() : 372; ?>
 <?php $_rowClasses          = $this->getRowClasses() ?: 'row'; ?>
 <?php $_itemClasses         = $this->getItemClasses() ?: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'; ?>
 
@@ -64,9 +66,7 @@
 
             <a href="<?php echo $_product->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, $_imageAttribute)) ?>">
                 <picture>
-                    <source srcset="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize(220); ?>" media="(max-width: 768px)">
-                    <img srcset="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize(500); ?>"
-                         alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, $_imageAttribute)) ?>">
+                    <img srcset="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize($_imageWidth, $_imageHeight); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, $_imageAttribute)) ?>">
                 </picture>
 
                 <?php if (!$this->hasShowPriceAndName() || $this->getShowPriceAndName()) : // ಠ_ಠ ?>

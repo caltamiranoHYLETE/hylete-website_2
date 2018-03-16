@@ -21,6 +21,22 @@
                 <description><![CDATA[Comma-delimited list of types (eg: simple,configurable)]]></description>
                 <sort_order>55</sort_order>
             </product_types>
+            <image_width translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Image Width</label>
+                <type>text</type>
+                <description><![CDATA[Custom image width, defaults to 372.]]></description>
+                <sort_order>100</sort_order>
+            </image_width>
+            <image_height translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Image Height</label>
+                <type>text</type>
+                <description><![CDATA[Custom image height, defaults to 372.]]></description>
+                <sort_order>105</sort_order>
+            </image_height>
             <row_classes translate="label">
                 <visible>1</visible>
                 <required>0</required>
@@ -41,6 +57,22 @@
     </selectedproducts_view>
     <selectedproducts_single>
         <parameters>
+            <image_width translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Image Width</label>
+                <type>text</type>
+                <description><![CDATA[Custom image width, defaults to 372.]]></description>
+                <sort_order>100</sort_order>
+            </image_width>
+            <image_height translate="label">
+                <visible>1</visible>
+                <required>0</required>
+                <label>Image Height</label>
+                <type>text</type>
+                <description><![CDATA[Custom image height, defaults to 372.]]></description>
+                <sort_order>105</sort_order>
+            </image_height>
             <row_classes translate="label">
                 <visible>1</visible>
                 <required>0</required>
