@@ -20,8 +20,6 @@ class HyleteShipping_Shipping_Model_Carrier
      */
 	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
 	{
-
-
 		$this->setRequest($request);
 
 		$this->_result = $this->_getQuotes();
@@ -140,7 +138,7 @@ class HyleteShipping_Shipping_Model_Carrier
 				$rate = Mage::getModel('shipping/rate_result_method');
 				$rate->setCarrier("hyleteshipping_shipping");
 				$rate->setCarrierTitle("USPS");
-				$rate->setMethod("usps_Priority Mail");
+				$rate->setMethod("hyleteshipping_shipping_USPSPRI");
 				$rate->setMethodTitle("USPS Priority");
 				$rate->setCost("5.99");
 				$rate->setPrice("5.99");
