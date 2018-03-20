@@ -113,6 +113,8 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
                 Mage::log('error: ' . $e);
             }
 
+			$product_data['product_group'] = $full_product->getName();
+
             $product_data['description'] = Mage::helper('core')->htmlEscape(strip_tags($full_product->getDescription()));
             $product_data['price'] = $product->getPrice();
 
