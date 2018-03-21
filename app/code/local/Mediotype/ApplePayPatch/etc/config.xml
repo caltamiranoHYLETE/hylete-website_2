@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * Apple Pay patch module configuration.
+ * @category  Configuration
+ * @package   Mediotype_ApplePayPatch
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+-->
+<config>
+    <modules>
+        <Mediotype_ApplePayPatch>
+            <version>1.0.0</version>
+        </Mediotype_ApplePayPatch>
+    </modules>
+    <global>
+        <blocks>
+            <gene_applepay>
+                <rewrite>
+                    <express_setup>Mediotype_ApplePayPatch_Block_Express_Setup</express_setup>
+                </rewrite>
+            </gene_applepay>
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_applepaypatch>
+                    <file>mediotype_applepaypatch.xml</file>
+                </mediotype_applepaypatch>
+            </updates>
+        </layout>
+    </frontend>
+</config>

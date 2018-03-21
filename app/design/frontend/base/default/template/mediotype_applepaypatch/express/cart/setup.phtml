@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * Apple Pay patch express cart setup template.
+ * @category  Template
+ * @package   Mediotype_ApplePayPatch
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+?>
+<?php if ($this->isEnabled() && $this->isEnabledCart()) : ?>
+<script type="text/javascript">
+    if (typeof Translator !== 'object' && typeof Translate == 'object') {
+        var Translator = new Translate([]);
+    }
+
+    if (typeof Translator === 'object') {
+        Translator.add({
+            'We were unable to complete the request. Please try again.': 
+                '<?php echo $this->__('We were unable to complete the request. Please try again.'); ?>'
+        });
+    }
+
+    document.observe('dom:loaded', function() {
+        var express = new BraintreeApplePayExpress(
+            '<?php echo $this->getToken(); ?>',
+            '<?php echo Mage::app()->getStore()->getFrontendName(); ?>',
+            '<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>',
+            'cart',
+            {
+                clientTokenUrl  : '<?php echo $this->getUrl('applepay/index/clientToken'); ?>',
+                submitUrl       : '<?php echo $this->getUrl('applepay/index/submit') ?>',
+                fetchMethodsUrl : '<?php echo $this->getUrl('applepay/index/fetchShippingMethods'); ?>',
+                successUrl      : '<?php echo $this->getUrl('checkout/onepage/success'); ?>'
+            },
+            {
+                virtual         : <?php echo $this->getQuote()->isVirtual() ? 'true' : 'false'; ?>
+            }
+        );
+
+        express.setAmount('<?php echo $this->getQuoteGrandTotal(); ?>');
+        express.attachToButtons($$('[data-applepay]'));
+    });
+</script>
+<?php endif; ?>
