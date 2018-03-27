@@ -113,7 +113,11 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
                 Mage::log('error: ' . $e);
             }
 
-			$product_data['product_group'] = $full_product->getName();
+            //Yotpo doesn't allow special characters (only - and _) also must be under 30 chars
+			$prodName = $full_product->getName();
+			$prodName =	substr($prodName,0,30);
+			$prodName = str_replace($prodName, " ",  "_");
+			$product_data['product_group'] = $prodName;
 
             $product_data['description'] = Mage::helper('core')->htmlEscape(strip_tags($full_product->getDescription()));
             $product_data['price'] = $product->getPrice();
