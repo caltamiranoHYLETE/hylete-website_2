@@ -88,6 +88,10 @@ body.category-blog > .container {
     clear: both;
 }
 
+.category-blog .category-products .item a {
+    display: inline;
+}
+
 .blog-full-length h2 {
     font-size: 22px;
     margin-top: 13px;
