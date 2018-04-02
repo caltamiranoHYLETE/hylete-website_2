@@ -39,7 +39,7 @@ if ($this->getProduct() && $this->getProduct()->getTypeId() == Mage_Catalog_Mode
             );
 
             // Pass over the quotes grand total for the amount
-            express.setAmount('<?php echo number_format($price, 2); ?>');
+            express.setAmount('<?php echo $this->helper('core')->currency($price, false, false); ?>');
 
             // On bundle option changes, update the express amount
             if (typeof window.bundle !== 'undefined') {
