@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * Apple Pay patch module configuration.
+ * @category  Configuration
+ * @package   Mediotype_ApplePayPatch
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+-->
+<config>
+    <modules>
+        <Mediotype_ApplePayPatch>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Gene_ApplePay />
+            </depends>
+        </Mediotype_ApplePayPatch>
+    </modules>
+</config>
