@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isAdmin = test_input("isAdmin");
     $exchangeOnly = test_input("exchangeOnly");
     $simpleRefund = test_input("simpleRefund");
+    $sixMonthCashRefund = test_input("sixMonthCashRefund");
 } else {
     $orderId = "";
     $ignoreClearance = "false";
@@ -32,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isAdmin = "false";
     $exchangeOnly = "false";
     $simpleRefund = "false";
+	$sixMonthCashRefund = "false";
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -42,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="NOINDEX, NOFOLLOW" />
-    <link rel="shortcut icon" href="https://www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://www.hylete.com/media/favicon/default/favicon.png" type="image/x-icon" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/config.js"></script>
-    <script type="text/javascript" src="/forms/js/return-exchange-script.js"></script>
+    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201803"></script>
 
 </head>
 <body>
@@ -146,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="combinedOrder" id="combinedOrder" value="<?php echo $combinedOrder ?>">
             <input type="hidden" name="exchangeOnly" id="exchangeOnly" value="<?php echo $exchangeOnly ?>">
             <input type="hidden" name="simpleRefund" id="simpleRefund" value="<?php echo $simpleRefund ?>">
+            <input type="hidden" name="sixMonthCashRefund" id="sixMonthCashRefund" value="<?php echo $sixMonthCashRefund ?>">
             <div id="choice_area">
                 <div id="choice1">
                     <input type="radio" value="store_credit" id="memo_choice" name="refund-or-exchange">
