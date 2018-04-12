@@ -52,6 +52,11 @@ class HyleteShipping_Shipping_Model_Carrier
 			$r->AppliedRules = $quote->getAppliedRuleIds();
 			$r->CouponCode = $quote->getCouponCode();
 
+			$r->FreeShipping = false;
+			if($request->getFreeShipping()) {
+				$r->FreeShipping = true;
+			}
+
 			$items = array();
 			foreach ($quote->getAllItems() as $prod) {
 
@@ -71,7 +76,7 @@ class HyleteShipping_Shipping_Model_Carrier
 				$i->Weight = $prod->getWeight();
 				$i->FreeShipping = $prod->getFreeShipping();
 
-				//Mage::log(print_r($i), null, 'hylete-shipping.log', true);
+				//Mage::log(print_r($prod), null, 'hylete-shipping.log', true);
 
 				$items[] = $i;
 			}
