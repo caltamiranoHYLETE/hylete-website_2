@@ -165,7 +165,7 @@ class HyleteShipping_Shipping_Model_Carrier
 
 			$client = new Zend_Http_Client();
 			$client->setUri($this->getConfigData('api_url'));
-			$client->setConfig(array('maxredirects' => 0, 'timeout' => 300));
+			$client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
 			$client->setHeaders('Content-type','application/json');
 
 			$json = Mage::helper('core')->jsonEncode($r);
