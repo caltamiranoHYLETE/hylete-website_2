@@ -148,7 +148,8 @@ class HyleteShipping_Shipping_Model_Carrier
 				$rate->setCost("5.99");
 				$rate->setPrice("5.99");
 
-				//Mage::log($rate->debug(), null, 'hylete-shipping.log', true);
+				Mage::log($e->getMessage(), null, 'hylete-shipping-error.log', true);
+				Mage::log($response->debug(), null, 'hylete-shipping-error.log', true);
 
 				$result->append($rate);
 			}
