@@ -127,6 +127,16 @@
                     </mediotype_offerstab>
                 </observers>
             </mediotype_coupon_removal_check>
+
+            <mediotype_coupon_apply>
+                <observers>
+                    <mediotype_offerstab>
+                        <type>singleton</type>
+                        <class>mediotype_offerstab/couponObserver</class>
+                        <method>attemptAutomaticCouponApplication</method>
+                    </mediotype_offerstab>
+                </observers>
+            </mediotype_coupon_apply>
         </events>
 
         <routers>
