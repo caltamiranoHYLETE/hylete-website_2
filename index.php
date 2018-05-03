@@ -26,9 +26,7 @@
 
 //PATCH:BEGIN
 if (extension_loaded('newrelic')) {
-    $project = isset($_SERVER['AJA_PROJECT']) ? $_SERVER['AJA_PROJECT'] : 'Default Project';
-    $env = isset($_SERVER['AJA_ENVIRONMENT']) ? $_SERVER['AJA_ENVIRONMENT'] : 'Unknown Environment';
-    newrelic_set_appname(sprintf('%s %s Magento', $project, $env));
+    newrelic_set_appname('HYLETE Production WebScale (AWS)', "94d9d916e0676ff12fbe5143b8775a57f01729f3");
 }
 //PATCH:END
 
