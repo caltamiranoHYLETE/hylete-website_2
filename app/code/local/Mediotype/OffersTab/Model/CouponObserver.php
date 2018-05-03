@@ -33,7 +33,7 @@ class Mediotype_OfferStab_Model_CouponObserver
      * @param $observer
      * @return $this
      */
-    protected function attemptAutomaticCouponApplication($observer)
+    public function attemptAutomaticCouponApplication($observer)
     {
         $checkoutSession = Mage::getSingleton("checkout/session");
         $couponCode = $checkoutSession->getData("automaticCouponCode");
