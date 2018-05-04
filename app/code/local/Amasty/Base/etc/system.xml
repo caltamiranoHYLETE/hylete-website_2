@@ -2,7 +2,7 @@
 <!--
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Base
  */
 -->
@@ -84,21 +84,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </promo>
-                        
-<!--                        <interests translate="label">
-                            <label>I'd like to be informed by Amasty about:</label>
-                            <comment></comment>
-                            <frontend_type>multiselect</frontend_type>
-                            <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <can_be_empty>1</can_be_empty>
-                            <source_model>ambase/source_updates_type</source_model>
-                        </interests>-->
                     </fields>
                 </feed>
-            <conflicts translate="label">
+                <conflicts translate="label">
                     <label><![CDATA[Troubleshooter<script>
                         function ambaseShow(url){
                             new Ajax.Request(url, {
