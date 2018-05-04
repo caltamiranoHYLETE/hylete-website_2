@@ -1,16 +1,14 @@
 <?php
 
-class Yotpo_Yotpo_Helper_RichSnippets extends Mage_Core_Helper_Abstract
-{
+class Yotpo_Yotpo_Helper_RichSnippets extends Mage_Core_Helper_Abstract {
+
     private $_config;
 
-    public function __construct ()
-    {
+    public function __construct() {
         $this->_config = Mage::getStoreConfig('yotpo');
     }
 
-    public function getRichSnippet()
-    {
+    public function getRichSnippet() {
 
         try {
 
@@ -20,7 +18,7 @@ class Yotpo_Yotpo_Helper_RichSnippets extends Mage_Core_Helper_Abstract
             if (($snippet == null) || (!$snippet->isValid())) {
                 //no snippet for product or snippet isn't valid anymore. get valid snippet code from yotpo api
 
-                $res = Mage::helper('yotpo/apiClient')->createApiGet("products/".($this->getAppKey())."/richsnippet/".$productId, 2);
+                $res = Mage::helper('yotpo/apiClient')->createApiGet("products/" . ($this->getAppKey()) . "/richsnippet/" . $productId, 2);
 
                 if ($res["code"] != 200) {
                     //product not found or feature disabled.
@@ -43,18 +41,17 @@ class Yotpo_Yotpo_Helper_RichSnippets extends Mage_Core_Helper_Abstract
                 $snippet->setExpirationTime(date('Y-m-d H:i:s', time() + $ttl));
                 $snippet->save();
 
-                return array( "average_score" => $averageScore, "reviews_count" => $reviewsCount);
+                return array("average_score" => $averageScore, "reviews_count" => $reviewsCount);
             }
-            return array( "average_score" => $snippet->getAverageScore(), "reviews_count" => $snippet->getReviewsCount());
-
-        } catch(Excpetion $e) {
+            return array("average_score" => $snippet->getAverageScore(), "reviews_count" => $snippet->getReviewsCount());
+        } catch (Exception $e) {
             Mage::log($e);
         }
         return array();
     }
 
-    private function getAppKey()
-    {
-        return trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey',Mage::app()->getStore()));
+    private function getAppKey() {
+        return trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', Mage::app()->getStore()));
     }
+
 }
