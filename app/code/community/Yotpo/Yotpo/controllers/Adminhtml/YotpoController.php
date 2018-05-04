@@ -3,7 +3,7 @@
 
 class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Action
 {
-
+   
     //max amount of orders to export
     const MAX_ORDERS_TO_EXPORT = 5000;
     const MAX_BULK_SIZE        = 200;
@@ -12,7 +12,7 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
 
         try {
             ini_set('max_execution_time', 300);
-
+       
             $result = null;
 
             $store_code = Mage::app()->getRequest()->getParam('store');
@@ -21,7 +21,6 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
 
             foreach (Mage::app()->getStores() as $store) {
                 if ($store->getCode() == $store_code) {
-                    global $current_store;
                     $current_store = $store;
                     break;
                 }
@@ -31,15 +30,15 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
 
             if (Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', $current_store) == null or
                 Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_secret', $current_store) == null
-            )
+                )
             {
-                Mage::app()->getResponse()->setBody('Please make sure you insert your APP KEY and SECRET and save configuration before trying to export past orders');
-                return;
+               Mage::app()->getResponse()->setBody('Please make sure you insert your APP KEY and SECRET and save configuration before trying to export past orders');
+                return;   
             }
 
             $token = Mage::helper('yotpo/apiClient')->oauthAuthentication($store_id);
-            if ($token == null)
-            {
+            if ($token == null) 
+            {                
                 Mage::app()->getResponse()->setBody("Please make sure the APP KEY and SECRET you've entered are correct");
                 return;
             }
@@ -57,11 +56,11 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
                 $orderStatuses = array_map('strtolower', explode(' ', $orderStatuses));
             }
             $salesCollection = $salesModel->getCollection()
-                ->addFieldToFilter('status', $orderStatuses)
-                ->addFieldToFilter('store_id', $store_id)
-                ->addAttributeToFilter('created_at', array('gteq' =>$from))
-                ->addAttributeToSort('created_at', 'DESC')
-                ->setPageSize(self::MAX_BULK_SIZE);
+                    ->addFieldToFilter('status', $orderStatuses)
+                    ->addFieldToFilter('store_id', $store_id)
+                    ->addAttributeToFilter('created_at', array('gteq' =>$from))
+                    ->addAttributeToSort('created_at', 'DESC')
+                    ->setPageSize(self::MAX_BULK_SIZE);
 
             $pages = $salesCollection->getLastPageNumber();
 
@@ -71,7 +70,7 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
 
                     $offset++;
                     $salesCollection->setCurPage($offset)->load();
-
+                 
                     $orders = array();
 
                     foreach($salesCollection as $order)
@@ -91,13 +90,13 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
                         $orders[] = $order_data;
                     }
 
-                    if (count($orders) > 0)
+                    if (count($orders) > 0) 
                     {
                         Mage::helper('yotpo/apiClient')->massCreatePurchases($orders, $token, $store_id);
                     }
-
+                    
                 } catch (Exception $e) {
-                    Mage::log('Failed to export past orders. Error: '.$e);
+                    Mage::log('Failed to export past orders. Error: '.$e);    
                 }
 
                 $salesCollection->clear();
@@ -109,5 +108,10 @@ class Yotpo_Yotpo_Adminhtml_YotpoController extends Mage_Adminhtml_Controller_Ac
         }
 
         Mage::app()->getResponse()->setBody(1);
+    } 
+    
+    protected function _isAllowed() 
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/product');
     }
 }

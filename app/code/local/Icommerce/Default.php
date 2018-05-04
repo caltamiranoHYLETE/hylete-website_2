@@ -514,9 +514,10 @@ class Icommerce_Default {
     // Append to log file in Magento directory
     static function logAppend( $msg, $file="var/icommerce.log" ){
         if( $file[0]!=="/" ){
-            $file = Mage::getBaseDir()."/".$file;
+            //$file = Mage::getBaseDir()."/".$file;
         }
-        return Icommerce_Log::append( $file, $msg );
+        return true;
+        //return Icommerce_Log::append( $file, $msg );
     }
 
     // This function now live in Utils module

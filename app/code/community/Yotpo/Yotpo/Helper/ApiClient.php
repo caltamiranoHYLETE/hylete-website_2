@@ -2,47 +2,47 @@
 
 class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 {
-
+	
 	const YOTPO_OAUTH_TOKEN_URL   = "https://api.yotpo.com/oauth/token";
 	const YOTPO_SECURED_API_URL   = "https://api.yotpo.com";
 	const YOTPO_UNSECURED_API_URL = "http://api.yotpo.com";
 	const DEFAULT_TIMEOUT = 30;
 
-
+	
 	protected $disable_feature = null;
 
-	protected $app_keys = array();
-	protected $secrets = array();
+    protected $app_keys = array();
+    protected $secrets = array();
 
 	public function __construct()
 	{
-		foreach (Mage::app()->getStores() as $store) {
-			$store_id = $store->getId();
-			$this->app_keys[$store_id] = trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', $store));
-			$this->secrets[$store_id] = trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_secret', $store));
-		}
+        foreach (Mage::app()->getStores() as $store) {
+            $store_id = $store->getId();
+            $this->app_keys[$store_id] = trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', $store));
+            $this->secrets[$store_id] = trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_secret', $store));
+        }
 	}
 
 	public function oauthAuthentication($store_id)
 	{
 
-		$store_app_key = $this->app_keys[$store_id];
-		$store_secret = $this->secrets[$store_id];
+        $store_app_key = $this->app_keys[$store_id];
+        $store_secret = $this->secrets[$store_id];
 
 		if ($store_app_key == null or $store_secret == null)
 		{
 			Mage::log('Missing app key or secret');
 			return null;
 		}
-
+		
 		$yotpo_options = array('client_id' => $store_app_key, 'client_secret' => $store_secret, 'grant_type' => 'client_credentials');
-
-		try
+		
+		try 
 		{
 			$result = $this->createApiPost('oauth/token', $yotpo_options);
 			return $result['body']->access_token;
-		}
-		catch(Exception $e)
+		} 
+		catch(Exception $e) 
 		{
 			Mage::log('error: ' .$e);
 			return null;
@@ -59,62 +59,77 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 		return true;
 	}
 
-	public function prepareProductsData($order)
+	public function prepareProductsData($order) 
 	{
-		Mage::app()->setCurrentStore($order->getStoreId());
-		$products = $order->getAllVisibleItems(); //filter out simple products
-		$products_arr = array();
+        Mage::app()->setCurrentStore($order->getStoreId());
+        $products = $order->getAllVisibleItems(); //filter out simple products
+        $products_arr = array();
 
-		foreach ($products as $product) {
+        foreach ($products as $product) {
 
-			//use configurable product instead of simple if still needed
-			$full_product = Mage::getModel('catalog/product')->load($product->getProductId());
+            //use configurable product instead of simple if still needed
+            $full_product = Mage::getModel('catalog/product')->load($product->getProductId());
 
-            //configurable
-			$configurable_product_model = Mage::getModel('catalog/product_type_configurable');
-            $configurable_parentIds= $configurable_product_model->getParentIdsByChild($full_product->getId());
+            $configurable_product_model = Mage::getModel('catalog/product_type_configurable');
+            $parentIds = $configurable_product_model->getParentIdsByChild($full_product->getId());
+            if (count($parentIds) > 0) {
+                $full_product = Mage::getModel('catalog/product')->load($parentIds[0]);
+            }
 
-            //grouped
-            $grouped_product_model = Mage::getModel('catalog/product_type_grouped');
-            $grouped_parentIds= $grouped_product_model->getParentIdsByChild($full_product->getId());
+            $specs_data = array();
+            $product_data = array();
 
-            if (count($configurable_parentIds) > 0) {
-                $full_product = Mage::getModel('catalog/product')->load($configurable_parentIds[0]);
-            } else if (count($grouped_parentIds) > 0) {
-                $full_product = Mage::getModel('catalog/product')->load($grouped_parentIds[0]);
-			}
+            $product_data['name'] = $full_product->getName();
+            $product_data['url'] = '';
+            $product_data['image'] = '';
+            try {
+                $product_data['url'] = $full_product->getUrlInStore(array('_store' => $order->getStoreId()));
+                $product_data['image'] = $full_product->getImageUrl();
 
-			$product_data = array();
+                if ($full_product->getUpc()) {
+                    $specs_data['upc'] = $full_product->getUpc();
+                }
 
-			$product_data['name'] = $full_product->getName();
-			$product_data['url'] = '';
-			$product_data['image'] = '';
-			try
-			{
-				$product_data['url'] = $full_product->getUrlInStore(array('_store' => $order->getStoreId()));
-				$product_data['image'] = $full_product->getImageUrl();
-			} catch(Exception $e) {}
+                if ($full_product->getIsbn()) {
+                    $specs_data['isbn'] = $full_product->getIsbn();
+                }
 
-			$product_data['description'] = Mage::helper('core')->htmlEscape(strip_tags($full_product->getDescription()));
-			$product_data['price'] = $product->getPrice();
+                if ($full_product->getBrand()) {
+                    $specs_data['brand'] = $full_product->getBrand();
+                }
 
-			$products_arr[$this->generateProductId($full_product->getName())] = $product_data;
+                if ($full_product->getMpn()) {
+                    $specs_data['mpn'] = $full_product->getMpn();
+                }
+                
+                if ($full_product->getSku()) {
+                    $specs_data['external_sku'] = $full_product->getSku();
+                }
 
-		}
+                if (!empty($specs_data)) {
+                    $product_data['specs'] = $specs_data;
+                }
+            } catch (Exception $e) {
+                Mage::log('error: ' . $e);
+            }
 
-		return $products_arr;
-	}
+            //Yotpo doesn't allow special characters (only - and _) also must be under 30 chars
+			$prodName = $full_product->getName();
+			$prodName =	substr($prodName,0,30);
+			$prodName = str_replace($prodName, " ",  "_");
+			$product_data['product_group'] = $prodName;
 
-    public function generateProductId($name)
-    {
-        /* Patched for Hylete.
-        Slug the name as ID to match multiple Configurable products with same name
-        Will replace all characters that aren't ASCII alphabetical or numerals with "-"*/
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
-     }
+            $product_data['description'] = Mage::helper('core')->htmlEscape(strip_tags($full_product->getDescription()));
+            $product_data['price'] = $product->getPrice();
+
+            $products_arr[$full_product->getId()] = $product_data;
+        }
+
+        return $products_arr;
+    }
 
 	public function createApiPost($path, $data, $timeout=self::DEFAULT_TIMEOUT) {
-		try
+		try 
 		{
 
 			$config = array('timeout' => $timeout);
@@ -130,11 +145,11 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 		catch(Exception $e)
 		{
 			Mage::log('error: ' .$e);
-		}
+		}	
 	}
 
 	public function createApiGet($path, $timeout=self::DEFAULT_TIMEOUT) {
-		try
+		try 
 		{
 			$config = array('timeout' => $timeout);
 			$http = new Varien_Http_Adapter_Curl();
@@ -144,20 +159,20 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 			$resData = $http->read();
 			return array("code" => Zend_Http_Response::extractCode($resData), "body" => json_decode(Zend_Http_Response::extractBody($resData)));
 
-		} catch (Exception $e)
+		} catch (Exception $e) 
 		{
 			Mage::log('error: '.$e);
 		}
 	}
 
-	public function getAppKey($store_id)
-	{
-		return $this->app_keys[$store_id];
-	}
+    public function getAppKey($store_id)
+    {
+        return $this->app_keys[$store_id];
+    }
 
 	public function createPurchases($order, $store_id)
 	{
-		$this->createApiPost("apps/".$this->app_keys[$store_id]."/purchases", $order);
+       	$this->createApiPost("apps/".$this->app_keys[$store_id]."/purchases", $order);
 	}
 
 	public function massCreatePurchases($orders, $token, $store_id)
@@ -170,5 +185,5 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 		$this->createApiPost("apps/".$this->app_keys[$store_id]."/purchases/mass_create", $data);
 
 	}
-
+	
 }

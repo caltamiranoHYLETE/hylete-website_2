@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <MD_Cybersource>
+            <active>true</active>
+            <codePool>community</codePool>
+        </MD_Cybersource>
+    </modules>
+</config>
