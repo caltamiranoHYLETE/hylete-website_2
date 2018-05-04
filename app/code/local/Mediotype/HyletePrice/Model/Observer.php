@@ -31,7 +31,7 @@ class Mediotype_HyletePrice_Model_Observer extends Amasty_Rules_Model_Observer
      */
     public function calculateProductFinalPriceWithMsrp(Varien_Event_Observer $observer)
     {
-        $quote = Mage::getSingleton('checkout/session');
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
         $hyletePriceHelper = Mage::helper('mediotype_hyleteprice');
         $hasMsrpTargetRule = $hyletePriceHelper->quoteHasMsrpTargetRule($quote);
         $product = $observer->getProduct();
