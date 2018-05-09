@@ -110,7 +110,8 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
       $cron_details = $this->_getCronScheduleDetails($since_minutes);
 
       $num_quotes = 5;
-      $quote_details = $this->_getQuoteDetails($num_quotes);
+      $quote_details = "";
+      //$quote_details = $this->_getQuoteDetails($num_quotes);
 
       $response = array(
         'data' => array(
