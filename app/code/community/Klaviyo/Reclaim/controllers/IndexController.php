@@ -95,7 +95,9 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
    */
   public function statusAction()
   {
-    $nonce = $this->getRequest()->getParam('nonce');
+    //$nonce = $this->getRequest()->getParam('nonce');
+
+    $nonce = "1234";
 
     if (!$nonce) {
       $response = array('data' => NULL);
