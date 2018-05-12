@@ -1,16 +1,20 @@
+<?php /* @var $this Mediotype_OffersTab_Block_Offers */ ?>
 <script type="text/javascript">
     $jQ = jQuery.noConflict();
 
     $jQ(function () {
-        var offersTabBodyHeight = $jQ(window).height() - 3;
-        <?php if ($this->hasExpandOffer()): ?>
+        var offersTabBodyHeight = $jQ(window).height() - 3,
+            parameterKey = '<?php echo $this->getAutoOpenKey(); ?>',
+            parameterValue = '<?php echo $this->getAutoOpenValue(); ?>';
+
+        if (window.location.search.indexOf(parameterKey + '=' + parameterValue) > -1) {
             $jQ('#headingOne').trigger("click");
             $jQ('#greyMask').toggle();
             $jQ('body').toggleClass('body-mask');
 
             $jQ('body').css({'max-height': offersTabBodyHeight});
             $jQ('body').css({'overflow': 'hidden'});
-        <?php endif; ?>
+        }
 
         // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
         $jQ('#greyMask').click(function () {
