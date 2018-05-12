@@ -4,7 +4,6 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-
 class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
 {
     /** @var Mediotype_OffersTab_Helper_Data $_offersTabHelper */
