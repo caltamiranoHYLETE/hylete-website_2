@@ -1,37 +1,41 @@
 <script type="text/javascript">
 
-    $jQ = jQuery.noConflict();
 
-    $jQ(function () {
-        var offersTabBodyHeight = $jQ(window).height() - 3;
-        <?php if ($this->hasExpandOffer()): ?>
+    jQuery(document).ready(function(e) {
+        $jQ = jQuery.noConflict();
+
+        $jQ(function () {
+            var offersTabBodyHeight = $jQ(window).height() - 3;
+			<?php if ($this->hasExpandOffer()): ?>
             $jQ('#headingOne').trigger("click");
             $jQ('#greyMask').toggle();
             $jQ('body').toggleClass('body-mask');
 
             $jQ('body').css({'max-height': offersTabBodyHeight});
             $jQ('body').css({'overflow': 'hidden'});
-        <?php endif; ?>
+			<?php endif; ?>
 
-        // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
-        $jQ('#greyMask').click(function () {
-            $jQ('#headingOne').trigger("click");
-        });
+            // Bind a click handler to delegate clicks to the greyMask to #headingOne, the OffersTab's tab
+            $jQ('#greyMask').click(function () {
+                $jQ('#headingOne').trigger("click");
+            });
 
-        // Bind a click handler to toggle greyMask when #headingOne is clicked
-        $jQ('#headingOne').click(function () {
-            $jQ('#greyMask').toggle();
-            $jQ('body').toggleClass('body-mask');
+            // Bind a click handler to toggle greyMask when #headingOne is clicked
+            $jQ('#headingOne').click(function () {
+                $jQ('#greyMask').toggle();
+                $jQ('body').toggleClass('body-mask');
 
-            if ($jQ('body').hasClass('body-mask')) {
-                $jQ('body').css({'max-height': offersTabBodyHeight});
-                $jQ('body').css({'overflow': 'hidden'});
-            } else {
-                $jQ('body').css({'max-height': ''});
-                $jQ('body').css({'overflow': ''});
-            }
-        });
-    })
+                if ($jQ('body').hasClass('body-mask')) {
+                    $jQ('body').css({'max-height': offersTabBodyHeight});
+                    $jQ('body').css({'overflow': 'hidden'});
+                } else {
+                    $jQ('body').css({'max-height': ''});
+                    $jQ('body').css({'overflow': ''});
+                }
+            });
+        })
+    });
+
 </script>
 
 <?php if (!empty($this->_offers) && $this->shouldShowOnPage()): ?>
