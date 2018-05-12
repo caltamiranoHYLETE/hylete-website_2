@@ -67,14 +67,35 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
     }
 
     /**
+     * Get the configured auto-open URL parameter key name.
+     *
+     * @return string|null
+     */
+    public function getAutoOpenKey()
+    {
+        return Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_key');
+    }
+
+    /**
+     * Get the configured auto-open URL value.
+     *
+     * @return string|null
+     */
+    public function getAutoOpenValue()
+    {
+        return Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_value');
+    }
+
+    /**
      * Has URL param to expand offers tab on page load
      *
      * @return bool
+     * @deprecated since 0.0.7
      */
     public function hasExpandOffer()
     {
-        $offersAutoOpenKey = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_key');
-        $offersAutoOpenValue = Mage::getStoreConfig('mediotype_offerstab/general/auto_open_offers_value');
+        $offersAutoOpenKey = $this->getAutoOpenKey();
+        $offersAutoOpenValue = $this->getAutoOpenValue();
         $offersTabExpand = $this->getRequest()->getParam($offersAutoOpenKey);
 
         return ($offersTabExpand && $offersTabExpand == $offersAutoOpenValue ? true : false);
