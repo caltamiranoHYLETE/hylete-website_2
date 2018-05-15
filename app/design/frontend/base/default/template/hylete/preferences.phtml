@@ -47,7 +47,7 @@ function getClean($strVar, $defaulVal) {
         console.log(form);
 
         if(form.email) {
-            zaius.entity("customer", {email: form.email.value, email_focus_products: form.email_focus_products.value, email_focus_promo: form.email_focus_promo.value, email_focus_community: form.email_focus_community.value});
+            //zaius.entity("customer", {email: form.email.value, email_focus_products: form.email_focus_products.value, email_focus_promo: form.email_focus_promo.value, email_focus_community: form.email_focus_community.value});
         }
 
         if(form) {
@@ -68,17 +68,7 @@ function getClean($strVar, $defaulVal) {
     <div class="form-group">
         <div class="form-label">
 
-            <?php if($email == "") { ?>
-                <label for="email">
-                    Email <input class="form-control" type="email" id="email" name="email" placeholder="Enter your email">
-                    <span class="zaius-list-signup-form-sublabel">
-                        <span class="zaius-list-signup-form-important">*</span>
-                        <span class="zaius-list-signup-form-label-right"><span class="zaius-list-signup-form-important">*</span>required</span>
-                    </span>
-                </label>
-            <? } else { ?>
-                <input type="hidden" id="email" name="email" value="<?php echo $email ?>">
-            <?php } ?>
+            <input type="hidden" id="email" name="email" value="<?php echo $email ?>">
 
             <label for="email_focus_products"><b>Would you like to receive product emails? (launches and restocks)</b></label><br />
             <input id="email_focus_products" name="EmailFocusProducts" type="radio" value="true" <?php if($email_focus_products == "true") { echo "checked"; } ?>>Yes
