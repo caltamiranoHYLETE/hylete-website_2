@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_abandonedcartreport_reports_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/abandonedcartreport/js/jquery/jquery-1.7.0.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/abandonedcartreport/js/chartjs/chartjs.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/abandonedcartreport/js/tooltipster/jquery.tooltipster.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>bestworlds/abandonedcartreport/css/tooltipster/tooltipster.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>bestworlds/abandonedcartreport/css/reports.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template"  name="reports" template="bestworlds/abandonedcartreport/reports.phtml"/>
+        </reference>
+    </adminhtml_abandonedcartreport_reports_index>
+</layout>

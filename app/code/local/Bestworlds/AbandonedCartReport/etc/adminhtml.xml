@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<config>
+    <translate>
+        <modules>
+            <Bestworlds_AbandonedCartReport>
+                <files>
+                    <default>BestWorlds_AbandonedCartReport.csv</default>
+                </files>
+            </Bestworlds_AbandonedCartReport>
+        </modules>
+    </translate>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <abandonedcartreport translate="title" module="abandonedcartreport">
+                                        <title>BestWorlds Reachable Carts Report</title>
+                                    </abandonedcartreport>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
