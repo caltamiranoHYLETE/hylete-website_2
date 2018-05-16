@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Bestworlds_AbandonedCartReport>
+            <version>1.0.1</version>
+        </Bestworlds_AbandonedCartReport>
+    </modules>
+
+    <global>
+        <blocks>
+            <abandonedcartreport>
+                <class>Bestworlds_AbandonedCartReport_Block</class>
+            </abandonedcartreport>
+        </blocks>
+        <models>
+            <abandonedcartreport>
+                <class>Bestworlds_AbandonedCartReport_Model</class>
+            </abandonedcartreport>
+        </models>
+        <helpers>
+            <abandonedcartreport>
+                <class>Bestworlds_AbandonedCartReport_Helper</class>
+            </abandonedcartreport>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <abandonedcart before="Mage_Adminhtml">Bestworlds_AbandonedCartReport_Adminhtml</abandonedcart>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Bestworlds_AbandonedCartReport>
+                    <files>
+                        <default>Bestworlds_AbandonedCartReport.csv</default>
+                    </files>
+                </Bestworlds_AbandonedCartReport>
+            </modules>
+        </translate>
+        <menu>
+            <report>
+                <children>
+                    <shopcart>
+                        <children>
+                            <abandonedcart_reports_simple translate="title" module="abandonedcartreport">
+                                <title>BestWorlds Reachable Carts Report</title>
+                                <sort_order>1200</sort_order>
+                                <action>adminhtml/abandonedcartreport_reports</action>
+                            </abandonedcart_reports_simple>
+                        </children>
+                    </shopcart>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <shopcart>
+                                    <children>
+                                        <abandonedcartreport_reports translate="title">
+                                            <title>Reports</title>
+                                        </abandonedcartreport_reports>
+                                    </children>
+                                </shopcart>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <Bestworlds_AbandonedCartReport module="Bestworlds_AbandonedCartReport">
+                    <file>bestworlds/abandonedcartreport.xml</file>
+                </Bestworlds_AbandonedCartReport>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
