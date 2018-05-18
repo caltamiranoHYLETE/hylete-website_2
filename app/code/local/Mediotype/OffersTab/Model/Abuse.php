@@ -11,20 +11,28 @@
 
 class Mediotype_OffersTab_Model_Abuse
 {
+    const CONFIG_XML_PATH_ENABLED = 'mediotype_offerstab/general/abuse_manager';
+    const CONFIG_XML_PATH_WHITELIST = 'mediotype_offerstab/general/abuse_whitelist';
+
     const REQUEST_STORAGE_KEY = 'OFFERSTAB_ABUSE_DATA';
     const REQUEST_THRESHOLD = 5;
     const REQUEST_COOLDOWN = 300;
 
     protected $data = array();
 
+    private $enabled = true;
+
     /** @var Zend_Cache_Core */
     private $storage;
+
+    private $whitelist = array();
 
     /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->enabled = Mage::getStoreConfigFlag(self::CONFIG_XML_PATH_ENABLED);
         $this->storage = Mage::app()->getCache();
         $this->load();
     }
@@ -38,6 +46,10 @@ class Mediotype_OffersTab_Model_Abuse
      */
     public function approve($address = null)
     {
+        if (!$this->enabled) {
+            return true;
+        }
+
         $model = $this->loadByAddress($address ?: $this->getAddress());
 
         if ($this->validate($model->getIpAddress())) {
@@ -97,7 +109,7 @@ class Mediotype_OffersTab_Model_Abuse
         /** @var Mediotype_OffersTab_Model_Abuse_Data $model */
         $model = $this->loadByAddress($address ?: $this->getAddress());
 
-        return $model->getAttempts() < self::REQUEST_THRESHOLD;
+        return $this->isWhitelisted($address) || $model->getAttempts() < self::REQUEST_THRESHOLD;
     }
 
     /**
@@ -122,6 +134,21 @@ class Mediotype_OffersTab_Model_Abuse
     }
 
     /**
+     * Determine whether the given address is whitelisted.
+     *
+     * @param null $address
+     * @return bool
+     */
+    private function isWhitelisted($address = null)
+    {
+        if ($address === null) {
+            $address = $this->getAddress();
+        }
+
+        return in_array($address, $this->whitelist);
+    }
+
+    /**
      * Load data from storage.
      *
      * @return Mediotype_OffersTab_Model_Abuse
@@ -135,6 +162,14 @@ class Mediotype_OffersTab_Model_Abuse
         } else {
             $this->data = array();
         }
+
+        $this->whitelist = (array) array_map(
+            'trim',
+            explode(
+                ',',
+                Mage::getStoreConfig(self::CONFIG_XML_PATH_WHITELIST)
+            )
+        );
 
         return $this;
     }
