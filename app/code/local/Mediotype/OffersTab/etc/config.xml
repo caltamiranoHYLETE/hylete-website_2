@@ -6,6 +6,14 @@
         </Mediotype_OffersTab>
     </modules>
 
+    <default>
+        <mediotype_offerstab>
+            <general>
+                <abuse_manager>1</abuse_manager>
+            </general>
+        </mediotype_offerstab>
+    </default>
+
     <global>
         <models>
             <mediotype_offerstab>
