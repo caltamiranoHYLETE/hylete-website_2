@@ -241,7 +241,6 @@
         </reference>
 
         <reference name="before_body_end">
-            <block type="core/template" template="vaimo/hylete/bounceexchange/js.phtml"/>
             <remove name="purchase.pinterest.pin.sdk"/>
             <remove name="ev_fb_init"/>
         </reference>

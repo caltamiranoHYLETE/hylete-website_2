@@ -26,7 +26,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Webshopapps_Wsalogger_Adminhtml_Block_Log_View extends Mage_Catalog_Block_Product_Abstract {
-	 
+
     public function _construct() {
         parent::_construct();
         $this->setTemplate('webshopapps_wsalogger/view.phtml');
@@ -44,8 +44,8 @@ class Webshopapps_Wsalogger_Adminhtml_Block_Log_View extends Mage_Catalog_Block_
     }
 
     public function getBackUrl() {
-        return Mage::helper('adminhtml')->getUrl('*/adminhtml_log');
+        return Mage::helper('adminhtml')->getUrl('adminhtml/wsalogger');
     }
-    
+
 }
 
