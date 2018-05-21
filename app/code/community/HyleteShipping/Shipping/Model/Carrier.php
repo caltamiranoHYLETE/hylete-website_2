@@ -11,7 +11,6 @@ class HyleteShipping_Shipping_Model_Carrier
      */
     protected $_code = 'hyleteshipping_shipping';
 	protected $_request = null;
-	protected static $_quotesCache = array();
 
     /**
      * Returns available shipping rates for Inchoo Shipping carrier
@@ -63,6 +62,7 @@ class HyleteShipping_Shipping_Model_Carrier
 
 				$i = new stdClass();
 
+				//The quote items don't have the categories so we need to load those up
 				$model = Mage::getModel('catalog/product');
 				$_product = $model->load($prod->getProductId());
 				$categoryIds = $_product->getCategoryIds();
@@ -120,6 +120,7 @@ class HyleteShipping_Shipping_Model_Carrier
 		return $this;
 	}
 
+	//This parse the reponse from the webservice
 	protected function _parseJson($response)
 	{
 		$result = Mage::getModel('shipping/rate_result');
@@ -163,97 +164,44 @@ class HyleteShipping_Shipping_Model_Carrier
 	{
 		$r = $this->_rawRequest;
 
-		//Shipping rates get fired twice so we cache the result in an array so it fires once
-		$responseBody = $this->_getCachedQuotes($r);
+		$debugData = array('request' => $r);
+		try {
+			$client = new Zend_Http_Client();
+			$client->setUri($this->getConfigData('api_url'));
+			$client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
+			$client->setHeaders('Content-type','application/json');
 
-		if ($responseBody === null) {
-			$debugData = array('request' => $r);
-			try {
-				$client = new Zend_Http_Client();
-				$client->setUri($this->getConfigData('api_url'));
-				$client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
-				$client->setHeaders('Content-type','application/json');
+			$json = Mage::helper('core')->jsonEncode($r);
+			$client->setParameterPost('data', $json);
+			$response = $client->request(Zend_Http_Client::POST);
 
-				$json = Mage::helper('core')->jsonEncode($r);
-				$client->setParameterPost('data', $json);
-				$response = $client->request(Zend_Http_Client::POST);
+			$responseBody = $response->getBody();
 
-				$responseBody = $response->getBody();
+			$debugData['result'] = $responseBody;
 
-				$debugData['result'] = $responseBody;
+			//$this->_setCachedQuotes($request, $responseBody);
+		} catch (Exception $e) {
+			$debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+			$responseBody = '';
 
-				$this->_setCachedQuotes($r, $responseBody);
-
-			} catch (Exception $e) {
-				$debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-				$responseBody = '';
-
-				Mage::log($e->getMessage(), null, 'hylete-shipping.log', true);
-			}
-
-			$this->_debug($debugData);
+			Mage::log($e->getMessage(), null, 'hylete-shipping.log', true);
 		}
+
+		$this->_debug($debugData);
 
 		return $this->_parseJson($responseBody);
 	}
 
     public function getTrackingInfo($tracking)
     {
-        $track = mage::getmodel('shipping/tracking_result_status'); 
+        $track = mage::getmodel('shipping/tracking_result_status');
         $track->setUrl('https://www.hylete.com/tracking?orderId='.$tracking);
         $track->setTracking($tracking);
         $track->setCarrier('hyleteshipping_shipping');
         $track->setCarrierTitle($this->getConfigData('shipping_method_title'));
-        
+
         return $track;
     }
-
-	/**
-	 * Returns cache key for some request to carrier quotes service
-	 *
-	 * @param string|array $requestParams
-	 * @return string
-	 */
-	protected function _getQuotesCacheKey($requestParams)
-	{
-		if (is_array($requestParams)) {
-			$requestParams = implode(',', array_merge(
-					array($this->getCarrierCode()),
-					array_keys($requestParams),
-					$requestParams)
-			);
-		}
-		return crc32($requestParams);
-	}
-
-	/**
-	 * Checks whether some request to rates have already been done, so we have cache for it
-	 * Used to reduce number of same requests done to carrier service during one session
-	 *
-	 * Returns cached response or null
-	 *
-	 * @param string|array $requestParams
-	 * @return null|string
-	 */
-	protected function _getCachedQuotes($requestParams)
-	{
-		$key = $this->_getQuotesCacheKey($requestParams);
-		return isset(self::$_quotesCache[$key]) ? self::$_quotesCache[$key] : null;
-	}
-
-	/**
-	 * Sets received carrier quotes to cache
-	 *
-	 * @param string|array $requestParams
-	 * @param string $response
-	 * @return Mage_Usa_Model_Shipping_Carrier_Abstract
-	 */
-	protected function _setCachedQuotes($requestParams, $response)
-	{
-		$key = $this->_getQuotesCacheKey($requestParams);
-		self::$_quotesCache[$key] = $response;
-		return $this;
-	}
     
     public function isTrackingAvailable()
     {
