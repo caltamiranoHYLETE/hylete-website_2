@@ -207,20 +207,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    static $_attributes_cache = array();
     public function getSetAttributes($product = null)
     {
-    	$product = $this->getProduct($product);
-    	$key = $product->getData("type_id").$product->getData("attribute_set_id");
-    	if( array_key_exists($key,self::$_attributes_cache) ){
-    		return self::$_attributes_cache[$key];
-    	}
-    	else {
-    		$attributes = $product->getResource()->loadAllAttributes($product)->
-    						getSortedAttributes($product->getAttributeSetId());
-    		self::$_attributes_cache[$key] = $attributes;
-    		return $attributes;
-    	}
+        return $this->getProduct($product)->getResource()
+            ->loadAllAttributes($this->getProduct($product))
+            ->getSortedAttributes($this->getProduct($product)->getAttributeSetId());
     }
 
     /**
