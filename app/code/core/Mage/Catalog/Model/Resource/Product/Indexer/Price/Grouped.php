@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
             'store_field'   => new Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $select->insertIgnoreFromSelect($table);
+        $query = $select->insertFromSelect($table);
         $write->query($query);
 
         return $this;

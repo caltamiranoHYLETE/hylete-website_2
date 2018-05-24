@@ -463,8 +463,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _beforeSave()
     {
-        // VAIMO no cache clean needed BEFORE save :S
-        // $this->cleanCache();
+        $this->cleanCache();
         $this->setTypeHasOptions(false);
         $this->setTypeHasRequiredOptions(false);
 
