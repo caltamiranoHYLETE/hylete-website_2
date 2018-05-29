@@ -38,7 +38,7 @@ class Klaviyo_Reclaim_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_A
       $has_reclaim_entries = Mage::getModel('klaviyo_reclaim/checkout')->getCollection()->count() > 0;
 
       $is_extension_failing = $is_enabled && !($is_api_key_set || $is_cron_running || $has_reclaim_entries);
-      
+
       return array($is_extension_failing, $is_api_key_set, $is_cron_running, $has_reclaim_entries);
     }
 }

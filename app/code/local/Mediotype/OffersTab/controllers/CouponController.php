@@ -76,9 +76,7 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
      */
     protected function validate($code)
     {
-        try {
-            $isApproved = $this->approveRequest();
-        } catch (Exception $error) {
+        if (!($isApproved = $this->approveRequest())) {
             throw new Mage_Core_Exception('Too many requests. Please try again later.');
         }
 
