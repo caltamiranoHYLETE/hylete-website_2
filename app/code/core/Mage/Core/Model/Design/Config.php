@@ -57,7 +57,7 @@ class Mage_Core_Model_Design_Config extends Varien_Simplexml_Config
             $this->loadString('<theme />');
             $path = str_replace('/', DS, $this->_designRoot . '/*/*/*/etc/theme.xml');
             $files = glob($path);
-            foreach ($files as $file) { Mage::log($file, null, 'themexml.log');
+            foreach ($files as $file) {
                 $config = new Varien_Simplexml_Config();
                 $config->loadFile($file);
                 list($area, $package, $theme) = $this->_getThemePathSegments($file);
