@@ -102,7 +102,7 @@
 <IfModule mod_ssl.c>
 
 ############################################
-## make http env vars available for CGI mode
+## make HTTPS env vars available for CGI mode
 
     SSLOptions StdEnvVars
 
@@ -123,13 +123,13 @@
     #RewriteBase /magento/
 
     RewriteCond %{REQUEST_URI}  ^/SMB17$ [NC]
-    RewriteRule ^(.*)$ http://events.hylete.com/event/home/smb17 [R=301,L]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/home/smb17 [R=301,L]
 
     RewriteCond %{REQUEST_URI}  ^/31$ [NC]
-    RewriteRule ^(.*)$ http://events.hylete.com/event/home/31hc17 [R=301,L]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/home/31hc17 [R=301,L]
 
     RewriteCond %{REQUEST_URI}  ^/31login$ [NC]
-    RewriteRule ^(.*)$ http://events.hylete.com/event/login/31hc17 [R=301,L]
+    RewriteRule ^(.*)$ https://events.hylete.com/event/login/31hc17 [R=301,L]
 
     RewriteCond %{REQUEST_URI}  ^/men/charity/operation-underground-railroad$ [OR,NC]
     RewriteCond %{REQUEST_URI}  ^/women/charity/operation-underground-railroad$ [NC]
@@ -149,14 +149,14 @@
 
     RewriteRule ^pbh/?(.*) /create-your-account [QSA,L,NC]
 
-    RewriteRule ^robbwolf/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=30582-3d1487 [QSA,L,NC]
-    RewriteRule ^sweatworks/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=30378-da2c9b [QSA,L,NC]
-    RewriteRule ^megamad/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=30431-7af5a7 [QSA,L,NC]
-    RewriteRule ^alkavadlo/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=30441-ac952c [QSA,L,NC]
-    RewriteRule ^andymcdermott/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=30448-1dc17d [QSA,L,NC]
-    RewriteRule ^wodtalk/?(.*) http://www.hylete.com/?tap_a=7989-d38850&tap_s=37242-153fda [QSA,L,NC]
+    RewriteRule ^robbwolf/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30582-3d1487 [QSA,L,NC]
+    RewriteRule ^sweatworks/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30378-da2c9b [QSA,L,NC]
+    RewriteRule ^megamad/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30431-7af5a7 [QSA,L,NC]
+    RewriteRule ^alkavadlo/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30441-ac952c [QSA,L,NC]
+    RewriteRule ^andymcdermott/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=30448-1dc17d [QSA,L,NC]
+    RewriteRule ^wodtalk/?(.*) https://www.hylete.com/?tap_a=7989-d38850&tap_s=37242-153fda [QSA,L,NC]
 
-    RewriteRule ^C3? http://www.hylete.com/c3 [L]
+    RewriteRule ^C3? https://www.hylete.com/c3 [L]
 
     RewriteRule ^prodeal/?(.*) /forms/prodeal/$1 [QSA,L,NC]
 
