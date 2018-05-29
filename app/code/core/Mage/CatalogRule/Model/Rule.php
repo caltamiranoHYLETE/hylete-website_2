@@ -348,14 +348,13 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
 
         $this->getResource()->applyAllRules($product);
         $this->_invalidateCache();
-        /*
-         * // elvin@VAIMO don't reindex price here
+
         Mage::getSingleton('index/indexer')->processEntityAction(
             new Varien_Object(array('id' => $product->getId())),
             Mage_Catalog_Model_Product::ENTITY,
             Mage_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
         );
-        */
+
         return $this;
     }
 

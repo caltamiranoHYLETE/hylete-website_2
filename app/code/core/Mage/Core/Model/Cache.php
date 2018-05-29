@@ -427,12 +427,6 @@ class Mage_Core_Model_Cache
             if (!is_array($tags)) {
                 $tags = array($tags);
             }
-            foreach ($tags as $k => $tag) {
-                if ($tag == 'catalog_product' || $tag == 'catalog_category') {
-                    unset($tags[$k]);
-                }
-
-            }
             $res = $this->getFrontend()->clean($mode, $this->_tags($tags));
         } else {
             $res = $this->getFrontend()->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
