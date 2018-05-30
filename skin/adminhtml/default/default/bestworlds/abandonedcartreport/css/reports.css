@@ -1,0 +1,189 @@
+.reports{
+    width: 100%;
+    margin-top:15px;
+}
+.store:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.reports .title{
+    width:100%;
+    float:left;
+    margin-top:25px;
+    margin-bottom:25px;
+}
+.reports .dateFilter{
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+.reports h3{
+    padding:15px;
+    background-color: #F4F4F4;
+    margin-bottom: 0px;
+    text-align:center;
+    font-size:17px;
+}
+.reports .store{
+    width:100%;
+    margin:auto;
+}
+.reports .center{
+    width:100%;
+    margin:auto;
+    margin-top:50px;
+    padding-right:250px;
+    position:relative;
+    box-sizing:border-box;
+}
+.reports .center:after{
+    content:"";
+    display:block;
+    clear:both;}
+.reports .title.mainTitle h3{
+    font-size:1.4em !important}
+.reports .titles{
+    background-color: #ffffff;
+    padding:15px 15px 5px 15px;
+}
+.reports .titles .total_sales{
+    color:#DCDCDC;
+    font-weight: bold;
+}
+.reports .titles .total_sales .square{
+    background: #DCDCDC;
+}
+.reports .titles .total_recovered{
+    color:#97BBCD;
+    font-weight: bold;
+}
+.reports .titles .total_recovered .square{
+    background: #97BBCD;
+}
+.reports .titles .square{
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    margin-top: 3px;
+    float:left;
+}
+.container {
+    padding: 15px !important;
+}
+.reports .left{
+    float:left !important;
+    width:49%;
+    margin-right:2%;
+    border:1px solid;
+    box-sizing:border-box;
+}
+.reports .centerLeft{
+    float:left !important;
+    width:100%;
+    margin-right:2%;
+    border:1px solid;
+    box-sizing:border-box;
+}
+.reports .centerLeft .container{
+    height: 196px;
+    min-height: 196px !important;
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    vertical-align:middle;
+}
+.reports .centerLeft .container > div{
+    height:100%;
+}
+.reports .centerLeft .container > div > canvas{
+    position:relative;
+    top:50%;
+    margin-top:-8.5%;
+}
+.reports .right{
+    float:left !important;
+    width:49%;
+    /*border:1px solid;
+    box-sizing:border-box;*/
+}
+.reports .centerRight{
+    float:left !important;
+    width:230px;
+    border:1px solid;
+    box-sizing:border-box;
+    /*position:absolute;*/
+    right:0;
+}
+.reports .centerRight .titles{
+    height:144px;
+}
+.reports .centerRight .container{
+    height:106px !important}
+.reports .container{
+    border-top: 1px solid;
+    min-height: 85px;
+    background-color: #ffffff;
+    text-align:center;
+}
+.reports .container:hover{
+    background-color: #F4F4F4;
+}
+.reports .container .box{
+    background-color: #ffffff;
+    border:1px solid;
+    display:inline-block;
+    text-align: center;
+    height: 105px;
+    width: 26.6%;
+    margin:5px;
+    cursor:pointer;
+    /*background:url(<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) ?>adminhtml/default/default/images/get_info.png) no-repeat 0px 3px;*/
+}
+.reports .container .box:hover{
+    background-color: #FFF9E9;
+}
+.reports .container .box h4{
+    height: 65px;
+    padding-left:13px;
+    padding-right:13px;
+}
+.reports .container .box span{
+    background-color: #ececec;
+    color: #e36245;
+    font-size: 30px;
+    font-weight: bold;
+    height: 22px;
+    padding: 5px;
+    line-height:22px;
+    text-align: center;
+    display:block;
+}
+
+@media only screen and (min-width: 1305px) and (max-width: 1414px) {
+    .reports .container .box{
+        width:26%
+    }
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1305px) {
+    .reports .container .box{
+        width:22%
+    }
+}
+
+@media only screen and (min-width: 1150px) and (max-width: 1305px) {
+    .reports .container .box span{
+        font-size:25px;
+    }
+}
+
+@media only screen and (min-width: 1080px) and (max-width: 1150px) {
+    .reports .container .box span{
+        font-size:23px;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .reports .container .box span{
+        font-size:21px;
+    }
+}
