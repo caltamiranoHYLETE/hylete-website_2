@@ -29,9 +29,11 @@
             if ($jQ('body').hasClass('body-mask')) {
                 $jQ('body').css({'max-height': offersTabBodyHeight});
                 $jQ('body').css({'overflow': 'hidden'});
+                $jQ('html').css('overflow', 'hidden');
             } else {
                 $jQ('body').css({'max-height': ''});
                 $jQ('body').css({'overflow': ''});
+                $jQ('html').css('overflow', '');
             }
         });
     })
