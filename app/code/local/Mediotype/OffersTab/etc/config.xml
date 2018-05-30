@@ -2,9 +2,17 @@
 <config>
     <modules>
         <Mediotype_OffersTab>
-            <version>0.0.6</version>
+            <version>0.0.7</version>
         </Mediotype_OffersTab>
     </modules>
+
+    <default>
+        <mediotype_offerstab>
+            <general>
+                <abuse_manager>1</abuse_manager>
+            </general>
+        </mediotype_offerstab>
+    </default>
 
     <global>
         <models>
@@ -127,6 +135,16 @@
                     </mediotype_offerstab>
                 </observers>
             </mediotype_coupon_removal_check>
+
+            <mediotype_coupon_apply>
+                <observers>
+                    <mediotype_offerstab>
+                        <type>singleton</type>
+                        <class>mediotype_offerstab/couponObserver</class>
+                        <method>attemptAutomaticCouponApplication</method>
+                    </mediotype_offerstab>
+                </observers>
+            </mediotype_coupon_apply>
         </events>
 
         <routers>
