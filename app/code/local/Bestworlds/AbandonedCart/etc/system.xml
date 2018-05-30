@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <bw translate="label" module="abandonedcart">
+            <label>Best Worlds</label>
+            <sort_order>200</sort_order>
+        </bw>
+    </tabs>
+    <sections>
+        <abandonedcart translate="label" module="abandonedcart">
+            <label>Abandoned Cart</label>
+            <tab>bw</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <basic translate="label">
+                    <label>Basic Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Main Enable Switch</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <cron translate="label">
+                            <label>Cron Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <comment>
+                                <![CDATA[<p>This cron will mark the quotes started when a customer is already logged in to the site.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cron>
+                    </fields>
+                </basic>
+                <frontend translate="label">
+                    <label>Frontend Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <klaviyo_integration translate="label">
+                            <label>Klaviyo Integration</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <comment>
+                                <![CDATA[<p>Check if you already have Klaviyo's module installed.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </klaviyo_integration>
+                        <lightbox_desktop translate="label">
+                            <label>Enable frontend capture lightbox on Desktop</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <comment>
+                                <![CDATA[<p>See add2cart lightbox on Desktop devices.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lightbox_desktop>
+                        <lightbox_mobile translate="label">
+                            <label>Enable frontend capture lightbox on Mobile</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <comment>
+                                <![CDATA[<p>See add2cart lightbox on mobile devices.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lightbox_mobile>
+                        <email_tracking translate="label">
+                            <label>Enable Email tracking</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <comment>
+                                <![CDATA[<p>Capture the email if it is being send through an URI param.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_tracking>
+                        <tracking_fields translate="label">
+                            <label>Tracking Fields</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <comment>
+                                <![CDATA[<p>You can place in here the param name where the email will be sent, separated by comma.</p>]]>
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tracking_fields>
+                    </fields>
+                </frontend>
+            </groups>
+        </abandonedcart>
+    </sections>
+</config>

@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Bestworlds_AbandonedCart>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Bestworlds_AbandonedCart>
+    </modules>
+</config>
