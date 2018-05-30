@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <abandonedcart translate="title" module="abandonedcart">
+                                        <title>BestWorlds Abandoned Cart</title>
+                                    </abandonedcart>
+                                </children>
+                            </config>
+                            <abandonedcart_adminsetting translate="title" module="abandonedcart">
+                                <title>BestWorlds Abandoned Cart</title>
+                            </abandonedcart_adminsetting>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

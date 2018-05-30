@@ -1,0 +1,126 @@
+<?php
+$isMobile= Mage::helper('abandonedcart/mobileDetect')->isMobile();
+
+if (($isMobile && Mage::getStoreConfigFlag('abandonedcart/basic/enable')
+        && Mage::getStoreConfigFlag('abandonedcart/frontend/lightbox_mobile')
+        && (!$this->getQuote()->getId() || !$this->getEmailQuote()))
+        || (!$isMobile && Mage::getStoreConfigFlag('abandonedcart/basic/enable') && Mage::getStoreConfigFlag('abandonedcart/frontend/lightbox_desktop') && (!$this->getQuote()->getId() || !$this->getEmailQuote()))) {
+    //any lightbox will be open
+
+    $image_logo_url = Mage::getStoreConfig('design/header/logo_src');
+    if (!$image_logo_url) {
+        $image_logo_url = "images/logo.gif";
+    }
+    $image_logo_url = $this->getSkinUrl($image_logo_url);
+    $image_logo_url = $this->getSkinUrl('bestworlds/abandonedcart/images/logo.png');
+    ?>
+    <style>
+        /*TEMPORAL FIX FOR HYLETE LOGO ON LIGHTBOX, REMOVE FROM HERE ONCE WE HAVE FINAL TEMPLATE*/
+        @media all and (min-width: 915px) {
+            .form-bw-header-logo {
+                background-color: black;
+                width: 350px;
+                height: 70px;
+            }
+            .form-bw-header-logo img {
+                margin-top: 10px;
+                padding-left: 5px;
+                padding-right: 4px;
+            }
+        }
+    </style>
+    <div class="bw_block_page" style="display:none;">
+        <div class="bw_box">
+            <input type="text" name="bw_cookie_expire_time" id="bw_cookie_expire_time" style="display: none;" value="<?php echo (int)Mage::getStoreConfig('web/cookie/cookie_lifetime'); ?>" />
+            <a href="javascript:void(0);" onclick="closeLightbox(<?php echo (int)Mage::getStoreConfig('web/cookie/cookie_lifetime') ?>);abCartTrackEvent('Add2CartPrompt','No Thanks');" class="bw_box_close"><img src="<?php echo $this->getSkinUrl('bestworlds/abandonedcart/images/close.png');?>" /></a>
+            <form action="<?php echo $this->getAction(); ?>" method="post" id="bw-validate-detail" onsubmit="javascript:bwSubmitEmailForm();return false;">
+                <div class="form-bw clearfix">
+                    <div class="form-bw-header">
+                        <div class="form-bw-header-logo">
+                            <img id="form-bw-header-logo-img" alt="<?php echo Mage::app()->getStore()->getName(); ?>" src="<?php echo $image_logo_url; ?>" />
+                        </div>
+                        <div class="form-bw-header-right"><?php echo $this->__('Shopping Made Easy!')?></div>
+                    </div>
+                    <div class="form-bw-separator">
+                        <div class="form-bw-separator-line"></div>
+                    </div>
+                    <div class="form-bw-center">
+                        <span><?php echo $this->__('Why start with your email address?')?></span>
+                        <br/><br/>
+                        <ul>
+                            <li><?php echo $this->__('We will send you a link you can use to retrieve your cart from any device.')?></li>
+                            <li><?php echo $this->__('No obligation. Keep shopping and checkout at anytime.')?></li>
+                            <li><?php echo $this->__("You won't have to hunt around to get your cart back.")?></li>
+                        </ul>
+                    </div>
+                    <div class="form-bw-legend">
+                        <?php echo $this->__('To get started, simply add your email address and we will take care of the rest!')?>
+                    </div>
+                    <div class="bw-input-box input-box">
+                        <table style="margin: auto;">
+                            <tr>
+                                <td class="bwemail-td">
+                                    <input type="text" name="email" id="bwemail" placeholder="<?php echo $this->__('example@email.com') ?>" title="<?php echo $this->__('Enter email address') ?>" class="input-text required-entry validate-email bw_box_input" />
+                                </td>
+                                <td>
+                                    <button type="button" title="submit" class="button" onclick="bwSubmitEmailForm();">
+                                        <span><span><?php echo $this->__('Submit')?></span></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="color: #ff0000; text-align: center;float:left;width:98%; font-weight: bold;" id="pd_results">&nbsp;</div>
+                    <div class="form-bw-bottom">
+                        <?php echo $this->__('Already have an account?')?> <a href="<?php echo Mage::helper('customer')->getLoginUrl()?>"><?php echo $this->__('Sign in here')?></a>
+                        </br></br>
+                        <span class="no-thanks" onclick="closeLightbox(<?php echo (int)Mage::getStoreConfig('web/cookie/cookie_lifetime') ?>);abCartTrackEvent('Add2CartPrompt','No Thanks');">
+                            <?php echo $this->__('No thank you, not this time')?>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        function bwSubmitEmailForm(){
+            var bwEmailSubscriberFormDetail = new VarienForm('bw-validate-detail');
+            if (!bwEmailSubscriberFormDetail.validator.validate()) return;
+            jQuery('#pd_results').hide();
+            jQuery.ajax({
+                url: jQuery('#bw-validate-detail').attr('action'),
+                type: "POST",
+                data: {'isAjax':1,'email':jQuery('#bwemail').val(), 'type':'add2cart'},
+                success: function(data) {
+                    abCartTrackEvent('Add2CartPrompt','Email Entered');
+                    jQuery('#pd_results').css("color","#006600");
+                    jQuery('#pd_results').css("background-color","yellow");
+                    jQuery('#pd_results').css("margin-top","5px");
+                    jQuery('#pd_results').css("padding","5px");
+                    jQuery('#pd_results').html("<?php echo $this->__("Thanks - we'll email you a link to this cart"); ?>");
+                    jQuery('#pd_results').show();
+
+                    setTimeout(function(){
+                        jQuery('.bw_block_page').fadeOut().remove();
+                    },4000);
+                },
+                error:function(data) {
+                    jQuery('#pd_results').css("color","#ff0000");
+                    jQuery('#pd_results').html('Please try again later');
+                    jQuery('#pd_results').show();
+                    jQuery('#bwemail').val('');
+                    jQuery('.bw_box').fadeOut();
+                    jQuery('.bw_block_page').fadeOut();
+                }
+            });
+            return false;
+        }
+
+        <?php if(!$this->getEmailQuote()): ?>
+            setTimeout(openLightBox(<?php echo (int)Mage::getStoreConfig('web/cookie/cookie_lifetime'); ?>), 500);
+        <?php endif; ?>
+        //]]>
+    </script>
+<?php } ?>
