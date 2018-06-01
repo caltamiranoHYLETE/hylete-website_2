@@ -43,4 +43,14 @@ class Mediotype_HyletePrice_Model_Observer extends Amasty_Rules_Model_Observer
 
         $product->setFinalPrice($msrp);
     }
+
+    /**
+     * Flush CMS blocks cache by tag
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function flushCmsBlockCacheByTags(Varien_Event_Observer $observer){
+        $cache  = Mage::getSingleton('core/cache');
+        $cache->clean(array(Mediotype_HyletePrice_Helper_Data::CMS_BLOCK_CACHE_TAG));
+    }
 }

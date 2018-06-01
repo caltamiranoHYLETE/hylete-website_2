@@ -531,6 +531,11 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
           )
         );
         $response   = curl_exec($ch);
+
+        if($response === false){ /* handle an unsuccessful call gracefully */
+            return;
+        }
+
         // We expect the response to look something like this:
         //      {"url":"https://<PUBKEY>:<PRIVKEY>@sentry.io/118103"}
         $sentryUrl = json_decode($response)->{'url'};

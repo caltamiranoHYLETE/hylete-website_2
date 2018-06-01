@@ -196,7 +196,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         $statusCond = $write->quoteInto(' = ?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'le.entity_id', 'cs.store_id', $statusCond);
 
-        $query = $select->insertIgnoreFromSelect($coaTable);
+        $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
         $select = $write->select()
@@ -208,7 +208,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
                 ))
             ->group(array('parent_id', 'customer_group_id', 'website_id'));
 
-        $query = $select->insertIgnoreFromSelect($copTable);
+        $query = $select->insertFromSelect($copTable);
         $write->query($query);
 
         $table  = array('i' => $this->_getDefaultFinalPriceTable());

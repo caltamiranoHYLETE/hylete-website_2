@@ -237,7 +237,8 @@ HTML;
 
         try {
             $includeFilePath = realpath($this->_viewDir . DS . $fileName);
-            if ($this->_validateTemplateFilename($includeFilePath)) {
+
+            if (strpos($includeFilePath, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()) {
                 include $includeFilePath;
             } else {
                 Mage::log('Not valid template file:'.$fileName, Zend_Log::CRIT, null, null, true);
@@ -354,19 +355,5 @@ HTML;
             $this->_allowSymlinks = Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
         }
         return $this->_allowSymlinks;
-    }
-
-    /**
-     * Ensures the given template file path is valid
-     *
-     * @param $templatePath
-     * @return bool
-     */
-    protected function _validateTemplateFilename($templatePath)
-    {
-        if (substr($templatePath, -6) != '.phtml') {
-            return false;
-        }
-        return strpos($templatePath, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks();
     }
 }
