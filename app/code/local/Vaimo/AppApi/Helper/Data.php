@@ -31,15 +31,6 @@ class Vaimo_AppApi_Helper_Data extends Mage_Core_Helper_Abstract
     const APP_API_DETAIL_LEVEL_SMART    = 'smart';
     const APP_API_DETAIL_LEVEL_MINMIAL  = 'minimal';
 
-    public function patchSetIgnorePrices($bool)
-    {
-        if ($bool) {
-            $_SESSION['ignore_prices'] = true;
-        } else {
-            unset($_SESSION['ignore_prices']);
-        }
-    }
-
     public function getStoreId($websiteId = null, $storeId = null)
     {
         $res = $storeId;
@@ -264,10 +255,8 @@ class Vaimo_AppApi_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getConfigurableProductArrays($product, &$confAttributes, &$simpleProducts)
     {
         if ($product->isConfigurable()) {
-            $this->patchSetIgnorePrices(true);
             $confAttributes = $product->getTypeInstance()->getConfigurableAttributes($product);
             $simpleProducts = $product->getTypeInstance()->getUsedProducts(NULL, $product);
-            $this->patchSetIgnorePrices(false);
         }
     }
 

@@ -415,10 +415,6 @@ class Mage_Core_Model_Design_Package
     protected function _fallback($file, array &$params, array $fallbackScheme = array(array()))
     {
         if ($this->_shouldFallback) {
-            //Vaimo change: add enterprise/default as the fallback before base
-            if (!isset($params['_package']) || $params['_package'] != 'enterprise') {
-                $fallbackScheme[] = array('_theme' => self::DEFAULT_THEME, '_package' => 'enterprise');
-            }
             foreach ($fallbackScheme as $try) {
                 $params = array_merge($params, $try);
                 $filename = $this->validateFile($file, $params);
@@ -785,7 +781,7 @@ class Mage_Core_Model_Design_Package
        $cssImport = '/@import\\s+([\'"])(.*?)[\'"]/';
        $contents = preg_replace_callback($cssImport, array($this, '_cssMergerImportCallback'), $contents);
 
-       $cssUrl = '/url\\(\\s*(?![\"\']?data:)([^)\\s]+)\\s*\\)/';
+       $cssUrl = '/url\\(\\s*(?!data:)([^\\)\\s]+)\\s*\\)?/';
        $contents = preg_replace_callback($cssUrl, array($this, '_cssMergerUrlCallback'), $contents);
 
        return $contents;
