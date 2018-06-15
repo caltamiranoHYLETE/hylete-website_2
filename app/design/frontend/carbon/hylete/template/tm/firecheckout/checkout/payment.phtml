@@ -47,45 +47,61 @@
     <?php
         $j2tRewardPoints = $this->getLayout()->getBlock('checkout_cart_coupon_normal');
         $coupon = trim($this->getChildHtml('coupon'));
+        $canShowCouponForm = Mage::getStoreConfigFlag('firecheckout/general/discount'); // Inline check to reverse effects of Amasty_Coupons block rewrite
         $giftcard = trim($this->getChildHtml('giftcard'));
 
         $checkboxState = Mage::getStoreConfig('firecheckout/general/discount_checkbox_state');
     ?>
-    <?php if ($j2tRewardPoints || $coupon || $giftcard) : ?>
-        <ul class="form-list discount-block" id="discount-block">
-            <li class="control"<?php echo ($checkboxState === 'hidden') ? ' style="display:none"' : '' ?>>
-                <input type="checkbox"
-                    class="checkbox"
-                    id="discount_block_toggle"
-                    title="<?php echo $this->__('Apply giftcard and discount coupon') ?>"
-                    value="1"
-                    <?php echo ($checkboxState === 'checked') ? ' checked="checked"' : '' ?>
-                    name="discount-coupon"
-                ><label for="discount_block_toggle"
-                    ><?php echo $j2tRewardPoints ?
-                        $this->__('Check, if you have a rewardpoints, giftcard or discount code') :
-                        $this->__('Pay with a gift card') ?></label>
-            </li>
-            <li class="form<?php echo in_array($checkboxState, array('checked', 'hidden')) ? ' shown' : '' ?>">
-                <?php // rewardpoints extension override standard discount block too
-                if ($j2tRewardPoints): ?>
-                    <div id="checkout-coupon-discount-load">
-                        <?php echo $j2tRewardPoints->toHtml(); ?>
-                    </div>
-                <?php elseif ($coupon): ?>
-                    <div id="checkout-coupon-discount-load">
-                        <?php echo $coupon ?>
-                    </div>
-                <?php endif; ?>
-
-                <?php if ($giftcard) : ?>
-                    <div id="checkout-giftcard-load">
-                        <?php echo $this->getChildHtml('giftcard') ?>
-                    </div>
-                <?php endif ?>
-            </li>
-        </ul>
-    <?php endif ?>
+    <ul class="form-list discount-block" id="discount-block">
+        <?php if ($giftcard) : ?>
+        <li class="control"<?php echo ($checkboxState === 'hidden') ? ' style="display:none"' : '' ?>>
+            <input type="checkbox" class="checkbox" data-toggle="discount-section" data-target="checkout-giftcard-load" id="giftcard_block_toggle" title="<?php echo $this->__('Apply giftcard'); ?>" value="1" <?php echo ($checkboxState === 'checked') ? ' checked="checked"' : ''; ?> name="discount-coupon" />
+            <label for="giftcard_block_toggle"><?php echo $this->__('Pay with a gift card'); ?></label>
+        </li>
+        <li>
+            <?php if ($giftcard) : ?>
+            <div id="checkout-giftcard-load" class="form<?php echo in_array($checkboxState, array('checked', 'hidden')) ? ' shown' : '' ?>">
+                <?php echo $this->getChildHtml('giftcard'); ?>
+            </div>
+            <?php endif ?>
+        </li>
+        <?php endif; ?>
+        <?php if ($canShowCouponForm && ($j2tRewardPoints || $coupon)) : ?>
+        <li>
+            <?php // rewardpoints extension override standard discount block too ?>
+            <?php if ($j2tRewardPoints) : ?>
+            <div id="checkout-coupon-discount-load" class="form">
+                <?php echo $j2tRewardPoints->toHtml(); ?>
+            </div>
+            <?php elseif ($coupon) : ?>
+            <div class="control"<?php echo ($checkboxState === 'hidden') ? ' style="display:none"' : ''; ?>>
+                <input type="checkbox" class="checkbox" data-toggle="discount-section" data-target="checkout-coupon-discount-load" id="discount_code_block_toggle" title="<?php echo $this->__('Add a promo code'); ?>" value="1" <?php echo ($checkboxState === 'checked') ? ' checked="checked"' : ''; ?> name="discount-coupon" />
+                <label for="discount_code_block_toggle"><?php echo $this->__('Add a promo code'); ?></label>
+            </div>
+            <div id="checkout-coupon-discount-load" class="form<?php echo in_array($checkboxState, array('checked', 'hidden')) ? ' shown' : ''; ?>">
+                <?php echo $coupon; ?>
+            </div>
+            <?php endif; ?>
+        </li>
+        <?php endif; ?>
+    </ul>
 
     <?php echo $this->getChildHtml('firecheckout.payment.after') ?>
+    <script type="text/javascript">
+        $$('[data-toggle="discount-section"]').each(function(control) {
+            control.observe('change', function(event) {
+                var target = $(control.readAttribute('data-target'));
+
+                if (!target) {
+                    return;
+                }
+
+                if (control.checked) {
+                    target.addClassName('shown');
+                } else {
+                    target.removeClassName('shown');
+                }
+            });
+        });
+    </script>
 </div>

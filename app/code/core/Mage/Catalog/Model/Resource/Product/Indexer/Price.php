@@ -451,7 +451,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             $select->where('tp.entity_id IN(?)', $entityIds);
         }
 
-        $query = $select->insertIgnoreFromSelect($table);
+        $query = $select->insertFromSelect($table);
         $write->query($query);
 
         return $this;
@@ -525,7 +525,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             $select = $write->select()
                 ->from($this->getMainTable())
                 ->where('entity_id IN(?)', $children);
-            $query  = $select->insertIgnoreFromSelect($this->getIdxTable(), array());
+            $query  = $select->insertFromSelect($this->getIdxTable(), array(), false);
             $write->query($query);
         }
 

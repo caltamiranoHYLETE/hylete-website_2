@@ -12,6 +12,8 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
     const NOT_LOGGED_IN                 = 0;
     const EVERYDAY_ATHLETE              = 1;
 
+    const CMS_BLOCK_CACHE_TAG           = "cms_price_difference";
+
     /**
      * @param $categoryId
      * @return mixed|string
@@ -119,6 +121,8 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Return CMS BLOCK for customer group with backend cache if loaded
+     *
      * @return mixed
      */
     public function getPriceDifferenceCmsBlockByCustomerGroup()
@@ -134,7 +138,15 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
             $groupCmsBlock = "hylete_price_difference_verbiage_default";
         }
 
-        return Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
+        $cache  = Mage::getSingleton('core/cache');
+        $cacheKey   = "CMS_PRICE_DIFFERENCE_BLOCK_FOR_GROUP_" . $groupId . "_ID";
+        if($contents = $cache->load($cacheKey)) {
+            return unserialize($contents);
+        } else {
+            $contents   = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId($groupCmsBlock)->toHtml();
+            $cache->save(serialize($contents), $cacheKey, array(self::CMS_BLOCK_CACHE_TAG), 86400);
+            return $contents;
+        }
     }
 
     /**
