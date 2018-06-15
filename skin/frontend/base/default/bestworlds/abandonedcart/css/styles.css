@@ -160,6 +160,19 @@
     height:55px;
 }
 
+.bw-input-box #bwemail_desktop::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_desktop::-moz-placeholder { /* Firefox 19+ */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_desktop:-ms-input-placeholder { /* IE 10+ */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_desktop:-moz-placeholder { /* Firefox 18- */
+    color: #ffffff;
+}
+
 .bw-input-box #bwemail_mobile{
     background-color: transparent;
     border:1px solid #ffffff;
@@ -167,13 +180,28 @@
     height:55px;
 }
 
+.bw-input-box #bwemail_mobile::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_mobile::-moz-placeholder { /* Firefox 19+ */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_mobile:-ms-input-placeholder { /* IE 10+ */
+    color: #ffffff;
+}
+.bw-input-box #bwemail_mobile:-moz-placeholder { /* Firefox 18- */
+    color: #ffffff;
+}
+
 .bw-input-box .bw_button{
     background-color: #40b4e4;
     height: 55px;
     border: 1px solid #40b4e4;
-    width:125px;
+    width:135px;
     color:#ffffff;
     font-size:17px;
+    font-weight: normal;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .form-bw-bottom {
@@ -218,10 +246,10 @@
     .bw_box {
         width: 300px;
         height:460px;
-        background-image: url('../images/mobile.png');
+        background-image: url('../images/mobile.jpg');
     }
     .bw-input-box #bwemail_mobile{
-        width:100%;
+        width:238px;
     }
     .bw-input-box .bw_button{
         width:245px;

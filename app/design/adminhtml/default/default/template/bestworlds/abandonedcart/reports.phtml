@@ -114,6 +114,8 @@
                             }
                             if(json.left.bw_reachable_as_percentage) {
                                 $("bw_reachable_as_percentage").update(json.left.bw_reachable_as_percentage + '%');
+                            }else{
+                                $("bw_reachable_as_percentage").update('0%');
                             }
 
                             $('mainGraph').show();
@@ -121,6 +123,7 @@
                             if(json.pie){
                                 var pieTitles='';
                                 var pieData=[];
+                                var showPie= false;
                                 Object.keys(json.pie).forEach(function(key) {
                                     if(json.pie[key].percentage > 0) {
                                         var individualData=[];
@@ -130,18 +133,31 @@
                                         pieTitles+= key + ' ' + json.pie[key].percentage + '%';
 
                                         individualData.value= json.pie[key].total;
+                                        if(individualData.value > 0)
+                                        {
+                                            showPie= true;
+                                        }
                                         individualData.color= json.pie[key].color;
                                         individualData.highlight= json.pie[key].highlight;
                                         individualData.label= key;
                                         pieData.push(individualData);
                                     }
                                 });
-                                $("pieTitles").update(pieTitles);
+                                if(showPie) {
+                                    jQuery('#mainGraph .right').show();
+                                    if(window.myLine) {
+                                        window.myLine.destroy();
+                                    }
+                                    jQuery('#pie').empty();
+                                    $("pieTitles").update(pieTitles);
 
-                                var pie = document.getElementById("pie").getContext("2d");
-                                window.myLine = new Chart(pie).Pie(pieData, {
-                                    responsive: true
-                                });
+                                    var pie = document.getElementById("pie").getContext("2d");
+                                    window.myLine = new Chart(pie).Pie(pieData, {
+                                        responsive: true
+                                    });
+                                }else{
+                                    jQuery('#mainGraph .right').hide();
+                                }
                             }
                         }
                     }
