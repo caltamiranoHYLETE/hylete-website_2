@@ -3,10 +3,10 @@
  * Best Worlds
  * http://www.bestworlds.com
  * 888-751-5348
- * 
+ *
  * Need help? contact us:
  *  http://www.bestworlds.com/contact-us
- * 
+ *
  * Want to customize or need help with your store?
  *  Phone: 888-751-5348
  *  Email: info@bestworlds.com
@@ -24,7 +24,7 @@
  * @package    Bestworlds_AbandonedCart
  * @author     Best Worlds Team <info@bestworlds.com>
  */
-class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends Mage_Adminhtml_Controller_Action 
+class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends Mage_Adminhtml_Controller_Action
 {
     public function _initAction()
     {
@@ -79,40 +79,46 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
         return ($val1 && $val2)? round(($val1/$val2)*100, $precision) : '0';
     }
 
-    private function _getPieData($response) 
+    private function _getPieData($response)
     {
         $report         =[];
+        $timeDiff       = Bestworlds_AbandonedCart_Block_Adminhtml_Reports::CLOSETIME;
         $mdl            = Mage::getModel('core/date');
         $colors         = array(array(  'color'     => '#F7464A',
-                                        'highlight' => '#FF5A5E'),
-                                array(  'color'     => '#46BFBD',
-                                        'highlight' => '#5AD3D1'),
-                                array(  'color'     => '#FDB45C',
-                                        'highlight' => '#FFC870'),
-                                array(  'color'     => '#949FB1',
-                                        'highlight' => '#A8B3C5'),
-                                array(  'color'     => '#4D5360',
-                                        'highlight' => '#616774'),
-                                array(  'color'     => '#97BBCD',
-                                        'highlight' => '#E1E8EC')
-                                );
+            'highlight' => '#FF5A5E'),
+            array(  'color'     => '#46BFBD',
+                'highlight' => '#5AD3D1'),
+            array(  'color'     => '#FDB45C',
+                'highlight' => '#FFC870'),
+            array(  'color'     => '#949FB1',
+                'highlight' => '#A8B3C5'),
+            array(  'color'     => '#4D5360',
+                'highlight' => '#616774'),
+            array(  'color'     => '#97BBCD',
+                'highlight' => '#E1E8EC')
+        );
         $captureTypes   = array(    Bestworlds_AbandonedCart_Model_Capturetypes::ADD2CARTPROMPT,
-                                    Bestworlds_AbandonedCart_Model_Capturetypes::EMAIL_MARKETING,
-                                    Bestworlds_AbandonedCart_Model_Capturetypes::DURING_CHECKOUT,
-                                    Bestworlds_AbandonedCart_Model_Capturetypes::LOGGED_IN
-                                );
+            Bestworlds_AbandonedCart_Model_Capturetypes::EMAIL_MARKETING,
+            Bestworlds_AbandonedCart_Model_Capturetypes::DURING_CHECKOUT,
+            Bestworlds_AbandonedCart_Model_Capturetypes::LOGGED_IN
+        );
 
         $coreResource   = Mage::getSingleton('core/resource');
         $readConnection = $coreResource->getConnection('core_read');
 
 
-        $fromDate = date('Y-m-d H:i:s', $mdl->timestamp(strtotime(str_replace('-', '/', $response['filter']['startDate']))));
-        $toDate = date('Y-m-d H:i:s', $mdl->timestamp(strtotime(str_replace('-', '/', $response['filter']['endDate']))));
+        $fromDate = date('Y-m-d H:i:s', $mdl->gmtTimestamp(strtotime(str_replace('-', '/', $response['filter']['startDate']. ' 00:00:00'))));
+        $toDate = date('Y-m-d H:i:s', $mdl->gmtTimestamp(strtotime(str_replace('-', '/', $response['filter']['endDate']. ' 23:59:59'))));
 
         $collection= Mage::getModel('sales/quote')->getCollection()
             ->addFieldToFilter('email_captured_from', array('notnull' => true))
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate));
+            ->addFieldToFilter('created_at', array('lteq' => $toDate))
+            ->addFieldToFilter('items_count', array('gt' => 0))
+            ->addFieldToFilter('is_active', array('eq' => 1));
+        $collection->getSelect()->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
+
+
         $reachable = $collection->getSize();
 
         $count      = 0;
@@ -121,7 +127,10 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
             $collection= Mage::getModel('sales/quote')->getCollection()
                 ->addFieldToFilter('email_captured_from', array('eq' => $captureType))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-                ->addFieldToFilter('created_at', array('lteq' => $toDate));
+                ->addFieldToFilter('created_at', array('lteq' => $toDate))
+                ->addFieldToFilter('items_count', array('gt' => 0))
+                ->addFieldToFilter('is_active', array('eq' => 1));
+            $collection->getSelect()->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
 
             $report[$captureType]['total']          = $collection->getSize();
             $report[$captureType]['percentage']     = $this->_getPercentage($report[$captureType]['total'], $reachable, 2);
@@ -134,7 +143,7 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
         return $response;
     }
 
-    private function _getReport($response) 
+    private function _getReport($response)
     {
         $report = [];
         $timeDiff = Bestworlds_AbandonedCart_Block_Adminhtml_Reports::CLOSETIME;
@@ -151,29 +160,15 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
             $_store_ids[]= Mage::app()->getStore($_eachStoreId)->getId();
         }
 
+        //GET TOTAL ORDERS FROM ORDER TABLE
+        $totalOrders = $orderAdapter->select()
+            ->from($order->getMainTable(), array('count' =>  new Zend_Db_Expr('COUNT('.$order->getMainTable().'.entity_id)')))
+            ->where("TIMESTAMPDIFF(SECOND, created_at, UTC_TIMESTAMP()) > ".$timeDiff);
+
         $totalOperations = $quoteAdapter->select()
             ->from($quote->getMainTable(), array('count' =>  new Zend_Db_Expr('COUNT('.$quote->getMainTable().'.entity_id)')))
             ->where("items_count >?", 0)
             ->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
-
-        //GET TOTAL COMPLETED ORDERS FROM PERIOD, JUST LIKE THE SALES REPORT
-        $aggregatedColumns = array( 'orders_count' =>  'sum(orders_count)');
-
-        $totalsCollection = Mage::getResourceModel('sales/report_order_collection')
-            ->setPeriod('day');
-
-        $from   = new DateTime($response['filter']['startDate']);
-        $from   = $from->format('Y-m-d');
-        $to     = new DateTime($response['filter']['endDate']);
-        $to     = $to->format('Y-m-d');
-        $totalsCollection->setDateRange($from, $to);
-        $totalsCollection->addStoreFilter($_store_ids);
-        $totalsCollection->setAggregatedColumns($aggregatedColumns)
-            ->addOrderStatusFilter(Mage_Sales_Model_Order::STATE_COMPLETE)
-            ->isTotals(true);
-        foreach ($totalsCollection as $item) {
-            $totalCompletedOperations       = $item->getOrdersCount();
-        }
 
         $totalAbandonedCarts = $quoteAdapter->select()
             ->from($quote->getMainTable(), array('count' =>  new Zend_Db_Expr('COUNT('.$quote->getMainTable().'.entity_id)')))
@@ -187,21 +182,8 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
             ->where("is_active =?",1)
             ->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
 
-        $totalAbandonedCartsGrandtotal = $quoteAdapter->select()
-            ->from($quote->getMainTable(), array('total' =>  new Zend_Db_Expr('SUM('.$quote->getMainTable().'.grand_total)')))
-            ->where("items_count >?", 0)
-            ->where("is_active =?",1)
-            ->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
-
         $totalAbandonedCartsWithEmail = $quoteAdapter->select()
             ->from($quote->getMainTable(), array('count' =>  new Zend_Db_Expr('COUNT('.$quote->getMainTable().'.entity_id)')))
-            ->where('customer_email is not null')
-            ->where("items_count >?", 0)
-            ->where("is_active =?",1)
-            ->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
-
-        $totalAbandonedCartsWithEmailSubtotal = $quoteAdapter->select()
-            ->from($quote->getMainTable(), array('total' =>  new Zend_Db_Expr('SUM('.$quote->getMainTable().'.subtotal)')))
             ->where('customer_email is not null')
             ->where("items_count >?", 0)
             ->where("is_active =?",1)
@@ -215,39 +197,40 @@ class Bestworlds_AbandonedCart_Adminhtml_Abandonedcart_ReportsController extends
             ->where("TIMESTAMPDIFF(SECOND, updated_at, UTC_TIMESTAMP()) > ".$timeDiff);
 
 
-        $parsedDate = date('Y-m-d H:i:s', $mdl->timestamp(strtotime(str_replace('-', '/', $response['filter']['startDate']))));
-        $totalOperations->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
+        $startDate = date('Y-m-d H:i:s', $mdl->gmtTimestamp(strtotime(str_replace('-', '/', $response['filter']['startDate'] . ' 00:00:00'))));
 
-        $totalAbandonedCarts->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
-        $totalAbandonedCartsSubtotal->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
-        $totalAbandonedCartsGrandtotal->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
-        $totalAbandonedCartsWithEmail->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
-        $totalAbandonedCartsWithEmailSubtotal->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
-        $totalAbandonedCartsWithEmailGrandtotal->where($quote->getMainTable().'.created_at >= ?', $parsedDate);
+        $totalOperations->where($quote->getMainTable().'.created_at >= ?', $startDate);
+        $totalOrders->where($order->getMainTable().'.created_at >= ?', $startDate);
+        $totalAbandonedCarts->where($quote->getMainTable().'.created_at >= ?', $startDate);
+        $totalAbandonedCartsSubtotal->where($quote->getMainTable().'.created_at >= ?', $startDate);
+        $totalAbandonedCartsWithEmail->where($quote->getMainTable().'.created_at >= ?', $startDate);
+        $totalAbandonedCartsWithEmailGrandtotal->where($quote->getMainTable().'.created_at >= ?', $startDate);
 
-        $parsedDate = date('Y-m-d H:i:s', $mdl->timestamp(strtotime(str_replace('-', '/', $response['filter']['endDate']))));
-        $totalOperations->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
+        $endDate = date('Y-m-d H:i:s', $mdl->gmtTimestamp(strtotime(str_replace('-', '/', $response['filter']['endDate'] . ' 23:59:59'))));
 
-        $totalAbandonedCarts->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
-        $totalAbandonedCartsSubtotal->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
-        $totalAbandonedCartsGrandtotal->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
-        $totalAbandonedCartsWithEmail->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
-        $totalAbandonedCartsWithEmailSubtotal->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
-        $totalAbandonedCartsWithEmailGrandtotal->where($quote->getMainTable().'.created_at <= ?', $parsedDate);
+        $totalOperations->where($quote->getMainTable().'.created_at <= ?', $endDate);
+        $totalOrders->where($order->getMainTable().'.created_at <= ?', $endDate);
+        $totalAbandonedCarts->where($quote->getMainTable().'.created_at <= ?', $endDate);
+        $totalAbandonedCartsSubtotal->where($quote->getMainTable().'.created_at <= ?', $endDate);
+        $totalAbandonedCartsWithEmail->where($quote->getMainTable().'.created_at <= ?', $endDate);
+        $totalAbandonedCartsWithEmailGrandtotal->where($quote->getMainTable().'.created_at <= ?', $endDate);
 
-        $totalOps   = $quoteAdapter->fetchOne($totalOperations);
-
-        $report['bw_carts_started_and_abandoned']   = $orderAdapter->fetchOne($totalOperations) - $totalCompletedOperations;
-        $report['bw_carts_started']                 = $orderAdapter->fetchOne($totalOperations);
+        $totalOps       = $quoteAdapter->fetchOne($totalOperations);
+        $totalOrders    = $orderAdapter->fetchOne($totalOrders);
+        $report['bw_carts_started_and_abandoned']   = '0';
+        if ( ($totalOps - $totalOrders) > 0) {
+            $report['bw_carts_started_and_abandoned']   = $totalOps - $totalOrders;
+        }
+        $report['bw_carts_started']                 = $totalOps;
         $report['bw_reachable_carts']               = $quoteAdapter->fetchOne($totalAbandonedCartsWithEmail);
-        $report['bw_abandonment_rate']              = 0;
-        $report['bw_reachable_as_percentage']       = 0;
+        $report['bw_abandonment_rate']              = '0';
+        $report['bw_reachable_as_percentage']       = '0';
         if ($totalOps > 0) {
             $report['bw_abandonment_rate']= round(($report['bw_carts_started_and_abandoned'] * 100) / $totalOps) . '%';
             $report['bw_reachable_as_percentage']  = round(($quoteAdapter->fetchOne($totalAbandonedCartsWithEmail) * 100) / $totalOps );
         }
 
-        $report['bw_avg_reachable_value'] = 0;
+        $report['bw_avg_reachable_value'] = '0';
         if ($report['bw_reachable_carts'] > 0) {
             $report['bw_avg_reachable_value'] = number_format($quoteAdapter->fetchOne($totalAbandonedCartsWithEmailGrandtotal) / $report['bw_reachable_carts'], 2);
         }
