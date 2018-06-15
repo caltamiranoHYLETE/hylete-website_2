@@ -334,7 +334,7 @@
     }
     .bw_box {
         width: 700px;
-        background-image: url('../images/desktop.png');
+        background-image: url('../images/desktop.jpg');
     }
     .bw_box .desktop_input{
         display: block !important;
