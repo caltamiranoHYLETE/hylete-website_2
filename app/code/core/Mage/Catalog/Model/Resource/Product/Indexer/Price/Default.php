@@ -283,8 +283,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
             'store_field'   => new Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $select->insertIgnoreFromSelect($this->_getDefaultFinalPriceTable(), array());
-        //$query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
+        $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
         $write->query($query);
 
         /**
@@ -434,7 +433,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
             'group_price' => $groupPrice,
         ));
 
-        $query = $select->insertIgnoreFromSelect($coaTable);
+        $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
         $select = $write->select()
@@ -492,7 +491,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
             'group_price' => $groupPrice,
         ));
 
-        $query = $select->insertIgnoreFromSelect($coaTable);
+        $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
         $select = $write->select()
@@ -508,7 +507,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                     'group_price'   => 'SUM(group_price)',
                 ))
             ->group(array('entity_id', 'customer_group_id', 'website_id'));
-        $query = $select->insertIgnoreFromSelect($copTable);
+        $query = $select->insertFromSelect($copTable);
         $write->query($query);
 
         $table  = array('i' => $this->_getDefaultFinalPriceTable());
@@ -561,8 +560,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $select = $write->select()
             ->from($table, $columns);
 
-        $query = $select->insertIgnoreFromSelect($this->getIdxTable(), array());
-        //$query = $select->insertFromSelect($this->getIdxTable(), array(), false);
+        $query = $select->insertFromSelect($this->getIdxTable(), array(), false);
         $write->query($query);
 
         $write->delete($table);

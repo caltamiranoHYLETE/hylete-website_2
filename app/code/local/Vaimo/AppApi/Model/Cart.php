@@ -67,9 +67,7 @@ class Vaimo_AppApi_Model_Cart extends Vaimo_AppApi_Model_Abstract
                     $parentProduct->load($parentProduct->getIdBySku($parentSku));
                 }
                 if ($parentProduct){
-                    Mage::helper('appapi')->patchSetIgnorePrices(true);
                     $productAttributesOptions = $parentProduct->getTypeInstance(true)->getConfigurableAttributesAsArray($parentProduct);
-                    Mage::helper('appapi')->patchSetIgnorePrices(false);
                     $options['product'] = $parentProduct->getId();
                     $options['qty'] = $qty;
                     foreach ($productAttributesOptions as $opt_vals){
