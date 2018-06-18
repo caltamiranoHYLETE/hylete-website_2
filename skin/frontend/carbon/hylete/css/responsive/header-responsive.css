@@ -574,7 +574,7 @@
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     .mobile-nav#toggle-nav {
         display: none !important;
     }

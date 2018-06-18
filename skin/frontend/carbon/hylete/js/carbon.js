@@ -202,7 +202,7 @@ var carbon = (function ($) {
     };
 
     var resetInlineStyles = function (){
-        if (currentGrid == 'md' || currentGrid == 'lg') {
+        if (currentGrid == 'md' || currentGrid == 'lg' || currentGrid == 'sm') {
             $("#footer .heading i, #footer .content").removeAttr('style');
             $('#nav').show();
         } else {
