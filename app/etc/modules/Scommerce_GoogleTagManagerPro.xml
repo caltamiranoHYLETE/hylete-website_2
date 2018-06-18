@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Scommerce_GoogleTagManagerPro>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Scommerce_GoogleTagManagerPro>
+    </modules>
+</config>

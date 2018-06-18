@@ -1,0 +1,23 @@
+<?php
+$helper = $this->helper('scommerce_googletagmanagerpro');
+if($helper->isEnabled()): 
+	if($helper->getDynamicRemarketingEnabled()): ?>
+		<script type="text/javascript">
+		//<![CDATA[
+		window.dataLayer = window.dataLayer || [];
+		<?php if (($this->getPageType()=="cart") || ($this->getPageType()=="purchase")):?>
+		dataLayer.push({
+			'event': 'fireRemarketingTag_<?php echo $this->getPageType()?>',
+			'google_tag_params': <?php echo $this->getJsConfigParams();?>,
+			'items': <?php echo $this->getCartItems();?>
+		});
+		<?php else:?>
+		dataLayer.push({
+			'event': 'fireRemarketingTag_<?php echo $this->getPageType()?>',
+			'google_tag_params': <?php echo $this->getJsConfigParams();?>
+		});
+		<?php endif;?>
+		//]]>
+		</script>
+	<?php endif;?>
+<?php endif;?>
