@@ -1,0 +1,179 @@
+<div class="switcher">
+    <div class="reports">
+        <div class="dateFilter">
+            <?php echo $this->__('FROM')?>: <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" class="v-middle" id="date_from_trig" /> <input id="fromDate" class="datePicker" name="fromDate" type="text" />
+            <?php echo $this->__('TO')?>: <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" class="v-middle" id="date_to_trig" /> <input id="toDate" class="datePicker" name="toDate" type="text" />
+            <input type="button" class="form-button" id="searchButton" value="<?php echo $this->__('Search')?>" />
+        </div>
+        <div class="store" id="mainGraph" style="display:none;">
+            <div class="left">
+                <h3><?php echo $this->__('Abandoned Carts')?></h3>
+                <div class="container">
+                    <div class="box bwwtooltip" title="<?php echo $this->__('Total Number of Carts Started')?>">
+                        <h4><?php echo $this->__('Total Carts Started')?></h4>
+                        <span id="bw_carts_started"></span>
+                    </div>
+                    <div class="box bwwtooltip" title="<?php echo $this->__('Total Number of Carts Started and Abandoned')?>">
+                        <h4><?php echo $this->__('Total Carts Abandoned')?></h4>
+                        <span id="bw_carts_started_and_abandoned"></span>
+                    </div>
+                    <div class="box bwwtooltip" title="<?php echo $this->__('% of Total Number of Carts Started that Result in Abandoned Cart')?>">
+                        <h4><?php echo $this->__('Abandonment Rate')?></h4>
+                        <span id="bw_abandonment_rate"></span>
+                    </div>
+                    <div class="box bwwtooltip" title="<?php echo $this->__('Total Number of Abandoned Carts that have an Email Associated')?>">
+                        <h4><?php echo $this->__('Reachable Carts')?></h4>
+                        <span id="bw_reachable_carts"></span>
+                    </div>
+                    <div class="box bwwtooltip" title="<?php echo $this->__('Dollar Amt of All Reachable Carts/Total Reachable Carts')?>">
+                        <h4><?php echo $this->__('Avg. Value of Reachable Carts')?></h4>
+                        <span id="bw_avg_reachable_value"></span>
+                    </div>
+                    <div class="box bwwtooltip" title="<?php echo $this->__('% of Total Carts Abandoned that are Reachable')?>">
+                        <h4><?php echo $this->__('Reachable Carts as a % of Ab Carts')?></h4>
+                        <span id="bw_reachable_as_percentage"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="centerRight">
+                    <h3 style="border-bottom:1px solid; "><?php echo $this->__('Source of Email Capture')?></h3>
+                    <div class="titles" id="pieTitles">
+                    </div>
+                    <div class="container">
+                        <div>
+                            <canvas id="pie"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+    Calendar.setup({
+        inputField : 'fromDate',
+        ifFormat : '%m/%e/%Y',
+        button : 'date_from_trig',
+        align : 'Bl',
+        singleClick : true
+    });
+    Calendar.setup({
+        inputField : 'toDate',
+        ifFormat : '%m/%e/%Y',
+        button : 'date_to_trig',
+        align : 'Bl',
+        singleClick : true
+    });
+    //]]>
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('.bwwtooltip').tooltipster();
+
+        jQuery("#fromDate").val(jQuery("input[name='updated_at[from]']").val());
+        jQuery("#toDate").val(jQuery("input[name='updated_at[to]']").val());
+
+        jQuery("#searchButton" ).click(function() {
+            jQuery("input[name='updated_at[from]']").val(jQuery( "#fromDate").val());
+            jQuery("input[name='updated_at[to]']").val(jQuery( "#toDate").val());
+
+            //validate dates
+            var startDate = new Date(jQuery('#fromDate').val());
+            var endDate = new Date(jQuery('#toDate').val());
+
+            var buttonSearch = document.getElementsByTagName('button')[2];
+
+            if (startDate > endDate) {
+                alert('FROM Date must be prior to TO date');
+            } else {
+                var url = '<?php echo $this->getUrl('*/*/filterDate') ?>';
+                new Ajax.Request(url, {
+                    parameters: 'isAjax=1&startDate=' + jQuery('#fromDate').val() + '&endDate=' + jQuery('#toDate').val(),
+                    method: 'POST',
+                    onSuccess: function(response) {
+                        var json= response.responseText.evalJSON();
+                        if(json.error) {
+                            alert(json.error);
+                        }else{
+                            if(json.left.bw_carts_started) {
+                                $("bw_carts_started").update(json.left.bw_carts_started);
+                            }
+                            if(json.left.bw_carts_started_and_abandoned) {
+                                $("bw_carts_started_and_abandoned").update(json.left.bw_carts_started_and_abandoned);
+                            }
+                            if(json.left.bw_abandonment_rate) {
+                                $("bw_abandonment_rate").update(json.left.bw_abandonment_rate);
+                            }
+                            if(json.left.bw_reachable_carts) {
+                                $("bw_reachable_carts").update(json.left.bw_reachable_carts);
+                            }
+                            if(json.left.bw_avg_reachable_value) {
+                                $("bw_avg_reachable_value").update('$' + json.left.bw_avg_reachable_value);
+                            }
+                            if(json.left.bw_reachable_as_percentage) {
+                                $("bw_reachable_as_percentage").update(json.left.bw_reachable_as_percentage + '%');
+                            }else{
+                                $("bw_reachable_as_percentage").update('0%');
+                            }
+
+                            $('mainGraph').show();
+
+                            if(json.pie){
+                                var pieTitles='';
+                                var pieData=[];
+                                var showPie= false;
+                                Object.keys(json.pie).forEach(function(key) {
+                                    if(json.pie[key].percentage > 0) {
+                                        var individualData=[];
+                                        pieTitles+='<h4 class="pie"><div class="square" style="background: ';
+                                        pieTitles+= json.pie[key].highlight;
+                                        pieTitles+='"></div>';
+                                        pieTitles+= key + ' ' + json.pie[key].percentage + '%';
+
+                                        individualData.value= json.pie[key].total;
+                                        if(individualData.value > 0)
+                                        {
+                                            showPie= true;
+                                        }
+                                        individualData.color= json.pie[key].color;
+                                        individualData.highlight= json.pie[key].highlight;
+                                        individualData.label= key;
+                                        pieData.push(individualData);
+                                    }
+                                });
+                                if(showPie) {
+                                    jQuery('#mainGraph .right').show();
+                                    if(window.myLine) {
+                                        window.myLine.destroy();
+                                    }
+                                    jQuery('#pie').empty();
+                                    $("pieTitles").update(pieTitles);
+
+                                    var pie = document.getElementById("pie").getContext("2d");
+                                    window.myLine = new Chart(pie).Pie(pieData, {
+                                        responsive: true
+                                    });
+                                }else{
+                                    jQuery('#mainGraph .right').hide();
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+<div id="messages">
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul>
+                <li>
+                    <span><?php echo Mage::helper('abandonedcart')->__('We suggest to filter the `From` field using the AbandonedCart extension installation date: %s .',date('Y-m-d', strtotime(Mage::getStoreConfig('abandonedcart/basic/installed_time')))); ?></span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
