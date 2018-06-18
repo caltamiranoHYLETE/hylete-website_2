@@ -912,8 +912,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         if ($resetLeftJoins) {
             $countSelect->resetJoinLeft();
         }
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        
         return $countSelect;
     }
 
