@@ -1,0 +1,7 @@
+<?php $helper = Mage::helper('scommerce_googletagmanagerpro');
+if($helper->isEnabled()): ?>
+<!-- Scommerce Mage Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo $helper->getAccountId() ?>"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- Scommerce Mage End Google Tag Manager -->
+<?php endif;?>
