@@ -929,6 +929,19 @@
             </block>
         </reference>
 
+        <reference name="checkout.onepage.payment">
+            <!-- Force real class to avoid side effects of Amasty rewrite; Firecheckout expects a clean block anyway -->
+            <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.coupon" as="coupon">
+                <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>tm/firecheckout/checkout/coupon.phtml</template></action>
+                <block type="core/text_list" name="checkout.coupon.before" as="coupon_before" translate="label">
+                    <label>Coupon Before</label>
+                </block>
+                <block type="core/text_list" name="checkout.coupon.after" as="coupon_after" translate="label">
+                    <label>Coupon After</label>
+                </block>
+            </block>
+        </reference>
+
         <reference name="firecheckout.payment.after">
             <action method="insert">
                 <blockName>checkout.additional.information</blockName>
@@ -952,6 +965,19 @@
             <block type="core/template" template="vaimo/trackingscripts/checkout-tracking.phtml"/>
         </reference>
     </firecheckout_index_index>
+
+    <firecheckout_index_updatecheckout>
+        <!-- Force real class to avoid side effects of Amasty rewrite; Firecheckout expects a clean block anyway -->
+        <block type="Mage_Checkout_Block_Cart_Coupon" name="checkout.coupon" as="coupon">
+            <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>tm/firecheckout/checkout/coupon.phtml</template></action>
+            <block type="core/text_list" name="checkout.coupon.before" as="coupon_before" translate="label">
+                <label>Coupon Before</label>
+            </block>
+            <block type="core/text_list" name="checkout.coupon.after" as="coupon_after" translate="label">
+                <label>Coupon After</label>
+            </block>
+        </block>
+    </firecheckout_index_updatecheckout>
 
     <wishlist_index_index>
         <reference name="customer.wishlist.item.image">
