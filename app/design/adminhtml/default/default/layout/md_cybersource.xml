@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <adminhtml_mdcybersource_cards_index>
+        <reference name="content">
+            <block type="md_cybersource/adminhtml_cards" name="md.cybersource.saved.cards" />
+        </reference>
+    </adminhtml_mdcybersource_cards_index>
+
+    <adminhtml_sales_order_edit_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </adminhtml_sales_order_edit_index>
+    <adminhtml_sales_order_create_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </adminhtml_sales_order_create_index>
+
+</layout>

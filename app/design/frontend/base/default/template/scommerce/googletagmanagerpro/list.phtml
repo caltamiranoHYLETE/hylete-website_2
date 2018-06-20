@@ -1,0 +1,131 @@
+<?php
+/**
+ *
+ * @var $this Scommerce_GoogleTagManagerPro_Block_List
+ */
+
+$_productCollection = $this->getProductCollection();
+$helper = Mage::helper('scommerce_googletagmanagerpro');
+
+if (!$helper->isEnabled() || !$helper->isEEEnabled() || count($_productCollection)==0) return;
+
+$_category = Mage::getModel('catalog/layer')->getCurrentCategory();
+$_categoryName = '';
+
+if ($_category)
+{
+    $_categoryName = $_category->getName();
+}
+
+//Zend_Debug::dump($_categoryName);
+
+$_mode = $this->getMode();
+$_productUrls = array();
+$_products = array();
+
+if ($_mode == 'category')
+{
+    $_impressionList = 'Category' .' - '. $this->jsQuoteEscape($_categoryName);
+    $_clickLabel   = $_impressionList;//'Category';
+}
+elseif ($_mode == 'search')
+{
+    $_impressionList = 'Search Results';
+    $_clickLabel   = $_impressionList;//'Results';
+}
+
+$_loop = 1;
+
+foreach ($_productCollection as $_product){
+    $_productUrls[] = $_product->getProductUrl();
+
+    $_products[] = array(
+        'id' => $this->jsQuoteEscape($_product->getSku()),
+        'name'  => $this->jsQuoteEscape($_product->getName()),
+		'price'  => $this->helper('core')->currency($_product->getPrice(),false,false),
+        'category' => $this->jsQuoteEscape($_categoryName),
+        'brand' => $this->jsQuoteEscape($helper->getBrand($_product)),
+        'list'  => $_impressionList,
+        'position' => $_loop
+    );
+
+    $_loop++;
+}
+
+$_JsProducts = json_encode($_products);
+$_JsProductUrls = json_encode($_productUrls);
+?>
+
+<script type='text/javascript'>
+    //<![CDATA[
+    var jsProducts = <?php echo $_JsProducts ?>;
+	Mage.Cookies.clear("productlist");
+
+	window.dataLayer = window.dataLayer || [];
+	dataLayer.push({
+	  'ecommerce': {
+		'currencyCode': '<?php echo Mage::app()->getStore()->getCurrentCurrencyCode();?>',                       // Local currency is optional.
+		'impressions': [
+		<?php foreach ($_products as $_product):?>
+{
+		   'name': '<?php echo $_product['name']?>',
+		   'id': '<?php echo $_product['id']?>',
+		   'price': '<?php echo $_product['price']?>',
+		   'brand': '<?php echo $_product['brand']?>',
+		   'category': '<?php echo $_product['category']?>',
+		   'list': '<?php echo $_product['list']?>',
+		   'position': '<?php echo $_product['position']?>'
+			<?php if ($_product['position']==count($_products)):?>
+}]
+			<?php else:?>
+},
+			<?php endif;?>
+		<?php endforeach;?>
+		}
+	});
+    //]]>
+</script>
+
+<script type='text/javascript'>
+    //<![CDATA[
+	jQuery(document).ready(function() {
+		var jsProductUrls = <?php echo $_JsProductUrls ?>;
+		var jsClickLabel = '<?php echo $_clickLabel?>';
+		jQuery('a').on('click', function(e){
+			var product;
+			var href = jQuery(this).attr('href');
+			var index = jsProductUrls.indexOf(href);
+
+			if (index != -1 && window.ga && ga.loaded){
+				e.preventDefault(e);
+				product = jsProducts[index];
+				Mage.Cookies.set('productlist', product.list);
+				dataLayer.push({
+					'event': 'productClick',
+					'ecommerce': {
+					  'click': {
+						'actionField': {'list': '<?php echo $_clickLabel?>'},      // Optional list property.
+						'products': [{
+						  'name': product.name,                      // Name or ID is required.
+						  'id': product.id,
+						  'price': product.price,
+						  'brand': product.brand,
+						  'category': product.category,
+						  'position': product.position
+						 }]
+					   }
+					 },
+					 'eventCallback': function() {
+					   if (!(e.ctrlKey || e.which==2)){
+							document.location = href;
+						}
+					 }
+				});
+			}
+			else{
+				document.location = href;
+			}
+		});
+	});
+    //]]>
+</script>

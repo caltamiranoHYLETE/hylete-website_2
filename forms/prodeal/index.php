@@ -48,7 +48,7 @@ if($_SERVER['SERVER_NAME'] != "dev.hylete.com") {
               <div class="row clearfix">
 	        	<div class="h_mycontent">
 	       	  	<p>&nbsp;</p>
-	          	<p class="myparagraph">Welcome to the HYLETE pro deal page. <br/>As a pro deal member, you'll receive 40% off every order at HYLETE.com.</p>
+	          	<p class="myparagraph">Welcome to the HYLETE pro deal page. <br/>As a pro deal member, you'll receive exclusive pricing on all HYLETE products.</p>
 			  	<p>&nbsp;</p>
 			  	</div>
 				   	<div class="col-md-7 column" id="container-fourth">
