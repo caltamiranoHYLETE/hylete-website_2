@@ -108,16 +108,15 @@
 
     <global>
         <events>
-            <!-- Event that serves as an entry point into the poc for "base discount on original price" choice -->
-            <!--<adminhtml_block_salesrule_actions_prepareform>-->
-            <!--<observers>-->
-            <!--<amasty_rules_model_observer>-->
-            <!--<type>singleton</type>-->
-            <!--<class>Mediotype_HyletePrice_Model_Observer</class>-->
-            <!--<method>handleFormCreation</method>-->
-            <!--</amasty_rules_model_observer>-->
-            <!--</observers>-->
-            <!--</adminhtml_block_salesrule_actions_prepareform>-->
+            <customer_group_after_save>
+                <observers>
+                    <mediotype_hyleteprice_flush_cms_blocks_cache_by_tags>
+                        <type>singleton</type>
+                        <class>Mediotype_HyletePrice_Model_Observer</class>
+                        <method>flushCmsBlockCacheByTags</method>
+                    </mediotype_hyleteprice_flush_cms_blocks_cache_by_tags>
+                </observers>
+            </customer_group_after_save>
         </events>
     </global>
 

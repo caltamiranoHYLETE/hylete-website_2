@@ -724,8 +724,6 @@ class Mage_CatalogInventory_Model_Observer
     public function reindexQuoteInventory($observer)
     {
         // Reindex quote ids
-        /*
-        // elvin@vaimo - Make similar fix as in Enterprise_CatalogInventory_Model_Index_Observer - feels like rewrite being ignored somewhere
         $quote = $observer->getEvent()->getQuote();
         $productIds = array();
         foreach ($quote->getAllItems() as $item) {
@@ -741,14 +739,14 @@ class Mage_CatalogInventory_Model_Observer
         if (count($productIds)) {
             Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
         }
-        */
+
         // Reindex previously remembered items
         $productIds = array();
         foreach ($this->_itemsForReindex as $item) {
             $item->save();
-            //$productIds[] = $item->getProductId();
+            $productIds[] = $item->getProductId();
         }
-        // Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds($productIds);
+        Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 

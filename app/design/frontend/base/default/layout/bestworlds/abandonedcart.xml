@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_logged_out>
+        <reference name="head">
+            <action method="addCss"><stylesheet>bestworlds/abandonedcart/css/styles.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/abandonedcart/js/observer.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/abandonedcart/js/emailautocomplete.js</name>
+            </action>
+        </reference>
+        <reference name="after_body_start">
+            <block type="abandonedcart/template" name="abandoned_cart_lightbox" as="abandoned_cart_lightbox" template="bestworlds/abandonedcart/lightbox.phtml" />
+        </reference>
+    </customer_logged_out>
+</layout>

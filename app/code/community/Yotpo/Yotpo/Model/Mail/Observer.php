@@ -2,23 +2,24 @@
 
 class Yotpo_Yotpo_Model_Mail_Observer
 {
-
+	
 	public function __construct()
 	{
-
+		
 	}
-
+	
 	/**
-	 * send an api call to yotpo noitifying about new purchase
-	 * @param Varien_Event_Observer $observer
-	 * @return Yotpo_Yotpo_Model_Mail_Observer
-	 */
+	* send an api call to yotpo noitifying about new purchase
+	* @param Varien_Event_Observer $observer
+	* @return Yotpo_Yotpo_Model_Mail_Observer
+	*/
 	public function mail_after_purchase($observer)
 	{
 		try {
 
 			$event = $observer->getEvent();
 			$order = $event->getOrder();
+                        $customerData = $order->getData();
 			$store_id = $order->getStoreId();
 			$orderStatuses = Mage::getStoreConfig('yotpo/yotpo_general_group/custom_order_status', $order->getStore());
 			if ($orderStatuses == null) {
@@ -39,8 +40,12 @@ class Yotpo_Yotpo_Model_Mail_Observer
 			if (!$order->getCustomerIsGuest()) {
 				$data["user_reference"] = $order->getCustomerId();
 			}
+			$customer_name = $customerData['customer_firstname'].' '.$customerData['customer_lastname'];
+			if($order->getCustomerIsGuest()){
+				$customer_name = $order->getBillingAddress()->getName();
+			}
 			$data["email"] = $order->getCustomerEmail();
-			$data["customer_name"] = $order->getCustomerName();
+			$data["customer_name"] = $customer_name; 
 			$data["order_id"] = $order->getIncrementId();
 			$data["order_date"] = $order->getCreatedAtDate()->toString('yyyy-MM-dd HH:mm:ss');
 			$data['platform'] = 'magento';
@@ -55,11 +60,11 @@ class Yotpo_Yotpo_Model_Mail_Observer
 			}
 
 			Mage::helper('yotpo/apiClient')->createPurchases($data, $store_id);
-			return $this;
+			return $this;	
 
 		} catch(Exception $e) {
 			Mage::log('Failed to send mail after purchase. Error: '.$e);
 		}
 	}
-
+	
 }
