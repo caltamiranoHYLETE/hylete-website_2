@@ -26,7 +26,8 @@ jQuery( document ).ready(function() {
     jQuery("#returnForm").validate( {
         ignore: [],
         rules: {
-            orderId: { required: true }
+            orderId: { required: true },
+            zipCode: { required: true }
         },
         submitHandler: function(form) {
 
