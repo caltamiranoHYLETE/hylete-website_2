@@ -38,6 +38,12 @@ function getOrderLocation() {
             }
         }
 
+		$zipCode = "";
+		if(!empty($_POST["zipCode"]))
+		{
+			$zipCode = test_input($_POST["zipCode"]);
+		}
+
         $ignoreClearance = false;
         if(!empty($_POST["ignoreClearance"]))
         {
@@ -58,7 +64,7 @@ function getOrderLocation() {
 
         /* Set your parameters for the request */
         $params = array(
-            "orderId" => $orderId, "ignoreClearance" => $ignoreClearance, "ignoreDates" => $ignoreDates, "isAdmin" => $isAdmin
+            "orderId" => $orderId, "zipCode" => $zipCode, "ignoreClearance" => $ignoreClearance, "ignoreDates" => $ignoreDates, "isAdmin" => $isAdmin
         );
 
         require '../lib/nusoap/nusoap.php';

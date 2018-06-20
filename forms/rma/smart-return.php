@@ -25,7 +25,7 @@
     <div class="container">
     <form id="returnForm" method="post" action="smart">
     <fieldset>
-        <input type="hidden" name="isAdmin" id="isAdmin" value="true">
+        <input type="hidden" name="isAdmin" id="isAdmin" value="false">
         <input type="checkbox" name="ignoreDates" id="ignoreDates" value="true"/>
         <label for="ignoreDates">Ignore Date Requirements</label>
         <br>
@@ -33,7 +33,12 @@
         <label for="ignoreClearance">Ignore Clearance Requirements</label>
         <br><br>
         <label for="orderId">Enter Your Order Number</label>
+        <br/>
         <input type="text" name="orderId" id="orderId"/>
+        <br/><br/>
+        <label for="orderId">Enter the Zip Code for the Shipping Address on the order</label>
+        <br/>
+        <input type="text" name="zipCode" id="zipCode"/>
         <input type="submit" value="submit" style="margin-top:10px;" />
     </fieldset>
     </form>
