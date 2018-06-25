@@ -49,10 +49,10 @@ jQuery( document ).ready(function() {
 
                             var html = "";
                             if(data.Success) {
-                                html = "<ul><li class='can-return'>Your order has been cancelled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
+                                html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             }
                             else if(data.Success === "true") {
-                                html = "<ul><li class='can-return'>Your order has been cancelled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
+                                html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             } else {
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
                             }

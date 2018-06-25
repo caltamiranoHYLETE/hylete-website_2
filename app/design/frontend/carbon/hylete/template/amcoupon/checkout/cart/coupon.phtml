@@ -1,104 +1,139 @@
 <?php
 /**
- * Checkout coupon form template.
- *
- * Modified for theme and Firecheckout compatibility.
- *
  * @author Amasty Team
  * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Coupons
  */
 ?>
-<?php echo $this->getChildHtml('coupon_before'); ?>
-<div id="coupon-discount" class="firecheckout-section">
-    <div class="block-title b-discount__title"><span><?php echo $this->__('promo code') ?></span></div>
-    <div class="discount-form" id="discount-code">
-        <?php
-        echo $this->getMessagesBlock()->getGroupedHtml();
-        $this->getMessagesBlock()->getMessageCollection()->clear();
-        ?>
-        <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have any.') ?></label>
+<?php if (($this->getRequest()->getControllerName() == 'onepage') && ('true' == (string)Mage::getConfig()->getNode('modules/GoMage_Checkout/active'))): ?>
+
+    <div class="lightcheckout-discount-form">
+
+        <input type="hidden" name="remove" id="remove_coupone" value="0"/>
+
+        <label for="coupon_code"><?php echo $this->__('Discount codes') ?></label>
+
         <div class="input-box">
-            <div class="input-field-wrapper">
-                <input class="input-text b-discount__input" id="coupon-code" name="coupon[code]" value="" />
-            </div>
-            <?php if (false && strlen($this->getCouponCode())) : ?>
-                <button type="button" title="<?php echo $this->__('Cancel Code') ?>" id="coupon-cancel" class="button b-discount__button" value="<?php echo $this->__('Cancel Code') ?>"><span><span><?php echo $this->__('Cancel Code') ?></span></span></button>
-            <?php else: ?>
-                <button type="button" title="<?php echo $this->__('Apply Code') ?>" id="coupon-apply" class="button b-discount__button" value="<?php echo $this->__('Apply Code') ?>"><span><span><?php echo $this->__('Apply Code') ?></span></span></button>
-            <?php endif; ?>
+            <input class="input-text" id="coupon_code" name="coupon_code"
+                   value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>"/>
         </div>
 
-        <?php
-        if (method_exists($this, '_getAppliedCoupons')) {
-            $coupons = $this->_getAppliedCoupons();
-        } else {
-            $coupons = $this->getAppliedCoupons();
-        }
-        ?>
-        <?php if ($coupons) : ?>
-            <strong><?php echo $this->__('Applied Codes'); ?></strong>
-            <table border="0" width="100%" cellpadding="4" cellspacing="0" style="margin-top: 3px;">
-                <?php $couponCnt = 0; ?>
-                <?php foreach ($coupons as $coupon) : ?>
-                    <tr>
-                        <td><?php echo $coupon; ?></td>
-                        <td style="text-align: right; padding: 0 5px 3px 0;">
-                            <a href="javascript:void(0);"
-                               title="<?php echo $coupon; ?>"
-                               class="coupon-cancel"
-                            ><?php echo $this->__('Cancel'); ?></a>
-                        </td>
-                    </tr>
-                    <?php $couponCnt++; ?>
-                <?php endforeach; ?>
-            </table>
+        <button type="button" title="<?php echo $this->__('Apply Coupon') ?>" class="button"
+                onclick="if(!$('coupon_code').value){alert('<?php echo $this->__('Enter your coupon code if you have one.') ?>')}else{checkout.applyDisocunt(false);}"
+                value="<?php echo $this->__('Apply Coupon') ?>">
+            <span><span><?php echo $this->__('Apply Coupon') ?></span></span></button>
+        <?php if (strlen($this->getCouponCode())): ?>
+            &nbsp;
+            <button type="button" title="<?php echo $this->__('Cancel Coupon') ?>" class="button"
+                    onclick="checkout.applyDisocunt(true)" value="<?php echo $this->__('Cancel Coupon') ?>">
+                <span><span><?php echo $this->__('Cancel Coupon') ?></span></span></button>
+        <?php endif; ?>
+
+    </div>
+
+
+    <?php if ($this->_getAppliedCoupons()): ?>
+        <br/>
+        <h2><?php echo $this->__('Applied Coupons'); ?></h2>
+
+        <table border="0" width="100%" cellpadding="4" cellspacing="0" style="padding-top: 3px;">
+
+            <?php $couponCnt = 0; ?>
+            <?php foreach ($this->_getAppliedCoupons() as $coupon): ?>
+                <tr style="padding-bottom: 3px;">
+                    <td><?php echo $this->escapeHtml($coupon); ?></td>
+                    <td style="text-align: right;">
+                        <form id="discount-coupon-cancel-form-<?php echo $couponCnt; ?>"
+                              action="<?php echo $this->getUrl('amcoupons/checkout/cancelCoupon') ?>" method="post">
+                            <input type="hidden" name="amcoupon_code_cancel"
+                                   value="<?php echo $this->escapeHtml($coupon); ?>"/>
+                        </form>
+                    </td>
+                </tr>
+                <?php $couponCnt++; ?>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+<?php else: ?>
+
+    <div class="promo-wrapper">
+        <input type="checkbox" id="open-promo" class="open-promo stay-checked"/>
+        <label for="open-promo"><?php echo $this->__('Add a promo code') ?></label>
+        <form id="discount-coupon-form" class="clearfix coupon promo-content"
+              action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
+            <div class="discount">
+                <h2><?php echo $this->__('promo code') ?></h2>
+                <div class="discount-form">
+                    <label for="coupon_code"><?php echo $this->__('enter a promo code if you have one') ?></label>
+                    <input type="hidden" name="remove" id="remove-coupone" value="0"/>
+                    <div class="input-box pull-left">
+                        <input class="input-text" id="coupon_code" name="coupon_code" value=""/>
+                    </div>
+                    <div class="buttons-set pull-left">
+                        <button type="button" title="<?php echo $this->__('apply code') ?>" class="button"
+                                onclick="discountForm.submit(false)" value="<?php echo $this->__('apply code') ?>">
+                            <span><span><?php echo $this->__('apply code') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <?php if ($this->_getAppliedCoupons()): ?>
+            <div class="discount">
+                <h2><?php echo $this->__('applied codes'); ?></h2>
+
+                <table border="0" cellpadding="4" cellspacing="0" style="padding-top: 3px;">
+                    <?php $couponCnt = 0; ?>
+                    <?php foreach ($this->_getAppliedCoupons() as $coupon): ?>
+                        <tr style="padding-bottom: 3px;">
+                            <td style="padding: 0;"><?php echo $this->escapeHtml($coupon); ?></td>
+                            <td style="text-align: right;">
+                                <form id="discount-coupon-cancel-form-<?php echo $couponCnt; ?>"
+                                      action="<?php echo $this->getUrl('amcoupons/checkout/cancelCoupon', array('_secure' => true)) ?>"
+                                      method="post">
+                                    <input type="hidden" name="amcoupon_code_cancel"
+                                           value="<?php echo $this->escapeHtml($coupon); ?>"/>
+                                    <a href="#" class="amasty-coupon-cancel-link"
+                                       onclick="javascript: discountForm.cancel('<?php echo $couponCnt; ?>'); return false;"><?php echo $this->__('cancel'); ?></a>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php $couponCnt++; ?>
+                    <?php endforeach; ?>
+                </table>
+            </div>
         <?php endif; ?>
     </div>
-    <script type="text/javascript">
-        //<![CDATA[
-        $('coupon-apply') && $('coupon-apply').observe('click', function(e) {
-            var code = $('coupon-code');
-            if (!code.value.length) {
-                code.addClassName('required-entry');
-                Validation.validate(code);
-                code.removeClassName('required-entry');
-                return;
-            }
-            //$('coupon-remove').value = "0";
-            checkout.update(checkout.urls.coupon, {
-                'review': 1,
-                'remove': 0
-            });
-        });
-        $$('.coupon-cancel').each(function(el) {
-            el.observe('click', function(e) {
-                //$('coupon-remove').value = "1";
-                var code = $(this).readAttribute('title');
-                checkout.update(checkout.urls.coupon, {
-                    'amcoupon_code_cancel': code,
-                    'review': 1
-                });
-            })
-        });
-        $('coupon-code').observe('keydown', function(e) {
-            if (e.keyCode != 13) {
-                return;
-            }
-            var code = $('coupon-code');
-            if (!code.value.length) {
-                code.addClassName('required-entry');
-                Validation.validate(code);
-                code.removeClassName('required-entry');
-                return;
-            }
-            //$('coupon-remove').value = "0";
-            checkout.update(checkout.urls.coupon, {
-                'review': 1,
-                'remove': 0
-            });
-        });
-        //]]>
-    </script>
-</div>
-<?php echo $this->getChildHtml('coupon_after') ?>
+
+<?php endif; ?>
+
+<style>
+    a.amasty-coupon-cancel-link {
+        text-decoration: underline;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var discountForm = new VarienForm('discount-coupon-form');
+    discountForm.submit = function (isRemove) {
+        if (isRemove) {
+            $('coupon_code').removeClassName('required-entry');
+            $('remove-coupone').value = "1";
+        } else {
+            $('coupon_code').addClassName('required-entry');
+            $('remove-coupone').value = "0";
+        }
+        return VarienForm.prototype.submit.bind(discountForm)();
+    }
+
+    discountForm.cancel = function (couponCnt) {
+        $('discount-coupon-cancel-form-' + couponCnt).submit();
+    }
+    //]]>
+</script>
