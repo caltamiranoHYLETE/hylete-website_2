@@ -82,12 +82,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
         $renderer = (Mage::getSingleton('admin/session')->isAllowed('customer/manage'))
             ? 'enterprise_invitation/adminhtml_invitation_grid_column_invitee' : false;
+        $escape = !$renderer ? true : false;
 
         $this->addColumn('invitee', array(
             'header' => Mage::helper('enterprise_invitation')->__('Invitee'),
             'index'  => 'invitee_email',
             'type'   => 'text',
             'renderer' => $renderer,
+            'escape' => $escape
         ));
 
         $this->addColumn('invitation_date', array(
