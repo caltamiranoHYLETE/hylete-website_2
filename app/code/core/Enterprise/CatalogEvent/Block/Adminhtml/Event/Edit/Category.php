@@ -91,7 +91,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
 
     /**
      * Convert categories tree to array recursively
-     *
+     * @param $node
      * @return array
      */
     protected function _getNodesArray($node)
@@ -105,7 +105,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
                                     $node->getId(),
                                     $this->helper('enterprise_catalogevent/adminhtml_event')->getInEventCategoryIds()
                                 )),
-            'name'           => $node->getName(),
+            'name'           => $this->escapeHtml($node->getName()),
             'level'          => (int)$node->getLevel(),
             'product_count'  => (int)$node->getProductCount(),
         );
