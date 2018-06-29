@@ -10,7 +10,7 @@
 <meta property="og:url" content="http://www.hylete.com/" />
 <meta property="og:title" content="HYLETE - Returns & Exchanges" />
 <meta property="og:description" content="Performance Cross Training Apparel" />
-<link rel="shortcut icon" href="//www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="//www.hylete.com/media/favicon/default/favicon.png" type="image/x-icon" />
 
 <link rel="stylesheet" type="text/css" href="/media/css/fe4108bfc5cebdf1d9492053b77f3311.1.0.css" media="all" />
     <link rel="stylesheet" type="text/css" href="smart-return.css" media="all" />
