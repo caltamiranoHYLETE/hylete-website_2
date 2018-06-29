@@ -127,6 +127,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $redirectParams = array();
 
         $data = $this->getRequest()->getPost();
+        unset($data['action_select_bind']);
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
