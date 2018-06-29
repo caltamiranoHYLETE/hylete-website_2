@@ -10,7 +10,7 @@ class Yotpo_Yotpo_Block_Adminhtml_System_Config_Form_Button extends Mage_Adminht
         parent::_construct();
         $this->setTemplate('yotpo/system/config/button.phtml');
     }
-
+ 
     /**
      * Return element html
      *
@@ -21,7 +21,7 @@ class Yotpo_Yotpo_Block_Adminhtml_System_Config_Form_Button extends Mage_Adminht
     {
         return $this->_toHtml();
     }
-
+ 
     /**
      * Return ajax url for button
      *
@@ -31,7 +31,7 @@ class Yotpo_Yotpo_Block_Adminhtml_System_Config_Form_Button extends Mage_Adminht
     {
         return Mage::helper('adminhtml')->getUrl('adminhtml/adminhtml_yotpo/massMailAfterPurchase');
     }
-
+ 
     /**
      * Generate button html
      *
@@ -41,11 +41,11 @@ class Yotpo_Yotpo_Block_Adminhtml_System_Config_Form_Button extends Mage_Adminht
     {
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'id'        => 'yotpo_button',
-                'label'     => $this->helper('adminhtml')->__('Generate reviews for my past orders'),
-                'onclick'   => 'javascript:exportOrders(); return false;'
-            ));
-
+            'id'        => 'yotpo_button',
+            'label'     => $this->helper('adminhtml')->__('Generate reviews for my past orders'),
+            'onclick'   => 'javascript:exportOrders(); return false;'
+        ));
+ 
         return $button->toHtml();
     }
 }

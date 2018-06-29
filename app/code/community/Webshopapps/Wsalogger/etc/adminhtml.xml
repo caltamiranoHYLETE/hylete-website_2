@@ -59,11 +59,14 @@
                         <children>
                         	<config>
 	                        	<children>
-		                            <wsalogmenu translate="title" module="log">
+		                            <wsalogmenu translate="title" module="wsalogger">
 		                                <title>WebShopApps Logger</title>
 		                            </wsalogmenu>
 	                         	</children>
                            	</config>
+                            <wsalogger translate="title" module="wsalogger">
+                                <title>WebShopApps View Logs</title>
+                            </wsalogger>
                         </children>
                     </system>
                 </children>
@@ -73,11 +76,11 @@
     <menu>
         <system>
             <children>
-                <log translate="title" module="log">
+                <wsalogger translate="title" module="wsalogger">
                     <title>WebShopApps View Logs</title>
-                    <action>wsalogger/adminhtml_log</action>
+                    <action>adminhtml/wsalogger</action>
                     <sort_order>15</sort_order>
-                </log>
+                </wsalogger>
             </children>
         </system>
     </menu>

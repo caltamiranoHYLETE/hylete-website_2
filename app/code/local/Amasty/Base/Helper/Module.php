@@ -1,16 +1,18 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Base
  */
+
+
 class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
 {
     const INSTALLED_PATH = 'ambase/feed/installed';
     const EXTENSIONS_PATH = 'ambase_extensions';
     const UPDATED_PREFIX = 'ambase/feed/updated_';
 
-    const URL_EXTENSIONS  = 'http://amasty.com/feed-extensions.xml';
+    const URL_EXTENSIONS = 'http://amasty.com/feed-extensions.xml';
     const BASE_MODULE_PERIOD = 3;
     const MODULE_PERIOD = 1;
 
@@ -22,7 +24,7 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
     );
 
 
-    function init($controllerModule)
+    public function init($controllerModule)
     {
         //dirty hack hor module name
         $segments = explode('_', $controllerModule);
@@ -31,16 +33,15 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         return $this;
     }
 
-    static function reload()
+    static public function reload()
     {
-        $feedData   = array();
+        $feedData = array();
         $feedXml = self::getFeedData();
-        if ($feedXml && $feedXml->channel && $feedXml->channel->item)
-        {
+        if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
             foreach ($feedXml->channel->item as $item) {
                 $code = (string)$item->code;
 
-                if (!isset($feedData[$code])){
+                if (!isset($feedData[$code])) {
                     $feedData[$code] = array();
                 }
 
@@ -51,15 +52,13 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
                 );
             }
 
-            if ($feedData)
-            {
+            if ($feedData) {
                 Mage::app()->saveCache(serialize($feedData), self::EXTENSIONS_PATH);
             }
         }
     }
 
-
-    static function getFeedData()
+    static public function getFeedData()
     {
         if (!extension_loaded('curl')) {
             return null;
@@ -79,21 +78,19 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         $curl->close();
 
         try {
-            $xml  = new SimpleXMLElement($data);
-        }
-        catch (Exception $e) {
+            $xml = new SimpleXMLElement($data);
+        } catch (Exception $e) {
             return false;
         }
 
         return $xml;
     }
 
-    static function getAllExtensions()
+    static public function getAllExtensions()
     {
         $ret = @unserialize(Mage::app()->loadCache(self::EXTENSIONS_PATH));
 
-        if (!$ret)
-        {
+        if (!$ret) {
             self::reload();
             $ret = @unserialize(Mage::app()->loadCache(self::EXTENSIONS_PATH));
         }
@@ -103,40 +100,38 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
 
     protected function _getExtension()
     {
-        if (!$this->_extension || $this->_extension['name'] === null)
-        {
+        if (!$this->_extension || $this->_extension['name'] === null) {
             $allExtensions = self::getAllExtensions();
 
-            if (isset($allExtensions[$this->_controllerModule]))
-            {
+            if (isset($allExtensions[$this->_controllerModule])) {
                 $this->_extension = array_pop($allExtensions[$this->_controllerModule]);
             }
         }
         return $this->_extension;
     }
 
-    function getModuleCode()
+    public function getModuleCode()
     {
         $item = $this->_getExtension();
         return $this->_controllerModule;
     }
 
-    function getModuleTitle()
+    public function getModuleTitle()
     {
         $item = $this->_getExtension();
-        return (string) ($item ? $item['name'] : null);
+        return (string)($item ? $item['name'] : null);
     }
 
-    function getModuleLink()
+    public function getModuleLink()
     {
         $item = $this->_getExtension();
-        return (string) ($item ? $item['url'] : null);
+        return (string)($item ? $item['url'] : null);
     }
 
-    function getLatestVersion()
+    public function getLatestVersion()
     {
         $item = $this->_getExtension();
-        return (string) ($item ? $item['version'] : null);
+        return (string)($item ? $item['version'] : null);
     }
 
     protected function _getInstalledVersion()
@@ -144,8 +139,7 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         $ret = null;
         $modules = (array)Mage::getConfig()->getNode('modules')->children();
         $moduleCode = $this->getModuleCode();
-        if (isset($modules[$moduleCode]))
-        {
+        if (isset($modules[$moduleCode])) {
             $ret = (string)$modules[$moduleCode]->version;
         }
         return $ret;
@@ -153,14 +147,13 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
 
     protected function _isAmastyModule()
     {
-        return strpos($this->_controllerModule, "Amasty") !== FALSE && $this->_getInstalledVersion() !== NULL;
+        return strpos($this->_controllerModule, "Amasty") !== false && $this->_getInstalledVersion() !== null;
     }
 
-    static function baseModuleInstalled()
+    static public function baseModuleInstalled()
     {
         $ret = Mage::getStoreConfig(Amasty_Base_Helper_Module::INSTALLED_PATH);
-        if (!$ret)
-        {
+        if (!$ret) {
             $ret = time();
             Mage::getConfig()->saveConfig(Amasty_Base_Helper_Module::INSTALLED_PATH, $ret);
             Mage::getConfig()->cleanCache();
@@ -168,18 +161,18 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         return $ret;
     }
 
-    function moduleUpdated()
+    public function moduleUpdated()
     {
         $path = Amasty_Base_Helper_Module::UPDATED_PREFIX . $this->_controllerModule;
         $ret = Mage::getStoreConfig($path);
-        if (!$ret)
-        {
+        if (!$ret) {
             $this->setModuleUpdated();
         }
+
         return $ret;
     }
 
-    function setModuleUpdated()
+    public function setModuleUpdated()
     {
         $path = Amasty_Base_Helper_Module::UPDATED_PREFIX . $this->_controllerModule;
         Mage::getConfig()->saveConfig($path, time());
@@ -188,21 +181,19 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
 
     protected function _validateBaseModulePeriod()
     {
-        return strtotime("+" . self::BASE_MODULE_PERIOD . " month" , self::baseModuleInstalled()) < time();
+        return strtotime("+" . self::BASE_MODULE_PERIOD . " month", self::baseModuleInstalled()) < time();
     }
 
     protected function _validateModulePeriod()
     {
-        return strtotime("+" . self::MODULE_PERIOD . " month" , self::moduleUpdated()) < time();
+        return strtotime("+" . self::MODULE_PERIOD . " month", self::moduleUpdated()) < time();
     }
 
-    function isNewVersionAvailable()
+    public function isNewVersionAvailable()
     {
         $ret = false;
-        if ($this->_isAmastyModule() && $this->_validateBaseModulePeriod() && $this->_validateModulePeriod())
-        {
-            if (version_compare($this->getLatestVersion(), $this->_getInstalledVersion(), 'gt'))
-            {
+        if ($this->_isAmastyModule() && $this->_validateBaseModulePeriod() && $this->_validateModulePeriod()) {
+            if (version_compare($this->getLatestVersion(), $this->_getInstalledVersion(), 'gt')) {
 
                 $ret = true;
             }
@@ -210,7 +201,7 @@ class Amasty_Base_Helper_Module extends Mage_Core_Helper_Abstract
         return $ret;
     }
 
-    function isSubscribed()
+    public function isSubscribed()
     {
         return Mage::getStoreConfig('ambase/feed/update') == 1;
     }
