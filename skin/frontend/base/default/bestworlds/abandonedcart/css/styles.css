@@ -31,12 +31,13 @@
 
 .bw_box_close {
     position: relative;
-    top: 14px;
-    right: 13px;
+    top: -15px;
+    right: -15px;
     float: right;
     display: block;
-    height: 24px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
+    background-image: url('../images/close-button-shadow.svg');
 }
 
 .bw_box_input {
@@ -260,12 +261,6 @@
         margin-top: 100px;
         width: 237px;
         margin-left: 32px;
-    }
-    .bw_box_close{
-        top: 6px;
-        right: 5px;
-        height: 18px;
-        width: 16px;
     }
     .form-bw-bottom{
         width: 265px;
