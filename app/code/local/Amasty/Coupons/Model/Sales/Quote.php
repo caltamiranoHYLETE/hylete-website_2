@@ -222,6 +222,13 @@ class Amasty_Coupons_Model_Sales_Quote extends Mage_Sales_Model_Quote
                 $isMerge = true;
                 break;
             }
+
+            // START HYL-56 CUSTOMIZATION
+            elseif (isset($step['object']) && $step['object'] instanceof Mage_Checkout_Model_Cart_Coupon_Api) {
+                $isMerge = true;
+                break;
+            }
+            // END HYL-56 CUSTOMIZATION
         }
         $backTrace = NULL;
         return $isMerge;

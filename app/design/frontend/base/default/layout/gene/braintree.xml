@@ -200,11 +200,11 @@
 
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="customer">
+            <!--<action method="addLink" translate="label" module="customer">
                 <name>braintree.saved</name>
                 <path>braintree/saved/index</path>
                 <label>Saved Payment Information</label>
-            </action>
+            </action>-->
         </reference>
     </customer_account>
 

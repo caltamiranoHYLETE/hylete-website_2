@@ -24,7 +24,7 @@
  */
 class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    protected $_productCmsAttributes = array('cms_1', 'cms_2', 'cms_3', 'cms_4');
+    protected $_productCmsAttributes = array('cms_1', 'cms_2', 'cms_3', 'cms_4', 'cms_video');
 
     /**
      * @param  Mage_Catalog_Model_Product $product
