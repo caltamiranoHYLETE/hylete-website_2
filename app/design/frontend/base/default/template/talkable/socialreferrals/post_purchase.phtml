@@ -21,9 +21,6 @@
             <script type="text/javascript">
             //<![CDATA[
               <?php $_event_data = $_helper->getPurchaseData($_order) ?>
-              <?php $_event_data["traffic_source"] = "Post-checkout" ?>
-              <?php $_event_data["campaign_template"] = "post-purchase" ?>
-
               _talkableq.push(["register_purchase", <?php echo Mage::helper("core")->jsonEncode($_event_data) ?>]);
             //]]>
             </script>
