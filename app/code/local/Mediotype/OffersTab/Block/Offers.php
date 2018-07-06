@@ -30,7 +30,12 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
      */
     public function shouldShowOnPage()
     {
-        $url = $this->getRequest()->getRequestUri();
+        try {
+            $url = $this->getRequest()->getRequestString();
+        } catch (Exception $error) {
+            Mage::log($error->getMessage(), null, 'exception.log');
+        }
+
         return $this->_offersTabHelper->shouldShowForUrl($url);
     }
 
