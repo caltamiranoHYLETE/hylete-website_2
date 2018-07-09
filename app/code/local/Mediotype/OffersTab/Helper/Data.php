@@ -148,7 +148,7 @@ class Mediotype_OffersTab_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getOffersTabBlackList()
     {
-        $_blackList = str_replace(' ', '', Mage::getStoreConfig('mediotype_offerstab/general/black_list'));
+        $_blackList = str_replace(array(' ', "\n", "\r", "\t"), '', Mage::getStoreConfig('mediotype_offerstab/general/black_list'));
         return (!is_null($_blackList) ? explode(',', $_blackList) : []);
     }
 
