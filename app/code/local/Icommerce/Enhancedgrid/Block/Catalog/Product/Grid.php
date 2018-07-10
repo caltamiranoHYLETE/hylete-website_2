@@ -347,6 +347,16 @@ class Icommerce_Enhancedgrid_Block_Catalog_Product_Grid extends Mage_Adminhtml_B
                     'width' => '80px',
                     'index' => 'sku'
                 ) );
+
+			$this->addColumn( 'parent_sku',
+				array(
+					'header' => Mage::helper( 'catalog' )->__( 'Parent SKU' ),
+					'width' => '100px',
+					'index' => 'parent_sku',
+					'filter' => false,
+					'align' => 'center',
+					'renderer'  => 'Hylete_Adminhtml_Block_Catalog_Parent'
+				) );
         }
 
         if ( $this->colIsVisible( 'price' ) ) {
@@ -485,7 +495,7 @@ class Icommerce_Enhancedgrid_Block_Catalog_Product_Grid extends Mage_Adminhtml_B
             } else {
                 $innerSettings = array(
                     'header' => Mage::helper( 'catalog' )->__( $col ),
-                    'width' => '100px',
+                    'width' => '80px',
                     'type' => 'text'
                 );
             }

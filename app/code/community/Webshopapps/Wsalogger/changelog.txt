@@ -11,3 +11,6 @@
 2.5  -  COMMON-35 Fixed issue with emails not containing the error details
 2.6  - CHEF-91 Added error message config option for ShipperHQ
 2.7  - COMMON-44 Fixed logger output when sending debug
+2.8  - COMMON-47 Updated for SUPEE-6285 and fixed ACL issues so shows as a resource when creating new admin users.
+2.9  - COMMON-47 Fixed back button
+2.10  - COMMON-53 Removed old WSA link that gives 404

@@ -4,7 +4,6 @@
  *
  * @author Myles Forrest <myles@mediotype.com>
  */
-
 class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
 {
     /** @var Mediotype_OffersTab_Helper_Data $_offersTabHelper */
@@ -31,7 +30,12 @@ class Mediotype_OffersTab_Block_Offers extends Mage_Core_Block_Template
      */
     public function shouldShowOnPage()
     {
-        $url = $this->getRequest()->getRequestUri();
+        try {
+            $url = $this->getRequest()->getRequestString();
+        } catch (Exception $error) {
+            Mage::log($error->getMessage(), null, 'exception.log');
+        }
+
         return $this->_offersTabHelper->shouldShowForUrl($url);
     }
 
