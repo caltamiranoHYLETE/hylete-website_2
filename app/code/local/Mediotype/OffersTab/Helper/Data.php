@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class Mediotype_OffersTab_Helper_Data
  *

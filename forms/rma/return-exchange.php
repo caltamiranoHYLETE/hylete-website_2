@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isAdmin = test_input("isAdmin");
     $exchangeOnly = test_input("exchangeOnly");
     $simpleRefund = test_input("simpleRefund");
+    $sixMonthCashRefund = test_input("sixMonthCashRefund");
 } else {
     $orderId = "";
     $ignoreClearance = "false";
@@ -32,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isAdmin = "false";
     $exchangeOnly = "false";
     $simpleRefund = "false";
+	$sixMonthCashRefund = "false";
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -42,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="NOINDEX, NOFOLLOW" />
-    <link rel="shortcut icon" href="https://www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://www.hylete.com/media/favicon/default/favicon.png" type="image/x-icon" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/config.js"></script>
-    <script type="text/javascript" src="/forms/js/return-exchange-script.js"></script>
+    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201803"></script>
 
 </head>
 <body>
@@ -97,8 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h2>steps for a smooth return:</h2>
                             <ul style="list-style-type: circle; list-style-position: inside;">
                                 <li>Keep the tags on or include them in your return</li>
-                                <li>Only return the items you have selected on the form. Any differences will cause delays in processing.</li>
-                                <li>Exchanges and refunds will be processed once we receive and process your package</li>
+                                <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
+                                <li>Use the shipping label we provide you after you submit your RA</li>
+                                <li>Exchanges and refunds will be processed once we receive notification USPS has picked it up</li>
                                 <li>Send it in! Return authorizations expire after 60 days</li>
                             </ul>
                             <br/>
@@ -145,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="combinedOrder" id="combinedOrder" value="<?php echo $combinedOrder ?>">
             <input type="hidden" name="exchangeOnly" id="exchangeOnly" value="<?php echo $exchangeOnly ?>">
             <input type="hidden" name="simpleRefund" id="simpleRefund" value="<?php echo $simpleRefund ?>">
+            <input type="hidden" name="sixMonthCashRefund" id="sixMonthCashRefund" value="<?php echo $sixMonthCashRefund ?>">
             <div id="choice_area">
                 <div id="choice1">
                     <input type="radio" value="store_credit" id="memo_choice" name="refund-or-exchange">
@@ -252,14 +256,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>postal code <span class="required">*</span></label><br><input type="text" name="postalCode" id="postalCode" required data-msg="Please enter your postal code"/>
 
                 <input type="checkbox" value="yes" name="acknowledge" id="acknowledge"/>
-                <label for="acknowledge"><span style="text-transform:uppercase">I</span> acknowledge that if the items <span style="text-transform:uppercase">I</span> am returning are missing tags, damaged (excluding manufacturer damage) or otherwise in a condition that makes them unfit for sale, <span style="text-transform:uppercase">I</span> may have to pay a restocking fee of $10.00.<span class="required">*</span></label>
+                <label for="acknowledge"><span style="text-transform:uppercase">I</span> acknowledge that <span style="text-transform:uppercase">I</span> am returning items that match my submitted return authorization exactly. <span style="text-transform:uppercase">I</span> also acknowledge that if the items <span style="text-transform:uppercase">I</span> am returning are missing tags, damaged (excluding manufacturer damage) or otherwise in a condition that makes them unfit for sale, <span style="text-transform:uppercase">I</span> may have to pay a restocking fee of $10.00.<span class="required">*</span></label>
 
                 <br><span style="display:block;text-align:right;color:red;">* required fields</span>
             </fieldset>
 
             <fieldset id="notes_fields">
-                <label>notes for customer service</label><textarea cols="20" rows=30" type="text" name="notes" id="notes" maxlength="1000"></textarea><br>
-                *This field is intended for feedback and does not serve to modify your return request.
+                <!--<label>notes for customer service</label><textarea cols="20" rows=30" type="text" name="notes" id="notes" maxlength="1000"></textarea><br>
+                *This field is intended for feedback and does not serve to modify your return request.-->
+                <div style="text-align: left;">
+                    <h2>steps for a smooth return:</h2>
+                    <ul style="list-style-type: circle; list-style-position: inside;">
+                        <li>Keep the tags on or include them in your return</li>
+                        <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
+                        <li>Use the shipping label we provide you after you submit your RA</li>
+                        <li>Exchanges and refunds will be processed once we receive notification USPS has picked up your package</li>
+                        <li>Send it in! Return authorizations expire after 60 days</li>
+                    </ul>
+                    <br/>
+                    <p>Please remember, the items you are returning must match your submitted return authorization exactly. Should you neglect to return items from your submitted return authorization or return different/additional items as not reflected on your submitted return authorization, you may be charged a fee for any differences.</p>
+                </div>
             </fieldset>
 
             <fieldset id="results_field">

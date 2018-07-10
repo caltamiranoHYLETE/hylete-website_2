@@ -95,7 +95,9 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
    */
   public function statusAction()
   {
-    $nonce = $this->getRequest()->getParam('nonce');
+    //$nonce = $this->getRequest()->getParam('nonce');
+
+    $nonce = "1234";
 
     if (!$nonce) {
       $response = array('data' => NULL);
@@ -110,12 +112,14 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
       $cron_details = $this->_getCronScheduleDetails($since_minutes);
 
       $num_quotes = 5;
-      $quote_details = $this->_getQuoteDetails($num_quotes);
+      $quote_details = "";
+      //$quote_details = $this->_getQuoteDetails($num_quotes);
 
       $response = array(
         'data' => array(
           'version' => $version,
           'config'  => $config_details,
+          'store_info' => $helper->getStoreInfo(),
           'cron'    => $cron_details,
           'quotes'  => $quote_details
         )
@@ -224,12 +228,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         'customer_email' => $email,
         'remote_ip'      => $quote->getRemoteIp(),
         'num_items'      => count($quote->getItemsCollection()),
-        'is_active'      => $quote->getIsActive(),
-
-        'config'         => array(
-          'is_enabled' => $helper->isEnabled($store),
-          'api_key'    => $helper->getPublicApiKey($store) != NULL
-        )
+        'is_active'      => $quote->getIsActive()
       );
     }
 

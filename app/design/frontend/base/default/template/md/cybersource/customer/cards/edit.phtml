@@ -1,0 +1,234 @@
+<?php
+    /**
+    * Magedelight
+    * Copyright (C) 2015 Magedelight <info@magedelight.com>
+    *
+    * NOTICE OF LICENSE
+    *
+    * This program is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+    *
+    * @category MD
+    * @package MD_Cybersource
+    * @copyright Copyright (c) 2015 Mage Delight (http://www.magedelight.com/)
+    * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+    * @author Magedelight <info@magedelight.com>
+    */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $methodCode = "md_cybersource"; ?>
+<?php $card = Mage::helper('core')->jsonDecode($this->getCard()) ?>
+<?php $cardCode =  $card['cc_type']; ?>
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__("Editing Card: '%s'", "XXXX-". $card['cc_last4'] ); ?></h1>
+</div>
+<form action="<?php echo $this->getUrl("*/*/update") ?>" name="cybersource_edit_card" id="cybersource_edit_card" method="post"> 
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo $this->__('Contact Information') ?></h2>
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="customer-name">
+                    <div class="field name-firstname">
+                        <label for="<?php echo $methodCode ?>_firstname" class="required"><em>*</em><?php echo $this->__('First Name') ?></label>
+                        <div class="input-box">
+                            <input type="text" id="<?php echo $methodCode ?>_firstname" name="<?php echo $methodCode ?>[address_info][firstname]" value="<?php echo $card['firstname'] ?>" title="<?php echo $this->__('First Name') ?>" maxlength="255" class="input-text required-entry" />
+                        </div>
+                    </div>
+                    <div class="field name-lastname">
+                        <label for="<?php echo $methodCode ?>_lastname" class="required"><em>*</em><?php echo $this->__('Last Name') ?></label>
+                        <div class="input-box">
+                            <input type="text" id="<?php echo $methodCode ?>_lastname" name="<?php echo $methodCode ?>[address_info][lastname]" value="<?php echo $card['lastname'] ?>" title="<?php echo $this->__('Last Name') ?>" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="wide">
+                <label for="<?php echo $methodCode ?>_company"><?php echo $this->__('Company') ?></label>
+                <div class="input-box">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][company]" id="<?php echo $methodCode ?>_company" title="<?php echo $this->__('Company') ?>" value="<?php echo $card['company'] ?>" class="input-text ">
+                </div>
+            </li>
+            <li class="wide">
+                <label for="<?php echo $methodCode ?>_street" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
+                <div class="input-box">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][street]" value="<?php echo $card['street']; ?>" title="<?php echo $this->__('Street Address') ?>" id="<?php echo $methodCode ?>_street" class="input-text  required-entry">
+                </div>
+            </li>
+            <li class="wide">
+                <label for="<?php echo $methodCode ?>_city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                <div class="input-box">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][city]" value="<?php echo $card['city']; ?>" title="<?php echo $this->__('City') ?>" class="input-text  required-entry" id="<?php echo $methodCode ?>_city">
+                </div>
+            </li>
+            <li class="fields">
+                <label for="<?php echo $methodCode ?>_region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                <div class="input-box">
+                    <select id="<?php echo $methodCode ?>_region_id" name="<?php echo $methodCode ?>[address_info][region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                        <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                    </select>
+                    <script type="text/javascript">
+                        //<![CDATA[
+                        $('<?php echo $methodCode ?>_region_id').setAttribute('defaultValue',  "<?php echo $card['region_id'] ?>");
+                        //]]>
+                    </script>
+                    <input type="text" id="<?php echo $methodCode ?>_state" name="<?php echo $methodCode ?>[address_info][state]" title="<?php echo $this->__('State/Province') ?>" class="input-text required-entry" value="<?php echo $card['state'] ?>" />
+                </div>
+            </li>
+            <li class="wide">
+                <label for="<?php echo $methodCode ?>_zip" class="required"><em>*</em><?php echo $this->__('Zip') ?></label>
+                <div class="input-box">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][postcode]" value="<?php echo $card['postcode'] ?>" title="<?php echo $this->__('Zip') ?>" id="<?php echo $methodCode ?>_zip" class="input-text validate-zip-international  required-entry">
+                </div>
+            </li>
+            <li class="wide">
+                <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                <div class="input-box">
+                    <?php echo $this->getCountryHtmlSelect($card['country_id']) ?>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="<?php echo $methodCode ?>_phone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                    <div class="input-box">
+                        <input type="tel" name="<?php echo $methodCode ?>[address_info][telephone]" value="<?php echo $card['telephone'] ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text   required-entry" id="<?php echo $methodCode ?>_telephone">
+                    </div>
+                </div>                
+            </li>
+        </ul>
+    </div>   
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Card Information') ?></h2>
+        <ul class="form-list"> 
+            <li class="wide">
+                <label for="<?php echo $methodCode ?>_cc_action"><?php echo $this->__('Select Card') ?></label>
+                <div class="input-box">
+                    <select onchange="toggleCards(this.value,'<?php echo 'XXXXXX-'.$card['cc_last4']?>');return false;" id="<?php echo $methodCode ?>_cc_action" name="<?php echo $methodCode ?>[payment_info][cc_action]" class="select">
+                        <option value="existing" selected="selected"><?php echo $this->__("Continue using card %s",'XXXXXX-'.$card['cc_last4']) ?></option>
+                        <option value="new"><?php echo $this->__("Update credit card details.") ?></option>
+                    </select>
+                </div>
+            </li>           
+            <li class="<?php echo $methodCode ?>_new" style="display:none;">
+                <label for="<?php echo $methodCode ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+                <div class="input-box">
+                    <select  id="<?php echo $methodCode ?>_cc_type" name="<?php echo $methodCode ?>[payment_info][cc_type]" class="required-entry validate-cybersource-type-select">
+                        <option value=""><?php echo $this->__('--Please Select--')?></option>
+                        <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
+                            <option value="<?php echo $_typeCode ?>"><?php echo $_typeName ?></option>
+                            <?php endforeach ?>
+                    </select>
+                </div>
+            </li>
+            <li class="<?php echo $methodCode ?>_new" style="display:none;">
+                <label for="<?php echo $methodCode ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+                <div class="input-box">
+                    <input pattern="\d*" type="text" id="<?php echo $methodCode ?>_cc_number" name="<?php echo $methodCode ?>[payment_info][cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cccybersource-number validate-cccybersource-type" value=""  autocomplete="off" />
+                </div>
+            </li>
+            <li class="<?php echo $methodCode ?>_new" style="display:none;">
+                <label for="expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+                <div class="input-box">
+                    <div class="v-fix">
+                        <?php $_ccExpMonth = $card['cc_exp_month']; ?>
+                        <select id="<?php echo $methodCode ?>_expiration" name="<?php echo $methodCode ?>[payment_info][cc_exp_month]" class="month validate-cc-exp required-entry" style="width: 150px; margin-right: 10px;">                    
+                            <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                                <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="v-fix">
+                        <?php $_ccExpYear = $card['cc_exp_year']; ?>
+                        <select id="<?php echo $methodCode ?>_expiration_yr" name="<?php echo $methodCode ?>[payment_info][cc_exp_year]" class="year required-entry" style="width: 150px;">
+                            <?php foreach ($this->getCcYears() as $k=>$v): ?>
+                                <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
+                                <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <?php if($this->hasVerification()): ?>
+                <li class="<?php echo $methodCode ?>_new" style="display:none;">
+                    <label for="<?php echo $methodCode ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+                    <div class="input-box">
+                        <div class="v-fix">
+                            <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cccybersource-cvn" id="<?php echo $methodCode ?>_cc_cid" name="<?php echo $methodCode ?>[payment_info][cc_cid]" value=""  autocomplete="off" />
+                        </div>
+                    </div>
+                </li>
+                <?php endif; ?>
+        </ul>
+        <div class="buttons-set">
+            <input type="hidden" name="<?php echo $methodCode ?>[card_mode]" value="edit" />
+            <input type="hidden" name="<?php echo $methodCode ?>[card_id]" value="<?php echo $card['card_id']?>" />
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button data-action="save-customer-card" type="submit" title="<?php echo $this->__('Save Card') ?>" class="button" onclick="editCardForm.submit();" id="cybersource_edit_card_btn"><span><span><?php echo $this->__('Save Card') ?></span></span></button>
+        </div>  
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    new RegionUpdater('<?php echo $methodCode ?>_country_id', '<?php echo $methodCode ?>_state', '<?php echo $methodCode ?>_region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, '<?php echo $methodCode ?>_zip');
+    var editCardForm = new VarienForm('cybersource_edit_card');
+    editCardForm.submit = function () {
+        if(this.validator.validate()){
+            var currentForm = $('cybersource_edit_card');
+            $('cybersource_edit_card_btn').disabled = true;
+            $('cybersource_edit_card_btn').addClassName('disabled');
+            $('cybersource_edit_card').submit();
+        }
+        return false;
+    }
+    function toggleCards(selectedValue, current_card)
+    {
+        switch(selectedValue){
+            case 'existing':
+                $('<?php echo $methodCode ?>_cc_type').disabled = true;
+                $('<?php echo $methodCode ?>_cc_number').disabled = true;
+                $('<?php echo $methodCode ?>_expiration').disabled = true;
+                $('<?php echo $methodCode ?>_expiration_yr').disabled = true;
+                if($('<?php echo $methodCode ?>_cc_cid') != null){
+                    $('<?php echo $methodCode ?>_cc_cid').removeClassName("validate-cc-cvn");
+                    $('<?php echo $methodCode ?>_cc_cid').disabled = true;
+                }
+                $('<?php echo $methodCode ?>_cc_type').addClassName("disabled");
+                $('<?php echo $methodCode ?>_cc_number').addClassName("disabled");
+                $('<?php echo $methodCode ?>_expiration').addClassName("disabled");
+                $('<?php echo $methodCode ?>_expiration_yr').addClassName("disabled");
+                $$(".<?php echo $methodCode ?>_new").each(function(newCardData){
+                    $(newCardData).hide();
+                });
+                break;
+            case 'new':
+                $('<?php echo $methodCode ?>_cc_type').disabled = false;
+                $('<?php echo $methodCode ?>_cc_number').disabled = false;
+                $('<?php echo $methodCode ?>_expiration').disabled = false;
+                $('<?php echo $methodCode ?>_expiration_yr').disabled = false;
+                if($('<?php echo $methodCode ?>_cc_cid') != null){
+                    $('<?php echo $methodCode ?>_cc_cid').addClassName("validate-cc-cvn");
+                    $('<?php echo $methodCode ?>_cc_cid').disabled = false;
+                }
+                $('<?php echo $methodCode ?>_cc_type').removeClassName("disabled");
+                $('<?php echo $methodCode ?>_cc_number').removeClassName("disabled");
+                $('<?php echo $methodCode ?>_expiration').removeClassName("disabled");
+                $('<?php echo $methodCode ?>_expiration_yr').removeClassName("disabled");
+                $$(".<?php echo $methodCode ?>_new").each(function(newCardData){
+                    $(newCardData).show();
+                });
+                break;
+        }
+    }    
+    //]]>
+</script>
