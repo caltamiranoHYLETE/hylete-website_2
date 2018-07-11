@@ -3,7 +3,7 @@
     <modules>
         <Webshopapps_Wsacommon>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </Webshopapps_Wsacommon>
     </modules>
 </config>

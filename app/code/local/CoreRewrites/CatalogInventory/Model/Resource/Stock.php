@@ -8,7 +8,7 @@
 * @author   Joel    @Mediotype
 **/
 
-class CoreRewrites_CatalogInventory_Model_Resource_Stock extends Mage_CatalogInventory_Resource_Stock {
+class CoreRewrites_CatalogInventory_Model_Resource_Stock extends Mage_CatalogInventory_Model_Resource_Stock {
 
     /**
     * Get stock items data for requested products
