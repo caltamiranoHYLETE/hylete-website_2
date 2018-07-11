@@ -15,7 +15,7 @@
 
 <?php if ($_helper->getSiteId() == ""): ?>
     <!-- Talkable Site ID is blank, check your Talkable extension settings -->
-    <script type="text/javascript" src="//d2jjzw81hqbuqv.cloudfront.net/integration/talkable-2.2.min.js"></script>
+    <script type="text/javascript" src="//d2jjzw81hqbuqv.cloudfront.net/integration/talkable-3.0.min.js"></script>
 <?php else: ?>
     <script type="text/javascript">
     //<![CDATA[
@@ -23,6 +23,10 @@
       _talkableq.push(["init", {
         site_id: "<?php echo $_helper->getSiteId() ?>"
       }]);
+
+    _talkableq.push(["custom_properties", {
+        group_id: "<?php echo $_helper->getCustomerGroupId() ?>"
+    }]);
 
       _talkableq.push(["authenticate_customer", <?php echo Mage::helper("core")->jsonEncode($_helper->getCustomerData()) ?>]);
     //]]>

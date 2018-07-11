@@ -55,13 +55,31 @@ jQuery(document).ready(function(){
                             jQuery("#refund_choice").prop('disabled', true);
                             jQuery("#exchange_choice").prop('checked', true);
 
-                            jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({title: "Cash refund is not available for your order. Please select exchange instead.", placement: "top", animation: true});
-                            jQuery("#creditMemoTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({title: "Credit memo is not available for your order. Please select exchange instead.", placement: "top", animation: true});
-                        } else{
+                            jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
+                                title: "Cash refund is not available for your order. Please select exchange instead.",
+                                placement: "top",
+                                animation: true
+                            });
+                            jQuery("#creditMemoTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
+                                title: "Credit memo is not available for your order. Please select exchange instead.",
+                                placement: "top",
+                                animation: true
+                            });
+                        } else {
                             if(jQuery("#creditMemoUsed").val() == "true" || jQuery("#giftCardUsed").val() == "true") {
                                 jQuery("#refund_choice").prop('disabled', true);
                                 jQuery("#memo_choice").prop('checked', true);
                                 jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({title: "Cash refund is not available for your order. Please select refund for store credit or exchange instead.", placement: "top", animation: true});
+                            }
+
+                            if(jQuery("#sixMonthCashRefund").val() == "true") {
+                                jQuery("#refund_choice").prop('disabled', true);
+                                jQuery("#memo_choice").prop('checked', true);
+                                jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
+                                    title: "Cash refund is not available. Please contact customerservice@hylete.com for other cash return options or select a different option.",
+                                    placement: "top",
+                                    animation: true
+                                });
                             }
                         }
                     }

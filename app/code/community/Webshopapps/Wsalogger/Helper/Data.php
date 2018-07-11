@@ -33,7 +33,8 @@ class Webshopapps_Wsalogger_Helper_Data extends Mage_Core_Helper_Abstract
 	 * Enter description here ...
 	 */
 	public static function getNewVersion() {
-		$version = Mage::getVersion();	
+		$version = Mage::getVersion();
+
 		if (version_compare($version, '1.6', '>=')) {
 			if (version_compare($version, '1.12') >= 0) $eeVersion = 12;
             else if (version_compare($version, '1.14') >= 0) $eeVersion = 14;
@@ -58,6 +59,7 @@ class Webshopapps_Wsalogger_Helper_Data extends Mage_Core_Helper_Abstract
 			else if (version_compare($version, '1.3.2.4') >= 0) $eeVersion = 6;
 			else $eeVersion = 8;  // default to this if unsure, changed to assume is 1.4.1+
 		}
+
 		return $eeVersion;
 	}
 	

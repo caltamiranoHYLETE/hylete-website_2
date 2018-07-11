@@ -54,7 +54,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
         return $this->_pixleeAPI;
       }
       catch (Exception $e) {
-        Mage::log("PIXLEE ERROR: " . $e->getMessage());
+        //Mage::log("PIXLEE ERROR: " . $e->getMessage());
       }
 
     } else {
@@ -105,28 +105,28 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
       }
 
       public function _extractActualProduct($product) {
-        Mage::log("*** Before _extractActualProduct");
-        Mage::log("Name: {$product->getName()}");
-        Mage::log("ID: {$product->getId()}");
-        Mage::log("SKU: {$product->getSku()}");
-        Mage::log("Type: {$product->getTypeId()}");
+        //Mage::log("*** Before _extractActualProduct");
+        //Mage::log("Name: {$product->getName()}");
+        //Mage::log("ID: {$product->getId()}");
+        //Mage::log("SKU: {$product->getSku()}");
+        //Mage::log("Type: {$product->getTypeId()}");
         $mainProduct = $product;
         $temp_product_id = Mage::getModel('catalog/product')->getIdBySku($product->getSku());
         $parent_ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($temp_product_id);
-        Mage::log("Parent IDs are");
-        Mage::log($parent_ids);
+        //Mage::log("Parent IDs are");
+        //Mage::log($parent_ids);
         if($parent_ids) {
           $mainProduct = Mage::getModel('catalog/product')->load($parent_ids[0]);
         } else if($product->getTypeId() == "bundle") {
           $mainProduct = Mage::getModel('catalog/product')->load($product->getId()); // Get original sku as stated in product catalog
         }
         $mainProductClass = get_class($mainProduct);
-        Mage::log("*** After _extractActualProduct");
-        Mage::log("Name: {$mainProduct->getName()}");
-        Mage::log("ID: {$mainProduct->getId()}");
-        Mage::log("SKU: {$mainProduct->getSku()}");
-        Mage::log("Type: {$mainProduct->getTypeId()}");
-        Mage::log("Class: {$mainProductClass}");
+        //Mage::log("*** After _extractActualProduct");
+        //Mage::log("Name: {$mainProduct->getName()}");
+        //Mage::log("ID: {$mainProduct->getId()}");
+        //Mage::log("SKU: {$mainProduct->getSku()}");
+        //Mage::log("Type: {$mainProduct->getTypeId()}");
+        //Mage::log("Class: {$mainProductClass}");
         return $mainProduct;
       }
 
@@ -138,7 +138,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
       public function getAggregateStock($actualProduct) {
 
 
-        Mage::log("*** In getAggregateStock");
+        //Mage::log("*** In getAggregateStock");
         $aggregateStock = NULL;
 
         // If after calling _extractActualProduct, there is no 'configurable' product, and only
@@ -170,18 +170,18 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
             $childProducts = array();
           }
 
-          Mage::log("Child products of length " . sizeof($childProducts));
+          //Mage::log("Child products of length " . sizeof($childProducts));
 
           foreach ($childProducts as $child) {
             // Sometimes Magento gives a negative inventory quantity
             // I don't want that to affect the overall count
             // TODO: There is probably a good reason why it goes negative
-            Mage::log("Child Name: {$child->getName()}");
-            Mage::log("Child SKU: {$child->getSku()}");
+            //Mage::log("Child Name: {$child->getName()}");
+            //Mage::log("Child SKU: {$child->getSku()}");
             if (is_null($child->getStockItem())) {
-              Mage::log("Child product not tracking stock, setting to NULL");
+              //Mage::log("Child product not tracking stock, setting to NULL");
             } else {
-              Mage::log("Child Stock: {$child->getStockItem()->getQty()}");
+              //Mage::log("Child Stock: {$child->getStockItem()->getQty()}");
               if (is_null($aggregateStock)) {
                 $aggregateStock = 0;
               }
@@ -189,13 +189,13 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
             }
           }
         }
-        Mage::log("Returning aggregateStock: {$aggregateStock}");
+        //Mage::log("Returning aggregateStock: {$aggregateStock}");
         return $aggregateStock;
       }
 
       public function getVariantsDict($actualProduct) {
 
-        Mage::log("*** In getVariantsDict");
+        //Mage::log("*** In getVariantsDict");
         $variantsDict = array();
 
         // If after calling _extractActualProduct, there is no 'configurable' product, and only
@@ -220,7 +220,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
           // under the umbrella of some 'configurable' product
           } else if ($actualProduct->getTypeId() == "configurable") {
             if (!is_a($actualProduct, "Mage_Catalog_Model_Product")) {
-                Mage::log("Defaulting to empty children array, actualProduct is " . get_class($actualProduct));
+                //Mage::log("Defaulting to empty children array, actualProduct is " . get_class($actualProduct));
                 $childProducts = array();
             } else {
                 $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null,$actualProduct);
@@ -229,7 +229,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
             $childProducts = array();
           }
 
-          Mage::log("Child products of length " . sizeof($childProducts));
+          //Mage::log("Child products of length " . sizeof($childProducts));
 
           foreach ($childProducts as $child) {
             // Sometimes Magento gives a negative inventory quantity
@@ -286,7 +286,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
 
       // Construct some stuff to pass to 'extra_fields'
       public function getExtraFields($actualProduct) {
-        Mage::log("Constructing product 'extra_fields'");
+        //Mage::log("Constructing product 'extra_fields'");
 
         // If we failed earlier in _extractActualProduct, and still have a
         // Mage_Sales_Model_Order_Item class instance here, we'll error out
@@ -301,12 +301,12 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
             // Each $child here is basically an individual row
             $options = Mage::getModel('catalog/product_option')->getProductOptionCollection($actualProduct);
             foreach ($options as $child) {
-              Mage::log("* Product has an option");
+              //Mage::log("* Product has an option");
               // $child at this point is a PHP object, ->getValues() converts it
               // to an array that we can JSONify and pass to our servers
               foreach ($child->getValues() as $v) {
-                  Mage::log("* An option:");
-                  Mage::log($v->getData());
+                  //Mage::log("* An option:");
+                  //Mage::log($v->getData());
                   $customOptionsDict[] = $v->getData();
               }
             }
@@ -326,7 +326,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
                 $configurableAttributes = $actualProduct->getTypeInstance(true)->getConfigurableAttributesAsArray($actualProduct);
               }
             } catch (Exception $e) {
-              Mage::log("Got error trying to get default color, setting to null: " . $e->getMessage());
+              //Mage::log("Got error trying to get default color, setting to null: " . $e->getMessage());
             }
 
             // In addition to Magento's "custom options", we also want to throw
@@ -343,15 +343,15 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
 
         }
 
-        Mage::log("Made 'extra_fields'");
-        Mage::log($extraFields);
+        //Mage::log("Made 'extra_fields'");
+        //Mage::log($extraFields);
         return $extraFields;
       }
 
       // Whether creating a product, updating a product, or just exporting a product,
       // this function gets called
       public function exportProductToPixlee($product, $update_stock_only = False) {
-        Mage::log("*** In exportProductToPixlee");
+        //Mage::log("*** In exportProductToPixlee");
 
         // Whether or not to export child products in addition to the parent
         $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
@@ -373,10 +373,10 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
             }
 
             $aggregateStock = $this->getAggregateStock($product);
-            Mage::log("Total stock is: {$aggregateStock}");
+            //Mage::log("Total stock is: {$aggregateStock}");
             $variantsDict = $this->getVariantsDict($product);
-            Mage::log("Variants dict is");
-            Mage::log($variantsDict);
+            //Mage::log("Variants dict is");
+            //Mage::log($variantsDict);
 
             // In case we're a visible simple product, and instead of actually having
             // 'associated products' here for 'child' products, we have 'custom options' instead
@@ -387,7 +387,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
                 // Could be more concise, but I just wanted to make it clear I'm intentionally
                 // passing through here when imagelessProducts is set to true
             } else if ($product_mediaurl == Mage::getModel('catalog/product_media_config')->getMediaUrl('')) {
-                Mage::log("PIXLEE ERROR: Could not find a valid image url for {$product->getName()}, SKU: {$product->getSku()}");
+                //Mage::log("PIXLEE ERROR: Could not find a valid image url for {$product->getName()}, SKU: {$product->getSku()}");
                 return false;
             }
             // getPrice() returns a string, need to convert to double before going to distillery
@@ -418,7 +418,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
               return false;
             }
           } catch (Exception $e) {
-            Mage::log("PIXLEE ERROR: " . $e->getMessage());
+            //Mage::log("PIXLEE ERROR: " . $e->getMessage());
             return false;
           }
 
@@ -445,7 +445,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
                 // Could be more concise, but I just wanted to make it clear I'm intentionally
                 // passing through here when imagelessProducts is set to true
             } else if ($product_mediaurl == Mage::getModel('catalog/product_media_config')->getMediaUrl('')) {
-                Mage::log("PIXLEE ERROR: Could not find a valid image url for {$product->getName()}, SKU: {$product->getSku()}");
+                //Mage::log("PIXLEE ERROR: Could not find a valid image url for {$product->getName()}, SKU: {$product->getSku()}");
                 return false;
             }
 
@@ -550,8 +550,8 @@ function shutDownFunction() {
     $error = error_get_last();
     // fatal error, E_ERROR === 1
     if ($error['type'] === E_ERROR) {
-        Mage::log("PIXLEE FATAL ERROR: ");
-        Mage::log($error);
+        //Mage::log("PIXLEE FATAL ERROR: ");
+        //Mage::log($error);
     }
 }
 register_shutdown_function('shutDownFunction');
