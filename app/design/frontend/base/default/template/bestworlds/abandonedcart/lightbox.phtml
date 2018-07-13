@@ -93,7 +93,7 @@ if (($isMobile && Mage::getStoreConfigFlag('abandonedcart/basic/enable')
                     jQuery('#pd_results').show();
 
                     setTimeout(function(){
-                        jQuery('.bw_block_page').fadeOut().remove();
+                        jQuery('.bw_block_page').hide();
                     },4000);
                 },
                 error:function(data) {
@@ -102,8 +102,8 @@ if (($isMobile && Mage::getStoreConfigFlag('abandonedcart/basic/enable')
                     jQuery('#pd_results').show();
                     jQuery('#bwemail_desktop').val('');
                     jQuery('#bwemail_mobile').val('');
-                    jQuery('.bw_box').fadeOut();
-                    jQuery('.bw_block_page').fadeOut();
+                    jQuery('.bw_box').hide();
+                    jQuery('.bw_block_page').hide();
                 }
             });
             return false;
