@@ -211,7 +211,8 @@
     padding-left: 26px;
 }
 
-.giftcard button {
+.giftcard button,
+.discount-form button {
     display: block;
 }
 
@@ -503,15 +504,18 @@ cart-login:after {
     padding-left: 0;
 }
 
-.firecheckout-index-index #checkout-giftcard-load {
+.firecheckout-index-index #checkout-giftcard-load,
+.firecheckout-index-index #checkout-coupon-discount-load {
     padding: 0 23px;
 }
 
-.firecheckout-index-index #checkout-giftcard-load .b-discount__title {
+.firecheckout-index-index #checkout-giftcard-load .b-discount__title,
+.firecheckout-index-index #checkout-coupon-discount-load .b-discount__title {
     padding: 0;
 }
 
-.firecheckout-index-index #checkout-giftcard-load .b-discount__title span {
+.firecheckout-index-index #checkout-giftcard-load .b-discount__title span,
+.firecheckout-index-index #checkout-coupon-discount-load .b-discount__title span {
     margin: 8px 0 0 0;
     font-size: 14px;
     font-weight: bold;

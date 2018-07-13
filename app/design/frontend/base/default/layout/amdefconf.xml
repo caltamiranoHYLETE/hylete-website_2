@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Defconf
+ */
+-->
+<layout version="1.0.0">
+    <catalog_product_view>
+        <reference name="head">            
+            <action method="addJs"><stylesheet>amasty/amdefconf/configurable.js</stylesheet></action>
+        </reference>
+        
+        <reference name="content">
+            <block type="amdefconf/js" name="amdefconf.js"></block>
+        </reference>
+    </catalog_product_view>
+</layout>

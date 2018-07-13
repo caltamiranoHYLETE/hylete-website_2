@@ -305,7 +305,12 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
     {
         $bind = $this->getData('action_select_bind');
         if ($bind && is_string($bind)) {
-            $bind = unserialize($bind);
+            try {
+                $bind = Mage::helper('core/unserializeArray')->unserialize($bind);
+            } catch (Exception $e) {
+                $bind = array();
+                Mage::logException(new Exception("action_select_bind must be serialized array.", 0));
+            }
         }
 
         return $bind;

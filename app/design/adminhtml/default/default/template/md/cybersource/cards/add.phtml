@@ -1,0 +1,165 @@
+<?php
+    /**
+    * Magedelight
+    * Copyright (C) 2015 Magedelight <info@magedelight.com>
+    *
+    * NOTICE OF LICENSE
+    *
+    * This program is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+    *
+    * @category MD
+    * @package MD_Cybersource
+    * @copyright Copyright (c) 2015 Mage Delight (http://www.magedelight.com/)
+    * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+    * @author Magedelight <info@magedelight.com>
+    */
+?>
+<?php $methodCode = "md_cybersource"; ?>
+<div class="entry-edit-head">
+    <h4 class="icon-head head-customer-address-list"><?php echo $this->__("Add New Credit Card") ?></h4>
+</div>
+<div class="fieldset">
+    <h4><?php echo $this->__("Contact Information") ?></h4>
+    <table class="form-list">
+        <tbody>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_firstname"><?php echo $this->__('First Name') ?><span class="required">*</span></label></td>
+                <td class="value">
+                   <input type="text" id="<?php echo $methodCode ?>_firstname" name="<?php echo $methodCode ?>[address_info][firstname]" value="" title="<?php echo $this->__('First Name') ?>" maxlength="255" class="input-text" /> 
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_lastname"><?php echo $this->__('Last Name') ?><span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" id="<?php echo $methodCode ?>_lastname" name="<?php echo $methodCode ?>[address_info][lastname]" value="" title="<?php echo $this->__('Last Name') ?>" maxlength="255" class="input-text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_company"><?php echo $this->__('Company') ?></label></td>
+                <td class="value">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][company]" id="<?php echo $methodCode ?>_company" title="<?php echo $this->__('Company') ?>" value="" class="input-text " />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_street"><?php echo $this->__('Street Address') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][street]" value="" title="<?php echo $this->__('Street Address') ?>" id="<?php echo $methodCode ?>_street" class="input-text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_city"><?php echo $this->__('City') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][city]" value="" title="<?php echo $this->__('City') ?>" class="input-text" id="<?php echo $methodCode ?>_city" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_region_id"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <select id="<?php echo $methodCode ?>_region_id" name="<?php echo $methodCode ?>[address_info][region_id]" title="<?php echo $this->__('State/Province') ?>" class="select" style="display:none;">
+                            <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $('<?php echo $methodCode ?>_region_id').setAttribute('defaultValue',  "0");
+                        //]]>
+                        </script>
+                        <input type="text" id="<?php echo $methodCode ?>_state" name="<?php echo $methodCode ?>[address_info][state]" title="<?php echo $this->__('State/Province') ?>" class="input-text" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_zip"><?php echo $this->__('Zip') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" name="<?php echo $methodCode ?>[address_info][postcode]" value="" title="<?php echo $this->__('Zip') ?>" id="<?php echo $methodCode ?>_zip" class="input-text" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_country_id"><?php echo $this->__('Country') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <?php echo $this->getCountryHtmlSelect('') ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_telephone"><?php echo $this->__('Telephone') ?><span class="required">*</span> </label></td>
+                <td class="value">
+                    <input type="tel" name="<?php echo $methodCode ?>[address_info][telephone]" value="" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="<?php echo $methodCode ?>_telephone">
+                </td>
+            </tr>            
+        </tbody>
+    </table>
+    <h4><?php echo $this->__("Credit Card Information") ?></h4>
+    <table class="form-list">
+        <tbody>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_cc_type"><?php echo $this->__('Credit Card Type') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <select id="<?php echo $methodCode ?>_cc_type" name="<?php echo $methodCode ?>[payment_info][cc_type]" class="input-text">
+                        <option value=""><?php echo $this->__('--Please Select--')?></option>
+                        <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
+                            <option value="<?php echo $_typeCode ?>"><?php echo $_typeName ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_cc_number"><?php echo $this->__('Credit Card Number') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" id="<?php echo $methodCode ?>_cc_number" name="<?php echo $methodCode ?>[payment_info][cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text" value="" autocomplete="off" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_cc_exp_month"><?php echo $this->__('Expiration Date') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <?php $_ccExpMonth = '' ?>
+                        <select id="<?php echo $methodCode ?>_cc_exp_month" name="<?php echo $methodCode ?>[payment_info][cc_exp_month]" class="select" style="width: 150px;">                    
+                        <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                            <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpMonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                        </select>
+                    <?php $_ccExpYear = ''; ?>
+                        <select id="<?php echo $methodCode ?>_cc_exp_year" name="<?php echo $methodCode ?>[payment_info][cc_exp_year]" class="select" style="width:80px;">
+                            <?php foreach ($this->getCcYears() as $k=>$v): ?>
+                                <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                            <?php endforeach ?>
+                        </select>
+                </td>
+            </tr>
+            <?php if($this->hasVerification()): ?>
+            <tr>
+                <td class="label"><label for="<?php echo $methodCode ?>_cc_cid"><?php echo $this->__('Card Verification Number') ?> <span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text" id="<?php echo $methodCode ?>_cc_cid" name="<?php echo $methodCode ?>[payment_info][cc_cid]" value=""  autocomplete="off" />
+                </td>
+            </tr>
+            <?php endif; ?>
+            <tr>
+			<td class="label"></td>
+			<td class="value">
+                                <input type="hidden" name="<?php echo $methodCode ?>[card_mode]" value="add" />
+				<button class="button" type="button" onclick="cssaveCardFromList();"><span><span><?php echo $this->__("Save") ?></span></span></button>
+				<a href="#" onclick="cseditCardFromList(0);return false;"><?php echo $this->__("Cancel") ?></a>
+			</td>
+		</tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    //var addCardForm = new VarienForm('authorizecim_add_card');
+    new RegionUpdater('<?php echo $methodCode ?>_country_id', '<?php echo $methodCode ?>_state', '<?php echo $methodCode ?>_region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, '<?php echo $methodCode ?>_zip');
+    document.observe("dom:loaded", function() {
+		$('<?php echo $methodCode ?>_region_id').removeClassName('required-entry').removeClassName('validate-select');$('<?php echo $methodCode ?>_region').removeClassName('required-entry');
+		setInterval( "$('<?php echo $methodCode ?>_region_id').removeClassName('required-entry').removeClassName('validate-select');$('<?php echo $methodCode ?>_region').removeClassName('required-entry');", 10000 );
+	});
+//]]>
+</script>
