@@ -31,7 +31,7 @@ function abCartTrackEvent(category, descev)
 }
 
 function closeLightbox(expireTime){
-    jQuery('.bw_block_page').fadeOut().remove();
+    jQuery('.bw_block_page').hide();
     if(expireTime > 0){
         var d = new Date();
         d.setTime(d.getTime()+(expireTime*1000));
@@ -70,7 +70,7 @@ function openLightBox(expireTime){
         jQuery('.bw_box').fadeIn();
 
         jQuery('.bw_box_close').click(function(){
-            jQuery('.bw_block_page').fadeOut().remove();
+            jQuery('.bw_block_page').hide();
             if(expireTime > 0){
                 var d = new Date();
                 d.setTime(d.getTime()+(expireTime*1000));
