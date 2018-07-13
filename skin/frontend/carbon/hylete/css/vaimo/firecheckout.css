@@ -191,6 +191,10 @@
 }
 
 /* Promo codes and gift cards */
+#discount-block li {
+    margin-bottom: 0;
+}
+
 #discount-block .b-discount__title {
     color: #000;
     font-size: 14px;
@@ -229,7 +233,8 @@
 }
 
 #firecheckout-form .discount .button,
-#firecheckout-form .giftcard .button {
+#firecheckout-form .giftcard .button,
+#firecheckout-form .discount-form .button {
     height: 40px;
 }
 

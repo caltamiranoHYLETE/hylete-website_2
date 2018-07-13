@@ -64,7 +64,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
                 if (!$specialFlag) {
                     $html = '<dl>';
                     foreach ($dataArray as $key => $value) {
-                        $html .= '<dt>' . $key . '</dt><dd>' . $this->escapeHtml($value) . '</dd>';
+                        $html .= '<dt>' . $this->escapeHtml($key) . '</dt><dd>' . $this->escapeHtml($value) . '</dd>';
                     }
                     $html .= '</dl>';
                 }

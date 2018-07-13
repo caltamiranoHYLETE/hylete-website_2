@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>scommerce/require_jquery.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="adminhtml/template" name="googletagmanagerpro_order_view"
+                   template="scommerce/googletagmanagerpro/order.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

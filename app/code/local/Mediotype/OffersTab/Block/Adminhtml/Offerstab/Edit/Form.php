@@ -87,6 +87,12 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 			'value' => ''
 		));
 
+        $fieldset->addField('redemption_message', 'text', array(
+            'name' => 'redemption_message',
+            'label' => $helper->__('Redemption Message'),
+            'value' => ''
+        ));
+
 		$fieldset->addField('status', 'select', array(
 			'name' => 'status',
 			'label' => $helper->__('Status'),

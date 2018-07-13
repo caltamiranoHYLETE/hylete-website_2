@@ -128,3 +128,62 @@ patching file app/locale/en_US/Mage_ImportExport.csv
 patching file lib/Zend/Mail/Transport/Sendmail.php
 
 
+2018-06-28 21:04:08 UTC | SUPEE-10752_EE_v1.14.2.4 | EE_1.14.2.4 | v1 | 0eb12f4ba3f192ec403f7b5d9badf063f211fce2 | Tue Jun 5 00:53:49 2018 +0300 | ee-1.14.2.4-dev
+patching file app/code/core/Enterprise/CatalogEvent/Block/Adminhtml/Event/Edit/Category.php
+patching file app/code/core/Enterprise/CatalogEvent/Block/Adminhtml/Event/Edit/Form.php
+patching file app/code/core/Enterprise/CatalogEvent/Block/Adminhtml/Event/Grid.php
+patching file app/code/core/Enterprise/GiftRegistry/Block/Adminhtml/Giftregistry/Edit/Attribute/Attribute.php
+patching file app/code/core/Enterprise/GiftRegistry/Model/Attribute/Processor.php
+patching file app/code/core/Enterprise/Invitation/Block/Adminhtml/Invitation/Grid.php
+patching file app/code/core/Enterprise/Logging/Block/Adminhtml/Details/Renderer/Diff.php
+patching file app/code/core/Enterprise/Reward/Block/Adminhtml/Customer/Edit/Tab/Reward/History/Grid/Column/Renderer/Reason.php
+patching file app/code/core/Enterprise/TargetRule/Model/Rule.php
+patching file app/code/core/Enterprise/TargetRule/controllers/Adminhtml/TargetruleController.php
+patching file app/code/core/Mage/Admin/Model/User.php
+patching file app/code/core/Mage/Adminhtml/Block/Catalog/Product/Composite/Fieldset/Options.php
+patching file app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Option.php
+patching file app/code/core/Mage/Adminhtml/Block/Widget/Grid/Column/Filter/Datetime.php
+patching file app/code/core/Mage/Adminhtml/Model/LayoutUpdate/Validator.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/CategoryController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/ProductController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Cms/Wysiwyg/ImagesController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Cms/WysiwygController.php
+patching file app/code/core/Mage/Adminhtml/controllers/System/StoreController.php
+patching file app/code/core/Mage/Catalog/Model/Product.php
+patching file app/code/core/Mage/Catalog/Model/Resource/Category/Tree.php
+patching file app/code/core/Mage/Checkout/Model/Api/Resource/Customer.php
+patching file app/code/core/Mage/Checkout/Model/Type/Onepage.php
+patching file app/code/core/Mage/Checkout/controllers/CartController.php
+patching file app/code/core/Mage/Log/Model/Visitor.php
+Hunk #1 succeeded at 225 (offset -27 lines).
+patching file app/code/core/Mage/Usa/Helper/Data.php
+patching file app/code/core/Mage/Usa/Model/Shipping/Carrier/Abstract/Backend/Abstract.php
+patching file app/code/core/Mage/Usa/Model/Shipping/Carrier/Ups/Backend/Freemethod.php
+patching file app/code/core/Mage/Usa/Model/Shipping/Carrier/Ups/Backend/OriginShipment.php
+patching file app/code/core/Mage/Usa/Model/Shipping/Carrier/Ups/Backend/Type.php
+patching file app/code/core/Mage/Usa/etc/system.xml
+patching file app/code/core/Zend/Filter/PregReplace.php
+patching file app/code/core/Zend/Validate/EmailAddress.php
+patching file app/design/adminhtml/default/default/template/bundle/product/edit/bundle/option.phtml
+patching file app/design/adminhtml/default/default/template/enterprise/cms/page/revision/info.phtml
+patching file app/design/adminhtml/default/default/template/system/shipping/ups.phtml
+patching file app/design/frontend/base/default/template/downloadable/catalog/product/links.phtml
+patching file app/design/frontend/base/default/template/downloadable/checkout/cart/item/default.phtml
+patching file app/design/frontend/base/default/template/downloadable/checkout/onepage/review/item.phtml
+patching file app/design/frontend/base/default/template/downloadable/sales/order/items/renderer/downloadable.phtml
+patching file app/design/frontend/enterprise/default/template/cms/hierarchy/pagination.phtml
+patching file app/design/frontend/enterprise/iphone/template/downloadable/checkout/cart/item/default.phtml
+patching file app/design/frontend/enterprise/iphone/template/downloadable/checkout/onepage/review/item.phtml
+patching file app/design/frontend/rwd/default/template/downloadable/checkout/cart/item/default.phtml
+patching file app/design/frontend/rwd/default/template/downloadable/checkout/onepage/review/item.phtml
+patching file app/design/frontend/rwd/default/template/downloadable/sales/order/items/renderer/downloadable.phtml
+patching file app/design/frontend/rwd/enterprise/template/cms/hierarchy/pagination.phtml
+patching file app/locale/en_US/Mage_Catalog.csv
+Hunk #1 succeeded at 354 (offset -1 lines).
+patching file app/locale/en_US/Mage_Usa.csv
+patching file cron.php
+Hunk #1 succeeded at 46 (offset 6 lines).
+patching file js/tiny_mce/plugins/media/.htaccess
+patching file lib/Varien/Image/Adapter/Gd2.php
+
+

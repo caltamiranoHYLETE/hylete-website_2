@@ -1,0 +1,110 @@
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$email = $customer->getEmail();
+$group_id = $customer->getGroupId();
+
+if($email == "") {
+	$encryptedData = getClean("email", "");
+	$email = base64_decode(Mage::helper('core')->decrypt($encryptedData));
+}
+
+$email_focus_products = getClean("email_focus_products", "true");
+$email_focus_promo = getClean("email_focus_promo", "true");
+$email_focus_community = getClean("email_focus_community", "true");
+$list_daily_circuit = getClean("list_daily_circuit", "true");
+$list_investors = getClean("list_investors", "true");
+$unsubscribed = getClean("unsubscribed", "false");
+
+function getClean($strVar, $defaulVal) {
+	if(empty($_GET)) {
+		return $defaulVal;
+	} else {
+		if(isset($_GET[$strVar])) {
+			return $_GET[$strVar];
+		} else {
+			return $defaulVal;
+		}
+	}
+}
+
+?>
+<style>
+    .col-main input[type=radio] {
+        width: 20px;
+    }
+
+    .response {
+
+    }
+</style>
+<script language="JavaScript">
+    function formSubmit() {
+
+        jQuery("#success").hide();
+
+        var form = document.getElementById('email_prefs');
+
+        console.log(form);
+
+        if(form.email) {
+            //zaius.entity("customer", {email: form.email.value, email_focus_products: form.email_focus_products.value, email_focus_promo: form.email_focus_promo.value, email_focus_community: form.email_focus_community.value});
+        }
+
+        if(form) {
+
+        }
+
+        return false;
+
+        jQuery("#success").show();
+
+    }
+</script>
+
+<form id="email_prefs" onSubmit="event.preventDefault(); formSubmit();">
+
+    <div class="response" id="success" style="display:none">Preferences Saved</div>
+
+    <div class="form-group">
+        <div class="form-label">
+
+            <input type="hidden" id="email" name="email" value="<?php echo $email ?>">
+
+            <label for="email_focus_products"><b>Would you like to receive product emails? (launches and restocks)</b></label><br />
+            <input id="email_focus_products" name="EmailFocusProducts" type="radio" value="true" <?php if($email_focus_products == "true") { echo "checked"; } ?>>Yes
+            <input id="email_focus_products" name="EmailFocusProducts" type="radio" value="false" <?php if($email_focus_products == "false") { echo "checked"; } ?>>No
+            <br /><br />
+
+            <label for="email_focus_promo"><b>Would you like to receive promotional emails? (special offers and clearance)</b></label><br />
+            <input id="email_focus_promo" name="EmailFocusPromo" type="radio" value="true" <?php if($email_focus_promo == "true") { echo "checked"; } ?>>Yes
+            <input id="email_focus_promo" name="EmailFocusPromo" type="radio" value="false" <?php if($email_focus_promo == "false") { echo "checked"; } ?>>No
+            <br /><br />
+
+            <label for="email_focus_community"><b>Would you like to recieve community emails? (community content and special events) </b></label><br />
+            <input id="email_focus_community" name="EmailFocusCommunity" type="radio" value="true" <?php if($email_focus_community == "true") { echo "checked"; } ?>>Yes
+            <input id="email_focus_community" name="EmailFocusCommunity" type="radio" value="false" <?php if($email_focus_community == "false") { echo "checked"; } ?>>No
+            <br /><br />
+
+            <label for="email_focus_dailycircuit"><b>Would you like to receive HYLETE Daily Circuit App emails?</b></label><br />
+            <input id="email_focus_dailycircuit" name="$list:MSE4T4" type="radio" value="true" <?php if($list_daily_circuit == "true") { echo "checked"; } ?>>Yes
+            <input id="email_focus_dailycircuit" name="$list:MSE4T4" type="radio" value="false" <?php if($list_daily_circuit == "false") { echo "checked"; } ?>>No
+            <br /><br />
+
+            <?php if($group_id != "27") { ?>
+            <label for="list_investors"><b>Would you like to receive HYLETE Investor emails?</b></label><br />
+            <input id="list_investors" name="list_investors" type="radio" value="true" <?php if($list_investors == "true") { echo "checked"; } ?>>Yes
+            <input id="list_investors" name="list_investors" type="radio" value="false" <?php if($list_investors == "false") { echo "checked"; } ?>>No
+            <br /><br />
+            <?php } ?>
+
+            <label for="list_unsubscribe"><b>I would like to unsubscribe from all HYLETE emails.</b></label><br />
+            <input id="list_unsubscribe" name="EmailUnsubscribe" type="radio" value="unsubscribe" <?php if($unsubscribed == "true") { echo "checked"; } ?>>Yes
+            <input id="list_unsubscribe" name="EmailUnsubscribe" type="radio" value="unsubscribe" <?php if($unsubscribed == "false") { echo "checked"; } ?>>No
+
+        </div>
+    </div>
+    <br/><br/>
+    <input type="submit" class="btn btn-primary" value="Save Preferences">
+    <p>Please note, if you choose to unsubscribe from the HYLETE newsletter you will still receive updates via email regarding your purchases, shipment tracking and your HYLETE points.</p>
+
+</form>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="md_cybersource" ifconfig="payment/md_cybersource/active" ><name>md_cybersource_saved_cards</name><path>md_cybersource/cards/list/</path><label>Cybersource(My Saved Card)</label></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </customer_account>
+    <md_cybersource_cards_list>
+        <label>Customer Saved Cards</label>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="setTitle" translate="title"><title>Customer Saved Cards</title></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="md_cybersource/customer_cards_list" name="md.cybersource.cards.list" />
+        </reference>
+    </md_cybersource_cards_list>
+    <md_cybersource_cards_edit>
+        <label>Customer Saved Card View Page</label>
+        <update handle="customer_account"/>
+        <reference name="head"> 
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="md_cybersource/customer_cards_edit" name="md.cybersource.cards.edit" />
+        </reference>
+    </md_cybersource_cards_edit>
+    <md_cybersource_cards_add>
+        <label>Customer Saved Card Add Page</label>
+        <update handle="customer_account"/>
+        <reference name="head"> 
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="md_cybersource/customer_cards_add" name="md.cybersource.cards.add" />
+        </reference>
+    </md_cybersource_cards_add>
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_multishipping_overview>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </checkout_multishipping_overview>
+
+    <checkout_multishipping_billing>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>md/cardvalid.js</name>
+            </action>
+        </reference>
+    </checkout_multishipping_billing>
+
+
+
+</layout>

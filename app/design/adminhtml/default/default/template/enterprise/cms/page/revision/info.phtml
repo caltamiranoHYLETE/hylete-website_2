@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <th><span class="nobr"><?php echo $this->__('Author:') ?></span></th>
-            <td><?php echo $this->getAuthor() ?></td>
+            <td><?php echo $this->escapeHtml($this->getAuthor()); ?></td>
         </tr>
         <tr>
             <th><span class="nobr"><?php echo $this->__('Created:') ?></span></th>

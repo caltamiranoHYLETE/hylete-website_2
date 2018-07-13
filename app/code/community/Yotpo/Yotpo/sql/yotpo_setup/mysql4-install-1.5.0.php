@@ -29,11 +29,11 @@ foreach (Mage::app()->getStores() as $store) {
 
 if ($shouldShowNotification) {
     Mage::helper('yotpo/Utils')->createAdminNotification
-    (
-        "Please visit the Yotpo extension page in your system configuration store settings page and finish the installation.",
-        "In order to start generating reviews with Yotpo, you'll need to finish the installation process",
-        "http://support.yotpo.com/entries/24858236-Configuring-Yotpo-after-installation?utm_source=customers_magento_admin&utm_medium=pop_up&utm_campaign=magento_not_installed_pop_up"
-    );
+        (
+            "Please visit the Yotpo extension page in your system configuration store settings page and finish the installation.",
+            "In order to start generating reviews with Yotpo, you'll need to finish the installation process",
+            "http://support.yotpo.com/entries/24858236-Configuring-Yotpo-after-installation?utm_source=customers_magento_admin&utm_medium=pop_up&utm_campaign=magento_not_installed_pop_up"
+        );
 }
 
 $installer->endSetup();
