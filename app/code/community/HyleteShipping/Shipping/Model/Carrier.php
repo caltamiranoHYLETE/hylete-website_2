@@ -120,7 +120,7 @@ class HyleteShipping_Shipping_Model_Carrier
 		return $this;
 	}
 
-	//This parse the reponse from the webservice
+	//This parses the response from the webservice
 	protected function _parseJson($response)
 	{
 		$result = Mage::getModel('shipping/rate_result');
@@ -137,6 +137,7 @@ class HyleteShipping_Shipping_Model_Carrier
 					$rate->setMethodTitle($returnRate["MethodTitle"]);
 					$rate->setCost($returnRate["Cost"]);
 					$rate->setPrice($returnRate["Price"]);
+					$rate->setMethodDescription($returnRate["EstDeliveryDate"]);
 
 					$result->append($rate);
 				}
@@ -149,6 +150,7 @@ class HyleteShipping_Shipping_Model_Carrier
 				$rate->setMethodTitle("USPS Priority");
 				$rate->setCost("5.99");
 				$rate->setPrice("5.99");
+				$rate->setMethodDescription("");
 
 				Mage::log($e->getMessage(), null, 'hylete-shipping-error.log', true);
 				Mage::log($response, null, 'hylete-shipping-error.log', true);
