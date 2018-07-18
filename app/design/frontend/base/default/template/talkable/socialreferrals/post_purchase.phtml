@@ -19,10 +19,10 @@
     <?php else: ?>
         <?php if ($_order = $this->getCheckoutOrder()): ?>
             <script type="text/javascript">
-            //<![CDATA[
+
               <?php $_event_data = $_helper->getPurchaseData($_order) ?>
               _talkableq.push(["register_purchase", <?php echo Mage::helper("core")->jsonEncode($_event_data) ?>]);
-            //]]>
+
             </script>
         <?php else: ?>
             <!-- Order could not be found -->
