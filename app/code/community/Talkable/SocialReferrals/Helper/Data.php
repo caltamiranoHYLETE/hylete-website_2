@@ -97,6 +97,7 @@ class Talkable_SocialReferrals_Helper_Data extends Mage_Core_Helper_Abstract
                 "first_name"   => $order->getCustomerFirstname(),
                 "last_name"    => $order->getCustomerLastname(),
                 "customer_id"  => $order->getCustomerId(),
+				"custom_properties"  => array("group_id" => $order->getCustomerGroupId()),
             ),
             "purchase" => array_merge($shippingInfo, array(
                 "order_number" => $order->getIncrementId(),
@@ -130,6 +131,7 @@ class Talkable_SocialReferrals_Helper_Data extends Mage_Core_Helper_Abstract
                 "first_name"  => $customer->getFirstname(),
                 "last_name"   => $customer->getLastname(),
                 "customer_id" => $customer->getId(),
+				"custom_properties"  => array("group_id" => $customer->getGroupId()),
             );
         } else {
             return new stdClass();
