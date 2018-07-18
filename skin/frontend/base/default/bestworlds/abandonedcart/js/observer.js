@@ -12,6 +12,9 @@ jQuery(function() {
                     }
                 }
             });
+            if(Mage.Cookies.get('bw_lightbox_off')){
+        	showPrompt= false;
+            }
             if(showPrompt){
                 openLightBox(expireTime);
             }

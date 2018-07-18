@@ -94,7 +94,9 @@ class Bestworlds_AbandonedCart_MainController extends Mage_Core_Controller_Front
             $quote->setData('email_captured_from', $type);
             $quote->save();
             $observer = Mage::getModel('abandonedcart/observer');
-            $observer->sendKlaviyoTrack($quote);
+            if($quote->getData('email_captured_from') == Bestworlds_AbandonedCart_Model_Capturetypes::ADD2CARTPROMPT) {
+                $observer->sendKlaviyoTrack($quote);
+            }
         }
         return true;
     }
