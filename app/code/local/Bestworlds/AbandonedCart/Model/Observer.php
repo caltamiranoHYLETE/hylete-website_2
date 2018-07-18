@@ -116,6 +116,7 @@ class Bestworlds_AbandonedCart_Model_Observer
             $properties = array(
                 '$event_id'     => $quote_id,
                 'email'         => $quote->getCustomerEmail(),
+                'captured_type' => $quote->getData('email_captured_from'),
                 'checkout_url'  => $checkout_url,
                 '$value'        => (float) $quote->getGrandTotal(),
                 'Items'         => $item_descriptions,
