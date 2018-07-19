@@ -46,14 +46,22 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
                 $groups = array();
+                $attribute_groups = Mage::getSingleton('enterprise_giftregistry/attribute_config')
+                    ->getAttributeGroups();
                 foreach ($data as $attributes) {
                     foreach ($attributes as $attribute) {
-                        if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
-                            $group = self::XML_REGISTRANT_NODE;
+                        if (array_key_exists($attribute['group'], $attribute_groups)) {
+                            if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
+                                $group = self::XML_REGISTRANT_NODE;
+                            } else {
+                                $group = self::XML_REGISTRY_NODE;
+                            }
+                            $groups[$group][$attribute['code']] = $attribute;
                         } else {
-                            $group = self::XML_REGISTRY_NODE;
+                            Mage::throwException(
+                                Mage::helper('enterprise_giftregistry')->__('Failed to save gift registry.')
+                            );
                         }
-                        $groups[$group][$attribute['code']] = $attribute;
                     }
                 }
                 foreach ($groups as $group => $attributes) {

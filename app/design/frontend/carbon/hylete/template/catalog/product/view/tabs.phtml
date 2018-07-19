@@ -2,6 +2,15 @@
 <?php $_helper = Mage::helper('hylete'); ?>
 
 <ul class="tabs">
+	<?php foreach ($_helper->getProductTabsCmsBlocks($_product) as $_block): ?>
+		<?php if(substr($_block->getIdentifier(), 0, 17)  == 'product_cms_video') { ?>
+        <li>
+            <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">watch video<span class="fa fa-plus"></a>
+            <div data-togglecontent="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">
+				<?php echo $_block->getContent(); ?>
+            </div>
+        </li>
+	<?php } endforeach; ?>
     <li>
         <a data-togglelink="details" data-togglegroup="tabs"><?php echo $this->__('details'); ?> <span class="fa fa-plus"></a>
         <div data-togglecontent="details" data-togglegroup="tabs">
@@ -15,12 +24,12 @@
         </div>
     </li>
     <?php foreach ($_helper->getProductTabsCmsBlocks($_product) as $_block): ?>
-        <?php /** @var Mage_Cms_Model_Block $_block */ ?>
+	    <?php if(substr($_block->getIdentifier(), 0, 17) != 'product_cms_video') { ?>
         <li>
             <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs"><?php echo $_block->getTitle(); ?> <span class="fa fa-plus"></a>
             <div data-togglecontent="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">
                 <?php echo $_block->getContent(); ?>
             </div>
         </li>
-    <?php endforeach; ?>
+    <?php  } endforeach; ?>
 </ul>

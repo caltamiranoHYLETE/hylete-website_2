@@ -1,0 +1,78 @@
+<?php
+    /**
+    * Magedelight
+    * Copyright (C) 2015 Magedelight <info@magedelight.com>
+    *
+    * NOTICE OF LICENSE
+    *
+    * This program is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+    *
+    * @category MD
+    * @package MD_Cybersource
+    * @copyright Copyright (c) 2015 Mage Delight (http://www.magedelight.com/)
+    * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+    * @author Magedelight <info@magedelight.com>
+    */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $helper = Mage::helper("md_cybersource"); ?>
+<?php $cards = $this->getCustomerCards() ?>
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__("My Saved Credit Cards") ?></h1>
+    <button type="button" title="<?php echo $this->__("Add New Card") ?>" class="button" onclick="window.location='<?php echo $this->getAddCardUrl() ?>';"><span><span><?php echo $this->__("Add New Card") ?></span></span></button>
+</div>
+<?php if(count($cards) > 0): ?>
+    <table class="data-table cards" id="my-saved-cards-table">
+        <col />
+        <col />
+        <col width="1"/>
+        <thead>
+            <tr>
+                <th class="a-left view"><?php echo $this->__('Card #') ?></th>
+                <th class="a-left view"><?php echo $this->__('Card Info') ?></th>
+                <th class="a-center view"><?php echo $this->__('Action') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $_odd = ''; ?>
+            <?php foreach ($cards as $_card): ?>
+                <?php $addressHtml = $helper->getFormatedAddress($_card) ?>
+                <tr>
+                    <td class="a-left view"><strong><?php echo "XXXX-". $_card['cc_last4']?></strong></td>
+                    <td class="a-left view"><?php echo $addressHtml ?></td>
+                    <td class="a-center view">
+                        <span class="nobr">
+                            <?php if( $_card->paymentUsed == 1 ): ?>
+                                <strong>[<?php echo $this->__('In Use') ?>]</strong>
+                                <?php else: ?>
+                                <form method="post" name="form_edit_<?php echo $_card['card_id'] ?>" action="<?php echo $this->getPostUrl() ?>" style="display:inline-block;">
+                                    <input type="hidden" name="card_id" value="<?php echo $_card['card_id'] ?>" />
+                                    <button class="button" name="profile_edit" value="edit" type="submit"><span><span><?php echo $this->__("Edit") ?></span></span></button>
+                                </form>    
+                                <span class="separator">&nbsp;|&nbsp;</span>
+                                <form onsubmit="return confirm('Are you sure want to delete credit card details?');" method="post" id="form_delete_<?php echo $_card['card_id'] ?>" name="form_delete_<?php echo $_card['card_id'] ?>" action="<?php echo $this->getDeleteAction() ?>" style="display:inline-block;">
+                                    <input type="hidden" name="card_id" value="<?php echo $_card['card_id'] ?>" />
+                                    <button class="button" name="profile_delete" value="delete" type="submit"><span><span><?php echo $this->__("Delete") ?></span></span></button>
+                                </form> 
+                                <?php endif; ?>
+                        </span>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-saved-cards-table');</script>
+    <?php else: ?>
+    <p><?php echo $this->__('You do not have any saved credit cards.'); ?></p>
+    <?php endif; ?>

@@ -8,7 +8,7 @@ $installer->run("
       `rich_snippet_id` int(11) NOT NULL auto_increment,
       `product_id` int(11) NOT NULL,
       `store_id` int(11) NOT NULL,
-      `average_score` int(11) NOT NULL,
+      `average_score` float(11) NOT NULL,
       `reviews_count` int(11) NOT NULL,
       `expiration_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
       PRIMARY KEY  (`rich_snippet_id`)
@@ -30,17 +30,16 @@ foreach (Mage::app()->getStores() as $store) {
 
 #handle single store magento site
 if (!Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', Mage::app()->getStore())) {
-    $shouldShowNotification = true;
+  $shouldShowNotification = true;
 }
 
 if ($shouldShowNotification) {
     Mage::helper('yotpo/Utils')->createAdminNotification
-    (
-        "Please visit the Yotpo extension page in your system configuration store settings page and finish the installation.",
-        "In order to start generating reviews with Yotpo, you'll need to finish the installation process",
-        "http://support.yotpo.com/entries/24858236-Configuring-Yotpo-after-installation?utm_source=customers_magento_admin&utm_medium=pop_up&utm_campaign=magento_not_installed_pop_up"
-    );
+        (
+            "Please visit the Yotpo extension page in your system configuration store settings page and finish the installation.",
+            "In order to start generating reviews with Yotpo, you'll need to finish the installation process",
+            "http://support.yotpo.com/entries/24858236-Configuring-Yotpo-after-installation?utm_source=customers_magento_admin&utm_medium=pop_up&utm_campaign=magento_not_installed_pop_up"
+        );
 }
 
 $installer->endSetup();
-?>

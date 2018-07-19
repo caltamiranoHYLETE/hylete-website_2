@@ -272,6 +272,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             $value['code'] = $code;
             $value['id'] = $innerId;
             $value['prefix'] = $this->getFieldPrefix();
+            $value['group'] = $this->escapeHtml($value['group']);
 
             if ($this->getType()->getStoreId() != '0') {
                 $value['checkbox_scope'] = $this->getCheckboxScopeHtml($innerId, 'label', !isset($value['default_label']));
