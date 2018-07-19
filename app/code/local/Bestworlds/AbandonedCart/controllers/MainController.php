@@ -69,7 +69,7 @@ class Bestworlds_AbandonedCart_MainController extends Mage_Core_Controller_Front
                     break;
                 case 'add2cart':
                     //REGISTER EMAIL CAPTURED FROM ADD TO CART PROMPT
-                    if($quote->getId() && !$quote->getCustomerEmail()){
+                    if($quote->getEntityId()){
                         $this->_updateQuote($quote, $email, Bestworlds_AbandonedCart_Model_Capturetypes::ADD2CARTPROMPT);
                     }else{
                         //add session to indicate that we recover this email via add2cart prompt, in case the quote doesn't exist yet
