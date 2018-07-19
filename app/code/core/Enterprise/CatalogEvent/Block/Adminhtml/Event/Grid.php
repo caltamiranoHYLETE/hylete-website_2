@@ -82,7 +82,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         $this->addColumn('category', array(
             'header' => Mage::helper('enterprise_catalogevent')->__('Category'),
             'index' => 'category_name',
-            'type'  => 'text'
+            'type'  => 'text',
+            'escape' => true
         ));
 
         $this->addColumn('date_start', array(

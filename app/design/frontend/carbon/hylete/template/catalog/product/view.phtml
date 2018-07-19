@@ -70,7 +70,7 @@ $_backitHelper->setProduct($_product);
 
 			<?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
 				<?php if ($_product->isSaleable()) : ?>
-				<?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+                <?php echo $this->getPriceHtml($_product, true); ?>
 				<?php else : ?>
                 <p class="status-message">
 					<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>

@@ -57,11 +57,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         // getSessionSaveMethod has to return correct version of handler in any case
         $moduleName = $this->getSessionSaveMethod();
-
-        if ($moduleName != 'redis') {
-            Icommerce_Default::logAppendBT('::start -- session handler is not redis', 'var/log/check.log');
-        }
-
         switch ($moduleName) {
             /**
              * backward compatibility with db argument (option is @deprecated after 1.12.0.2)
@@ -71,10 +66,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 /* @var $sessionResource Mage_Core_Model_Resource_Session */
                 $sessionResource = Mage::getResourceSingleton('core/session');
                 $sessionResource->setSaveHandler();
-                break;
-            case 'redis':
-                ini_set('session.save_handler', 'redis');
-                session_save_path($this->getSessionSavePath());
                 break;
             case 'user':
                 // getSessionSavePath represents static function for custom session handler setup
@@ -340,7 +331,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      */
     public function getSessionSaveMethod()
     {
-        Icommerce_Default::logAppendBT('Abstract_Varien::getSessionSaveMethod', 'var/log/check.log');
         return 'files';
     }
 

@@ -538,22 +538,9 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionSaveMethod()
     {
-        $isInstalled = Mage::isInstalled();
-
-        if ($isInstalled) {
-            $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE);
-            if ((string)$sessionSave != 'redis') {
-                Icommerce_Default::logAppend("Configuration value: " . (string)$sessionSave, 'var/log/check.log');
-            }
-            if ($sessionSave) {
-                return $sessionSave;
-            } else {
-                Icommerce_Default::logAppendBT('::getSessionSaveMethod -- sessionSave value is empty', 'var/log/check.log');
-            }
-        } else {
-            Icommerce_Default::logAppendBT('::getSessionSaveMethod -- isInstalled check failed', 'var/log/check.log');
+        if (Mage::isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+            return $sessionSave;
         }
-
         return parent::getSessionSaveMethod();
     }
 
@@ -564,19 +551,9 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionSavePath()
     {
-        $isInstalled = Mage::isInstalled();
-
-        if ($isInstalled) {
-            $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH);
-            if ($sessionSavePath) {
-                return $sessionSavePath;
-            } else {
-                Icommerce_Default::logAppendBT('::getSessionSavePath -- sessionSavePath value is empty', 'var/log/check.log');
-            }
-        } else {
-            Icommerce_Default::logAppendBT('::getSessionSavePath -- isInstalled check failed', 'var/log/check.log');
+        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+            return $sessionSavePath;
         }
-
         return parent::getSessionSavePath();
     }
 

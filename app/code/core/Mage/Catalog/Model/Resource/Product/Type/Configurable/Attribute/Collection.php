@@ -128,11 +128,9 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
         Varien_Profiler::start('TTT3:'.__METHOD__);
         $this->_loadLabels();
         Varien_Profiler::stop('TTT3:'.__METHOD__);
-        if (!isset($_SESSION['ignore_prices'])) {
-            Varien_Profiler::start('TTT4:'.__METHOD__);
-            $this->_loadPrices();
-            Varien_Profiler::stop('TTT4:'.__METHOD__);
-        }
+        Varien_Profiler::start('TTT4:'.__METHOD__);
+        $this->_loadPrices();
+        Varien_Profiler::stop('TTT4:'.__METHOD__);
         return $this;
     }
 

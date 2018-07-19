@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+		<reference name="head">
+            <action method="addJs" ifconfig="scommerce_googletagmanagerpro/options/enhanced_ecommerce">
+				<script>scommerce/require_jquery.js</script>
+				<params><![CDATA[data-group="js001"]]></params>
+			</action>
+			<action method="addJs" ifconfig="scommerce_googletagmanagerpro/options/enhanced_ecommerce">
+				<script>scommerce/gtmpromotion.js</script>
+				<params><![CDATA[data-group="js001"]]></params>
+			</action>
+			<block type="scommerce_googletagmanagerpro/script" name="scommerce.googletagmanagerpro" as="scommerce.googletagmanagerpro">
+				<action method="setPageType"><type>other</type></action>
+			</block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		
+		<reference name="after_body_start">
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_ns" template="scommerce/googletagmanagerpro/gtmns.phtml" />
+        </reference>
+		
+    </default>
+	
+	<catalog_category_default>
+        <remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/list" name="googletagmanagerpro_list"
+                   template="scommerce/googletagmanagerpro/list.phtml">
+                <action method="setMode">
+                    <mode>category</mode>
+                </action>
+            </block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>category</type></action>
+		</reference>
+		
+    </catalog_category_default>
+
+    <catalog_category_layered>
+		<remove name="gtm_tracking" />
+        <reference name="head">
+            <block type="scommerce_googletagmanagerpro/list" name="googletagmanagerpro_list"
+                   template="scommerce/googletagmanagerpro/list.phtml">
+                <action method="setMode">
+                    <mode>category</mode>
+                </action>
+            </block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>category</type></action>
+		</reference>
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/list" name="googletagmanagerpro_list"
+                   template="scommerce/googletagmanagerpro/list.phtml">
+                <action method="setMode">
+                    <mode>search</mode>
+                </action>
+            </block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>searchresults</type></action>
+		</reference>
+    </catalogsearch_result_index>
+	
+    <catalogsearch_advanced_result>
+		<remove name="gtm_tracking" />
+        <reference name="head">
+            <block type="scommerce_googletagmanagerpro/list" name="googletagmanagerpro_list"
+                   template="scommerce/googletagmanagerpro/list.phtml">
+                <action method="setMode">
+                    <mode>search</mode>
+                </action>
+            </block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>searchresults</type></action>
+		</reference>
+    </catalogsearch_advanced_result>
+	
+	<catalog_product_view>
+        <remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/view" name="googletagmanagerpro_view"
+                   template="scommerce/googletagmanagerpro/view.phtml">
+            </block>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>product</type></action>
+			<action method="setUseProductData"><bool>1</bool></action>
+		</reference>
+    </catalog_product_view>
+	
+	<!--Magento standard one page checkout-->
+	<checkout_onepage_index>
+		<remove name="gtm_tracking" />
+        <reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepage"
+                   template="scommerce/googletagmanagerpro/checkout/onepage.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </checkout_onepage_index>
+	
+	<!--Go Mage one page checkout-->
+	<gomage_checkout_onepage_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </gomage_checkout_onepage_index>
+	
+	<!--Mage solution one step checkout-->
+	<oscheckout_index_index>
+		<remove name="gtm_tracking" />
+	    <reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </oscheckout_index_index>
+	
+	<!--Magestore one step checkout-->
+	<onestepcheckout_index_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+	</onestepcheckout_index_index>
+
+	<!--IWD one page checkout-->
+	<onepagecheckout_index_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+	</onepagecheckout_index_index>
+	
+	<!--Firecheckout one page checkout-->
+	<firecheckout_index_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+	</firecheckout_index_index>
+	
+	<!--One step checkout-->
+	<checkout_onestep_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </checkout_onestep_index>
+	
+	<!--IWD new version one page checkout-->
+	<opc_index_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </opc_index_index>
+	
+	<!--AW one step checkout-->
+	<aw_onestepcheckout_index_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </aw_onestepcheckout_index_index>
+	
+	<!--Anattadesign Awesome checkout-->
+	<anattadesign_awesomecheckout_onepage_index>
+		<remove name="gtm_tracking" />
+		<reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_onepage" name="googletagmanagerpro_checkout_onepagecheckout"
+                   template="scommerce/googletagmanagerpro/checkout/onepagecheckout.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+    </anattadesign_awesomecheckout_onepage_index>
+	
+    <checkout_onepage_success>
+		<remove name="gtm_tracking" />
+        <reference name="head">
+            <block type="scommerce_googletagmanagerpro/checkout_success" name="googletagmanagerpro_checkout_success"
+                   template="scommerce/googletagmanagerpro/checkout/success.phtml"/>
+			<block type="scommerce_googletagmanagerpro/gtm" name="gtm_tracking_other" template="scommerce/googletagmanagerpro/gtm.phtml" after="-"/>
+        </reference>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>purchase</type></action>
+			<action method="setUseProductData"><bool>1</bool></action>
+		</reference>
+    </checkout_onepage_success>
+		
+	<!-- Conversion code for homepage -->
+	<cms_index_index>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>home</type></action>
+		</reference>
+	</cms_index_index>
+	
+	<!-- Conversion code for cart page -->
+	<checkout_cart_index>
+		<reference name="scommerce.googletagmanagerpro">
+			<action method="setPageType"><type>cart</type></action>
+			<action method="setUseProductData"><bool>1</bool></action>
+		</reference>
+	</checkout_cart_index>
+</layout>
