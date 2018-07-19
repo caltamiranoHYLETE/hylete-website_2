@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <TroopID_Connect>
+            <version>0.4.0</version>
+        </TroopID_Connect>
+    </modules>
+
+    <frontend>
+        <routers>
+            <troopid_connect>
+                <use>standard</use>
+                <args>
+                    <module>TroopID_Connect</module>
+                    <frontName>troopid</frontName>
+                </args>
+            </troopid_connect>
+        </routers>
+
+        <layout>
+            <updates>
+                <troopid_connect>
+                    <file>troopid_connect.xml</file>
+                </troopid_connect>
+            </updates>
+        </layout>
+
+        <events>
+            <checkout_cart_save_before>
+                <observers>
+                    <troopid_connect>
+                        <model>troopid_connect/cart_observer</model>
+                        <method>clearAffiliation</method>
+                    </troopid_connect>
+                </observers>
+            </checkout_cart_save_before>
+        </events>
+    </frontend>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <troopid_connect>
+                    <file>troopid_connect.xml</file>
+                </troopid_connect>
+            </updates>
+        </layout>
+
+        <events>
+            <salesrule_rule_condition_combine>
+                <observers>
+                    <troopid_connect>
+                        <model>troopid_connect/rule_observer</model>
+                        <method>addCondition</method>
+                    </troopid_connect>
+                </observers>
+            </salesrule_rule_condition_combine>
+
+            <sales_order_grid_collection_load_before>
+                <observers>
+                    <troopid_connect>
+                        <model>troopid_connect/order_observer</model>
+                        <method>addCollection</method>
+                    </troopid_connect>
+                </observers>
+            </sales_order_grid_collection_load_before>
+
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <troopid_connect>
+                        <model>troopid_connect/order_observer</model>
+                        <method>addColumn</method>
+                    </troopid_connect>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+    </adminhtml>
+
+    <global>
+        <fieldsets>
+            <sales_convert_quote>
+                <troopid_affiliation>
+                    <to_order>*</to_order>
+                </troopid_affiliation>
+                <troopid_uid>
+                    <to_order>*</to_order>
+                </troopid_uid>
+                <troopid_scope>
+                    <to_order>*</to_order>
+                </troopid_scope>
+            </sales_convert_quote>
+        </fieldsets>
+
+        <models>
+            <troopid_connect>
+                <class>TroopID_Connect_Model</class>
+            </troopid_connect>
+        </models>
+
+        <blocks>
+            <troopid_connect>
+                <class>TroopID_Connect_Block</class>
+            </troopid_connect>
+        </blocks>
+
+        <helpers>
+            <troopid_connect>
+                <class>TroopID_Connect_Helper</class>
+            </troopid_connect>
+        </helpers>
+
+        <resources>
+            <troopid_connect_setup>
+                <setup>
+                    <module>TroopID_Connect</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </troopid_connect_setup>
+
+            <troopid_connect_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </troopid_connect_write>
+
+            <troopid_connect_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </troopid_connect_read>
+        </resources>
+    </global>
+
+    <default>
+        <troopid_connect>
+            <settings>
+                <enabled>1</enabled>
+                <enable_military>1</enable_military>
+                <enable_student>1</enable_student>
+                <enable_responder>1</enable_responder>
+                <enable_teachers>1</enable_teachers>
+                <about><![CDATA[
+<p>You can receive discounts, cashback and many more exclusive offers while shopping online by verifying your eligibility with ID.me. Different retailers offer different opportunities &ndash; just for being you. You can find this offer and everything else at ID.me</p>
+<p><strong>Who Is Eligible?</strong><br>ID.me offers discounts and special offers for the military, first responders, students and many more communities. Sign up now to discover exclusive and unique offers.</p>
+<p><strong>How Do I Verify?</strong><br>You can verify by clicking on the appropriate ID.me button on the Checkout page. Simply follow the prompts and the steps provided in order to verify. You can also sign up by visiting ID.me.</p>
+<p><strong>What Happens When I Verify My Status? </strong><br>Once your credential is verified, you will immediately receive your offer. You are also now able to visit the <a target="_blank" href="https://www.id.me/"><strong>ID.me Marketplace</strong></a> where you can login to find discounts and offers specially curated for you.</p>
+<p><strong>Can I Provide My Discount To Non-Eligible Friends?</strong><br>No, this program is only for eligible members. ID.me employs technology that can detect fraudulent use across accounts and reserves the right to revoke access/membership from anyone abusing the terms of usage.</p>
+<p><strong>Does Signing Up For ID.me Mean I'll Start Receiving Newsletters And Promotions From ID.me? </strong><br> No, you may receive a message inviting you to opt in to relevant communications, but you are not required or automatically signed up for these newsletters. You will receive a single confirmation email that requires action to confirm your account set-up, but that is only to complete the account set-up process. For more information on ID.me's Privacy Policy, <a target="_blank" href="https://www.id.me/privacy-policy"><strong>click here</strong></a>.</p>
+<p><strong>Where Can I Learn More About ID.me?</strong><br>To learn more about the offers and benefits of ID.me, or for company information, please visit <a target="_blank" href="https://www.id.me/"><strong>ID.me</strong></a>, our <a target="_blank" href="https://www.id.me/faq"><strong>FAQ page</strong></a>, or our <a target="_blank" href="https://www.id.me/about-us"><strong>About page</strong></a>.</p>
+<p><strong>Having Trouble?</strong><br>ID.me is standing by to assist you with account verification 24 hours a day. For assistance call 1-866-775-IDME or email help@id.me.</p>
+]]>
+                </about>
+            </settings>
+        </troopid_connect>
+    </default>
+</config>
