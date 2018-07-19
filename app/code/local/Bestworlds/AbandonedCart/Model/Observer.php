@@ -48,8 +48,9 @@ class Bestworlds_AbandonedCart_Model_Observer
         $params = Mage::app()->getRequest()->getParams();
         if (!$params) return false;
         if (isset($params['type'])) {
-            if ( $params['type']==Bestworlds_AbandonedCart_Model_Capturetypes::DURING_CHECKOUT ||
-                $params['type']==Bestworlds_AbandonedCart_Model_Capturetypes::LOGGED_IN) {
+            if ( $params['type']=='checkout' ||
+                 $params['type']=='add2cart'
+             ) {
                 return false;
             }
         }
