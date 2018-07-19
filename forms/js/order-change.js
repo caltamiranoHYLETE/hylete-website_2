@@ -147,10 +147,10 @@ jQuery( document ).ready(function() {
                             jQuery('#changeForm').fadeIn('500');
 
                         } else{
-                            html += "<ul><li class='passed-date'>It looks like this order has been processed for shipment or already shipped. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you have any questions.</li></ul>";
+                            html += "<ul><li class='passed-date'>It looks like this order has been processed for shipment or has already been shipped. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a>, or the live chat (if available), to help you with your order.</li></ul>";
                         }
                     } else{
-                        html += "<ul><li class='passed-date'>We couldn't find an order with the number you provided. Please try again. If you are still having a problem, please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you have any questions.</li></ul>";
+                        html += "<ul><li class='passed-date'>We couldn't find an order with the number you provided. Please try again. If you are still having a problem, please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a>, or the live chat (if available), to help you with your order.</li></ul>";
                     }
 
                     jQuery('#resultShow').html(html).fadeIn('500');
