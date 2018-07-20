@@ -1,23 +1,24 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Product_View_Options_Type_Select extends Mage_Catalog_Block_Product_View_Options_Type_Select {
+class MagicToolbox_MagicZoomPlus_Block_Product_View_Options_Type_Select extends Mage_Catalog_Block_Product_View_Options_Type_Select
+{
 
-    public function getValuesHtml() {
-
+    public function getValuesHtml()
+    {
         $helper = Mage::helper('magiczoomplus/settings');
         $tool = $helper->loadTool('product');
-        if(!$tool->params->checkValue('enable-effect', 'No')) {
+        if (!$tool->params->checkValue('enable-effect', 'No')) {
             $option = $this->getOption();
             $optionType = $option->getType();
-            if($optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
+            if ($optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $eventType = 'onchange';
-            } elseif($optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO) {
+            } elseif ($optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO) {
                 $eventType = 'onclick';
             } else {
                 return parent::getValuesHtml();
             }
             $optionsArray = array();
-            foreach($option->getValues() as $value) {
+            foreach ($option->getValues() as $value) {
                 $optionsArray[$value->getOptionTypeId()] = strtolower(trim($value->getTitle()));
             }
             $optionTitle = strtolower(trim($option->getTitle()));
@@ -32,5 +33,4 @@ class MagicToolbox_MagicZoomPlus_Block_Product_View_Options_Type_Select extends 
         return parent::getValuesHtml();
 
     }
-
 }

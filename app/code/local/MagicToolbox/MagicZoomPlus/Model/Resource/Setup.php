@@ -1,13 +1,15 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup {
+class MagicToolbox_MagicZoomPlus_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
+{
 
     /**
      * Default entites and attributes
      *
      * @return array
      */
-    public function getDefaultEntities() {
+    public function getDefaultEntities()
+    {
         return array(
             'catalog_product'               => array(
                 'entity_model'                  => 'catalog/product',

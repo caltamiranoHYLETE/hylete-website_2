@@ -2,7 +2,7 @@
 <config>
     <modules>
         <MagicToolbox_MagicZoomPlus>
-            <version>4.14.6</version>
+            <version>4.15.9</version>
         </MagicToolbox_MagicZoomPlus>
     </modules>
     <admin>
@@ -122,6 +122,18 @@
                 </observers>
             </controller_action_layout_generate_xml_before>
         </events>
+        <routers>
+            <magiczoomplus>
+                <use>standard</use>
+                <args>
+                    <module>MagicToolbox_MagicZoomPlus</module>
+                    <frontName>magiczoomplus</frontName>
+                </args>
+            </magiczoomplus>
+        </routers>
+        <default>
+            <router>magiczoomplus</router>
+        </default>
     </frontend>
     <global>
         <models>

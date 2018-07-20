@@ -1,8 +1,10 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form {
+class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
+{
 
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
 
         $blockId = preg_replace('/^magiczoomplus_|_settings_block$/is', '', $this->getNameInLayout());
 
@@ -11,15 +13,15 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
         $tool = Mage::registry('magiczoomplus_core_class');
         //$optionsIds = Mage::registry('magiczoomplus_options_ids');
 
-        if($tool === null) {
+        if ($tool === null) {
 
-            //require_once(dirname(__FILE__).DS.'..'.DS.'..'.DS.'..'.DS.'..'.DS.'core'.DS.'magiczoomplus.module.core.class.php');
-            require_once(BP . str_replace('/', DS, '/app/code/local/MagicToolbox/MagicZoomPlus/core/magiczoomplus.module.core.class.php'));
+            $coreClassPath = BP . str_replace('/', DS, '/app/code/local/MagicToolbox/MagicZoomPlus/core/magiczoomplus.module.core.class.php');
+            require_once $coreClassPath;
             $tool = new MagicZoomPlusModuleCoreClass();
 
             /*
-            foreach($helper->getDefaultValues() as $block => $params) {
-                foreach($params as $id => $value) {
+            foreach ($helper->getDefaultValues() as $block => $params) {
+                foreach ($params as $id => $value) {
                     $tool->params->setValue($id, $value, $block);
                 }
             }
@@ -28,21 +30,21 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
             //$optionsIds = array();
             $model = Mage::registry('magiczoomplus_model_data');
             $data = $model->getData();
-            if(!empty($data['value'])) {
+            if (!empty($data['value'])) {
                 $settings = unserialize($data['value']);
-                if(isset($settings['desktop'])) {
-                    foreach($settings['desktop'] as $profile => $params) {
+                if (isset($settings['desktop'])) {
+                    foreach ($settings['desktop'] as $profile => $params) {
                         //$optionsIds[$profile] = array();
-                        foreach($params  as $id => $value) {
+                        foreach ($params  as $id => $value) {
                             //$optionsIds[$profile][$id] = true;
                             $tool->params->setValue($id, $value, $profile);
                         }
                     }
                 }
-                if(isset($settings['mobile'])) {
-                    foreach($settings['mobile'] as $profile => $params) {
+                if (isset($settings['mobile'])) {
+                    foreach ($settings['mobile'] as $profile => $params) {
                         //$optionsIds[$profile] = array();
-                        foreach($params  as $id => $value) {
+                        foreach ($params  as $id => $value) {
                             //$optionsIds[$profile][$id] = true;
                             $tool->params->setMobileValue($id, $value, $profile);
                         }
@@ -63,9 +65,9 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
         $fieldsetRenderer = $this->getLayout()->createBlock('magiczoomplus/adminhtml_settings_edit_tab_form_renderer_fieldset');
 
         $gId = 0;
-        foreach($helper->getParamsMap($blockId) as $group => $ids) {
+        foreach ($helper->getParamsMap($blockId) as $group => $ids) {
             $fieldset = $form->addFieldset(
-                $blockId.'_group_fieldset_'.$gId++,
+                $blockId.'_group_fieldset_'.($gId++),
                 array(
                     'legend' => Mage::helper('magiczoomplus')->__($group),
                     'class' => 'magiczoomplus-fieldset'
@@ -73,7 +75,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
             );
             $fieldset->addType('magiczoomplus_radios', 'MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form_Element_Radios');
             $fieldset->setRenderer($fieldsetRenderer);
-            foreach($ids as $id) {
+            foreach ($ids as $id) {
                 $config = array(
                     'label'     => Mage::helper('magiczoomplus')->__($tool->params->getLabel($id, $blockId)),
                     'name'      => 'magiczoomplus[desktop]['.$blockId.']['.$id.']',
@@ -83,25 +85,25 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
                     //'required'  => true,
                 );
                 $description = $tool->params->getDescription($id, $blockId);
-                if($description) {
+                if ($description) {
                     $config['note'] = $description;
                 }
                 $type = $tool->params->getType($id, $blockId);
                 $values = $tool->params->getValues($id, $blockId);
-                if($type != 'array' && $tool->params->valuesExists($id, $blockId, false)) {
-                    if(!empty($config['note'])) $config['note'] .= "<br />";
+                if ($type != 'array' && $tool->params->valuesExists($id, $blockId, false)) {
+                    if (!empty($config['note'])) $config['note'] .= "<br />";
                     $config['note'] .= "(allowed values: ".implode(", ", $values).")";
                 }
-                switch($type) {
+                switch ($type) {
                     case 'num':
                         $type = 'text';
                     case 'text':
                         break;
                     case 'array':
-                        //switch($tool->params->getSubType($id, $tool->params->generalProfile)) {
-                        switch($tool->params->getSubType($id, $blockId)) {
+                        //switch ($tool->params->getSubType($id, $tool->params->generalProfile)) {
+                        switch ($tool->params->getSubType($id, $blockId)) {
                             case 'select':
-                                if($id == 'template') {
+                                if ($id == 'template') {
                                     $type = 'select';
                                     break;
                                 }
@@ -114,7 +116,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
                                 $type = 'text';
                         }
                         $config['values'] = array();
-                        foreach($values as $v) {
+                        foreach ($values as $v) {
                             $config['values'][] = array('value'=>$v, 'label'=>$v);
                         }
                         break;
@@ -124,12 +126,12 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit_Tab_Form extends 
 
                 $scope = $tool->params->getScope($id, $blockId);
                 $desktopOnly = $tool->params->isForDesktopOnly($id, $blockId);
-                if($scope == 'magiczoomplus' && $desktopOnly !== true) {
+                if ($scope == 'magiczoomplus' && $desktopOnly !== true) {
                     $config['mobile-value'] = $tool->params->getMobileValue($id, $blockId);
-                    if($config['mobile-value'] === null) {
+                    if ($config['mobile-value'] === null) {
                         $config['mobile-value'] = $config['value'];
                     }
-                    if($desktopOnly) {
+                    if ($desktopOnly) {
                         $config['desktop-only-values'] = $desktopOnly;
                     }
                     $fieldset->setData('show-platfrom-hint', true);
