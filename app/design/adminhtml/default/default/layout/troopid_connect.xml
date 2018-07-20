@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>troopid/idme.css</stylesheet>
+            </action>
+        </reference>
+    </default>
+
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>troopid_affiliation</name>
+                <block>troopid_connect/adminhtml_sales_order_view_tab_affiliation</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>
