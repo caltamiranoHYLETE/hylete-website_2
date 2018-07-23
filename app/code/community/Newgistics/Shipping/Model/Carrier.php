@@ -78,7 +78,7 @@ class Newgistics_Shipping_Model_Carrier
         /** @var Mage_Shipping_Model_Rate_Result_Method $rate */
         $rate = Mage::getModel('shipping/rate_result_method');
 
-        $baseRate = $this->getConfigData('base_rate');
+        $baseRate = $this->getConfigData('base_price');
         if($baseRate == "") {
             $baseRate= 5.99;
         }

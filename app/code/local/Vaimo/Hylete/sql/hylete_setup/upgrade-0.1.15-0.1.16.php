@@ -33,7 +33,7 @@ $installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'care_cms');
 $installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'delivery_cms');
 $installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'fit_cms');
 
-$attributes = array('cms_1' => 50, 'cms_2' => 60, 'cms_3' => 70, 'cms_4' => 80);
+$attributes = array('cms_1' => 50, 'cms_2' => 60, 'cms_3' => 70, 'cms_4' => 80, 'cms_video' => 90);
 
 foreach ($attributes as $attribute => $position) {
     $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute, array(

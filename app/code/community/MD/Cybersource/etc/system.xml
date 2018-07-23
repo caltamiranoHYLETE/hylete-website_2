@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <magedelight translate="label" module="md_cybersource">
+            <label>Mage Delight</label>
+            <sort_order>100</sort_order>
+        </magedelight>
+    </tabs>
+    <sections>
+        <md_cybersource translate="label" module="md_cybersource">
+            <label>Cybersource Payment</label>
+            <tab>magedelight</tab>
+            <sort_order>8000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <license translate="label" module="md_cybersource">
+                    <label>License Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <serial_key translate="label">
+                            <label>Serial Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enter the serial key that you received at time of purchase.]]></comment>
+                        </serial_key>
+                        <activation_key translate="label">
+                            <label>Activation Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enter the activation key that you received at time of purchase.]]></comment>
+                        </activation_key>
+                    </fields>
+                </license>
+            </groups>
+        </md_cybersource>
+        <payment>
+            <groups>
+                <md_cybersource translate="label" module="md_cybersource">
+                    <label>Cybersource By MageDelight</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label" module="md_cybersource">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label" module="md_cybersource">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <merchantid translate="label" module="md_cybersource">
+                            <label>Merchant ID</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchantid>
+                        <trans_key translate="label" module="md_cybersource">
+                            <label>Transaction Key</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </trans_key>
+                        <test translate="label" module="md_cybersource">
+                            <label>Test Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test>
+                        <payment_action translate="label" module="md_cybersource">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>md_cybersource/system_config_source_paymentAction</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_action>   
+                        <soap_gateway_url translate="label" module="md_cybersource">
+                            <label>Gateway Url</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </soap_gateway_url>
+                        <test_soap_gateway_url translate="label" module="md_cybersource">
+                            <label>Test Gateway Url</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test_soap_gateway_url>                     
+                        <debug translate="label" module="md_cybersource">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Enable Debug Logging</comment>
+                        </debug>                                                
+                        <cctypes translate="label" module="md_cybersource">
+                            <label>Credit Card Types</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>md_cybersource/system_config_source_cctype</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cctypes>
+                        <useccv translate="label" module="md_cybersource">
+                            <label>Credit Card Verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>19</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Require Cusomter to enter CVV number, yes or no.</comment>
+                        </useccv>                        
+                        <save_optional translate="label" module="md_cybersource">
+                            <label>Save Optional</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If Yes, customer must choose whether or not to save card for future use</comment>
+                        </save_optional>
+                        <order_status translate="label" module="md_cybersource">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <allowspecific translate="label" module="md_cybersource">
+                            <label>Payment from Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>23</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label" module="md_cybersource">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>24</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry>
+                        <min_order_total translate="label">
+                            <label>Minimum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label">
+                            <label>Maximum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </max_order_total>                        
+                        <sort_order translate="label" module="md_cybersource">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>28</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <merchantdefineddata translate="label" module="md_cybersource">
+                            <label>Merchant Define Data</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>29</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If Yes, additional field will be display in transaction details of merchant panel</comment>
+                        </merchantdefineddata>
+                        <merchantdefine_data1 translate="label" module="md_cybersource">
+                            <label>Additional Field 1</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>30</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data1>
+                        <merchantdefine_data2 translate="label" module="md_cybersource">
+                            <label>Additional Field 2</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>31</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data2>
+                        <merchantdefine_data3 translate="label" module="md_cybersource">
+                            <label>Additional Field 3</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>32</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data3>
+                        <merchantdefine_data4 translate="label" module="md_cybersource">
+                            <label>Additional Field 4</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>33</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data4>
+
+                        <merchantdefine_data5 translate="label" module="md_cybersource">
+                            <label>Additional Field 5</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>34</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data5>
+
+                        <merchantdefine_data6 translate="label" module="md_cybersource">
+                            <label>Additional Field 6</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>35</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data6>
+
+                        <merchantdefine_data7 translate="label" module="md_cybersource">
+                            <label>Additional Field 7</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>36</sort_order>
+                            <source_model>md_cybersource/system_config_source_additionalfield</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><merchantdefineddata>1</merchantdefineddata></depends>
+                            <comment>Note: This field only display if its contain values</comment>
+                        </merchantdefine_data7>
+                        <delete_cards translate="label" module="md_cybersource">
+                            <label>Delete Cards</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>md_cybersource/adminhtml_deletecards</frontend_model>
+                            <sort_order>37</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>WARNING ! This action will delete all the records of saved cards associated to current Merchant Id.</comment>
+                        </delete_cards> 
+                    </fields>
+                </md_cybersource>
+            </groups>
+        </payment>
+    </sections>
+</config>

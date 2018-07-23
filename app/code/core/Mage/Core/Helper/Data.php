@@ -700,33 +700,13 @@ XML;
                 } else {
                     $targetMtime = filemtime($targetFile);
                     foreach ($srcFiles as $file) {
-                        // elvin@VAIMO if file doesn't exist then do not trigger merge
-                        if (!file_exists($file)) {
-                            continue;
-                        }
-                        if (/* !file_exists($file) || */ @filemtime($file) > $targetMtime) {
-                            try {
-                                throw new Exception ('FILE merge triggered by: ' . $file);
-                            } catch (Exception $ex){
-                                error_log($ex->getMessage());
-                                error_log($ex->getTraceAsString());
-                            }
+                        if (!file_exists($file) || @filemtime($file) > $targetMtime) {
                             $shouldMerge = true;
                             break;
                         }
                     }
                 }
             }
-
-            // elvin@VAIMO patch
-            if ($targetFile && isset($targetMtime)) {
-                $diff = time() - $targetMtime;
-                // if file change happened less than 6 sec ago then wait for 3 sec more so other session can end it
-                if ($diff < 6) {
-                    sleep(3);
-                }
-            }
-            // ~patch
 
             // merge contents into the file
             if ($shouldMerge) {
@@ -771,9 +751,6 @@ XML;
                 }
                 if ($targetFile) {
                     file_put_contents($targetFile, $data, LOCK_EX);
-                    // elvin@VAIMO - call observer so we can make post-actions, i.e. clean from Varnish if needed
-                    Mage::dispatchEvent('vaimo_merge_after_target_file', array('target_file' => $targetFile));
-                    // ~
                 } else {
                     return $data; // no need to write to file, just return data
                 }
