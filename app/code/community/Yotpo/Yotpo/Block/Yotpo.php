@@ -1,92 +1,76 @@
 <?php
 
-class Yotpo_Yotpo_Block_Yotpo extends Mage_Core_Block_Template
-{
-    public function __construct()
-    {
+class Yotpo_Yotpo_Block_Yotpo extends Mage_Core_Block_Template {
+
+    public function __construct() {
         parent::__construct();
     }
 
-    public function setProduct($product)
-    {
+    public function setProduct($product) {
         $this->setData('product', $product);
         $_product = $this->getProduct();
-        echo $_product->getName();
+        $_product->getName();
     }
 
-
-    public function getProduct()
-    {
-        if (!$this->hasData('product'))
-        {
+    public function getProduct() {
+        if (!$this->hasData('product')) {
             $this->setData('product', Mage::registry('product'));
         }
 
         $product = $this->getData('product');
         $configurable_product_model = Mage::getModel('catalog/product_type_configurable');
-        $parentIds= $configurable_product_model->getParentIdsByChild($product->getId());
+        $parentIds = $configurable_product_model->getParentIdsByChild($product->getId());
         if (count($parentIds) > 0) {
             $product = Mage::getModel('catalog/product')->load($parentIds[0]);
         }
         return $product;
     }
 
-    public function getProductId()
-    {
-        /* Patched for Hylete.
-        Slug the name as ID to match multiple Configurable products with same name
-        Will replace all characters that aren't ASCII alphabetical or numerals with "-"*/
-        $name = $this->getProductName();
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
+    public function getProductId() {
+        $_product = $this->getProduct();
+        $productId = $_product->getId();
+        return $productId;
     }
 
-    public function getAppKey()
-    {
-        return trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey',Mage::app()->getStore()));
+    public function getAppKey() {
+        return trim(Mage::getStoreConfig('yotpo/yotpo_general_group/yotpo_appkey', Mage::app()->getStore()));
     }
 
-    public function getProductName()
-    {
+    public function getProductName() {
         $_product = $this->getProduct();
         $productName = $_product->getName();
 
         return htmlspecialchars($productName);
     }
 
-    public function getProductImageUrl()
-    {
-        $image_url = Mage::getModel('catalog/product_media_config')->getMediaUrl($this->getProduct()->getSmallImage());
+    public function getProductImageUrl() {
+        $image_url = Mage::getModel('catalog/product_media_config')->getMediaUrl($this->getProduct()->getImage());
         return $image_url;
     }
 
-    public function getProductBreadcrumbs()
-    {
+    public function getProductBreadcrumbs() {
         return "";
     }
 
-    public function getProductModel()
-    {
+    public function getProductModel() {
         $_product = $this->getProduct();
         $productModel = $_product->getData('sku');
         return htmlspecialchars($productModel);
     }
 
-    public function getProductDescription()
-    {
+    public function getProductDescription() {
         $_product = $this->getProduct();
         $productDescription = Mage::helper('core')->htmlEscape(strip_tags($_product->getShortDescription()));
         return $productDescription;
     }
 
-    public function getProductUrl()
-    {
+    public function getProductUrl() {
         $productUrl = Mage::app()->getStore()->getCurrentUrl();
         return $productUrl;
     }
 
-    public function getProductRating()
-    {
-
+    public function getProductRating() {
+        
     }
 
 }

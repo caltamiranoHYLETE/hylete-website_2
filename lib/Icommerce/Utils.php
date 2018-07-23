@@ -235,7 +235,8 @@ class Icommerce_Utils
     }
 
     static function logAppendBT( $msg, $file ){
-        return Icommerce_Log::logAppendBT( $msg, $file );
+        return true;
+    	//return Icommerce_Log::logAppendBT( $msg, $file );
     }
 
     /**

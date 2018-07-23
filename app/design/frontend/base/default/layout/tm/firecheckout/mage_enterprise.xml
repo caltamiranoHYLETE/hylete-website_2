@@ -20,7 +20,6 @@
         </reference>
         <reference name="checkout.onepage.payment.methods_additional" as="methods_additional">
             <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="tm/firecheckout/customerbalance/checkout/onepage/payment/additional.phtml" name="customerbalance" />
-            <block type="enterprise_reward/checkout_payment_additional" template="tm/firecheckout/reward/checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
         </reference>
         <reference name="content">
             <block type="enterprise_giftwrapping/checkout_options" name="checkout.options" template="giftwrapping/checkout/options.phtml" />
@@ -41,7 +40,6 @@
     <firecheckout_index_updatecheckout>
         <reference name="checkout.onepage.payment.methods.scripts">
             <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="tm/firecheckout/customerbalance/checkout/onepage/payment/scripts.phtml" name="customerbalance_scripts" />
-            <block type="enterprise_reward/checkout_payment_additional" template="tm/firecheckout/reward/checkout/onepage/payment/scripts.phtml" name="reward.scripts" after="-" />
         </reference>
         <block type="enterprise_giftcardaccount/checkout_cart_giftcardaccount" name="checkout.giftcard" as="giftcard">
             <action method="setTemplate" ifconfig="firecheckout/general/giftcard"><template>tm/firecheckout/giftcardaccount/cart/block.phtml</template></action>

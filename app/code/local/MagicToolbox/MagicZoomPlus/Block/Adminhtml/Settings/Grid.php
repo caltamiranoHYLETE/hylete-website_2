@@ -1,8 +1,10 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Adminhtml_Block_Widget_Grid
+{
 
-    public function __construct() {
+    public function __construct()
+    {
 
         parent::__construct();
         $this->setId('settingsGrid');
@@ -12,7 +14,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Admi
 
     }
 
-    protected function _prepareCollection() {
+    protected function _prepareCollection()
+    {
 
         $collection = Mage::getModel('magiczoomplus/settings')->getCollection();
         $this->setCollection($collection);
@@ -20,7 +23,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Admi
 
     }
 
-    protected function _prepareColumns() {
+    protected function _prepareColumns()
+    {
 
         $this->addColumn('setting_id', array(
             'header'    => Mage::helper('magiczoomplus')->__('ID'),
@@ -76,7 +80,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Admi
 
     }
 
-    protected function _prepareMassaction() {
+    protected function _prepareMassaction()
+    {
 
         $this->setMassactionIdField('setting_id');
         $this->getMassactionBlock()->setFormFieldName('massactionId');
@@ -90,7 +95,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Grid extends Mage_Admi
         return $this;
     }
 
-    public function getRowUrl($row) {
+    public function getRowUrl($row)
+    {
 
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));
 

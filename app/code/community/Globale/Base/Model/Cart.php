@@ -123,6 +123,10 @@ class Globale_Base_Model_Cart extends Mage_Core_Model_Abstract {
 
 		$FreeShippingDiscountRuleCode = null;
 
+		//TODO This is an Override to stop free hsipping on international orders
+		return $FreeShippingDiscountRuleCode;
+
+
 		/** @var Mage_SalesRule_Model_Coupon $Rule */
 		$Rule = Mage::getModel('salesrule/coupon')->load($Quote->getCouponCode(), 'code');
 		/** @var Mage_SalesRule_Model_Rule $Coupon */

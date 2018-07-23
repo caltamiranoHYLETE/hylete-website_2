@@ -250,20 +250,23 @@ class Amasty_Rules_Model_Rule_Abstract
     {
         $items = $this->getAllItems($address);
         foreach ($items as $item) {
-            if (array_key_exists($item->getId(), $discount) && $item->getProductType() == 'bundle') {
-                $arr = $this->discountBundleChild(
-                    $address, $discount[$item->getId()],
-                    $this->_getItemPrice($item), $this->_getItemBasePrice($item), $item->getId()
-                );
-                $discount = $discount + $arr;
-            }
-            if ($rule
-                && $rule->getPriceSelector() == Amasty_Rules_Model_Observer::BASED_ON_BIGGEST
-                && array_key_exists($item->getId(), $discount)
-                && $item->getProduct()->getPrice() > 0
-            ) {
-                $discount = $this->calculateParticleDiscount($item, $discount, $rule);
-            }
+        	//Added to solve error when boolean being passed as discount
+        	if(is_array($discount)) {
+				if (array_key_exists($item->getId(), $discount) && $item->getProductType() == 'bundle') {
+					$arr = $this->discountBundleChild(
+						$address, $discount[$item->getId()],
+						$this->_getItemPrice($item), $this->_getItemBasePrice($item), $item->getId()
+					);
+					$discount = $discount + $arr;
+				}
+				if ($rule
+					&& $rule->getPriceSelector() == Amasty_Rules_Model_Observer::BASED_ON_BIGGEST
+					&& array_key_exists($item->getId(), $discount)
+					&& $item->getProduct()->getPrice() > 0
+				) {
+					$discount = $this->calculateParticleDiscount($item, $discount, $rule);
+				}
+			}
         }
         return $discount;
     }

@@ -166,6 +166,12 @@ if (Mage::helper('core')->isModuleOutputEnabled('TIG_PostNL')) : ?>
                         <?php endif; ?>
                         </label>
 
+                       <!-- Added by HYLETE -->
+                       <?php if($_rate->getMethodDescription() != "") : ?>
+                            <br/><span style="margin-left:25px;font-size:10px;">Estimated Delivery: <?php echo $this->escapeHtml($_rate->getMethodDescription()) ?></span>
+                       <?php endif; ?>
+
+
                         <?php
                             // ****************
                            // paczkomaty start

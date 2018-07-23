@@ -26,7 +26,8 @@ jQuery( document ).ready(function() {
     jQuery("#returnForm").validate( {
         ignore: [],
         rules: {
-            orderId: { required: true }
+            orderId: { required: true },
+            zipCode: { required: true }
         },
         submitHandler: function(form) {
 
@@ -150,6 +151,7 @@ jQuery( document ).ready(function() {
                                             '<input type="hidden" name="isAdmin" value="' + jsonObj[i].IsAdmin + '" />' +
                                             '<input type="hidden" name="exchangeOnly" value="' + jsonObj[i].ExchangeOnly + '" />' +
                                             '<input type="hidden" name="simpleRefund" value="' + jsonObj[i].SimpleRefund + '" />' +
+                                            '<input type="hidden" name="sixMonthCashRefund" value="' + jsonObj[i].SixMonthCashRefund + '" />' +
                                             '</form>';
 
                                         html += return_form;
@@ -329,6 +331,7 @@ function processSingle(returnObject) {
                     '<input type="hidden" name="isAdmin" value="' + returnObject.IsAdmin + '" />' +
                     '<input type="hidden" name="exchangeOnly" value="' + returnObject.ExchangeOnly + '" />' +
                     '<input type="hidden" name="simpleRefund" value="' + returnObject.SimpleRefund + '" />' +
+                    '<input type="hidden" name="sixMonthCashRefund" value="' + returnObject.SixMonthCashRefund + '" />' +
                     '</form>';
 
                 html += return_form;

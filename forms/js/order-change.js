@@ -49,10 +49,10 @@ jQuery( document ).ready(function() {
 
                             var html = "";
                             if(data.Success) {
-                                html = "<ul><li class='can-return'>Your order has been cancelled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
+                                html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             }
                             else if(data.Success === "true") {
-                                html = "<ul><li class='can-return'>Your order has been cancelled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
+                                html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             } else {
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
                             }
@@ -147,10 +147,10 @@ jQuery( document ).ready(function() {
                             jQuery('#changeForm').fadeIn('500');
 
                         } else{
-                            html += "<ul><li class='passed-date'>It looks like this order has been processed for shipment or already shipped. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you have any questions.</li></ul>";
+                            html += "<ul><li class='passed-date'>It looks like this order has been processed for shipment or has already been shipped. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a>, or the live chat (if available), to help you with your order.</li></ul>";
                         }
                     } else{
-                        html += "<ul><li class='passed-date'>We couldn't find an order with the number you provided. Please try again. If you are still having a problem, please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you have any questions.</li></ul>";
+                        html += "<ul><li class='passed-date'>We couldn't find an order with the number you provided. Please try again. If you are still having a problem, please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a>, or the live chat (if available), to help you with your order.</li></ul>";
                     }
 
                     jQuery('#resultShow').html(html).fadeIn('500');
