@@ -123,6 +123,9 @@
             <action method="addCss">
                 <stylesheet>css/tooltip.css</stylesheet>
             </action>
+            <action method="addCss">
+                <stylesheet>css/menu.css</stylesheet>
+            </action>
 
             <action method="removeItem">
                 <type>js</type>
@@ -179,6 +182,10 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/mobile-menu.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/codazon-menu.js</name>
             </action>
         </reference>
 
