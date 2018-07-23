@@ -269,7 +269,7 @@ class Bestworlds_AbandonedCart_Model_Observer
 
         //REMOVE LIGHTBOX ONCE WE HAVE THE QUOTE EMAIL
         if($customer_email!='') {
-            $js[] = " jQuery('.bw_block_page').fadeOut().remove(); ";
+            $js[] = " jQuery('.bw_block_page').hide(); ";
         }
         $js[] = '</script>';
 
@@ -318,13 +318,13 @@ class Bestworlds_AbandonedCart_Model_Observer
             $closeCookie = Mage::getModel('core/cookie')->get('bw_lightbox_off');
 
             if($closeCookie!==false) {
-                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
             }
 
             //$tracking= $this->_emailTracking();
             if ($cookie!==false) {
                 if($closeCookie==false){
-                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
                 }
             }else{
                 $js[] = "
@@ -375,14 +375,14 @@ class Bestworlds_AbandonedCart_Model_Observer
             $closeCookie = Mage::getModel('core/cookie')->get('bw_lightbox_off');
 
             if($closeCookie!==false) {
-                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
             }
 
             //$tracking= $this->_emailTracking();
 
             if ($cookie!==false) {
                 if($closeCookie==false) {
-                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
                 }
             } else {
                 $js[] = "
