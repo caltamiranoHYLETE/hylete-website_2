@@ -126,6 +126,9 @@
             <action method="addCss">
                 <stylesheet>css/menu.css</stylesheet>
             </action>
+            <action method="addCss">
+                <stylesheet>css/vaimo/blog.css</stylesheet>
+            </action>
 
             <action method="removeItem">
                 <type>js</type>
