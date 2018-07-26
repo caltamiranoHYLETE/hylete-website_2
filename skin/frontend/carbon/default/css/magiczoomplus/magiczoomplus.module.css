@@ -46,66 +46,8 @@ div.MagicToolboxContainer.selectorsTop .MagicToolboxSelectorsContainer {
     padding-bottom: 5px;
 }
 
-/* NOTE: selectors on the left */
-div.MagicToolboxContainer.selectorsLeft {
-    display: inline-table;
-    height: 100%;
-    width: 100%;/* NOTE: for video iframe */
-}
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer {
-    display: table-cell;
-    vertical-align: top;
-    height: 100%;
-    padding-right: 5px;
-}
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll {
-    height: 100%;
-}
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer a {
-    display: block;
-}
-/* NOTE: fix for MagicScroll */
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll > a:nth-child(n+2) {
-    display: none;
-}
 
-/* NOTE: selectors on the right */
-div.MagicToolboxContainer.selectorsRight {
-    display: inline-table;
-    height: 100%;
-    width: 100%;/* NOTE: for video iframe */
-}
-div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer,
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
-    display: table-cell;
-    vertical-align: top;
-    height: 100%;
-    padding-left: 5px;
-}
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
-    height: 100%;
-}
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer a {
-    display: block;
-}
-/* NOTE: fix for MagicScroll */
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll > a:nth-child(n+2) {
-    display: none;
-}
 
-/* NOTE: fix for MagicScroll when height of parent elements is not defined */
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
-    position: relative;
-}
-div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
-div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-}
 
 /* NOTE: to highlight magic360 selector (magiczoom(plus) + magic360) */
 .zoom-with-360.mz-thumb-selected img {
@@ -162,42 +104,104 @@ div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicS
 }
 */
 
+
+div.MagicToolboxContainer.selectorsLeft,
+div.MagicToolboxContainer.selectorsRight {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+    min-height: 300px;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    flex-grow: 1;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    font-size:0px;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer a,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer a {
+    margin:0 0 10px 0;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer {
+
+}
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer {
+    width: auto;
+    padding-left: 10px;
+}
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    width: auto;
+    padding-right: 10px;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+    height: 100%;
+    flex:1;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll a,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll a {
+    margin: 0;
+}
+
 @media only screen and (max-width: 767px) {
-
-    div.MagicToolboxContainer.selectorsLeft.noscroll .MagicToolboxMainContainer,
-    div.MagicToolboxContainer.selectorsRight.noscroll .MagicToolboxMainContainer {
-        display: block;
-        height: auto;
-        padding: 0;
+    div.MagicToolboxContainer.selectorsLeft,
+    div.MagicToolboxContainer.selectorsRight {
+        flex-direction: column;
     }
-    div.MagicToolboxContainer.selectorsLeft.noscroll,
-    div.MagicToolboxContainer.selectorsRight.noscroll {
-        display: block;
-        text-align: center;
-        margin:10px 0;
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+        order:2;
+        width: 100% !important;
+        margin-bottom:10px;
+        min-height: 0px;
+        flex:auto;
+        flex-basis: auto !important;
     }
-    div.MagicToolboxContainer.selectorsLeft.noscroll .MagicToolboxSelectorsContainer,
-    div.MagicToolboxContainer.selectorsRight.noscroll .MagicToolboxSelectorsContainer {
-        display: block;
-        text-align: center;
-        width:auto !important;
-        height: auto;
-        padding: 0;
-    }
-    div.MagicToolboxContainer.selectorsLeft.noscroll .MagicToolboxSelectorsContainer a,
-    div.MagicToolboxContainer.selectorsRight.noscroll .MagicToolboxSelectorsContainer a {
-        display: inline-block;
-        margin:5px;
-    }
-    div.MagicToolboxContainer.selectorsLeft.noscroll .MagicToolboxSelectorsContainer a:first-child,
-    div.MagicToolboxContainer.selectorsRight.noscroll .MagicToolboxSelectorsContainer a:first-child {
-        margin-left:0;
-    }
-    div.MagicToolboxContainer.selectorsLeft.noscroll .MagicToolboxSelectorsContainer a:last-child,
-    div.MagicToolboxContainer.selectorsRight.noscroll .MagicToolboxSelectorsContainer a:last-child {
-        margin-left:0;
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer a,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer a {
+        margin:10px 5px;
     }
 
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+        order:1;
+        padding:0px;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer:after,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer:after {
+        content: none;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+        height: auto;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+        margin: 10px 0 0 0;
+    }
 }
 .invisible,
 .hidden-selector {
@@ -352,10 +356,12 @@ div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicS
 }
 
 /* NOTE: to add 'play' icon over video thumbnails */
+
 a[data-magic-slide-id^=video] {
     position: relative;
 }
-a[data-magic-slide-id^=video] span {
+a[data-magic-slide-id^=video]:before {
+    content: '';
     position: absolute;
     color: #fff;
     text-shadow: 0px 1px 10px #000;
@@ -373,27 +379,29 @@ a[data-magic-slide-id^=video] span {
     background-size: 50%;
     background-position: center center;
 }
-a[data-magic-slide-id^=video] span:before {
+a[data-magic-slide-id^=video]:after {
     content: '';
     width: 12px;
-    height: 16px;
+    height: 16px !important;
     border-top: 8px solid transparent;
     border-left: 12px solid rgba(255,255,255,0.7);
     border-bottom: 8px solid transparent;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform:translateY(-50%) translateX(-50%);
-    -webkit-transform:translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
     margin-left: 1px;
     box-sizing: border-box !important;
+    z-index: 101;
 }
-a[data-magic-slide-id^=video]:hover span {
+a[data-magic-slide-id^=video]:hover:before {
     background-color: rgba(0,0,0,0.7) !important;
 }
-a[data-magic-slide-id^=video]:hover span:before {
+a[data-magic-slide-id^=video]:hover:after {
     border-left-color: rgba(255,255,255,1);
 }
+
 /*NOTE: for video frame */
 div[data-magic-slide^="video"] {
    position: relative;
