@@ -48,8 +48,9 @@ class Bestworlds_AbandonedCart_Model_Observer
         $params = Mage::app()->getRequest()->getParams();
         if (!$params) return false;
         if (isset($params['type'])) {
-            if ( $params['type']==Bestworlds_AbandonedCart_Model_Capturetypes::DURING_CHECKOUT ||
-                $params['type']==Bestworlds_AbandonedCart_Model_Capturetypes::LOGGED_IN) {
+            if ( $params['type']=='checkout' ||
+                 $params['type']=='add2cart'
+             ) {
                 return false;
             }
         }
@@ -64,7 +65,6 @@ class Bestworlds_AbandonedCart_Model_Observer
                         $quote->setData('email_captured_from', Bestworlds_AbandonedCart_Model_Capturetypes::EMAIL_MARKETING);
                         $quote->setData('customer_email', $v);
                         $quote->save();
-                        $this->sendKlaviyoTrack($quote);
                     } else {
                         //add session to indicate that we recover this email via email tracking, in case the quote doesn't exist yet
                         Mage::getSingleton("core/session")->setBwCapture(Bestworlds_AbandonedCart_Model_Capturetypes::EMAIL_MARKETING);
@@ -269,7 +269,7 @@ class Bestworlds_AbandonedCart_Model_Observer
 
         //REMOVE LIGHTBOX ONCE WE HAVE THE QUOTE EMAIL
         if($customer_email!='') {
-            $js[] = " jQuery('.bw_block_page').fadeOut().remove(); ";
+            $js[] = " jQuery('.bw_block_page').hide(); ";
         }
         $js[] = '</script>';
 
@@ -318,13 +318,13 @@ class Bestworlds_AbandonedCart_Model_Observer
             $closeCookie = Mage::getModel('core/cookie')->get('bw_lightbox_off');
 
             if($closeCookie!==false) {
-                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
             }
 
             //$tracking= $this->_emailTracking();
             if ($cookie!==false) {
                 if($closeCookie==false){
-                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
                 }
             }else{
                 $js[] = "
@@ -375,14 +375,14 @@ class Bestworlds_AbandonedCart_Model_Observer
             $closeCookie = Mage::getModel('core/cookie')->get('bw_lightbox_off');
 
             if($closeCookie!==false) {
-                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
             }
 
             //$tracking= $this->_emailTracking();
 
             if ($cookie!==false) {
                 if($closeCookie==false) {
-                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').fadeOut().remove() }); ";
+                    $js[] = " jQuery(window).bind('load', function() { jQuery('.bw_block_page').hide() }); ";
                 }
             } else {
                 $js[] = "

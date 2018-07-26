@@ -60,11 +60,6 @@ class Talkable_SocialReferrals_Helper_Data extends Mage_Core_Helper_Abstract
     // Origin Data |
     //-------------+
 
-	public function getCustomerGroupId()
-	{
-		return Mage::getSingleton('customer/session')->getCustomerGroupId();
-	}
-
     public function getPurchaseData($order)
     {
         $shippingInfo = array();
@@ -102,7 +97,6 @@ class Talkable_SocialReferrals_Helper_Data extends Mage_Core_Helper_Abstract
                 "first_name"   => $order->getCustomerFirstname(),
                 "last_name"    => $order->getCustomerLastname(),
                 "customer_id"  => $order->getCustomerId(),
-				"custom_properties"  => array("group_id" => $order->getCustomerGroupId()),
             ),
             "purchase" => array_merge($shippingInfo, array(
                 "order_number" => $order->getIncrementId(),

@@ -1,32 +1,38 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Header extends Mage_Core_Block_Template {
+class MagicToolbox_MagicZoomPlus_Block_Header extends Mage_Core_Block_Template
+{
 
     protected $pageType = '';
     protected $doDisplayProductPageScript = true;
     protected $doDisplayAdditionalScroll = true;
 
-    public function _construct() {
+    public function _construct()
+    {
         $this->setTemplate('magiczoomplus/header.phtml');
     }
 
-    public function setPageType($pageType = '') {
+    public function setPageType($pageType = '')
+    {
         $this->pageType = $pageType;
     }
 
-    public function getPageType() {
+    public function getPageType()
+    {
         return $this->pageType;
     }
 
-    public function displayProductPageScript($display = null) {
-        if($display !== null) {
+    public function displayProductPageScript($display = null)
+    {
+        if ($display !== null) {
             $this->doDisplayProductPageScript = $display;
         }
         return $this->doDisplayProductPageScript;
     }
 
-    public function displayAdditionalScroll($display = null) {
-        if($display !== null) {
+    public function displayAdditionalScroll($display = null)
+    {
+        if ($display !== null) {
             $this->doDisplayAdditionalScroll = $display;
         }
         return $this->doDisplayAdditionalScroll;

@@ -1,8 +1,10 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings extends Mage_Adminhtml_Block_Widget_Grid_Container {
+class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings extends Mage_Adminhtml_Block_Widget_Grid_Container
+{
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->_blockGroup = 'magiczoomplus';//module name
         $this->_controller = 'adminhtml_settings';//the path to your block class
@@ -12,7 +14,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings extends Mage_Adminhtml
 
     }
 
-    protected function _prepareLayout() {
+    protected function _prepareLayout()
+    {
 
         $this->setChild('settings_grid', $this->getLayout()->createBlock('magiczoomplus/adminhtml_settings_grid', 'magiczoomplus.grid'));
         $this->setChild('custom_design_settings_form', $this->getLayout()->createBlock('magiczoomplus/adminhtml_settings_form', 'magiczoomplus.form'));
@@ -20,10 +23,11 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings extends Mage_Adminhtml
 
     }
 
-    public function getAddCustomSettingsFormHtml() {
+    public function getAddCustomSettingsFormHtml()
+    {
 
         $html = $this->getChildHtml('custom_design_settings_form');
-        if(Mage::registry('magiczoomplus_custom_design_settings_form')) {
+        if (Mage::registry('magiczoomplus_custom_design_settings_form')) {
             return $html;
         } else {
             return '';
@@ -31,7 +35,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings extends Mage_Adminhtml
 
     }
 
-    public function getSettingsGridHtml() {
+    public function getSettingsGridHtml()
+    {
 
         return $this->getChildHtml('settings_grid');
 
