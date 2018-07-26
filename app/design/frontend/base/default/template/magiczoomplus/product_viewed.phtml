@@ -22,8 +22,7 @@ if(!$enableEffect) {
     return;
 }
 
-?>
-<?php if($_products = $this->getRecentlyViewedProducts()) {
+if($_products = $this->getRecentlyViewedProducts()) {
 
     $pCount = $_products->count();//$this->getCount()
     if(!$pCount) {
@@ -82,4 +81,5 @@ if(!$enableEffect) {
         </div>
     </div>
 </div>
-<?php } ?>
+<?php
+}
