@@ -35,7 +35,8 @@ if($force ||
     var magicToolboxSwitchMetod = '<?php echo $mouseEvent; ?>';
     var magicToolboxMouseoverDelay = <?php echo $tool->params->checkValue('selectorTrigger', 'hover', 'product') ? 60 : 0; ?>;
 
-    $mjs(window).jAddEvent('load', function() {
+    //$mjs(window).jAddEvent('load', function() {
+    $mjs(document).jAddEvent('domready', function() {
         magicToolboxPrepareOptions();
     });
     var allowHighlightActiveSelectorOnUpdate = true;
