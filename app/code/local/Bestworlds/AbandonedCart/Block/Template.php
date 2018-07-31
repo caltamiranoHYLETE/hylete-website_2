@@ -28,7 +28,6 @@ class Bestworlds_AbandonedCart_Block_Template extends Mage_Core_Block_Template
     {
         if (Mage::getModel('core/cookie')->get('bw_lightbox_off')) return true;
         if ($this->getQuote()->getId() && $this->getQuote()->getItemsCount() &&  !$this->getQuote()->getCustomerEmail()) return false;
-        if (!$this->getLogin() && !$this->getQuote()) return false;
         return true;
     }
 

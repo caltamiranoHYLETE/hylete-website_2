@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="container">
-    <form id="returnForm" method="post" action="process.php">
+    <form id="returnForm" method="post" action="xxx">
         <fieldset>
             <label for="orderId">Enter Your Order Number</label>
             <input type="text" name="orderId" id="orderId"/>

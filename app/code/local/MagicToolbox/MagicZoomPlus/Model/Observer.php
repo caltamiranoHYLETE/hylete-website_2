@@ -1,18 +1,16 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Model_Observer {
-
-    public function __construct() {
-
-    }
+class MagicToolbox_MagicZoomPlus_Model_Observer
+{
 
     /* NOTE: after get layout updates */
-    public function fixLayoutUpdates($observer) {
+    public function fixLayoutUpdates($observer)
+    {
         //NOTE: to prevent an override of our templates with other modules
         //NOTE: also to sort the modules layout for displaying headers in the right order
 
         global $isLayoutUpdatesAlreadyFixed;
-        if(isset($isLayoutUpdatesAlreadyFixed)) return;
+        if (isset($isLayoutUpdatesAlreadyFixed)) return;
         $isLayoutUpdatesAlreadyFixed = true;
 
         //$xml = Mage::app()->getConfig()->getNode('frontend/layout/updates')->asNiceXml();
@@ -37,8 +35,8 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         );
 
         $pattern = '#^(?:'.implode('|', array_keys($modules)).')$#';
-        foreach(Mage::app()->getConfig()->getNode('frontend/layout/updates')->children() as $key => $child) {
-            if(preg_match($pattern, $key)) {
+        foreach (Mage::app()->getConfig()->getNode('frontend/layout/updates')->children() as $key => $child) {
+            if (preg_match($pattern, $key)) {
                 //NOTE: remember detected modules 
                 $modules[$key] = array(
                     'module' => $child->getAttribute('module'),
@@ -50,13 +48,13 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         //NOTE: remove node to prevent dublicate
         $path = implode(' | ', array_keys($modules));
         $elements = Mage::app()->getConfig()->getNode('frontend/layout/updates')->xpath($path);
-        foreach($elements as $element) {
+        foreach ($elements as $element) {
             unset($element->{0});
         }
 
         //NOTE: add new nodes to the end
-        foreach($modules as $key => $data) {
-            if(empty($data)) continue;
+        foreach ($modules as $key => $data) {
+            if (empty($data)) continue;
             $child = new Varien_Simplexml_Element("<{$key} module=\"{$data['module']}\"><file>{$data['file']}</file></{$key}>");
             Mage::app()->getConfig()->getNode('frontend/layout/updates')->appendChild($child);
         }
@@ -64,17 +62,18 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
     }
 
     /* NOTE: before generate layout xml */
-    public function addLayoutUpdate($observer) {
+    public function addLayoutUpdate($observer)
+    {
 
         global $isLayoutUpdateAlreadyAdded;
-        if(isset($isLayoutUpdateAlreadyAdded)) return;
+        if (isset($isLayoutUpdateAlreadyAdded)) return;
         $isLayoutUpdateAlreadyAdded = true;
 
         $layout = $observer->getEvent()->getLayout();
         //NOTE: modules are already sorted by order (fixLayoutUpdates)
         $pattern = '#^magic(?:thumb|360|zoom|zoomplus|scroll|slideshow)$#';
-        foreach(Mage::app()->getConfig()->getNode('frontend/layout/updates')->children() as $key => $child) {
-            if(preg_match($pattern, $key, $match)) {
+        foreach (Mage::app()->getConfig()->getNode('frontend/layout/updates')->children() as $key => $child) {
+            if (preg_match($pattern, $key, $match)) {
                 //NOTE: add layout update for detected module
                 $xml = '
 <reference name="product.info.media">
@@ -90,7 +89,8 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         }
     }
 
-    public function prepareProductVideosAttribute($observer) {
+    public function prepareProductVideosAttribute($observer)
+    {
         $productModel = $observer->getEvent()->getProduct();
         $attrCode = 'product_videos';
         $attribute = $productModel->getResource()->getAttribute($attrCode);
@@ -98,7 +98,7 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
             $attribute->setFrontendInput('textarea');
         }
         $attrValue = $productModel->getData($attrCode);
-        if(empty($attrValue)) {
+        if (empty($attrValue) || !is_string($attrValue) || strpos($attrValue, 'a:') !== 0) {
             return;
         }
         $attrValue = unserialize($attrValue);
@@ -107,38 +107,41 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         $productModel->setData($attrCode, $attrValue);
     }
 
-    public function prepareProductVideosElement($observer) {
+    public function prepareProductVideosElement($observer)
+    {
         /* @var $form Varien_Data_Form */
         $form = $observer->getEvent()->getForm();//Varien_Data_Form
-        $product_videos = $form->getElement('product_videos');
-        if ($product_videos) {
-            $product_videos->setData('onchange', 'var product_videos = $(\'advice-validate-ajax-product_videos\'); if (product_videos) {product_videos.remove()}; ');
+        $productVideos = $form->getElement('product_videos');
+        if ($productVideos) {
+            $productVideos->setData('onchange', 'var product_videos = $(\'advice-validate-ajax-product_videos\'); if (product_videos) {product_videos.remove()}; ');
         }
     }
 
-    public function validateProductData($observer) {
+    public function validateProductData($observer)
+    {
         $productModel = $observer->getEvent()->getProduct();
         $attrCode = 'product_videos';
         $attribute = $productModel->getResource()->getAttribute($attrCode);
         $attrValue = $productModel->getData($attrCode);
-        if(empty($attrValue)) {
+        if (empty($attrValue) || !is_string($attrValue) || strpos($attrValue, 'a:') === 0) {
             return;
         }
+
         $urls = preg_split('#\n++|\s++#', $attrValue, -1, PREG_SPLIT_NO_EMPTY);
         $validateUrlPattern = '^(?:https?://)?[^\W_][\w-]*(?:\.[^\W_][\w-]*)+(?::\d+)?/.*?$';
         $invalidUrls = array();
-        foreach($urls as $_url) {
-            if(!preg_match("#{$validateUrlPattern}#", $_url)) {
+        foreach ($urls as $_url) {
+            if (!preg_match("#{$validateUrlPattern}#", $_url)) {
                 $invalidUrls[] = $_url;
                 continue;
             }
             $url = parse_url($_url);
-            if(!$url) {
+            if (!$url) {
                 $invalidUrls[] = $_url;
             }
         }
-        if(empty($invalidUrls)) {
-            foreach($urls as $_url) {
+        if (empty($invalidUrls)) {
+            foreach ($urls as $_url) {
                 $url = parse_url($_url);
                 $videoCode = null;
                 if (preg_match('#\b(?:youtube\.com|youtu\.be)\b#', $url['host'])) {
@@ -160,7 +163,7 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         } else {
             $message = 'The value of attribute "%s" contains incorrect urls:<br \>%s';
         }
-        if(!empty($invalidUrls)) {
+        if (!empty($invalidUrls)) {
             $label = $attribute->getFrontend()->getLabel();
             $e = Mage::getModel(
                 'eav/entity_attribute_exception',
@@ -171,20 +174,22 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
         }
     }
 
-    public function prepareProductVideosAttributeForSave($observer) {
+    public function prepareProductVideosAttributeForSave($observer)
+    {
         $productModel = $observer->getEvent()->getProduct();
         $id = $productModel->getId();
         $id = (int)$id;//NOTE: just in case (if $id will be empty)
         $attrCode = 'product_videos';
         $attribute = $productModel->getResource()->getAttribute($attrCode);
         $attrValue = $productModel->getData($attrCode);
-        if(empty($attrValue)) {
+
+        if (empty($attrValue) || !is_string($attrValue) || strpos($attrValue, 'a:') === 0) {
             return;
         }
 
         $urls = preg_split('#\n++|\s++#', $attrValue, -1, PREG_SPLIT_NO_EMPTY);
         $attrNewValue = array();
-        foreach($urls as $key => $_url) {
+        foreach ($urls as $key => $_url) {
 
             $url = parse_url($_url);
             if (!$url) {
@@ -212,7 +217,7 @@ class MagicToolbox_MagicZoomPlus_Model_Observer {
                 continue;
             }
 
-            if($isVimeo) {
+            if ($isVimeo) {
                 $hash = unserialize(file_get_contents('https://vimeo.com/api/v2/video/'.$videoCode.'.php'));
                 $thumb = $hash[0]['thumbnail_small'];
             } else {

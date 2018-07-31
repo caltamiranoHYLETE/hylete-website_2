@@ -13,7 +13,7 @@
 <config>
     <placeholders>
         <offerstab_panel>
-            <block>mediotype_offerstab/offers</block>
+            <block>core/messages</block>
             <placeholder>OFFERSTAB_PANEL</placeholder>
             <container>Mediotype_OffersTab_Model_PageCache_Container_Offers</container>
             <cache_lifetime>86400</cache_lifetime>

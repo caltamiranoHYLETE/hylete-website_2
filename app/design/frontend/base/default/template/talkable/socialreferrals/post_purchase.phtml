@@ -14,20 +14,23 @@
 <?php if ($_helper->isPostPurchaseEnabled()): ?>
     <!-- Begin Talkable integration code -->
 
-    <?php if ($_helper->getSiteId() == ""): ?>
+	<?php if ($_helper->getSiteId() == ""): ?>
         <!-- Talkable Site ID is blank, check your Talkable extension settings -->
-    <?php else: ?>
-        <?php if ($_order = $this->getCheckoutOrder()): ?>
+	<?php else: ?>
+		<?php if ($_order = $this->getCheckoutOrder()): ?>
             <script type="text/javascript">
-            //<![CDATA[
-              <?php $_event_data = $_helper->getPurchaseData($_order) ?>
-              _talkableq.push(["register_purchase", <?php echo Mage::helper("core")->jsonEncode($_event_data) ?>]);
-            //]]>
+                //<![CDATA[
+				<?php $_event_data = $_helper->getPurchaseData($_order) ?>
+				<?php $_event_data["traffic_source"] = "Post-checkout" ?>
+				<?php $_event_data["campaign_template"] = "post-purchase" ?>
+
+                _talkableq.push(["register_purchase", <?php echo Mage::helper("core")->jsonEncode($_event_data) ?>]);
+                //]]>
             </script>
-        <?php else: ?>
+		<?php else: ?>
             <!-- Order could not be found -->
-        <?php endif ?>
-    <?php endif ?>
+		<?php endif ?>
+	<?php endif ?>
 
     <!-- End Talkable integration code -->
 <?php endif ?>
