@@ -123,6 +123,9 @@
             <action method="addCss">
                 <stylesheet>css/tooltip.css</stylesheet>
             </action>
+            <action method="addCss">
+                <stylesheet>css/vaimo/blog.css</stylesheet>
+            </action>
 
             <action method="removeItem">
                 <type>js</type>

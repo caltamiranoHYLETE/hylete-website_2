@@ -1,8 +1,10 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Adminhtml_Block_Widget_Form_Container {
+class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+{
 
-    public function __construct() {
+    public function __construct()
+    {
 
         parent::__construct();
 
@@ -19,7 +21,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Admi
         ), -100);
 
         $this->_formScripts[] = "
-            function saveAndContinueEdit(urlTemplate) {
+            function saveAndContinueEdit(urlTemplate)
+            {
                 var template = new Template(urlTemplate, /(^|.|\\r|\\n)({{(\w+)}})/);
                 var url = template.evaluate({tab_id:magiczoomplus_config_tabsJsTabs.activeTab.id.replace('magiczoomplus_config_tabs_', '')});
                 editForm.submit(url);
@@ -28,7 +31,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Admi
 
     }
 
-    public function getHeaderText() {
+    public function getHeaderText()
+    {
 
         //$package = Mage::registry('magiczoomplus_model_data')->getPackage();
         //$theme = Mage::registry('magiczoomplus_model_data')->getTheme();
@@ -38,7 +42,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Admi
 
     }
 
-    public function getValidationUrl() {
+    public function getValidationUrl()
+    {
 
         return $this->getUrl('*/*/validate', array(
             '_current'  => false
@@ -46,7 +51,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Edit extends Mage_Admi
 
     }
 
-    public function getSaveAndContinueUrl() {
+    public function getSaveAndContinueUrl()
+    {
 
         return $this->getUrl('*/*/save', array(
             '_current'  => true,

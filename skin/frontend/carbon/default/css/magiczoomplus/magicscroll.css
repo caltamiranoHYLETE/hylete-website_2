@@ -1,8 +1,8 @@
 /*
 
 
-   Magic Scroll v2.0.26 
-   Copyright 2016 Magic Toolbox
+   Magic Scroll v2.0.36
+   Copyright 2018 Magic Toolbox
    Buy a license: https://www.magictoolbox.com/magicscroll/
    License agreement: https://www.magictoolbox.com/license/
 
@@ -81,9 +81,17 @@ body.mcs-dragging button.mcs-button.mcs-horizontal.mcs-button-arrow {
 
 .mcs-item,
 .MagicScroll figure,
-.mcs-item img,
+/*.mcs-item img,*/
 .mcs-item .mcs-caption {
     display: inline-block;
+}
+
+.MagicScroll .mcs-item img {
+    pointer-events: none;
+}
+
+.mcs-item img {
+    display: inline-block !important;
 }
 
 .MagicScroll > * {
@@ -1138,6 +1146,8 @@ body.mcs-dragging button.mcs-button.mcs-horizontal.mcs-button-arrow {
 .MagicScroll-vertical .mcs-button-arrow-prev:before,
 .MagicScroll-vertical .mcs-button-arrow-next:before {
     content: "";
+    top: 50%;
+    left: 50%;
     width: 12px;
     height: 12px;
     position: absolute;
