@@ -144,9 +144,9 @@ class Mediotype_OfferStab_Model_CouponObserver
                     }
                 }
             }
-        }
 
-		$quote->collectTotals();
+            $quote->collectTotals();
+        }
 
         return $this;
     }
