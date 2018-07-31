@@ -1,0 +1,38 @@
+<div class="box-left">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper("troopid_connect")->__("ID.me Wallet Affiliation") ?></h4>
+            <div class="tools"></div>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <tr>
+                        <td class="label">
+                            <label><?php echo Mage::helper("troopid_connect")->__("Affiliation") ?></label>
+                        </td>
+                        <td class="value">
+                            <strong><?php echo $this->getAffiliation() ?></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label><?php echo Mage::helper("troopid_connect")->__("UUID") ?></label>
+                        </td>
+                        <td class="value">
+                            <strong><?php echo $this->getUUID() ?></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label><?php echo Mage::helper("troopid_connect")->__("Policy") ?></label>
+                        </td>
+                        <td class="value">
+                            <strong><?php echo $this->getScope() ?></strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

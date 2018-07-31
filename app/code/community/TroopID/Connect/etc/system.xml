@@ -1,0 +1,135 @@
+<config>
+    <tabs>
+        <troopid_config module="troopid_connect">
+            <label>ID.me Settings</label>
+            <sort_order>99999</sort_order>
+        </troopid_config>
+    </tabs>
+    <sections>
+        <troopid_connect module="troopid_connect">
+            <label>ID.me Connect</label>
+            <tab>troopid_config</tab>
+            <sort_order>9999</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings module="troopid_connect">
+                    <label>Application Settings</label>
+                    <expanded>1</expanded>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fieldset_css>troopid-config</fieldset_css>
+                    <fields>
+                        <info>
+                            <label>ID.me Affiliation Verification</label>
+                            <frontend_class>troopid-connect first</frontend_class>
+                            <frontend_model>troopid_connect/adminhtml_system_config_custom</frontend_model>
+                            <comment>
+                                <![CDATA[Create discounts on special offers exclusively for verified military members, students, teachers or first responders via ID.me]]>
+                            </comment>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </info>
+                        <instructions>
+                            <label>Required steps to get started</label>
+                            <frontend_class>troopid-connect last</frontend_class>
+                            <frontend_model>troopid_connect/adminhtml_system_config_instructions</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <developer_url><![CDATA[https://developer.id.me]]></developer_url>
+                            <apps_url><![CDATA[https://developer.id.me/organizations]]></apps_url>
+                            <docs_url><![CDATA[https://developer.id.me/documentation]]></docs_url>
+                            <learn_more_url><![CDATA[https://business.id.me]]></learn_more_url>
+                        </instructions>
+                        <enabled>
+                            <label>Enabled?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </enabled>
+                        <client_id>
+                            <label>Client ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </client_id>
+                        <client_secret>
+                            <label>Client Secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </client_secret>
+                        <enabled_military>
+                            <label>Military verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>troopid_connect/system_config_source_enabled</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </enabled_military>
+                        <enabled_student>
+                            <label>Student verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>troopid_connect/system_config_source_enabled</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </enabled_student>
+                        <enabled_responder>
+                            <label>First Responder verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>troopid_connect/system_config_source_enabled</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment/>
+                        </enabled_responder>
+                        <enabled_teacher>
+                          <label>Teachers verification</label>
+                          <frontend_type>select</frontend_type>
+                          <source_model>troopid_connect/system_config_source_enabled</source_model>
+                          <sort_order>9</sort_order>
+                          <show_in_default>1</show_in_default>
+                          <show_in_website>1</show_in_website>
+                          <show_in_store>1</show_in_store>
+                          <comment/>
+                        </enabled_teacher>
+                        <about>
+                            <label>Instructions</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[This text will be displayed as "What is ID.me?" in your shopping cart next to ID.me buttons]]>
+                            </comment>
+                        </about>
+                    </fields>
+                </settings>
+            </groups>
+        </troopid_connect>
+    </sections>
+</config>
