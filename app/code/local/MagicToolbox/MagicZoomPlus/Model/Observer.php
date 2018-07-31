@@ -218,7 +218,7 @@ class MagicToolbox_MagicZoomPlus_Model_Observer
             }
 
             if ($isVimeo) {
-                $hash = unserialize(file_get_contents('http://vimeo.com/api/v2/video/'.$videoCode.'.php'));
+                $hash = unserialize(file_get_contents('https://vimeo.com/api/v2/video/'.$videoCode.'.php'));
                 $thumb = $hash[0]['thumbnail_small'];
             } else {
                 $thumb = 'https://i1.ytimg.com/vi/'.$videoCode.'/1.jpg';

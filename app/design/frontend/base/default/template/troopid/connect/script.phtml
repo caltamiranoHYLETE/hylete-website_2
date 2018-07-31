@@ -1,0 +1,72 @@
+<script type="text/javascript">
+    if (typeof(IDme) == "undefined")
+        IDme = {};
+
+    IDme.Connect = Class.create({
+
+        initialize: function(selector) {
+            this.selector   = selector;
+            this.scope      = this.selector.readAttribute("data-scope");
+            this.selector.observe("click", this.open.bind(this));
+        },
+
+        open: function(event) {
+            window.open("<?php echo $this->getEndpoint() ?>?scope=" + this.scope, "", "scrollbars=yes,menubar=no,status=no,location=no,toolbar=no,width=750,height=620,top=" + this.getTop() + ",left=" + this.getLeft());
+        },
+
+        getTop: function() {
+            return (document.viewport.getHeight() - 780) / 3;
+        },
+
+        getLeft: function() {
+            return (document.viewport.getWidth() - 750) / 2;
+        }
+
+    });
+
+    IDme.Modal = Class.create({
+
+        initialize: function(selector) {
+            this.selector = $(selector);
+            this.selector.observe("click", this.open.bind(this));
+
+            this.overlay = $("idme-modal");
+            this.content = $("idme-modal-content");
+            this.closer  = $("idme-modal-closer");
+
+            this.overlay.observe("click", this.close.bind(this));
+            this.closer.observe("click", this.close.bind(this));
+
+            document.observe("keypress", function(event) {
+                if (event.keyCode == 27)
+                    this.close();
+            }.bind(this));
+        },
+
+        open: function() {
+            this.overlay.show();
+            this.content.show();
+        },
+
+        close: function() {
+            this.content.hide();
+            this.overlay.hide();
+        }
+
+    });
+
+    document.observe("dom:loaded", function() {
+        $$(".idme-connect-trigger").each(function(item) {
+            new IDme.Connect(item);
+        });
+
+        // backwards compatibility support
+        $$(".troopid-connect-trigger").each(function(item) {
+            new IDme.Connect(item);
+        });
+
+        $$(".idme-modal-trigger").each(function(item) {
+            new IDme.Modal(item);
+        });
+    });
+</script>
