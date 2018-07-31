@@ -24,10 +24,6 @@
         site_id: "<?php echo $_helper->getSiteId() ?>"
       }]);
 
-    _talkableq.push(["custom_properties", {
-        group_id: "<?php echo $_helper->getCustomerGroupId() ?>"
-    }]);
-
       _talkableq.push(["authenticate_customer", <?php echo Mage::helper("core")->jsonEncode($_helper->getCustomerData()) ?>]);
     //]]>
     </script>

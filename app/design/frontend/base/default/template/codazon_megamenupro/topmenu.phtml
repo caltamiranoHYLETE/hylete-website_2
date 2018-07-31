@@ -1,0 +1,13 @@
+<?php
+$disableDefaultMenu = Mage::getStoreConfig('codazon_megamenupro/general/disable_default_menu');
+$usedMegamenu = Mage::getStoreConfig('codazon_megamenupro/general/used_megamenu');
+$activeRtl = Mage::getStoreConfig('codazon_megamenupro/general/active_rtl');
+if($disableDefaultMenu){
+	echo $this->getLayout()->createBlock('megamenupro/widget_megamenu')->setMenu($usedMegamenu)->toHtml();
+}else{
+	$defaultMenu = $this->getLayout()->createBlock('page/html_topmenu')->setTemplate('page/html/topmenu.phtml');
+	$render = $this->getLayout()->createBlock('page/html_topmenu_renderer')->setTemplate('page/html/topmenu/renderer.phtml');
+	$defaultMenu->setChild('catalog.topnav.renderer',$render);
+	echo $defaultMenu->toHtml();
+}
+?>

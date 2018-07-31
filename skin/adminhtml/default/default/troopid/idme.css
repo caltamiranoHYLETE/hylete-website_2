@@ -1,0 +1,37 @@
+.troopid-config .troopid-connect {
+    background: #EFEFEF;
+    border: 1px solid #D8D8D8;
+    padding: 10px 10px 10px 25px;
+}
+.troopid-config .troopid-connect .intro {
+    display: block;
+}
+.troopid-config .troopid-connect.first {
+    margin: 5px 0 0 0;
+}
+.troopid-config .troopid-connect.last {
+    border-top: none;
+    margin: 0 0 10px 0;
+    padding-bottom: 15px;
+}
+.troopid-config .troopid-connect.first .heading {
+    padding: 0 0 0 150px;
+    height: 35px;
+    background: url("images/logo.png") no-repeat scroll 0 0 transparent;
+}
+.troopid-config .troopid-connect.first .heading {
+    padding-top: 16px;
+}
+.troopid-config .troopid-connect .comment {
+    display: block;
+    padding: 0;
+}
+.troopid-config .troopid-connect .title {
+    display: block;
+    font-weight: bold;
+}
+.troopid-config .troopid-connect .steps {
+    display: block;
+    margin: 0 0 0 15px;
+    list-style: square;
+}

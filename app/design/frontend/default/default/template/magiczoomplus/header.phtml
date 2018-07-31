@@ -30,15 +30,13 @@ if($force ||
     var magicToolboxLinks = [];
     var magicToolboxProductId = <?php echo $current_product_id; ?>;
     var magicToolboxTool = 'magiczoomplus';
-    var magicToolboxToolMainId = 'MagicZoomPlusImage'+magicToolboxProductId; 
+    var magicToolboxToolMainId = 'MagicZoomPlusImage'+magicToolboxProductId;
     var magicToolboxOptionTitles = ['<?php echo strtolower(trim(preg_replace('/\s*,\s*/is', "','", $tool->params->getValue('option-associated-with-images', 'product')))); ?>'];
     var magicToolboxSwitchMetod = '<?php echo $mouseEvent; ?>';
     var magicToolboxMouseoverDelay = <?php echo $tool->params->checkValue('selectorTrigger', 'hover', 'product') ? 60 : 0; ?>;
-    var mjsAddEventMethod = 'je1';
 
-    if(typeof(magicJS.Doc.je1) == 'undefined') mjsAddEventMethod = 'jAddEvent';
-
-    $mjs(window)[mjsAddEventMethod]('load', function() {
+    //$mjs(window).jAddEvent('load', function() {
+    $mjs(document).jAddEvent('domready', function() {
         magicToolboxPrepareOptions();
     });
     var allowHighlightActiveSelectorOnUpdate = true;
@@ -59,5 +57,3 @@ if($force ||
         $this->displayAdditionalScroll(false);
     }
 }
-
-?>

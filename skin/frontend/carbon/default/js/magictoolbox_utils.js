@@ -10,7 +10,7 @@ var choosedOptions = {};
 
 var allowMagicToolboxChange = true;
 
-function magicToolboxPrepareOptions() {
+function mtGetProductId() {
     var productId;
     if(typeof optionsPrice.productId != 'undefined') {
         productId = optionsPrice.productId;
@@ -22,6 +22,11 @@ function magicToolboxPrepareOptions() {
             productId = magicToolboxProductId;
         }
     }
+    return productId;
+}
+
+function magicToolboxPrepareOptions() {
+    var productId = mtGetProductId();
 
     var container = document.getElementById('MagicToolboxSelectors'+productId);
     if(container) {
@@ -33,13 +38,13 @@ function magicToolboxPrepareOptions() {
         }
     }
 
-    //for products with options
+    //NOTE: for products with options
     for(var optionID in optionLabels) {
         var elements = document.getElementsByName('options['+optionID+']');
         if(elements) {
             for(var i = 0, l = elements.length; i < l; i++) {
                 var eventType = (elements[i].type == 'radio') ? 'click' : 'change';
-                $mjs(elements[i])[mjsAddEventMethod](eventType, function(e) {
+                $mjs(elements[i]).jAddEvent(eventType, function(e) {
                     var objThis = e.target || e.srcElement;
                     var optionID = objThis.name.replace('options[', '').replace(']', '');
                     magicToolboxOnChangeOption(objThis, optionTitles[optionID]);
@@ -48,14 +53,15 @@ function magicToolboxPrepareOptions() {
         }
     }
 
-    //for configurable products
+    //NOTE: for configurable products
     if(typeof spConfig != 'undefined' && typeof spConfig.config.attributes != 'undefined') {
         for(var attributeID in spConfig.config.attributes) {
             optionLabels[attributeID] = {};
             optionProductIDs[attributeID] = {};
             optionTitles[attributeID] = spConfig.config.attributes[attributeID].label.toLowerCase();
-            for(var optionID in spConfig.config.attributes[attributeID].options) {
-                var option = spConfig.config.attributes[attributeID].options[optionID];
+            var options = spConfig.config.attributes[attributeID].options;
+            for(var k = 0; k < options.length; k++) {
+                var option = options[k];
                 if(typeof option == 'object') {
                     optionLabels[attributeID][option.id] = option.label.replace(/(^\s+)|(\s+$)/g, "")/*.replace(/"/g, "'")*/.toLowerCase();
                     optionProductIDs[attributeID][option.id] = {};
@@ -84,7 +90,7 @@ function magicToolboxPrepareOptions() {
             //NOTE: for select in configurable.phtml
             var selectEl = document.getElementById('attribute'+attributeID);
             if(selectEl) {
-                $mjs(selectEl)[mjsAddEventMethod]('change', function(e) {
+                $mjs(selectEl).jAddEvent('change', function(e) {
                     var objThis = e.target || e.srcElement;
                     var attrID = objThis.id.replace('attribute', '');
                     magicToolboxOnChangeOptionConfigurable(objThis, optionTitles[attrID]);
@@ -176,9 +182,14 @@ function magicToolboxPrepareOptions() {
             if(currentSlideId == newSlideId/* && currentSlideId == 'zoom'*/) {
                 if(isMagicZoom) {
                     allowHighlightActiveSelectorOnUpdate = false;
-                    magicToolboxHighlightActiveSelector(element);
                 }
+                magicToolboxHighlightActiveSelector(element);
                 return false;
+            }
+
+            //NOTE: spike for native video support
+            if(magicToolboxTool == 'magicthumb' && newSlideId.match(/^video\-\d+$/)) {
+                newSlideId = 'zoom';
             }
 
             //NOTE: check when one image + 360 selector
@@ -197,13 +208,15 @@ function magicToolboxPrepareOptions() {
             currentContainer.className = currentContainer.className.replace(/(\s|^)mt-active(\s|$)/, ' ');
             newContainer.className += ' mt-active';
 
-            if(newSlideId == 'zoom' && isMagicZoom) {
-                //NOTE: hide image to skip magiczoom(plus) switching effect
-                if(!$mjs(element).jHasClass('mz-thumb-selected')) {
-                    document.querySelector('#'+magicToolboxToolMainId+' .mz-figure > img').style.visibility = 'hidden';
+            if(newSlideId == 'zoom') {
+                if(isMagicZoom) {
+                    //NOTE: hide image to skip magiczoom(plus) switching effect
+                    if(!$mjs(element).jHasClass('mz-thumb-selected')) {
+                        document.querySelector('#'+magicToolboxToolMainId+' .mz-figure > img').style.visibility = 'hidden';
+                    }
+                    //NOTE: switch image
+                    MagicZoom.switchTo(magicToolboxToolMainId, element);
                 }
-                //NOTE: switch image
-                MagicZoom.switchTo(magicToolboxToolMainId, element);
                 allowHighlightActiveSelectorOnUpdate = false;
                 magicToolboxHighlightActiveSelector(element);
             }
@@ -235,10 +248,10 @@ function magicToolboxPrepareOptions() {
                 } else if(videoType == 'youtube') {
                     loadYoutubeApi();
                 }
-                if(isMagicZoom) magicToolboxHighlightActiveSelector(element);
+                magicToolboxHighlightActiveSelector(element);
             }
 
-            if(newSlideId == '360' && isMagicZoom) {
+            if(newSlideId == '360') {
                 magicToolboxHighlightActiveSelector(element);
             }
 
@@ -249,35 +262,33 @@ function magicToolboxPrepareOptions() {
         switchEvent;
 
     if(isMagicZoom || magicToolboxTool == 'magicthumb') {
+
+        var activeSlide, slideId, query, thumbnail;
+
         if(isMagicZoom) {
             switchEvent = (magicToolboxSwitchMetod == 'click' ? 'btnclick' : magicToolboxSwitchMetod);
+            query = '.mz-thumb.mz-thumb-selected';
+        } else {
+            switchEvent = magicToolboxSwitchMetod;
+            query = '.mgt-selector.mgt-active';
+        }
 
-            //NOTE: mark thumbnail
-            var activeSlide, slideId, query, thumbnail;
-            activeSlide = document.querySelector('.magic-slide.mt-active');
-            if(activeSlide) {
-                slideId = activeSlide.getAttribute('data-magic-slide');
-                query = slideId != 'zoom' ? '[data-magic-slide-id="'+slideId+'"]' : '.mz-thumb.mz-thumb-selected';
-                thumbnail = document.querySelector(query);
-                if(thumbnail) {
-                    thumbnail.className += ' active-selector';
-                }
+        //NOTE: mark thumbnail
+        activeSlide = document.querySelector('.magic-slide.mt-active');
+        if(activeSlide) {
+            slideId = activeSlide.getAttribute('data-magic-slide');
+            if(slideId != 'zoom') {
+                query = '[data-magic-slide-id="'+slideId+'"]';
+            }
+            thumbnail = document.querySelector(query);
+            if(thumbnail) {
+                thumbnail.className += ' active-selector';
             }
         }
+
         //NOTE: a[data-magic-slide-id]
         for(var j = 0, linksLength = magicToolboxLinks.length; j < linksLength; j++) {
-            if(isMagicZoom) {
-                //NOTE: if MagicThumb is present
-                if(mjsAddEventMethod == 'je1') {
-                    $mjs(magicToolboxLinks[j])[mjsAddEventMethod](magicToolboxSwitchMetod, switchFunction);
-                    $mjs(magicToolboxLinks[j])[mjsAddEventMethod]('touchstart', switchFunction);
-                } else {
-                    $mjs(magicToolboxLinks[j])[mjsAddEventMethod](switchEvent+' tap', switchFunction, 1);
-                }
-            } else if(magicToolboxTool == 'magicthumb') {
-                $mjs(magicToolboxLinks[j])[mjsAddEventMethod](magicToolboxSwitchMetod, switchFunction);
-                $mjs(magicToolboxLinks[j])[mjsAddEventMethod]('touchstart', switchFunction);
-            }
+            $mjs(magicToolboxLinks[j]).jAddEvent(switchEvent+' tap', switchFunction, 1);
         }
 
         //NOTE: start magicscroll if need it
@@ -286,19 +297,10 @@ function magicToolboxPrepareOptions() {
                 MagicScroll.start('MagicToolboxSelectors'+productId);
             } else {
                 window.checkForThumbIsReadyIntervalID = setInterval(function() {
-                    if(typeof(MagicThumb.thumbs) != 'undefined' && MagicThumb.thumbs.length) {
-                        var magicThumbIsReady = true;
-                        for (var i = 0; i <  MagicThumb.thumbs.length; i++) {
-                            if (!MagicThumb.thumbs[i].ready) {
-                                magicThumbIsReady = false;
-                                break;
-                            }
-                        }
-                        if(magicThumbIsReady) {
-                            MagicScroll.start('MagicToolboxSelectors'+productId);
-                            clearInterval(window.checkForThumbIsReadyIntervalID);
-                            window.checkForThumbIsReadyIntervalID = null;
-                        }
+                    if (MagicThumb && MagicThumb.isReady('MagicThumbImage'+productId)) {
+                        MagicScroll.start('MagicToolboxSelectors'+productId);
+                        clearInterval(window.checkForThumbIsReadyIntervalID);
+                        window.checkForThumbIsReadyIntervalID = null;
                     }
                 }, 100);
             }
@@ -311,7 +313,9 @@ function magicToolboxHighlightActiveSelector(selectedElement) {
     for(var i = 0; i < magicToolboxLinks.length; i++) {
         magicToolboxLinks[i].className = magicToolboxLinks[i].className.replace(/(\s|^)active\-selector(\s|$)/, ' ');
     }
-    selectedElement.className += ' active-selector';
+    if(selectedElement) {
+        selectedElement.className += ' active-selector';
+    }
 }
 
 function magicToolboxClickElement(element, eventType, eventName) {
@@ -335,40 +339,59 @@ function magicToolboxOnChangeOption(element, optionTitle) {
     }
 
     if(magicToolboxInArray(optionTitle, magicToolboxOptionTitles)) {
-        var id = '';
-        if(element.type == 'radio' && element.checked) {
-            id = element.name.replace('options[', '').replace(']', '');
-        } else if(element.type == 'select-one') {
-            id = element.id.replace('select_', '').replace('attribute', '');
+
+        var label = mtGetOptionLabel(element);
+        if(!label) return;
+
+        var selector = mtGetMatchedSelector(label);
+        if(!selector) return;
+
+        mtSwitchToSelector(selector);
+    }
+}
+
+function mtGetOptionLabel(element) {
+    var id = '';
+    if(element.type == 'radio' && element.checked) {
+        id = element.name.replace('options[', '').replace(']', '');
+    } else if(element.type == 'select-one') {
+        id = element.id.replace('select_', '').replace('attribute', '');
+    } else {
+        return false;
+    }
+    if(element.value == '' || (typeof optionLabels[id][element.value] == 'undefined')) {
+        return false;
+    }
+    return optionLabels[id][element.value];
+}
+
+function mtGetMatchedSelector(label) {
+    var selector = null;
+    for(var i = 0, l = magicToolboxLinks.length, img = null, alt = null; i < l; i++) {
+        img = magicToolboxLinks[i].querySelector('img');
+        if(!img) continue;
+        alt = img.getAttribute('alt');
+        if(!alt) continue;
+        if(alt.replace(/(^\s+)|(\s+$)/g, "")/*.replace(/"/g, "'")*/.toLowerCase() == label) {
+            selector = magicToolboxLinks[i];
+            break;
+        }
+    }
+    return selector;
+}
+
+function mtSwitchToSelector(selector) {
+    if(magicToolboxTool == 'magiczoom' || magicToolboxTool == 'magiczoomplus') {
+        if(magicToolboxSwitchMetod == 'click') {
+            $mjs(selector).jCallEvent('btnclick', {target: selector});
         } else {
-            return;
+            allowMagicToolboxChange = false;
+            magicToolboxClickElement(selector, 'MouseEvents', magicToolboxSwitchMetod);
         }
-        if(element.value == '' || (typeof optionLabels[id][element.value] == 'undefined')) {
-            return;
-        }
-        var label = optionLabels[id][element.value];
-        for(var j = 0, linksLength = magicToolboxLinks.length, img = null, alt = null; j < linksLength; j++) {
-            img = magicToolboxLinks[j].querySelector('img');
-            if(!img) continue;
-            alt = img.getAttribute('alt');
-            if(!alt) continue;
-            if(alt.replace(/(^\s+)|(\s+$)/g, "")/*.replace(/"/g, "'")*/.toLowerCase() == label) {
-                if(magicToolboxTool == 'magiczoom' || magicToolboxTool == 'magiczoomplus') {
-                    if(magicToolboxSwitchMetod == 'click') {
-                        //NOTE: simulate btnclick event
-                        magicJS.$(magicToolboxLinks[j]).jCallEvent('btnclick', {target: magicToolboxLinks[j]});
-                    } else {
-                        allowMagicToolboxChange = false;
-                        magicToolboxClickElement(magicToolboxLinks[j], 'MouseEvents', magicToolboxSwitchMetod);
-                    }
-                } else {
-                    //MagicThumb
-                    allowMagicToolboxChange = false;
-                    magicToolboxClickElement(magicToolboxLinks[j], 'MouseEvents', magicToolboxSwitchMetod);
-                }
-                break;
-            }
-        }
+    } else {
+        //NOTE: for MagicThumb
+        allowMagicToolboxChange = false;
+        magicToolboxClickElement(selector, 'MouseEvents', magicToolboxSwitchMetod);
     }
 }
 
@@ -482,14 +505,16 @@ function magicToolboxChangeOptions(i, options) {
                 select.value = select.options[j].value;
                 select.selectedIndex = j;
 
+                //NOTE: clear child elements in choosedOptions
                 if(select.childSettings) {
-                    for(var k = 0; k < select.childSettings.length; k++) {
-                        var childAttributeId = select.childSettings[k].id.replace(/[a-z]*/, '');
+                    for(var k = 0, childAttributeId = null; k < select.childSettings.length; k++) {
+                        childAttributeId = select.childSettings[k].id.replace(/[a-z]*/, '');
                         if(typeof choosedOptions[childAttributeId] != 'undefined') {
                             delete choosedOptions[childAttributeId];
                         }
                     }
                 }
+                //NOTE: remember choosed option
                 choosedOptions[attributeId] = select.value;
 
                 allowMagicToolboxChange = false;
@@ -526,25 +551,49 @@ function magicToolboxOnChangeOptionConfigurable(element, optionTitle) {
         return;
     }
 
-    if(typeof useAssociatedProductImages != 'undefined') {
+    var attributeId = element.id.replace(/[a-z]*/, '');
 
-        var attributeId = element.id.replace(/[a-z]*/, '');
-
-        if(typeof choosedOptions[attributeId] != 'undefined') {
-            delete choosedOptions[attributeId];
-        }
-
-        //clear child elements in choosedOptions
-        if(element.childSettings) {
-            for(var i=0,l= element.childSettings.length;i<l;i++){
-                var childAttributeId = element.childSettings[i].id.replace(/[a-z]*/, '');
-                if(typeof choosedOptions[childAttributeId] != 'undefined') {
-                    delete choosedOptions[childAttributeId];
-                }
+    //NOTE: clear choosedOptions
+    if(typeof choosedOptions[attributeId] != 'undefined') {
+        delete choosedOptions[attributeId];
+    }
+    //NOTE: clear child elements in choosedOptions
+    if(element.childSettings) {
+        for(var i = 0, childAttributeId = null; i < element.childSettings.length; i++) {
+            childAttributeId = element.childSettings[i].id.replace(/[a-z]*/, '');
+            if(typeof choosedOptions[childAttributeId] != 'undefined') {
+                delete choosedOptions[childAttributeId];
             }
         }
+    }
 
-        var configurableProductId = spConfig.config.productId;
+    //NOTE: remember choosed option
+    if(element.value.length) {
+        choosedOptions[attributeId] = element.value;
+    }
+
+    //NOTE: switch to labeled image of main product if it presents
+    var label = mtGetOptionLabel(element);
+    if(label) {
+        var selector = mtGetMatchedSelector(label);
+        if(selector) {
+            mtSwitchToSelector(selector);
+            return;
+        }
+
+        //NOTE: exluded images
+        if(typeof mtLabeledImageUrls != 'undefined' && typeof mtLabeledImageUrls[label] != 'undefined') {
+            var large = mtLabeledImageUrls[label]['large-image-url'],
+                small = mtLabeledImageUrls[label]['small-image-url'],
+                productId = mtGetProductId();
+            MagicZoom.update('MagicZoomPlusImage'+productId, large, small);
+            return;
+        }
+    }
+
+    if(typeof useAssociatedProductImages != 'undefined') {
+
+        //var configurableProductId = spConfig.config.productId;
         //var mainSelectorImage = document.getElementById('imageMain'+configurableProductId);
 
         if(element.value.length === 0) {
@@ -554,46 +603,34 @@ function magicToolboxOnChangeOptionConfigurable(element, optionTitle) {
             return;
         }
 
-        var associatedProductId = magicToolboxFindProduct(attributeId, element.value);
-        //add new option or replace one
-        choosedOptions[attributeId] = element.value;
+        //var associatedProductId = magicToolboxFindProduct(attributeId, element.value);
+        var associatedProductId = mtGetAssociatedProduct();
+        if(!associatedProductId) {
+            return;
+        }
 
         var associatedImage = document.getElementById('imageConfigurable'+associatedProductId);
         if(associatedImage) {
-            //associatedImage.parentNode.click();
-            if(magicToolboxTool == 'magiczoom' || magicToolboxTool == 'magiczoomplus') {
-                if(magicToolboxSwitchMetod == 'click') {
-                    //NOTE: simulate btnclick event
-                    magicJS.$(associatedImage.parentNode).jCallEvent('btnclick', {target: associatedImage.parentNode});
-                } else {
-                    allowMagicToolboxChange = false;
-                    magicToolboxClickElement(associatedImage.parentNode, 'MouseEvents', magicToolboxSwitchMetod);
-                }
-            } else {
-                //MagicThumb
-                allowMagicToolboxChange = false;
-                magicToolboxClickElement(associatedImage.parentNode, 'MouseEvents', magicToolboxSwitchMetod);
-            }
+            mtSwitchToSelector(associatedImage.parentNode);
             return;
         } else {
-            /*if(mainSelectorImage) {
-                //mainSelectorImage.parentNode.click();
-                allowMagicToolboxChange = false;
-                magicToolboxClickElement(mainSelectorImage.parentNode, 'MouseEvents', magicToolboxSwitchMetod);
-            }
-            return;*/
+            // if(mainSelectorImage) {
+            //     allowMagicToolboxChange = false;
+            //     magicToolboxClickElement(mainSelectorImage.parentNode, 'MouseEvents', magicToolboxSwitchMetod);
+            // }
+            // return;
         }
 
     }
 
-    magicToolboxOnChangeOption(element, optionTitle);
-
+    //NOTE: switching to labeled image of main product takes place before
+    //magicToolboxOnChangeOption(element, optionTitle);
 }
 
 function magicToolboxFindProduct(attributeId, optionId) {
 
     for(var i in optionProductIDs[attributeId][optionId]) {
-        //product associated with current option
+        //NOTE: product associated with current option
         var pId = optionProductIDs[attributeId][optionId][i];
         for(var attrId in choosedOptions) {
             //selected option's ID
@@ -615,6 +652,45 @@ function magicToolboxFindProduct(attributeId, optionId) {
     }
     return optionProductIDs[attributeId][optionId][0];
 
+}
+
+function mtGetAssociatedProduct() {
+
+    var el = null, ids = {}, id = false, first = true, keys;
+    for(var attrId in optionProductIDs) {
+        //NOTE: element of 'select' type for configurable options
+        el = document.getElementById('attribute'+attrId);
+        if(!el || el.value == '') {
+            continue;
+        }
+
+        if(first) {
+            first = false;
+            ids = Object.assign({}, optionProductIDs[attrId][el.value]);
+            continue;
+        }
+
+        for(var i in ids) {
+            //NOTE: check for id in next option
+            var notFound = true;
+            for(var j in optionProductIDs[attrId][el.value]) {
+                if(ids[i] === optionProductIDs[attrId][el.value][j]) {
+                    notFound = false;
+                    break;
+                }
+            }
+            if(notFound) {
+                delete ids[i];
+            }
+        }
+    }
+
+    keys = Object.keys(ids);
+    if(keys.length) {
+        id = ids[keys[0]];
+    }
+
+    return id;
 }
 
 //NOTE: add "PRESELECT COLORS PLUS SWATCHES" support (#58917)

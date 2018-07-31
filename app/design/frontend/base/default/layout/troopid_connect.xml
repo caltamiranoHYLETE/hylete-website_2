@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>troopid/idme.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="troopid_connect/cart" name="troopid.connect.script" as="script" template="troopid/connect/script.phtml" />
+        </reference>
+
+        <reference name="checkout.cart">
+            <block type="troopid_connect/cart" name="checkout.cart.extra" as="checkout.cart.extra" template="troopid/connect/cart.phtml" before="-"/>
+        </reference>
+    </checkout_cart_index>
+
+    <troopid_connect_authorize_callback>
+        <block type="page/html" name="root" output="toHtml" template="troopid/connect/callback.phtml"/>
+    </troopid_connect_authorize_callback>
+</layout>
