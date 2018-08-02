@@ -1,7 +1,9 @@
 /*--------------------------------------------
  | Mega Menu CSS
+ | HYLETE has commented this out so we can disble the megamenu and get the normal menu back  
  */
 
+/*
 #nav {
     display: none;
 }
@@ -128,3 +130,5 @@
         padding-bottom: 3px;
     }
 }
+
+*/
