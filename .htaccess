@@ -122,6 +122,9 @@
 
     #RewriteBase /magento/
 
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L,QSA]
+
     RewriteCond %{REQUEST_URI}  ^/SMB17$ [NC]
     RewriteRule ^(.*)$ https://events.hylete.com/event/home/smb17 [R=301,L]
 
