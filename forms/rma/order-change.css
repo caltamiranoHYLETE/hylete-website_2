@@ -41,3 +41,8 @@
 .comments {
     margin-top:10px;
 }
+
+.cms-page-view .col-main input {
+    max-width: 100%;
+    /* width: 300px; */
+}
