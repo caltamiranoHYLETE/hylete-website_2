@@ -5,12 +5,15 @@ jQuery( document ).ready(function() {
         jQuery('#submit-area').hide();
 
         if(jQuery(this).val() === "other" || jQuery(this).val() === "item") {
+
+            jQuery('#comments-label').html("Please describe what you need to change about your order below and we'll help you out.");
             jQuery('#address-area').hide();
             jQuery('#comment-area').show();
 
         } else if(jQuery(this).val() === "address") {
-            jQuery('#comment-area').hide();
-            jQuery('#address-area').show();
+            jQuery('#comments-label').html("Please add the new shipping address below and we'll help you out.");
+            jQuery('#address-area').hide();
+            jQuery('#comment-area').show();
         } else{
             jQuery('#comment-area').hide();
             jQuery('#address-area').hide();
@@ -63,7 +66,7 @@ jQuery( document ).ready(function() {
                 }
             }
 
-            if(fromVal === "other" || fromVal === "item") {
+            if(fromVal === "other" || fromVal === "item" || fromVal === "address") {
                 if(confirm("This is going to place your order on HOLD until we process your request. Are you sure you want to do this?")){
                     jQuery('#changeForm').hide();
                     jQuery('#submit-area').hide();
