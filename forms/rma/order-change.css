@@ -42,7 +42,7 @@
     margin-top:10px;
 }
 
-.cms-page-view .col-main input {
+.cms-page-view .col-main input [type="radio"]{
     max-width: 100%;
-    /* width: 300px; */
+    width: 10px;
 }
