@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v10/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://fonts.gstatic.com/s/opensans/v10/MTP_ySUJH_bn48VBG8sNSqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v10/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+
+.idme-connect {
+    float:left;
+}
+
+.idme-connect h2 {
+    margin-bottom: 10px;
+}
+
+.idme-connect .idme-button {
+    margin: 5px 0 0 5px;
+    display: inline-block;
+
+    float:left;
+}
+
+@media screen and (max-width: 600px) {
+    .idme-connect .idme-button {
+        float: none;
+        width: 100%;
+    }
+}
+
+.idme-connect .idme-button:first-child {
+    margin-left: 0;
+}
+
+.idme-connect .idme-button a {
+    display: inline-block;
+    margin: 0;
+}
+
+.idme-connect .idme-button a img {
+    height: 35px;
+    margin: 0;
+    float: left;
+}
+
+.idme-connect .about {
+    display: block;
+    clear: both;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.idme-connect .about .container {
+    display: inline-block;
+    color: rgb(0, 0, 0);
+    font-family: Open Sans, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.idme-connect .about .container img {
+    vertical-align: middle;
+    margin: 0 3px 5px 0;
+    display: inline;
+}
+
+.idme-connect .about .container a {
+    color: rgb(39, 160, 227);
+}
+
+.idme-connect .affiliation strong {
+    display: block;
+}
+
+#idme-modal {
+    background: none repeat scroll 0 0 #000;
+    position: fixed;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#idme-modal-content {
+    background: url("https://s3.amazonaws.com/idme/assets/faq-model-footer.png") no-repeat scroll center bottom #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 17px 0 rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    padding: 40px 10px 90px;
+    position: absolute;
+    left: 25%;
+    top: 15%;
+    width: 480px;
+    z-index: 9999;
+}
+
+#idme-modal-content .content {
+    text-align: left;
+    font-family: Open Sans, Arial, sans-serif;
+    font-size: 12px;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0 30px 0 40px;
+}
+
+#idme-modal-content h3 {
+    font-family: Open Sans, Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin: 0 0 20px;
+    text-align: center;
+    text-transform: none;
+}
+
+
+#idme-modal-content .content p {
+    color: rgb(45, 62, 81);
+    font-size: 12px;
+    margin: 12px 0
+}
+
+#idme-modal-content h3 {
+    margin: 0 0 20px;
+    font-size: 32px;
+    font-weight: 300;
+    text-align: center;
+}
+
+#idme-modal-content .close {
+    background: url("https://s3.amazonaws.com/idme/assets/faq-model-close.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
+    position: absolute;
+    float: right;
+    top: 15px;
+    right: 15px;
+    height: 26px;
+    width: 26px;
+}

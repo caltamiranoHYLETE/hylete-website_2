@@ -42,6 +42,8 @@ $_customerGroupId = $_customerSession->getCustomerGroupId();
 
 /** @var Mediotype_HyletePrice_Helper_Data $_hyletePriceHelper */
 $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
+
+
 ?>
 
 <div class="cart">
@@ -89,38 +91,38 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                     <table id="shopping-cart-table" class="data-table cart-table">
                         <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
                         <thead>
-                            <tr>
-                                <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
-                                <th rowspan="<?php echo $mergedCells; ?>" class="hidden-xs">&nbsp;</th>
-                                <th rowspan="<?php echo $mergedCells; ?>" class="th-title"><span class="nobr"><?php echo $this->__('product') ?></span></th>
-                                <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
+                        <tr>
+                            <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
+                            <th rowspan="<?php echo $mergedCells; ?>" class="hidden-xs">&nbsp;</th>
+                            <th rowspan="<?php echo $mergedCells; ?>" class="th-title"><span class="nobr"><?php echo $this->__('product') ?></span></th>
+                            <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
                                     <span class="nobr">
                                         <?php echo $this->__('retail value'); ?>
                                     </span>
-                                </th>
-                                <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
+                            </th>
+                            <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
                                     <span class="nobr">
                                         <?php echo $this->__($_hyletePriceHelper->getPriceLabelByCustomerGroup()); ?>
                                     </span>
-                                </th>
-                                <th rowspan="<?php echo $mergedCells; ?>" width="100" class="a-center"><?php echo $this->__('qty') ?></th>
-                                <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
-                                    <?php echo $this->__('subtotal') ?>
-                                </th>
+                            </th>
+                            <th rowspan="<?php echo $mergedCells; ?>" width="100" class="a-center"><?php echo $this->__('qty') ?></th>
+                            <th class="a-center hidden-xs" colspan="<?php echo $mergedCells; ?>">
+                                <?php echo $this->__('subtotal') ?>
+                            </th>
+                        </tr>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <tr>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
                             </tr>
-                            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                                <tr>
-                                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                                </tr>
-                            <?php endif; ?>
+                        <?php endif; ?>
                         </thead>
                         <tbody>
-                            <?php foreach($this->getItems() as $_item): ?>
-                                <?php echo $this->getItemHtml($_item) ?>
-                            <?php endforeach ?>
+                        <?php foreach($this->getItems() as $_item): ?>
+                            <?php echo $this->getItemHtml($_item) ?>
+                        <?php endforeach ?>
                         </tbody>
 
                     </table>
@@ -152,24 +154,40 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                             $j('.coupons-wrapper-logged').html(slider);
                         });
                     </script>
-                <div class="discounts">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 coupons-wrapper-logged">
 
-                        </div>
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
-                            <?php echo $this->getChildHtml('coupon') ?>
-                            <div class="giftcard-wrapper">
-                                <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
-                                <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
-                                <div class="discount-giftcard giftcard-content">
-                                    <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
+
+                    <div class="discounts">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 coupons-wrapper-logged">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
+                                <?php echo $this->getChildHtml('coupon') ?>
+                                <div class="giftcard-wrapper">
+                                    <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
+                                    <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
+                                    <div class="discount-giftcard giftcard-content">
+                                        <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
+                                    </div>
+
                                 </div>
+
+                                <!-- Display Only For Specific Store Views -->
+                                <?php
+                                if($_customerGroupId==0 OR $_customerGroupId==1)
+                                {
+                                    echo $this->getChildHtml('checkout.cart.extra');
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
-                </div>
+
+
+
                 <?php else: ?>
+
+
 
                     <div class="discounts">
                         <div class="row">
@@ -182,6 +200,16 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                         <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
                                     </div>
                                 </div>
+
+                                <!-- Display Only For Specific Store Views -->
+                                <?php
+
+                                if($_customerGroupId==0 OR $_customerGroupId==1)
+                                {
+                                    echo $this->getChildHtml('checkout.cart.extra');
+                                }
+                                ?>
+
                             </div>
 
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -208,8 +236,17 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                 </div>
                             </div>
                         </div>
+
+
+
+
+
                     </div>
                 <?php endif; ?>
+
+
+
+
 
                 <script type="text/javascript">
 
@@ -223,16 +260,16 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                     document.observe("dom:loaded", function() {
                         firecheckoutWindow = new FC.Window({
                             triggers: {
-                               login: {
-                                   el    : $$(loginLinks.join(', ')),
-                                   event : 'click',
-                                   window: $('firecheckout-login-window')
-                               },
-                               forgot: {
-                                   el    : $$('.firecheckout-forgot'),
-                                   event : 'click',
-                                   window: $('firecheckout-forgot-window')
-                               }
+                                login: {
+                                    el    : $$(loginLinks.join(', ')),
+                                    event : 'click',
+                                    window: $('firecheckout-login-window')
+                                },
+                                forgot: {
+                                    el    : $$('.firecheckout-forgot'),
+                                    event : 'click',
+                                    window: $('firecheckout-forgot-window')
+                                }
                             }
                         });
                     });

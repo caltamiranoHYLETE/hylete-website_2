@@ -1,0 +1,89 @@
+<?php if ($this->isOperational()) : ?>
+
+<input type="checkbox" id="open-promo" class="open-promo"/>
+<label for="open-promo"><?php echo Mage::getModel('cms/block')->load('idme-cart-checkbox-label')->getContent();?></label>
+<form id="idme-coupon-form" class="clearfix idme promo-content" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
+
+    <div class="pull-left">
+
+        <div class="discount idme-connect">
+            <h2><?php echo $this->__("Get verified with ID.me") ?></h2>
+            <?php if ($this->hasAffiliation()): ?>
+                <div class="affiliation">
+                    <?php echo $this->__("You have verified yourself as") ?>
+                    <strong><?php echo $this->getAffiliation() ?></strong>
+                </div>
+            <?php else: ?>
+                <?php if ($this->isEnabled("military")) : ?>
+                    <div class="idme-button">
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="military" title="<?php echo $this->__("Verify your military affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Troop.png" alt="Troop ID" border="0"/>
+                        </a>
+                    </div>
+
+                <?php endif ?>
+
+                <?php if ($this->isEnabled("responder")) : ?>
+
+                    <div class="idme-button">
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="responder" title="<?php echo $this->__("Verify your first responder affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Responder.png" alt="First Responder ID" border="0"/>
+                        </a>
+                    </div>
+
+                <?php endif ?>
+
+                <p></p>
+
+                <?php if ($this->isEnabled("teacher")) : ?>
+
+                    <div class="idme-button">
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="teacher" title="<?php echo $this->__("Verify your teacher affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Teacher.png" alt="Teacher ID" border="0"/>
+                        </a>
+                    </div>
+
+                <?php endif ?>
+
+
+
+
+
+                <?php if ($this->isEnabled("student")) : ?>
+
+                    <div class="idme-button">
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="student" title="<?php echo $this->__("Verify your student affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Student.png" alt="Student ID" border="0"/>
+                        </a>
+                    </div>
+
+                <?php endif ?>
+
+
+
+            <?php endif ?>
+            <div class="about">
+                <div class="container">
+                    <img alt="ID.me" src="https://s3.amazonaws.com/idme/assets/lock.png" style="vertical-align:middle; margin:0 3px 5px 0;" width="8">
+                    Verification by ID.me &bull;
+                    <a href="javascript:void(0);" class="idme-modal-trigger"><?php echo $this->__("What is ID.me?") ?></a>
+                    <?php if ($this->hasAffiliation()): ?>
+                        | <a href="<?php echo $this->getRemoveUrl() ?>" title="<?php echo $this->__("Remove your verified affiliation") ?>">
+                            <?php echo $this->__("Remove") ?>
+                        </a>
+                    <?php endif ?>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="idme-modal" style="display: none;"></div>
+        <div id="idme-modal-content" style="display: none;">
+            <h3><?php echo $this->__("What is ID.me?") ?></h3>
+            <a href="javascript:void(0);" class="close" id="idme-modal-closer"></a>
+            <div class="content">
+                <?php echo $this->getAbout() ?>
+            </div>
+        </div>
+    </div>
+    <?php endif ?>
