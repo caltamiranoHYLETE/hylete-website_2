@@ -23,11 +23,11 @@
 
                 <?php endif ?>
 
-                <?php if ($this->isEnabled("student")) : ?>
+                <?php if ($this->isEnabled("responder")) : ?>
 
                     <div class="idme-button">
-                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="student" title="<?php echo $this->__("Verify your student affiliation with ID.me") ?>">
-                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Student.png" alt="Student ID" border="0"/>
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="responder" title="<?php echo $this->__("Verify your first responder affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Responder.png" alt="First Responder ID" border="0"/>
                         </a>
                     </div>
 
@@ -45,15 +45,21 @@
 
                 <?php endif ?>
 
-                <?php if ($this->isEnabled("responder")) : ?>
+
+
+
+
+                <?php if ($this->isEnabled("student")) : ?>
 
                     <div class="idme-button">
-                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="responder" title="<?php echo $this->__("Verify your first responder affiliation with ID.me") ?>">
-                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Responder.png" alt="First Responder ID" border="0"/>
+                        <a href="javascript:void(0);" class="idme-connect-trigger" data-scope="student" title="<?php echo $this->__("Verify your student affiliation with ID.me") ?>">
+                            <img src="https://s3.amazonaws.com/idme/developer/idme-buttons-2.0.1/assets/img/btn-primary-Student.png" alt="Student ID" border="0"/>
                         </a>
                     </div>
 
                 <?php endif ?>
+
+
 
             <?php endif ?>
             <div class="about">
