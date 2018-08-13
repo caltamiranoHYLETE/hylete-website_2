@@ -1,8 +1,8 @@
 <?php if ($this->isOperational()) : ?>
 
-<input type="checkbox" id="open-promo" class="open-promo"/>
-<label for="open-promo"><?php echo Mage::getModel('cms/block')->load('idme-cart-checkbox-label')->getContent();?></label>
-<form id="idme-coupon-form" class="clearfix idme promo-content" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
+<input type="checkbox" id="idme-promo" class="open-promo"/>
+<label for="idme-promo"><?php echo Mage::getModel('cms/block')->load('idme-cart-checkbox-label')->getContent();?></label>
+<form id="idme-idme-form" class="clearfix idme promo-content" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
 
     <div class="pull-left">
 
