@@ -2,7 +2,7 @@
 <config>
     <tabs>
         <mediotype_offerstab translate="label" module="mediotype_offerstab">
-            <label>MedioType OffersTab</label>
+            <label>MedioType Offers Tab</label>
             <sort_order>100</sort_order>
         </mediotype_offerstab>
     </tabs>
@@ -26,7 +26,7 @@
                     <fields>
                         <black_list translate="label">
                             <label>Black List</label>
-                            <frontend_type>text</frontend_type>
+                            <frontend_type>textarea</frontend_type>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
