@@ -1,6 +1,9 @@
 <?php
 
+/* @var $this Mage_Catalog_Block_Product_View_Media */
+
 $magicToolboxHelper = Mage::helper('magiczoomplus/settings');
+$mtDataHelper = Mage::helper('magiczoomplus');
 
 $templateFilename = $magicToolboxHelper->getTemplateFilename('product.info.media');
 
@@ -14,19 +17,27 @@ if($tool->params->checkValue('enable-effect', 'No')) {
 $productModel = $this->getProduct();
 $productBaseImage = $productModel->getImage();
 if($productBaseImage == 'no_selection') $productBaseImage = null;
-$galleryImages = $this->_isGalleryDisabled ? array() : $this->getGalleryImages();
-$galleryImagesCount = $this->_isGalleryDisabled ? 0 : count($this->getGalleryImages()->getItems());
+$isBaseImageIncluded = false;//NOTE: is product base image not excluded from gallery
+$galleryImages = array();
+$galleryImagesCount = 0;
+if(!$this->_isGalleryDisabled) {
+    $galleryImages = $this->getGalleryImages();
+    $galleryImagesCount = count($galleryImages->getItems());
+}
 
 $productVideos = $productModel->getData('product_videos');
 $productVideos = empty($productVideos) ? array() : unserialize($productVideos);
 
 $productImages = array();
 
-$isBaseImageIncluded = false;//NOTE: is product base image not excluded from gallery
-
 if($galleryImagesCount) {
+
     foreach($galleryImages as $galleryImage) {
-        $imagePath  = $galleryImage->getPath();
+        if (!$mtDataHelper->isGalleryImageVisible($productModel, $galleryImage)) {
+            continue;
+        }
+
+        $imagePath = $galleryImage->getPath();
         if(file_exists($imagePath)) {
             $imageFile = $galleryImage->getFile();
             $isBaseImage = ($imageFile == $productBaseImage);
@@ -187,7 +198,6 @@ foreach ($productVideos as $videoUrl => $videoData) {
 
     $productImagesHTML[] =
         '<a data-magic-slide-id="video-'.$videoIndex.'" data-video-type="'.$dataVideoType.'" class="video-selector" href="#" onclick="return false">'.
-        '<span><b></b></span>'.
         '<img src="'.$videoData['thumb'].'" alt="video"'.($scrollEnabled ? '' : ' style="max-width: '.$sMaxWidth.'px; max-height: '.$sMaxHeight.'px;"').'/>'.
         '</a>';
     $videoIndex++;
@@ -400,7 +410,7 @@ foreach($containersData as $containerId => $containerHTML) {
 
 $scroll = $magicToolboxHelper->loadScroll();
 $magicscrollOptions = '';
-if($scrollEnabled) {
+if($scrollEnabled && $scroll) {
     $magicscrollOptions = $scroll->params->serialize(false, '', 'product-magicscroll-options');
     $magicscrollOptions .= 'autostart:false;';
 }
@@ -413,10 +423,17 @@ echo MagicToolboxTemplateHelperClass::render(array(
     'moreViewsCaption' => $moreViewsCaption
 ));
 
+//NOTE: for exluded images
+$labeledImageUrls = $mtDataHelper->getUsedLabeledImageUrls($productModel, true);
+$scriptHTML .= 'mtLabeledImageUrls = '.Mage::helper('core')->jsonEncode($labeledImageUrls).';';
+
 if($scriptHTML) {
     echo '<script type="text/javascript">'.$scriptHTML.'</script>';
 }
 
 echo '<img id="image" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" class="invisible" />';
 
-?>
+//NOTE: small fix for amconf extension
+if(preg_match('/amconf\/ajax\/index\//ims', $_SERVER['REQUEST_URI'])) {
+    echo '<script type="text/javascript">MagicZoom.start();magicToolboxPrepareOptions();</script>';
+}

@@ -126,7 +126,9 @@
             <action method="addCss">
                 <stylesheet>css/vaimo/blog.css</stylesheet>
             </action>
-
+            <action method="addCss">
+                <stylesheet>css/menu.css</stylesheet>
+            </action>
             <action method="removeItem">
                 <type>js</type>
                 <name>jquery/jquery.mobile.touch.min.js</name>
@@ -191,7 +193,10 @@
             </action>
             <remove name="checkout_cart_link"/>
         </reference>
-
+        <action method="addItem">
+            <type>skin_js</type>
+            <name>js/codazon-menu.js</name>
+        </action>
         <reference name="footer">
             <block type="cms/block" name="footer.customer.service" as="customerService">
                 <action method="setBlockId">

@@ -1,28 +1,30 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Adminhtml_Block_Widget_Form {
+class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Adminhtml_Block_Widget_Form
+{
 
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
 
         $storeViews = array();
         $websites = Mage::app()->getWebsites();
-        if($websites) {
-            foreach($websites as $websiteId => $website) {
+        if ($websites) {
+            foreach ($websites as $websiteId => $website) {
                 $groups = array();
-                foreach($website->getGroups() as $group) {
+                foreach ($website->getGroups() as $group) {
                     $_stores = array();
-                    if(!$group instanceof Mage_Core_Model_Store_Group) {
+                    if (!$group instanceof Mage_Core_Model_Store_Group) {
                         $group = Mage::app()->getGroup($group);
                     }
                     $stores = $group->getStores();
-                    foreach($stores as $store) {
+                    foreach ($stores as $store) {
                         $_stores[] = array(
                             'label' => $this->escapeHtml($store->getName()),
                             'value' => $websiteId.'/'.$group->getId().'/'.$store->getId(),
                             'style' => 'padding-left: 42px;',
                         );
                     }
-                    if(!empty($_stores)) {
+                    if (!empty($_stores)) {
                         array_unshift($_stores, array(
                             'label' => $this->escapeHtml($group->getName()),
                             'value' => $websiteId.'/'.$group->getId().'/',
@@ -31,7 +33,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
                         $groups = array_merge($groups, $_stores);
                     }
                 }
-                if(!empty($groups)) {
+                if (!empty($groups)) {
                     array_unshift($groups, array(
                         'label' => $this->escapeHtml($website->getName()),
                         'value' => $websiteId.'//',
@@ -40,7 +42,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
                     $storeViews = array_merge($storeViews, $groups);
                 }
             }
-            if(!empty($storeViews)) {
+            if (!empty($storeViews)) {
                 array_unshift($storeViews, array(
                     'label' => $this->__('All Store Views'),
                     'value' => '',
@@ -51,13 +53,13 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
 
         $themeList = Mage::getModel('core/design_package')->getThemeList();
         $availableDesigns = array();
-        foreach($themeList as $package => $themes) {
+        foreach ($themeList as $package => $themes) {
             $availableDesigns[] = array(
                 'label' => $package,
                 'value' => $package.'/',
                 'style' => 'font-weight: bold; padding-left: 16px;',
             );
-            foreach($themes as $theme) {
+            foreach ($themes as $theme) {
                 $availableDesigns[] = array(
                     'label' => $theme,
                     'value' => $package.'/'.$theme,
@@ -65,7 +67,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
                 );
             }
         }
-        if(!empty($availableDesigns)) {
+        if (!empty($availableDesigns)) {
             array_unshift($availableDesigns, array(
                 'label' => $this->__('All Designs'),
                 'value' => '',
@@ -76,32 +78,32 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
         $model = Mage::getModel('magiczoomplus/settings');
         $collection = $model->getCollection();
         $designs = array();
-        foreach($collection as $item) {
+        foreach ($collection as $item) {
             $designs[] = $item->getPackage()."/".$item->getTheme();
         }
 
         //$availableDesigns = Mage::getSingleton('core/design_source_design')->getAllOptions();
-        /*foreach($availableDesigns as $pKey => $package) {
-            if(is_array($package['value'])) {
-                foreach($package['value'] as $tKey => $theme) {
-                    if(in_array($theme['value'], $designs)) {
+        /*foreach ($availableDesigns as $pKey => $package) {
+            if (is_array($package['value'])) {
+                foreach ($package['value'] as $tKey => $theme) {
+                    if (in_array($theme['value'], $designs)) {
                         unset($availableDesigns[$pKey]['value'][$tKey]);
                     }
                 }
-                if(!count($availableDesigns[$pKey]['value'])) unset($availableDesigns[$pKey]);
+                if (!count($availableDesigns[$pKey]['value'])) unset($availableDesigns[$pKey]);
             }
         }*/
 
-        //if(count($availableDesigns) == 1) {
+        //if (count($availableDesigns) == 1) {
         //    Mage::register('magiczoomplus_custom_design_settings_form', false);
         //    return parent::_prepareForm();
         //}
 
         $form = new Varien_Data_Form(array(
-                                        'id' => 'add_form',
-                                        'action' => $this->getUrl('*/*/add'),
-                                        'method' => 'post',
-                                    ));
+            'id' => 'add_form',
+            'action' => $this->getUrl('*/*/add'),
+            'method' => 'post',
+        ));
         $form->setUseContainer(true);
         $this->setForm($form);
 
@@ -129,7 +131,7 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
                 'onclick'   => "addForm.submit()",
                 'class'     => 'add',
                 'type'      => 'button'
-             ))->toHtml(),
+            ))->toHtml(),
             'class' => 'a-right'
         ));
 
@@ -138,7 +140,8 @@ class MagicToolbox_MagicZoomPlus_Block_Adminhtml_Settings_Form extends Mage_Admi
         return parent::_prepareForm();
     }
 
-    protected function _afterToHtml($html) {
+    protected function _afterToHtml($html)
+    {
 
         $html .= '<script type="text/javascript">addForm = new varienForm(\'add_form\', \'\');</script>';
         return parent::_afterToHtml($html);
