@@ -1,6 +1,7 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_Block_Headers extends Mage_Core_Block_Abstract {
+class MagicToolbox_MagicZoomPlus_Block_Headers extends Mage_Core_Block_Abstract
+{
 
     //NOTE: in reverse order
     protected $magictoolboxHeaders = array(
@@ -12,15 +13,16 @@ class MagicToolbox_MagicZoomPlus_Block_Headers extends Mage_Core_Block_Abstract 
         'magicthumb'
     );
 
-    public function _toHtml() {
+    public function _toHtml()
+    {
         $html = '';
         $layout = $this->getLayout();
-        if($layout) {
+        if ($layout) {
             $doDisplayProductPageScript = true;
             $doDisplayAdditionalScroll = true;
-            foreach($this->magictoolboxHeaders as $name) {
+            foreach ($this->magictoolboxHeaders as $name) {
                 $block = $layout->getBlock($name.'_header');
-                if($block) {
+                if ($block) {
                     $block->displayProductPageScript($doDisplayProductPageScript);
                     $block->displayAdditionalScroll($doDisplayAdditionalScroll);
                     $html = $block->toHtml().$html;

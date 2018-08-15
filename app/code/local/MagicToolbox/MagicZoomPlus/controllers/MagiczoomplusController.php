@@ -1,91 +1,105 @@
 <?php
 
-class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_Controller_Action {
+class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_Controller_Action
+{
 
-    public function indexAction() {
+    public function indexAction()
+    {
 
         $this->_title($this->__('Magic Zoom Plus&#8482; Settings'));
         $this->loadLayout()->_setActiveMenu('magictoolbox/magiczoomplus')->renderLayout();
 
     }
 
-    public function addAction() {
+    public function addAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
-            if(empty($data['store_views']) && empty($data['design'])) {
+            if (empty($data['store_views']) && empty($data['design'])) {
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('magiczoomplus')->__('You already have default settings!'));
                 $this->_redirect('*/*/');
                 return;
             }
 
-            if(empty($data['store_views'])) $data['store_views'] = '';
-            list($website_id, $group_id, $store_id) = explode('/', $data['store_views']);
-            if(empty($data['design'])) $data['design'] = '';
-            list($package, $theme) = explode('/', $data['design']);
+            $websiteId = null;
+            $groupId = null;
+            $storeId = null;
+            if (empty($data['store_views'])) {
+                $data['store_views'] = '';
+            } else {
+                list($websiteId, $groupId, $storeId) = explode('/', $data['store_views']);
+            }
+
+            $package = null;
+            $theme = null;
+            if (empty($data['design'])) {
+                $data['design'] = '';
+            } else {
+                list($package, $theme) = explode('/', $data['design']);
+            }
 
             $model = Mage::getModel('magiczoomplus/settings');
             $collection = $model->getCollection();
 
-
             $collection->getSelect()->/*columns('custom_settings_title')->*/
-                where(empty($website_id) ? 'website_id IS NULL' : 'website_id = ?', empty($website_id) ? null : (int)$website_id)->
-                where(empty($group_id)   ? 'group_id IS NULL'   : 'group_id = ?',   empty($group_id)   ? null : (int)$group_id)->
-                where(empty($store_id)   ? 'store_id IS NULL'   : 'store_id = ?',   empty($store_id)   ? null : (int)$store_id)->
+                where(empty($websiteId) ? 'website_id IS NULL' : 'website_id = ?', empty($websiteId) ? null : (int)$websiteId)->
+                where(empty($groupId)   ? 'group_id IS NULL'   : 'group_id = ?',   empty($groupId)   ? null : (int)$groupId)->
+                where(empty($storeId)   ? 'store_id IS NULL'   : 'store_id = ?',   empty($storeId)   ? null : (int)$storeId)->
                 where('package = ?', empty($package) ? '' : $package)->
                 where('theme = ?', empty($theme) ? '' : $theme);
 
-            if($collection->getSize()) {
+            if ($collection->getSize()) {
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('magiczoomplus')->__('The settings already exists!'));
                 $this->_redirect('*/*/');
                 return;
             }
 
-            $custom_settings_title = array();
+            $customSettingsTitle = array();
 
-            if(empty($data['store_views'])) {
-                $custom_settings_title[] = 'All Store Views';
+            if (empty($data['store_views'])) {
+                $customSettingsTitle[] = 'All Store Views';
             } else {
-                if(!empty($website_id)) {
-                    $model->setWebsite_id($website_id);
-                    $website = Mage::app()->getWebsite($website_id);
-                    $custom_settings_title[] = $website->getName();
+                if (!empty($websiteId)) {
+                    $model->setWebsite_id($websiteId);
+                    $website = Mage::app()->getWebsite($websiteId);
+                    $customSettingsTitle[] = $website->getName();
                 }
-                if(!empty($group_id)) {
-                    $model->setGroup_id($group_id);
+                if (!empty($groupId)) {
+                    $model->setGroup_id($groupId);
                     $group = $website->getGroups();
-                    $group = $group[$group_id];
-                    if(!$group instanceof Mage_Core_Model_Store_Group) {
+                    $group = $group[$groupId];
+                    if (!$group instanceof Mage_Core_Model_Store_Group) {
                         $group = Mage::app()->getGroup($group);
                     }
-                    $custom_settings_title[] = $group->getName();
+                    $customSettingsTitle[] = $group->getName();
                 }
-                if(!empty($store_id)) {
-                    $model->setStore_id($store_id);
+                if (!empty($storeId)) {
+                    $model->setStore_id($storeId);
                     $store = $group->getStores();
-                    $store = $store[$store_id];
-                    $custom_settings_title[] = $store->getName();
+                    $store = $store[$storeId];
+                    $customSettingsTitle[] = $store->getName();
                 }
             }
 
-            if(empty($data['design'])) {
-                $custom_settings_title[] = 'All Designs';
+            if (empty($data['design'])) {
+                $customSettingsTitle[] = 'All Designs';
             } else {
-                if(empty($theme)) {
+                if (empty($theme)) {
                     $model->setPackage($package);
-                    $custom_settings_title[] = $package.' package';
+                    $customSettingsTitle[] = $package.' package';
                 } else {
                     $model->setPackage($package);
                     $model->setTheme($theme);
-                    $custom_settings_title[] = $package.'/'.$theme.' theme';
+                    $customSettingsTitle[] = $package.'/'.$theme.' theme';
                 }
             }
 
-            $custom_settings_title = 'Settings for '.implode(' => ', $custom_settings_title);
-            $model->setCustom_settings_title($custom_settings_title);
+            $customSettingsTitle = 'Settings for '.implode(' => ', $customSettingsTitle);
+            $model->setCustom_settings_title($customSettingsTitle);
 
             $oldModulesInstalled = Mage::helper('magiczoomplus/params')->checkForOldModules();
-            if(empty($oldModulesInstalled)) {
+            if (empty($oldModulesInstalled)) {
                 $defaultValues = Mage::helper('magiczoomplus/params')->getDefaultValues();
             } else {
                 $defaultValues = Mage::helper('magiczoomplus/params')->getFixedDefaultValues();
@@ -111,10 +125,11 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
 
         $id = $this->getRequest()->getParam('id');
-        if($id > 0) {
+        if ($id > 0) {
             try {
                 $model = Mage::getModel('magiczoomplus/settings')->load($id);
                 $isDefaultSettings =
@@ -123,7 +138,7 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
                     $model->getStore_id() == NULL &&
                     $model->getPackage() == '' &&
                     $model->getTheme() == '';
-                if($isDefaultSettings) {
+                if ($isDefaultSettings) {
                     Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('You can not delete default settings!'));
                 } else {
                     $model->delete();
@@ -137,13 +152,14 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    public function massDeleteAction() {
+    public function massDeleteAction()
+    {
 
         $ids = $this->getRequest()->getParam('massactionId');
         $alert = 0;
-        if(is_array($ids)) {
+        if (is_array($ids)) {
             try {
-                foreach($ids as $id) {
+                foreach ($ids as $id) {
                     $model = Mage::getModel('magiczoomplus/settings')->load($id);
                     $isDefaultSettings =
                         $model->getWebsite_id() == NULL &&
@@ -151,7 +167,7 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
                         $model->getStore_id() == NULL &&
                         $model->getPackage() == '' &&
                         $model->getTheme() == '';
-                    if($isDefaultSettings) {
+                    if ($isDefaultSettings) {
                         $alert = 1;
                     } else {
                         $model->delete();
@@ -160,7 +176,7 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__('Total of %d row(s) were successfully deleted', count($ids)-$alert)
                 );
-                if($alert) {
+                if ($alert) {
                     Mage::getSingleton('adminhtml/session')->addSuccess(
                         Mage::helper('adminhtml')->__('You can not delete default settings!')
                     );
@@ -175,15 +191,16 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    public function editAction() {
+    public function editAction()
+    {
 
         $id = $this->getRequest()->getParam('id');
         $model  = Mage::getModel('magiczoomplus/settings')->load($id);
-        if($model->getId()) {
+        if ($model->getId()) {
             Mage::register('magiczoomplus_model_data', $model);
 
             $oldModulesInstalled = Mage::helper('magiczoomplus/params')->checkForOldModules();
-            if(!empty($oldModulesInstalled)) {
+            if (!empty($oldModulesInstalled)) {
                 $message = 'You have installed '.
                     $oldModulesInstalled[0]['name'].' v'.$oldModulesInstalled[0]['version'].'. '.
                     'Pease update it to the latest version to work correctly with this version of the Magic Zoom Plus module.';
@@ -201,18 +218,19 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
 
-        if($post = $this->getRequest()->getPost()) {
+        if ($post = $this->getRequest()->getPost()) {
             $id = $this->getRequest()->getParam('id');
             $model = Mage::getModel('magiczoomplus/settings');
 
 
             /*
-            foreach($post['magiczoomplus'] as $block => $params) {
-                if(is_array($params))
-                foreach($params  as $paramId => $value) {
-                    if(isset($post['magiczoomplus-defaults'][$block][$paramId])) {
+            foreach ($post['magiczoomplus'] as $block => $params) {
+                if (is_array($params))
+                foreach ($params  as $paramId => $value) {
+                    if (isset($post['magiczoomplus-defaults'][$block][$paramId])) {
                         unset($post['magiczoomplus'][$block][$paramId]);
                     }
                 }
@@ -223,11 +241,11 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
             $postSettings = $post['magiczoomplus'];
             $oldModulesInstalled = Mage::helper('magiczoomplus/params')->checkForOldModules();
-            if(!empty($oldModulesInstalled)) {
-                foreach($postSettings as $platform => $platformData) {
-                    foreach($platformData as $profile => $profileData) {
-                        foreach($profileData as $param => $value) {
-                            if($param == 'enable-effect' || $param == 'include-headers-on-all-pages') {
+            if (!empty($oldModulesInstalled)) {
+                foreach ($postSettings as $platform => $platformData) {
+                    foreach ($platformData as $profile => $profileData) {
+                        foreach ($profileData as $param => $value) {
+                            if ($param == 'enable-effect' || $param == 'include-headers-on-all-pages') {
                                 $postSettings[$platform][$profile][$param] = 'No';
                             }
                         }
@@ -242,7 +260,7 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('magiczoomplus')->__('Settings was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-                if($this->getRequest()->getParam('back')) {
+                if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array(
                         'id'        => $id,
                         '_current'  => true,
@@ -264,7 +282,8 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    public function validateAction() {
+    public function validateAction()
+    {
 
         $response = new Varien_Object();
         $response->setError(false);
@@ -292,7 +311,8 @@ class MagicToolbox_MagicZoomPlus_MagiczoomplusController extends Mage_Adminhtml_
 
     }
 
-    protected function _isAllowed() {
+    protected function _isAllowed()
+    {
         return Mage::getSingleton('admin/session')->isAllowed('admin/magictoolbox/magiczoomplus');
     }
 

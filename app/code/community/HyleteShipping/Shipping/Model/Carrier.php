@@ -49,6 +49,12 @@ class HyleteShipping_Shipping_Model_Carrier
 		if ($quote) {
 
 			$r->CustomerGroup = $quote->getCustomerGroupId();
+
+			if($quote->getId() != "") {
+				//The quote object that comes from the request doesn't not have all the information about the quote so we reload it.
+				$quote = Mage::getModel('sales/quote')->load($quote->getId());
+			}
+
 			$r->AppliedRules = $quote->getAppliedRuleIds();
 			$r->CouponCode = $quote->getCouponCode();
 

@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="container">
-    <form id="returnForm" method="post" action="process.php">
+    <form id="returnForm" method="post" action="xxx">
         <fieldset>
             <label for="orderId">Enter Your Order Number</label>
             <input type="text" name="orderId" id="orderId"/>
@@ -54,24 +54,15 @@
             <label for="change-order">Please select from the options below to make a change to your order:</label>
             <ul>
                 <!--<li><input type="radio" name="change-order" value="address">I need to change my shipping address (US Only).</input></li>-->
+                <li><input type="radio" name="change-order" value="address"> I need to change my shipping address.</input></li>
                 <li><input type="radio" name="change-order" value="item"> I need to change a product/size/color etc.</input></li>
-                <li><input type="radio" name="change-order" value="cancel"> I need to CANCEL my order</input></li>
                 <li><input type="radio" name="change-order" value="other"> I need to change something else.</input></li>
+                <li><input type="radio" name="change-order" value="cancel"> I need to CANCEL my order.</input></li>
+
             </ul>
 
-            <div id="address-area" style="display:none;">
-                <p>Please enter the desired shipping address below:</p>
-                <label for="first-name">First Name</label><input name="first-name" type="text"/>
-                <label for="last-name">Last Name</label><input name="last-name" type="text"/>
-                <label for="address1">Address 1</label><input name="address1" type="text"/>
-                <label for="address2">Address 2</label><input name="address2" type="text"/>
-                <label for="city">City</label><input name="city" type="text"/>
-                <label for="state">State</label><input name="state" type="text"/>
-                <label for="zip">Zip</label><input name="zip" type="text"/>
-            </div>
-
             <div class="comments" id="comment-area" style="display:none;">
-                <label for="comment">Please describe what you need to change about your order below and we'll help you out.</label>
+                <label for="comment" id="comments-label"></label>
                 <textarea title="comments" id="comments" name="comments" rows="20" cols="30" data-msg-required="Please make sure you enter a detailed message so customer support can help you."></textarea>
             </div>
 

@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <nextopiaconfig translate="label" module="nsearch">
+            <label><![CDATA[<img src="http://assets.ecomm-search.com/logo-black-text.png"> v5.3.1]]></label>
+            <sort_order>99100</sort_order>
+        </nextopiaconfig>
+    </tabs>	
+    <sections>
+        <nextopia_ajax_options translate="label" module="nsearch">
+            <label>Search Configuration Options</label>
+            <tab>nextopiaconfig</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Configuration Fields</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <searchstatus>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Set this to "No" to use the default Magento search. Set this to "Yes" when you wish to make Nextopia Search live.]]></comment>
+                        </searchstatus>
+                        <ajaxversion>
+                            <label>Ajax Version</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>nsearch/source_ajaxversion</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[.]]></comment>
+                        </ajaxversion>
+                        <searchdemo>
+                            <label>Demo mode enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[When this is set to "Yes", it will enable /nsearch url but will not default to it.  It will demonstrate our search, without enabling it on the site.  This setting is ignored when the module is enabled]]></comment>
+                        </searchdemo>
+                        <public_client_id>
+                            <label>Public Client ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This can be obtained by visiting the Account section of the Nextopia control panel, and looking for "Public Client ID." It will look something like "1234567890abcdef1234567890abcdef" and is 32 characters long.]]></comment>
+                        </public_client_id>
+                        <selected_template>
+                            <label>Layout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>nsearch/source_layout</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                        </selected_template>
+                        <default_content>
+                            <label>Loading Content</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This will be shown as the client waits for the content to load.]]></comment>
+                        </default_content>
+                        <label_search_result_page>
+                            <label>Label on search result page</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[The default text is {Search results for "keyword"}.]]></comment>
+                        </label_search_result_page>
+
+                    </fields>
+
+                </settings>
+            </groups>
+        </nextopia_ajax_options>
+    </sections>
+</config>
