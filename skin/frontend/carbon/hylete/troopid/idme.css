@@ -83,6 +83,11 @@
     display: block;
 }
 
+.idme-logo{
+
+    text-align: center;
+}
+
 #idme-modal {
     background: none repeat scroll 0 0 #000;
     position: fixed;
@@ -95,15 +100,31 @@
 }
 
 #idme-modal-content {
-    background: url("https://s3.amazonaws.com/idme/assets/faq-model-footer.png") no-repeat scroll center bottom #fff;
+   // background: no-repeat scroll center bottom #fff;
 
     margin: 0 auto;
-    padding: 40px 10px 90px;
+    padding: 40px 10px 40px;
     position: absolute;
-    left: 64%;
+    left: 50%;
     bottom: 20%;
+
     width: 480px;
     z-index: 9999;
+    background-color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+    #idme-modal-content {
+        margin: 0 auto;
+        padding: 40px 10px 40px;
+        position: absolute;
+        left: 50%;
+        bottom: 20%;
+        margin-left: -50%;
+        width: 480px;
+        z-index: 9999;
+        background-color: #fff;
+    }
 }
 
 #idme-modal-content .content {
@@ -125,7 +146,6 @@
     text-transform: none;
 }
 
-
 #idme-modal-content .content p {
     color: rgb(45, 62, 81);
     font-size: 12px;
@@ -140,11 +160,11 @@
 }
 
 #idme-modal-content .close {
-    background: url("https://www.hylete.com/skin/frontend/base/default/images/vaimo-fancybox/fancybox_sprite.png");
+    background: url("https://www.hylete.com/skin/frontend/carbon/hylete/images/sprite2x.png");
     position: absolute;
     float: right;
-    top: 20px;
-    right: 15px;
+    top: 28px;
+    right: 240px;
     height: 36px;
     width: 44px;
 }
