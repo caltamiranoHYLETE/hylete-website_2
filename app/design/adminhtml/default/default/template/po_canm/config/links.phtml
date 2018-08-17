@@ -1,0 +1,83 @@
+<div class="grid">
+    <table id="" cellspacing="0" class="data" >
+            <col width="200" />
+            <col width="80" />
+            <col  />
+            <col width="70" />
+            <col width="150" />
+            <col width="70" />
+            <col width="50" />
+            <thead>
+            <tr class="headings">
+                <th><?php echo $this->__('Default Label'); ?></th>
+                <th><?php echo $this->__('Custom Label'); ?></th>
+                <th><?php echo $this->__('Visible'); ?></th>
+                <th><?php echo $this->__('Sort Order'); ?></th>
+            </tr>
+            </thead>
+            <tbody id="po_canm_links_container">
+                <?php foreach($this->getLinks() as $link): ?>
+                    <tr id="<?php echo $link->getName(); ?>">
+                        <td class="po_canm_links_default_label">
+                            <span><?php echo $link->getDefaultLabel(); ?></span>
+                            <input type="hidden" id="type_<?php echo $link->getName(); ?>_path" name="type[<?php echo $link->getName(); ?>][path]" value="<?php echo $link->getPath(); ?>">
+                            <input type="hidden" id="type_<?php echo $link->getName(); ?>_url_params" name="type[<?php echo $link->getName(); ?>][url_params]" value="<?php echo $link->getUrlParams(); ?>">
+                        </td>
+                        <td>
+                            <input id='type_<?php echo $link->getName(); ?>_label'
+                                   name="type[<?php echo $link->getName(); ?>][label]"
+                                   type="text" value="<?php echo $link->getNewLabel(); ?>"
+                                <?php echo $this->getDisabled()? 'disabled': ''; ?>
+                            />
+                        </td>
+                        <td>
+                            <div>
+                                <input id="type_<?php echo $link->getName(); ?>_visible" name="type[<?php echo $link->getName(); ?>][visible]" type="checkbox" value="1" <?php if ($link->getVisible()): echo "checked"; endif; ?> <?php echo $this->getDisabled()? 'disabled': ''; ?>/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="po-canm-sort-order" >
+                                <input type="hidden" id="type_<?php echo $link->getName(); ?>_sort_order" name="type[<?php echo $link->getName(); ?>][sort_order]" value="<?php echo $link->getSortOrder(); ?>" >
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+<script type="text/javascript">
+        var canmInitSortable = function() {
+            var container = $('po_canm_links_container');
+            if (!container) {
+                return;
+            }
+            Sortable.create(container, {
+                    tag:"tr",
+                    dropOnEmpty:false,
+                    overlap:'vertical',
+                    constraint:'vertical',
+                    containment: [container],
+                    handle: 'po-canm-sort-order',
+                    onChange: function(item) {
+                        var values = [];
+                        var inputSelector = ".po-canm-sort-order input[type=hidden]";
+                        var value = 1;
+                        container.select(inputSelector).each(function(input){
+                            input.setValue(value);
+                            value++;
+                        });
+                    },
+                    starteffect: function(element){
+                        element.addClassName('po-canm-tr-ondrag');
+                        element.up('table').addClassName('po-canm-table-ondrag');
+                    },
+                    endeffect: function(element){
+                        element.removeClassName('po-canm-tr-ondrag');
+                        element.up('table').removeClassName('po-canm-table-ondrag');
+                    }
+                }
+            );
+        };
+        canmInitSortable();
+    </script>
