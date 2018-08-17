@@ -1,0 +1,11 @@
+<?php  $nxtHelper = Mage::helper("nsearch"); ?>
+
+<div class="page-title">
+        <h1><?php echo $this->getTitle(); ?></h1>
+</div>
+
+<?php if ($nxtHelper->isOneColumnLayout()) : ?>
+    <div id="nxt-refine"></div>
+<?php endif; ?>
+    
+<div id="nxt-content"></div>

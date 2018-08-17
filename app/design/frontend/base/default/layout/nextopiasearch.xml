@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="nsearch/head" name="nextopia_search_js" template="nextopiasearch/page/html/head.phtml" />
+        </reference>
+        <reference name="header">
+            <block type="core/template" name="top.search" as="topSearch" template="nextopiasearch/page/html/form.mini.phtml" />
+        </reference>
+    </default>
+    <nsearch_index_index translate="label">
+        <reference name="left">
+            <block type="core/template" name="nextopia_refine" template="nextopiasearch/page/html/refinements.phtml" before="-" />
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="nextopia_body" template="nextopiasearch/page/html/body.phtml" />
+        </reference>
+    </nsearch_index_index>
+</layout>
