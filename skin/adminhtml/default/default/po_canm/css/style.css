@@ -1,0 +1,33 @@
+.po-canm-sort-order{
+    width: 100%;
+    height: 36px;
+    background: url('../images/drag-icon.png') center no-repeat;
+    background-size: 36px;
+    cursor: pointer;
+}
+
+#po_canm_links_container td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+#po_canm_links_container input[type="text"] {
+    width: 230px;
+}
+
+#po_canm_links_container input[type="checkbox"] {
+    width: 65px;
+}
+
+.po_canm_links_default_label span {
+    display: block;
+    width: 235px;
+}
+
+#po_canm_links_container select {
+    width: 70px;
+}
+
+#row_po_canm_account_links .grid table {
+    width: 635px;
+}
