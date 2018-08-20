@@ -59,10 +59,12 @@
 
     <div class="promo-wrapper">
         <input type="checkbox" id="open-promo" class="open-promo stay-checked"/>
-        <label for="open-promo"><?php echo Mage::getModel('cms/block')->load('promo-cart-checkbox-label')->getContent();?></label>
+        <label for="open-promo">Add Your Promo Code</label>
+
         <form id="discount-coupon-form" class="clearfix coupon promo-content"
               action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
             <div class="discount">
+                <?php echo Mage::getModel('cms/block')->load('promo-cart-checkbox-label')->getContent();?>
                 <h2><?php echo $this->__('promo code') ?></h2>
                 <div class="discount-form">
                     <label for="coupon_code"><?php echo $this->__('enter a promo code if you have one') ?></label>
