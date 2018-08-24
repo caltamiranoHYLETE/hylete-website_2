@@ -27,6 +27,7 @@
 
 <footer id="footer">
     <div class="container">
+		<?php echo $this->getLayout()->createBlock('cms/block', 'footer_newsletter_title')->setBlockId('footer_newsletter_title')->toHtml() ?>
         <?php echo $this->getChildHtml('newsletter'); ?>
         <div class="row">
             <div class="col-md-3 col-sm-3">
