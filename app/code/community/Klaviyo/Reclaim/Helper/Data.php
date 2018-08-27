@@ -281,16 +281,6 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
         'quote_id' => $quote_id,
       ));
       $checkout->save();
-      if($this->isExtraLogsEnabled()) {
-        $message= '--------------------------------------------';
-        Mage::log($message, Zend_Log::INFO, $this->getLogFile());
-        $message= 'New record for Klaviyo table';
-        Mage::log($message, Zend_Log::INFO, $this->getLogFile());
-        $message= 'Quote ID: ' . $quote_id;
-        Mage::log($message, Zend_Log::INFO, $this->getLogFile());
-        $message= 'Checkout ID: ' . $checkout_id;
-        Mage::log($message, Zend_Log::INFO, $this->getLogFile());
-      }
     } else {
       $checkout = $existing_checkout->getFirstItem();
     }
