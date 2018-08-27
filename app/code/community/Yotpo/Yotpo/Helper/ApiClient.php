@@ -59,7 +59,7 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 		return true;
 	}
 
-	public function prepareProductsData($order) 
+	public function prepareProductsData($order)
 	{
         Mage::app()->setCurrentStore($order->getStoreId());
         $products = $order->getAllVisibleItems(); //filter out simple products
@@ -184,6 +184,7 @@ class Yotpo_Yotpo_Helper_ApiClient extends Mage_Core_Helper_Abstract
 		$data['orders'] = $orders;
 		$this->createApiPost("apps/".$this->app_keys[$store_id]."/purchases/mass_create", $data);
 
+		Mage::log($data,null,'yotpo-api.log',true);
 	}
 	
 }
