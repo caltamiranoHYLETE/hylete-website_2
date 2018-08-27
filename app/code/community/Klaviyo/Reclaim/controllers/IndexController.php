@@ -37,12 +37,6 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
       $checkout->load($checkout_id);
 
       if ($checkout->getId()) {
-        if(Mage::helper('klaviyo_reclaim')->isExtraLogsEnabled()) {
-          $message= '----------';
-          Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-          $message= 'Quote ID ' . $checkout->getQuoteId() . ' loaded via Klaviyo table';
-          Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-        }
         $saved_quote = Mage::getModel('sales/quote');
         $saved_quote->load($checkout->getQuoteId());
         $cart = Mage::getSingleton('checkout/cart');
@@ -50,12 +44,10 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         if ($saved_quote->getId() != $cart->getQuote()->getId() && !$cart->getItemsCount()) {
           $cart->getQuote()->load($checkout->getQuoteId());
           $cart->save();
-          if(Mage::helper('klaviyo_reclaim')->isExtraLogsEnabled()) {
-            $message= 'Quote was successfully loaded based on Klaviyo Table';
-            Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-          }
         }else{
           if(Mage::helper('klaviyo_reclaim')->isExtraLogsEnabled()) {
+            $message= '-----------------------------------------------------------------';
+            Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
             $message= 'Quote ID ' . $checkout->getQuoteId() . ' was not loaded';
             Mage::log($message, Zend_Log::ERR, Mage::helper('klaviyo_reclaim')->getLogFile());
 
