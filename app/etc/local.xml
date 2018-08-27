@@ -40,10 +40,10 @@
             </db>
             <default_setup>
                 <connection>
-                    <host><![CDATA[127.0.0.1]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[]]></password>
-                    <dbname><![CDATA[hylete]]></dbname>
+                    <host><![CDATA[localhost]]></host>
+                    <username><![CDATA[hylete_dev]]></username>
+                    <password><![CDATA[9SHP$#aq4kjYUML2]]></password>
+                    <dbname><![CDATA[hylete-dev]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
