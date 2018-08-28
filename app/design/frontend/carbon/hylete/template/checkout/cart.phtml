@@ -146,47 +146,51 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                 ?>
 
                 <?php if (Mage::getSingleton('customer/session')->isLoggedIn()):?>
-                <script type="text/javascript">
-                    var $j = jQuery.noConflict();
-                    $j(document).ready(function() {
-                        var slider = $j('.rewards-box-spend-minicart');
-                        $j('.rewards-box-spend-minicart').remove();
-                        $j('.coupons-wrapper-logged').html(slider);
-                    });
-                </script>
+                    <script type="text/javascript">
+                        var $j = jQuery.noConflict();
+                        $j(document).ready(function() {
+                            var slider = $j('.rewards-box-spend-minicart');
+                            $j('.rewards-box-spend-minicart').remove();
+                            $j('.coupons-wrapper-logged').html(slider);
+                        });
+                    </script>
 
-                <div class="discounts">
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 totals">
-                        <?php echo $this->getChildHtml('totals'); ?>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 coupons-wrapper-logged">
-                            [test]
-                        </div>
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
-                            <?php echo $this->getChildHtml('coupon') ?>
-                            <div class="giftcard-wrapper">
+
+                    <div class="discounts">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 coupons-wrapper-logged">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
+                                <?php echo $this->getChildHtml('coupon') ?>
+                                <div class="giftcard-wrapper">
+                                    <!-- Display Only For Specific Store Views -->
+                                    <?php
+                                    if($_customerGroupId==0 OR $_customerGroupId==1)
+                                    {
+                                        echo $this->getChildHtml('checkout.cart.extra');
+                                    }
+                                    ?>
+                                </div>
+                                <div class="giftcard-wrapper">
+
+                                    <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
+                                    <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
+                                    <div class="discount-giftcard giftcard-content">
+                                        <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
+                                    </div>
+                                </div>
+
                                 <!-- Display Only For Specific Store Views -->
                                 <?php
                                 if($_customerGroupId==0 OR $_customerGroupId==1)
                                 {
-                                    echo $this->getChildHtml('checkout.cart.extra');
+                                  #  echo $this->getChildHtml('checkout.cart.extra');
                                 }
                                 ?>
                             </div>
-                            <div class="giftcard-wrapper">
-                                <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
-                                <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
-                                <div class="discount-giftcard giftcard-content">
-                                    <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
-                </div>
-            </div>
-
 
                         <?php else: ?>
 
@@ -283,7 +287,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                 </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 totals">
-                    <?php #echo $this->getChildHtml('totals'); ?>
+                    <?php echo $this->getChildHtml('totals'); ?>
                     <?php if(!$this->hasError()): ?>
                         <div class="cart-above-checkout-button">
                             <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart-above-checkout-button')->toHtml(); ?>
