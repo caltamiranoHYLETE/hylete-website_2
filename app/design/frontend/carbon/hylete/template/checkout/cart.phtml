@@ -164,6 +164,16 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
                                 <?php echo $this->getChildHtml('coupon') ?>
                                 <div class="giftcard-wrapper">
+                                    <!-- Display Only For Specific Store Views -->
+                                    <?php
+                                    if($_customerGroupId==0 OR $_customerGroupId==1)
+                                    {
+                                        echo $this->getChildHtml('checkout.cart.extra');
+                                    }
+                                    ?>
+                                </div>
+                                <div class="giftcard-wrapper">
+
                                     <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
                                     <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
                                     <div class="discount-giftcard giftcard-content">
@@ -171,133 +181,131 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                     </div>
                                 </div>
 
-
                                 <!-- Display Only For Specific Store Views -->
                                 <?php
                                 if($_customerGroupId==0 OR $_customerGroupId==1)
                                 {
-                                    echo $this->getChildHtml('checkout.cart.extra');
+                                  #  echo $this->getChildHtml('checkout.cart.extra');
                                 }
                                 ?>
                             </div>
                         </div>
                     </div>
 
+                        <?php else: ?>
 
-
-                <?php else: ?>
-
-
-
-                    <div class="discounts">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-wrapper">
-                                <?php echo $this->getChildHtml('coupon') ?>
-                                <div class="giftcard-wrapper">
-                                    <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
-                                    <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
-                                    <div class="discount-giftcard giftcard-content">
-                                        <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
-                                    </div>
-                                </div>
-
-                                <!-- Display Only For Specific Store Views -->
-                                <?php
-
-                                if($_customerGroupId==0 OR $_customerGroupId==1)
-                                {
-                                    echo $this->getChildHtml('checkout.cart.extra');
-                                }
-                                ?>
-
-                            </div>
-
-                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                <div class="cart-login" id="firecheckout-form">
-                                    <div class="login-section-actions">
-                                        <div class="login-section-action">
-                                            <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="button button-login login-section-button firecheckout-login">
-                                                <span class="fa fa-user-o"></span>
-                                                <?php echo $this->__('Log in') ?>
-                                            </a>
-                                            <div>
-                                                <p>or</p>
-                                                <a href="<?php echo $this->getUrl('customer/account/create') ?>" class="button-create-account"><?php echo $this->__('create an account')?></a>
+                            <div class="discounts">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-wrapper">
+                                        <?php echo $this->getChildHtml('coupon') ?>
+                                        <div class="giftcard-wrapper">
+                                            <!-- Display Only For Specific Store Views -->
+                                            <?php
+                                            if($_customerGroupId==0 OR $_customerGroupId==1)
+                                            {
+                                                echo $this->getChildHtml('checkout.cart.extra');
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="giftcard-wrapper">
+                                            <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
+                                            <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
+                                            <div class="discount-giftcard giftcard-content">
+                                                <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
                                             </div>
                                         </div>
-                                        <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
-                                            <div class="login-section-action">
-                                                <a onclick="return facebookPopup();" class="button button-login-facebook login-section-button">
-                                                    <span class="fa fa-facebook"></span><?php echo $this->__('Log in with Facebook');?>
-                                                </a>
+                                    </div>
+
+
+
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        <div class="cart-login" id="firecheckout-form">
+                                            <div class="login-section-actions">
+                                                <div class="login-section-action">
+                                                    <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="button button-login login-section-button firecheckout-login">
+                                                        <span class="fa fa-user-o"></span>
+                                                        <?php echo $this->__('Log in') ?>
+                                                    </a>
+                                                    <div>
+                                                        <p>or</p>
+                                                        <a href="<?php echo $this->getUrl('customer/account/create') ?>" class="button-create-account"><?php echo $this->__('create an account')?></a>
+                                                    </div>
+                                                </div>
+                                                <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                                                    <div class="login-section-action">
+                                                        <a onclick="return facebookPopup();" class="button button-login-facebook login-section-button">
+                                                            <span class="fa fa-facebook"></span><?php echo $this->__('Log in with Facebook');?>
+                                                        </a>
+                                                    </div>
+                                                <?php endif;?>
                                             </div>
-                                        <?php endif;?>
+                                        </div>
                                     </div>
                                 </div>
+
+
+
+
+
                             </div>
+                        <?php endif; ?>
+
+
+
+
+
+                        <script type="text/javascript">
+
+                            var forgotpasswordUrl = '<?php echo $this->getUrl('firecheckout/index/forgotpassword', array('_secure'=>$this->getRequest()->isSecure())) ?>';
+
+                            var loginLinks = [
+                                '.firecheckout-login',
+                                'a[href="<?php echo Mage::helper('customer')->getLoginUrl() ?>"]'
+                            ];
+
+                            document.observe("dom:loaded", function() {
+                                firecheckoutWindow = new FC.Window({
+                                    triggers: {
+                                        login: {
+                                            el    : $$(loginLinks.join(', ')),
+                                            event : 'click',
+                                            window: $('firecheckout-login-window')
+                                        },
+                                        forgot: {
+                                            el    : $$('.firecheckout-forgot'),
+                                            event : 'click',
+                                            window: $('firecheckout-forgot-window')
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+
+
+                        <?php echo $this->getChildHtml('checkout_cart_widget') //For Enterprise ?>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 totals">
+                    <?php echo $this->getChildHtml('totals'); ?>
+                    <?php if(!$this->hasError()): ?>
+                        <div class="cart-above-checkout-button">
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart-above-checkout-button')->toHtml(); ?>
                         </div>
 
 
-
-
-
-                    </div>
-                <?php endif; ?>
-
-
-
-
-
-                <script type="text/javascript">
-
-                    var forgotpasswordUrl = '<?php echo $this->getUrl('firecheckout/index/forgotpassword', array('_secure'=>$this->getRequest()->isSecure())) ?>';
-
-                    var loginLinks = [
-                        '.firecheckout-login',
-                        'a[href="<?php echo Mage::helper('customer')->getLoginUrl() ?>"]'
-                    ];
-
-                    document.observe("dom:loaded", function() {
-                        firecheckoutWindow = new FC.Window({
-                            triggers: {
-                                login: {
-                                    el    : $$(loginLinks.join(', ')),
-                                    event : 'click',
-                                    window: $('firecheckout-login-window')
-                                },
-                                forgot: {
-                                    el    : $$('.firecheckout-forgot'),
-                                    event : 'click',
-                                    window: $('firecheckout-forgot-window')
-                                }
-                            }
-                        });
-                    });
-                </script>
-
-
-                <?php echo $this->getChildHtml('checkout_cart_widget') //For Enterprise ?>
+                        <ul class="checkout-types">
+                            <?php foreach ($this->getMethods('methods') as $method): ?>
+                                <?php $methodHtml = $this->getMethodHtml($method) ?>
+                                <?php if ($methodHtml != '' && $method !== 'checkout.cart.methods.multishipping') : ?>
+                                    <li><?php echo $methodHtml; ?></li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                        <div class="cart-below-checkout-button">
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart-below-checkout-button')->toHtml(); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 totals">
-            <?php echo $this->getChildHtml('totals'); ?>
-            <?php if(!$this->hasError()): ?>
-                <div class="cart-above-checkout-button">
-                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart-above-checkout-button')->toHtml(); ?>
-                </div>
-                <ul class="checkout-types">
-                    <?php foreach ($this->getMethods('methods') as $method): ?>
-                        <?php $methodHtml = $this->getMethodHtml($method) ?>
-                        <?php if ($methodHtml != '' && $method !== 'checkout.cart.methods.multishipping') : ?>
-                            <li><?php echo $methodHtml; ?></li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-                <div class="cart-below-checkout-button">
-                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart-below-checkout-button')->toHtml(); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
