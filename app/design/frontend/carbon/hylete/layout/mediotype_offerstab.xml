@@ -9,7 +9,7 @@
             </action>
 
             <action method="addJs">
-                <script>mediotype/hylete/offerstab/offerstab-owl-config.js</script>
+                <!--<script>mediotype/hylete/offerstab/offerstab-owl-config.js</script>-->
             </action>
 
             <action method="addItem">
