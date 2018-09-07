@@ -56,15 +56,6 @@
                 </observers>
             </salesrule_rule_condition_combine>
 
-            <sales_order_grid_collection_load_before>
-                <observers>
-                    <troopid_connect>
-                        <model>troopid_connect/order_observer</model>
-                        <method>addCollection</method>
-                    </troopid_connect>
-                </observers>
-            </sales_order_grid_collection_load_before>
-
             <core_block_abstract_prepare_layout_before>
                 <observers>
                     <troopid_connect>
