@@ -61,19 +61,6 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
        </div>
 
         <div class="right">
-            <div class="hidden-inline-block-xs hidden-inline-block-sm menu-search">
-                <div class="search-wrapper">
-                    <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
-                    <div class="quick-link-wrapper">
-                        <?php echo $this->getLayout()->createBlock('cms/block', 'quick-links')->setBlockId('quick_links')->toHtml() ?>
-                    </div>
-                </div>
-                <a class="search-button">
-                    <span class="sprite-search-white"></span>
-                    <span><?php echo $this->__('search')?></span>
-                </a>
-            </div>
-
             <?php if ($_shiptoCms->getIsActive()):?>
                 <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa fa-angle-down"></span></a>
             <?php endif;?>

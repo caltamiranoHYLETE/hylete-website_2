@@ -266,44 +266,21 @@
     padding: 14px
 }
 
-.menu-search .search-wrapper,
-.menu-search .fa {
-    -webkit-transition: opacity 0.15s ease;
-    transition: opacity 0.15s ease;
-
-}
 
 .menu-search .search-wrapper {
+    border: 1px solid black;
     display: inline-block;
-    position: absolute;
-    opacity: 0;
     top: 14px;
     left: 15px;
     text-align: left;
     background: #000;
-    z-index: -999;
-    visibility: hidden;
 }
-
-.menu-search > a {
-    padding: 0;
-}
-
 .menu-search > a .sprite-search-black {
     cursor: pointer;
     position: relative;
     top: 8px;
 }
 
-.menu-search.active .search-wrapper {
-    opacity: 1;
-    z-index: 999;
-    visibility: visible;
-}
-
-.menu-search.active > a .sprite-search-black {
-    opacity: 0;
-}
 
 
 

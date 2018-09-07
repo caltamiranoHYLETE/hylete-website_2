@@ -33,7 +33,6 @@ jQuery(document).ready(function ($) {
     var menuSearch = $('.menu-search'),
         $mobileSearch = $('.mobile-search'),
         $mobileSearchWrapper = $('.mobile-search-wrapper'),
-        searchLink = menuSearch.find('>a'),
         searchWrapper = menuSearch.find('.search-wrapper'),
         searchInput = searchWrapper.find('input'),
         activeClass = 'active';
