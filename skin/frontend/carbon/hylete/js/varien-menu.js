@@ -78,6 +78,9 @@ var mainNav = function() {
 
         fireNavEvent :  function(elm,ev) {
             if(ev){
+                if (jQuery(elm).hasClass("menu-search")) {
+                    return;
+                }
                 elm.addClassName("over");
                 jQuery(elm).closest("ul#nav").addClass("menu-over");
 
