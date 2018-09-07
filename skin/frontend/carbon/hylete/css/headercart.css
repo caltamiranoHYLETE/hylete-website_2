@@ -1,6 +1,15 @@
 .headercart {
     position: relative;
 }
+.headercart .fa-shopping-cart {
+    color: black;
+    top: 5px;
+    position: relative;
+}
+
+.headercart .cart-text {
+    padding-left: 10px;
+}
 
 #atca-cart .cart {
     margin-left: 0;
