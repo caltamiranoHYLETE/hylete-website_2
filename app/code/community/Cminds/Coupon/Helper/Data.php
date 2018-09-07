@@ -11,7 +11,7 @@ class Cminds_Coupon_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if(!empty($rule)){
-            $unserializedErrors = unserialize($rule->getErrorsSerialized());
+            $unserializedErrors = unserialize($rule->getErrorsSerialized()) ? : array();
             $ruleErrors = $this->_findCurrentWebsiteError($unserializedErrors, Mage::app()->getStore()->getId());
 
             if(!$ruleErrors || !isset($ruleErrors[$errorType]) || empty($ruleErrors[$errorType])) {
