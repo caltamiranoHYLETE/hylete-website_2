@@ -207,6 +207,8 @@ a,
 a:link,
 a:hover,
 a:active,
+#header a,
+#header .cart.not-empty .top:hover a,
 #header [data-togglecontent],
 #header [data-togglecontent] a,
 #header .showcart a,
@@ -247,14 +249,12 @@ input[disabled],
     color: #ccc;
 }
 
-#header a,
 input[type="submit"]:hover,
 button:hover,
 button:focus,
 .button:hover,
 .button:focus,
 .button.inverted,
-#header .cart.not-empty .top:hover a,
 .hylete-widget,
 .hylete-widget .description
 .hylete-widget h1,
