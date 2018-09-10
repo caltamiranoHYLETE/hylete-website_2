@@ -39,9 +39,9 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 
     <div class="container">
         <div class="left">
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa fa-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
+            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
             <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><span class="sprite-mobile-menu"></span></a>
             <a class="mobile-search visible-inline-block-xs visible-inline-block-sm">
                 <span class="sprite-search-white"></span>
@@ -64,7 +64,18 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
             <?php if ($_shiptoCms->getIsActive()):?>
                 <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa fa-angle-down"></span></a>
             <?php endif;?>
-            <?php echo $this->getChildHtml('header.welcome'); ?>
+            <span>
+                <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-account" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('account');?> <span class="fa fa-angle-down"></span></a>
+                <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
+                        <?php if ($this->helper('customer')->isLoggedIn()) { ?>
+                            <div><a href="<?php echo Mage::getUrl('customer/account/logout'); ?>"><?php echo $this->__('Log out'); ?></a></div>
+                        <?php } else { ?>
+                            <a href="<?php echo Mage::getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a>
+                            <div><a href="<?php echo Mage::getUrl('customer/account/create'); ?>"><?php echo $this->__('create an account'); ?></a></div>
+                            <div><a href="<?php echo Mage::getUrl('points'); ?>"><?php echo $this->__('HYLETE points program'); ?></a></div>
+                        <?php } ?>
+                </div>
+            </span>
             <?php echo $this->getChildHtml('headerCart'); ?>
         </div>
     </div>
