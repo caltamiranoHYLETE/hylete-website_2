@@ -48,22 +48,6 @@ jQuery(document).ready(function ($) {
         $mobileSearchWrapper.toggleClass(activeClass);
     });
 
-    searchLink.on('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        var searchPanelWidth = $('.right', '#header').width() - 18;
-        searchWrapper.css('width', searchPanelWidth);
-
-        var searchVisibility = !searchWrapper.hasClass(activeClass);
-
-        menuSearch.toggleClass(activeClass, searchVisibility);
-
-        if (searchVisibility) {
-            searchInput.focus();
-        }
-    });
-
     searchInput.on('focusout', function() {
         setTimeout(function() {
             menuSearch.removeClass(activeClass);
