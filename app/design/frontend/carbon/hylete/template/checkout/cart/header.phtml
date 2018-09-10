@@ -62,16 +62,16 @@ if ($_isLoggedIn) {
 <div class="headercart <?php if ($_notEmpty): ?>not-empty<?php endif; ?>" id="<?php if ($_notEmpty): ?>headercart<?php else: ?>headercart-disabled<?php endif; ?>">
     <div class="top">
         <a href="<?php echo $this->getUrl('checkout/cart');?>" class="cart-button js-cart-open fade-icon">
-            <span class="sprite-cart"></span>
+            <i class="fa fa-shopping-cart fa-2x"></i>
             <span class="cart-badge fade-icon"><?php echo ($_cartQty > 0) ? $_cartQty : '';?></span>
-            <span class="hidden-inline-block-xs hidden-inline-block-sm"><?php echo $this->__('cart');?></span>
+            <span class="hidden-inline-block-xs hidden-inline-block-sm cart-text"><?php echo $this->__('cart');?></span>
         </a>
     </div>
     <?php if (Mage::helper('hylete')->showHeaderCartDropDown()): ?>
         <div id="recently-added-container" class="showcart">
             <div class="header">
                 <div class="minicart-cart">
-                    <span class="sprite-cart"></span>
+                    <i class="fa fa-shopping-cart fa-2x"></i>
                     <span class="cart-badge"><?php echo ($_cartQty > 0) ? $_cartQty : '';?></span>
                 </div>
                 <?php if ($_notEmpty) : ?>
