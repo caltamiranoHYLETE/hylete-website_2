@@ -39,9 +39,36 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 
     <div class="container">
         <div class="left">
-            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
+            <span class="container">
+                 <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
+                 <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true"  class="box box-shadow">
+                    <div class="container header-follow">
+                        <div class="container">
+                            <p class="header-follow-title"><?php echo $this->__('get the latest'); ?></p>
+                            <p class="header-follow-text"><?php echo $this->__('Updates on new products, exclusive offers, <br> and more.'); ?></p>
+                            </span>
+                            <?php echo $this->getLayout()
+                                      ->createBlock('newsletter/subscribe')
+                                      ->setTemplate('newsletter/subscribe.phtml')
+                                      ->setFormId('header')->toHtml() ?>
+                        </div>
+                        <div  class="container  follow-us">
+                            <a href="https://instagram.com/trainhylete" target="_blank"><span class="fa fa-instagram"></span></a>
+                            <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa fa-twitter"></span></a>
+                            <a href="https://www.facebook.com/hylete" target="_blank"><span class="fa fa-facebook"></span></a>
+                            <a href="https://www.youtube.com/trainHYLETE" target="_blank"><span class="fa fa-youtube"></span></a>
+                            <a href="https://pinterest.com/explore/trainhylete" target="_blank"><span class="fa fa-pinterest"></span></a>
+                        </div>
+
+                    </div>
+                </div>
+            </span>
+            <span class="container">
+                <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
+                    <div data-togglecontent="header-support" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow">
+                        <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info')->setBlockId('footer_info')->toHtml() ?>
+                    </div>
+            </span>
             <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><span class="sprite-mobile-menu"></span></a>
             <a class="mobile-search visible-inline-block-xs visible-inline-block-sm">
                 <span class="sprite-search-white"></span>
@@ -85,25 +112,7 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
         </div>
     </div>
 
-    <div data-togglecontent="header-newsletter" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container"><?php echo $this->getLayout()->createBlock('newsletter/subscribe')->setTemplate('newsletter/subscribe.phtml')->setFormId('header')->toHtml() ?></div>
-    </div>
 
-    <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container follow-us">
-            <a href="https://instagram.com/trainhylete" target="_blank"><span class="fa fa-instagram"></span></a>
-            <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa fa-twitter"></span></a>
-            <a href="https://www.facebook.com/hylete" target="_blank"><span class="fa fa-facebook"></span></a>
-            <a href="https://www.youtube.com/trainHYLETE" target="_blank"><span class="fa fa-youtube"></span></a>
-            <a href="https://pinterest.com/explore/trainhylete" target="_blank"><span class="fa fa-pinterest"></span></a>
-        </div>
-    </div>
-
-    <div data-togglecontent="header-support" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container">
-            <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info')->setBlockId('footer_info')->toHtml() ?>
-        </div>
-    </div>
 
     <?php if ($_shiptoCms->getIsActive()):?>
         <div data-togglecontent="header-shipto" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
