@@ -8,7 +8,6 @@
 #header a {
     cursor: pointer;
     display: inline-block;
-    height: 65px;
     padding: 0 15px;
     text-decoration: none;
     -webkit-user-select: none;
@@ -66,6 +65,16 @@
     margin-right: 6px;
 }
 
+#header .left,
+#header .right {
+    line-height: 24px;
+}
+
+#header .left .menu-top,
+#header .right .menu-top {
+    line-height: 66px;
+}
+
 #header .left {
     float: left;
     position: relative;
@@ -73,12 +82,8 @@
     z-index: 101;
 }
 
-#header .left a,
-#header .right a {
-    line-height: 66px;
-}
-
-#header .left a:first-child {
+#header .left a:first-child,
+#header .right a:first-child {
     padding-left: 0;
 }
 
@@ -87,6 +92,31 @@
     font-size: 18px;
     margin-right: 5px;
     top: 2px;
+}
+
+#header .box
+{
+    background-color: #fff;
+    padding-left: 17px;
+    padding-right: 13px;
+}
+#header .box-shadow
+{
+    border: 0 solid #CCC;
+    margin-left:10px;
+    margin-top:10px;
+    float: left;
+    -moz-box-shadow: 0 0 10px #ccc;
+    -webkit-box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc;
+}
+
+#header .account-links {
+    right: 100px;
+}
+#header .account-links a {
+    display: inherit;
+    line-height: 40px;
 }
 
 #atca-cart {
@@ -118,8 +148,6 @@
 }
 
 #header [data-togglecontent] {
-    background: #e5e5e5;
-    padding: 5px 0;
     position: absolute;
     text-align: left;
     width: 100%;
@@ -131,10 +159,6 @@
     margin: 21px 15px 21px 0;
 }
 
-#header [data-togglecontent] a {
-    display: inline;
-    padding: 11px 7px;
-}
 
 #header .header-shipto .code {
     text-transform: uppercase;
