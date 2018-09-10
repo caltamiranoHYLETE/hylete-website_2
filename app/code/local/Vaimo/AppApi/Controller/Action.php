@@ -80,6 +80,7 @@ class Vaimo_AppApi_Controller_Action extends Mage_Core_Controller_Front_Action
             $this->_response->setHttpResponseCode(self::HTTP_UNAUTHORIZED)
                 ->setBody('Invalid user credentials.')
                 ->sendResponse();
+
             exit;
         }
     }
