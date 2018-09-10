@@ -92,4 +92,22 @@ $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : ''
 /* Run store or run website */
 $mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store';
 
+$ip = $_SERVER['REMOTE_ADDR'];
+if($ip == "50.246.195.58") {
+
+
+    function handleFatalPhpError()
+    {
+
+        $last_error = error_get_last();
+
+        file_put_contents('/var/www/www.hylete.com/var/log/shutDown.php', var_export($last_error, true), FILE_APPEND);
+
+        file_put_contents('/var/www/www.hylete.com/var/log/shutDown.php', var_export(debug_backtrace(), true), FILE_APPEND);
+    }
+
+    register_shutdown_function('handleFatalPhpError');
+
+}
+
 Mage::run($mageRunCode, $mageRunType);
