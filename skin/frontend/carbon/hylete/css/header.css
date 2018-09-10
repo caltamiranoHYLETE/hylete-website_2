@@ -79,7 +79,8 @@
     float: left;
     position: relative;
     white-space: nowrap;
-    z-index: 101;
+    z-index: 1001;
+    display: inline-flex;
 }
 
 #header .account-button .fa-user-o {
@@ -98,8 +99,6 @@
 #header .box-shadow
 {
     border: 0 solid #CCC;
-    margin-left:10px;
-    margin-top:10px;
     float: left;
     -moz-box-shadow: 0 0 10px #ccc;
     -webkit-box-shadow: 0 0 10px #ccc;
@@ -113,6 +112,24 @@
     display: inherit;
     line-height: 40px;
 }
+
+#header .header-follow {
+    text-align: center;
+}
+
+
+#header .header-follow p {
+    font-family: "Open Sans";
+}
+
+#header .header-follow .header-follow-title {
+    font-size: 14pt;
+    font-weight: bold;
+}
+#header .header-follow .header-follow-text {
+    font-size: 12pt;
+}
+
 
 #atca-cart {
     display: inline-block;
@@ -145,15 +162,8 @@
 #header [data-togglecontent] {
     position: absolute;
     text-align: left;
-    width: 100%;
     z-index: 9999;
 }
-
-#header [data-togglecontent] p {
-    display: inline-block;
-    margin: 21px 15px 21px 0;
-}
-
 
 #header .header-shipto .code {
     text-transform: uppercase;
