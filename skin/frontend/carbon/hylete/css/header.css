@@ -82,11 +82,6 @@
     z-index: 101;
 }
 
-#header .left a:first-child,
-#header .right a:first-child {
-    padding-left: 0;
-}
-
 #header .account-button .fa-user-o {
     position: relative;
     font-size: 18px;
