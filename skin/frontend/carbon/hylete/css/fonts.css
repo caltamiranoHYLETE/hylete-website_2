@@ -268,3 +268,20 @@ button:focus,
 .checkout-step__title {
     color: #fff;
 }
+
+#header .newsletter input {
+    font-family: 'Eurostile';
+    font-size: 16pt;
+}
+
+#header .header-follow p {
+    font-family: "Open Sans";
+}
+
+#header .header-follow .header-follow-title {
+    font-size: 14pt;
+    font-weight: bold;
+}
+#header .header-follow .header-follow-text {
+    font-size: 12pt;
+}
