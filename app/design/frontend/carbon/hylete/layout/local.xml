@@ -188,6 +188,13 @@
                 <type>skin_js</type>
                 <name>js/mobile-menu.js</name>
             </action>
+            <action method="addCss">
+                <stylesheet>css/top-announcement.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/top-announcement.js</name>
+            </action>
         </reference>
 
         <reference name="top.links">
