@@ -75,7 +75,7 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
                     </a>
                 </span>
             </div>
-            <div class="col-xs-3 my-account-btn"><a class="visible-sm visible-xs" href="<?php echo Mage::getUrl('customer/account'); ?>"><div><i class="fa fa-3x fa-user" aria-hidden="true"></i></div></a></div>
+            <div class="col-xs-3 my-account-btn"><a class="visible-sm visible-xs" href="<?php echo $this->getUrl('customer/account'); ?>"><div><i class="fa fa-3x fa-user" aria-hidden="true"></i></div></a></div>
             <div class="col-xs-1">
                 <div class="right">
 
@@ -86,16 +86,16 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
                             <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-account" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('account');?> <span class="fa fa-angle-down"></span></a>
                             <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
                                 <?php if ($this->helper('customer')->isLoggedIn()) { ?>
-                                    <a href="<?php echo Mage::getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a>
-                                    <a href="<?php echo Mage::getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a>
                                     <?php echo $this->getLayout()
                                         ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
                                         ->setTemplate('rewards/special/header.phtml')
                                         ->toHtml() ?>
                                 <?php } else { ?>
-                                    <a href="<?php echo Mage::getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a>
-                                    <a href="<?php echo Mage::getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a>
-                                    <a href="<?php echo Mage::getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a>
                                 <?php } ?>
                             </div>
                         </span>

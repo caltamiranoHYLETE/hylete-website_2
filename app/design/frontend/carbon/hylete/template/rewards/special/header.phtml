@@ -44,7 +44,7 @@
 ?>
 
 <?php if ($this->getPointsSummary() != ""): ?>
-    <a href="<?php echo Mage::getUrl('rewards/customer'); ?>">
+    <a href="<?php echo $this->getUrl('rewards/customer'); ?>">
         <div>
             <?php echo trim($this->__("(%s)",str_replace(array('Points'),array('points'),$this->getPointsSummary()))); ?>
         </div>
