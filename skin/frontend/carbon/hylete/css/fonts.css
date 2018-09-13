@@ -207,6 +207,8 @@ a,
 a:link,
 a:hover,
 a:active,
+#header a,
+#header .cart.not-empty .top:hover a,
 #header [data-togglecontent],
 #header [data-togglecontent] a,
 #header .showcart a,
@@ -247,14 +249,12 @@ input[disabled],
     color: #ccc;
 }
 
-#header a,
 input[type="submit"]:hover,
 button:hover,
 button:focus,
 .button:hover,
 .button:focus,
 .button.inverted,
-#header .cart.not-empty .top:hover a,
 .hylete-widget,
 .hylete-widget .description
 .hylete-widget h1,
@@ -267,4 +267,21 @@ button:focus,
 .facebook-login:hover,
 .checkout-step__title {
     color: #fff;
+}
+
+#header .newsletter input {
+    font-family: 'Eurostile';
+    font-size: 16pt;
+}
+
+#header .header-follow p {
+    font-family: "Open Sans";
+}
+
+#header .header-follow .header-follow-title {
+    font-size: 14pt;
+    font-weight: bold;
+}
+#header .header-follow .header-follow-text {
+    font-size: 12pt;
 }

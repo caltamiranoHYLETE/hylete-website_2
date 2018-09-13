@@ -164,3 +164,8 @@ height: 38px;
     transform: rotate(90deg);
     display: block !important;
 }
+
+#footer .content .follow-us {
+    display: flex;
+    justify-content: space-around;
+}

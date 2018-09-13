@@ -1,0 +1,27 @@
+#top-announcement {
+    background: #000;
+    color: #fff;
+}
+#top-announcement .owl-stage-outer {
+    padding: 10px 0;
+}
+#top-announcement .owl-item {
+    width: 100%;
+    text-align: center;
+}
+#top-announcement .owl-carousel {
+    position: relative;
+}
+#top-announcement .owl-prev,
+#top-announcement .owl-next {
+    background: none;
+    position: absolute;
+    top: 50%;
+    margin-top: -10px; // Half of the prev/next buttons height here in negatives to center them perfectly
+}
+#top-announcement .owl-prev {
+    left: 0;
+}
+#top-announcement .owl-next {
+    right: 0;
+}

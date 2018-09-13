@@ -1,7 +1,7 @@
 jQuery.noConflict();
 
 jQuery(document).ready(function ($) {
-    jQuery('.owl-carousel').owlCarousel({
+    jQuery('#offerstab').owlCarousel({
         loop: true,
         margin: 40,
         responsiveClass: true,

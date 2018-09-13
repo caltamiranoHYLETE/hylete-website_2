@@ -129,6 +129,9 @@
             <action method="addCss">
                 <stylesheet>css/menu.css</stylesheet>
             </action>
+            <action method="addCss">
+                <stylesheet>css/bootstrap-social.css</stylesheet>
+            </action>
             <action method="removeItem">
                 <type>js</type>
                 <name>jquery/jquery.mobile.touch.min.js</name>
@@ -184,6 +187,13 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/mobile-menu.js</name>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/top-announcement.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/top-announcement.js</name>
             </action>
         </reference>
 

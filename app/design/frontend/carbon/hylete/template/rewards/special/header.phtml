@@ -44,5 +44,9 @@
 ?>
 
 <?php if ($this->getPointsSummary() != ""): ?>
-        <?php echo $this->__("(%s)",str_replace(array('Points'),array('points'),$this->getPointsSummary())); ?>
+    <a href="<?php echo $this->getUrl('rewards/customer'); ?>">
+        <div>
+            <?php echo trim($this->__("(%s)",str_replace(array('Points'),array('points'),$this->getPointsSummary()))); ?>
+        </div>
+    </a>
 <?php endif; ?>

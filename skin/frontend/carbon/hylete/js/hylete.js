@@ -33,7 +33,6 @@ jQuery(document).ready(function ($) {
     var menuSearch = $('.menu-search'),
         $mobileSearch = $('.mobile-search'),
         $mobileSearchWrapper = $('.mobile-search-wrapper'),
-        searchLink = menuSearch.find('>a'),
         searchWrapper = menuSearch.find('.search-wrapper'),
         searchInput = searchWrapper.find('input'),
         activeClass = 'active';
@@ -47,22 +46,6 @@ jQuery(document).ready(function ($) {
 
         $(this).toggleClass(activeClass);
         $mobileSearchWrapper.toggleClass(activeClass);
-    });
-
-    searchLink.on('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        var searchPanelWidth = $('.right', '#header').width() - 18;
-        searchWrapper.css('width', searchPanelWidth);
-
-        var searchVisibility = !searchWrapper.hasClass(activeClass);
-
-        menuSearch.toggleClass(activeClass, searchVisibility);
-
-        if (searchVisibility) {
-            searchInput.focus();
-        }
     });
 
     searchInput.on('focusout', function() {
