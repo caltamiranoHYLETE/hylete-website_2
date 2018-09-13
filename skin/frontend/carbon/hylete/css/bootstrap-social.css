@@ -1,0 +1,39 @@
+/* Facebook */
+.fa-facebook, .fa-facebook-square {
+    color: #3b5998
+}
+.fa-facebook:hover, .fa-facebook-play:hover, .fa-facebook-square:hover {
+    filter: brightness(50%);
+}
+
+/* Twitter */
+.fa-twitter, .fa-twitter-square {
+    color: #00aced
+}
+.fa-twitter:hover, .fa-twitter-play:hover, .fa-twitter-square:hover {
+    filter: brightness(50%);
+}
+
+/* Youtube */
+.fa-youtube, .fa-youtube-play, .fa-youtube-square {
+    color: #bb0000
+}
+.fa-youtube:hover, .fa-youtube-play:hover, .fa-youtube-square:hover {
+    filter: brightness(50%);
+}
+
+/* Pinterest */
+.fa-pinterest, .fa-pinterest-square {
+    color: #cb2027
+}
+.fa-pinterest:hover, .fa-pinterest-play:hover, .fa-pinterest-square:hover {
+    filter: brightness(50%);
+}
+
+/* Instagram */
+.fa-instagram {
+    color: #bc1284;
+}
+.fa-instagram:hover, .fa-instagram-play:hover, .fa-instagram-square:hover {
+    filter: brightness(50%);
+}

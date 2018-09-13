@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.headercart .cart-text {
+    padding-left: 10px;
+}
+
 #atca-cart .cart {
     margin-left: 0;
 }

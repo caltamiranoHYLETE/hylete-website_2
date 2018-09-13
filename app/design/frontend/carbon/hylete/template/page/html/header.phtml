@@ -31,76 +31,93 @@ $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 ?>
 
 <header id="header">
-    <div class="logo">
-        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
-            <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
-        </a>
-    </div>
-
     <div class="container">
-        <div class="left">
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-newsletter" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('newsletter');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
-            <a class="hidden-inline-block-xs hidden-inline-block-sm" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
-            <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><span class="sprite-mobile-menu"></span></a>
-            <a class="mobile-search visible-inline-block-xs visible-inline-block-sm">
-                <span class="sprite-search-white"></span>
-            </a>
-        </div>
-        <div class="mobile-search-wrapper">
-            <div class="mobile-search-section">
-                <div class="container">
-                    <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
-                </div>
-            </div>
-            <div class="quick-link-wrapper">
-                <div class="container">
-                    <?php echo $this->getLayout()->createBlock('cms/block', 'quick-links')->setBlockId('quick_links')->toHtml() ?>
-                </div>
-            </div>
-       </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="left">
+                    <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><i class="fa fa-3x fa-bars" aria-hidden="true"></i></a>
+                    <div class="container visible-inline-block-md visible-inline-block-lg">
+                        <a class="menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
+                        <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true"  class="box box-shadow">
+                            <div class="container header-follow">
+                                <div class="container">
+                                    <p class="header-follow-title"><?php echo $this->__('get the latest'); ?></p>
+                                    <p class="header-follow-text"><?php echo $this->__('Updates on new products, exclusive offers, <br> and more.'); ?></p>
+                                    <?php echo $this->getLayout()
+                                        ->createBlock('newsletter/subscribe')
+                                        ->setTemplate('newsletter/subscribe.phtml')
+                                        ->setFormId('header')->toHtml() ?>
+                                </div>
+                                <div  class="container follow-us">
+                                    <a href="https://www.youtube.com/trainHYLETE" target="_blank"><i class="fa fa-3x fa-youtube"></i></a>
+                                    <a href="https://www.facebook.com/hylete" target="_blank"><i class="fa fa-3x fa-facebook"></i></a>
+                                    <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><i class="fa fa-3x fa-twitter"></i></a>
+                                    <a href="https://instagram.com/trainhylete" target="_blank"><i class="fa fa-3x fa-instagram"></i></a>
+                                    <a href="https://pinterest.com/explore/trainhylete" target="_blank"><i class="fa fa-3x fa-pinterest"></i></a>
+                                </div>
 
-        <div class="right">
-            <div class="hidden-inline-block-xs hidden-inline-block-sm menu-search">
-                <div class="search-wrapper">
-                    <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
-                    <div class="quick-link-wrapper">
-                        <?php echo $this->getLayout()->createBlock('cms/block', 'quick-links')->setBlockId('quick_links')->toHtml() ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container visible-inline-block-md visible-inline-block-lg">
+                        <a class="menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
+                        <div data-togglecontent="header-support" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow">
+                            <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info')->setBlockId('footer_info')->toHtml() ?>
+                        </div>
                     </div>
                 </div>
-                <a class="search-button">
-                    <span class="sprite-search-white"></span>
-                    <span><?php echo $this->__('search')?></span>
-                </a>
             </div>
 
-            <?php if ($_shiptoCms->getIsActive()):?>
-                <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa fa-angle-down"></span></a>
-            <?php endif;?>
-            <?php echo $this->getChildHtml('header.welcome'); ?>
-            <?php echo $this->getChildHtml('headerCart'); ?>
+            <div class="col-xs-4">
+                <span class="logo">
+                    <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
+                        <img class="img-responsive" src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+                    </a>
+                </span>
+            </div>
+            <div class="col-xs-3 my-account-btn"><a class="visible-sm visible-xs" href="<?php echo $this->getUrl('customer/account'); ?>"><div><i class="fa fa-3x fa-user" aria-hidden="true"></i></div></a></div>
+            <div class="col-xs-1">
+                <div class="right">
+
+                    <?php if ($_shiptoCms->getIsActive()):?>
+                        <a class="hidden-inline-block-xs hidden-inline-block-sm header-shipto" data-togglelink="header-shipto" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span> <span class="fa fa-angle-down"></span></a>
+                    <?php endif;?>
+                    <span>
+                            <a class="hidden-inline-block-xs hidden-inline-block-sm menu-top" data-togglelink="header-account" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('account');?> <span class="fa fa-angle-down"></span></a>
+                            <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
+                                <?php if ($this->helper('customer')->isLoggedIn()) { ?>
+                                    <a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a>
+                                    <?php echo $this->getLayout()
+                                        ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
+                                        ->setTemplate('rewards/special/header.phtml')
+                                        ->toHtml() ?>
+                                <?php } else { ?>
+                                    <a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a>
+                                    <a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a>
+                                <?php } ?>
+                            </div>
+                        </span>
+                    <?php echo $this->getChildHtml('headerCart'); ?>
+                </div>
+            </div>
         </div>
+
+        <div class="row visible-xs visible-sm">
+            <div class="col-xs-12 clear-fix">
+                <div class="mobile-search-wrapper visible-xs visible-sm">
+                    <div class="mobile-search-section">
+                        <div class="container">
+                            <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div data-togglecontent="header-newsletter" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container"><?php echo $this->getLayout()->createBlock('newsletter/subscribe')->setTemplate('newsletter/subscribe.phtml')->setFormId('header')->toHtml() ?></div>
-    </div>
-
-    <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container follow-us">
-            <a href="https://instagram.com/trainhylete" target="_blank"><span class="fa fa-instagram"></span></a>
-            <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><span class="fa fa-twitter"></span></a>
-            <a href="https://www.facebook.com/hylete" target="_blank"><span class="fa fa-facebook"></span></a>
-            <a href="https://www.youtube.com/trainHYLETE" target="_blank"><span class="fa fa-youtube"></span></a>
-            <a href="https://pinterest.com/explore/trainhylete" target="_blank"><span class="fa fa-pinterest"></span></a>
-        </div>
-    </div>
-
-    <div data-togglecontent="header-support" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
-        <div class="container">
-            <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info')->setBlockId('footer_info')->toHtml() ?>
-        </div>
-    </div>
 
     <?php if ($_shiptoCms->getIsActive()):?>
         <div data-togglecontent="header-shipto" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true">
