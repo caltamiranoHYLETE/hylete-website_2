@@ -38,13 +38,7 @@
     margin-right: 6px;
 }
 
-#header .left,
-#header .right {
-    line-height: 24px;
-}
-
-#header .left .menu-top,
-#header .right .menu-top {
+#header .menu-top {
     line-height: 66px;
 }
 
@@ -78,9 +72,6 @@
     box-shadow: 0 0 10px #ccc;
 }
 
-#header .account-links {
-    right: 100px;
-}
 #header .account-links a {
     display: inherit;
     line-height: 40px;
@@ -90,7 +81,9 @@
     text-align: center;
 }
 
-
+#header .cart-button {
+    display: -webkit-inline-box;
+}
 
 
 
@@ -242,6 +235,9 @@
     padding: 14px
 }
 
+.menu-search {
+    z-index: 1000;
+}
 .menu-search .search-wrapper {
     border: 1px solid black;
     display: inline-block;
