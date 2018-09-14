@@ -136,6 +136,9 @@
     #header .my-account-btn{
         text-align: right;
     }
+    #header .menu-top {
+        line-height: 0;
+    }
     .logo img {
         padding-top: 5px;
 
