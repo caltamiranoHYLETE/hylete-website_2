@@ -103,16 +103,16 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
 
                 <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
                     <?php if ($this->helper('customer')->isLoggedIn()) { ?>
-                        <a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a>
-                        <a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a>
-                        <?php echo $this->getLayout()
-                            ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
-                            ->setTemplate('rewards/special/header.phtml')
-                            ->toHtml() ?>
+                        <p><a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a></p>
+                        <p><a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a></p>
+                        <p><?php echo $this->getLayout()
+                                ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
+                                ->setTemplate('rewards/special/header.phtml')
+                                ->toHtml() ?></p>
                     <?php } else { ?>
-                        <a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a>
-                        <a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a>
-                        <a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a>
+                        <p><a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a></p>
+                        <p><a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                        <p><a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a></p>
                     <?php } ?>
                 </div>
             </div>

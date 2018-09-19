@@ -63,6 +63,10 @@
     padding-left: 17px;
     padding-right: 13px;
 }
+#header .box a
+{
+    padding-left: 0px;
+}
 #header .box-shadow
 {
     border: 0 solid #CCC;
@@ -74,7 +78,6 @@
 
 #header .account-links a {
     display: inherit;
-    line-height: 40px;
 }
 
 #header .header-follow {
