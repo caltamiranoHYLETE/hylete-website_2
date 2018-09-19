@@ -175,6 +175,11 @@
     justify-content: space-between;
 }
 
+#header .cart-icon-md {
+    top: -5px;
+    position: relative;
+}
+
 
 /* Search */
 .search-wrapper {
