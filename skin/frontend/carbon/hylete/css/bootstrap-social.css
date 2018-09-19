@@ -1,39 +1,12 @@
-/* Facebook */
-.fa-facebook, .fa-facebook-square {
-    color: #3b5998
+.header-follow div.follow a {
+    border-bottom: none;
+    display:block;
+    text-align: center;
+    -webkit-transition:all 0.25s ease 0s;
+    -moz-transition:all 0.25s ease 0s;
+    -o-transition:all 0.25s ease 0s;
+    transition:all 0.25s ease 0s;
 }
-.fa-facebook:hover, .fa-facebook-play:hover, .fa-facebook-square:hover {
-    filter: brightness(50%);
-}
-
-/* Twitter */
-.fa-twitter, .fa-twitter-square {
-    color: #00aced
-}
-.fa-twitter:hover, .fa-twitter-play:hover, .fa-twitter-square:hover {
-    filter: brightness(50%);
-}
-
-/* Youtube */
-.fa-youtube, .fa-youtube-play, .fa-youtube-square {
-    color: #bb0000
-}
-.fa-youtube:hover, .fa-youtube-play:hover, .fa-youtube-square:hover {
-    filter: brightness(50%);
-}
-
-/* Pinterest */
-.fa-pinterest, .fa-pinterest-square {
-    color: #cb2027
-}
-.fa-pinterest:hover, .fa-pinterest-play:hover, .fa-pinterest-square:hover {
-    filter: brightness(50%);
-}
-
-/* Instagram */
-.fa-instagram {
-    color: #bc1284;
-}
-.fa-instagram:hover, .fa-instagram-play:hover, .fa-instagram-square:hover {
-    filter: brightness(50%);
+.header-follow div.follow a i {
+    padding: 15px;
 }

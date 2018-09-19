@@ -60,12 +60,6 @@
 #header .box
 {
     background-color: #fff;
-    padding-left: 17px;
-    padding-right: 13px;
-}
-#header .box a
-{
-    padding-left: 0px;
 }
 #header .box-shadow
 {
@@ -82,6 +76,10 @@
 
 #header .header-follow {
     text-align: center;
+}
+
+#header .header-follow .newsletter-subscription {
+    padding-left: 17px;
 }
 
 #header .cart-button {

@@ -54,7 +54,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                         <a class="menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
                         <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true"  class="box box-shadow">
                             <div class="container header-follow">
-                                <div class="container">
+                                <div class="container newsletter-subscription">
                                     <p class="header-follow-title"><?php echo $this->__('get the latest'); ?></p>
                                     <p class="header-follow-text"><?php echo $this->__('Updates on new products, exclusive offers, <br> and more.'); ?></p>
                                     <?php echo $this->getLayout()
@@ -62,12 +62,12 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                                         ->setTemplate('newsletter/subscribe.phtml')
                                         ->setFormId('header')->toHtml() ?>
                                 </div>
-                                <div  class="container follow-us">
-                                    <a href="https://www.youtube.com/trainHYLETE" target="_blank"><i class="fa fa-3x fa-youtube"></i></a>
-                                    <a href="https://www.facebook.com/hylete" target="_blank"><i class="fa fa-3x fa-facebook"></i></a>
-                                    <a href="https://twitter.com/#!/trainHYLETE" target="_blank"><i class="fa fa-3x fa-twitter"></i></a>
-                                    <a href="https://instagram.com/trainhylete" target="_blank"><i class="fa fa-3x fa-instagram"></i></a>
-                                    <a href="https://pinterest.com/explore/trainhylete" target="_blank"><i class="fa fa-3x fa-pinterest"></i></a>
+                                <div  class="container follow">
+                                    <a href="https://www.youtube.com/trainHYLETE" target="_blank" class="youtube"><i class="fa fa-3x fa-youtube"></i></a>
+                                    <a href="https://www.facebook.com/hylete" target="_blank" class="facebook"><i class="fa fa-3x fa-facebook"></i></a>
+                                    <a href="https://twitter.com/#!/trainHYLETE" target="_blank" class="twitter"><i class="fa fa-3x fa-twitter"></i></a>
+                                    <a href="https://instagram.com/trainhylete" target="_blank" class="instagram"><i class="fa fa-3x fa-instagram"></i></a>
+                                    <a href="https://pinterest.com/explore/trainhylete" target="_blank" class="pinterest"><i class="fa fa-3x fa-pinterest"></i></a>
                                 </div>
 
                             </div>
