@@ -47,7 +47,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                     </a>
                 </div>
             <?php endif;?>
-            <div class="col-xs-2 col-sm-4 <?php echo $isShipToCmsActive ? 'col-md-3':'' ?>">
+            <div class="col-xs-2 col-sm-4 <?php echo $isShipToCmsActive ? 'col-md-3':'col-md-2' ?>">
                 <div class="left">
                     <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><i class="fa fa-3x fa-bars" aria-hidden="true"></i></a>
                     <div class="container hidden-xs hidden-sm  visible-inline-block-md">
@@ -82,7 +82,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-4 col-md-6">
+            <div class="col-xs-6 col-sm-4 col-md-8">
                 <span class="logo">
                     <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
                         <img class="img-responsive" src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
@@ -145,6 +145,10 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
             </div>
         </div>
     <?php endif;?>
+
+    <div >
+
+    </div>
 </header>
 
 <?php echo $this->getChildHtml('topMenu') ?>

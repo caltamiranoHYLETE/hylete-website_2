@@ -126,8 +126,12 @@
         background: #000;
         z-index: 99;
     }
+    .logo a {
+        text-align: center;
+        width: 100%;
+    }
     .logo img {
-         height: 34px;
+         height: 20px;
          margin-top: 25px;
     }
 }
