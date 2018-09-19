@@ -23,19 +23,13 @@
 
 /* font-family, weight, letter-spacing
 ------------------------------- */
-#nav a,
 #footer,
-#header a,
 body,
 h1,
 h2,
 h3,
 h4,
 h5,
-#nav .level0 > a,
-#nav li.level1 > a,
-#nav h3,
-#nav .menu-group-footer a,
 .hylete-widget h3,
 .hylete-widget p,
 .hylete-widget a,
@@ -274,8 +268,11 @@ button:focus,
     font-size: 16pt;
 }
 
-#header .header-follow p {
-    font-family: "Open Sans";
+#header,
+#nav .menu-nested-parent .label,
+#nav li.menu-nested-parent
+{
+    font-family: "Open Sans, sans-serif";
 }
 
 #header .header-follow .header-follow-title {
