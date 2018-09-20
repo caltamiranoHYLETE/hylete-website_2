@@ -32,7 +32,7 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
                 ->setBlockId('offers-tab-redemption-message')
                 ->toHtml();
 
-                // Replace the [promocode] token in CMS block with the applied promo code
+                // Replace the [promocode] token in CMS block with the applied promotion code
                 $defaultMessage = str_replace("[promocode]", $code, $defaultMessage);
 
                 if (!empty ($redemptionMessage) )
