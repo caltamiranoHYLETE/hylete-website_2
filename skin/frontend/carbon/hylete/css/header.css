@@ -177,10 +177,13 @@
 }
 
 #header .cart-icon-md {
-    top: -5px;
+    top: -1px;
     position: relative;
 }
 
+#recently-added-container .minicart-cart {
+    line-height: initial;
+}
 
 /* Search */
 .search-wrapper {
