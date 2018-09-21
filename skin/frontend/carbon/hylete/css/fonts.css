@@ -282,3 +282,12 @@ button:focus,
 #header .header-follow .header-follow-text {
     font-size: 12pt;
 }
+
+#header .cart-icon-md .fa-shopping-cart {
+    font-size: 18px;
+}
+
+#recently-added-container .minicart-cart .fa-shopping-cart {
+    font-size: 2em;
+    color: #fff;
+}
