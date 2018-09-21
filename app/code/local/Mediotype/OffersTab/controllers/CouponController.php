@@ -24,16 +24,30 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
             if ($this->validate($code)) {
                 $checkoutSession->setData('automaticCouponCode', $code);
                 $offer = $this->getOfferByCode($code);
-                $message = $offer->getRedemptionMessage() ?:
-                    $this->__(sprintf(
-                        'Promo code `%s` was added to cart and will automatically apply to your cart during checkout.',
-                        $code
-                    ));
+                $redemptionMessage = $offer->getRedemptionMessage();
+
+                // Call custom CMS block that holds the default 'Redemption Message'
+                $defaultMessage = $this->getLayout()
+                ->createBlock('cms/block')
+                ->setBlockId('offers-tab-redemption-message')
+                ->toHtml();
+
+                // Replace the [promocode] token in CMS block with the applied promotion code
+                $defaultMessage = str_replace("[promocode]", $code, $defaultMessage);
+
+                if (!empty ($redemptionMessage) )
+                {
+                   $successMessage = $redemptionMessage;
+
+                } else {
+                   $successMessage = $defaultMessage;
+                }
 
                 Mage::dispatchEvent('mediotype_coupon_apply', array('code' => $code));
 
-                $coreSession->addSuccess($message);
-            } else {
+                $coreSession->addSuccess($successMessage);
+
+                } else {
                 throw new Mage_Core_Exception(
                     $this->__(sprintf('Unable to apply promo code `%s`.', $code))
                 );
