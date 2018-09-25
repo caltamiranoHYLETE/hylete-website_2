@@ -25,3 +25,14 @@
 #top-announcement .owl-next {
     right: 0;
 }
+
+@media (max-width: 991px) {
+
+    #top-announcement .owl-next {
+        right: 8px;
+    }
+
+    #top-announcement .owl-prev {
+        left: 9px;
+    }
+}
