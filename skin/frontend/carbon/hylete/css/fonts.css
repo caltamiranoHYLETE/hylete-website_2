@@ -58,7 +58,6 @@ label,
 input,
 .dashboard,
 .price {
-    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     letter-spacing: 0.05em;
 }
@@ -250,7 +249,7 @@ button:focus,
 .button:focus,
 .button.inverted,
 .hylete-widget,
-.hylete-widget .description
+.hylete-widget .description,
 .hylete-widget h1,
 .hylete-widget h2,
 .hylete-widget h3,
@@ -262,17 +261,18 @@ button:focus,
 .checkout-step__title {
     color: #fff;
 }
-
-#header .newsletter input {
-    font-family: 'Eurostile';
-    font-size: 16pt;
+.search-wrapper input.input-text,
+#header input  {
+    font-size: 16px;
 }
 
-#header,
-#nav .menu-nested-parent .label,
-#nav li.menu-nested-parent
-{
-    font-family: "Open Sans, sans-serif";
+#header input,
+#header input.input-text,
+#header button,
+#header p,
+#header div,
+.search-wrapper input.input-text {
+    font-family: 'Open Sans', sans-serif;
 }
 
 #header .header-follow .header-follow-title {
