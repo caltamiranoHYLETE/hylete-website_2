@@ -134,33 +134,37 @@
          height: 20px;
          margin-top: 25px;
     }
+
+
+    .header-search button {
+        padding: 0px;
+    }
 }
 
 @media (max-width: 991px) {
+    #header {
+        padding-top: 3px;
+        margin-left: 5px;
+        margin-right: 3px;
+    }
+    #top-announcement .owl-next {
+        right: 8px;
+    }
+    #top-announcement .owl-prev {
+        left: 9px;
+    }
+    #header .mobile-search-wrapper {
+        margin: 0 14px;
+    }
     #header .my-account-btn{
         text-align: right;
     }
     #header .menu-top {
         line-height: 0;
     }
-    .logo img {
-        padding-top: 5px;
 
-    }
-    #header {
-        margin-top: 25px;
-    }
     .header-search button {
         padding: 0;
-    }
-    #header span[class^="sprite"] {
-        margin: 0;
-        top: 5px;
-    }
-
-    #header .account-button span[class^="sprite"],
-    #header .cart span[class^="sprite"] {
-        top: 0;
     }
 
     #header .account-button {
@@ -169,7 +173,7 @@
     }
 
     #header .account-button.logged-in {
-        padding: 0px 7px 0 13px;
+        padding: 0 7px 0 13px;
     }
 
     .customer-account-login #header .account-button,
@@ -182,7 +186,7 @@
     }
 
     #atca-cart .cart-badge {
-        top: 0px;
+        top: 0;
         left: 32px;
     }
 
@@ -192,7 +196,7 @@
 
     .header-search {
         background: #fff;
-        border: 1px #e5e5e5 solid;
+        border: 1px #666666 solid;
         left: 0;
         margin-left: inherit;
         width: 100%;
@@ -554,6 +558,13 @@
         top: -15px;
         left: 10px;
     }
+
+
+    .logo img {
+        max-height: 30px;
+        margin-top: 4px;
+
+    }
 }
 
 @media (min-width: 992px) {
@@ -567,10 +578,6 @@
 }
 
 @media (max-width: 767px) {
-    #header .container {
-        padding: 0 15px;
-    }
-
     .cdz-menu {
         display: none;
     }
@@ -586,4 +593,30 @@
     .mobile-nav#toggle-nav {
         display: inline-block !important;
     }
+
+    .logo img {
+        margin-top: 12px;
+        max-width: 150px;
+
+    }
+
 }
+@media (max-width: 991px) {
+
+    #header .container {
+        max-width: 100%;
+    }
+}
+@media (max-width: 400px) {
+    #header .logo {
+        left: -30px;
+    }
+}
+
+@media (max-width: 350px) {
+    #header .logo img {
+        margin-top: 15px;
+        max-width: 110px;
+    }
+}
+
