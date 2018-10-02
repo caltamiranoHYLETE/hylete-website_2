@@ -59,11 +59,10 @@
 
             //Don't set panel width and height on tablet
             if(carbon.getCurrentGrid() != 'sm') {
-                var panelWidth = ($(window).width() - $('.right').offset().left),
-                    cartFooterHeight = $cartFooter.outerHeight() + 46; // Add bottom margin
+                var cartFooterHeight = $cartFooter.outerHeight() + 46; // Add bottom margin
 
                 $cartPanelInner.css('height', 'calc(100% - ' + cartFooterHeight + 'px)');
-                $cartPanel.css('width', panelWidth);
+                $cartPanel.css('width', '20%');
             }
 
             $('body').toggleClass(activeClass);
