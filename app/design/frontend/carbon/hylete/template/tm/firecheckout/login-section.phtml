@@ -5,12 +5,12 @@
             <div class="login-section-actions">
                 <a href="<?php echo $this->getUrl('customer/account/login') ?>"
                    class="button button-login login-section-action firecheckout-login">
-                    <span class="fa fa-user-o"></span>
+                    <span class="fal fa-user"></span>
                     <?php echo $this->__('Log in') ?>
                 </a>
                 <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
                     <a onclick="return facebookPopup();" class="button button-login-facebook login-section-action">
-                        <span class="fa fa-facebook"></span><?php echo $this->__('Log in with Facebook');?>
+                        <i class="fab fa-facebook-f"></i><?php echo $this->__('Log in with Facebook');?>
                     </a>
                 <?php endif;?>
             </div>
@@ -23,4 +23,5 @@
             <?php endif; ?>
         </div>
     </div>
-<?php endif; ?>
+<?php endif;
+
