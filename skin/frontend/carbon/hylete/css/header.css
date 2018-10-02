@@ -15,7 +15,10 @@
     white-space: nowrap;
 }
 
-
+#headercart .header .minicart-cart .cart-badge {
+    left: 10px;
+    bottom: 10px;
+}
 .fade-icon {
     transition: opacity 0.2s;
 }
