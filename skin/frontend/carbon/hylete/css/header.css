@@ -66,7 +66,8 @@
 }
 
 #header .header-follow .newsletter-subscription {
-    padding-left: 17px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #header .cart-button {
@@ -128,7 +129,7 @@
 }
 
 #header .newsletter input {
-    width: 96%;
+    width: 98%;
 }
 
 #header .klaviyo_field_group.newsletter__field  {
