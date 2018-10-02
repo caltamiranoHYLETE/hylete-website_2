@@ -74,7 +74,10 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
     </div>
     <div class="row">
         <?php if($this->getContinueShoppingUrl()): ?>
-            <a href="<?php echo $this->getContinueShoppingUrl();?>" class="continue-shopping">&laquo; <?php echo $this->__('continue shopping') ?></a>
+            <a href="<?php echo $this->getContinueShoppingUrl();?>" class="continue-shopping">
+                <i class="far fa-angle-double-left"></i>
+                <?php echo $this->__('continue shopping') ?>
+            </a>
         <?php endif; ?>
     </div>
     <div class="row">
