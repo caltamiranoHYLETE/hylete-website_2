@@ -195,6 +195,14 @@
                 <type>skin_js</type>
                 <name>js/top-announcement.js</name>
             </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>codazon/megamenupro/css/font-awesome.min.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>carbon/hylete/css/font-icons/font-awesome.min.css</name>
+            </action>
         </reference>
 
         <reference name="top.links">
