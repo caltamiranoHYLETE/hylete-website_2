@@ -78,6 +78,7 @@
 #atca-cart {
     display: inline-block;
     text-align: center;
+    z-index: 10000;
 }
 
 .headercart .cart-badge {
