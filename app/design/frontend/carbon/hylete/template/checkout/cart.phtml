@@ -74,7 +74,10 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
     </div>
     <div class="row">
         <?php if($this->getContinueShoppingUrl()): ?>
-            <a href="<?php echo $this->getContinueShoppingUrl();?>" class="continue-shopping">&laquo; <?php echo $this->__('continue shopping') ?></a>
+            <a href="<?php echo $this->getContinueShoppingUrl();?>" class="continue-shopping">
+                <i class="far fa-angle-double-left"></i>
+                <?php echo $this->__('continue shopping') ?>
+            </a>
         <?php endif; ?>
     </div>
     <div class="row">
@@ -130,7 +133,15 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                 </fieldset>
 
                 <p class="actions">
-                    <button type="submit" name="update_cart_action" value="empty_cart" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Clear Cart')); ?>" class="button-text" id="empty_cart_button" data-confirm-msg="<?php echo $this->__('Are You Sure?'); ?>">&laquo; <?php echo $this->__('clear cart') ?></button>
+                    <button type="submit"
+                            name="update_cart_action"
+                            value="empty_cart"
+                            title="<?php echo Mage::helper('core')->quoteEscape($this->__('Clear Cart')); ?>"
+                            class="button-text"
+                            id="empty_cart_button"
+                            data-confirm-msg="<?php echo $this->__('Are You Sure?'); ?>">
+                        <i class="far fa-angle-double-left"> </i><span><?php echo $this->__('clear cart') ?></span>
+                    </button>
                 </p>
             </form>
 
@@ -223,7 +234,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                             <div class="login-section-actions">
                                                 <div class="login-section-action">
                                                     <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="button button-login login-section-button firecheckout-login">
-                                                        <span class="fa fa-user-o"></span>
+                                                        <span class="fal fa-user"></span>
                                                         <?php echo $this->__('Log in') ?>
                                                     </a>
                                                     <div>
@@ -234,7 +245,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                                 <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
                                                     <div class="login-section-action">
                                                         <a onclick="return facebookPopup();" class="button button-login-facebook login-section-button">
-                                                            <span class="fa fa-facebook"></span><?php echo $this->__('Log in with Facebook');?>
+                                                            <i class="fab fa-facebook-f"></i><?php echo $this->__('Log in with Facebook');?>
                                                         </a>
                                                     </div>
                                                 <?php endif;?>

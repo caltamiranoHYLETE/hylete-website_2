@@ -255,7 +255,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                             <li class="control control-create-account-later">
                                 <input type="checkbox" name="billing[register_account]" value="1" title="<?php echo $this->__('Create an account and earn reward points') ?>" id="billing:register_account" onclick="if(window.billing) billing.setCreateAccount(this.checked);"<?php if ($register || 'optional-checked' == $registrationMode) : ?> checked="checked"<?php endif;?> class="checkbox" />
                                 <label for="billing:register_account">
-                                    <span class="fa fa-user-o" aria-hidden="true"></span>
+                                    <span class="fal fa-user" aria-hidden="true"></span>
                                     <?php echo $this->__('Create an account and earn <span class="elevio-link" data-elevio-article="85055">reward points</span>') ?>
                                 </label>
                             </li>
@@ -307,7 +307,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
             <li class="newsletter control">
                 <input type="checkbox" id="newsletter-signup" name="newsletter" value="1"<?php if (Mage::getStoreConfig('firecheckout/general/newsletter_checkbox_state')) : ?> checked="checked"<?php endif; ?> title="<?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>" class="checkbox" />
                 <label for="newsletter-signup">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                    <i class="fal fa-envelope"></i>
                     <?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>
                 </label>
             </li>
