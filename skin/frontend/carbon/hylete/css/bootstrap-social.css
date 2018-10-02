@@ -8,5 +8,5 @@
     transition:all 0.25s ease 0s;
 }
 .header-follow div.follow a i {
-    padding: 15px;
+    padding: 15px 5px;
 }
