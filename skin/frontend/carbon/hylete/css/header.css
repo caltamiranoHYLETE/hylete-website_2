@@ -15,7 +15,10 @@
     white-space: nowrap;
 }
 
-
+#headercart .header .minicart-cart .cart-badge {
+    left: 10px;
+    bottom: 10px;
+}
 .fade-icon {
     transition: opacity 0.2s;
 }
@@ -79,6 +82,7 @@
 #atca-cart {
     display: inline-block;
     text-align: center;
+    z-index: 10000;
 }
 
 .headercart .cart-badge {
@@ -166,7 +170,6 @@
 }
 
 #header .cart-icon-md {
-    top: -1px;
     position: relative;
 }
 

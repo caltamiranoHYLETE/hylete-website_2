@@ -65,12 +65,13 @@ if ($_isLoggedIn) {
             <div class="visible-xs visible-sm ">
                 <i class="fa fa-shopping-cart fa-3x"></i>
                 <span class="cart-badge fade-icon"><?php echo ($_cartQty > 0) ? $_cartQty : ''; ?></span>
+                <span class="hidden-inline-block-xs hidden-inline-block-sm cart-text"><?php echo $this->__('cart'); ?></span>
             </div>
             <div class="hidden-xs hidden-sm cart-icon-md">
                 <i class=" fa fa-shopping-cart fa-2x"></i>
                 <span class="cart-badge fade-icon"><?php echo ($_cartQty > 0) ? $_cartQty : ''; ?></span>
+                <span class="hidden-inline-block-xs hidden-inline-block-sm cart-text"><?php echo $this->__('cart'); ?></span>
             </div>
-            <span class="hidden-inline-block-xs hidden-inline-block-sm cart-text"><?php echo $this->__('cart'); ?></span>
         </a>
     </div>
     <?php if (Mage::helper('hylete')->showHeaderCartDropDown()): ?>
@@ -83,7 +84,7 @@ if ($_isLoggedIn) {
                     </div>
                     <div class="hidden-xs hidden-sm cart-icon-md">
                         <i class=" fa fa-shopping-cart fa-2x"></i>
-                        <span class="cart-badge fade-icon"><?php echo ($_cartQty > 0) ? $_cartQty : ''; ?></span>
+                        <span class="cart-badge"><?php echo ($_cartQty > 0) ? $_cartQty : ''; ?></span>
                     </div>
                 </div>
                 <?php if ($_notEmpty) : ?>
