@@ -53,6 +53,7 @@
     padding: 20px;
     background: #fff;
     overflow: auto;
+    line-height: initial;
 }
 
 .minicart-is-open .headercart-filter {
