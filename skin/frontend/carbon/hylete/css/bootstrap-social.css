@@ -10,3 +10,8 @@
 .header-follow div.follow a i {
     padding: 15px 5px;
 }
+
+a.facebook-login i,
+a.button-login-facebook i {
+    padding-right: 3px;
+}
