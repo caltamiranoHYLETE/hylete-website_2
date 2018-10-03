@@ -262,7 +262,7 @@ button:focus,
     color: #fff;
 }
 .search-wrapper input.input-text {
-    font-size: 22px;
+    font-size: 18px;
     letter-spacing: initial;
 }
 #header input  {
