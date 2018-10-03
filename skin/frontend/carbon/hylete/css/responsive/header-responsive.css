@@ -135,9 +135,25 @@
          margin-top: 25px;
     }
 
-
     .header-search button {
-        padding: 0px;
+        padding: 0;
+        color: #777777;
+        height: 36px;
+    }
+    .menu-search .search-wrapper {
+        color: #777777;
+        border: 1px solid #BDBDBD;
+        width: 225px;
+        height: 36px;
+    }
+    .menu-search .search-wrapper input {
+        padding-bottom: 0;
+        padding-top: 0;
+        height: 32px;
+    }
+    li.menu-search {
+        height: 36px;
+        bottom: 4px;
     }
 }
 
