@@ -1,11 +1,11 @@
 jQuery.fn.mySlideToggle = function(speed, show) {
     return this.each(function() {
         if (show) {
-            jQuery(this).slideDown(speed, function() {
+            jQuery(this).fadeIn(speed, function() {
                 jQuery(this).css('overflow', 'visible');
             });
         } else {
-            jQuery(this).slideUp(speed);
+            jQuery(this).fadeOut(speed);
         }
     });    
 }
@@ -58,7 +58,7 @@ jQuery.widget('vaimo.vaimoToggle', {
             clearTimeout(toggleTimeout);
             if (!jQuery(e.target).is(that._getAttribute('link') + ',' + that._getAttribute('content')) && jQuery(e.target).closest(that._getAttribute('content')).length == 0) {
                 jQuery(that._getAttribute('autoclose')).removeClass(that.options.activeClass);
-                jQuery(that._getAttribute('autoclose') + that._getAttribute('content')).slideUp(Number(that.options.animationSpeed));
+                jQuery(that._getAttribute('autoclose') + that._getAttribute('content')).fadeOut(Number(that.options.animationSpeed));
             }
         });
     },
@@ -121,7 +121,7 @@ jQuery.widget('vaimo.vaimoToggle', {
     
     _resetAll: function() {
         this._getAll('link').removeClass(this.options.activeClass);
-        this._getAll('content').slideUp(Number(this.options.animationSpeed));
+        this._getAll('content').fadeOut(Number(this.options.animationSpeed));
     },
     
     _toggleThis: function(toggle) {
