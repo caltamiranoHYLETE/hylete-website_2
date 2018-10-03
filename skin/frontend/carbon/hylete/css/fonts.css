@@ -261,7 +261,10 @@ button:focus,
 .checkout-step__title {
     color: #fff;
 }
-.search-wrapper input.input-text,
+.search-wrapper input.input-text {
+    font-size: 22px;
+    letter-spacing: initial;
+}
 #header input  {
     font-size: 16px;
 }
