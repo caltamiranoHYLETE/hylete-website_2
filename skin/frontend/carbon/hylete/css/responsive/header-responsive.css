@@ -577,7 +577,7 @@
 
 
     .logo img {
-        max-height: 30px;
+        max-height: 23px;
         margin-top: 4px;
 
     }
@@ -616,9 +616,8 @@
     }
 
     .logo img {
-        margin-top: 12px;
+        margin-top: 5px;
         max-width: 150px;
-
     }
 
 }
