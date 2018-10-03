@@ -23,7 +23,7 @@ jQuery.widget('vaimo.vaimoToggle', {
         defaultAction: 'click',
         activeClass: 'active',
         animationSpeed: 150,
-        timeoutDelay: 150,
+        timeoutDelay: 0,
     },
     
     values: {},
