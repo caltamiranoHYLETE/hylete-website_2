@@ -162,6 +162,7 @@
         padding-top: 3px;
         margin-left: 5px;
         margin-right: 3px;
+        margin-top: 10px;
     }
     #top-announcement .owl-next {
         right: 8px;
@@ -174,6 +175,7 @@
     }
     #header .my-account-btn{
         text-align: right;
+        margin-right: 6px;
     }
     #header .menu-top {
         line-height: 0;
@@ -188,6 +190,9 @@
         margin-right: 6px;
     }
 
+    #atca-cart {
+        padding-right: 12px;
+    }
     #header .account-button.logged-in {
         padding: 0 7px 0 13px;
     }
@@ -615,9 +620,13 @@
         display: inline-block !important;
     }
 
-    .logo img {
-        margin-top: 5px;
-        max-width: 150px;
+    #header .logo {
+        left: -36px;
+    }
+
+    #header .logo img {
+        margin-top: 6px;
+        max-width: 120px;
     }
 
 }
@@ -627,16 +636,3 @@
         max-width: 100%;
     }
 }
-@media (max-width: 400px) {
-    #header .logo {
-        left: -30px;
-    }
-}
-
-@media (max-width: 350px) {
-    #header .logo img {
-        margin-top: 15px;
-        max-width: 110px;
-    }
-}
-

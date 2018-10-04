@@ -297,3 +297,8 @@ button:focus,
     font-size: 2em;
     color: #fff;
 }
+
+#toggle-nav .fa-bars{
+    font-size: 24px;
+    font-weight: bold;
+}
