@@ -620,9 +620,7 @@
         display: inline-block !important;
     }
 
-    #header .logo {
-        left: -36px;
-    }
+
 
     #header .logo img {
         margin-top: 6px;
@@ -634,5 +632,17 @@
 
     #header .container {
         max-width: 100%;
+    }
+}
+
+@media (max-width: 400px) {
+    #header .my-account-btn {
+        margin-right: 0;
+    }
+    #header .cart-button {
+        padding: 0;
+    }
+    #header .logo {
+        left: -11%;
     }
 }
