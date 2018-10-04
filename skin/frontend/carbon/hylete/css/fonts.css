@@ -299,6 +299,7 @@ button:focus,
 }
 
 #toggle-nav .fa-bars{
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
+    margin-top: -3px;
 }
