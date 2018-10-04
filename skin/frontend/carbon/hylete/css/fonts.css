@@ -261,9 +261,13 @@ button:focus,
 .checkout-step__title {
     color: #fff;
 }
-.search-wrapper input.input-text {
-    font-size: 18px;
+
+.search-wrapper input.input-text,
+.search-wrapper input.input-text::placeholder {
+    font-size: 22px;
     letter-spacing: initial;
+    font-family: Eurostile;
+    color: #777;
 }
 #header input  {
     font-size: 16px;
@@ -273,8 +277,7 @@ button:focus,
 #header input.input-text,
 #header button,
 #header p,
-#header div,
-.search-wrapper input.input-text {
+#header div {
     font-family: 'Open Sans', sans-serif;
 }
 
