@@ -45,7 +45,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                        data-toggleaction="click mouseenter mouseleave"
                        data-toggleautoclose="true">
                         <?php echo $this->__('ship to');?>: <span class="code"><?php echo Mage::app()->getStore()->getCode();?></span>
-                        <span class="fa fa-angle-down"></span>
+                        <i class="fal fa-angle-down"></i>
                     </a>
                 </div>
             <?php endif;?>
@@ -53,7 +53,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                 <div class="left">
                     <a class="visible-inline-block-xs visible-inline-block-sm mobile-nav" id="toggle-nav"><i class="fal fa-bars fa-2x" aria-hidden="true"></i></a>
                     <div class="container hidden-xs hidden-sm  visible-inline-block-md">
-                        <a class="menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <span class="fa fa-angle-down"></span></a>
+                        <a class="menu-top" data-togglelink="header-follow" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('follow us');?> <i class="fal fa-angle-down"></i></a>
                         <div data-togglecontent="header-follow" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true"  class="box box-shadow">
                             <div class="container header-follow">
                                 <div class="container newsletter-subscription">
@@ -76,7 +76,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                         </div>
                     </div>
                     <div class="container hidden-xs hidden-sm  visible-inline-block-md">
-                        <a class="menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <span class="fa fa-angle-down"></span></a>
+                        <a class="menu-top" data-togglelink="header-support" data-togglegroup="header" data-toggleaction="click mouseenter mouseleave" data-toggleautoclose="true"><?php echo $this->__('support');?> <i class="fal fa-angle-down"></i></a>
                         <div data-togglecontent="header-support" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow">
                             <?php echo $this->getLayout()->createBlock('cms/block', 'footer-info')->setBlockId('footer_info')->toHtml() ?>
                         </div>
@@ -93,7 +93,7 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
                        data-togglegroup="header"
                        data-toggleaction="click mouseenter mouseleave"
                        data-toggleautoclose="true">
-                        <?php echo $this->__('account');?> <span class="fa fa-angle-down"></span>
+                        <?php echo $this->__('account');?> <i class="fal fa-angle-down"></i>
                     </div>
 
                     <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">

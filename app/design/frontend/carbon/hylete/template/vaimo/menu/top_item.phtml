@@ -35,7 +35,7 @@ $_menuImage = $this->getCategory()->getMenuImage();
         <?php if ($this->shouldShowLink()): ?>
             <?php // moved before link due to resizing some-times hiding the buttons -- might be a browser glitch ?>
             <?php if ($this->shouldShowChildren()): ?>
-                <button class="toggle-sub-menu"><span class="fa <?php echo ($this->isInCurrentPath()) ? 'fa-angle-down' : 'fa-angle-right';?>"></span><span class="sr-only"><?php echo $this->__('Toggle') ?></span></button>
+                <button class="toggle-sub-menu"><i class="fal <?php echo ($this->isInCurrentPath()) ? 'fa-angle-down' : 'fa-angle-right';?>"></i><span class="sr-only"><?php echo $this->__('Toggle') ?></span></button>
             <?php endif; ?>
             
             <a href="<?php echo $_itemUrl ?>" class="<?php echo $this->getLinkClass() ?> <?php echo ($_disabledLink) ? 'disabled-link' : '';?> <?php echo ($_bold) ? 'bold' : '';?> <?php echo ($_menuImage) ? 'image' : '';?>">
