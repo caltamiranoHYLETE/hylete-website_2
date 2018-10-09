@@ -189,9 +189,6 @@
         margin-right: 6px;
     }
 
-    #atca-cart {
-        padding-right: 12px;
-    }
     #header .account-button.logged-in {
         padding: 0 7px 0 13px;
     }
@@ -202,12 +199,12 @@
     }
 
     .headercart {
-        overflow: hidden;
+        overflow: visible;
     }
 
     #atca-cart .cart-badge {
-        top: 0;
         left: 32px;
+        bottom: 9px;
     }
 
     ul#nav >li {
@@ -590,6 +587,9 @@
     .mobile-search-section input::placeholder {
         color: #777777;
     }
+    #header .container {
+        max-width: 100%;
+    }
 }
 
 @media (min-width: 992px) {
@@ -619,29 +619,14 @@
         display: inline-block !important;
     }
 
-
-
     #header .logo img {
         margin-top: 6px;
         max-width: 120px;
     }
-
-}
-@media (max-width: 991px) {
-
-    #header .container {
-        max-width: 100%;
-    }
 }
 
 @media (max-width: 400px) {
-    #header .my-account-btn {
-        margin-right: 0;
-    }
-    #header .cart-button {
+    #header .my-account-btn a{
         padding: 0;
-    }
-    #header .logo {
-        left: -11%;
     }
 }

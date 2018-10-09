@@ -203,6 +203,9 @@
                 <type>skin_css</type>
                 <name>carbon/hylete/css/font-icons/font-awesome.min.css</name>
             </action>
+            <action method="addCss">
+                <stylesheet>css/fontawesome/css/all.min.css</stylesheet>
+            </action>
         </reference>
 
         <reference name="top.links">
