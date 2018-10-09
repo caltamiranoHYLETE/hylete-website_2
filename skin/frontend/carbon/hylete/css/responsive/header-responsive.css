@@ -590,6 +590,9 @@
     .mobile-search-section input::placeholder {
         color: #777777;
     }
+    #header .container {
+        max-width: 100%;
+    }
 }
 
 @media (min-width: 992px) {
@@ -619,19 +622,11 @@
         display: inline-block !important;
     }
 
-
-
     #header .logo img {
         margin-top: 6px;
         max-width: 120px;
     }
 
-}
-@media (max-width: 991px) {
-
-    #header .container {
-        max-width: 100%;
-    }
 }
 
 @media (max-width: 400px) {
