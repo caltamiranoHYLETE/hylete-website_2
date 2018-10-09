@@ -303,3 +303,13 @@ button:focus,
     font-weight: bold;
     margin-top: -3px;
 }
+
+@media (max-width: 767px) {
+    #header a:hover {
+        color: initial;
+    }
+    a#toggle-nav.active {
+        color: #aaa;
+    }
+
+}
