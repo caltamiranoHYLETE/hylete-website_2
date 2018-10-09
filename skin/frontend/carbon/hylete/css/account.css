@@ -668,7 +668,7 @@ button.button.edit {
 }
 
 /* Hylete fixes */
-.customer-account-login form,.customer-account-create form{
+.account-login form,.account-create form{
     margin-left: -15px;
     margin-right: -15px;
 }
