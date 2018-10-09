@@ -197,13 +197,13 @@ $_backitHelper->setProduct($_product);
                    href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
 					   ->init($_product, 'thumbnail', $_product->getFile())
 					   ->resize(500); ?>" data-pin-custom="true"><span
-                            class="fa fa-pinterest"></span></a>
+                            class="fab fa-pinterest"></span></a>
                 <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
                    href="https://twitter.com/home?status=<?php echo $_productUrl ?>"><span
-                            class="fa fa-twitter"></span></a>
+                            class="fab fa-twitter"></span></a>
                 <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
                    href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>"><span
-                            class="fa fa-facebook"></span></a>
+                            class="fab fa-facebook-f"></span></a>
             </div>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>

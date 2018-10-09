@@ -51,12 +51,12 @@
  /* Up/Down arrows */
         .sod_select:after {
             content: "\f107";
-            font-family: "FontAwesome";
+            font-family: "Font Awesome 5 Pro";
             top: 10px;
             position: absolute;
             right: 10px;
         }
-        
+
         .sod_select.open:after {
             content: "\f106";
         }
