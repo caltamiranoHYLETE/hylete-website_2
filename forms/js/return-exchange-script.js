@@ -56,12 +56,12 @@ jQuery(document).ready(function(){
                             jQuery("#exchange_choice").prop('checked', true);
 
                             jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
-                                title: "Cash refund is not available for your order. Please select exchange instead.",
+                                title: "Cash refund is not available for your order. Please select exchange instead or contact customerservice@hylete.com for other return options.",
                                 placement: "top",
                                 animation: true
                             });
                             jQuery("#creditMemoTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
-                                title: "Credit memo is not available for your order. Please select exchange instead.",
+                                title: "Credit memo is not available for your order. Please select exchange instead or contact customerservice@hylete.com for other return options.",
                                 placement: "top",
                                 animation: true
                             });
