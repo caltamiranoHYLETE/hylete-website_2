@@ -61,11 +61,11 @@ $_backitHelper              = Mage::helper('hylete/backit');
                     <li class="col-lg-4 col-md-4 col-sm-6 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
                             <?php if ($_product->getTypeId() == 'style'): ?>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(388, 388); ?>"
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(290, 290); ?>"
                                      alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                             <?php elseif ($_product->getTypeId() == 'blog'): ?>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(388, 388); ?>"
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(290, 290); ?>"
                                      alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h5>
                             <?php else: ?>
@@ -74,7 +74,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
                                         <div class="badge"><?php echo $this->escapeHtml($_badgeLabelText) ?></div>
                                     <?php endif ?>
                                 </div>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(388); ?>"
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(290); ?>"
                                      alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
