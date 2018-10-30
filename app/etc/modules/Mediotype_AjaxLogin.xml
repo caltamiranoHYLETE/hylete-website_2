@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+-->
+<config>
+    <modules>
+        <Mediotype_AjaxLogin>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </Mediotype_AjaxLogin>
+    </modules>
+</config>

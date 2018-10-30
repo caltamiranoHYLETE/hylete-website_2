@@ -1,0 +1,256 @@
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+body._has-modal {
+    height: 100%;
+    overflow: hidden;
+    width: 100%
+}
+
+.loading-mask {
+    z-index: 99999;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: rgba(255,255,255,0.5);
+}
+.loading-mask .loader img {
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+}
+
+.modals-overlay {
+    z-index: 10000
+}
+
+.modal-slide .sprite-close {
+    background-position: -38px 0px !important;
+    height: 17px;
+    width: 17px;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+
+.modal-slide {
+    outline: none;
+    bottom: 0;
+    left: 0;
+    min-width: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: visibility 0s .3s, opacity .3s ease;
+    transition: visibility 0s .3s, opacity .3s ease
+}
+
+.modal-slide._show {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: opacity .3s ease;
+    transition: opacity .3s ease
+}
+
+.modal-slide._show .modal-inner-wrap {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0)
+}
+
+.modal-slide .modal-inner-wrap {
+    background-color: #fff;
+    box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.35);
+    opacity: 1;
+    pointer-events: auto
+}
+
+.modal-slide {
+    left: 44px;
+    z-index: 19000
+}
+
+.modal-slide .fieldset {
+    padding: 0px;
+}
+
+.modal-slide .actions-toolbar {
+    margin-top: 20px;
+}
+
+.modal-slide._show .modal-inner-wrap {
+    -webkit-transform: translateX(0);
+    transform: translateX(0)
+}
+
+.modal-slide .modal-inner-wrap {
+    height: 100%;
+    overflow-y: auto;
+    position: static;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+    width: auto
+}
+
+.modal-slide._inner-scroll .modal-inner-wrap {
+    overflow-y: visible;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column
+}
+
+.modal-slide._inner-scroll .modal-header,
+.modal-slide._inner-scroll .modal-footer {
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0
+}
+
+.modal-slide._inner-scroll .modal-content {
+    overflow-y: auto
+}
+
+.modal-slide._inner-scroll .modal-footer {
+    margin-top: auto
+}
+
+.modal-slide .modal-header,
+.modal-slide .modal-content,
+.modal-slide .modal-footer {
+    padding: 0 2.6rem 2.6rem
+}
+
+.modal-slide .modal-header {
+    padding-bottom: 2.1rem;
+    padding-top: 2.1rem
+}
+
+.modal-slide .page-main-actions {
+    margin-bottom: -12.9rem;
+    margin-top: 2.1rem
+}
+
+.modals-overlay {
+    background-color: rgba(51, 51, 51, 0.55);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0
+}
+
+body._has-modal-custom .modal-custom-overlay {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 899
+}
+
+/**---------------login form popup--------------**/
+.mcs-login-form-slide {
+    left: 70%;
+}
+
+.mcs-login-form .modal-inner-wrap {
+    width: 360px;
+    min-width: 310px;
+}
+
+/**---------------register form popup--------------**/
+
+.mcs-register-form .modal-inner-wrap {
+    width: 668px;
+}
+
+.mcs-register-form-slide label {
+    display: block;
+}
+
+.mcs-ajaxRegisterForm .newsletter {
+    display: none;
+}
+
+.mcs-ajaxRegisterForm .legend {
+    display: none;
+}
+
+.mcs-ajaxRegisterForm .fieldset {
+    margin-bottom: 10px;
+}
+
+.mcs-register-form-slide {
+    left: 50%;
+}
+
+/**---------------forgetpassword form popup--------------**/
+.mcs-forgetpassword-form .modal-inner-wrap {
+    width: 667px;
+}
+
+.mcs-forgetpassword-form-slide {
+    left: 50%;
+}
+
+/**---------------log oout--------------**/
+.mcs-logout .modal-inner-wrap {
+    width: 360px;
+}
+
+.mcs-logout-slide {
+    left: 70%;
+}
+
+/**---------------media only screen--------------**/
+@media only screen and (max-width: 768px) {
+
+    .mcs-login-form-slide {
+        left: 30%;
+    }
+
+    .mcs-register-form-slide {
+        left: 10%;
+    }
+
+    .mcs-forgetpassword-form-slide {
+        left: 10%;
+    }
+    .modal-slide .modal-header,
+    .modal-slide .modal-content,
+    .modal-slide .modal-footer {
+        padding: 0 1.6rem 1.6rem
+    }
+
+}
+
+@media only screen and (max-width: 450px) {
+    .mcs-login-form-slide {
+        left: 10%;
+    }
+
+    .mcs-register-form-slide {
+        left: 3%;
+    }
+
+    .mcs-forgetpassword-form-slide {
+        left: 3%;
+    }
+}
