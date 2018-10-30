@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+-->
+<layout version="0.1.0">
+    <default>
+
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ajaxlogin.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/ajax-login.js</name>
+            </action>
+        </reference>
+        <reference name="header">
+            <block type="core/template"
+                   name="mediotyoe_ajaxlogin"
+                   as="ajaxLogin">
+                <action method="setTemplate">
+                    <template>mediotype/ajaxlogin/ajaxlogin.phtml</template>
+                </action>
+                <block type="hylete/widgets_signup_extended" name="signup_form"
+                       template="mediotype/ajaxlogin/registration.phtml">
+                    <!-- populate widget by options -->
+                    <action method="setData">
+                        <name>customer_group_id</name>
+                        <value>1</value>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </default>
+</layout>

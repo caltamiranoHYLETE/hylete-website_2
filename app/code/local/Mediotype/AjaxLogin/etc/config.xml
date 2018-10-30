@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+-->
+<config>
+    <modules>
+        <Mediotype_AjaxLogin>
+            <version>1.0.0</version>
+        </Mediotype_AjaxLogin>
+    </modules>
+    <global>
+        <models>
+            <mediotyoe_ajaxlogin>
+                <class>Mediotype_AjaxLogin_Model</class>
+            </mediotyoe_ajaxlogin>
+        </models>
+        <helpers>
+            <mediotyoe_ajaxlogin>
+                <class>Mediotype_AjaxLogin_Helper</class>
+            </mediotyoe_ajaxlogin>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <mediotyoe_ajaxlogin>
+                <use>standard</use>
+                <args>
+                    <module>Mediotype_AjaxLogin</module>
+                    <frontName>ajaxlogin</frontName>
+                </args>
+            </mediotyoe_ajaxlogin>
+        </routers>
+        <layout>
+            <updates>
+                <mediotyoe_ajaxlogin>
+                    <file>mediotyoe_ajaxlogin.xml</file>
+                </mediotyoe_ajaxlogin>
+            </updates>
+        </layout>
+    </frontend>
+</config>
