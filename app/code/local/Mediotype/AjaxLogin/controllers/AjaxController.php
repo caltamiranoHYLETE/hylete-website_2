@@ -176,8 +176,8 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                 $session->setEscapeMessages(false);
             } else {
                 $message = $e->getMessage();
+                $result['error'] = $message;
             }
-            $result['error'] = $message;
         } catch (Exception $e) {
             $result['error'] = $this->__('Cannot save the customer.');
         }

@@ -124,7 +124,7 @@ AjaxLogin.prototype = {
                     onSuccess: function (transport) {
                         self._toggleLoader();
                         self.config.loginForm.reset();
-                        self.config.loginForm.hide();
+
                         var response;
 
                         if (transport.responseJSON) {
@@ -163,16 +163,18 @@ AjaxLogin.prototype = {
                         }
 
                         self._notification(response, self.config.registrationSection);
-                        setTimeout(function () {
-                            if (response.redirect) {
-                                window.location.reload();
-                            } else {
-                                self._closeAll();
-                            }
-                        }, 4000);
-
+                        if (response.error) {
+                            self.config.registrationForm.show();
+                        } else {
+                            setTimeout(function () {
+                                if (response.redirect) {
+                                    window.location.reload();
+                                } else {
+                                    self._closeAll();
+                                }
+                            }, 4000);
+                        }
                     }
-
                 });
             }
         });

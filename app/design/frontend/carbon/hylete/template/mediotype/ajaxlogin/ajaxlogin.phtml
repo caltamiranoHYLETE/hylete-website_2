@@ -209,5 +209,13 @@
         var loginForm = new VarienForm('mcs-form-login', true),
             registrationForm = new VarienForm('mcs-form-register', true),
             forgetForm = new VarienForm('mcs-form-forget-reset', true);
+
+        // fix custom select
+        jQuery(document).ready(function ($) {
+            "use strict";
+
+            $('.modals-wrapper select').selectOrDie();
+        });
+
     </script>
 </div>
