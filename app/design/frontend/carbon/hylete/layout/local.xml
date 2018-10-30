@@ -297,9 +297,6 @@
             <remove name="ev_fb_init"/>
         </reference>
     </default>
-    <ajaxlogin_ajax_index>
-
-    </ajaxlogin_ajax_index>
 
     <block_ajax_catalog_category_view>
         <blockajax_config>
