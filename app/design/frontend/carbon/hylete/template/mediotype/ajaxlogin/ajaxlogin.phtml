@@ -13,10 +13,14 @@
         <div data-role="focusable-start" tabindex="0"></div>
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
-                <h1 id="modal-title-0" class="modal-title" data-role="title">
-                    <?php echo $this->__('Registeration') ?>
-                </h1>
-                <a class="action-close"><span class="sprite-close "></span></a>
+                <div class="header-wrap">
+                    <div class="title"><?php echo $this->__('Registeration') ?></div>
+                </div>
+                <a class="action-close"><svg viewBox="0 0 60 60">
+                        <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
+        L6.8,1.2C6.1,0.4,5.1,0,4,0C1.8,0,0,1.8,0,4c0,1.1,0.4,2.1,1.2,2.8L24.3,30L1.2,53.2C0.4,53.9,0,54.9,0,56c0,2.2,1.8,4,4,4
+        c1.1,0,2.1-0.4,2.8-1.2L30,35.7l23.2,23.2c0.7,0.7,1.7,1.2,2.8,1.2c2.2,0,4-1.8,4-4c0-1.1-0.4-2.1-1.2-2.8L35.7,30z"></path>
+                    </svg></span></a>
             </header>
             <div id="modal-content-0" class="modal-content" data-role="content">
                 <div id="mcs-ajaxRegisterForm" class="mcs-ajaxRegisterForm">
@@ -37,9 +41,14 @@
         <div data-role="focusable-start" tabindex="0"></div>
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
-                <h1 id="modal-title-1" class="modal-title"
-                    data-role="title"><?php echo $this->__('Forget Password') ?></h1>
-                <a class="action-close"><span class="sprite-close "></span></a>
+                <div class="header-wrap">
+                    <div class="title"><?php echo $this->__('Forget Password') ?></div>
+                </div>
+                <a class="action-close"><svg viewBox="0 0 60 60">
+                        <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
+        L6.8,1.2C6.1,0.4,5.1,0,4,0C1.8,0,0,1.8,0,4c0,1.1,0.4,2.1,1.2,2.8L24.3,30L1.2,53.2C0.4,53.9,0,54.9,0,56c0,2.2,1.8,4,4,4
+        c1.1,0,2.1-0.4,2.8-1.2L30,35.7l23.2,23.2c0.7,0.7,1.7,1.2,2.8,1.2c2.2,0,4-1.8,4-4c0-1.1-0.4-2.1-1.2-2.8L35.7,30z"></path>
+                    </svg></span></a>
             </header>
             <div id="modal-content-1" class="modal-content" data-role="content">
                 <div id="mcs-ajaxForgetPasswordForm" class="mcs-ajaxForgetPasswordForm">
@@ -56,7 +65,7 @@
                             </div>
                             <div class="field email required">
                                 <label for="email_addressforget"
-                                       class="label"><span><?php echo $this->__('Email') ?></span></label>
+                                       class="label"><span><?php echo $this->__('Email') ?></span><span class="required">*</span></label>
                                 <div class="control">
                                     <input type="email" name="email" alt="email" id="email_addressforget"
                                            class="input-text  validate-email required-entry"
@@ -72,8 +81,8 @@
                                 </button>
                             </div>
                             <div class="secondary">
-                                <span class="action back"
-                                      onclick="AjaxLogin.toLogin()"><?php echo $this->__('Go back') ?></span>
+                                <a class="action back"
+                                      onclick="AjaxLogin.toLogin()"><?php echo $this->__('Go back') ?></a>
                             </div>
                         </div>
                     </form>
@@ -90,79 +99,84 @@
         <div data-role="focusable-start" tabindex="0"></div>
         <div class="modal-inner-wrap" id="login-form" data-role="focusable-scope">
             <header class="modal-header">
-                <h1 id="modal-title-4" class="modal-title" data-role="title">
-                    <?php echo $this->__('Login') ?>
-                </h1>
-                <a class="action-close"><span class="sprite-close "></span></a>
+                <div class="header-wrap">
+                    <div class="title"><?php echo $this->__('Login') ?></div>
+                </div>
+                <a class="action-close"><svg viewBox="0 0 60 60">
+                        <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
+        L6.8,1.2C6.1,0.4,5.1,0,4,0C1.8,0,0,1.8,0,4c0,1.1,0.4,2.1,1.2,2.8L24.3,30L1.2,53.2C0.4,53.9,0,54.9,0,56c0,2.2,1.8,4,4,4
+        c1.1,0,2.1-0.4,2.8-1.2L30,35.7l23.2,23.2c0.7,0.7,1.7,1.2,2.8,1.2c2.2,0,4-1.8,4-4c0-1.1-0.4-2.1-1.2-2.8L35.7,30z"></path>
+                    </svg></span></a>
             </header>
-
             <div id="modal-content-4" class="modal-content" data-role="content">
                 <div id="mcs-ajaxloginForm" class="mcs-ajaxloginForm">
                     <div id="mcs-loginForm">
                         <div class="login-messages">
                             <div class="message"></div>
                         </div>
-                        <form class="form form-login"
-                              action="<?php echo $this->getUrl('ajaxlogin/ajax/login'); ?>"
-                              method="post" id="mcs-form-login" novalidate="novalidate">
-                            <?php echo $this->getBlockHtml('formkey')?>
-                            <?php if (!Mage::getStoreConfig('general/restriction/is_active') || Mage::getStoreConfig('general/restriction/mode') == 2):?>
-                                <div class="new-users">
-                                    <h2><?php echo $this->__('#HYLETEnation') ?></h2>
-                                    <div class="login-block">
-                                        <div class="content">
-                                            <?php echo $this->getLayout()->createBlock('cms/block', 'login_page_hyletenation')->setBlockId('login_page_hyletenation')->toHtml() ?>
+                        <div id="login-form">
+                            <form class="form form-login"
+                                  action="<?php echo $this->getUrl('ajaxlogin/ajax/login'); ?>"
+                                  method="post" id="mcs-form-login" novalidate="novalidate">
+                                <?php echo $this->getBlockHtml('formkey')?>
+                                <?php if (!Mage::getStoreConfig('general/restriction/is_active') || Mage::getStoreConfig('general/restriction/mode') == 2):?>
+                                    <div class="new-users">
+                                        <div class="login-block">
+                                            <div class="content">
+                                                <?php echo $this->getLayout()->createBlock('cms/block', 'login_page_hyletenation')->setBlockId('login_page_hyletenation')->toHtml() ?>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <button type="button" title="<?php echo $this->__('join the #HYLETEnation') ?>" class="button hyletenation-btn" onclick="AjaxLogin.toRegistration()"><span><span><?php echo $this->__('join the #HYLETEnation') ?></span></span></button>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                            <button type="button" title="<?php echo $this->__('join the #HYLETEnation') ?>" class="button hyletenation-btn" onclick="AjaxLogin.toRegistration()"><span><span><?php echo $this->__('join the #HYLETEnation') ?></span></span></button>
-                                        </div>
+                                            <div class="links">
+                                                <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                                                <p class="align-center"><a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('log in with Facebook');?></a></p>
+                                                <?php endif;?>
+                                            </div>
                                     </div>
-                                    <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
-                                        <div class="links visible-xs visible-sm">
-                                            <p class="align-center"><a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('log in with Facebook');?></a></p>
-                                        </div>
-                                    <?php endif;?>
-                                </div>
-                            <?php endif;?>
+                                <?php endif;?>
 
-                            <div class="login-container visible-xs visible-sm">
-                                <h2><?php echo $this->__('Already a member? Log in below'); ?></h2>
-                            </div>
+                                <div class="login-container">
+                                    <h2><?php echo $this->__('Already a member? Log in below'); ?></h2>
+                                </div>
 
-                            <fieldset class="fieldset login" data-hasrequired="* Required Fields">
-                                <div class="field email control required">
-                                    <label class="label" for="email">
-                                        <span><?php echo $this->__('Email') ?></span></label>
-                                    <div class="control">
-                                        <input name="username" value="" autocomplete="off" id="email" type="email"
-                                               class="input-text input-text required-entry validate-email" title="Email"
-                                        ">
+                                <fieldset class="fieldset login" data-hasrequired="* Required Fields">
+                                    <div class="field email control required">
+                                        <label class="label" for="email">
+                                            <span><?php echo $this->__('Email') ?></span><span class="required">*</span></label>
+                                        <div class="control">
+                                            <input name="username" value="" autocomplete="off" id="email" type="email"
+                                                   class="input-text input-text required-entry validate-email" title="Email"
+                                            ">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="field control password required">
-                                    <label for="pass" class="label">
-                                        <span><?php echo $this->__('Password') ?></span>
-                                    </label>
-                                    <div class="control">
-                                        <input name="password" type="password" autocomplete="off"
-                                               class="input-text input-text required-entry validate-password"
-                                               id="pass" title="Password">
+                                    <div class="field control password required">
+                                        <label for="pass" class="label">
+                                            <span><?php echo $this->__('Password') ?></span><span class="required">*</span>
+                                        </label>
+                                        <div class="control">
+                                            <input name="password" type="password" autocomplete="off"
+                                                   class="input-text input-text required-entry validate-password"
+                                                   id="pass" title="Password">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="actions-toolbar">
-                                    <input name="context" type="hidden" value="checkout">
-                                    <div class="primary">
-                                        <button type="submit" class="action login primary" name="send" id="send2">
-                                            <span><?php echo $this->__('Login') ?></span>
-                                        </button>
+                                    <div class="actions-toolbar">
+                                        <input name="context" type="hidden" value="checkout">
+                                        <div class="primary">
+                                            <button type="submit" class="action login primary" name="send" id="send2">
+                                                <span><?php echo $this->__('Login') ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="secondary"><a class="action reset-password-btn remind"
+                                                                     onclick="AjaxLogin.toResetPassword()"><span>
+                                                <?php echo $this->__('Forgot Your Password?') ?></span></a>
+                                        </div>
                                     </div>
-                                    <div class="secondary"><span class="action reset-password-btn remind"
-                                                                 onclick="AjaxLogin.toResetPassword()"><span>
-                                                <?php echo $this->__('Forgot Your Password?') ?></span></span>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
+                                </fieldset>
+                            </form>
+
+                        </div>
                     </div>
 
                 </div>
@@ -177,8 +191,14 @@
         <div data-role="focusable-start" tabindex="0"></div>
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
-                <h1 id="modal-title-2" class="modal-title" data-role="title"><?php echo $this->__('Logout') ?></h1>
-                <a class="action-close"><span class="sprite-close "></span></a>
+                <div class="header-wrap">
+                    <div class="title"><?php echo $this->__('Logout') ?></div>
+                </div>
+                <a class="action-close"><svg viewBox="0 0 60 60">
+                        <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
+        L6.8,1.2C6.1,0.4,5.1,0,4,0C1.8,0,0,1.8,0,4c0,1.1,0.4,2.1,1.2,2.8L24.3,30L1.2,53.2C0.4,53.9,0,54.9,0,56c0,2.2,1.8,4,4,4
+        c1.1,0,2.1-0.4,2.8-1.2L30,35.7l23.2,23.2c0.7,0.7,1.7,1.2,2.8,1.2c2.2,0,4-1.8,4-4c0-1.1-0.4-2.1-1.2-2.8L35.7,30z"></path>
+                    </svg></span></a>
             </header>
             <div id="modal-content-2" class="modal-content" data-role="content">
                 <div id="mcs-ajaxLogout" class="mcs-ajaxLogout">

@@ -21,7 +21,8 @@ AjaxLogin.prototype = {
             logOutSection: $$('.mcs-logout-slide')[0],
             registrationForm: $('mcs-form-register'),
             registrationSection: $$('.mcs-register-form-slide')[0],
-            sectionActiveClass: '_show',
+            sectionActiveClass: 'show',
+            sectionCloseClass: 'close',
             loader: $$('.loading-mask')[0],
             notificationTemplate: "<ul class=\"messages\"><li class=\"#{type}-msg\"><ul><li><span>#{message}</span></li></ul></li></ul>"
         }, config || {});
@@ -34,6 +35,7 @@ AjaxLogin.prototype = {
         $$('.modal-slide').each(function (element) {
             if (element.hasClassName(this.config.sectionActiveClass)) {
                 element.removeClassName(this.config.sectionActiveClass);
+                element.addClassName(this.config.sectionCloseClass);
             }
             if (!changing) {
                 this.config.overlay.hide();
@@ -65,7 +67,7 @@ AjaxLogin.prototype = {
     closeAllModal: function () {
         $$('.modal-slide').each(function (element) {
             if (element.hasClassName(this.config.sectionActiveClass)) {
-                element.removeClassName(this.config.sectionActiveClass);
+                element.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
                 this.config.overlay.hide();
                 this.config.body.removeClassName(this.config.bodyModalClass);
             }
@@ -209,13 +211,13 @@ AjaxLogin.prototype = {
     openLogin: function () {
         this._toggleOverlay();
         this.config.loginForm.show();
-        this.config.loginSection.addClassName(this.config.sectionActiveClass);
+        this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     openRegistration: function () {
         this._toggleOverlay();
         this.config.registrationForm.show();
-        this.config.registrationSection.addClassName(this.config.sectionActiveClass);
+        this.config.registrationSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     logout: function () {
@@ -224,7 +226,7 @@ AjaxLogin.prototype = {
         this._toggleOverlay();
         this.config.logOutSection.addClassName(this.config.sectionActiveClass);
         setTimeout(function () {
-            self.config.logOutSection.removeClassName(self.config.sectionActiveClass);
+            self.config.logOutSection.removeClassName(self.config.sectionCloseClass);
         }, 4000, self);
 
         new Ajax.Request(self.config.logOutUrl, {
@@ -238,20 +240,20 @@ AjaxLogin.prototype = {
     toLogin() {
         this._closeAll(true);
         this.config.loginForm.show();
-        this.config.forgetPasswordSection.removeClassName(this.config.sectionActiveClass);
-        this.config.loginSection.addClassName(this.config.sectionActiveClass);
+        this.config.forgetPasswordSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     toRegistration() {
         this._closeAll(true);
         this.config.registrationForm.show();
-        this.config.loginSection.removeClassName(this.config.sectionActiveClass);
-        this.config.registrationSection.addClassName(this.config.sectionActiveClass);
+        this.config.loginSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.registrationSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     toResetPassword() {
         this._closeAll(true);
-        this.config.loginSection.removeClassName(this.config.sectionActiveClass);
-        this.config.forgetPasswordSection.addClassName(this.config.sectionActiveClass);
+        this.config.loginSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.forgetPasswordSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     }
 };
