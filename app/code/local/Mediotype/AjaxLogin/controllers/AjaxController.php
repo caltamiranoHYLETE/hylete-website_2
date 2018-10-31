@@ -161,7 +161,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                 }
                 $customer->save();
                 Mage::dispatchEvent('customer_register_success', array('account_controller' => $this, 'customer' => $customer));
-                $result['message'] = $this->__('Registration completed,if you want to open account page <a href="%s">click here</a> .', $this->_successProcessRegistration($customer));
+                $result['message'] = $this->__('Registration has been completed, to visit your account page <a href="%s">click here</a> .', $this->_successProcessRegistration($customer));
                 $result['redirect'] = Mage::getUrl('/');
                 $result['success'] = true;
             } else {
@@ -321,9 +321,11 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             return;
         }
         $session->logout()->renewSession();
-
-        $result['redirect'] = Mage::getUrl('customer/account/logoutSuccess', array('_secure' => true));
+        $session->setBeforeAuthUrl(Mage::getBaseUrl());
         $result['success'] = true;
+
+        // to fix user menu cache problems
+        $this->_redirect('customer/account/logoutSuccess');
     }
 
     /**
