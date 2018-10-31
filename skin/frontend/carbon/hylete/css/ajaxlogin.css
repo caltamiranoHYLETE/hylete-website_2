@@ -18,8 +18,9 @@ body._has-modal {
     position: fixed;
     right: 0;
     top: 0;
-    background: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.5);
 }
+
 .loading-mask .loader img {
     bottom: 0;
     left: 0;
@@ -32,15 +33,7 @@ body._has-modal {
 
 .modals-overlay {
     z-index: 10000
-}
 
-.modal-slide .sprite-close {
-    background-position: -38px 0px !important;
-    height: 17px;
-    width: 17px;
-    position: absolute;
-    top: 40px;
-    right: 40px;
 }
 
 .modal-slide {
@@ -51,10 +44,14 @@ body._has-modal {
     position: fixed;
     right: 0;
     top: 0;
-    visibility: hidden;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0);
+    width: auto;
     opacity: 0;
-    -webkit-transition: visibility 0s .3s, opacity .3s ease;
-    transition: visibility 0s .3s, opacity .3s ease
+    z-index: 19000;
+    box-shadow: -3px 0 15px 0 rgba(0,0,0,.25);
 }
 
 .modal-slide._show {
@@ -76,9 +73,26 @@ body._has-modal {
     pointer-events: auto
 }
 
-.modal-slide {
-    left: 44px;
-    z-index: 19000
+.modal-slide #login-form .new-users {
+    order: 1;
+}
+
+.modal-slide #login-form .new-users .hyletenation-btn {
+    float: none;
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 20px auto 15px auto;
+}
+
+.modal-slide #login-form .new-users .links {
+    padding: 0 0 10px;
+    border-bottom: 1px dashed #bbb;
+}
+
+.modal-slide label {
+    display: block;
+    margin: 15px 0 5px 0;
 }
 
 .modal-slide .fieldset {
@@ -97,12 +111,6 @@ body._has-modal {
 .modal-slide .modal-inner-wrap {
     height: 100%;
     overflow-y: auto;
-    position: static;
-    -webkit-transform: translateX(100%);
-    transform: translateX(100%);
-    -webkit-transition: -webkit-transform .3s ease-in-out;
-    transition: transform .3s ease-in-out;
-    width: auto
 }
 
 .modal-slide._inner-scroll .modal-inner-wrap {
@@ -115,7 +123,6 @@ body._has-modal {
     flex-direction: column
 }
 
-.modal-slide._inner-scroll .modal-header,
 .modal-slide._inner-scroll .modal-footer {
     -webkit-flex-grow: 0;
     flex-grow: 0;
@@ -131,15 +138,9 @@ body._has-modal {
     margin-top: auto
 }
 
-.modal-slide .modal-header,
 .modal-slide .modal-content,
 .modal-slide .modal-footer {
-    padding: 0 2.6rem 2.6rem
-}
-
-.modal-slide .modal-header {
-    padding-bottom: 2.1rem;
-    padding-top: 2.1rem
+    padding: 0 2rem 2rem
 }
 
 .modal-slide .page-main-actions {
@@ -148,7 +149,7 @@ body._has-modal {
 }
 
 .modals-overlay {
-    background-color: rgba(51, 51, 51, 0.55);
+    background: rgba(0, 0, 0, 0.8);
     bottom: 0;
     left: 0;
     position: fixed;
@@ -167,11 +168,10 @@ body._has-modal-custom .modal-custom-overlay {
 
 /**---------------login form popup--------------**/
 .mcs-login-form-slide {
-    left: 70%;
+    left: 73%;
 }
 
 .mcs-login-form .modal-inner-wrap {
-    width: 360px;
     min-width: 310px;
 }
 
@@ -198,42 +198,42 @@ body._has-modal-custom .modal-custom-overlay {
 }
 
 .mcs-register-form-slide {
-    left: 50%;
+    left: calc(100% - 480px);
 }
 
 /**---------------forgetpassword form popup--------------**/
 .mcs-forgetpassword-form .modal-inner-wrap {
-    width: 667px;
+    min-width: 310px;
 }
 
 .mcs-forgetpassword-form-slide {
-    left: 50%;
+    left: calc(100% - 480px);
 }
 
 /**---------------log oout--------------**/
 .mcs-logout .modal-inner-wrap {
-    width: 360px;
+    min-width: 310px;
 }
 
 .mcs-logout-slide {
-    left: 70%;
+    left: calc(100% - 480px);
 }
 
 /**---------------media only screen--------------**/
 @media only screen and (max-width: 768px) {
 
     .mcs-login-form-slide {
-        left: 30%;
+        left: 0;
     }
 
     .mcs-register-form-slide {
-        left: 10%;
+        left: 0;
     }
 
     .mcs-forgetpassword-form-slide {
-        left: 10%;
+        left: 0;
     }
-    .modal-slide .modal-header,
+
     .modal-slide .modal-content,
     .modal-slide .modal-footer {
         padding: 0 1.6rem 1.6rem
@@ -252,5 +252,113 @@ body._has-modal-custom .modal-custom-overlay {
 
     .mcs-forgetpassword-form-slide {
         left: 3%;
+    }
+}
+.modal-slide .modal-header {
+    margin-bottom: 20px;
+}
+.modal-slide .modal-header .header-wrap {
+    background: black;
+    padding: 18px 30px;
+    position: relative;
+}
+.modal-slide .modal-header .header-wrap .title {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.modal-slide .modal-header .action-close {
+    padding: 18px 15px 17px;
+    cursor: pointer;
+    background: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    line-height: 0;
+    right: 15px;
+}
+
+.modal-slide .modal-header .action-close svg {
+    width: 14px!important;
+    height: 14px!important;
+    fill: #fff;
+    display: inline;
+    position: static;
+}
+
+.show {
+    -webkit-animation-name: _uvr2b;
+    animation-name: _uvr2b;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+.close {
+    -webkit-animation-name: _1af2r;
+    animation-name: _1af2r;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+/*close*/
+@-webkit-keyframes _1af2r {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+}
+
+@keyframes _1af2r {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+}
+/*show*/
+@-webkit-keyframes _uvr2b {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+}
+
+@keyframes _uvr2b {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
     }
 }
