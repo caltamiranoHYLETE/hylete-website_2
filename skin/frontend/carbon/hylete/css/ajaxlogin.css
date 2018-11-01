@@ -75,6 +75,9 @@ body._has-modal {
 
 .modal-slide #login-form .new-users {
     order: 1;
+    padding: 10px 0 0;
+    margin-top: 20px;
+    border-top: 1px dashed #bbb;
 }
 
 .modal-slide #login-form .new-users .hyletenation-btn {
@@ -87,7 +90,6 @@ body._has-modal {
 
 .modal-slide #login-form .new-users .links {
     padding: 0 0 10px;
-    border-bottom: 1px dashed #bbb;
 }
 
 .modal-slide label {
@@ -168,7 +170,7 @@ body._has-modal-custom .modal-custom-overlay {
 
 /**---------------login form popup--------------**/
 .mcs-login-form-slide {
-    left: 73%;
+    left: calc(100% - 480px);
 }
 
 .mcs-login-form .modal-inner-wrap {
@@ -178,7 +180,7 @@ body._has-modal-custom .modal-custom-overlay {
 /**---------------register form popup--------------**/
 
 .mcs-register-form .modal-inner-wrap {
-    width: 668px;
+    min-width: 310px;
 }
 
 .mcs-register-form-slide label {
@@ -267,6 +269,7 @@ body._has-modal-custom .modal-custom-overlay {
     text-align: center;
     font-size: 14px;
     font-weight: 400;
+    line-height: 1;
 }
 
 .modal-slide .modal-header .action-close {
