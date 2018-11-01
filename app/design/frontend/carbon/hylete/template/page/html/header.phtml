@@ -38,6 +38,16 @@ $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin');
             AjaxLogin = new AjaxLogin({
                 logOutUrl: '<?php echo $this->getUrl("ajaxlogin/ajax/logout"); ?>'
             });
+
+            // fix for elevio block open to hide all other forms
+            setTimeout(function () {
+                if ($$('._1g6cj')) {
+                    $$('._1g6cj')[0].observe('click', function () {
+                        AjaxLogin.closeAllModal();
+                    });
+                }
+            }, 2500, AjaxLogin);
+
         });
         //]]>
     </script>

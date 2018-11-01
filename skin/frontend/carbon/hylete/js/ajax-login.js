@@ -24,6 +24,7 @@ AjaxLogin.prototype = {
             sectionActiveClass: 'show',
             sectionCloseClass: 'close',
             loader: $$('.loading-mask')[0],
+            helpWidget: $$('._elevio_widget')[0],
             notificationTemplate: "<ul class=\"messages\"><li class=\"#{type}-msg\"><ul><li><span>#{message}</span></li></ul></li></ul>"
         }, config || {});
 
@@ -62,6 +63,12 @@ AjaxLogin.prototype = {
             this.config.body.removeClassName(this.config.bodyModalClass);
             this.closeAllModal();
         }
+    },
+
+    _hideHelpWidgetCloseIfActive: function () {
+      if (this.config.helpWidget && this.config.helpWidget.down('div') && this.config.helpWidget.down('div').hasClassName('_h8fiz')) {
+          this.config.helpWidget.down('div').removeClassName('_h8fiz').addClassName('_11l9b');
+      }
     },
 
     closeAllModal: function () {
@@ -209,12 +216,14 @@ AjaxLogin.prototype = {
     },
 
     openLogin: function () {
+        this._hideHelpWidgetCloseIfActive();
         this._toggleOverlay();
         this.config.loginForm.show();
         this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     openRegistration: function () {
+        this._hideHelpWidgetCloseIfActive();
         this._toggleOverlay();
         this.config.registrationForm.show();
         this.config.registrationSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
@@ -224,6 +233,7 @@ AjaxLogin.prototype = {
         var self = this;
         event.preventDefault();
         this._toggleOverlay();
+        this._hideHelpWidgetCloseIfActive();
         this.config.logOutSection.addClassName(this.config.sectionActiveClass);
         setTimeout(function () {
             self.config.logOutSection.removeClassName(self.config.sectionCloseClass);
@@ -238,6 +248,7 @@ AjaxLogin.prototype = {
     },
 
     toLogin() {
+        this._hideHelpWidgetCloseIfActive();
         this._closeAll(true);
         this.config.loginForm.show();
         this.config.forgetPasswordSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
@@ -245,6 +256,7 @@ AjaxLogin.prototype = {
     },
 
     toRegistration() {
+        this._hideHelpWidgetCloseIfActive();
         this._closeAll(true);
         this.config.registrationForm.show();
         this.config.loginSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
@@ -252,6 +264,7 @@ AjaxLogin.prototype = {
     },
 
     toResetPassword() {
+        this._hideHelpWidgetCloseIfActive();
         this._closeAll(true);
         this.config.loginSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
         this.config.forgetPasswordSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
