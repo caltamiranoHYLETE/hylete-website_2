@@ -121,7 +121,8 @@ $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin');
                        data-togglegroup="header"
                        data-toggleaction="click mouseenter mouseleave"
                        data-toggleautoclose="true">
-                        <?php echo $this->__('account');?> <i class="fal fa-angle-down"></i>
+                        <?php echo $this->helper('customer')->isLoggedIn() ? $this->escapeHtml($this->helper('customer')->getCurrentCustomer()->getFirstname()) : $this->__('account') ?>
+                        <i class="fal fa-angle-down"></i>
                     </div>
 
                     <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
