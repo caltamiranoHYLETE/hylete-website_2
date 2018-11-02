@@ -76,8 +76,12 @@ div.follow a:hover {
     color: #fff !important
 }
 
-.catalog-product-view div.follow a,
-#footer .follow a {
+#footer div.follow {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.catalog-product-view div.follow a {
     float: left;
 }
 
