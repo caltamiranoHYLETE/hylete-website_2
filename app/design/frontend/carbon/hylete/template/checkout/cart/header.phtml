@@ -114,6 +114,10 @@ if ($_isLoggedIn) {
     <?php endif; ?>
     <input type="hidden" id="sweet-tooth-points-value" name="sweet-tooth-points-value" value="<?php echo ($_pointSummaryBlock != '') ? $this->__("(%s)",str_replace(array('Points'),array('points'),$_pointSummaryBlock)) : '' ?>"/>
 
+    <?php if (Mage::helper('mediotype_hyletebase/justuno')->isEnabled()): ?>
+        <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('mediotype/justuno/cart.phtml')->toHtml(); ?>
+    <?php endif; ?>
+
     <div class="headercart-filter"></div>
 </div>
 <script>

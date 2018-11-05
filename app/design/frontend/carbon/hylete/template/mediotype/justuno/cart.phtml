@@ -1,0 +1,14 @@
+<?php $helper = Mage::helper('mediotype_hyletebase/justuno'); ?>
+
+<script>
+
+    window.juapp = window.juapp || function () {
+        (window.juapp.q = window.juapp.q || []).push(arguments)
+    };
+
+    juapp(
+        'cartItems',
+        '',
+        <?php echo $helper->getCartItemOutput() ?>
+    );
+</script>
