@@ -6,6 +6,21 @@
         </Mediotype_HyleteBase>
     </modules>
     <global>
+        <helpers>
+            <mediotype_hyletebase>
+                <class>Mediotype_HyleteBase_Helper</class>
+            </mediotype_hyletebase>
+        </helpers>
+        <blocks>
+            <mediotype_hyletebase>
+                <class>Mediotype_HyleteBase_Block</class>
+            </mediotype_hyletebase>
+        </blocks>
+        <models>
+            <mediotype_hyletebase>
+                <class>Mediotype_HyleteBase_Model</class>
+            </mediotype_hyletebase>
+        </models>
         <resources>
             <mediotype_hyletebase_setup>
                 <setup>
@@ -14,4 +29,31 @@
             </mediotype_hyletebase_setup>
         </resources>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <mediotype_hyletebase>
+                    <file>justuno.xml</file>
+                </mediotype_hyletebase>
+            </updates>
+        </layout>
+        <events>
+            <sales_quote_remove_item>
+                <observers>
+                    <mediotype_hyletebase_justuno_remove_product>
+                        <class>mediotype_hyletebase/observer</class>
+                        <method>removeProductFromCart</method>
+                    </mediotype_hyletebase_justuno_remove_product>
+                </observers>
+            </sales_quote_remove_item>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <mediotype_hyletebase_justuno_add_product>
+                        <class>mediotype_hyletebase/observer</class>
+                        <method>addProductToCart</method>
+                    </mediotype_hyletebase_justuno_add_product>
+                </observers>
+            </checkout_cart_product_add_after>
+        </events>
+    </frontend>
 </config>

@@ -1,0 +1,26 @@
+<?php $helper = Mage::helper('mediotype_hyletebase/justuno'); ?>
+<?php if ($helper->isEnabled() && !Mage::app()->getRequest()->isXmlHttpRequest()): ?>
+    <?php if ($data = $helper->readFromSession(Mediotype_HyleteBase_Helper_Justuno::SESSION_DATA_KEY_CART_ADD)): ?>
+        <script>
+            window.juapp = window.juapp || function () {
+                (window.juapp.q = window.juapp.q || []).push(arguments)
+            };
+
+            juapp(
+                'cartItemAdd',
+                '<?php echo max(array_keys($data)) ?>',
+                <?php echo Mage::helper('core')->jsonEncode(reset($data)); ?>
+            );
+        </script>
+    <?php endif; ?>
+
+    <?php if ($data = $helper->readFromSession(Mediotype_HyleteBase_Helper_Justuno::SESSION_DATA_KEY_CART_REMOVE)): ?>
+        <script>
+            window.juapp = window.juapp || function () {
+                (window.juapp.q = window.juapp.q || []).push(arguments)
+            };
+
+            juapp('cartItemRemove','<?php echo reset($data) ?>');
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
