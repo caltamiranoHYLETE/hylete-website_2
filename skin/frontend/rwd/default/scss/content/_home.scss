@@ -159,10 +159,10 @@ body .promos > li {
 
     /* Config: Three columns + flexible gutter */
     // Container: 480 - (2 * 30 trim wide) = 420
-    // Math: (420 - (2 * 10 gutter)) / 3 items = 133.333333333
+    // Math: (420 - (2 * 10 gutter)) / 3 items = 133.33
     body .promos > li {
         float: left;
-        width: percentage(133.333333333 / 420);
+        width: percentage(133.33 / 420);
         margin-right: percentage(10 / 420);
     }
 

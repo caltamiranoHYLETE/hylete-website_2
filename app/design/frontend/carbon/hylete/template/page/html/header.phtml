@@ -29,7 +29,30 @@
 
 $_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
 $isShipToCmsActive = $_shiptoCms->getIsActive();
+$_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin');
+$customerHelper = $this->helper('customer');
 ?>
+<?php if ($_ajaxLoginHelper->isEnabled()): ?>
+    <script type="text/javascript">
+        //<![CDATA[
+        document.observe('dom:loaded', function() {
+            AjaxLogin = new AjaxLogin({
+                logOutUrl: '<?php echo $this->getUrl("ajaxlogin/ajax/logout"); ?>'
+            });
+
+            // fix for elevio block open to hide all other forms
+            setTimeout(function () {
+                if ($$('._1g6cj')) {
+                    $$('._1g6cj')[0].observe('click', function () {
+                        AjaxLogin.closeAllModal();
+                    });
+                }
+            }, 2500, AjaxLogin);
+
+        });
+        //]]>
+    </script>
+<?php endif; ?>
 
 <header id="header">
 
@@ -85,28 +108,44 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
             </div>
             <div class="col-xs-6 text-right">
                 <div class="my-account-btn">
-                    <a class="visible-sm visible-xs" href="<?php echo $this->getUrl('customer/account'); ?>">
-                        <div><i class="fas fa-user fa-2x" aria-hidden="true"></i></div>
-                    </a>
+                    <?php if ($_ajaxLoginHelper->isEnabled() && !$customerHelper->isLoggedIn()): ?>
+                        <a class="visible-sm visible-xs" onclick="AjaxLogin.openLogin();">
+                            <div><i class="fas fa-user fa-2x" aria-hidden="true"></i></div>
+                        </a>
+                    <?php else: ?>
+                        <a class="visible-sm visible-xs" href="<?php echo $this->getUrl('customer/account'); ?>">
+                            <div><i class="fas fa-user fa-2x" aria-hidden="true"></i></div>
+                        </a>
+                    <?php endif; ?>
                     <div class="hidden-inline-block-xs hidden-inline-block-sm menu-top"
                        data-togglelink="header-account"
                        data-togglegroup="header"
                        data-toggleaction="click mouseenter mouseleave"
                        data-toggleautoclose="true">
-                        <?php echo $this->__('account');?> <i class="fal fa-angle-down"></i>
+                        <?php echo $customerHelper->isLoggedIn() ? $this->escapeHtml($customerHelper->getCurrentCustomer()->getFirstname()) : $this->__('account') ?>
+                        <i class="fal fa-angle-down"></i>
                     </div>
 
                     <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
-                        <?php if ($this->helper('customer')->isLoggedIn()) { ?>
+                        <?php if ($customerHelper->isLoggedIn()) { ?>
                             <p><a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a></p>
-                            <p><a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a></p>
+                            <?php if ($_ajaxLoginHelper->isEnabled()): ?>
+                                <p><a onclick="AjaxLogin.logout();"><div><?php echo $this->__('log out'); ?></div></a></p>
+                            <?php else: ?>
+                                <p><a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a></p>
+                            <?php endif; ?>
                             <p><?php echo $this->getLayout()
                                     ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
                                     ->setTemplate('rewards/special/header.phtml')
                                     ->toHtml() ?></p>
                         <?php } else { ?>
-                            <p><a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a></p>
-                            <p><a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                            <?php if ($_ajaxLoginHelper->isEnabled()): ?>
+                                <p><a onclick="AjaxLogin.openLogin();"><div><?php echo $this->__('log in'); ?></div></a></p>
+                                <p><a onclick="AjaxLogin.openRegistration();"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                            <?php else: ?>
+                                <p><a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a></p>
+                                <p><a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                            <?php endif; ?>
                             <p><a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a></p>
                         <?php } ?>
                     </div>
@@ -150,4 +189,5 @@ $isShipToCmsActive = $_shiptoCms->getIsActive();
     </div>
 </header>
 
-<?php echo $this->getChildHtml('topMenu');
+<?php echo $this->getChildHtml('topMenu'); ?>
+<?php if ($_ajaxLoginHelper->isEnabled()) {echo $this->getChildHtml('ajaxLogin');}

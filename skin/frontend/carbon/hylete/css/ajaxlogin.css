@@ -1,0 +1,367 @@
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+body._has-modal {
+    height: 100%;
+    overflow: hidden;
+    width: 100%
+}
+
+.loading-mask {
+    z-index: 99999;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.loading-mask .loader img {
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+}
+
+.modals-overlay {
+    z-index: 10000
+
+}
+
+.modal-slide {
+    outline: none;
+    bottom: 0;
+    left: 0;
+    min-width: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0);
+    width: auto;
+    opacity: 0;
+    z-index: 19000;
+    box-shadow: -3px 0 15px 0 rgba(0,0,0,.25);
+}
+
+.modal-slide._show {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: opacity .3s ease;
+    transition: opacity .3s ease
+}
+
+.modal-slide._show .modal-inner-wrap {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0)
+}
+
+.modal-slide .modal-inner-wrap {
+    background-color: #fff;
+    box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.35);
+    opacity: 1;
+    pointer-events: auto
+}
+
+.modal-slide #login-form .new-users {
+    order: 1;
+    padding: 10px 0 0;
+    margin-top: 20px;
+    border-top: 1px dashed #bbb;
+}
+
+.modal-slide #login-form .new-users .hyletenation-btn {
+    float: none;
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 20px auto 15px auto;
+}
+
+.modal-slide #login-form .new-users .links {
+    padding: 0 0 10px;
+}
+
+.modal-slide label {
+    display: block;
+    margin: 15px 0 5px 0;
+}
+
+.modal-slide .fieldset {
+    padding: 0px;
+}
+
+.modal-slide .actions-toolbar {
+    margin-top: 20px;
+}
+
+.modal-slide._show .modal-inner-wrap {
+    -webkit-transform: translateX(0);
+    transform: translateX(0)
+}
+
+.modal-slide .modal-inner-wrap {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.modal-slide._inner-scroll .modal-inner-wrap {
+    overflow-y: visible;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column
+}
+
+.modal-slide._inner-scroll .modal-footer {
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0
+}
+
+.modal-slide._inner-scroll .modal-content {
+    overflow-y: auto
+}
+
+.modal-slide._inner-scroll .modal-footer {
+    margin-top: auto
+}
+
+.modal-slide .modal-content,
+.modal-slide .modal-footer {
+    padding: 0 2rem 2rem
+}
+
+.modal-slide .page-main-actions {
+    margin-bottom: -12.9rem;
+    margin-top: 2.1rem
+}
+
+.modals-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0
+}
+
+body._has-modal-custom .modal-custom-overlay {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 899
+}
+
+/**---------------login form popup--------------**/
+.mcs-login-form-slide {
+    left: calc(100% - 480px);
+}
+
+.mcs-login-form .modal-inner-wrap {
+    min-width: 310px;
+}
+
+/**---------------register form popup--------------**/
+
+.mcs-register-form .modal-inner-wrap {
+    min-width: 310px;
+}
+
+.mcs-register-form-slide label {
+    display: block;
+}
+
+.mcs-ajaxRegisterForm .newsletter {
+    display: none;
+}
+
+.mcs-ajaxRegisterForm .legend {
+    display: none;
+}
+
+.mcs-ajaxRegisterForm .fieldset {
+    margin-bottom: 10px;
+}
+
+.mcs-register-form-slide {
+    left: calc(100% - 480px);
+}
+
+/**---------------forgetpassword form popup--------------**/
+.mcs-forgetpassword-form .modal-inner-wrap {
+    min-width: 310px;
+}
+
+.mcs-forgetpassword-form-slide {
+    left: calc(100% - 480px);
+}
+
+/**---------------log oout--------------**/
+.mcs-logout .modal-inner-wrap {
+    min-width: 310px;
+}
+
+.mcs-logout-slide {
+    left: calc(100% - 480px);
+}
+
+/**---------------media only screen--------------**/
+@media only screen and (max-width: 768px) {
+
+    .mcs-login-form-slide {
+        left: 0;
+    }
+
+    .mcs-register-form-slide {
+        left: 0;
+    }
+
+    .mcs-forgetpassword-form-slide {
+        left: 0;
+    }
+
+    .modal-slide .modal-content,
+    .modal-slide .modal-footer {
+        padding: 0 1.6rem 1.6rem
+    }
+
+}
+
+@media only screen and (max-width: 450px) {
+    .mcs-login-form-slide {
+        left: 10%;
+    }
+
+    .mcs-register-form-slide {
+        left: 3%;
+    }
+
+    .mcs-forgetpassword-form-slide {
+        left: 3%;
+    }
+}
+.modal-slide .modal-header {
+    margin-bottom: 20px;
+}
+.modal-slide .modal-header .header-wrap {
+    background: black;
+    padding: 18px 30px;
+    position: relative;
+}
+.modal-slide .modal-header .header-wrap .title {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.modal-slide .modal-header .action-close {
+    padding: 18px 15px 17px;
+    cursor: pointer;
+    background: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    line-height: 0;
+    right: 15px;
+}
+
+.modal-slide .modal-header .action-close svg {
+    width: 14px!important;
+    height: 14px!important;
+    fill: #fff;
+    display: inline;
+    position: static;
+}
+
+.show {
+    -webkit-animation-name: _uvr2b;
+    animation-name: _uvr2b;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+.close {
+    -webkit-animation-name: _1af2r;
+    animation-name: _1af2r;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    animation-timing-function: cubic-bezier(.55, 0, .1, 1);
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s
+}
+
+/*close*/
+@-webkit-keyframes _1af2r {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+}
+
+@keyframes _1af2r {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+}
+/*show*/
+@-webkit-keyframes _uvr2b {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+}
+
+@keyframes _uvr2b {
+    0% {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+        opacity: 0
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        opacity: 1
+    }
+}
