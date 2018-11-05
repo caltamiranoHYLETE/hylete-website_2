@@ -263,6 +263,7 @@
     display: inline-block;
     position: relative;
     z-index: 1001;
+    text-transform: lowercase;
 }
 
 

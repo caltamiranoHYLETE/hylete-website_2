@@ -206,6 +206,14 @@
             <action method="addCss">
                 <stylesheet>css/fontawesome/css/all.min.css</stylesheet>
             </action>
+
+            <action method="addCss">
+                <stylesheet>css/ajaxlogin.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/ajax-login.js</name>
+            </action>
         </reference>
 
         <reference name="top.links">
@@ -250,6 +258,21 @@
             </block>
         </reference>
         <reference name="header">
+            <block type="core/template"
+                   name="mediotyoe_ajaxlogin"
+                   as="ajaxLogin">
+                <action method="setTemplate">
+                    <template>mediotype/ajaxlogin/ajaxlogin.phtml</template>
+                </action>
+                <block type="hylete/widgets_signup_extended" name="signup_form"
+                       template="mediotype/ajaxlogin/registration.phtml">
+                    <!-- populate widget by options -->
+                    <action method="setData">
+                        <name>customer_group_id</name>
+                        <value>1</value>
+                    </action>
+                </block>
+            </block>
             <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>
             <block type="hylete/header_welcome" template="page/html/header/welcome.phtml" name="header.welcome" />
         </reference>

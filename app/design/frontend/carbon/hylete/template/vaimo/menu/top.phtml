@@ -22,25 +22,25 @@
  * @package     Vaimo_Menu
  * @copyright   Copyright (c) 2009-2014 Vaimo AB
  */
-
-$_shiptoCms = Mage::getModel('cms/block')->load('header_ship_to');
-
+$menu = $this->renderMenu();
 ?>
-<div class="nav-container">
-    <div class="row">
-        <ul id="nav" class="clearfix col-xs-12 col-sm-12 col-md-12 col-lg-12 <?php echo $this->getMenuTypeClass() ?>">
-            <?php echo $this->renderMenu() ?>
-            <li class="hidden-inline-block-xs hidden-inline-block-sm menu-search">
-                <div class="search-wrapper">
-                    <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
-                </div>
-            </li>
-            <li class="menu-cms-block visible-inline-block-xs visible-inline-block-sm">
-                <?php echo $this->getLayout()->createBlock('cms/block', 'menu_bottom_block_mobile')->setBlockId('menu_bottom_block_mobile')->toHtml() ?>
-            </li>
-            </div>
-        </ul>
+<?php if ($menu): ?>
+    <div class="nav-container">
+        <div class="row">
+            <ul id="nav"
+                class="clearfix col-xs-12 col-sm-12 col-md-12 col-lg-12 <?php echo $this->getMenuTypeClass() ?>">
+                <?php echo $menu ?>
+                <li class="hidden-inline-block-xs hidden-inline-block-sm menu-search">
+                    <div class="search-wrapper">
+                        <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml() ?>
+                    </div>
+                </li>
+                <li class="menu-cms-block visible-inline-block-xs visible-inline-block-sm">
+                    <?php echo $this->getLayout()->createBlock('cms/block',
+                        'menu_bottom_block_mobile')->setBlockId('menu_bottom_block_mobile')->toHtml() ?>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-
-<div id="menu-overlay"></div>
+    <div id="menu-overlay"></div>
+<?php endif;

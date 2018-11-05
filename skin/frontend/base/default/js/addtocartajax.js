@@ -214,7 +214,7 @@ var AddToCartAjax = Class.create({
 
 		var r = new Ajax.Request(url,
 			{
-				method: 'get',
+				method: 'post',
 				onSuccess: this.onSuccess.bind(this),
 				onFailure: this.onFailure.bind(this)
 			});

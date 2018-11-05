@@ -228,19 +228,30 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                     </div>
 
 
-
+                                    <?php $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin'); ?>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                         <div class="cart-login" id="firecheckout-form">
                                             <div class="login-section-actions">
                                                 <div class="login-section-action">
-                                                    <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="button button-login login-section-button firecheckout-login">
-                                                        <span class="fal fa-user"></span>
-                                                        <?php echo $this->__('Log in') ?>
-                                                    </a>
-                                                    <div>
-                                                        <p>or</p>
-                                                        <a href="<?php echo $this->getUrl('customer/account/create') ?>" class="button-create-account"><?php echo $this->__('create an account')?></a>
-                                                    </div>
+                                                    <?php if ($_ajaxLoginHelper->isEnabled()): ?>
+                                                        <a onclick="AjaxLogin.openLogin();" class="button button-login login-section-button">
+                                                            <span class="fal fa-user"></span>
+                                                            <?php echo $this->__('Log in') ?>
+                                                        </a>
+                                                        <div>
+                                                            <p>or</p>
+                                                            <a onclick="AjaxLogin.openRegistration();" class="button-create-account"><?php echo $this->__('create an account')?></a>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="button button-login login-section-button firecheckout-login">
+                                                            <span class="fal fa-user"></span>
+                                                            <?php echo $this->__('Log in') ?>
+                                                        </a>
+                                                        <div>
+                                                            <p>or</p>
+                                                            <a href="<?php echo $this->getUrl('customer/account/create') ?>" class="button-create-account"><?php echo $this->__('create an account')?></a>
+                                                        </div>
+                                                    <?php endif; ?>
                                                 </div>
                                                 <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
                                                     <div class="login-section-action">

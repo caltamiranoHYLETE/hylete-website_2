@@ -841,9 +841,9 @@ class Zend_Db_Select
                  * @see Zend_Db_Select_Exception
                  */
                 #require_once 'Zend/Db/Select/Exception.php';
-                throw new Zend_Db_Select_Exception(
+                /*throw new Zend_Db_Select_Exception(
                     "You cannot define a correlation name '$correlationName' more than once"
-                );
+                );*/
             }
 
             if ($type == self::FROM) {

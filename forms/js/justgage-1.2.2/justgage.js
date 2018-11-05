@@ -346,12 +346,12 @@ JustGage = function(config) {
 
     // min
     minFontSize = ((widgetH / 16) > 10) ? (widgetH / 16) : 10;
-    minX = dx + (widgetW / 10) + (widgetW / 6.666666666666667 * obj.config.gaugeWidthScale) / 2;
+    minX = dx + (widgetW / 10) + (widgetW / 6.6 * obj.config.gaugeWidthScale) / 2;
     minY = labelY;
 
     // max
     maxFontSize = ((widgetH / 16) > 10) ? (widgetH / 16) : 10;
-    maxX = dx + widgetW - (widgetW / 10) - (widgetW / 6.666666666666667 * obj.config.gaugeWidthScale) / 2;
+    maxX = dx + widgetW - (widgetW / 10) - (widgetW / 6.6 * obj.config.gaugeWidthScale) / 2;
     maxY = labelY;
 
   } else {
@@ -408,12 +408,12 @@ JustGage = function(config) {
 
     // min
     minFontSize = ((widgetH / 16) > obj.config.minLabelMinFontSize) ? (widgetH / 16) : obj.config.minLabelMinFontSize;
-    minX = dx + (widgetW / 10) + (widgetW / 6.666666666666667 * obj.config.gaugeWidthScale) / 2;
+    minX = dx + (widgetW / 10) + (widgetW / 6.6 * obj.config.gaugeWidthScale) / 2;
     minY = labelY;
 
     // max
     maxFontSize = ((widgetH / 16) > obj.config.maxLabelMinFontSize) ? (widgetH / 16) : obj.config.maxLabelMinFontSize;
-    maxX = dx + widgetW - (widgetW / 10) - (widgetW / 6.666666666666667 * obj.config.gaugeWidthScale) / 2;
+    maxX = dx + widgetW - (widgetW / 10) - (widgetW / 6.6 * obj.config.gaugeWidthScale) / 2;
     maxY = labelY;
   }
 
@@ -453,7 +453,7 @@ JustGage = function(config) {
     if (donut) {
       alpha = (1 - 2 * (value - min) / (max - min)) * Math.PI;
       Ro = w / 2 - w / 7;
-      Ri = Ro - w / 6.666666666666667 * gws;
+      Ri = Ro - w / 6.6 * gws;
 
       Cx = w / 2 + dx;
       Cy = h / 1.95 + dy;
@@ -483,7 +483,7 @@ JustGage = function(config) {
     } else {
       alpha = (1 - (value - min) / (max - min)) * Math.PI;
       Ro = w / 2 - w / 10;
-      Ri = Ro - w / 6.666666666666667 * gws;
+      Ri = Ro - w / 6.6 * gws;
 
       Cx = w / 2 + dx;
       Cy = h / 1.25 + dy;
@@ -526,7 +526,7 @@ JustGage = function(config) {
 
       alpha = (1 - 2 * (value - min) / (max - min)) * Math.PI;
       Ro = w / 2 - w / 7;
-      Ri = Ro - w / 6.666666666666667 * gws;
+      Ri = Ro - w / 6.6 * gws;
 
       Cx = w / 2 + dx;
       Cy = h / 1.95 + dy;
@@ -558,7 +558,7 @@ JustGage = function(config) {
     } else {
       alpha = (1 - (value - min) / (max - min)) * Math.PI;
       Ro = w / 2 - w / 10;
-      Ri = Ro - w / 6.666666666666667 * gws;
+      Ri = Ro - w / 6.6 * gws;
 
       Cx = w / 2 + dx;
       Cy = h / 1.25 + dy;

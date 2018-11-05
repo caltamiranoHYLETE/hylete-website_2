@@ -186,24 +186,28 @@ $_backitHelper->setProduct($_product);
 
 			<?php echo $this->getChildHtml('tabs') ?>
 
-            <div class="follow-us">
+            <div class="follow">
 				<?php
 				$websiteCode = Mage::app()->getWebsite()->getCode();
 				$websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
 				$_productUrl = $_product->getProductUrl();
 				?>
-                <h3 class="share-icons"><?php echo ($websiteCheck) ? 'share and earn points' : 'share'; ?></h3>
-                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
+                <a class="pinterest"
+                   target="_blank"
                    href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
-					   ->init($_product, 'thumbnail', $_product->getFile())
-					   ->resize(500); ?>" data-pin-custom="true"><span
-                            class="fab fa-pinterest"></span></a>
-                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
-                   href="https://twitter.com/home?status=<?php echo $_productUrl ?>"><span
-                            class="fab fa-twitter"></span></a>
-                <a class="<?php echo ($websiteCheck) ? 'hide' : '' ?>" target="_blank"
-                   href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>"><span
-                            class="fab fa-facebook-f"></span></a>
+                       ->init($_product, 'thumbnail', $_product->getFile())
+                       ->resize(500); ?>" data-pin-custom="true">
+                    <i class="fab fa-pinterest"></i>
+                </a>
+                <a class="twitter"
+                   target="_blank"
+                   href="https://twitter.com/home?status=<?php echo $_productUrl ?>">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="facebook" target="_blank"
+                   href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>">
+                    <i class="fab fa-facebook"></i>
+                </a>
             </div>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>
