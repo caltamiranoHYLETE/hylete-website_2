@@ -1,0 +1,31 @@
+<?php $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId()); ?>
+
+<script>
+    window.juapp = window.juapp || function () {
+        (window.juapp.q = window.juapp.q || []).push(arguments)
+    };
+
+    juapp(
+        'order',
+        '<?php echo $order->getEntityId(); ?>',
+        {
+            total:<?php echo $order->getGrandTotal(); ?>,
+            subtotal:<?php echo $order->getSubtotal(); ?>,
+            tax:<?php echo $order->getTaxAmount(); ?>,
+            shipping:<?php echo $order->getShippingAmount(); ?>,
+            currency: '<?php echo $order->getOrderCurrencyCode(); ?>'
+        });
+
+        <?php foreach ($order->getAllVisibleItems() as $item) : ?>
+            juapp(
+                'orderItem',
+                '<?php echo $item->getProductId(); ?>',
+                {
+                    name: '<?php echo $item->getName(); ?>',
+                    quantity: <?php echo $item->getQtyOrdered(); ?>,
+                    price: <?php echo $item->getPrice(); ?>
+                }
+            );
+    <?php endforeach; ?>
+
+</script>

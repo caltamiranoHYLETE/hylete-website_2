@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <justuno_tracking_general>
+            <block>mediotype_hyletebase/general</block>
+            <name>mediotype_justuno</name>
+            <placeholder>MEDIOTYPE_JUSTUNO</placeholder>
+            <container>Mediotype_HyleteBase_Model_Caching_Container_Justuno</container>
+            <template>mediotype/justuno/general.phtml</template>
+            <cache_lifetime>0</cache_lifetime>
+        </justuno_tracking_general>
+    </placeholders>
+</config>
