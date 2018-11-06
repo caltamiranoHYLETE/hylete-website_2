@@ -278,7 +278,6 @@ body._has-modal-custom .modal-custom-overlay {
     background: none;
     position: absolute;
     top: 0;
-    bottom: 0;
     line-height: 0;
     right: 15px;
 }
