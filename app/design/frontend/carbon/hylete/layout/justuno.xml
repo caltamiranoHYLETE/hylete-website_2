@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="mediotype_hyletebase/general"
+                   name="mediotype_justuno">
+                <action method="setTemplate">
+                    <template>mediotype/justuno/general.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </default>
+
+    <checkout_cart_index>
+        <reference name="head">
+            <block type="core/template"
+                   name="mediotype_justuno_cart" ifconfig="mediotype_justuno/mediotype_justuno/enable">
+                <action method="setTemplate">
+                    <template>mediotype/justuno/cart.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+
+    <checkout_onepage_success>
+        <reference name="head">
+            <block type="core/template"
+                   name="mediotype_justuno_success" ifconfig="mediotype_justuno/mediotype_justuno/enable">
+                <action method="setTemplate">
+                    <template>mediotype/justuno/success.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_onepage_success>
+</layout>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mediotype_justuno>
+                                        <title>Mediotype Justuno</title>
+                                    </mediotype_justuno>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
