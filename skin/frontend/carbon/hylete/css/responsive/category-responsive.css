@@ -1,5 +1,5 @@
 @media (min-width: 991px) {
-    .products-grid .item:nth-child(4n+1) {
+    .products-grid .item:nth-child(3n+1) {
         clear: both;
     }
 }
