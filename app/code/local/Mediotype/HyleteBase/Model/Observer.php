@@ -27,7 +27,7 @@ class Mediotype_HyleteBase_Model_Observer
             $item = $observer->getEvent()->getQuoteItem();
             $product = $observer->getEvent()->getProduct();
 
-            $productData = array($item->getProductId() => ['name' => $item->getName(), 'quantity' => $item->getQty(), 'color' => $item->getProduct()->getAttributeText('color'), 'size' => $item->getProduct()->getAttributeText('shoe_size'), 'price' => $product->getFinalPrice()]);
+            $productData = array($item->getProductId() => ['name' => $item->getName(), 'quantity' => $item->getQty(), 'color' => $item->getProduct()->getAttributeText('color'), 'size' => $item->getProduct()->getAttributeText('shoe_size'), 'price' => Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), true)]);
 
             $this->_getHelper()->pushToSession($productData, Mediotype_HyleteBase_Helper_Justuno::SESSION_DATA_KEY_CART_ADD);
         }

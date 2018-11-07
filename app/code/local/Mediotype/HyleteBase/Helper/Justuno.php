@@ -70,7 +70,7 @@ class Mediotype_HyleteBase_Helper_Justuno extends Mage_Core_Helper_Abstract
 
             $product['itemid'] = $item->getProductId();
             $product['quantity'] = $item->getQty();
-            $product['price'] = $item->getProduct()->getFinalPrice();
+            $product['price'] = Mage::helper('tax')->getPrice($item->getProduct(), $item->getProduct()->getFinalPrice(), true);
             $product['name'] = $item->getName();
             $product['size'] = $item->getProduct()->getAttributeText('shoe_size');
             $product['color'] = $item->getProduct()->getAttributeText('color');
