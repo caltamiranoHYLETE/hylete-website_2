@@ -3,6 +3,13 @@
         clear: both;
     }
 }
+
+@media (min-width: 991px) {
+    .select-products .products-grid .item:nth-child(4n+1) {
+        clear: both;
+    }
+}
+
 @media (max-width: 991px) {
     body.catalog-category-view >.container {
         padding-top: 0;
