@@ -119,6 +119,16 @@
                 </observers>
             </sales_order_shipment_save_after>
 
+            <!-- Support Flint_Multistock 3-d part extension by adding current WebsiteId to helper list  -->
+            <globale_order_create_quote_submit_before>
+                <observers>
+                    <globale_order_push_scope_for_flint_multistock_extention>
+                        <class>Globale_Order_Model_Observers_Order</class>
+                        <method>pushScopeForFlintMultistockExtension</method>
+                    </globale_order_push_scope_for_flint_multistock_extention>
+                </observers>
+            </globale_order_create_quote_submit_before>
+
         </events>
     </adminhtml>
     <frontend>

@@ -15,7 +15,8 @@ class Globale_BrowsingLite_Model_Cart extends Mage_Core_Model_Abstract {
     public function getInfo($CartId,$FixedPriceCountry,$FixedPriceCurrency,$MerchantGUID){
 
         if(!empty($MerchantGUID) && $MerchantGUID == Mage::getStoreConfig(Globale_Base_Model_Settings::MERCHANT_GUID)){
-            $Quote = Mage::getModel('sales/quote')->load($CartId);
+            $MagentoCartId = Mage::helper('globale_base/cartHashing')->fetchCartId($CartId,$MerchantGUID);
+            $Quote = Mage::getModel('sales/quote')->load($MagentoCartId);
         }else{
             $Quote = Mage::getModel('checkout/cart')->getQuote();
         }
@@ -299,7 +300,7 @@ class Globale_BrowsingLite_Model_Cart extends Mage_Core_Model_Abstract {
 
     /**
      * Create API call to GEPI API based on Params
-     * @param $Params Query string given by GEM
+     * @param array $Params Query string given by GEM
      * @return mixed
      */
     public function getCartToken($Params){
