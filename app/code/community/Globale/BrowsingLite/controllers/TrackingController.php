@@ -8,7 +8,14 @@ class Globale_BrowsingLite_TrackingController extends Mage_Core_Controller_Front
 	public function getAction(){
 		$TrackingJs = Mage::getModel('globale_base/settings')->getTrackingJs();
 
+		if(empty($TrackingJs)){
+			$TrackingJs = '';
+		}
+
+		$ClearCartUrl = Mage::helper('globale_browsinglite')->getClearCartUrl();
+
 		$TrackingData = str_replace('%TEXTAREA%',$TrackingJs,$this->getTrackingTemplate());
+		$TrackingData = str_replace('%CLEAR_CART_URL%',$ClearCartUrl ,$TrackingData);
 
 		$this->getResponse()
 			->clearHeaders()
@@ -33,6 +40,7 @@ glegem("OnCheckoutStepLoaded", function(data) {
         case data.Steps.LOADED:
         case data.Steps.CONFIRMATION:
             if (data.IsSuccess) { 
+            jQuery.get("%CLEAR_CART_URL%");
             %TEXTAREA%
             }
     }

@@ -20,7 +20,7 @@ class Globale_FixedPrices_Model_Product extends Mage_Core_Model_Abstract {
     public function loadProductsFixedPrices($Products){
         // Check if country support fixed price
         if($this->isSupportFixedPrice()) {
-			Mage::unregister('globale_fixedprice_products');
+
             // Collect all products id's in order to filter by product id's in one query
             $ProductsList = array();
             foreach ($Products as $Product) {
@@ -38,7 +38,10 @@ class Globale_FixedPrices_Model_Product extends Mage_Core_Model_Abstract {
 				$QueryFilteredProducts = $this->FilterProductFixedPrices(array_keys($ProductsList),$CurrencyCode,$CountryCode );
 			}
 
-			if (!empty($QueryFilteredProducts)) {
+			if (empty($QueryFilteredProducts)) {
+				//if no Fixed prices - remove the previous fixed price data
+				Mage::unregister('globale_fixedprice_products');
+			}else{
 
                 $GlobaleFixedpriceProducts = Mage::registry('globale_fixedprice_products');
                 if (!empty($GlobaleFixedpriceProducts)) {

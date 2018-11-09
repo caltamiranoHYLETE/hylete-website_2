@@ -262,4 +262,23 @@ class Globale_Order_Model_Observers_Order {
 
     }
 
+
+	/**
+	 * Support Flint_Multistock 3-d part extension by adding current WebsiteId to helper list
+	 * Event ==> adminhtml -> globale_order_create_quote_submit_before 
+	 * @param Varien_Event_Observer $Observer
+	 */
+    public function pushScopeForFlintMultistockExtension(Varien_Event_Observer $Observer){
+
+		if(Mage::helper('core')->isModuleEnabled('Flint_Multistock')){
+			$Quote = $Observer->getEvent()->getData('quote');
+
+			$WebsiteId = $Quote->getStore()->getWebsiteId();
+			Mage::helper( 'flint_multistock' )->pushScope( array( 'website', $WebsiteId ) );
+		}
+
+
+
+	}
+
 }

@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
@@ -19,5 +20,5 @@ return array(
     'GlobalE\\' => array($vendorDir . '/globale/sdk/src'),
     'Eloquent\\Enumeration\\' => array($vendorDir . '/eloquent/enumeration/src'),
     'Eloquent\\Composer\\Configuration\\' => array($vendorDir . '/eloquent/composer-config-reader/src'),
-    '' => array($vendorDir . '/weew/contracts/src', $vendorDir . '/globale/config/src'),
+    '' => array($vendorDir . '/globale/config/src', $vendorDir . '/weew/contracts/src'),
 );

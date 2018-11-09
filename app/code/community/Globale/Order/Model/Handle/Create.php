@@ -28,6 +28,11 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
         /** @var $store Mage_Core_Model_Store */
         $Store = Mage::getSingleton('core/store')->load($StoreCode);
 
+        //If CartId encrypted (contain '_') --> decrypt to get a cartId
+        if(strpos($Request->CartId,'_') !== false ){
+            $Request->CartId = Mage::helper('globale_base/cartHashing')->fetchCartId($Request->CartId,Mage::getStoreConfig(Globale_Base_Model_Settings::MERCHANT_GUID));
+        }
+
         if(Mage::helper('core')->isModuleEnabled('TBT_Rewards')) {
             /** @var $Session Mage_Adminhtml_Model_Session_Quote */
             $Session = Mage::getSingleton ( 'adminhtml/session_quote' );
@@ -48,6 +53,8 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
 
         //update data of Quote from Request data
         $this->updateQuoteData($Request, $Quote);
+
+		Mage::dispatchEvent('globale_order_create_quote_submit_before',array('quote' => $Quote));
 
         try {
             // Create Order From Quote
@@ -109,10 +116,28 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
 
         $this->setQuoteAddress($Quote, $Request);
 
+
+        //unset the registry if exist ( should never exist)
+        Mage::unregister('globale_shipping_method_id');
+
+        $ShippingMethodMapping = Mage::getModel('globale_base/settings')->getShippingMethodCarrierMapping();
+		$ShippingMethodId =  $Request->InternationalDetails->ShippingMethodCode;
+
+		// if Shipping method is mapped in setting
+        if(!empty($ShippingMethodMapping) && is_array($ShippingMethodMapping)&& isset($ShippingMethodMapping[$ShippingMethodId]['method'])){
+
+			Mage::register('globale_shipping_method_id',$ShippingMethodId);
+			$ShippingMethodCode = Globale_Base_Model_Carrier::CODE.'_'.$ShippingMethodMapping[$ShippingMethodId]['method'];
+
+		}else{
+        	//the default -> globale_international
+			$ShippingMethodCode = $Request->ShippingMethodCode;
+		}
+
         $ShippingAddress = $Quote->getShippingAddress();
         $ShippingAddress->setCollectShippingRates(true)
             ->collectShippingRates()
-            ->setShippingMethod($Request->ShippingMethodCode)
+            ->setShippingMethod($ShippingMethodCode)
             ->setPaymentMethod('globale')
 			->setShouldIgnoreValidation(true);
 
@@ -182,10 +207,10 @@ class Globale_Order_Model_Handle_Create extends Mage_Core_Model_Abstract impleme
 
         $GlobaleOrder = Mage::getModel('globale_order/orders')->load($Request->OrderId,'globale_order_id');
         $OrderId = $GlobaleOrder->getId();
-        if(!empty($OrderId) && $GlobaleOrder->getStatus() == 1){
+        if(!empty($OrderId) && $GlobaleOrder->getOrderStatus() == 1){
             $Valid = new Response(false, "Order {$GlobaleOrder->getGlobaleOrderId()} - {$GlobaleOrder->getOrderId()} Already Exists.\r\n");
         }
-        elseif(!empty($OrderId) && $GlobaleOrder->getStatus() == 0){
+        elseif(!empty($OrderId) && $GlobaleOrder->getOrderStatus() == 0){
             $Valid = $this->removeFailedOrder($GlobaleOrder->getOrderId());
             $Valid->setMessage("Order {$GlobaleOrder->getGlobaleOrderId()} - {$GlobaleOrder->getOrderId()} didn't create properly so it was removed to try create it again.\r\n");
         }

@@ -7,34 +7,35 @@ use GlobalE\SDK\Core;
  */
 class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 
-    const MERCHANT_ID                   = 'globale_settings/api_settings/merchant_id';
-    const MERCHANT_GUID                 = 'globale_settings/api_settings/merchant_guid';
-	const API_BASE_URL                  = 'globale_settings/api_settings/api_base_url';
-	const API_LOG_ENABLE                = 'globale_settings/api_settings/log_enabled';
-	const API_LOG_PATH                  = 'globale_settings/api_settings/log_path';
-	const GEM_BASE_URL                  = 'globale_settings/api_settings/gem_base_url';
-	const ENGLISH_STORE_ID              = 'globale_settings/api_settings/english_store_id';
+    const MERCHANT_ID                     = 'globale_settings/api_settings/merchant_id';
+    const MERCHANT_GUID                   = 'globale_settings/api_settings/merchant_guid';
+	const API_BASE_URL                    = 'globale_settings/api_settings/api_base_url';
+	const API_LOG_ENABLE                  = 'globale_settings/api_settings/log_enabled';
+	const API_LOG_PATH                    = 'globale_settings/api_settings/log_path';
+	const GEM_BASE_URL                    = 'globale_settings/api_settings/gem_base_url';
+	const ENGLISH_STORE_ID                = 'globale_settings/api_settings/english_store_id';
 
-	const ENABLE_GEM_INCLUDE            = 'globale_settings/browsing_lite_settings/enable_gem_include';
+	const ENABLE_GEM_INCLUDE              = 'globale_settings/browsing_lite_settings/enable_gem_include';
 	const TRACKING_JS                   = 'globale_settings/browsing_lite_settings/tracking_js';
 
-	const CLIENT_BASE_URL               = 'globale_settings/browsing_settings/client_base_url';
-	const REWRITE_CURRENCY_SWITCHER     = 'globale_settings/browsing_settings/currency_switcher';
-	const MODULES_DISABLE_OUTPUT        = 'globale_settings/browsing_settings/modules_disable_output';
-	const IS_LOGIN_BEFORE_CHECKOUT      = 'globale_settings/browsing_settings/login_before_checkout';
+	const CLIENT_BASE_URL                 = 'globale_settings/browsing_settings/client_base_url';
+	const REWRITE_CURRENCY_SWITCHER       = 'globale_settings/browsing_settings/currency_switcher';
+	const MODULES_DISABLE_OUTPUT          = 'globale_settings/browsing_settings/modules_disable_output';
+	const IS_LOGIN_BEFORE_CHECKOUT        = 'globale_settings/browsing_settings/login_before_checkout';
 
-	const ALLOW_SERVER_REDIRECTS        = 'globale_settings/browsing_settings/allow_redirects';
-	const SUPPORTED_STORE_LIST          = 'globale_settings/browsing_settings/supported_store_list';
-	const KEEP_ORIGINAL_URI             = 'globale_settings/browsing_settings/keep_original_uri_on_redirect';
+	const ALLOW_SERVER_REDIRECTS          = 'globale_settings/browsing_settings/allow_redirects';
+	const SUPPORTED_STORE_LIST            = 'globale_settings/browsing_settings/supported_store_list';
+	const KEEP_ORIGINAL_URI               = 'globale_settings/browsing_settings/keep_original_uri_on_redirect';
 
-	const JS_ON_SUCCESS                 = 'globale_settings/checkout_settings/js_on_success';
-	const NATIVE_CHECKOUT_ROUTES_LIST   = 'globale_settings/checkout_settings/native_checkout_routes_list';
+	const JS_ON_SUCCESS                   = 'globale_settings/checkout_settings/js_on_success';
+	const NATIVE_CHECKOUT_ROUTES_LIST     = 'globale_settings/checkout_settings/native_checkout_routes_list';
 
-	const CATALOG_PRICE_AS_FIXED        = 'globale_settings/products_settings/catalog_price_as_fixed_prices';
+	const CATALOG_PRICE_AS_FIXED          = 'globale_settings/products_settings/catalog_price_as_fixed_prices';
 
-	const EXT_ORDER_ID                  = 'globale_settings/order_settings/ext_order_id';
+	const EXT_ORDER_ID                    = 'globale_settings/order_settings/ext_order_id';
+	const SHIPPING_METHOD_CARRIER_MAPPING = 'globale_settings/order_settings/shipping_method_carrier_mapping';
 
-	const INTERNATIONAL_PAYMENT_STATUS  = 'globale_settings/international_payment/order_status';
+	const INTERNATIONAL_PAYMENT_STATUS    = 'globale_settings/international_payment/order_status';
 
 
 	/**
@@ -162,6 +163,15 @@ class Globale_Base_Model_Settings extends Mage_Core_Model_Abstract {
 	 */
 	public function getTrackingJs(){
 		return Mage::getStoreConfig(self::TRACKING_JS);
+	}
+
+	/**
+	 * Get JSON of mapping global-e shipment methods to manual carrier
+	 * @return array | NULL
+	 */
+	public function getShippingMethodCarrierMapping(){
+		$MappingString = Mage::getStoreConfig(self::SHIPPING_METHOD_CARRIER_MAPPING);
+		return json_decode($MappingString, true);
 	}
 
 
