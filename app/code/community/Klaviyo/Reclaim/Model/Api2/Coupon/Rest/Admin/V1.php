@@ -78,9 +78,12 @@ class Klaviyo_Reclaim_Model_Api2_Coupon_Rest_Admin_V1 extends Klaviyo_Reclaim_Mo
                 $expirationDate = $expirationDate->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
             }
 
-            $coupon->setId(null)
+			//Fixes bug with usage limit in a way to read the Usage Limit from the Rule itself
+			$usageLimit = $rule->getUsesPerCoupon() ? $rule->getUsesPerCoupon() : 1;
+
+			$coupon->setId(null)
                 ->setRuleId($ruleId)
-                ->setUsageLimit($couponGenerator->getUsesPerCoupon())
+				->setUsageLimit($usageLimit)
                 ->setUsagePerCustomer($couponGenerator->getUsesPerCustomer())
                 ->setExpirationDate($expirationDate)
                 ->setCreatedAt($now)

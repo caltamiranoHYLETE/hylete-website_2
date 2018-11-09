@@ -31,11 +31,6 @@ body._has-modal {
     z-index: 9999;
 }
 
-.modals-overlay {
-    z-index: 10000
-
-}
-
 .modal-slide {
     outline: none;
     bottom: 0;
@@ -148,15 +143,6 @@ body._has-modal {
 .modal-slide .page-main-actions {
     margin-bottom: -12.9rem;
     margin-top: 2.1rem
-}
-
-.modals-overlay {
-    background: rgba(0, 0, 0, 0.8);
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    right: 0;
-    top: 0
 }
 
 body._has-modal-custom .modal-custom-overlay {
@@ -278,7 +264,6 @@ body._has-modal-custom .modal-custom-overlay {
     background: none;
     position: absolute;
     top: 0;
-    bottom: 0;
     line-height: 0;
     right: 15px;
 }

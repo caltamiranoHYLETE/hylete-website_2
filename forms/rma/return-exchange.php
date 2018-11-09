@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
                                 <li>Use the shipping label we provide you after you submit your RA</li>
                                 <li>Exchanges and refunds will be processed once we receive notification USPS has picked it up</li>
-                                <li>Send it in! Return authorizations expire after 60 days</li>
+                                <li>Send it in! Return authorizations expire after 60 days (Orders placed between 11/1 and 12/31 expire after 90 days)</li>
                             </ul>
                             <br/>
                         </div>
@@ -271,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
                         <li>Use the shipping label we provide you after you submit your RA</li>
                         <li>Exchanges and refunds will be processed once we receive notification USPS has picked up your package</li>
-                        <li>Send it in! Return authorizations expire after 60 days</li>
+                        <li>Send it in! Return authorizations expire after 60 days (Orders placed between 11/1 and 12/31 expire after 90 days)</li>
                     </ul>
                     <br/>
                     <p>Please remember, the items you are returning must match your submitted return authorization exactly. Should you neglect to return items from your submitted return authorization or return different/additional items as not reflected on your submitted return authorization, you may be charged a fee for any differences.</p>
