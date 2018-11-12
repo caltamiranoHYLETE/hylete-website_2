@@ -61,6 +61,10 @@ body._has-modal {
     transform: translate(0, 0)
 }
 
+.modal-slide .note, .modal-content .content {
+    font-size: 13px;
+}
+
 .modal-slide .modal-inner-wrap {
     background-color: #fff;
     box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.35);
@@ -81,6 +85,7 @@ body._has-modal {
     max-width: 500px;
     display: block;
     margin: 20px auto 15px auto;
+    text-transform: lowercase;
 }
 
 .modal-slide #login-form .new-users .links {
@@ -98,6 +103,43 @@ body._has-modal {
 
 .modal-slide .actions-toolbar {
     margin-top: 20px;
+}
+
+.modal-slide .secondary {
+    text-align: right;
+    line-height: 40px;
+
+}
+
+.modal-slide .secondary .back{
+    text-transform: lowercase
+}
+
+.modal-slide .actions-toolbar p {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-slide .actions-toolbar button {
+    width: 100%;
+}
+.modal-slide .actions-toolbar .facebook-login {
+    border-radius: 0;
+    width: 100%;
+    padding: 11px 0px;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.modal-slide .actions-toolbar .facebook-login:hover {
+    background: #000;
+    outline: 0;
+    text-decoration: none;
+}
+
+.modal-slide .actions-toolbar .facebook-login .fa-facebook-f {
+    padding-right: 12px;
 }
 
 .modal-slide._show .modal-inner-wrap {
@@ -143,6 +185,28 @@ body._has-modal {
 .modal-slide .page-main-actions {
     margin-bottom: -12.9rem;
     margin-top: 2.1rem
+}
+
+.modal-slide .create .input-box.gender p {
+    margin-right: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.modal-slide .create .input-box.gender label {
+    margin: 0;
+}
+
+.modal-slide .create .input-box.gender p, .modal-slide .create .input-box.gender label  {
+    display: inline-block;
+}
+
+.modal-slide .create .actions-toolbar button, .modal-slide .create .actions-toolbar .facebook-login {
+    width: 100%;
+}
+
+.modal-slide .create .back-to-login {
+    margin-top: 20px;
 }
 
 body._has-modal-custom .modal-custom-overlay {
@@ -256,6 +320,7 @@ body._has-modal-custom .modal-custom-overlay {
     font-size: 14px;
     font-weight: 400;
     line-height: 1;
+    text-transform: lowercase;
 }
 
 .modal-slide .modal-header .action-close {

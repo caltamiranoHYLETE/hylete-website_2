@@ -245,6 +245,14 @@ AjaxLogin.prototype = {
         this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
+    toLoginFromRegistraion() {
+        this._hideHelpWidgetCloseIfActive();
+        this._closeAll(true);
+        this.config.loginForm.show();
+        this.config.registrationSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
+    },
+
     toRegistration() {
         this._hideHelpWidgetCloseIfActive();
         this._closeAll(true);
