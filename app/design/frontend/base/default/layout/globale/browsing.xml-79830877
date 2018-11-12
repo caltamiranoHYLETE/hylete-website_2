@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <!-- adding Global-e css style to head block -->
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/globale/style.css</name></action>
+        </reference>
+        <!-- insert Global-e client SDK initializer before body ends -->
+        <reference name="before_body_end">
+            <block type="globale_browsing/clientSDK" name="globale_client_sdk" template="globale/globale_client_sdk.phtml" />
+        </reference>
+        <!-- inserting Magento currency switcher to header block -->
+        <reference name="header">
+            <block type="directory/currency" name="currency" as="currency_switcher" template="directory/currency.phtml"/>
+        </reference>
+        <!-- inserting Magento currency switcher to footer block -->
+        <reference name="footer">
+            <block type="directory/currency" name="footer_currency" after="footer_store_language" template="directory/currency.phtml"/>
+            <action method="setCacheLifetime" ifconfig="globale_settings/browsing_settings/footer_country_switcher_flag">
+                <s>null</s>
+            </action>
+        </reference>
+        <!-- override header currency base template with the Global-e country switcher template if its set on
+             globale_settings/browsing_settings/currency_switcher settings -->
+        <reference name="currency">
+            <action method="setTemplate" ifconfig="globale_settings/browsing_settings/currency_switcher">
+                <template>globale/switcher.phtml</template>
+            </action>
+            <block type="globale_browsing/switcher" name="globale_switcher_html" template="globale/globale_switcher_html.phtml"/>
+        </reference>
+        <!-- override footer currency base template with the Global-e country switcher template if its set on
+        globale_settings/browsing_settings/currency_switcher settings -->
+        <reference name="footer_currency">
+            <action method="setTemplate" ifconfig="globale_settings/browsing_settings/footer_country_switcher_flag">
+                <template>globale/switcher.phtml</template>
+            </action>
+            <block type="globale_browsing/switcher" name="globale_switcher_html" template="globale/globale_switcher_html.phtml"/>
+        </reference>
+        <reference name="cart_sidebar.extra_actions">
+            <action method="unsetChild">
+                <name helper="globale_browsing/checkout/unsetTemplateMinicartPaypal">
+                    <CurrentTemplate>paypal.partner.cart_sidebar.shortcut</CurrentTemplate>
+                </name>
+            </action>
+        </reference>
+    </default>
+
+    <!-- Add new template and js file to Magento default checkout. -->
+    <checkout_onepage_index>
+        <reference name="head">
+            <block type="globale_browsing/LocalCheckout" template="globale/local_checkout.phtml" />
+            <action method="addJs"><script>globale/local_checkout.js</script></action>
+        </reference>
+    </checkout_onepage_index>
+
+    <!-- Add new template and js file to Magento module OneStepCheckout. -->
+    <onestepcheckout_index_index>
+        <reference name="head">
+            <block type="globale_browsing/LocalCheckout" template="globale/local_checkout.phtml" />
+            <action method="addJs"><script>globale/local_checkout.js</script></action>
+        </reference>
+    </onestepcheckout_index_index>
+
+    <catalog_product_view>
+        <reference name="product.info.addtocart">
+            <action method="unsetChild">
+                <name helper="globale_browsing/catalog/unsetTemplateAddToCartPaypal">
+                    <CurrentTemplate>product.info.addtocart.paypal.wrapper</CurrentTemplate>
+                </name>
+            </action>
+        </reference>
+    </catalog_product_view>
+
+    <checkout_cart_index>
+        <reference name="checkout.cart.totals">
+            <action method="setTemplate" name="globale_totals">
+                <template helper="globale_browsing/checkout/settemplatecarttotal">
+                    <CurrentTemplate>checkout/cart/totals.phtml</CurrentTemplate>
+                    <GlobaleTemplate>globale/globale_totals.phtml</GlobaleTemplate>
+                </template>
+            </action>
+        </reference>
+        <reference name="checkout.cart.top_methods">
+            <action method="unsetChild">
+                <name helper="globale_browsing/checkout/unsetTemplateCartPaypalTop">
+                    <CurrentTemplate>checkout.cart.methods.paypal_express.top</CurrentTemplate>
+                </name>
+            </action>
+        </reference>
+        <reference name="checkout.cart.methods">
+            <action method="unsetChild">
+                <name helper="globale_browsing/checkout/unsetTemplateCartPaypalBottom">
+                    <CurrentTemplate>checkout.cart.methods.paypal_express.bottom</CurrentTemplate>
+                </name>
+            </action>
+        </reference>
+        <reference name="checkout.cart">
+            <action method="unsetChild">
+                <name helper="globale_browsing/checkout/unsetTemplateCartShipping">
+                    <CurrentTemplate>shipping</CurrentTemplate>
+                </name>
+            </action>
+        </reference>
+    </checkout_cart_index>
+
+    <!-- add Global-e checkout page and remove unnecessary blocks from checkout -->
+    <browsing_checkout_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <remove name="before_body_end" />
+            <block type="globale_browsing/clientSDK" name="globale_client_sdk" template="globale/globale_client_sdk.phtml" />
+            <block type="globale_browsing/checkout" name="international_checkout" template="globale/checkout.phtml"/>
+        </reference>
+        <remove name="currency"/>
+        <remove name="top.search"/>
+        <remove name="top.menu"/>
+        <remove name="welcome"/>
+        <remove name="right.reports.product.viewed"/>
+        <remove name="footer"/>
+        <remove name="minicart_head"/>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="top.links"/>
+        <remove name="shopping.cart"/>
+    </browsing_checkout_index>
+
+    <!-- add button in order to redirect the customer to the Global-e checkout page, in the Login/Register page -->
+    <customer_account_login>
+        <reference name="content" handler="customer_account_login">
+            <block type="globale_browsing/guest" name="customer_procced_guest" template="globale/globale_guest_checkout_button.phtml"/>
+        </reference>
+    </customer_account_login>
+</layout>
