@@ -14,13 +14,17 @@ class Globale_BrowsingLite_Model_Initializer extends Mage_Core_Model_Abstract {
 
 		// prepare Gem Data
 		$CartID = Mage::getSingleton('checkout/session')->getQuoteId();
-		$CartID = !empty($CartID) ? $CartID : 0;
+		if(!empty($CartID)){
+			$CartIdentifier = Mage::helper('globale_base/cartHashing')->generateCartIdentifier($CartID,Mage::getStoreConfig(Globale_Base_Model_Settings::MERCHANT_GUID));
+		}else{
+			$CartIdentifier = "0";
+		}
 
 		$StoreCode = Mage::app()->getStore()->getCode();
 		$PreferedCulture = Mage::app()->getLocale()->getLocaleCode();
 
 		$DataArray = array(
-			'CartID' => $CartID,
+			'CartID' => $CartIdentifier,
 			'UserId' => $UserId,
 			'PreferedCulture' => $PreferedCulture,
 			'StoreCode' => $StoreCode

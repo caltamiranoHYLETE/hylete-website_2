@@ -55,8 +55,20 @@
     <br>
     <div class="actions-toolbar">
         <div class="primary">
-            <button type="submit" class="action submit primary" title="Create an Account">
-                <span><?php echo $this->__('Create an Account') ?></span></button>
+            <button type="submit" class="action submit primary" title="Create Account">
+                <span><?php echo $this->__('Create Account') ?></span></button>
+        </div>
+        <p><?php echo $this->__('or') ?></p>
+        <div class="links">
+            <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                <a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('log in with Facebook');?></a>
+            <?php endif;?>
+        </div>
+        <div class="back-to-login">
+            <span><?php echo $this->__('Already have an account?') ?></span>
+            <a class="action reset-password-btn remind" onclick="AjaxLogin.toLoginFromRegistraion()">
+                <span><?php echo $this->__('Log in here') ?></span>
+            </a>
         </div>
     </div>
 </form>

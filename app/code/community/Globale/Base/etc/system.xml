@@ -153,6 +153,17 @@
                             <show_in_store>1</show_in_store>
                             <comment>By selecting this the Global-e Extension will add the Global-e Order Id to the Magento Order Table as ExternalOrderId.</comment>
                         </ext_order_id>
+                        <shipping_method_carrier_mapping>
+                            <label>Global-e special case shipping method to carrier mapping </label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>JSON that allow to use manual carrier data per Global-e shipping method id
+                                For example: {"24":{"method":"tracked","method_title":"Tracked"}}
+                            </comment>
+                        </shipping_method_carrier_mapping>
                     </fields>
                 </order_settings>
 

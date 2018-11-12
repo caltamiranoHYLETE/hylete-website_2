@@ -108,10 +108,14 @@ class Globale_Order_Model_Shipping extends Mage_Core_Model_Abstract
 
         /** @var Mage_Sales_Model_Order_Shipment_Item $Item */
         foreach ($ShippedItems as $Item){
+            // Don't add child products
+            if ($Item->getOrderItem()->getIsVirtual() || $Item->getOrderItem()->getParentItem()){
+                continue;
+            }
             $ParcelProduct = new Request\ParcelProduct();
             $ParcelProduct->setProductCode( $Item->getSku() );
             //$ParcelProduct->setCartItemId( $Item->getOrderItemId() ); //removed in 1.3.1 as $Qoute->itemId and $Order->itemId are different.
-            $ParcelProduct->setDeliveryQuantity( $Item->getQty() );
+            $ParcelProduct->setDeliveryQuantity( (int)$Item->getQty() );
             $ParcelProductArray[] = $ParcelProduct;
         }
 

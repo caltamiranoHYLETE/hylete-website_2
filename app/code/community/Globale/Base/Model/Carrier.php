@@ -40,6 +40,21 @@ class Globale_Base_Model_Carrier extends Mage_Shipping_Model_Carrier_Abstract im
         $method->setMethod('standard');
         $method->setMethodTitle('Standard');
 
+        //Load globale_shipping_method_id that was set on Globale_Order_Model_Handle_Create
+		$ShippingMethodId = Mage::registry('globale_shipping_method_id');
+
+		//If $ShippingMethodId exist - change Carrier Method and Title to Mapped
+		if(!empty($ShippingMethodId)){
+			$ShippingMethodMapping = Mage::getModel('globale_base/settings')->getShippingMethodCarrierMapping();
+
+			if(isset($ShippingMethodMapping[$ShippingMethodId]['method'])){
+				$method->setMethod($ShippingMethodMapping[$ShippingMethodId]['method']);
+			}
+			if(isset($ShippingMethodMapping[$ShippingMethodId]['method_title'])){
+				$method->setMethodTitle($ShippingMethodMapping[$ShippingMethodId]['method_title']);
+			}
+		}
+
         $method->setPrice('0.00');
         $method->setCost('0.00');
 
@@ -76,7 +91,7 @@ class Globale_Base_Model_Carrier extends Mage_Shipping_Model_Carrier_Abstract im
     public function getAllowedMethods()
     {
         return array(
-            'standard' => $this->getConfigData('title'),
+            'standard' => $this->getConfigData('title')
         );        
     }
 

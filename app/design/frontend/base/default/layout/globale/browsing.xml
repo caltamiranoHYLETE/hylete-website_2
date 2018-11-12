@@ -19,6 +19,7 @@
             <action method="setCacheLifetime" ifconfig="globale_settings/browsing_settings/footer_country_switcher_flag">
                 <s>null</s>
             </action>
+            <action method="unsetData" ifconfig="globale_settings/browsing_settings/footer_country_switcher_flag"><key>cache_lifetime</key></action>
         </reference>
         <!-- override header currency base template with the Global-e country switcher template if its set on
              globale_settings/browsing_settings/currency_switcher settings -->

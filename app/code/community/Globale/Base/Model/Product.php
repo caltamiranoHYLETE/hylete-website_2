@@ -48,17 +48,6 @@ class Globale_Base_Model_Product extends Mage_Core_Model_Abstract {
             $ProductImageUrl = ($Product->getImage()) ? $Product->getImage() : $Product->getThumbnail();
             if(!empty($ProductImageUrl)) {
 
-                try{
-                    /**@var $ImageHelper Mage_Catalog_Helper_Image */
-                    $ImageHelper =  Mage::helper('catalog/image')->init($Product, 'image');
-                    $ProductRequest->setImageWidth($ImageHelper->getOriginalWidth());
-                    $ProductRequest->setImageHeight($ImageHelper->getOriginalHeight());
-                }
-                catch (Exception $e) {
-                    //do nothing
-                }
-
-
                 // Get the image full url
                 $ProductImageUrl = Mage::getModel('catalog/product_media_config')->getMediaUrl($ProductImageUrl);
                 $ProductRequest->setImageURL($ProductImageUrl);
@@ -122,7 +111,7 @@ class Globale_Base_Model_Product extends Mage_Core_Model_Abstract {
 		$AdditionalProductExtraAttributes = $this->getAdditionalProductExtraAttributes($Product);
 		if(!empty($AdditionalProductExtraAttributes)){
 
-			$ProductExtraAttributes = array_merge($ProductRequest->getAttributes(), $AdditionalProductExtraAttributes);
+			$ProductExtraAttributes = $this->mergeAttributes($ProductRequest->getAttributes(), $AdditionalProductExtraAttributes);
 			$ProductRequest->setAttributes($ProductExtraAttributes);
 		}
 
@@ -133,7 +122,7 @@ class Globale_Base_Model_Product extends Mage_Core_Model_Abstract {
 
 			if (!empty($EnglishAdditionalProductExtraAttributes)) {
 
-				$EnglishProductExtraAttributes = array_merge($ProductRequest->getAttributesEnglish(), $EnglishAdditionalProductExtraAttributes);
+				$EnglishProductExtraAttributes = $this->mergeAttributes($ProductRequest->getAttributesEnglish(), $EnglishAdditionalProductExtraAttributes);
 				$ProductRequest->setAttributesEnglish($EnglishProductExtraAttributes);
 			}
 		}
@@ -520,4 +509,45 @@ class Globale_Base_Model_Product extends Mage_Core_Model_Abstract {
 
 	}
 
+    /**
+     * Merge product attributes
+     * for replacing configurable product attributes by attributes of associated simple product
+     * @param array $Attributes
+     * @param array $AdditionalAttributes
+     * @return array
+     */
+    protected function mergeAttributes(array $Attributes, array $AdditionalAttributes)
+    {
+        $Result = array();
+
+        $AdditionalAttributesTypeCodeMap = array();
+        /**
+         * @var int $Key
+         * @var \GlobalE\SDK\API\Common\Attribute $Ob
+         */
+        foreach($AdditionalAttributes as $Key => $Ob) {
+            $AdditionalAttributesTypeCodeMap[$Ob->getAttributeTypeCode()] = $Key;
+        }
+
+        /**
+         * @var int $key
+         * @var \GlobalE\SDK\API\Common\Attribute $ob
+         */
+        foreach($Attributes as $Key => $Ob) {
+            $CurrentAttributeTypeCode = $Ob->getAttributeTypeCode();
+            if (array_key_exists($CurrentAttributeTypeCode,$AdditionalAttributesTypeCodeMap)) {
+                $replacementIndex = $AdditionalAttributesTypeCodeMap[$CurrentAttributeTypeCode];
+                $Result[$Key] = $AdditionalAttributes[$replacementIndex];
+                unset($AdditionalAttributes[$replacementIndex]);
+            } else {
+                $Result[$Key] = $Ob;
+            }
+        }
+
+        if (!empty($AdditionalAttributes)) {
+            $Result = array_merge($Result, $AdditionalAttributes);
+        }
+
+        return $Result;
+    }
 }
