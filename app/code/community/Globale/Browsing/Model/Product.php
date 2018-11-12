@@ -174,7 +174,18 @@ class Globale_Browsing_Model_Product extends Mage_Core_Model_Abstract
 			$OriginalListPrice = $Product->getMaxPrice() ;
 		}
 
-		$OriginalSalePrice = $Product->getFinalPrice();
+		$IsFixedPrice = $this->checkIfIsFixedPrice($Product);
+
+		//In the case of fixed price will use price model logic to validate min from price and special price
+		if($IsFixedPrice){
+			$OriginalSalePrice = $this->calculateFinalSpecialPrice(
+				$Product->getPrice(),
+				$Product->getSpecialPrice(),
+				$Product->getSpecialFromDate(),
+				$Product->getSpecialToDate());
+		}else{
+			$OriginalSalePrice = $Product->getFinalPrice();
+		}
 
 		if($OriginalSalePrice == 0 && $Product->getMinimalPrice() ){
 			$OriginalSalePrice = $Product->getMinimalPrice();
@@ -191,11 +202,26 @@ class Globale_Browsing_Model_Product extends Mage_Core_Model_Abstract
 		$ProductRequestData->setProductCode($Product->getSku());
 		$ProductRequestData->setOriginalListPrice($OriginalListPrice);
 		$ProductRequestData->setOriginalSalePrice($OriginalSalePrice);
-		$ProductRequestData->setIsFixedPrice($this->checkIfIsFixedPrice($Product));
+		$ProductRequestData->setIsFixedPrice($IsFixedPrice);
 		$ProductRequestData->setVATRateType($GlobalEVATRateType);
 		$ProductRequestData->setLocalVATRateType($LocalVATRateType);
 
 		return $ProductRequestData;
+	}
+
+	/**
+	 * Calculate special price amount (compere validated special and regular prices)
+	 * @param $Price
+	 * @param $SpecialPrice
+	 * @param $DateFrom
+	 * @param $DateTo
+	 * @return float
+	 */
+	protected function calculateFinalSpecialPrice($Price,$SpecialPrice,$DateFrom,$DateTo){
+		$ProductPriceModel = Mage::getModel('catalog/product_type_price');
+
+		$SpecialFixedPriceAmount = $ProductPriceModel::calculateSpecialPrice($Price,$SpecialPrice,$DateFrom,$DateTo);
+		return $SpecialFixedPriceAmount;
 	}
 
 

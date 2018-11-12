@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitfe9f467266680c48243769923323fa0d
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '4034923be216e4e8cb8283d7c5b5bb22' => __DIR__ . '/..' . '/weew/helpers-string/src/string.php',
         '940abd8fb01ee76a36b44f35dcf9783b' => __DIR__ . '/..' . '/weew/helpers-array/src/array.php',
         '6fb30e88c37a711cfc9129ae4ee00815' => __DIR__ . '/..' . '/weew/helpers-filesystem/src/file.php',
@@ -18,6 +19,7 @@ class ComposerStaticInitfe9f467266680c48243769923323fa0d
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\Debug\\' => 24,
@@ -52,6 +54,10 @@ class ComposerStaticInitfe9f467266680c48243769923323fa0d
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -104,8 +110,8 @@ class ComposerStaticInitfe9f467266680c48243769923323fa0d
     );
 
     public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/weew/contracts/src',
-        1 => __DIR__ . '/..' . '/globale/config/src',
+        0 => __DIR__ . '/..' . '/globale/config/src',
+        1 => __DIR__ . '/..' . '/weew/contracts/src',
     );
 
     public static $prefixesPsr0 = array (

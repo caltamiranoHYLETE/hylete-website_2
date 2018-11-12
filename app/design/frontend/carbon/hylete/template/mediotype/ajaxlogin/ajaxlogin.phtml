@@ -14,7 +14,7 @@
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
                 <div class="header-wrap">
-                    <div class="title"><?php echo $this->__('Registration') ?></div>
+                    <div class="title"><?php echo $this->__('Create Account') ?></div>
                 </div>
                 <a class="action-close"><svg viewBox="0 0 60 60">
                         <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
@@ -42,7 +42,7 @@
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
                 <div class="header-wrap">
-                    <div class="title"><?php echo $this->__('Forget Password') ?></div>
+                    <div class="title"><?php echo $this->__('Reset Password') ?></div>
                 </div>
                 <a class="action-close"><svg viewBox="0 0 60 60">
                         <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
@@ -75,14 +75,20 @@
                             </div>
                         </fieldset>
                         <div class="actions-toolbar">
-                            <div class="primary">
-                                <button type="submit" class="action submit primary">
-                                    <span><?php echo $this->__('Reset My Password') ?></span>
-                                </button>
-                            </div>
-                            <div class="secondary">
-                                <a class="action back"
-                                      onclick="AjaxLogin.toLogin()"><?php echo $this->__('Go back') ?></a>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="primary">
+                                        <button type="submit" class="action submit primary">
+                                            <span><?php echo $this->__('Reset My Password') ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="secondary">
+                                        <a class="action back"
+                                           onclick="AjaxLogin.toLogin()"><?php echo $this->__('Go back') ?></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -145,15 +151,26 @@
                                         </div>
                                     </div>
                                     <div class="actions-toolbar">
-                                        <input name="context" type="hidden" value="checkout">
-                                        <div class="primary">
-                                            <button type="submit" class="action login primary" name="send" id="send2">
-                                                <span><?php echo $this->__('Login') ?></span>
-                                            </button>
-                                        </div>
-                                        <div class="secondary"><a class="action reset-password-btn remind"
-                                                                     onclick="AjaxLogin.toResetPassword()"><span>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="primary">
+                                                    <button type="submit" class="action login primary" name="send" id="send2">
+                                                        <span><?php echo $this->__('Log in') ?></span>
+                                                    </button>
+                                                </div>
+                                                <p><?php echo $this->__('or') ?></p>
+                                                <div class="links">
+                                                    <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                                                        <a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('log in with Facebook');?></a>
+                                                    <?php endif;?>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="secondary"><a class="action reset-password-btn remind"
+                                                                          onclick="AjaxLogin.toResetPassword()"><span>
                                                 <?php echo $this->__('Forgot Your Password?') ?></span></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <?php if (!Mage::getStoreConfig('general/restriction/is_active') || Mage::getStoreConfig('general/restriction/mode') == 2):?>
@@ -163,15 +180,9 @@
                                                     <?php echo $this->getLayout()->createBlock('cms/block', 'login_page_hyletenation')->setBlockId('login_page_hyletenation')->toHtml() ?>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <button type="button" title="<?php echo $this->__('join the #HYLETEnation') ?>" class="button hyletenation-btn" onclick="AjaxLogin.toRegistration()"><span><span><?php echo $this->__('join the #HYLETEnation') ?></span></span></button>
+                                                    <button type="button" title="<?php echo $this->__('create account') ?>" class="button hyletenation-btn" onclick="AjaxLogin.toRegistration()"><span><span><?php echo $this->__('Create Account') ?></span></span></button>
                                                 </div>
                                             </div>
-                                            <div class="links">
-                                                <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
-                                                    <p class="align-center"><a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('log in with Facebook');?></a></p>
-                                                <?php endif;?>
-                                            </div>
-                                        </div>
                                     <?php endif;?>
                                 </fieldset>
                             </form>
@@ -216,8 +227,6 @@
         </div>
         <div data-role="focusable-end" tabindex="0"></div>
     </aside>
-
-    <div class="modals-overlay" style="display: none;"></div>
 
     <div data-role="loader" class="loading-mask" id="mcs-custom-loader" style="display: none;">
         <div class="loader">

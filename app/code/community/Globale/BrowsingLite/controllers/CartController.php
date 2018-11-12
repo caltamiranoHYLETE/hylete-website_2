@@ -58,7 +58,6 @@ class Globale_BrowsingLite_CartController extends Mage_Core_Controller_Front_Act
 
     /**
      * Proxy GEM /checkout/GetCartToken through Magento to insert Loyalty to Params.
-     * @return string $Response
      */
     public function getTokenAction(){
 
@@ -75,5 +74,15 @@ class Globale_BrowsingLite_CartController extends Mage_Core_Controller_Front_Act
             ->setBody($CartToken);
 
     }
+
+	/**
+	 * Protecting Quote object after order has been successfully created in GE side.
+	 * Disengaging Quote from user session, will allow Quote to remain untouched until
+	 * GE order create will convert the Quote into order in Magento
+	 */
+	public function clearAction() {
+		Mage::getSingleton('checkout/session')->setQuoteId(null);
+		return;
+	}
 
 }

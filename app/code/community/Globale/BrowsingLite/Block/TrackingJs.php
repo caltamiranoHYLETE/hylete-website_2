@@ -7,9 +7,7 @@ class Globale_BrowsingLite_Block_TrackingJs extends Mage_Core_Block_Template {
 	 */
 	public function showScript(){
 
-		$TrackingJs = Mage::getModel('globale_base/settings')->getTrackingJs();
-
-		return !empty($TrackingJs) && Mage::getModel('globale_base/settings')->getEnableGemInclude()
+		return Mage::getModel('globale_base/settings')->getEnableGemInclude()
 			&& Mage::helper('core')->isModuleEnabled('Globale_Browsing') == false;
 	}
 

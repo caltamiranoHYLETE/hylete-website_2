@@ -16,6 +16,11 @@
                 <class>Globale_BrowsingLite_Block</class>
             </globale_browsinglite>
         </blocks>
+        <helpers>
+            <globale_browsinglite>
+                <class>Globale_BrowsingLite_Helper</class>
+            </globale_browsinglite>
+        </helpers>
     </global>
 
 
@@ -74,6 +79,16 @@
                 </globale_browsing>
             </updates>
         </layout>
+    <!-- Use enterprise FPC (if exist) for caching tracking setting  -->
+        <cache>
+            <requests>
+                <international-ge>
+                    <tracking>
+                        <get>enterprise_pagecache/processor_default</get>
+                    </tracking>
+                </international-ge>
+            </requests>
+        </cache>
     </frontend>
     <default>
         <globale_settings>

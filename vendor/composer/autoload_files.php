@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
     '4034923be216e4e8cb8283d7c5b5bb22' => $vendorDir . '/weew/helpers-string/src/string.php',
     '940abd8fb01ee76a36b44f35dcf9783b' => $vendorDir . '/weew/helpers-array/src/array.php',
     '6fb30e88c37a711cfc9129ae4ee00815' => $vendorDir . '/weew/helpers-filesystem/src/file.php',

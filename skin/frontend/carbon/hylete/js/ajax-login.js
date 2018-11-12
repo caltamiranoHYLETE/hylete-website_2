@@ -10,7 +10,6 @@ AjaxLogin.prototype = {
         this.config = Object.extend({
             body: $$('body')[0],
             bodyModalClass: '_has-modal',
-            overlay: $$('.modals-overlay')[0],
             logOutBtn: $$('.open-logout')[0],
             registrationBtn: $$('.open-registration')[0],
             resetPasswordBtn: $$('.reset-password-btn')[0],
@@ -39,7 +38,6 @@ AjaxLogin.prototype = {
                 element.addClassName(this.config.sectionCloseClass);
             }
             if (!changing) {
-                this.config.overlay.hide();
                 this.config.body.removeClassName(this.config.bodyModalClass);
             }
 
@@ -54,12 +52,10 @@ AjaxLogin.prototype = {
         }
     },
 
-    _toggleOverlay: function () {
-        if (this.config.overlay.getStyle('display') == 'none') {
-            this.config.overlay.show();
+    _toggleBodyClass: function () {
+        if (!this.config.body.hasClassName(this.config.bodyModalClass)) {
             this.config.body.addClassName(this.config.bodyModalClass);
         } else {
-            this.config.overlay.hide();
             this.config.body.removeClassName(this.config.bodyModalClass);
             this.closeAllModal();
         }
@@ -75,7 +71,6 @@ AjaxLogin.prototype = {
         $$('.modal-slide').each(function (element) {
             if (element.hasClassName(this.config.sectionActiveClass)) {
                 element.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
-                this.config.overlay.hide();
                 this.config.body.removeClassName(this.config.bodyModalClass);
             }
         }.bind(this));
@@ -86,11 +81,6 @@ AjaxLogin.prototype = {
             element.observe('click', function () {
                 this.closeAllModal();
             }.bind(this));
-        }.bind(this));
-
-        this.config.overlay.observe('click', function (event) {
-            event.preventDefault();
-            this.closeAllModal();
         }.bind(this));
     },
 
@@ -217,21 +207,22 @@ AjaxLogin.prototype = {
 
     openLogin: function () {
         this._hideHelpWidgetCloseIfActive();
-        this._toggleOverlay();
+        this._toggleBodyClass();
         this.config.loginForm.show();
         this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     openRegistration: function () {
         this._hideHelpWidgetCloseIfActive();
-        this._toggleOverlay();
+        this._toggleBodyClass();
         this.config.registrationForm.show();
         this.config.registrationSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     logout: function () {
         var self = this;
-        this._toggleOverlay();
+        event.preventDefault();
+        this._toggleBodyClass();
         this._hideHelpWidgetCloseIfActive();
         this.config.logOutSection.addClassName(this.config.sectionActiveClass);
         setTimeout(function () {
@@ -251,6 +242,14 @@ AjaxLogin.prototype = {
         this._closeAll(true);
         this.config.loginForm.show();
         this.config.forgetPasswordSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
+    },
+
+    toLoginFromRegistraion() {
+        this._hideHelpWidgetCloseIfActive();
+        this._closeAll(true);
+        this.config.loginForm.show();
+        this.config.registrationSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
         this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
