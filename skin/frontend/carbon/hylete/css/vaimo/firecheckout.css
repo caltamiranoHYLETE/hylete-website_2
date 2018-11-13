@@ -252,7 +252,7 @@
 .fc-form-compact .field.fc-dirty .input-box select,
 .fc-form-compact .wide.fc-dirty .input-box select,
 .firecheckout-set .form-list select, .firecheckout-set select {
-    font: 12px 'Open Sans', sans-serif !important;
+    /*font: 12px 'Open Sans', sans-serif !important;*/
     text-overflow: ellipsis;
     line-height: 18px;
     background-color: white;

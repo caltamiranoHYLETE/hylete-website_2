@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
 
 @font-face {
 	font-family: 'Eurostile';
@@ -16,7 +16,7 @@
          url('../fonts/eurosmnext.woff') format('woff'),
          url('../fonts/eurosmnext.ttf') format('truetype'),
          url('../fonts/eurosmnext.svg#903952a9-66c5-4768-a9d2-6bad23ff69b2') format('svg');
-}
+}*/
 
 
 
@@ -42,7 +42,7 @@ label,
 .one-page-checkout th,
 .points-amount,
 .checkout-onepage-index .continue-shopping {
-    font-family: 'Eurostile';
+    font-family: 'Roboto', sans-serif;
     font-weight: normal;
     letter-spacing: 0.05em;
 }
@@ -64,7 +64,7 @@ input,
 
 .hylete-widget h1,
 .hylete-widget h2 {
-    font-family: 'EurostileExtended';
+    /*font-family: 'EurostileExtended';*/
     font-weight: normal;
     letter-spacing: 0.05em;
 }
@@ -266,20 +266,20 @@ button:focus,
 .search-wrapper input.input-text::placeholder {
     font-size: 22px;
     letter-spacing: initial;
-    font-family: Eurostile;
+    /*font-family: Eurostile;*/
     color: #777;
 }
 #header input  {
     font-size: 16px;
 }
 
-#header input,
+/*#header input,
 #header input.input-text,
 #header button,
 #header p,
 #header div {
     font-family: 'Open Sans', sans-serif;
-}
+}*/
 
 #header .header-follow .header-follow-title {
     font-size: 14pt;

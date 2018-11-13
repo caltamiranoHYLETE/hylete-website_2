@@ -15,7 +15,8 @@ since it is easier to maintain 4000+ lines of css in a proper editor */
     text-align: left; }
 
 .yotpo div, .yotpo span, .yotpo p, .yotpo a, .yotpo img, .yotpo i, .yotpo strong, .yotpo sup, .yotpo ul, .yotpo li, .yotpo form, .yotpo label {
-    font-family: 'Eurostile', 'Open Sans', sans-serif;
+    /*font-family: 'Eurostile', 'Open Sans', sans-serif;*/
+	font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-style: normal !important;
@@ -536,7 +537,8 @@ since it is easier to maintain 4000+ lines of css in a proper editor */
     float: none; }
 
 .yotpo input, .yotpo .y-input {
-    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+	font-family: 'Roboto', sans-serif;
     -webkit-appearance: none;
     border-radius: 0;
     display: inline-block;
@@ -594,7 +596,8 @@ since it is easier to maintain 4000+ lines of css in a proper editor */
     display: none; }
 
 .yotpo .text-box, .yotpo .yotpo-text-box {
-    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+	font-family: 'Roboto', sans-serif;
     display: initial;
     height: 68px;
     min-width: 148px;
@@ -834,7 +837,8 @@ since it is easier to maintain 4000+ lines of css in a proper editor */
 
 .yotpo .yotpo-nav {
     background: transparent;
-    font-family: Open Sans;
+    /*font-family: Open Sans;*/
+	font-family: 'Roboto', sans-serif;
     border-color: rgba(0, 39, 59, 0.08);
     display: block;
     position: relative;
@@ -888,7 +892,8 @@ since it is easier to maintain 4000+ lines of css in a proper editor */
     float: left;
     padding-right: 18px;
     font-size: 15px;
-    font-family: Open Sans;
+    /*font-family: Open Sans;*/
+	font-family: 'Roboto', sans-serif;
     display: list-item; }
 
 .yotpo .yotpo-nav li .yotpo-nav-wrapper {
@@ -3276,7 +3281,8 @@ div.yotpo-preloader-wrapper .yotpo-pre-loader span.yotpo-empty-stars {
     color: #ECC525 !important; }
 
 .yotpo-reviews-carousel {
-    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+	font-family: 'Roboto', sans-serif;
     position: relative; }
 
 .yotpo-reviews-carousel .yotpo-icon-star, .yotpo-reviews-carousel .yotpo-icon-empty-star, .yotpo-reviews-carousel .yotpo-icon-full-star, .yotpo-reviews-carousel .yotpo-icon-half-star {
@@ -3930,7 +3936,8 @@ div.yotpo-preloader-wrapper .yotpo-pre-loader span.yotpo-empty-stars {
 .yotpo-slider .yotpo-slider-title-wrapper .yotpo-slider-title {
     color: #56575f;
     font-size: 22px;
-    font-family: Open Sans;
+    /*font-family: Open Sans;*/
+	font-family: 'Roboto', sans-serif;
     line-height: 22px; }
 
 .yotpo-slider .yotpo-slider-wrapper {

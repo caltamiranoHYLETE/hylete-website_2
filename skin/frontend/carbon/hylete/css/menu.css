@@ -8,10 +8,6 @@
     display: none;
 }
 
-.cdz-horizontal-menu .groupmenu li.level0 > a.menu-link {
-    font: 500 18px/1.35 "EurostileExtended", sans-serif;
-}
-
 .cdz-menu {
     text-transform: lowercase;
 }
@@ -118,14 +114,12 @@
     }
 
     .cdz-horizontal-menu .groupmenu .groupmenu-drop {
-        font-family: 'Eurostile', sans-serif;
         font-weight: normal;
         font-size: 14px;
     }
 
     .cdz-menu p.groupdrop-title, .cdz-menu .cat-tree.no-dropdown a.groupdrop-title {
         border-bottom: 1px solid #e5e5e5;
-        font-family: 'Eurostile', sans-serif;
         font-size: 18px;
         padding-bottom: 3px;
     }
