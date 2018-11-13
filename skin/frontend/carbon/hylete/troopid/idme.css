@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -15,7 +15,7 @@
     font-style: normal;
     font-weight: 700;
     src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v10/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
-}
+}*/
 
 .idme-connect {
     float:left;
@@ -64,7 +64,7 @@
 .idme-connect .about .container {
     display: inline-block;
     color: rgb(0, 0, 0);
-    font-family: Open Sans, Arial, sans-serif;
+    /*font-family: Open Sans, Arial, sans-serif;*/
     font-size: 11px;
     font-weight: 600;
 }
@@ -131,7 +131,7 @@
 
 #idme-modal-content .content {
     text-align: left;
-    font-family: Open Sans, Arial, sans-serif;
+    /*font-family: Open Sans, Arial, sans-serif;*/
     font-size: 12px;
     height: 400px;
     overflow-x: hidden;
@@ -140,7 +140,7 @@
 }
 
 #idme-modal-content h3 {
-    font-family: Open Sans, Arial, sans-serif;
+    /*font-family: Open Sans, Arial, sans-serif;*/
     font-size: 32px;
     font-weight: 300;
     margin: 0 0 20px;

@@ -5,7 +5,7 @@ body.catalog-category-view > .container {
 
 .category-title > h1 {
     font-size: 30px;
-    font-family: 'EurostileExtended';
+    /*font-family: 'EurostileExtended';*/
     margin: 40px 0;
     text-align: center;
 }
