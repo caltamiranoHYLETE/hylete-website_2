@@ -221,7 +221,6 @@ AjaxLogin.prototype = {
 
     logout: function () {
         var self = this;
-        event.preventDefault();
         this._toggleBodyClass();
         this._hideHelpWidgetCloseIfActive();
         this.config.logOutSection.addClassName(this.config.sectionActiveClass);
