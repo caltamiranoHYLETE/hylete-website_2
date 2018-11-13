@@ -173,7 +173,7 @@ select {
 
 select option {
     display: block !important;
-    font-family: 'Open Sans' !important;
+    /*font-family: 'Open Sans' !important;*/
     padding: 5px 10px;
 }
 
