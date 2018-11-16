@@ -1290,7 +1290,7 @@
         </reference>
     </catalogsearch_result_index>
 
-    <infinite_product_list>
+    <!--<infinite_product_list>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
@@ -1346,9 +1346,9 @@
                 <name>js/vaimo/ajaxproductlist.init.js</name>
             </action>
         </reference>
-    </infinite_product_list>
+    </infinite_product_list>-->
 
-    <infinite_product_blog>
+    <!--<infinite_product_blog>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
@@ -1391,7 +1391,7 @@
                 <name>js/infinitescroll/infinite-scroll-init.js</name>
             </action>
         </reference>
-    </infinite_product_blog>
+    </infinite_product_blog>-->
 
     <rewards_cart_redeem_changepointsspending>
         <reference name="checkout.cart.methods">
