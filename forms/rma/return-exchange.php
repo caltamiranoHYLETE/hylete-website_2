@@ -96,13 +96,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img src="/forms/img/return-label.png">
                         </a>
                         <div style="text-align: left;">
-                            <h2>steps for a smooth return:</h2>
+                            <h2>Please follow these steps for a smooth return:</h2>
                             <ul style="list-style-type: circle; list-style-position: inside;">
-                                <li>Keep the tags on or include them in your return</li>
-                                <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
-                                <li>Use the shipping label we provide you after you submit your RA</li>
-                                <li>Exchanges and refunds will be processed once we receive notification USPS has picked it up</li>
-                                <li>Send it in! Return authorizations expire after 60 days (Orders placed between 11/1 and 12/31 expire after 90 days)</li>
+                                <li>Keep the tags on or include them in your return package.</li>
+                                <li>Use the return label we provide, after you click submit below.</li>
+                                <li>Make sure that any item included in your return package is also entered here on this form.</li>
+                                <li>Drop it off at your local U.S. Post Office.</li>
+                                <li>After your package has been picked up and scanned by the carrier, we'll get to work on processing it for you, as quickly as possible.</li>
+                                <li>If for any reason you are not able to submit your request as outlined above, please reach out to our Brand Support Team through our LiveChat option or via email at <a href="mailto:customerservice@hylete.com">customerservice@hylete.com</a>a>. We’d be happy to help!</li>
                             </ul>
                             <br/>
                         </div>
@@ -265,13 +266,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!--<label>notes for customer service</label><textarea cols="20" rows=30" type="text" name="notes" id="notes" maxlength="1000"></textarea><br>
                 *This field is intended for feedback and does not serve to modify your return request.-->
                 <div style="text-align: left;">
-                    <h2>steps for a smooth return:</h2>
+                    <h2>Please follow these steps for a smooth return:</h2>
                     <ul style="list-style-type: circle; list-style-position: inside;">
-                        <li>Keep the tags on or include them in your return</li>
-                        <li>Only return the items you have selected on the form. Any differences will cause problems for both of us</li>
-                        <li>Use the shipping label we provide you after you submit your RA</li>
-                        <li>Exchanges and refunds will be processed once we receive notification USPS has picked up your package</li>
-                        <li>Send it in! Return authorizations expire after 60 days (Orders placed between 11/1 and 12/31 expire after 90 days)</li>
+                        <li>Keep the tags on or include them in your return package.</li>
+                        <li>Use the return label we provide, after you click submit below.</li>
+                        <li>Make sure that any item included in your return package is also entered here on this form.</li>
+                        <li>Drop it off at your local U.S. Post Office.</li>
+                        <li>After your package has been picked up and scanned by the carrier, we'll get to work on processing it for you, as quickly as possible.</li>
+                        <li>If for any reason you are not able to submit your request as outlined above, please reach out to our Brand Support Team through our LiveChat option or via email at <a href="mailto:customerservice@hylete.com">customerservice@hylete.com</a>a>. We’d be happy to help!</li>
                     </ul>
                     <br/>
                     <p>Please remember, the items you are returning must match your submitted return authorization exactly. Should you neglect to return items from your submitted return authorization or return different/additional items as not reflected on your submitted return authorization, you may be charged a fee for any differences.</p>
