@@ -1,13 +1,12 @@
 [
     {
         "packageName": "globale\/magento_package",
-        "version": "2.1.8.0-4aece4545a5422541f053f24597c866417db49c2",
+        "version": "dev-RC2.1.9-4bf5bf483be06e830f922296de7ab65c4f29d2ba",
         "installedFiles": [
             "\/app\/code\/community\/Globale\/Base\/data\/globale_product_setup\/install-1.0.0.php",
             "\/app\/code\/community\/Globale\/Base\/etc\/api2.xml",
             "\/app\/code\/community\/Globale\/Base\/etc\/config.xml",
             "\/app\/code\/community\/Globale\/Base\/etc\/system.xml",
-            "\/app\/code\/community\/Globale\/Base\/etc\/system.xml-9476ea15",
             "\/app\/code\/community\/Globale\/Base\/Helper\/CartHashing.php",
             "\/app\/code\/community\/Globale\/Base\/Helper\/Data.php",
             "\/app\/code\/community\/Globale\/Base\/Model\/Adminhtml\/Environment.php",
@@ -48,7 +47,6 @@
             "\/app\/code\/community\/Globale\/Browsing\/controllers\/CheckoutController.php",
             "\/app\/code\/community\/Globale\/Browsing\/etc\/config.xml",
             "\/app\/code\/community\/Globale\/Browsing\/etc\/system.xml",
-            "\/app\/code\/community\/Globale\/Browsing\/etc\/system.xml-9fa353a0",
             "\/app\/code\/community\/Globale\/Browsing\/Helper\/Catalog.php",
             "\/app\/code\/community\/Globale\/Browsing\/Helper\/Checkout.php",
             "\/app\/code\/community\/Globale\/Browsing\/Helper\/Customer.php",
@@ -168,9 +166,7 @@
             "\/app\/etc\/modules\/Globale_FixedPrices.xml",
             "\/app\/etc\/modules\/Globale_Order.xml",
             "\/app\/design\/frontend\/base\/default\/layout\/globale\/browsing.xml",
-            "\/app\/design\/frontend\/base\/default\/layout\/globale\/browsing.xml-79830877",
             "\/app\/design\/frontend\/base\/default\/layout\/globale\/browsing_lite.xml",
-            "\/app\/design\/frontend\/base\/default\/layout\/globale\/browsing_lite.xml-c8eb9615",
             "\/app\/design\/frontend\/base\/default\/template\/globale\/browsinglite\/client_css.phtml",
             "\/app\/design\/frontend\/base\/default\/template\/globale\/browsinglite\/client_js.phtml",
             "\/app\/design\/frontend\/base\/default\/template\/globale\/browsinglite\/tracking_js.phtml",

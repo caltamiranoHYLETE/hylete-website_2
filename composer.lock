@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e6b42d4414243fb0d704f454e1bc789",
+    "content-hash": "e55e24bb4c5d775e7005067a00038eda",
     "packages": [
         {
             "name": "eloquent/composer-config-reader",
@@ -151,11 +151,11 @@
         },
         {
             "name": "globale/magento_package",
-            "version": "2.1.8",
+            "version": "dev-RC2.1.9",
             "source": {
                 "type": "git",
                 "url": "https://hylete@bitbucket.org/globaleteam/magento_v1.git",
-                "reference": "4aece4545a5422541f053f24597c866417db49c2"
+                "reference": "4bf5bf483be06e830f922296de7ab65c4f29d2ba"
             },
             "require": {
                 "globale/sdk": "*",
@@ -236,7 +236,7 @@
                 }
             },
             "description": "Global-E integration with magento.",
-            "time": "2018-07-10T08:39:58+00:00"
+            "time": "2018-11-20T16:40:05+00:00"
         },
         {
             "name": "globale/sdk",
@@ -1136,7 +1136,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "globale/magento_package": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

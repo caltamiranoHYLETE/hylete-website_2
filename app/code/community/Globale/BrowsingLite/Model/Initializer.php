@@ -5,11 +5,11 @@ class Globale_BrowsingLite_Model_Initializer extends Mage_Core_Model_Abstract {
 
 	/**
 	 * Update GlobalE_Gem_Data cookie
-	 * @param Mage_Customer_Model_Session $CustomerSession
+	 * @param Mage_Customer_Model_Customer
 	 */
-	public function initCookieData(Mage_Customer_Model_Session $CustomerSession){
+	public function initCookieData(Mage_Customer_Model_Customer $Customer){
 				//Collect data
-		$UserId = $CustomerSession->getId();
+		$UserId = $Customer->getId();
 		$UserId = !empty($UserId) ? $UserId : 0;
 
 		// prepare Gem Data
