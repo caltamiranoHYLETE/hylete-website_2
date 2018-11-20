@@ -37,6 +37,16 @@
                 </observers>
             </customer_session_init>
 
+            <checkout_cart_save_after>
+                <observers>
+                    <globale_session_init_gem_q>
+                        <type>singleton</type>
+                        <class>Globale_BrowsingLite_Model_Observers_Initialize</class>
+                        <method>initGemCookieData</method>
+                    </globale_session_init_gem_q>
+                </observers>
+            </checkout_cart_save_after>
+
             <!-- Final Product View Price Update -->
             <catalog_controller_product_view>
                 <observers>

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Globale_Base>
-            <version>2.1.8</version>
+            <version>2.1.9</version>
         </Globale_Base>
     </modules>
     <global>

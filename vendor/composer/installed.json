@@ -150,18 +150,18 @@
     },
     {
         "name": "globale/magento_package",
-        "version": "2.1.8",
-        "version_normalized": "2.1.8.0",
+        "version": "dev-RC2.1.9",
+        "version_normalized": "dev-RC2.1.9",
         "source": {
             "type": "git",
             "url": "https://hylete@bitbucket.org/globaleteam/magento_v1.git",
-            "reference": "4aece4545a5422541f053f24597c866417db49c2"
+            "reference": "4bf5bf483be06e830f922296de7ab65c4f29d2ba"
         },
         "require": {
             "globale/sdk": "*",
             "symfony/filesystem": "2.8.*"
         },
-        "time": "2018-07-10T08:39:58+00:00",
+        "time": "2018-11-20T16:40:05+00:00",
         "type": "magento-module",
         "extra": {
             "map": [
