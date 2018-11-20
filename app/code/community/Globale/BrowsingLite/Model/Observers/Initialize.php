@@ -19,7 +19,7 @@ class Globale_BrowsingLite_Model_Observers_Initialize {
 			$Customer = Mage::getSingleton('checkout/session')->getQuote()->getCustomer();
 		}
 
-		if(Mage::helper('core')->isModuleEnabled('Globale_Browsing') == false) {
+		if(Mage::helper('core')->isModuleEnabled('Globale_Browsing') == true) {
 			Mage::getModel('globale_browsinglite/initializer')->initGemCookieData($Customer);
 		}
 	}
