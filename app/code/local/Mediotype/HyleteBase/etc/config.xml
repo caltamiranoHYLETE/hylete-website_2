@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mediotype_HyleteBase>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Mediotype_HyleteBase>
     </modules>
     <global>
@@ -25,11 +25,19 @@
             <mediotype_hyletebase_setup>
                 <setup>
                     <module>Mediotype_HyleteBase</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
                 </setup>
             </mediotype_hyletebase_setup>
         </resources>
     </global>
     <frontend>
+        <product>
+            <collection>
+                <attributes>
+                    <rollover_image />
+                </attributes>
+            </collection>
+        </product>
         <layout>
             <updates>
                 <mediotype_hyletebase>
