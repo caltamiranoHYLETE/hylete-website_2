@@ -428,6 +428,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         else {
             if (!$this->_validate()) {
                 $this->getCookie()->delete(session_name());
+				Mage::app()->getCacheInstance()->banUse('full_page');
                 // throw core session exception
                 throw new Mage_Core_Model_Session_Exception('');
             }
@@ -481,7 +482,11 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             return false;
         }
 
-        if ($this->useValidateSessionExpire()
+        if (
+        	// MODIFIED_CORE - added to solve 404 errors
+			get_class($this) == 'Mage_Core_Model_Session' &&
+			// MODIFIED_CORE - end - added
+			$this->useValidateSessionExpire()
             && isset($sessionData[self::VALIDATOR_SESSION_EXPIRE_TIMESTAMP])
             && $sessionData[self::VALIDATOR_SESSION_EXPIRE_TIMESTAMP] < time() ) {
             return false;
