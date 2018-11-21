@@ -155,7 +155,7 @@
             "source": {
                 "type": "git",
                 "url": "https://hylete@bitbucket.org/globaleteam/magento_v1.git",
-                "reference": "4bf5bf483be06e830f922296de7ab65c4f29d2ba"
+                "reference": "c47e95edf34e998fd22e6503add03c80ee53706e"
             },
             "require": {
                 "globale/sdk": "*",
@@ -236,7 +236,7 @@
                 }
             },
             "description": "Global-E integration with magento.",
-            "time": "2018-11-20T16:40:05+00:00"
+            "time": "2018-11-21T08:55:14+00:00"
         },
         {
             "name": "globale/sdk",
