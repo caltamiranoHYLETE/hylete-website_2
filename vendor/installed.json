@@ -1,7 +1,7 @@
 [
     {
         "packageName": "globale\/magento_package",
-        "version": "dev-RC2.1.9-4bf5bf483be06e830f922296de7ab65c4f29d2ba",
+        "version": "dev-RC2.1.9-c47e95edf34e998fd22e6503add03c80ee53706e",
         "installedFiles": [
             "\/app\/code\/community\/Globale\/Base\/data\/globale_product_setup\/install-1.0.0.php",
             "\/app\/code\/community\/Globale\/Base\/etc\/api2.xml",
