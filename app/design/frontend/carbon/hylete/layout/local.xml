@@ -296,6 +296,12 @@
             <remove name="purchase.pinterest.pin.sdk"/>
             <remove name="ev_fb_init"/>
         </reference>
+
+        <reference name="root">
+            <block type="core/text_list" name="left.bottom">
+                <label>Left bottom</label>
+            </block>
+        </reference>
     </default>
 
     <block_ajax_catalog_category_view>
