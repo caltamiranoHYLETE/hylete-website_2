@@ -67,12 +67,6 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
    */
   const LOG_FILE_PATH = 'klaviyo.log';
 
-  /**
-   * Path to extra logs added by BestWorlds
-   * @var string
-   */
-  const XML_EXTRA_LOGS_PATH = 'reclaim/general/extra_logs';
-
   /* For the "etc/adminthtml.xml" file when we implement:
   <use_klaviyo_list_name translate="label comment">
       <label>Use Klaviyo List Name</label>
@@ -263,11 +257,6 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
     return Mage::getSingleton('admin/session')->isLoggedIn();
   }
 
-  public function isExtraLogsEnabled($store=null)
-  {
-    return $this->getConfigSettingIncludingParents(self::XML_EXTRA_LOGS_PATH, $store);
-  }
-
   public function getCheckout($quote_id)
   {
     $existing_checkout = Mage::getModel('klaviyo_reclaim/checkout')->getCollection()
@@ -275,9 +264,8 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
 
     if (!count($existing_checkout)) {
       $checkout = Mage::getModel('klaviyo_reclaim/checkout');
-      $checkout_id= hash('md5', uniqid());
       $checkout->setData(array(
-        'checkout_id' => $checkout_id,
+        'checkout_id' => hash('md5', uniqid()),
         'quote_id' => $quote_id,
       ));
       $checkout->save();
