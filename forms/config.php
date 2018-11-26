@@ -3,7 +3,7 @@
 //http://localhost:60601/hyletePBHService.asmx?WSDL
 
 return [
-    'baseUrl' => 'http://localhost:60601/hyletePBHService.asmx?WSDL'
+    'baseUrl' => 'https://pbhservice.hylete.com/hyletePBHService.asmx?WSDL'
 ];
 
 ?>
