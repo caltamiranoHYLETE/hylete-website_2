@@ -15,7 +15,7 @@
  */
 class Klaviyo_Reclaim_Model_KlaviyoApi
 {
-    var $api_version = '1';
+    var $api_version = '2';
     var $api_url;
 
     var $error_message;
@@ -64,30 +64,23 @@ class Klaviyo_Reclaim_Model_KlaviyoApi
         return $this->timeout;
     }
 
-    function lists($page=0, $count=50) {
+    function lists() {
         $params = array();
-        $params['type'] = 'list';
-        $params['page'] = $page;
-        $params['count'] = $count;
         return $this->callServer('GET', 'lists', $params);
     }
 
-    function listDetail($list_id) {
+    function listSubscriberAdd($list_id, $email) {
         $params = array();
-        return $this->callServer('GET', 'list/' . $list_id, $params);
-    }
-
-    function listSubscriberAdd($list_id, $email, $confirm_optin=true) {
-        $params = array();
-        $params['email'] = $email;
-        $params['confirm_optin'] = $confirm_optin ? 'true' : 'false';
-        return $this->callServer('POST', 'list/' . $list_id . '/members', $params);
+        $params['profiles'] = array();        
+        $params['profiles']['email'] = $email;
+        return $this->callServer('POST', 'list/' . $list_id . '/subscribe', $params);
     }
 
     function listSubscriberDelete($list_id, $email) {
         $params = array();
-        $params['email'] = $email;
-        return $this->callServer('POST', 'list/' . $list_id . '/members/delete', $params);
+        $params['emails'] = array();
+        $params['emails'][] = $email;
+        return $this->callServer('DELETE', 'list/' . $list_id . '/subscribe', $params);
     }
 
     function callServer($method, $path, $params) {
@@ -99,13 +92,20 @@ class Klaviyo_Reclaim_Model_KlaviyoApi
         $this->errorMessage = '';
         $this->errorCode = '';
 
-        $client = new Varien_Http_Client($this->api_base_url . $path);
+        $client = new Zend_Http_Client($this->api_base_url . $path);
         $client->setMethod($method);
 
         if ($method == 'GET') {
             $client->setParameterGet($params);
         } else if ($method == 'POST') {
-            $client->setParameterPost($params);
+          $client->setRawData(json_encode($params), 'application/json');
+        
+        } else if ($method == 'DELETE') {
+          $client->setHeaders(array(
+            "Content-Type" => "application/json",
+            "Accept" => "application/json"));
+          $client->setRawData(json_encode($params));        
+
         } else {
             $client->setRawData(http_build_query($params));
         }
