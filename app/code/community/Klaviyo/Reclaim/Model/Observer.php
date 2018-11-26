@@ -50,7 +50,7 @@ class Klaviyo_Reclaim_Model_Observer
 
         try {
             // Find quotes that are at least 15 minutes old and have been updated in the last 60 minutes.
-            $created_window_minutes = 15;
+            $created_window_minutes = 155555;
             $updated_window_minutes = 60;
 
             $quotes = $this->_fetchRecentQuotes($created_window_minutes, $updated_window_minutes);
@@ -259,6 +259,7 @@ class Klaviyo_Reclaim_Model_Observer
 
         $product_details = array(
             'id'    => $quote_item_product->getId(),
+            'type'  => $quote_item_product->getType(),
             'sku'   => $quote_item_product->getSKU(),
             'name'  => $quote_item_product->getName(),
             'price' => (float) $quote_item_product->getPrice(),
@@ -292,6 +293,11 @@ class Klaviyo_Reclaim_Model_Observer
                 }
             }
         }
+
+        if (empty($product_images)) {
+            $product_images = $this->try_to_get_image_from_parent($quote_item_product);
+        }
+        
         $product_details['images'] = $product_images;
 
         return array(
@@ -304,6 +310,41 @@ class Klaviyo_Reclaim_Model_Observer
             )
         );
     }
+
+    // attempt to get images from the Conbfigurable, Grouped or Bundled Product parent if the child product does
+    // have images
+    function try_to_get_image_from_parent($quote_item_product) {
+
+        $product_images = array();
+
+        $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($quote_item_product->getId());
+        if(empty($parentIds)) {
+            $parentIds = Mage::getResourceSingleton('catalog/product_link')->getParentIdsByChild($quote_item_product->getId(), Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+            if(empty($parentIds)) {
+                 $parentIds = Mage::getModel('bundle/product_type')->getParentIdsByChild($quote_item_product->getId());
+            }
+        }
+
+        if(!empty($parentIds)) {
+            $product_images = $this->get_image_of_parent($parentIds[0]);
+        }
+
+        return $product_images;
+    }
+
+
+    function get_image_of_parent($parentId) {
+        $parent_product = Mage::getModel('catalog/product')->load($parentId);
+        foreach ($parent_product->getMediaGalleryImages() as $product_image) {
+            if (!$product_image->getDisabled()) {
+                $product_images[] = array(
+                    'url' => $product_image->getUrl()
+                );
+            }
+        }
+        return $product_images;
+    }
+
 
     /**
      * Merged quote item (line item) details in cases where there are two line items to represent
@@ -379,19 +420,13 @@ class Klaviyo_Reclaim_Model_Observer
 
         $subscriber->setImportMode(true);
 
-        $is_requiring_confirmation = false;
-        if (!Mage::helper('klaviyo_reclaim')->isAdmin() &&
-            (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_CONFIRMATION_FLAG, $subscriber->getStoreId()) == 1)) {
-            $is_requiring_confirmation = true;
-        }
-
         $subscriber_status = $subscriber->getStatus();
 
         if ($subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED ||
             $subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED ||
             $subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
 
-            $response = Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberAdd($list_id, $email, $is_requiring_confirmation);
+            $response = Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberAdd($list_id, $email);
 
             if (!is_array($response) || !isset($response['already_member'])) {
                 // Handle error better.
@@ -400,8 +435,6 @@ class Klaviyo_Reclaim_Model_Observer
 
             if ($response['already_member']) {
                 $subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
-            } else if ($is_requiring_confirmation) {
-                Mage::getSingleton('core/session')->addSuccess(Mage::helper('klaviyo_reclaim')->__('An email to confirm your subscription has been sent to your inbox.'));
             }
         } else if ($subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
             Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberDelete($list_id, $email);
@@ -468,3 +501,4 @@ class Klaviyo_Reclaim_Model_Observer
         return $tracker;
     }
 }
+

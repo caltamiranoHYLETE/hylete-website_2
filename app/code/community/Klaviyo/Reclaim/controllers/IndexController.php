@@ -44,44 +44,6 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
         if ($saved_quote->getId() != $cart->getQuote()->getId() && !$cart->getItemsCount()) {
           $cart->getQuote()->load($checkout->getQuoteId());
           $cart->save();
-        }else{
-          if(Mage::helper('klaviyo_reclaim')->isExtraLogsEnabled()) {
-            $message= '-----------------------------------------------------------------';
-            Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-            $message= 'Quote ID ' . $checkout->getQuoteId() . ' was not loaded';
-            Mage::log($message, Zend_Log::ERR, Mage::helper('klaviyo_reclaim')->getLogFile());
-
-            $resource       = Mage::getSingleton('core/resource');
-            $readConnection = $resource->getConnection('core_read');
-            $query = 'SELECT * FROM ' . $resource->getTableName('sales/quote');
-            $query.= ' WHERE entity_id = ' . (int)$checkout->getQuoteId() . ' LIMIT 1';
-            $result = $readConnection->fetchOne($query);
-            if($result) {
-              $message= 'Quote exists on sales_flat_quote table';
-            }else{
-              $message= 'Quote does not exist on sales_flat_quote table';
-            }
-            Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-
-            if($saved_quote->getId() == $cart->getQuote()->getId()) {
-              $message= 'Already loaded quote in customer session';
-              Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-            }else{
-              if($cart->getItemsCount()) {
-                $message= 'Actual quote has items loaded, this prevents to load the klaviyo one';
-                Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-              }
-            }
-          }
-        }
-      }else{
-        if(Mage::helper('klaviyo_reclaim')->isExtraLogsEnabled()) {
-          $message= '----------';
-          Mage::log($message, Zend_Log::INFO, Mage::helper('klaviyo_reclaim')->getLogFile());
-          $message= 'Quote ID was not found on Klaviyo table';
-          Mage::log($message, Zend_Log::ERR, Mage::helper('klaviyo_reclaim')->getLogFile());
-          $message= 'Checkout ID:' . $checkout_id;
-          Mage::log($message, Zend_Log::ERR, Mage::helper('klaviyo_reclaim')->getLogFile());
         }
       }
     }
@@ -133,9 +95,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
    */
   public function statusAction()
   {
-    //$nonce = $this->getRequest()->getParam('nonce');
-
-    $nonce = "1234";
+    $nonce = $this->getRequest()->getParam('nonce');
 
     if (!$nonce) {
       $response = array('data' => NULL);
@@ -150,8 +110,7 @@ class Klaviyo_Reclaim_IndexController extends Mage_Core_Controller_Front_Action
       $cron_details = $this->_getCronScheduleDetails($since_minutes);
 
       $num_quotes = 5;
-      $quote_details = "";
-      //$quote_details = $this->_getQuoteDetails($num_quotes);
+      $quote_details = $this->_getQuoteDetails($num_quotes);
 
       $response = array(
         'data' => array(
