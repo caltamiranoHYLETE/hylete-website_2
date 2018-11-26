@@ -425,7 +425,7 @@ function fastorder_create() {
 jQuery(document).ready(function($) {
 
     //lightbox
-    jQuery('.fastorder-row-image').live('click',function() {
+    jQuery('.fastorder-row-image').on('click',function() {
     	if(jQuery(this).parent().attr('id').replace('fastorder-','') != 0 && jQuery(this).children().length > 0 ) {
     		var html = jQuery(this).children().html();
     		jQuery('.fastorder-thumbnail-container').html(html);
