@@ -450,13 +450,13 @@ jQuery(document).ready(function($) {
     });
 
     //turn off submit form when press enter
-    jQuery('.fastorder-row-ref .input-text').live('keydown',function(e) {
+    jQuery('.fastorder-row-ref .input-text').on('keydown',function(e) {
     	if(e.keyCode == 13)
     	{
     		e.preventDefault();
     	};
     });
-    jQuery('.fastorder-row-qty .qty').live('keydown',function(e) {
+    jQuery('.fastorder-row-qty .qty').on('keydown',function(e) {
     	if(e.keyCode == 13)
     	{
     		e.preventDefault();
@@ -464,7 +464,7 @@ jQuery(document).ready(function($) {
     });
 
     //event when type in input
-    jQuery('.fastorder-row-ref .input-text').live('keyup',function(e) {
+    jQuery('.fastorder-row-ref .input-text').on('keyup',function(e) {
         if(e.keyCode == 13) //touche enter
         {
         	fastorder_manageEnterAndOkButton(jQuery(this).attr('id'));
@@ -502,7 +502,7 @@ jQuery(document).ready(function($) {
         /**
         * Add button
         */
-        jQuery('.fastorder-row-add .btn-ok').live('click',function() {
+        jQuery('.fastorder-row-add .btn-ok').on('click',function() {
         	if(!jQuery(this).hasClass('disabled')) {
         		fastorder_reset(jQuery(this).attr('id').replace('fastorder-add-',''));
         	}
@@ -512,7 +512,7 @@ jQuery(document).ready(function($) {
         /**
         * Event triggered when pressing OK button of the search field
         */
-        jQuery('.fastorder-row-ref button').live('click',function() {
+        jQuery('.fastorder-row-ref button').on('click',function() {
         	if(!jQuery(this).hasClass('disabled'))
         	{
         		fastorder_manageEnterAndOkButton(jQuery(this).prev().attr('id'));
