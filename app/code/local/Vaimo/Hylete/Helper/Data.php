@@ -94,6 +94,38 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
         return $simples;
     }
 
+    /**
+     * @param $productArray
+     * @param $attribute
+     * @return array
+     */
+    public function sortByOptionId($productArray, $attribute) {
+        $optionIds = [];
+        $returnArray = [];
+
+        foreach ($productArray as $product) {
+            $optionIds[] = $product->getData($attribute);
+        }
+
+        $optionsArray = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            ->setIdFilter($optionIds);
+
+        $orderArray = [];
+        foreach ($optionsArray as $option) {
+            $orderArray[$option->getOptionId()] = $option->getSortOrder();
+        }
+
+        if ($orderArray !== null) {
+            foreach ($productArray as $simpleProduct) {
+               if (array_key_exists($simpleProduct->getData($attribute),$orderArray)) {
+                   $returnArray[$orderArray[$simpleProduct->getData($attribute)]] =  $simpleProduct;
+                }
+            }
+            ksort($returnArray);
+        }
+
+        return $returnArray;
+    }
 
     public function getCategoryAttributeLabel($attribute_code, $value)
     {
