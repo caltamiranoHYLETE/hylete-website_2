@@ -122,7 +122,7 @@ $customerHelper = $this->helper('customer');
                        data-togglegroup="header"
                        data-toggleaction="click mouseenter mouseleave"
                        data-toggleautoclose="true">
-                        <?php echo $customerHelper->isLoggedIn() ? $this->escapeHtml($customerHelper->getCurrentCustomer()->getFirstname()) : $this->__('account') ?>
+                        <?php echo $this->getChildHtml('header.welcome') ?>
                         <i class="fal fa-angle-down"></i>
                     </div>
 

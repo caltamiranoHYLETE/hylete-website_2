@@ -274,7 +274,7 @@
                 </block>
             </block>
             <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>
-            <block type="hylete/header_welcome" template="page/html/header/welcome.phtml" name="header.welcome" />
+            <block type="hylete/header_welcome" template="page/html/header/customer-name.phtml" name="header.welcome" />
         </reference>
 
         <reference name="catalog.topnav">
