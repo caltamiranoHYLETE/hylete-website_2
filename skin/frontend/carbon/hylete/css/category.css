@@ -202,10 +202,6 @@ body.catalog-category-view > .container {
     transition: all 0.2s ease 0s;
 }
 
-.item:hover .product-hover:before{
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
 .product-img-back {
     transition-property: none;
 }
