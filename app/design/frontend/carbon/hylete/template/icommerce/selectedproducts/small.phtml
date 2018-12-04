@@ -66,7 +66,16 @@
 
             <a href="<?php echo $_product->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, $_imageAttribute)) ?>">
                 <picture>
-                    <img srcset="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize($_imageWidth, $_imageHeight); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, $_imageAttribute)) ?>">
+                    <div class="product-hover">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize($_imageWidth, $_imageHeight); ?>"
+                             alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
+                        <?php if($_product->getData('rollover_image') && $this->helper('catalog/image')->init($_product, 'rollover_image')->resize($_imageWidth, $_imageHeight)): ?>
+                            <div class="product-img-back">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'rollover_image')->resize($_imageWidth, $_imageHeight); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'rollover_image'), null, true); ?>"/>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </picture>
 
                 <?php if (!$this->hasShowPriceAndName() || $this->getShowPriceAndName()) : // ಠ_ಠ ?>
