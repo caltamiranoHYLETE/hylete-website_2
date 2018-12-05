@@ -8,11 +8,19 @@ class Globale_BrowsingLite_Model_Observers_Initialize {
 	 */
 	public function initCookieData(Varien_Event_Observer $Observer){
 
-		/**@var Mage_Customer_Model_Session $CustomerSession */
-		$CustomerSession = $Observer->getCustomerSession();
-		// Process the action only if Globale_Browsing is off
+		$Customer = null;
+
+		if ($Observer->getCustomerSession() && $Observer->getCustomerSession()->getCustomer()) {
+			// trigerred by `customer_session_init`
+			/** @var Mage_Customer_Model_Customer $Customer */
+			$Customer = $Observer->getCustomerSession()->getCustomer();
+		} elseif (Mage::getSingleton('checkout/session')) {
+			// trigerred by `checkout_cart_save_after`
+			$Customer = Mage::getSingleton('checkout/session')->getQuote()->getCustomer();
+		}
+
 		if(Mage::helper('core')->isModuleEnabled('Globale_Browsing') == false) {
-			Mage::getModel('globale_browsinglite/initializer')->initCookieData($CustomerSession);
+			Mage::getModel('globale_browsinglite/initializer')->initCookieData($Customer);
 		}
 	}
 }

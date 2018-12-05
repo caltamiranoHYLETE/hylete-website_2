@@ -35,7 +35,7 @@ $_attributes = $_helper->getSimples($_product);
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <select name="super_attribute[<?php echo $_superattribute['attribute_id'] ?>]" class="required-entry">
         <option value=""><?php echo $this->__('select %s', strtolower($_superattribute['label'])) ?></option>
-        <?php foreach($_attributes as $_attribute): ?>    
+        <?php foreach($_helper->sortByOptionId($_attributes,$_superattribute['attribute_code']) as $_attribute): ?>
             <option value="<?php echo $_attribute->getData($_superattribute['attribute_code']);?>" <?php echo (!$_attribute->isSalable()) ? 'disabled' : '';?>>
                 <?php echo $_attribute->getAttributeText($_superattribute['attribute_code']);?><?php echo (!$_attribute->isSalable()) ? ' - ' . $this->__('out of stock') : '';?>
             </option>

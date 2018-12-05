@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Klaviyo_Reclaim>
-            <version>1.6.7</version>
+            <version>1.7.0</version>
         </Klaviyo_Reclaim>
     </modules>
     <global>
@@ -100,16 +100,13 @@
             </updates>
         </layout>
     </frontend>
-
     <default>
         <reclaim>
             <general>
                 <enabled>0</enabled>
-                <require_double_optin>Setting in Configuration -> Customers -> Newsletter -> Subscription Options -> Need to Confirm</require_double_optin>
             </general>
         </reclaim>
     </default>
-
     <crontab>
         <jobs>
             <klaviyo_track_quotes>

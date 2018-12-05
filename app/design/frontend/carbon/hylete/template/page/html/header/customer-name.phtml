@@ -1,0 +1,9 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php $customerHelper = $this->helper('customer'); ?>
+<?php echo $customerHelper->isLoggedIn() ? $this->escapeHtml($customerHelper->getCurrentCustomer()->getFirstname()) : $this->__('account') ?>

@@ -274,7 +274,7 @@
                 </block>
             </block>
             <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>
-            <block type="hylete/header_welcome" template="page/html/header/welcome.phtml" name="header.welcome" />
+            <block type="hylete/header_welcome" template="page/html/header/customer-name.phtml" name="header.welcome" />
         </reference>
 
         <reference name="catalog.topnav">
@@ -295,6 +295,12 @@
         <reference name="before_body_end">
             <remove name="purchase.pinterest.pin.sdk"/>
             <remove name="ev_fb_init"/>
+        </reference>
+
+        <reference name="root">
+            <block type="core/text_list" name="left.bottom">
+                <label>Left bottom</label>
+            </block>
         </reference>
     </default>
 
