@@ -1,7 +1,7 @@
 {
     "require": {
         "magento-hackathon/magento-composer-installer": "3.0.*",
-        "globale/magento_package": "2.1.*",
+        "globale/magento_package": "dev-RC2.1.9",
         "globale/sdk": "2.1.*"
     },
     "repositories": [
