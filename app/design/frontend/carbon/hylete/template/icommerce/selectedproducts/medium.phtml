@@ -69,11 +69,14 @@
                     <div class="product-hover">
                         <img src="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize($_imageWidth, $_imageHeight); ?>"
                              alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
-                        <?php if($_product->getData('rollover_image') && $this->helper('catalog/image')->init($_product, 'rollover_image')->resize($_imageWidth, $_imageHeight)): ?>
-                            <div class="product-img-back">
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'rollover_image')->resize($_imageWidth, $_imageHeight); ?>"
-                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'rollover_image'), null, true); ?>"/>
-                            </div>
+                        <?php $rolloverImage = $_product->getData('rollover_image');?>
+                        <?php if ($rolloverImage && $rolloverImage !== 'no_selection') : ?>
+                            <?php if ($rolloverImageLink = Mage::helper('hylete/backit')->getRolloverImage($_product)): ?>
+                                <div class="product-img-back">
+                                    <img src="<?php echo $rolloverImageLink; ?>"
+                                         alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'rollover_image'), null, true); ?>"/>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </picture>
