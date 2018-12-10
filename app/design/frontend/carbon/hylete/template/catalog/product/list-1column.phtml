@@ -75,7 +75,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
 									<?php endif ?>
                                 </div>
                                 <div class="product-hover">
-                                    <img src="<?php echo $this->helper('catalog/image')->init($_product, $_imageAttribute)->resize(372); ?>"
+                                    <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>"
                                          alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
 
                                     <?php $rolloverImage = $_product->getData('rollover_image');?>
