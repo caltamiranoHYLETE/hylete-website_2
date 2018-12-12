@@ -145,4 +145,16 @@ class Vaimo_Hylete_Helper_Backit extends Mage_Core_Helper_Data
 
         return $this->product;
     }
+
+    /**
+     * @param $_product
+     * @return bool
+     */
+    public function getRolloverImage($_product) {
+        try {
+           return Mage::helper('catalog/image')->init($_product, 'rollover_image')->resize(290);
+        } catch(Exception $e) {
+            return false;
+        }
+    }
 }

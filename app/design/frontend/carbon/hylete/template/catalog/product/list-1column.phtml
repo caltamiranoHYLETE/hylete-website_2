@@ -74,8 +74,20 @@ $_backitHelper              = Mage::helper('hylete/backit');
                                         <div class="badge"><?php echo $this->escapeHtml($_badgeLabelText) ?></div>
 									<?php endif ?>
                                 </div>
-                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>"
-                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
+                                <div class="product-hover">
+                                    <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(372); ?>"
+                                         alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>"/>
+
+                                    <?php $rolloverImage = $_product->getData('rollover_image');?>
+                                    <?php if ($rolloverImage && $rolloverImage !== 'no_selection') : ?>
+                                        <?php if ($rolloverImageLink = $_backitHelper->getRolloverImage($_product)): ?>
+                                            <div class="product-img-back">
+                                                <img src="<?php echo $rolloverImageLink; ?>"
+                                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'rollover_image'), null, true); ?>"/>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                                 <h5><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h5>
                                 <p class="color"><?php echo $_product->getAttributeText('color'); ?></p>
 
