@@ -1,0 +1,20 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId()); ?>
+
+<?php if($order->getEntityId()): ?>
+    <script type="text/x-np-template">
+        <div class="nxt-psn-purchase">
+            <?php foreach ($order->getAllVisibleItems() as $item) : ?>
+                <div class="nxt-psn-item">
+                    <span class="sku"><?php echo $item->getSku() ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </script>
+<?php endif; ?>
