@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php $_product = Mage::registry('current_product');?>
+
+<?php if($sku = $_product->getSku()): ?>
+    <script type="text/x-np-template">
+        <div class="nxt-psn-view">
+            <span class="sku"><?php echo $sku ?></span>
+        </div>
+    </script>
+<?php endif; ?>

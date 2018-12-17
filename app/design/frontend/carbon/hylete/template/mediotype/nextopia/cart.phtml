@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php $helper = Mage::helper('mediotype_hyletebase'); ?>
+<?php $skuArray = $helper->getCartItemSkuArray(); ?>
+
+<?php if (count($skuArray)): ?>
+    <script type="text/x-np-template">
+        <div class="nxt-psn-cart">
+            <?php foreach ($skuArray as $sku): ?>
+                <div class="nxt-psn-item">
+                    <span class="sku"><?php echo reset($sku) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </script>
+<?php endif; ?>
