@@ -40,9 +40,7 @@
             <action method="setTemplate">
                 <template>page/1column.phtml</template>
             </action>
-            <action method="unsetChild">
-                <block>breadcrumbs</block>
-            </action>
+
         </reference>
 
         <reference name="head">
