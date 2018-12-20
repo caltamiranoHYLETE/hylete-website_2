@@ -5,7 +5,7 @@
 $backitHelper = Mage::helper('hylete/backit');
 $backitHelper->setProduct($this->getProduct());
 ?>
-<?php if (!$backitHelper->isPreOrderProduct() && !$backitHelper->isBackItProduct()): ?>
+<?php if ($this->getProduct() && !$backitHelper->isPreOrderProduct() && !$backitHelper->isBackItProduct()): ?>
 	<div class="yotpo yotpo-main-widget"
 		 data-product-id="<?php echo $this->getProductId() ?>"
 		 data-name="<?php echo $this->getProductName() ?>"
