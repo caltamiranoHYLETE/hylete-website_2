@@ -98,9 +98,13 @@ $_backitHelper              = Mage::helper('hylete/backit');
 								<?php if ($_product->isSaleable()): ?>
 									<?php echo $this->getPriceHtml($_product, true); ?>
 								<?php else: ?>
-                                    <p class="status-message">
-										<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                                    </p>
+                                    <?php if(!$_product->getAWDisableOutOfStock()): ?>
+                                        <p class="status-message">
+                                            <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                                        </p>
+                                    <?php else: ?>
+                                        <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+                                    <?php endif; ?>
 								<?php endif; ?>
 								<?php $_backitHelper->setProduct($_product); ?>
 

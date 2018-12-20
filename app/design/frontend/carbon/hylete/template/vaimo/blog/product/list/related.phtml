@@ -69,9 +69,13 @@
                     <?php if ($_item->isSaleable()):?>
                         <?php echo $this->getPriceHtml($_item, true, '-related') ?>
                     <?php else:?>
-                        <p class="status-message">
-                            <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out');?>
-                        </p>
+                        <?php if(!$_item->getAWDisableOutOfStock()): ?>
+                            <p class="status-message">
+                                <?php echo ($_item->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                            </p>
+                        <?php else: ?>
+                            <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+                        <?php endif; ?>
                     <?php endif;?>
                 </li>
                 <?php $_i++; ?>
