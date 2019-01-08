@@ -57,7 +57,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
                         </div>
                     </li>
 				<?php else : ?>
-					<?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : ''; ?>
+					<?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : !$_product->getAWDisableOutOfStock()? 'out-of-stock' : '') : ''; ?>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
 							<?php if ($_product->getTypeId() == 'style'): ?>
@@ -98,9 +98,13 @@ $_backitHelper              = Mage::helper('hylete/backit');
 								<?php if ($_product->isSaleable()): ?>
 									<?php echo $this->getPriceHtml($_product, true); ?>
 								<?php else: ?>
-                                    <p class="status-message">
-										<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                                    </p>
+                                    <?php if(!$_product->getAWDisableOutOfStock()): ?>
+                                        <p class="status-message">
+                                            <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                                        </p>
+                                    <?php else: ?>
+                                        <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+                                    <?php endif; ?>
 								<?php endif; ?>
 								<?php $_backitHelper->setProduct($_product); ?>
 

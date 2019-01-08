@@ -118,6 +118,11 @@ if ($_isLoggedIn) {
         <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('mediotype/justuno/cart.phtml')->toHtml(); ?>
     <?php endif; ?>
 
+
+    <?php if (Mage::helper('mediotype_hyletebase')->isNextopiaTrackingEnabled()): ?>
+        <?php echo $this->getLayout()->createBlock('core/template')->setTemplate('mediotype/nextopia/cart.phtml')->toHtml(); ?>
+    <?php endif; ?>
+
     <div class="headercart-filter"></div>
 </div>
 <script>

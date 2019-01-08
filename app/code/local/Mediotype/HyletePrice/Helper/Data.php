@@ -29,13 +29,18 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Generate a price type label for the current customer.
-     * @param  Mage_Catalog_Model_Product $product  Optional product model for clearance label check.
+     * @param Mage_Catalog_Model_Product $product Optional product model for clearance label check.
      * @param integer $categoryId Optional category ID for clearance label check.
+     * @param integer|null $groupId
      * @return string
+     *
+     * $groupId = 0 is the the final customer
      */
-    public function getPriceLabelByCustomerGroup(Mage_Catalog_Model_Product $product = null, $categoryId = null)
+    public function getPriceLabelByCustomerGroup(Mage_Catalog_Model_Product $product = null, $categoryId = null, $groupId = null)
     {
-        $groupId    = $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        if ($groupId === null ) {
+            $groupId    =  Mage::getSingleton('customer/session')->getCustomerGroupId();
+        }
         $group      = Mage::getModel('customer/group')->load($groupId);
         $typeId     = 'group';
         $label      = $group->getCustomerGroupHyletePriceLabel();
@@ -249,4 +254,5 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $originalPrice;
     }
+
 }

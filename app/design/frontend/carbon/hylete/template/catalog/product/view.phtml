@@ -42,7 +42,6 @@ $_backitHelper->setProduct($_product);
 
 <?php $_showNotifyMe = (!$_product->isSalable() || count($_helper->getSimples($_product, 'nonsalable')) > 0); ?>
 
-<?php echo $this->getChildHtml('breadcrumbs') ?>
 
 <div id="<?php echo $_product->getTypeId() ?>-product-wrapper">
     <div class="product-essential row">
@@ -72,9 +71,13 @@ $_backitHelper->setProduct($_product);
 				<?php if ($_product->isSaleable()) : ?>
                 <?php echo $this->getPriceHtml($_product, true); ?>
 				<?php else : ?>
-                <p class="status-message">
-					<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                </p>
+                    <?php if(!$_product->getAWDisableOutOfStock()): ?>
+                        <p class="status-message">
+                            <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+                        </p>
+                    <?php else: ?>
+                        <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+                    <?php endif; ?>
 				<?php endif; ?>
 			<?php endif; ?>
 
@@ -127,7 +130,11 @@ $_backitHelper->setProduct($_product);
 							<?php echo $this->getChildHtml('bundleSummary') ?>
 							<?php if ($_product->getTypeId() == 'configurable'): ?>
                             <div class="price-box-configurable"><?php endif; ?>
-								<?php echo $this->getChildHtml('product_type_data') ?>
+                                <?php if(!$_product->getAWDisableOutOfStock()): ?>
+                                    <?php echo $this->getChildHtml('product_type_data') ?>
+                                <?php else: ?>
+                                    <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+                                <?php endif; ?>
 								<?php if ($_product->getTypeId() == 'configurable'): ?></div><?php endif; ?>
 							<?php echo $this->getTierPriceHtml() ?>
 							<?php echo $this->getChildHtml('extrahint') ?>
