@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php $customerSession = Mage::getSingleton('customer/session'); ?>
+
+<?php if ($customerSession->isLoggedIn()): ?>
+    <?php $customer = $customerSession->getCustomer(); ?>
+    <script type="text/x-np-template">
+        <div class="nxt-psn-store">
+            <span class="store_user_id"><?php echo $customer->getId(); ?></span>
+            <span class="store_username"><?php echo $customer->getEmail(); ?></span>
+            <span class="store_user_email"><?php echo $customer->getEmail(); ?></span>
+            <span class="store_user_first_name"><?php echo $customer->getFirstname(); ?></span>
+            <span class="store_user_last_name"><?php echo $customer->getLastname(); ?></span>
+        </div>
+    </script>
+<?php endif; ?>

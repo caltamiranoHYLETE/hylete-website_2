@@ -8,9 +8,10 @@
  * @copyright 2018 Mediotype
  */
 
+$_product =$this->getProduct();
 ?>
 <?php /* @var $this Mediotype_HyletePrice_Block_Catalog_Product_List_Msrp */ ?>
-<?php if ($this->getProduct()->getMsrp()) : ?>
+<?php if (!$_product->getAWDisableOutOfStock() && $_product->getMsrp()) : ?>
 <?php $_tooltip = $this->helper('mediotype_hyleteprice')->getPriceDifferenceCmsBlockByCustomerGroup(); ?>
 <div class="retail-value js-tooltip-container <?php echo $this->getAdditionalClasses(); ?>">
     <?php echo $this->helper('core')->currency($this->getProduct()->getMsrp()); ?>

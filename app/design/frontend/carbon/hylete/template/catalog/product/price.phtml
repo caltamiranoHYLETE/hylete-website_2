@@ -73,14 +73,14 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
         <?php $_attributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
         <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_attributes); ?>
     <?php endif; ?>
-
-    <div class="price-box<?php echo $_hasSpecialPrice ? ' has-special-price' : ''; ?>">
         <?php $_price = $_taxHelper->getPrice($_product, $_product->getPrice()) ?>
         <?php $_regularPrice = $_taxHelper->getPrice($_product, $_product->getPrice(), $_simplePricesTax) ?>
         <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
         <?php $_finalPriceNoSpecial = $_taxHelper->getPrice($_product, min($_price, $_priceModel->getGroupPrice($_product), $_priceModel->getTierPrice(null, $_product))); ?>
         <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
         <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+    <?php $_resellerHasSpecialPrice = $_finalPrice < $_finalPriceNoSpecial ?>
+    <div class="price-box<?php echo ($_hasSpecialPrice && $_resellerHasSpecialPrice) ? ' has-special-price' : ''; ?>">
         <?php if ($_finalPrice >= $_price): ?>
             <?php if ($_taxHelper->displayBothPrices()): ?>
                 <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
@@ -392,11 +392,15 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
                     <span class="hylete-price-label"><?php echo $_priceLabel; ?></span>
                     <?php endif; ?>
                 </span>
-                <?php if ($_hasSpecialPrice) : ?>
+                <?php if ($_hasSpecialPrice && $_resellerHasSpecialPrice) : ?>
                 <br />
                 <span class="special-price"<?php echo $_extraPriceAttributes; ?>>
                     <?php echo $_coreHelper->currency($_finalPrice, true, true); ?>
+                    <?php if ($_resellerHasSpecialPrice) : ?>
+                        <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId); ?>
+                    <?php else: ?>
                     <?php echo $_hyletePriceHelper->getSpecialPriceLabelHtml($_product, $_currentCategoryId); ?>
+                    <?php endif ?>
                 </span>
                 <?php endif; ?>
                 <?php endif; ?>

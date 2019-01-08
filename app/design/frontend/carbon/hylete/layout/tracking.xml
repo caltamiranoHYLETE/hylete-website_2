@@ -16,19 +16,22 @@
                     <template>mediotype/justuno/general.phtml</template>
                 </action>
             </block>
-        </reference>
-    </default>
-
-    <checkout_cart_index>
-        <reference name="head">
             <block type="core/template"
-                   name="mediotype_justuno_cart" ifconfig="mediotype_justuno/mediotype_justuno/enable">
+                   name="mediotype_nextopia_customer">
                 <action method="setTemplate">
-                    <template>mediotype/justuno/cart.phtml</template>
+                    <template>mediotype/nextopia/customer.phtml</template>
                 </action>
             </block>
         </reference>
-    </checkout_cart_index>
+    </default>
+
+    <catalog_product_view translate="label">
+        <reference name="content">
+            <block type="core/template" name="nextopia_product_view"
+                   ifconfig="mediotype_justuno/mediotype_nextopia/enable"
+                   template="mediotype/nextopia/product-view.phtml" />
+        </reference>
+    </catalog_product_view>
 
     <checkout_onepage_success>
         <reference name="head">
@@ -36,6 +39,12 @@
                    name="mediotype_justuno_success" ifconfig="mediotype_justuno/mediotype_justuno/enable">
                 <action method="setTemplate">
                     <template>mediotype/justuno/success.phtml</template>
+                </action>
+            </block>
+            <block type="core/template"
+                   name="mediotype_nextopia_success" ifconfig="mediotype_justuno/mediotype_nextopia/enable">
+                <action method="setTemplate">
+                    <template>mediotype/nextopia/success.phtml</template>
                 </action>
             </block>
         </reference>

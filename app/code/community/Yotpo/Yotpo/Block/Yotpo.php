@@ -13,11 +13,14 @@ class Yotpo_Yotpo_Block_Yotpo extends Mage_Core_Block_Template {
     }
 
     public function getProduct() {
-        if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+        $product = $this->getData('product');
+        if (!$this->getData('product')) {
+            $product = $this->setData('product', Mage::registry('product'));
         }
 
-        $product = $this->getData('product');
+        if (empty($product)) {
+            return null;
+        }
         $configurable_product_model = Mage::getModel('catalog/product_type_configurable');
         $parentIds = $configurable_product_model->getParentIdsByChild($product->getId());
         if (count($parentIds) > 0) {
