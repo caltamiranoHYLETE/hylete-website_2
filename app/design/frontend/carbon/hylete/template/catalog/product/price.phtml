@@ -73,12 +73,12 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
         <?php $_attributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
         <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_attributes); ?>
     <?php endif; ?>
-    <?php $_price = $_taxHelper->getPrice($_product, $_product->getPrice()) ?>
-    <?php $_regularPrice = $_taxHelper->getPrice($_product, $_product->getPrice(), $_simplePricesTax) ?>
-    <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
-    <?php $_finalPriceNoSpecial = $_taxHelper->getPrice($_product, min($_price, $_priceModel->getGroupPrice($_product), $_priceModel->getTierPrice(null, $_product))); ?>
-    <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
-    <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+        <?php $_price = $_taxHelper->getPrice($_product, $_product->getPrice()) ?>
+        <?php $_regularPrice = $_taxHelper->getPrice($_product, $_product->getPrice(), $_simplePricesTax) ?>
+        <?php $_finalPrice = $_taxHelper->getPrice($_product, $_product->getFinalPrice()) ?>
+        <?php $_finalPriceNoSpecial = $_taxHelper->getPrice($_product, min($_price, $_priceModel->getGroupPrice($_product), $_priceModel->getTierPrice(null, $_product))); ?>
+        <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
+        <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
     <?php $_resellerHasSpecialPrice = $_finalPrice < $_finalPriceNoSpecial ?>
     <div class="price-box<?php echo ($_hasSpecialPrice && $_resellerHasSpecialPrice) ? ' has-special-price' : ''; ?>">
         <?php if ($_finalPrice >= $_price): ?>
@@ -383,11 +383,7 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
                 </p>
                 <?php else : ?>
                 <span class="regular-price"<?php echo $_hasSpecialPrice ? $_extraPriceAttributes : ''; ?>>
-                    <?php if ( $_resellerHasSpecialPrice) : ?>
-                        <?php $_priceLabel = $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId, 0); ?>
-                    <?php else: ?>
-                        <?php $_priceLabel = $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId); ?>
-                    <?php endif ?>
+                    <?php $_priceLabel = $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId); ?>
                     <?php if ($_isProductDetailsPage && !$_hasSpecialPrice) : ?>
                     <span class="hylete-price-label-lg"><?php echo $_coreHelper->currency($_finalPriceNoSpecial, true, true); ?></span>
                     <span class="hylete-price-label"><?php echo $_priceLabel; ?></span>
@@ -403,7 +399,7 @@ $_extraPriceAttributes  = ' id="product-price-' . $_id . $this->getIdSuffix() .'
                     <?php if ($_resellerHasSpecialPrice) : ?>
                         <?php echo $_hyletePriceHelper->getPriceLabelByCustomerGroup($_product, $_currentCategoryId); ?>
                     <?php else: ?>
-                        <?php echo $_hyletePriceHelper->getSpecialPriceLabelHtml($_product, $_currentCategoryId); ?>
+                    <?php echo $_hyletePriceHelper->getSpecialPriceLabelHtml($_product, $_currentCategoryId); ?>
                     <?php endif ?>
                 </span>
                 <?php endif; ?>
