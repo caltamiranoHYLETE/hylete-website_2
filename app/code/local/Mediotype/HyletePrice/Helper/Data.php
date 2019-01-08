@@ -33,6 +33,8 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
      * @param integer $categoryId Optional category ID for clearance label check.
      * @param integer|null $groupId
      * @return string
+     *
+     * $groupId = 0 is the the final customer
      */
     public function getPriceLabelByCustomerGroup(Mage_Catalog_Model_Product $product = null, $categoryId = null, $groupId = null)
     {
@@ -252,4 +254,5 @@ class Mediotype_HyletePrice_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $originalPrice;
     }
+
 }
