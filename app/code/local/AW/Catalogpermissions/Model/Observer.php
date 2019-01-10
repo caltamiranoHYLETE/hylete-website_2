@@ -94,7 +94,15 @@ class AW_Catalogpermissions_Model_Observer extends AW_Catalogpermissions_Model_O
         if (!parent::_validateProcess()) {
             return;
         }
-        Mage::helper('catalogpermissions/connection')->addDisabledAttrToFilter($event->getData('collection'));
+
+        // HYLT-186: module compatibility patch with customization which load non-standard product models
+        if (get_class($event->getData('collection')) == 'Mage_Reports_Model_Resource_Product_Collection') {
+            $field = 'object_id';
+        } else {
+            $field = 'entity_id';
+        }
+
+        Mage::helper('catalogpermissions/connection')->addDisabledAttrToFilter($event->getData('collection'), $field);
         parent::regroupProductCollection($event->getData('collection'));
 
     }
