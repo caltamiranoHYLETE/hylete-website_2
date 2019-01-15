@@ -98,7 +98,7 @@ class Klaviyo_Reclaim_Model_KlaviyoApi
         if ($method == 'GET') {
             $client->setParameterGet($params);
         } else if ($method == 'POST') {
-          $client->setRawData(json_encode($params), 'application/json');
+            $client->setRawData(json_encode($params), 'application/json');
         
         } else if ($method == 'DELETE') {
           $client->setHeaders(array(
