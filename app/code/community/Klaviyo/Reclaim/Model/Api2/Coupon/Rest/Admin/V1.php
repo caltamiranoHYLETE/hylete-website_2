@@ -166,4 +166,3 @@ class Klaviyo_Reclaim_Model_Api2_Coupon_Rest_Admin_V1 extends Klaviyo_Reclaim_Mo
         return $rule;
     }
 }
-
