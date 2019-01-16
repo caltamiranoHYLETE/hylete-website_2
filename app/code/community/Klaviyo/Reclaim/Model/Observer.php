@@ -50,7 +50,7 @@ class Klaviyo_Reclaim_Model_Observer
 
         try {
             // Find quotes that are at least 15 minutes old and have been updated in the last 60 minutes.
-            $created_window_minutes = 155555;
+            $created_window_minutes = 15;
             $updated_window_minutes = 60;
 
             $quotes = $this->_fetchRecentQuotes($created_window_minutes, $updated_window_minutes);
@@ -166,6 +166,13 @@ class Klaviyo_Reclaim_Model_Observer
             return false;
         }
 
+        $quote_categories = array();
+        foreach($item_details as $item){
+	    $quote_categories = array_merge($quote_categories, $item['product']['categories']);
+        }
+        
+	$quote_categories = array_unique($quote_categories);
+
         $checkout_id = $checkout->getId();
         $checkout_url = $quote->getStore()->getUrl('reclaim/index/view', array('_query' => array('id' => $checkout_id)));
 
@@ -174,6 +181,7 @@ class Klaviyo_Reclaim_Model_Observer
             '$value'      => (float) $quote->getGrandTotal(),
             'Items'       => $item_descriptions,
             'Items Count' => $item_count,
+            'Categories' => $quote_categories,
             '$extra'      => array(
                 'checkout_url' => $checkout_url,
                 'checkout_id'  => $checkout_id,
@@ -255,7 +263,13 @@ class Klaviyo_Reclaim_Model_Observer
         $data = array();
 
         $quote_item_quantity = $quote_item->getQty();
-        $quote_item_product = Mage::getModel('catalog/product')->load($quote_item->getProduct()->getId());
+        $quote_item_product = Mage::getModel('catalog/product')->setStoreId($quote_item->getQuote()->getStore())->load($quote_item->getProduct()->getId());
+
+        $categories = array();
+        
+        foreach ($quote_item_product->getCategoryCollection()->addAttributeToSelect('name') as $category) {
+	    $categories[] = $category->getName();
+        }
 
         $product_details = array(
             'id'    => $quote_item_product->getId(),
@@ -263,7 +277,8 @@ class Klaviyo_Reclaim_Model_Observer
             'sku'   => $quote_item_product->getSKU(),
             'name'  => $quote_item_product->getName(),
             'price' => (float) $quote_item_product->getPrice(),
-            'special_price' => (float) $quote_item_product->getFinalPrice()
+            'special_price' => (float) $quote_item_product->getFinalPrice(),
+            'categories' => $categories
         );
 
         $product_images = array();
@@ -271,7 +286,6 @@ class Klaviyo_Reclaim_Model_Observer
         // and also attempt to get the images
         if ($option = $quote_item->getOptionByCode('simple_product')) {
             $simple_product = Mage::getModel('catalog/product')->load($option->getProduct()->getId());
-
             $product_details['simple_name'] = $simple_product->getName();
             foreach ($simple_product->getMediaGalleryImages() as $product_image) {
                 if (!$product_image->getDisabled()) {
@@ -297,7 +311,7 @@ class Klaviyo_Reclaim_Model_Observer
         if (empty($product_images)) {
             $product_images = $this->try_to_get_image_from_parent($quote_item_product);
         }
-        
+    
         $product_details['images'] = $product_images;
 
         return array(
