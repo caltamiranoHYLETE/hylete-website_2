@@ -697,3 +697,7 @@ cart-login:after {
 .btn-checkout .fa-lock {
     margin-right: 10px;
 }
+
+.cart .promo-title {
+    margin: 0px;
+}
