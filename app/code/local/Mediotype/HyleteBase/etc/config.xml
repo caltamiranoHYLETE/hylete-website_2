@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mediotype_HyleteBase>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </Mediotype_HyleteBase>
     </modules>
     <global>
