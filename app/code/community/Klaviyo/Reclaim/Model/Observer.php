@@ -166,13 +166,6 @@ class Klaviyo_Reclaim_Model_Observer
             return false;
         }
 
-        $quote_categories = array();
-        foreach($item_details as $item){
-	    $quote_categories = array_merge($quote_categories, $item['product']['categories']);
-        }
-        
-	$quote_categories = array_unique($quote_categories);
-
         $checkout_id = $checkout->getId();
         $checkout_url = $quote->getStore()->getUrl('reclaim/index/view', array('_query' => array('id' => $checkout_id)));
 
@@ -181,7 +174,6 @@ class Klaviyo_Reclaim_Model_Observer
             '$value'      => (float) $quote->getGrandTotal(),
             'Items'       => $item_descriptions,
             'Items Count' => $item_count,
-            'Categories' => $quote_categories,
             '$extra'      => array(
                 'checkout_url' => $checkout_url,
                 'checkout_id'  => $checkout_id,
@@ -263,22 +255,14 @@ class Klaviyo_Reclaim_Model_Observer
         $data = array();
 
         $quote_item_quantity = $quote_item->getQty();
-        $quote_item_product = Mage::getModel('catalog/product')->setStoreId($quote_item->getQuote()->getStore())->load($quote_item->getProduct()->getId());
-
-        $categories = array();
-        
-        foreach ($quote_item_product->getCategoryCollection()->addAttributeToSelect('name') as $category) {
-	    $categories[] = $category->getName();
-        }
+        $quote_item_product = Mage::getModel('catalog/product')->load($quote_item->getProduct()->getId());
 
         $product_details = array(
             'id'    => $quote_item_product->getId(),
-            'type'  => $quote_item_product->getType(),
             'sku'   => $quote_item_product->getSKU(),
             'name'  => $quote_item_product->getName(),
             'price' => (float) $quote_item_product->getPrice(),
-            'special_price' => (float) $quote_item_product->getFinalPrice(),
-            'categories' => $categories
+            'special_price' => (float) $quote_item_product->getFinalPrice()
         );
 
         $product_images = array();
@@ -286,6 +270,7 @@ class Klaviyo_Reclaim_Model_Observer
         // and also attempt to get the images
         if ($option = $quote_item->getOptionByCode('simple_product')) {
             $simple_product = Mage::getModel('catalog/product')->load($option->getProduct()->getId());
+
             $product_details['simple_name'] = $simple_product->getName();
             foreach ($simple_product->getMediaGalleryImages() as $product_image) {
                 if (!$product_image->getDisabled()) {
@@ -307,11 +292,6 @@ class Klaviyo_Reclaim_Model_Observer
                 }
             }
         }
-
-        if (empty($product_images)) {
-            $product_images = $this->try_to_get_image_from_parent($quote_item_product);
-        }
-    
         $product_details['images'] = $product_images;
 
         return array(
@@ -324,41 +304,6 @@ class Klaviyo_Reclaim_Model_Observer
             )
         );
     }
-
-    // attempt to get images from the Conbfigurable, Grouped or Bundled Product parent if the child product does
-    // have images
-    function try_to_get_image_from_parent($quote_item_product) {
-
-        $product_images = array();
-
-        $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($quote_item_product->getId());
-        if(empty($parentIds)) {
-            $parentIds = Mage::getResourceSingleton('catalog/product_link')->getParentIdsByChild($quote_item_product->getId(), Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
-            if(empty($parentIds)) {
-                 $parentIds = Mage::getModel('bundle/product_type')->getParentIdsByChild($quote_item_product->getId());
-            }
-        }
-
-        if(!empty($parentIds)) {
-            $product_images = $this->get_image_of_parent($parentIds[0]);
-        }
-
-        return $product_images;
-    }
-
-
-    function get_image_of_parent($parentId) {
-        $parent_product = Mage::getModel('catalog/product')->load($parentId);
-        foreach ($parent_product->getMediaGalleryImages() as $product_image) {
-            if (!$product_image->getDisabled()) {
-                $product_images[] = array(
-                    'url' => $product_image->getUrl()
-                );
-            }
-        }
-        return $product_images;
-    }
-
 
     /**
      * Merged quote item (line item) details in cases where there are two line items to represent
@@ -434,13 +379,19 @@ class Klaviyo_Reclaim_Model_Observer
 
         $subscriber->setImportMode(true);
 
+        $is_requiring_confirmation = false;
+        if (!Mage::helper('klaviyo_reclaim')->isAdmin() &&
+            (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_CONFIRMATION_FLAG, $subscriber->getStoreId()) == 1)) {
+            $is_requiring_confirmation = true;
+        }
+
         $subscriber_status = $subscriber->getStatus();
 
         if ($subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED ||
             $subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED ||
             $subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
 
-            $response = Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberAdd($list_id, $email);
+            $response = Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberAdd($list_id, $email, $is_requiring_confirmation);
 
             if (!is_array($response) || !isset($response['already_member'])) {
                 // Handle error better.
@@ -449,6 +400,8 @@ class Klaviyo_Reclaim_Model_Observer
 
             if ($response['already_member']) {
                 $subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+            } else if ($is_requiring_confirmation) {
+                Mage::getSingleton('core/session')->addSuccess(Mage::helper('klaviyo_reclaim')->__('An email to confirm your subscription has been sent to your inbox.'));
             }
         } else if ($subscriber_status == Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
             Mage::getSingleton('klaviyo_reclaim/api')->listSubscriberDelete($list_id, $email);
@@ -515,4 +468,3 @@ class Klaviyo_Reclaim_Model_Observer
         return $tracker;
     }
 }
-
