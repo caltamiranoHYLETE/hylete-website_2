@@ -327,27 +327,4 @@ class Klaviyo_Reclaim_Helper_Data extends Mage_Core_Helper_Data
   {
     return self::LOG_FILE_PATH;
   }
-
-  public function getStoreCategoryRoot($storeViewId)
-  {
-    return Mage::app()->getStore($storeViewId)->getRootCategoryId();
-  }
-
-  public function getCategoryRoots()
-  {
-    $stores = Mage::app()->getStores();
-
-    $category_roots = array();
-    foreach ($stores as $store)
-    {
-        $store_id = $store->getId();
-        $category_root_id = $store->getRootCategoryId();
-
-        array_push($category_roots, array(
-          'store_id' => $store_id,
-          'category_root_id' => $category_root_id,
-        ));
-    }
-    return $category_roots;
-  }
 }

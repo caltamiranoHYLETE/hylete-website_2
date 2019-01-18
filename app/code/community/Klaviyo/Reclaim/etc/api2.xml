@@ -67,49 +67,6 @@
                 </routes>
                 <versions>1</versions>
             </rules>
-            <category_root translate="title" module="Klaviyo_Category_Root">
-                <group>reclaim</group>
-                <model>reclaim/api2_category</model>
-                <title>Fetch Category Root for Store View</title>
-                <sort_order>30</sort_order>
-                <privileges>
-                    <admin>
-                        <retrieve>1</retrieve>
-                    </admin>
-                </privileges>
-                <attributes>
-                    <category_root_id>Category Root Id</category_root_id>
-                </attributes>
-                <routes>
-                    <route_entity>
-                        <route>/klaviyo/category_root/:store_view_id</route>
-                        <action_type>entity</action_type>
-                    </route_entity>
-                </routes>
-                <versions>1</versions>
-            </category_root>
-            <category_root translate="title" module="Klaviyo_Category_Root">
-                <group>reclaim</group>
-                <model>reclaim/api2_category</model>
-                <title>Fetch Category Root for All Stores</title>
-                <sort_order>40</sort_order>
-                <privileges>
-                    <admin>
-                        <retrieve>1</retrieve>
-                    </admin>
-                </privileges>
-                <attributes>
-                    <store_id>Category Root Id</store_id>
-                    <category_root_id>Category Root Id</category_root_id>
-                </attributes>
-                <routes>
-                    <route_collection>
-                        <route>/klaviyo/category_root</route>
-                        <action_type>collection</action_type>
-                    </route_collection>
-                </routes>
-                <versions>1</versions>
-            </category_root>
         </resources>
     </api2>
 </config>
