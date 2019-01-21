@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Potato_Core>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
         </Potato_Core>
     </modules>
