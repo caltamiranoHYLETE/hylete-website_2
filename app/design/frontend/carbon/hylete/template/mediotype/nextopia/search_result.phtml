@@ -1,0 +1,14 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+?>
+
+<?php if ($queryText = Mage::helper('nsearch')->getEscapedQueryText()): ?>
+    <script type="text/x-np-template">
+        <div class="nxt-psn-search">
+            <span class="search"><?php echo $queryText ?></span>
+        </div>
+    </script>
+<?php endif; ?>
