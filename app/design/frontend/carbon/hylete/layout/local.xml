@@ -348,16 +348,6 @@
                 <position>90</position>
             </action>
         </reference>
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label title" module="customer">
-                <label>Logout</label>
-                <url>customer/account/logout</url>
-                <title>Logout</title>
-                <prepare/>
-                <urlParams/>
-                <position>10</position>
-            </action>
-        </reference>
     </customer_logged_in>
 
     <!--
@@ -806,6 +796,7 @@
                 <blockName>customer_account_navigation</blockName>
             </action>
         </reference>
+        <remove name="cart.sidebar.addtocartajax"/>
     </customer_account>
 
     <catalogsearch_result_index>
@@ -1086,7 +1077,88 @@
             <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active">
                 <name>reviews</name>
             </action>
-            <remove name="cart.sidebar.addtocartajax"/>
+            <action method="removeLinkByName">
+                <name>rewards</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account_edit</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>address_book</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>Account Overview</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>my account</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>orders</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>enterprise_customerbalance</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>Account Overview</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>rewards</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account_edit</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>address_book</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>customer_dashboard</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>logout</name>
+            </action>
+            <action method="addLink" module="customer">
+                <name>account</name>
+                <path>customer/account</path>
+                <label>Account Overview</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>orders</name>
+                <path>sales/order/history/</path>
+                <label>My Orders</label>
+            </action>
+            <action method="addLink" module="customer" ifconfig="socialreferrals/campaigns/advocate_dashboard">
+                <name>customer_dashboard</name>
+                <path>customer/dashboard</path>
+                <label>Refer a Friend</label>
+            </action>
+            <action method="addLink" ifconfig="rewards/display/showPointsSectionInCustomerAccount">
+                <name>rewards</name>
+                <path>rewards/customer</path>
+                <label>My Hylete Points</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>account_edit</name>
+                <path>customer/account/edit/</path>
+                <label>My Login Information</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>address_book</name>
+                <path>customer/address</path>
+                <label>My Addresses</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>store_credit</name>
+                <path>storecredit/info</path>
+                <label>My Store Credit</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>logout</name>
+                <path>customer/account/logout</path>
+                <label>Logout</label>
+            </action>
         </reference>
     </customer_account>
 
