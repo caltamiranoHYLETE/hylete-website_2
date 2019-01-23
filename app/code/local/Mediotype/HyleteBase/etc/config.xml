@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mediotype_HyleteBase>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
         </Mediotype_HyleteBase>
     </modules>
     <global>
@@ -29,6 +29,15 @@
                 </setup>
             </mediotype_hyletebase_setup>
         </resources>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <socialreferrals_controller_action_layout_load_before>
+                        <type>disabled</type>
+                    </socialreferrals_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
     </global>
     <frontend>
         <product>
@@ -62,6 +71,13 @@
                     </mediotype_hyletebase_justuno_add_product>
                 </observers>
             </checkout_cart_product_add_after>
+            <controller_action_layout_load_before>
+                <observers>
+                    <socialreferrals_controller_action_layout_load_before>
+                        <type>disabled</type>
+                    </socialreferrals_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
         </events>
     </frontend>
 </config>
