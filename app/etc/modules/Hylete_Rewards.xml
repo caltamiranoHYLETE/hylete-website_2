@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
+
 <config>
     <modules>
-        <Mediotype_HyleteBase>
+        <Hylete_Rewards>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Mage_Core/>
-                <Talkable_SocialReferrals/>
+                <TBT_Rewards/>
             </depends>
-        </Mediotype_HyleteBase>
+        </Hylete_Rewards>
     </modules>
 </config>
