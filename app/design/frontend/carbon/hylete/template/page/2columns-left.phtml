@@ -41,12 +41,15 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <?php echo $this->getChildHtml('breadcrumbs') ?>
     <div class="main-container col2-left-layout">
-        <div class="sidebar col-left col-md-3 hidden-sm hidden-xs">
-            <div class="sidebar-content">
-                <?php echo $this->getChildHtml('left') ?>
-            </div>
-            <div class="sidebar-content-bottom hidden-sm hidden-xs">
-                <?php echo $this->getChildHtml('left.bottom') ?>
+        <div class=" col-md-3">
+            <div class="sidebar col-left"></div>
+            <div class="sidebar col-left-2">
+                <div class="sidebar-content">
+                    <?php echo $this->getChildHtml('left') ?>
+                </div>
+                <div class="sidebar-content-bottom hidden-sm hidden-xs">
+                    <?php echo $this->getChildHtml('left.bottom') ?>
+                </div>
             </div>
         </div>
         <div class="col-main col-md-9 col-sm-12">
