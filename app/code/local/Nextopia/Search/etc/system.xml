@@ -63,6 +63,15 @@
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[This can be obtained by visiting the Account section of the Nextopia control panel, and looking for "Public Client ID." It will look something like "1234567890abcdef1234567890abcdef" and is 32 characters long.]]></comment>
                         </public_client_id>
+                        <product_recommendation_instance>
+                            <label>Product recommendation instance</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This code will be concatenated with Public Client ID ]]></comment>
+                        </product_recommendation_instance>
                         <selected_template>
                             <label>Layout</label>
                             <frontend_type>select</frontend_type>

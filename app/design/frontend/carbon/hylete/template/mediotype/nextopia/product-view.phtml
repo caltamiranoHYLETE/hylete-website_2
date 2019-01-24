@@ -12,15 +12,16 @@
             <span class="sku"><?php echo $_sku ?></span>
         </div>
     </script>
-
-    <script type="text/javascript">
-        var nxt_recs = nxt_recs || [];
-        nxt_recs.push(
-            [
-                '<?php echo Mage::getStoreConfig('nextopia_ajax_options/settings/public_client_id') ?>',
-                'skuValue',
-                '<?php echo $_sku ?>'
-            ]
-        );
-    </script>
+    <?php $_publicId = Mage::getStoreConfig('nextopia_ajax_options/settings/public_client_id') ?>
+    <?php $_productInstance = Mage::getStoreConfig('nextopia_ajax_options/settings/product_recommendation_instance') ?>
+        <script type="text/javascript">
+            var nxt_recs = nxt_recs || [];
+            nxt_recs.push(
+                [
+                    '<?php echo $_publicId . '-' . $_productInstance ?>',
+                    'skuValue',
+                    '<?php echo $_sku ?>'
+                ]
+            );
+        </script>
 <?php endif; ?>
