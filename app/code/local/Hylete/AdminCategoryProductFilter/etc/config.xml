@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2018 Mediotype. All Rights Reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_AdminCategoryProductFilter>
+            <version>1.0.0</version>
+        </Hylete_AdminCategoryProductFilter>
+    </modules>
+    <global>
+        <models>
+            <hylete_admincategoryproductfilter>
+                <class>Hylete_AdminCategoryProductFilter_Model</class>
+            </hylete_admincategoryproductfilter>
+        </models>
+        <blocks>
+            <hylete_admincategoryproductfilter>
+                <class>Hylete_AdminCategoryProductFilter_Block</class>
+            </hylete_admincategoryproductfilter>
+        </blocks>
+    </global>
+    <adminhtml>
+        <events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <hylete_admincategoryproductfilter>
+                        <class>hylete_admincategoryproductfilter/observer</class>
+                        <method>addProductColumnsToCategoryGrid</method>
+                    </hylete_admincategoryproductfilter>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+    </adminhtml>
+</config>
