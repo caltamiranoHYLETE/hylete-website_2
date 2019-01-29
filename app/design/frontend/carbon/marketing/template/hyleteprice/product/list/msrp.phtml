@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * MSRP (Retail Value) price template.
+ * @category  Template
+ * @package   Mediotype_HyletePrice
+ * @author    Rick Buczynski <rick@mediotype.com>
+ * @copyright 2018 Mediotype
+ */
+
+/** @var $_product \Mage_Catalog_Model_Product */
+$_product = $this->getProduct();
+$_currentCategory = Mage::registry('current_category');
+$_currentCategoryId = $_currentCategory ? $_currentCategory->getId() : $_product->getCategoryIds()[0];
+/** @var $_hyletePriceHelper \Mediotype_HyletePrice_Helper_Data */
+$_hyletePriceHelper = $this->helper('mediotype_hyleteprice');
+?>
+<?php /* @var $this Mediotype_HyletePrice_Block_Catalog_Product_List_Msrp */ ?>
+<?php if (!$_product->getAWDisableOutOfStock() && $_product->getMsrp()) : ?>
+    <?php $_tooltip = $_hyletePriceHelper->getPriceDifferenceCmsBlockByCustomerGroup(); ?>
+    <div class="retail-value js-tooltip-container <?php echo $this->getAdditionalClasses(); ?>">
+        <?php echo $this->helper('core')->currency($_product->getMsrp()); ?>
+        <span><?php echo $this->__('retail value'); ?></span>
+        <?php if ($_tooltip) : ?>
+            <span class="price-diff">
+                <span class="retail-value__link js-tooltip-link">
+                    <span class="fal fa-question-circle"></span>
+                </span>
+            </span>
+            <div style="display:none;">
+                <div id="price-diff-data"><?php echo $_tooltip; ?></div>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
