@@ -5,12 +5,23 @@
  */
 ?>
 
-<?php $_product = Mage::registry('current_product');?>
-
-<?php if($sku = $_product->getSku()): ?>
+<?php $_product = Mage::registry('current_product'); ?>
+<?php if ($_product && $_sku = $_product->getSku()): ?>
     <script type="text/x-np-template">
         <div class="nxt-psn-view">
-            <span class="sku"><?php echo $sku ?></span>
+            <span class="sku"><?php echo $_sku ?></span>
         </div>
     </script>
+    <?php $_publicId = Mage::getStoreConfig('nextopia_ajax_options/settings/public_client_id') ?>
+    <?php $_productInstance = Mage::getStoreConfig('nextopia_product_page/settings/product_recommendation_instance') ?>
+        <script type="text/javascript">
+            var nxt_recs = nxt_recs || [];
+            nxt_recs.push(
+                [
+                    '<?php echo $_publicId . '-' . $_productInstance ?>',
+                    'skuValue',
+                    '<?php echo $_sku ?>'
+                ]
+            );
+        </script>
 <?php endif; ?>
