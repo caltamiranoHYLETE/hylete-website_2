@@ -58,7 +58,7 @@ class Hylete_AdminCategoryProductFilter_Block_Adminhtml_Catalog_Category_Tab_Pro
         $attribute = Mage::getSingleton('hylete_admincategoryproductfilter/attribute')
             ->getAttribute($attributeCode);
         if ($attribute->usesSource()) {
-            return $attribute->getSource()->getOptionText($product->getVisibility());
+            return $attribute->getSource()->getOptionText($product->getData($attributeCode));
         }
         return $row;
     }
