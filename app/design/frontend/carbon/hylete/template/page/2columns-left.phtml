@@ -31,38 +31,48 @@
 ?>
 <!doctype html>
 <html>
-<head>
-    <?php echo $this->getChildHtml('head') ?>
-</head>
-<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?> ontouchstart>
-<?php echo $this->getChildHtml('after_body_start') ?>
-<?php echo $this->getChildHtml('header') ?>
-<div class="container ">
-    <?php echo $this->getChildHtml('global_notices') ?>
-    <?php echo $this->getChildHtml('breadcrumbs') ?>
-    <div class="main-container col2-left-layout">
-        <div class=" col-md-3">
-            <div class="sidebar col-left"></div>
-            <div class="sidebar col-left-2">
-                <div class="sidebar-content">
-                    <?php echo $this->getChildHtml('left') ?>
+    <head>
+        <?php echo $this->getChildHtml('head') ?>
+    </head>
+    <?php $leftBottomBlock = $this->getChildHtml('left.bottom') ?>
+    <?php $leftBlock = $this->getChildHtml('left') ?>
+
+    <body class="<?php echo $this->getBodyClass()?:'' ?>" ontouchstart>
+        <?php echo $this->getChildHtml('after_body_start') ?>
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="container ">
+            <div class="col">
+                <?php echo $this->getChildHtml('global_notices') ?>
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+            </div>
+            <div class="main-container col2-left-layout">
+                <div class="col-md-3">
+                    <div class="sidebar col-left"></div>
+                    <div class="col-left-2 col-xs-12 hidden-xs hidden-sm">
+                        <div class="sidebar-content">
+                            <?php echo $leftBlock ?>
+                        </div>
+                        <div class="sidebar-content-bottom">
+                            <?php echo $leftBottomBlock ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="sidebar-content-bottom hidden-sm hidden-xs">
-                    <?php echo $this->getChildHtml('left.bottom') ?>
+                <div class="col-main col-xs-12 col-md-9">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <?php echo $this->getChildHtml('content') ?>
+                </div>
+                <div class="col-left-2 col-xs-12 visible-xs visible-sm">
+                    <div class="sidebar-content">
+                        <?php echo $leftBlock ?>
+                    </div>
+                    <div class="sidebar-content-bottom">
+                        <?php echo $leftBottomBlock ?>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-main col-md-9 col-sm-12">
-            <?php echo $this->getChildHtml('global_messages') ?>
-            <?php echo $this->getChildHtml('content') ?>
-            <div class="hidden-lg hidden-md">
-                <?php echo $this->getChildHtml('left.bottom') ?>
-            </div>
-        </div>
-    </div>
-</div>
-<?php echo $this->getChildHtml('footer') ?>
-<?php echo $this->getChildHtml('before_body_end') ?>
-<?php echo $this->getAbsoluteFooter() ?>
-</body>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+        <?php echo $this->getAbsoluteFooter() ?>
+    </body>
 </html>
