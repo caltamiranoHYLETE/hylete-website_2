@@ -68,6 +68,9 @@
                                         <nextopia_ajax_options>
                                             <title>Nextopia Configuration</title>
                                         </nextopia_ajax_options>
+                                        <nextopia_product_page>
+                                            <title>Nextopia Product Page Configuration</title>
+                                        </nextopia_product_page>
                                     </children>
                                 </config>
                             </children>

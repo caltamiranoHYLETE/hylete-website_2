@@ -49,4 +49,12 @@
             </block>
         </reference>
     </checkout_onepage_success>
+
+    <nsearch_index_index>
+        <reference name="content">
+            <block type="core/template" name="nextopia_product_view"
+                   ifconfig="mediotype_justuno/mediotype_nextopia/enable"
+                   template="mediotype/nextopia/search_result.phtml" after="-"/>
+        </reference>
+    </nsearch_index_index>
 </layout>

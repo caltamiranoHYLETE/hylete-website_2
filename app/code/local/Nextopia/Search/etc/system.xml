@@ -7,6 +7,34 @@
         </nextopiaconfig>
     </tabs>	
     <sections>
+        <nextopia_product_page translate="label" module="nsearch">
+            <label>Product Page</label>
+            <tab>nextopiaconfig</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Configuration Fields</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <product_recommendation_instance>
+                            <label>Product recommendation instance</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[This code will be concatenated with Public Client ID ]]></comment>
+                        </product_recommendation_instance>
+                    </fields>
+                </settings>
+            </groups>
+        </nextopia_product_page>
         <nextopia_ajax_options translate="label" module="nsearch">
             <label>Search Configuration Options</label>
             <tab>nextopiaconfig</tab>

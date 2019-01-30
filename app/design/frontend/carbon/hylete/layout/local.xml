@@ -348,16 +348,6 @@
                 <position>90</position>
             </action>
         </reference>
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label title" module="customer">
-                <label>Logout</label>
-                <url>customer/account/logout</url>
-                <title>Logout</title>
-                <prepare/>
-                <urlParams/>
-                <position>10</position>
-            </action>
-        </reference>
     </customer_logged_in>
 
     <!--
@@ -541,6 +531,7 @@
                 <label>Category CMS below product grid</label>
             </block>
         </reference>
+        <update handle="category_left_column"/>
     </catalog_category_default>
 
     <catalog_category_layered>
@@ -557,22 +548,6 @@
                     <block_id>retail_value_tooltip</block_id>
                 </action>
             </block>
-        </reference>
-        <reference name="left">
-            <action method="unsetChild">
-                <alias>catalog.leftnav</alias>
-            </action>
-            <action method="insert">
-                <blockName>catalog.leftnav</blockName>
-                <after>left.vertnav</after>
-            </action>
-            <action method="unsetChild">
-                <alias>enterprisecatalog.leftnav</alias>
-            </action>
-            <action method="insert">
-                <blockName>enterprisecatalog.leftnav</blockName>
-                <after>left.vertnav</after>
-            </action>
         </reference>
         <reference name="breadcrumbs.container">
             <remove name="category.title"/>
@@ -600,6 +575,7 @@
                 <name>social.modal</name>
             </action>
         </reference>
+        <update handle="category_left_column"/>
     </catalog_category_layered>
 
     <catalog_product_view>
@@ -820,6 +796,7 @@
                 <blockName>customer_account_navigation</blockName>
             </action>
         </reference>
+        <remove name="cart.sidebar.addtocartajax"/>
     </customer_account>
 
     <catalogsearch_result_index>
@@ -1100,7 +1077,88 @@
             <action method="removeLinkByName" ifconfig="customeraccountnav/settings/active">
                 <name>reviews</name>
             </action>
-            <remove name="cart.sidebar.addtocartajax"/>
+            <action method="removeLinkByName">
+                <name>rewards</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account_edit</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>address_book</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>Account Overview</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>my account</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>orders</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>enterprise_customerbalance</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>Account Overview</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>rewards</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>account_edit</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>address_book</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>customer_dashboard</name>
+            </action>
+            <action method="removeLinkByName">
+                <name>logout</name>
+            </action>
+            <action method="addLink" module="customer">
+                <name>account</name>
+                <path>customer/account</path>
+                <label>Account Overview</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>orders</name>
+                <path>sales/order/history/</path>
+                <label>My Orders</label>
+            </action>
+            <action method="addLink" module="customer" ifconfig="socialreferrals/campaigns/advocate_dashboard">
+                <name>customer_dashboard</name>
+                <path>customer/dashboard</path>
+                <label>Refer a Friend</label>
+            </action>
+            <action method="addLink" ifconfig="rewards/display/showPointsSectionInCustomerAccount">
+                <name>rewards</name>
+                <path>rewards/customer</path>
+                <label>My Hylete Points</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>account_edit</name>
+                <path>customer/account/edit/</path>
+                <label>My Login Information</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>address_book</name>
+                <path>customer/address</path>
+                <label>My Addresses</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>store_credit</name>
+                <path>storecredit/info</path>
+                <label>My Store Credit</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>logout</name>
+                <path>customer/account/logout</path>
+                <label>Logout</label>
+            </action>
         </reference>
     </customer_account>
 
@@ -1293,113 +1351,35 @@
         </reference>
     </catalogsearch_result_index>
 
-    <!--<infinite_product_list>
-        <reference name="head">
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-utils.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-detect.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-ajax.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-cache.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-ui.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-url.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-project.js</name>
-                <group>category</group>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-init.js</name>
-                <group>category</group>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/loadmore.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/vaimo/ajaxproductlist.init.js</name>
-            </action>
-        </reference>
-    </infinite_product_list>-->
-
-    <!--<infinite_product_blog>
-        <reference name="head">
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/loadmore.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-utils.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-detect.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-ajax.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-cache.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-ui.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-url.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-project.js</name>
-            </action>
-            <action method="removeItem">
-                <type>skin_js</type>
-                <name>js/infinitescroll/infinite-scroll-init.js</name>
-            </action>
-        </reference>
-    </infinite_product_blog>-->
-
     <rewards_cart_redeem_changepointsspending>
         <reference name="checkout.cart.methods">
             <!-- fix HYL-498 - double "proceed to checkout" button on cart-page -->
             <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.fire</name></action>
         </reference>
     </rewards_cart_redeem_changepointsspending>
+
+    <category_left_column>
+        <reference name="left">
+            <action method="unsetChild">
+                <alias>enterprisecatalog.leftnav</alias>
+            </action>
+            <action method="unsetChild">
+                <alias>cart.sidebar-container.addtocartajax</alias>
+            </action>
+            <action method="unsetChild">
+                <alias>tags_popular</alias>
+            </action>
+            <action method="unsetChild">
+                <alias>cms.category.sidebar.container</alias>
+            </action>
+            <action method="unsetChild">
+                <alias>left.vertnav</alias>
+            </action>
+        </reference>
+    </category_left_column>
+
+    <catalog_category_view>
+        <update handle="category_left_column"/>
+    </catalog_category_view>
+
 </layout>
