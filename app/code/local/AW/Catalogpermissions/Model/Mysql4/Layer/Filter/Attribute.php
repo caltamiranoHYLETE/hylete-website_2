@@ -50,7 +50,10 @@ class AW_Catalogpermissions_Model_Mysql4_Layer_Filter_Attribute extends Mage_Cat
                 $collection->clear();
             }
         }
-
+        /**
+         * HYLT-207: was preventing filtering an attribute with more than one option
+         */
+        $collection->clear();
         return $this;
     }
 
