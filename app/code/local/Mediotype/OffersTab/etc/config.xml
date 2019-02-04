@@ -169,4 +169,13 @@
             </adminhtml>
         </routers>
     </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <Mediotype_OffersTab>
+                    <file>mediotype_offerstab.xml</file>
+                </Mediotype_OffersTab>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
