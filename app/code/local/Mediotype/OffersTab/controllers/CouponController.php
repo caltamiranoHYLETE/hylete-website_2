@@ -19,6 +19,7 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
         $redirectUrl = $this->getRequest()->getParam('redirectUrl');
         $checkoutSession = Mage::getSingleton('checkout/session');
         $coreSession = Mage::getSingleton('core/session');
+        $escapedCode = Mage::helper('core')->escapeHtml($code);
 
         try {
             if (Mage::getSingleton('mediotype_offerstab/validation')->validate($code)) {
@@ -33,7 +34,7 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
                     ->toHtml();
 
                 // Replace the [promocode] token in CMS block with the applied promotion code
-                $defaultMessage = str_replace("[promocode]", $code, $defaultMessage);
+                $defaultMessage = str_replace("[promocode]", $escapedCode, $defaultMessage);
 
                 if (!empty ($redemptionMessage)) {
                     $successMessage = $redemptionMessage;
@@ -48,10 +49,9 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
 
             } else {
                 throw new Mage_Core_Exception(
-                    $this->__(sprintf('Unable to apply promo code `%s`.', $code))
+                    $this->__(sprintf('Unable to apply promo code `%s`.', $escapedCode))
                 );
             }
-
             if (!$redirectUrl) {
                 $this->_redirectReferer();
 
@@ -62,7 +62,7 @@ class Mediotype_OffersTab_CouponController extends Mage_Core_Controller_Front_Ac
 
             $redirectUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
         } catch (Exception $error) {
-            $coreSession->addError($this->__('Unable to apply promo code `%s`.', $code));
+            $coreSession->addError($this->__('Unable to apply promo code `%s`.', $escapedCode));
 
             $redirectUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
         }
