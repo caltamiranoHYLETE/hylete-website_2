@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
 
 <layout version="0.1.0">
+    <adminhtml_offerstab_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>offerstab/css/grid.css</stylesheet>
+            </action>
+        </reference>
+    </adminhtml_offerstab_index>
 </layout>
