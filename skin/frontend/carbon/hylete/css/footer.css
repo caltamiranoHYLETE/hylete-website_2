@@ -160,11 +160,6 @@ height: 38px;
     display: block !important;
 }
 
-.footer-heading.active .fa-angle-right {
-    transform: rotate(90deg);
-    display: block !important;
-}
-
 #footer .content .follow-us {
     display: flex;
     justify-content: space-around;
