@@ -50,8 +50,9 @@
         margin-right: 17px;
     }
 
-    #footer h5.heading .icon-angle-down {
-        display: none;
+    #footer h5.heading .fa-angle-right {
+        transform: rotate(90deg);
+        display: block !important;
     }
 
     #footer .content {
