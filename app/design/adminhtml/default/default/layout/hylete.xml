@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author    Mediotype Development <diveinto@mediotype.com>
+* @copyright 2018 Mediotype. All Rights Reserved.
+*/
+-->
+<layout>
+    <!--
+    /**
+    * Solve conflict with extensions (HYLT-206):
+    * - AW_Catalogpermissions
+    * - Fispig_Wordpress
+    */
+    -->
+    <adminhtml_merchandiser_index>
+        <reference name="head">
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>aw_catalogpermissions/script.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>js/fishpig/wordpress/update.js</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <remove name="wordpress.adminLinks"/>
+            <remove name="wp.update"/>
+        </reference>
+    </adminhtml_merchandiser_index>
+</layout>
