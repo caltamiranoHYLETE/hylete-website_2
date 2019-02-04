@@ -50,10 +50,19 @@
         margin-right: 17px;
     }
 
-    #footer h5.heading .fa-angle-right {
-        transform: rotate(90deg);
+    #footer .footer-heading .fa-angle-right {
+        -moz-transition: all .4s linear;
+        -webkit-transition: all .4s linear;
+        transition: all .4s linear;
         display: block !important;
     }
+
+    #footer .footer-heading.active .fa-angle-right {
+        -moz-transform:rotate(90deg);
+        -webkit-transform:rotate(90deg);
+        transform:rotate(90deg);
+    }
+
 
     #footer .content {
         border-bottom: 1px #000 solid;
