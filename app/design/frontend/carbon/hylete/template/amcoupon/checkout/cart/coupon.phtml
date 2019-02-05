@@ -36,7 +36,7 @@
         <br/>
         <h2><?php echo $this->__('Applied Coupons'); ?></h2>
 
-        <table border="0" width="100%" cellpadding="4" cellspacing="0" style="padding-top: 3px;">
+        <table border="0" width="100%" cellpadding="4" cellspacing="0">
 
             <?php $couponCnt = 0; ?>
             <?php foreach ($this->_getAppliedCoupons() as $coupon): ?>
@@ -57,14 +57,13 @@
 
 <?php else: ?>
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('cart_promo_title')->toHtml() ?>
-    <div class="promo-wrapper">
+    <div class="promo promo-wrapper">
         <input type="checkbox" id="open-promo" class="open-promo stay-checked"/>
-        <label for="open-promo">Add a promo code</label>
-
+        <label for="open-promo"><?php echo $this->__('Add a promo code') ?></label>
         <form id="discount-coupon-form" class="clearfix coupon promo-content"
               action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
             <div class="discount">
-                <?php echo Mage::getModel('cms/block')->load('promo-cart-disclaimer')->getContent();?>
+                <?php echo Mage::getModel('cms/block')->load('promo-cart-disclaimer')->getContent(); ?>
                 <h2><?php echo $this->__('promo code') ?></h2>
                 <div class="discount-form">
                     <label for="coupon_code"><?php echo $this->__('enter a promo code if you have one') ?></label>
@@ -85,14 +84,15 @@
             <div class="discount">
                 <h2><?php echo $this->__('applied codes'); ?></h2>
 
-                <table border="0" cellpadding="4" cellspacing="0" style="padding-top: 3px;">
+                <table border="0" cellpadding="4" cellspacing="0">
                     <?php $couponCnt = 0; ?>
                     <?php foreach ($this->_getAppliedCoupons() as $coupon): ?>
                         <tr style="padding-bottom: 3px;">
                             <td style="padding: 0;"><?php echo $this->escapeHtml($coupon); ?></td>
                             <td style="text-align: right;">
                                 <form id="discount-coupon-cancel-form-<?php echo $couponCnt; ?>"
-                                      action="<?php echo $this->getUrl('amcoupons/checkout/cancelCoupon', array('_secure' => true)) ?>"
+                                      action="<?php echo $this->getUrl('amcoupons/checkout/cancelCoupon',
+                                          array('_secure' => true)) ?>"
                                       method="post">
                                     <input type="hidden" name="amcoupon_code_cancel"
                                            value="<?php echo $this->escapeHtml($coupon); ?>"/>
