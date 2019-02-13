@@ -35,9 +35,11 @@ class Mediotype_OfferStab_Model_CouponObserver
      */
     public function attemptAutomaticCouponApplication($observer)
     {
-        $checkoutSession = Mage::getSingleton("checkout/session");
-        $couponCode = $checkoutSession->getData("automaticCouponCode");
-
+        $checkoutSession = Mage::getSingleton('checkout/session');
+        $couponCode = $checkoutSession->getData('automaticCouponCode');
+        if (empty($couponCode)) {
+            $couponCode = $checkoutSession->getQuote()->getCouponCode();
+        }
         // If session contains 'automatic_coupon_code'
         if ($couponCode) {
             // Apply the code and Refresh the totals so that the appliedRuleId is available in the removal block below
@@ -49,9 +51,9 @@ class Mediotype_OfferStab_Model_CouponObserver
             $rules = Mage::getModel('salesrule/rule')->getCollection()->addFieldToFilter('rule_id', array('in' => $appliedRuleIds));
 
             foreach ($rules as $rule) {
-                if ($rule->getCode() == $couponCode) {
+                if ($rule->getCode() === $couponCode) {
                     // Remove the code from the session
-                    $checkoutSession->unsetData("automaticCouponCode");
+                    $checkoutSession->unsetData('automaticCouponCode');
                 }
             }
         }
