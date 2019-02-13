@@ -145,6 +145,16 @@
                     </mediotype_offerstab>
                 </observers>
             </mediotype_coupon_apply>
+
+            <customer_customer_authenticated>
+                <observers>
+                    <mediotype_offerstab>
+                        <type>singleton</type>
+                        <class>Mediotype_OffersTab_Model_CouponObserver</class>
+                        <method>attemptAutomaticCouponApplication</method>
+                    </mediotype_offerstab>
+                </observers>
+            </customer_customer_authenticated>
         </events>
 
         <routers>
