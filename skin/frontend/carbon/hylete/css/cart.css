@@ -699,3 +699,44 @@ cart-login:after {
 .cart .coupons-wrapper .promo {
     margin-bottom: 10px;
 }
+
+button.btn-proceed-checkout,
+.add-to-cart button,
+#signup-validate button,
+a.blue-button {
+    background: #34baf3;
+    border: none;
+    color: #FFF;
+    font-size: 18px;
+}
+
+input[type="submit"],
+button,
+.button,
+#recently-added-container .header .view-cart {
+    border-width: 1px;
+    -webkit-transition: all 0.25s ease 0s;
+    -moz-transition: all 0.25s ease 0s;
+    -o-transition: all 0.25s ease 0s;
+    transition: all 0.25s ease 0s;
+}
+
+button.btn-proceed-checkout:hover,
+.add-to-cart button:hover,
+.add-to-cart button:focus,
+#signup-validate button:hover,
+a.blue-button:hover {
+    background: #029bdc;
+}
+
+img.idme-cart-mini {
+    height: 13px;
+    vertical-align: baseline;
+    margin-right: 5px;
+}
+
+.button-login-facebook.button:hover {
+    background: #294278;
+    border-color: #294278;
+    color: #FFFFFF;
+}
