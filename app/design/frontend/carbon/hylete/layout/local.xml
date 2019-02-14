@@ -1189,9 +1189,6 @@
 
     <checkout_cart_index>
         <reference name="head">
-            <action method="unsetChild">
-                <name>customcss</name>
-            </action>
             <action method="removeItem">
                 <type>js</type>
                 <name>varien/weee.js</name>
