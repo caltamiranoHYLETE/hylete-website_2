@@ -529,6 +529,10 @@ cart-login:after {
     padding-left: 16px;
 }
 
+.coupons-checkboxes > .promo {
+    margin-bottom: 10px;
+}
+
 /* Cart page checkboxes */
 .open-promo,
 .open-giftcard {
