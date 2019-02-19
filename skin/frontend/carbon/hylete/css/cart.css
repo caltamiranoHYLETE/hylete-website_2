@@ -168,18 +168,17 @@
 }
 
 .discounts h2 {
-    margin: 8px 0 0 0;
     font-size: 14px;
     font-weight: bold;
+    margin: 0;
 }
 
 .discounts label {
     display: block;
-    margin-bottom: -15px;
 }
 
 .discounts input {
-    margin: 25px 5px 0 0;
+    margin: 0px 5px 0 0;
     width: 220px;
 }
 
@@ -188,7 +187,7 @@
 }
 
 .discounts button {
-    margin: 25px 0 0 0;
+    margin: 0;
     vertical-align: top;
 }
 
@@ -247,7 +246,6 @@
 
 .promo-content {
     display: none;
-    margin-top: 20px;
 }
 
 .open-promo:checked ~ .promo-content {
@@ -256,7 +254,6 @@
 
 .giftcard-content {
     display: none;
-    margin-top: 20px;
 }
 
 .open-giftcard:checked ~ .giftcard-content {
@@ -274,11 +271,9 @@
 .coupons-wrapper {
     margin-top: 29px;
 }
+.cart .discounts {
 
-.giftcard-wrapper {
-    margin: 20px 0;
 }
-
 .cart .totals th {
     text-align: left;
 }
@@ -534,6 +529,10 @@ cart-login:after {
     padding-left: 16px;
 }
 
+.coupons-checkboxes > .promo {
+    margin-bottom: 10px;
+}
+
 /* Cart page checkboxes */
 .open-promo,
 .open-giftcard {
@@ -564,7 +563,6 @@ cart-login:after {
     min-height: 18px;
     cursor: pointer;
     float: left;
-    margin: 0 10px 0 0 !important;
     top: 0;
     vertical-align: middle;
     display: inline-block !important;
@@ -700,4 +698,49 @@ cart-login:after {
 
 .cart .promo-title {
     margin: 0px;
+}
+
+.cart .coupons-wrapper .promo {
+    margin-bottom: 10px;
+}
+
+button.btn-proceed-checkout,
+.add-to-cart button,
+#signup-validate button,
+a.blue-button {
+    background: #34baf3;
+    border: none;
+    color: #FFF;
+    font-size: 18px;
+}
+
+input[type="submit"],
+button,
+.button,
+#recently-added-container .header .view-cart {
+    border-width: 1px;
+    -webkit-transition: all 0.25s ease 0s;
+    -moz-transition: all 0.25s ease 0s;
+    -o-transition: all 0.25s ease 0s;
+    transition: all 0.25s ease 0s;
+}
+
+button.btn-proceed-checkout:hover,
+.add-to-cart button:hover,
+.add-to-cart button:focus,
+#signup-validate button:hover,
+a.blue-button:hover {
+    background: #029bdc;
+}
+
+img.idme-cart-mini {
+    height: 13px;
+    vertical-align: baseline;
+    margin-right: 5px;
+}
+
+.button-login-facebook.button:hover {
+    background: #294278;
+    border-color: #294278;
+    color: #FFFFFF;
 }
