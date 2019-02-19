@@ -140,7 +140,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                             class="button-text"
                             id="empty_cart_button"
                             data-confirm-msg="<?php echo $this->__('Are You Sure?'); ?>">
-                        <i class="far fa-angle-double-left"> </i><span><?php echo $this->__('clear cart') ?></span>
+                        <i class="far fa-angle-double-left"></i><span> <?php echo $this->__('clear cart') ?></span>
                     </button>
                 </p>
             </form>
@@ -174,7 +174,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                             </div>
                             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-checkboxes">
                                 <?php echo $this->getChildHtml('coupon') ?>
-                                <div class="giftcard-wrapper">
+                                <div class="promo clearfix giftcard-wrapper">
                                     <!-- Display Only For Specific Store Views -->
                                     <?php
                                     if($_customerGroupId==0 OR $_customerGroupId==1)
@@ -183,22 +183,13 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                     }
                                     ?>
                                 </div>
-                                <div class="giftcard-wrapper">
-
+                                <div class="promo clearfix giftcard-wrapper">
                                     <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
                                     <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
                                     <div class="discount-giftcard giftcard-content">
                                         <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
                                     </div>
                                 </div>
-
-                                <!-- Display Only For Specific Store Views -->
-                                <?php
-                                if($_customerGroupId==0 OR $_customerGroupId==1)
-                                {
-                                  #  echo $this->getChildHtml('checkout.cart.extra');
-                                }
-                                ?>
                             </div>
                         </div>
                     </div>
@@ -209,7 +200,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-wrapper">
                                         <?php echo $this->getChildHtml('coupon') ?>
-                                        <div class="giftcard-wrapper">
+                                        <div class="promo giftcard-wrapper">
                                             <!-- Display Only For Specific Store Views -->
                                             <?php
                                             if($_customerGroupId==0 OR $_customerGroupId==1)
@@ -218,7 +209,7 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                             }
                                             ?>
                                         </div>
-                                        <div class="giftcard-wrapper">
+                                        <div class="promo giftcard-wrapper">
                                             <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
                                             <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
                                             <div class="discount-giftcard giftcard-content">
