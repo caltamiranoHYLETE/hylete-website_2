@@ -128,27 +128,27 @@ $customerHelper = $this->helper('customer');
 
                     <div data-togglecontent="header-account" data-togglegroup="header" data-toggleaction="mouseleave" data-toggleautoclose="true" class="box box-shadow account-links">
                         <?php if ($customerHelper->isLoggedIn()) { ?>
-                            <p><a href="<?php echo $this->getUrl('customer/account'); ?>"><div><?php echo $this->__('my account'); ?></div></a></p>
-                            <p><a href="<?php echo $this->getUrl('sales/order/history'); ?>"><div><?php echo $this->__('my orders'); ?></div></a></p>
-                            <p><a href="<?php echo $this->getUrl('customer/dashboard'); ?>"><div><?php echo $this->__('refer a friend'); ?></div></a></p>
+                            <p><a href="<?php echo $this->getUrl('customer/account'); ?>"><?php echo $this->__('my account'); ?></a></p>
+                            <p><a href="<?php echo $this->getUrl('sales/order/history'); ?>"><?php echo $this->__('my orders'); ?></a></p>
+                            <p><a href="<?php echo $this->getUrl('customer/dashboard'); ?>"><?php echo $this->__('refer a friend'); ?></a></p>
                             <p><?php echo $this->getLayout()
                                     ->createBlock('rewards/integrated_special_header', 'rewards_points_balance')
                                     ->setTemplate('rewards/special/header.phtml')
                                     ->toHtml() ?></p>
                             <?php if ($_ajaxLoginHelper->isEnabled()): ?>
-                                <p><a onclick="AjaxLogin.logout();"><div><?php echo $this->__('log out'); ?></div></a></p>
+                                <p><a onclick="AjaxLogin.logout();"><?php echo $this->__('log out'); ?></a></p>
                             <?php else: ?>
-                                <p><a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><div><?php echo $this->__('log out'); ?></div></a></p>
+                                <p><a href="<?php echo $this->getUrl('customer/account/logout'); ?>"><?php echo $this->__('log out'); ?></a></p>
                             <?php endif; ?>
                         <?php } else { ?>
                             <?php if ($_ajaxLoginHelper->isEnabled()): ?>
-                                <p><a onclick="AjaxLogin.openLogin();"><div><?php echo $this->__('log in'); ?></div></a></p>
-                                <p><a onclick="AjaxLogin.openRegistration();"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                                <p><a onclick="AjaxLogin.openLogin();"><?php echo $this->__('log in'); ?></a></p>
+                                <p><a onclick="AjaxLogin.openRegistration();"><?php echo $this->__('create an account'); ?></a></p>
                             <?php else: ?>
-                                <p><a href="<?php echo $this->getUrl('customer/account/login'); ?>"><div><?php echo $this->__('log in'); ?></div></a></p>
-                                <p><a href="<?php echo $this->getUrl('customer/account/create'); ?>"><div><?php echo $this->__('create an account'); ?></div></a></p>
+                                <p><a href="<?php echo $this->getUrl('customer/account/login'); ?>"><?php echo $this->__('log in'); ?></a></p>
+                                <p><a href="<?php echo $this->getUrl('customer/account/create'); ?>"><?php echo $this->__('create an account'); ?></a></p>
                             <?php endif; ?>
-                            <p><a href="<?php echo $this->getUrl('points'); ?>"><div><?php echo $this->__('HYLETE points program'); ?></div></a></p>
+                            <p><a href="<?php echo $this->getUrl('points'); ?>"><?php echo $this->__('HYLETE points program'); ?></a></p>
                         <?php } ?>
                     </div>
                 </div>

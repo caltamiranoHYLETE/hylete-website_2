@@ -35,7 +35,9 @@ if($this->allowShowBlock()):
         }
     }
     nxtAddLoadListener(function(){
-        document.getElementById("search_mini_form").action = "<?php echo $this->getResultUrl(); ?>";
+        if(document.getElementById("search_mini_form") !== null) {
+            document.getElementById("search_mini_form").action = "<?php echo $this->getResultUrl(); ?>";
+        }
     });
 
     //Nextopia initialization
