@@ -1,0 +1,151 @@
+<?php
+$value = array();
+$helper = Mage::helper('configurablegridview');
+$_helperHylete = Mage::helper('hylete');
+$storeId = Mage::app()
+        ->getStore()
+        ->getStoreId();
+$config = Mage::getModel('eav/config');
+$attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'controller_stocks');
+$values = $attribute->setStoreId($storeId)
+        ->getSource()
+        ->getAllOptions();
+$_product = $this->getProduct();
+$configurable = Mage::getModel('catalog/product_type_configurable')
+        ->setProduct($_product);
+$simpleCollection = $configurable->getUsedProductCollection()
+        ->addAttributeToSelect('*')
+        ->addFilterByRequiredOptions();
+$associative_products = $this->getProduct()
+        ->getTypeInstance()
+        ->getUsedProducts();
+$count = count($simpleCollection);
+$dem = 0;
+$val_in_stock;
+$val_out_of_stock;
+
+foreach ($values as $key => $val) {
+    if ($key != 0) {
+        $value[$key] = $val['label'];
+    }
+}
+
+for ($index = 1; $index < count($value); $index++) {
+    if ($value[$index] < $value[$index + 1]) {
+        $val_in_stock = $value[$index];
+        $val_out_of_stock = $value[$index + 1];
+    }
+}
+
+foreach ($simpleCollection as $_simpleProduct) {
+    $stock = number_format(Mage::getModel('cataloginventory/stock_item')
+            ->loadByProduct($_simpleProduct)
+            ->getQty());
+    if ($stock <= number_format($val_in_stock)) {
+        $dem = $dem + 1;
+    }
+}
+
+/* Will use to disable add to cart button */
+Mage::register('dem', $dem);
+Mage::register('count', $count);
+?>
+<?php if (!$helper->getIsEnabled()): ?>
+    <?php if ($_product->isSaleable() && count($associative_products)): ?>
+        <select name="super_attribute[<?php echo $_superattribute['attribute_id'] ?>]" class="required-entry">
+            <option value=""><?php echo $this->__('select %s', strtolower($_superattribute['label'])) ?></option>
+            <?php foreach ($associative_products as $associative_product): ?>
+                <option value="<?php echo $associative_product->getData($_superattribute['attribute_code']); ?>" <?php echo (!$associative_product->isSalable()) ? 'disabled' : ''; ?>>
+                    <?php echo $associative_product->getAttributeText($_superattribute['attribute_code']); ?><?php echo (!$associative_product->isSalable()) ? ' - ' . $this->__('out of stock') : ''; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    <?php endif; ?>
+<?php else : ?>
+    <?php if ($dem == $count): ?>
+        <p class="status-message">Out of stock</p>
+    <?php else: ?>
+        <?php
+        $configurable_products = $_helperHylete->getConfigurableModuleDataArray($associative_products, $this->getAllowAttributes());
+        ?>
+        <div id="bss_configurablegridview">
+            <table class="configurable-product-table data-table cart-table">
+                <thead>
+                <tr class="first last">
+                    <input type="hidden" name="configurable_grid_table" value="Yes"/>
+                    <input type="hidden" name="products" value="<?php echo $_product->getId(); ?>"/>
+                    <?php
+                    foreach ($configurable_products['labels'] as $_label) : ?>
+                        <th class="a-center attributes"><?php echo $_label; ?></th>
+                    <?php endforeach ?>
+                    <?php if ($helper->getStockEnabled()): ?>
+                        <th class="a-center avaibility"><?php echo $this->__('Availability'); ?></th>
+                    <?php endif; ?>
+                    <?php if ($helper->getShowPrice()) : ?>
+                        <th class="a-center price">Price</th>
+                    <?php endif ?>
+                    <th class="a-center qty">Qty</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($configurable_products['products'] as $productVal) : ?>
+                    <tr>
+                        <?php
+                        $att_price = 0;
+                        foreach ($productVal['attributes'] as $att) : ?>
+                            <?php $hidden_super_val = '<input type="hidden" name="super_attribute_quickshop[' . $productVal['info']['prod_id'] . '][' . $att['attribute_id'] . ']" value="' . $att['option_id'] . '">'; ?>
+                            <td class="a-center attributes"><?php echo $att['value'] . $hidden_super_val; ?>
+                            </td>
+                            <?php
+                            if ($att['is_percent'] == 1) {
+                                $att['pricing_value'] = $_product->getFinalPrice() * $att['pricing_value'] / 100;
+                            }
+                            ?>
+                            <?php $att_price = $att['pricing_value'] + $att_price; ?>
+                        <?php endforeach ?>
+
+                        <?php if ($productVal['info']['qty'] <= $val_in_stock): ?>
+                            <?php $qty_label = 'Out of stock'; ?>
+                        <?php else: ?>
+                            <?php if ($helper->getNumberStock() && $productVal['info']['qty'] <= $val_out_of_stock): ?>
+                                <?php $qty_label = $productVal['info']['qty']; ?>
+                            <?php else: ?>
+                                <?php $qty_label = '100+'; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if ($helper->getStockEnabled()): ?>
+                            <td class="a-center avaibility"><?php echo $qty_label; ?></td>
+                        <?php endif; ?>
+                        <?php if ($helper->getShowPrice()) : ?>
+                            <td class="a-center price">
+                                <?php echo Mage::app()
+                                                ->getLocale()
+                                                ->currency(Mage::app()
+                                                        ->getStore()
+                                                        ->getCurrentCurrencyCode())
+                                                ->getSymbol() . '<span>0.00</span>' ?>
+
+                            </td>
+                        <?php endif ?>
+                        <td class="a-center qty">
+                            <?php if ($productVal['info']['qty'] <= $val_in_stock): ?>
+                                <?php $disabled = 'disabled'; ?>
+                            <?php else: ?>
+                                <?php $disabled = ''; ?>
+                            <?php endif; ?>
+                            <input type="number" min="0" name="config_table_qty[<?php echo $productVal['info']['prod_id']; ?>]" value="0" <?php echo $disabled; ?>
+                                   id="super_group_qty_<?php echo $productVal['info']['prod_id']; ?>" class="qty_att_product input-text qty">
+                            <input type="hidden" value="<?php echo $_product->getFinalPrice() + $att_price ?>">
+                            <input type="hidden" value="<?php echo $_product->getPrice() + $att_price ?>">
+                        </td>
+                    </tr>
+
+                <?php endforeach ?>
+                </tbody>
+            </table>
+            <input type="hidden" class="required-entry check-configuable-product">
+            <input type="hidden" name="bss-currency-symbol" id="bss-currency-symbol" value="<?php echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() ?>">
+        </div>
+    <?php endif ?>
+<?php endif ?>

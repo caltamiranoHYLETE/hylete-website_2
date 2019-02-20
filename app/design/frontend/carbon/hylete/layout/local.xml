@@ -578,6 +578,13 @@
         <update handle="category_left_column"/>
     </catalog_category_layered>
 
+    <PRODUCT_TYPE_style>
+        <reference name="breadcrumbs.container">
+            <action method="unsetChild">
+                <name>breadcrumbs</name>
+            </action>
+        </reference>
+    </PRODUCT_TYPE_style>
     <catalog_product_view>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
