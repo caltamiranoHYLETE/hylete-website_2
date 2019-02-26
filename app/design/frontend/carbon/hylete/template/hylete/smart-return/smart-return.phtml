@@ -1,0 +1,17 @@
+<?php
+
+    if($_SERVER['REMOTE_ADDR'] != "98.186.225.197") {
+       //we throw a small javascript password protection up.
+        ?>
+        <script type="text/javascript">
+            var password = 'Whitehorse7'
+            var retVal = prompt("HYLETE Administrators Only. Enter your password: ", "");
+            if(retVal !== password)
+            {
+                location.assign('');
+            }
+        </script>
+        <?php
+	}
+
+?>
