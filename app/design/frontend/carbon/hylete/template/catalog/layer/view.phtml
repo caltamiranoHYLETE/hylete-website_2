@@ -31,61 +31,75 @@
  * @see Mage_Catalog_Block_Layer_View
  */
 ?>
-<?php if($this->canShowBlock()): ?>
-    <?php $selectedFilters = array();?>
+<?php if ($this->canShowBlock()): ?>
     <?php $hlp = Mage::helper("multioptionfilter"); ?>
-    
-    
-    <div class="block block-layered-nav">
-        <h3 class="visible-xs visible-sm show-mobile-filter"><?php echo $this->__('filter and sort'); ?> <i class="fal fa-angle-down"></i></h3>
-        <ul id="narrow-by-list" class="filter">
-            <li class="hidden-inline-block-xs hidden-inline-block-sm"><h3><?php echo $this->__('filter by'); ?>:</h3></li>
+    <div class="block-layered-nav-wrapper">
+        <div class="block-title">
+            <h3><?php echo $this->__('shop by'); ?></h3>
+        </div>
+        <?php if ($activeFilters = $this->getLayer()->getState()->getFilters()): ?>
+            <ul class="remove-item-list">
+                <?php foreach ($activeFilters as $activeFilter): ?>
+                <?php /** @var $activeFilter \Vaimo_MultiOptionFilter_Model_Filter_Item */ ?>
+                    <li class="remove-item">
 
-            <?php if($this->canShowOptions()): ?>
-                <?php $_filters = $this->getFilters() ?>
-                <?php foreach ($_filters as $_filter): ?>
-                    <?php if($_filter->getType() != 'catalog/layer_filter_category' ): ?>
-                        <?php if($_filter->getItemsCount()): ?>
-                            <?php 
-                            $_selectedOptions = Mage::helper('multioptionfilter')->getSelectedLayerOptions($_filter);
-                            $_count = count($_selectedOptions['selected']);
-                            $_count = ($_count > 0) ? ' (' . $_count . ')' : '';
-                            ?>
-                            <li data-togglelink="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter" data-togglespeed="0">
-                                <span><?php echo $this->__($_filter->getName()) ?></span><?php echo $_count;?><i class="fal fa-angle-down"></i>
-                            </li>
-                            <div data-togglecontent="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter"><?php echo $_filter->getHtml() ?></div>
-                        <?php endif ?>
-                    <?php endif ?>
+                        <?php $clearLinkUrl = $activeFilter->getClearLinkUrl(); ?>
+                        <?php if ($clearLinkUrl): ?>
+                            <a class="btn-previous" href="<?php echo $activeFilter->getRemoveUrl() ?>"
+                               title="<?php echo $this->__('Previous') ?>"><?php echo $this->__('Previous') ?></a>
+                            <a class="btn-remove"
+                               title="<?php echo $this->escapeHtml($activeFilter->getFilter()->getClearLinkText()) ?>"
+                               href="<?php echo $clearLinkUrl ?>"><?php echo $this->escapeHtml($activeFilter->getFilter()->getClearLinkText()) ?></a>
+                        <?php else: ?>
+                            <a class="btn-remove"
+                               href="<?php echo $activeFilter->getRemoveUrl() ?>"
+                               title="<?php echo $this->__('Remove This Item') ?>">
+                                <span class="label"><?php echo $this->__($activeFilter->getName()) ?>:</span>
+                                <span class="value"><?php echo $this->stripTags($activeFilter->getLabel()) ?></span>
+                            </a>
+                        <?php endif; ?>
+                    </li>
                 <?php endforeach ?>
-            <?php endif ?>
-            
-            <?php
-            $_filteredList = $this->getLayout()->getBlockSingleton('catalog/product_list')->getLoadedProductCollection();
-            $_toolbar = Mage::app()->getLayout()->createBlock('catalog/product_list')->getToolbarBlock();
-            $_toolbar->setCollection($_filteredList);    
-            ?>
-            
-            <?php if ($this->getLayer()->getState()->getFilters() || $_toolbar->getCurrentOrder() != 'position'): ?>
-                <li><a class="clear-all" href="<?php echo $this->getUrl('*/*/*', array('_use_rewrite' => true, '_forced_secure' => false, '_query' => array('order' => 'position')));?>"><?php echo $this->__('clear all') ?> <span class="icon-remove-circle"></span></a></li>
-            <?php endif ?>
-                        
-            <li class="sort-by">
-                <?php echo $_toolbar->toHtml();?>
-            </li>
-        </ul>
-        
-        <div class="content">
-            <?php if($this->canShowOptions()): ?>
+                <div class="actions">
+                    <a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a>
+                </div>
+            </ul>
+        <?php endif; ?>
+        <div class="block block-layered-nav">
+            <ul id="narrow-by-list" class="filter">
                 <?php $_filters = $this->getFilters() ?>
-                <?php foreach ($_filters as $_filter): ?>
-                    <?php if($_filter->getType() != 'catalog/layer_filter_category' ): ?>
-                        <?php if($_filter->getItemsCount()): ?>
-                            <div data-togglecontent="<?php echo htmlspecialchars($_filter->getName());?>" data-togglegroup="filter"><?php echo $_filter->getHtml() ?></div>
+                <?php if ($this->canShowOptions()): ?>
+                    <?php foreach ($_filters as $_filter): ?>
+                        <?php if ($_filter->getType() !== 'catalog/layer_filter_category'): ?>
+                            <?php if ($_filter->getItemsCount()): ?>
+                                <?php $filterName = htmlspecialchars($_filter->getName()); ?>
+                                <?php $filterGroup = 'filter_' . $filterName; ?>
+                                <li class="filter-options-group">
+                                    <div class="refine-title">
+                                        <?php echo $this->__($_filter->getName()) ?>
+                                        <i class="fal fa-angle-up"></i>
+                                    </div>
+                                    <div class="filter-options">
+                                        <?php echo $_filter->getHtml() ?>
+                                    </div>
+                                </li>
+
+                            <?php endif ?>
                         <?php endif ?>
-                    <?php endif ?>
-                <?php endforeach ?>
-            <?php endif ?>
+                    <?php endforeach ?>
+                <?php endif ?>
+            </ul>
+
         </div>
     </div>
+
+<script type="text/javascript">
+    (function ($) {
+        "use strict";
+        $('.filter-options-group .refine-title').on('click', function () {
+            $(this).siblings('.filter-options').toggle();
+            $(this).toggleClass('collapsed');
+        });
+    })(jQuery);
+</script>
 <?php endif ?>

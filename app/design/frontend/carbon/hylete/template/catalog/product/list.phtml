@@ -47,6 +47,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
 <?php else: ?>
     <div class="category-products js-products">
         <?php echo $this->getChildHtml('product_list.before_toolbar'); ?>
+        <?php echo $this->getToolbarBlock()->setTemplate('catalog/product/list/toolbar-top.phtml')->toHtml();  ?>
         <ol class="products-grid row">
             <?php foreach ($_productCollection as $_product): ?>
                 <?php if ($_product->getTypeId() == 'cmsproduct'): ?>
@@ -145,8 +146,6 @@ $_backitHelper              = Mage::helper('hylete/backit');
             <?php endforeach; ?>
         </ol>
 
-        <div class="loadmore toolbar-bottom">
-            <?php echo $this->getToolbarBlock()->setTemplate('catalog/product/list/loadmore.phtml')->setCollection($_productCollection)->toHtml(); ?>
-        </div>
+        <?php echo $this->getToolbarBlock()->setTemplate('catalog/product/list/toolbar-bottom.phtml')->toHtml();  ?>
     </div>
 <?php endif; ?>
