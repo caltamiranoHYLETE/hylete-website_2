@@ -35,7 +35,6 @@
         <?php echo $this->getChildHtml('head') ?>
     </head>
     <?php $leftBottomBlock = $this->getChildHtml('left.bottom') ?>
-    <?php $leftBlock = $this->getChildHtml('left') ?>
 
     <body class="<?php echo $this->getBodyClass()?:'' ?>" ontouchstart>
         <?php echo $this->getChildHtml('after_body_start') ?>
@@ -48,9 +47,9 @@
             <div class="main-container col2-left-layout">
                 <div class="col-md-3">
                     <div class="sidebar col-left"></div>
-                    <div class="col-left-2 col-xs-12 hidden-xs hidden-sm">
+                    <div class="col-left-2 col-xs-12">
                         <div class="sidebar-content">
-                            <?php echo $leftBlock ?>
+                            <?php echo $this->getChildHtml('left')  ?>
                         </div>
                         <div class="sidebar-content-bottom">
                             <?php echo $leftBottomBlock ?>
@@ -62,9 +61,6 @@
                     <?php echo $this->getChildHtml('content') ?>
                 </div>
                 <div class="col-left-2 col-xs-12 visible-xs visible-sm">
-                    <div class="sidebar-content">
-                        <?php echo $leftBlock ?>
-                    </div>
                     <div class="sidebar-content-bottom">
                         <?php echo $leftBottomBlock ?>
                     </div>
