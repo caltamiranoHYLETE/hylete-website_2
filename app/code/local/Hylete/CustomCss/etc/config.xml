@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_CustomCss>
+            <version>1.0.0</version>
+        </Hylete_CustomCss>
+    </modules>
+    <global>
+        <resources>
+            <hylete_customcss_setup>
+                <setup>
+                    <module>Hylete_CustomCss</module>
+                </setup>
+            </hylete_customcss_setup>
+        </resources>
+        <blocks>
+            <customcss>
+                <rewrite>
+                    <adminhtml_customcss_grid>Hylete_CustomCss_Block_CustomCss_Adminhtml_Customcss_Grid</adminhtml_customcss_grid>
+                    <adminhtml_customcss_edit_form>Hylete_CustomCss_Block_CustomCss_Adminhtml_Customcss_Edit_Form</adminhtml_customcss_edit_form>
+                </rewrite>
+            </customcss>
+        </blocks>
+    </global>
+</config>
