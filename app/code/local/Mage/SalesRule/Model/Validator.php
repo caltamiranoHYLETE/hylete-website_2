@@ -284,7 +284,14 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             $this->_isFirstTimeResetRun = false;
         }
         $this->_address = $address;
-
+        /**
+         * Hotfix HYLT-219
+         */
+        if ($this->_getRules() !== null) {
+            foreach ($this->_getRules() as $rule) {
+                $rule->setIsValidForAddress($address, null);
+            }
+        }
         return $this;
     }
 
