@@ -200,8 +200,6 @@
 }
 
 .discounts .validation-advice {
-    left: 0;
-    margin-top: 3px;
     position: absolute;
 }
 
@@ -743,4 +741,8 @@ img.idme-cart-mini {
     background: #294278;
     border-color: #294278;
     color: #FFFFFF;
+}
+
+.cart .promo .input-box {
+    margin-bottom: 10px;
 }
