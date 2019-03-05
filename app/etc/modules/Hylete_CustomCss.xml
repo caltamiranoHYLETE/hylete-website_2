@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hylete_CustomCss>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Vaimo_CustomCss/>
+
+            </depends>
+        </Hylete_CustomCss>
+    </modules>
+</config>

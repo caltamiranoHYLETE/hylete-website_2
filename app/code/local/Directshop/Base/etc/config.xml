@@ -73,8 +73,8 @@
         
 	    <dsbase>
 	    	<notification>
-		    	<notification_enabled>1</notification_enabled>
-		        <feed_url>feeds.feedburner.com/directshopsolutions/tAWN</feed_url>
+		    	<notification_enabled>0</notification_enabled>
+		        <feed_url></feed_url>
 		        <use_https>0</use_https>
 		        <frequency>24</frequency>
 		        <last_update>0</last_update>
