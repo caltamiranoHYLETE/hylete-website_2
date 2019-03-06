@@ -2,54 +2,46 @@
 class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Action {
 
   public function exportAction() {
-
-    // The original author of this class relied on limiting selects to 10 and calling
-    // the getUnexportedProducts function until it returned no unexported products
-    // Instead, we're now going to export the entire product set every time
-    // Every 100 exports, sleep for 1 second
-    $export_chunk_size = 100;
-    $export_sleep_sec = 1;
-
+    // Load constants, helpers and categories
+    $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
     $helper = Mage::helper('pixlee');
-    $json = array();
+    $pixleeAPI = $helper->getNewPixlee();
+    if (!$pixleeAPI || is_null($pixleeAPI)) {
+      Mage::getSingleton("adminhtml/session")->addWarning("API credentials seem to be wrong, please check and try again");
+      return;
+    }
+    $categoriesMap = $helper->getCategoriesMap();
+    $numProducts = $helper->getTotalProductsCount();
 
-    $raven = Mage::helper('pixlee');
-    $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
-    $raven->ravenize($pixleeAccountApiKey);
+    // Pagination variables
+    $counter = 0;   
+    $limit = 100;
+    $offset = 0;
 
-    if($helper->isActive()) {
+    // Tell distilery that the job started
+    $jobId = uniqid();
+    $helper->notifyExportStatus('started', $jobId, $numProducts);
 
-      $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
-
-      if ($separateVariants) {
-        $products = Mage::getModel('catalog/product')->getCollection();
-      } else {
-        $products = Mage::getModel('catalog/product')->getCollection()->addAttributeToFilter('visibility', array('neq' => 1));
+    while ($offset < $numProducts) {
+      $products = Mage::getModel('catalog/product')->getCollection();
+      $products->addAttributeToFilter('status', array('neq' => 2));   
+      if (!$separateVariants) {
+        $products->addAttributeToFilter('visibility', array('neq' => 1));
       }
-      $products->getSelect();
+      $products->getSelect()->limit($limit, $offset);
       $products->addAttributeToSelect('*');
+      $offset = $offset + $limit;
 
-      // Manually throttle our exports
-      $counter = 0;
-
-      foreach($products as $product) {
-        $ids = $product->getStoreIds();
-        if(isset($ids[0])) {
-          $product->setStoreId($ids[0]);
-        }
-        $counter += 1;
-        $helper->exportProductToPixlee($product);
-
-        // Now that we don't have the ->getSelect()->limit(10) to keep ourselves from
-        // overloading stuff, we'll have to manage it ourselves
-        if($counter % $export_chunk_size == 0) {
-            sleep($export_sleep_sec);
-        }
+      foreach ($products as $product) {
+        $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
+        if ($productCreated) $counter += 1;
       }
 
-      $json = array('action' => 'success');
+      unset($products);
     }
 
+    $helper->notifyExportStatus('finished', $jobId, $counter);
+    $json = array('action' => 'success');
     $json['pixlee_remaining_text'] = $helper->getPixleeRemainingText();
     $this->getResponse()->setHeader('Content-type', 'application/json');
     $this->getResponse()->setBody(json_encode($this->utf8_converter($json)));
@@ -59,15 +51,13 @@ class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Acti
     return Mage::getSingleton('admin/session')->isAllowed('pixlee');
   }
 
-  public function utf8_converter($array)
-  {
-      array_walk_recursive($array, function(&$item, $key){
-          if(!mb_detect_encoding($item, 'utf-8', true)){
-                  $item = utf8_encode($item);
-          }
-      });
-   
-      return $array;
+  public function utf8_converter($array) {
+    array_walk_recursive($array, function(&$item, $key){
+      if(!mb_detect_encoding($item, 'utf-8', true)){
+        $item = utf8_encode($item);
+      }
+    });
+ 
+    return $array;
   }
-
 }
