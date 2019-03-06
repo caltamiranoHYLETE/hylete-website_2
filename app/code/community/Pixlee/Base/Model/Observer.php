@@ -10,10 +10,6 @@ class Pixlee_Base_Model_Observer {
     $this->_urls['removeFromCart'] = self::ANALYTICS_BASE_URL . 'removeFromCart';
     $this->_urls['checkoutStart'] = self::ANALYTICS_BASE_URL . 'checkoutStart';
     $this->_urls['checkoutSuccess'] = self::ANALYTICS_BASE_URL . 'conversion';
-
-    $raven = Mage::helper('pixlee');
-    $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
-    $raven->ravenize($pixleeAccountApiKey);
   }
 
   public function isNewProductCheck(Varien_Event_Observer $observer) {
@@ -27,28 +23,43 @@ class Pixlee_Base_Model_Observer {
   public function createProductTrigger(Varien_Event_Observer $observer) {
     $helper = Mage::helper('pixlee');
     $product = $observer->getEvent()->getProduct();
+    $categoriesMap = $helper->getCategoriesMap();
+    $pixleeAPI = $helper->getNewPixlee();
+    if (!$pixleeAPI || is_null($pixleeAPI)) {
+      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You do not have the right API credentials. Please check the plugin configuration.");
+      return;
+    }
+
     try{
-      $helper->exportProductToPixlee($product);
+      $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
     } catch (Exception $e) {
-      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee Magento - You may not have the right API credentials. Please check the plugin configuration.");
-      //Mage::log("PIXLEE ERROR: " . $e->getMessage());
+      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You may not have the right API credentials. Please check the plugin configuration.");
+      Mage::log("PIXLEE ERROR: " . $e->getMessage());
     }
   }
 
   public function exportProductsTrigger(Varien_Event_Observer $observer) {
     $helper = Mage::helper('pixlee');
+    $categoriesMap = $helper->getCategoriesMap();
+    $pixleeAPI = $helper->getNewPixlee();
+    if (!$pixleeAPI || is_null($pixleeAPI)) {
+      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You do not have the right API credentials. Please check the plugin configuration.");
+      return;
+    }
+    
     $products = $helper->getUnexportedProducts();
     $products->getSelect();
+
     try{
       foreach($products as $product) {
         $ids = $product->getStoreIds();
         if(isset($ids[0])) {
           $product->setStoreId($ids[0]);
         }
-        $helper->exportProductToPixlee($product);
+        $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
       }
     } catch (Exception $e) {
-      //Mage::log("PIXLEE ERROR: " . $e->getMessage());
+      Mage::log("PIXLEE ERROR: " . $e->getMessage());
     }
   }
 
@@ -108,7 +119,7 @@ class Pixlee_Base_Model_Observer {
     $helper = Mage::helper('pixlee');
     foreach ($quote->getAllVisibleItems() as $item) {
       $product = $helper->_extractActualProduct($item);
-      $helper->exportProductToPixlee($product, $update_stock_only = True);
+      $helper->updateStock($product);
     }
   }
 
@@ -122,15 +133,16 @@ class Pixlee_Base_Model_Observer {
     $order = $observer->getEvent()->getOrder();
     foreach ($order->getAllVisibleItems() as $item) {
       $product = $helper->_extractActualProduct($item);
-      $helper->exportProductToPixlee($product, $update_stock_only = True);
+      $helper->updateStock($product);
     }
   }
 
   // VALIDATE CREDENTIALS
   public function validateCredentials(Varien_Event_Observer $observer){
     $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
+    $pixleeAccountSecretKey = Mage::getStoreConfig('pixlee/pixlee/account_secret_key', Mage::app()->getStore());
 
-    $this->_pixleeAPI = new Pixlee_Pixlee($pixleeAccountApiKey);
+    $this->_pixleeAPI = new Pixlee_Pixlee($pixleeAccountApiKey, $pixleeAccountSecretKey);
     try{
       $this->_pixleeAPI->getAlbums();
     }catch(Exception $e){
@@ -164,7 +176,7 @@ class Pixlee_Base_Model_Observer {
   protected function _preparePayload($extraData = array()) {
     $helper = Mage::helper('pixlee');
 
-    //Mage::log("* In _preparePayload");
+    Mage::log("* In _preparePayload");
     if(($payload = $this->_getPixleeCookie()) && $helper->isActive()) {
       // Append all extra data to the payload
       foreach($extraData as $key => $value) {
@@ -173,11 +185,11 @@ class Pixlee_Base_Model_Observer {
           $payload[$key] = $value;
         }
       }
-      //Mage::log("** Before building payload");
+      Mage::log("** Before building payload");
       // Required key/value pairs not in the payload by default.
       $payload['API_KEY']= Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
       $payload['uid'] = $payload['CURRENT_PIXLEE_USER_ID'];
-      //Mage::log("** After building payload");
+      Mage::log("** After building payload");
       $payload['ecommerce_platform'] = 'magento_1';
       $payload['ecommerce_platform_version'] = '2.0.0';
       $payload['version_hash'] = $this->_getVersionHash();
@@ -187,8 +199,8 @@ class Pixlee_Base_Model_Observer {
   }
 
   protected function _sendPayload($event, $payload) {
-    //Mage::log("* In _sendPayload");
-    //Mage::log("** Payload: $payload");
+    Mage::log("* In _sendPayload. Event: $event");
+    Mage::log("** Payload: $payload");
     if($payload && isset($this->_urls[$event])) {
       // I'm reading that curl won't actually raise an exception, but rather
       // it'll just return false - however, this couldn't hurt
@@ -213,17 +225,17 @@ class Pixlee_Base_Model_Observer {
         curl_close($ch);
 
         if( !$this->isBetween($responseCode, 200, 299) ) {
-          //Mage::log("HTTP $responseCode response from Pixlee API", Zend_Log::ERR);
+          Mage::log("HTTP $responseCode response from Pixlee API", Zend_Log::ERR);
         } elseif ( is_object($response) && is_null( $response->status ) ) {
-          //Mage::log("Pixlee did not return a status", Zend_Log::ERR);
+          Mage::log("Pixlee did not return a status", Zend_Log::ERR);
         } elseif( is_object($response) && !$this->isBetween( $response->status, 200, 299 ) ) {
           $errorMessage   = implode(',', (array)$response->message);
-          //Mage::log("$response->status - $errorMessage ", Zend_Log::ERR);
+          Mage::log("$response->status - $errorMessage ", Zend_Log::ERR);
         } else {
           return true;
         }
       } catch (Exception $e) {
-        //Mage::log("PIXLEE ERROR: " . $e->getMessage());
+        Mage::log("PIXLEE ERROR: " . $e->getMessage());
       }
     }
     return false;
@@ -231,7 +243,7 @@ class Pixlee_Base_Model_Observer {
 
   protected function _extractProduct($product) {
     $productData = array();
-    //Mage::log("* In _extractProduct");
+    Mage::log("* In _extractProduct");
     if(is_a($product, 'Mage_Sales_Model_Quote_Item')) {
       $productData['quantity'] = (int) $product->getQty();
       $product = $product->getProduct();
