@@ -1,0 +1,28 @@
+<?php
+/**
+ * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+/** @var $this \Mage_Catalog_Block_Product_View */
+?>
+<?php
+$helper = Mage::helper('pixlee');
+$product = $this->getProduct();
+if($product !== null && $helper->isActive()): ?>
+    <div id="pixlee_container"></div>
+    <script type="text/javascript">
+        window.PixleeAsyncInit = function () {
+            Pixlee.init({
+                apiKey: '<?php echo $this->getAccountApiKey() ?>'
+            });
+            Pixlee.addCategoryWidget({
+                accountId: <?php echo $this->getAccountId() ?>,
+                widgetId: <?php echo $this->getWidgetId() ?>,
+                categoryName: <?php echo $this->escapeHtml($product->getName()) ?>,
+                fallbackAlbumId: 1701367,
+                fallbackThreshold: 2
+            });
+        };
+    </script>
+    <script src="//assets.pixlee.com/assets/pixlee_widget_1_0_0.js"></script>
+<?php endif ?>
