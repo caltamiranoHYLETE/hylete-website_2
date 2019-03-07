@@ -11,10 +11,8 @@
 if ($_category = $this->getCurrentCategory()) : ?>
     <?php $_description = $this->helper('catalog/output')->categoryAttribute($_category, $_category->getDescription(), 'description'); ?>
     <?php if ($_description): ?>
-        <div class="row">
-            <div class="col-xs-12">
-                <?php echo $_description ?>
-            </div>
+        <div class="align-center">
+            <?php echo $_description ?>
         </div>
     <?php endif; ?>
 <?php endif ?>
