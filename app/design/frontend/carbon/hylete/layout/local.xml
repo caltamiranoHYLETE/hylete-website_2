@@ -301,7 +301,7 @@
             <block type="page/html_wrapper" name="footer.before" as="footer_before" translate="label" before="footer">
                 <label>Page Footer</label>
                 <action method="setElementClass">
-                    <value>container footer-before-container</value>
+                    <value>footer-before-container</value>
                 </action>
             </block>
         </reference>
