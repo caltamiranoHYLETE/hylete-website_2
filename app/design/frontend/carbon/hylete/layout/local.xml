@@ -298,6 +298,12 @@
             <block type="core/text_list" name="left.bottom">
                 <label>Left bottom</label>
             </block>
+            <block type="page/html_wrapper" name="footer.before" as="footer_before" translate="label" before="footer">
+                <label>Page Footer</label>
+                <action method="setElementClass">
+                    <value>container footer-before-container</value>
+                </action>
+            </block>
         </reference>
     </default>
 
@@ -538,6 +544,9 @@
             </block>
         </reference>
         <update handle="category_left_column"/>
+        <reference name="footer.before">
+            <block name="footer.category" type="catalog/category_view" template="catalog/category/footer.phtml" before="-"/>
+        </reference>
     </catalog_category_default>
 
     <catalog_category_layered>
@@ -582,6 +591,9 @@
             </action>
         </reference>
         <update handle="category_left_column"/>
+        <reference name="footer.before">
+            <block name="footer.category" type="catalog/category_view" template="catalog/category/footer.phtml" before="-"/>
+        </reference>
     </catalog_category_layered>
 
     <PRODUCT_TYPE_style>
