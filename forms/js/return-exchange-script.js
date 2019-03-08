@@ -181,6 +181,38 @@ jQuery(document).ready(function(){
         jQuery('.exchangeTooltip').tooltip("destroy");
     });
 
+    jQuery('#warranty_other_choice').on('click', function() {
+        jQuery(".select_exchange").fadeOut(function() {
+            jQuery("#exchange_title").text("exchange for sku");
+            jQuery(".input_exchange").fadeIn();
+            jQuery('.small_input').each(function() {
+                var qty = parseInt(jQuery(this).val());
+                if(qty > 0){
+                    jQuery(this).parent().nextAll().find('.select_reason').prop('disabled', false);
+                    jQuery(this).parent().nextAll().find('.input_exchange').prop('disabled', false);
+                    jQuery(this).parent().nextAll().find('.select_exchange').prop('disabled', true);
+                }else{
+                    jQuery(this).parent().nextAll().find('.input_exchange').prop('disabled', true);
+                    jQuery(this).parent().nextAll().find('.select_exchange').prop('disabled', true);
+                }
+            });
+
+            jQuery('.plus_disabled').each(function() {
+                jQuery(this).removeClass("plus_disabled").addClass("plus");
+            });
+
+            jQuery('.minus_disabled').each(function() {
+                jQuery(this).removeClass("minus_disabled").addClass("minus");
+            });
+        });
+
+        jQuery(".select_reason").fadeOut(function() {
+            jQuery(".warranty_reason").fadeIn();
+        });
+
+        jQuery('.exchangeTooltip').tooltip("destroy");
+    });
+
     jQuery('#exchange_choice').on('click', function() {
         jQuery('#choice1').tooltip("destroy");
         jQuery("#exchange_title").text("exchange for size");
@@ -265,9 +297,11 @@ jQuery(document).ready(function(){
 
     });
 
+    //These are the plus button actions
     jQuery('#product_table_area').on('click', '.plus', function(e) {
         e.preventDefault();
         var max = parseInt(jQuery(this).attr('max'));
+        var sku = jQuery(this).attr('sku');
         var qtyField = jQuery(this).prev('input');
         var qty = parseInt(qtyField.val());
 
@@ -291,6 +325,15 @@ jQuery(document).ready(function(){
                 jQuery(this).parent().nextAll().find('.input_exchange').prop('disabled', false);
             }
 
+            if(jQuery('#warranty_other_choice').is(':checked')) {
+                jQuery(this).parent().nextAll().find('.input_exchange').prop('disabled', false);
+
+                jQuery(this).parent().nextAll().find('.select_reason').fadeOut();
+                jQuery(this).parent().nextAll().find('.warranty_reason').fadeIn();
+                jQuery(this).parent().nextAll().find('.warranty_reason').prop('disabled', false);
+                jQuery(this).parent().nextAll().find('.input_exchange').val(sku);
+            }
+
         } else{
             jQuery(this).parent().nextAll().find('.select_reason').prop('disabled', 'disabled');
             jQuery(this).parent().nextAll().find('.select_exchange').prop('disabled', 'disabled');
@@ -309,6 +352,8 @@ jQuery(document).ready(function(){
         if(qtyField.val() == 0){
             jQuery(this).parent().nextAll().find('.select_reason').prop('disabled', 'disabled');
             jQuery(this).parent().nextAll().find('.select_exchange').prop('disabled', 'disabled');
+            jQuery(this).parent().nextAll().find('.warranty_reason').prop('disabled', 'disabled');
+            jQuery(this).parent().nextAll().find('.input_exchange').prop('disabled', 'disabled');
         }
     });
 
@@ -349,10 +394,20 @@ jQuery(document).ready(function(){
 
                 if(qty > 0){
                     qtyReturned += qty;
-                    var reason = jQuery(this).parent().nextAll().find('.select_reason').val();
 
-                    if(reason == "") {
-                        errorMessage += "\<li\>Please make sure you have selected a return reason for all items being returned or exchanged.\</li\>";
+                    if(jQuery('#warranty_other_choice').is(':checked')) {
+
+                        var reason = jQuery(this).parent().nextAll().find('.warranty_reason').val();
+
+                        if(reason == "") {
+                            errorMessage += "\<li\>Please make sure you have selected a return reason for all items being exchanged.\</li\>";
+                        }
+                    } else{
+                        var reason = jQuery(this).parent().nextAll().find('.select_reason').val();
+
+                        if(reason == "") {
+                            errorMessage += "\<li\>Please make sure you have selected a return reason for all items being returned or exchanged.\</li\>";
+                        }
                     }
 
                     if(jQuery('#exchange_choice').is(':checked')) {
@@ -363,6 +418,13 @@ jQuery(document).ready(function(){
                     }
 
                     if(jQuery('#exchange_other_choice').is(':checked')) {
+                        var exchange = jQuery(this).parent().nextAll().find('.input_exchange').val();
+                        if(exchange == "") {
+                            errorMessage += "\<li\>Please make sure you have entered a sku for the item(s) you are exchanging.\</li\>";
+                        }
+                    }
+
+                    if(jQuery('#warranty_other_choice').is(':checked')) {
                         var exchange = jQuery(this).parent().nextAll().find('.input_exchange').val();
                         if(exchange == "") {
                             errorMessage += "\<li\>Please make sure you have entered a sku for the item(s) you are exchanging.\</li\>";
@@ -421,11 +483,19 @@ jQuery(document).ready(function(){
                                 jQuery('#modal-message').html("<h2>There was an error processing your return!</h2><h4>" + jsonObj[0].ErrorMessage + "</h4>");
                             } else{
 
-                                jQuery('#modal-message').html("<h4>Your return has been submitted successfully!</h4>");
-                                jQuery('#print-label-area').show();
-                                jQuery("a.text-link").prop("href", jsonObj[0].LabelUrl);
-                                jQuery("a.img-link").prop("href",jsonObj[0].LabelUrl);
-                                jQuery("#email-link").text("An email with your label and more information has been sent to " + jsonObj[0].Email);
+                                //if it is a warranty, we display a different popup
+                                console.log(jsonObj[0])
+                                if(jsonObj[0].IsWarranty) {
+                                    jQuery('#modal-message').html("<h4>Your warranty replacement has been submitted successfully!</h4>");
+                                    jQuery('#warranty-label-area').show();
+                                    jQuery("#warranty-message").text(jsonObj[0].OrderId + " has been created in NetSuite");
+                                } else {
+                                    jQuery('#modal-message').html("<h4>Your return has been submitted successfully!</h4>");
+                                    jQuery('#print-label-area').show();
+                                    jQuery("a.text-link").prop("href", jsonObj[0].LabelUrl);
+                                    jQuery("a.img-link").prop("href",jsonObj[0].LabelUrl);
+                                    jQuery("#email-link").text("An email with your label and more information has been sent to " + jsonObj[0].Email);
+                                }
                             }
                         }
 
