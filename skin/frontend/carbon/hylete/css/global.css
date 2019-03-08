@@ -1104,3 +1104,31 @@ a.hm-btn-img {
 .text-right {
     text-align: right;
 }
+
+
+.spinner {
+    display: block;
+    top: 50% !important;
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    margin: -25px 0 0 -25px;
+    z-index: 10000;
+    background-color: #FFF;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background-image: url(../images/loading-grey.gif) !important;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border: 1px solid #DDD;
+    overflow: hidden;
+}
+.blockajax-loader .spinner {
+    margin: auto;
+}
+
+#js-blockajax-loader {
+    margin: auto;
+    background: none;
+    border: none;
+}
