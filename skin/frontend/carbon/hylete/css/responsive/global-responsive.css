@@ -77,10 +77,6 @@
         left: calc(100% - 768px);
     }
 
-    .category-title .hylete-widget.fullwidth.placement-center .image-placeholder {
-        left: calc(50% - 384px);
-    }
-
     .carousel .hylete-widget-img {
         width: 100%;
         overflow: hidden;
