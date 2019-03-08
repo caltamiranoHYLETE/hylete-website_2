@@ -1,8 +1,4 @@
 @media (max-width: 1200px) {
-    .category-title .hylete-widget-img {
-        width: 60%;
-    }
-
     .order-item-row .item-options dt,
     .order-item-row .color .option-title {
         float: none;
@@ -29,21 +25,18 @@
     }
 
     .category-title .hylete-widget {
-        flex-direction: column;
-        border: none;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        margin-left: -50vw;
     }
 
     .category-title .hylete-widget .hylete-widget-title h2 {
         margin: 40px 0;
     }
 
-    .category-title .hylete-widget-img {
-        width: 100%;
-        overflow: hidden;
-    }
-
     .category-title .hylete-widget img {
-        min-width: 728px;
+        width: 100%;
     }
 
     .category-title .hylete-widget .description {
@@ -82,14 +75,6 @@
 
     .category-title .hylete-widget.fullwidth.placement-left .image-placeholder {
         left: calc(100% - 768px);
-    }
-
-    .category-title .hylete-widget.fullwidth.placement-center .image-placeholder {
-        left: calc(50% - 384px);
-    }
-
-    .category-title .hylete-widget img {
-        min-width: 768px;
     }
 
     .carousel .hylete-widget-img {
