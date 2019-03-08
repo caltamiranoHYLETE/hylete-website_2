@@ -252,3 +252,12 @@ body.catalog-category-view > .container {
 .pages .pagination {
     margin: 20px 10px;
 }
+
+.footer-before-container .category-title {
+    text-align: center;
+}
+
+.footer-before-container .category-description {
+    text-align: center;
+    font-size: 14px;
+}
