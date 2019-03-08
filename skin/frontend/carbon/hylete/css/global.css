@@ -851,15 +851,6 @@ figure {
 
 /* HYLETE Category Header Widget ***********/
 
-.category-title .hylete-widget {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid lightgray;
-    padding: 8px;
-}
-
 .category-title .hylete-widget-title {
     flex-grow: 1;
     text-align: center;
@@ -868,11 +859,6 @@ figure {
 .category-title .hylete-widget .hylete-widget-title h2 {
     font-size: 30px;
     color: #000;
-}
-
-.category-title .hylete-widget-img {
-    position: relative;
-    width: 50%;
 }
 
 .hylete-widget img {
