@@ -25,7 +25,7 @@
     <div class="container">
     <form id="returnForm" method="post" action="smart">
     <fieldset>
-        <input type="hidden" name="isAdmin" id="isAdmin" value="false">
+        <input type="hidden" name="isAdmin" id="isAdmin" value="true">
         <input type="checkbox" name="ignoreDates" id="ignoreDates" value="true"/>
         <label for="ignoreDates">Ignore Date Requirements</label>
         <br>
