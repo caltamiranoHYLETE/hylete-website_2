@@ -20,22 +20,8 @@
                 this._scrollToTop();
             },
             _scrollToTop: function () {
-                var topPosition = 0;
-                try {
-                    this._getEnabledSelectors(this.options.eventSelectors.anchors).each(function (element) {
-                        if ($(element)) {
-                            var position = $(element).position();
-                            if (position.top > topPosition) {
-                                topPosition = position.top;
-                            }
-                        }
-                    });
-                } catch( e ) {
-                    console.log('Cannot find the top position: ' + e.message)
-                }
-
                 $('html, body').animate({
-                    scrollTop: topPosition
+                    scrollTop: 0
                 }, 1000);
             },
             _processBlockData: function(block) {
