@@ -37,6 +37,15 @@
                 $('html, body').animate({
                     scrollTop: topPosition
                 }, 1000);
+            },
+            _processBlockData: function(block) {
+                if (block.target) {
+                    if (block.target.script) {
+                        $('body').append(block.html)
+                    } else {
+                        this._replaceContent(block.target.selector, block.html);
+                    }
+                }
             }
         });
     }
