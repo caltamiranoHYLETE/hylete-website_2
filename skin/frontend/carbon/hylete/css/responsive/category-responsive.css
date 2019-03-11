@@ -16,6 +16,10 @@
     .products-grid {
         padding: 0 10px;
     }
+    .footer-before-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
