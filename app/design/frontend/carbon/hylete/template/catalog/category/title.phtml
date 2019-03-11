@@ -8,6 +8,6 @@
 ?>
 <?php if ($this->IsRssCatalogEnable()): ?>
     <a href="<?php echo $this->getRssLink() ?>"
-       title="<?php echo Mage::helper('core')->quoteEscape($this->__('Subscribe to RSS Feed')) ?>"
+       title="<?php echo $this->quoteEscape($this->__('Subscribe to RSS Feed')) ?>"
        class="rss-feed"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
 <?php endif ?>
