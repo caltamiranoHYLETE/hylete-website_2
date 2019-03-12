@@ -224,6 +224,10 @@ body.catalog-category-view > .container {
     text-decoration: none;
     background-color: #fff;
     border: 1px solid #000;
+    -webkit-transition: all .25s ease 0s;
+    -moz-transition: all .25s ease 0s;
+    -o-transition: all .25s ease 0s;
+    transition: all .25s ease 0s;
 }
 .pagination li:first-child a,
 .pagination li:first-child span,
@@ -234,6 +238,10 @@ body.catalog-category-view > .container {
     border-radius: 0;
 }
 
+.pagination li a:hover,
+.pagination li span:hover,
+.pagination li a:focus,
+.pagination li span:focus,
 .pagination .active a,
 .pagination .active span,
 .pagination .active a:hover,
@@ -242,7 +250,6 @@ body.catalog-category-view > .container {
 .pagination .active span:focus {
     background-color: #000;
     color: #fff;
-    height: 45px;
 }
 
 .pager {
