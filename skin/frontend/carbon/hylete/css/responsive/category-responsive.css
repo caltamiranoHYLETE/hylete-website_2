@@ -1,7 +1,4 @@
 @media (min-width: 991px) {
-    .catalog-category-view .products-grid .item:nth-child(3n+1) {
-        clear: both;
-    }
 }
 
 @media (max-width: 991px) {
@@ -26,16 +23,10 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .catalog-category-view .products-grid .item:nth-child(3n+1) {
-        clear: both;
-    }
 }
 
 @media (max-width: 767px) {
     .products-grid .style h5 a {
         min-width: inherit;
-    }
-    .catalog-category-view .products-grid .item:nth-child(2n+1) {
-        clear: both;
     }
 }

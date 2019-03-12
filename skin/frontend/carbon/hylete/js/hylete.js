@@ -121,18 +121,6 @@ jQuery(document).ready(function ($) {
         mobileWelcomeText.text(mobileWelcomeText.text() + ' ' + sweetToothPoints.val());
     }
 
-    /* Set grid height on category page when all content has loaded */
-    $(window).on('load', function() {
-        $('.products-grid', '.category-products').setEqualHeight();
-    });
-    $(window).on('resize', function() {
-        updateEqualHeight();
-    });
-
-    var updateEqualHeight = debounce(function() {
-        $('.products-grid', '.category-products').setEqualHeight();
-    }, 200);
-
     $(document).on('quickcheckout:paymentload_after', function() {
         var $contentContainer = $('.content-container');
 
