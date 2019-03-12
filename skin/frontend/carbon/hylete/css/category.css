@@ -268,3 +268,9 @@ body.catalog-category-view > .container {
     text-align: center;
     font-size: 14px;
 }
+
+.catalog-category-view .hylete-widget img {
+    display: block;
+    margin: auto;
+    width: auto;
+}
