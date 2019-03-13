@@ -341,7 +341,7 @@ body._has-modal-custom .modal-custom-overlay {
     position: static;
 }
 
-.show {
+.modals-wrapper .show {
     -webkit-animation-name: _uvr2b;
     animation-name: _uvr2b;
     -webkit-animation-fill-mode: both;

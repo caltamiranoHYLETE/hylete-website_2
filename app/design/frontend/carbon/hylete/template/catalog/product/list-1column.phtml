@@ -50,7 +50,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
         <ol class="products-grid row">
 			<?php foreach ($_productCollection as $_product): ?>
 				<?php if ($_product->getTypeId() == 'cmsproduct'): ?>
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 grid-cms-block"
+                    <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6 grid-cms-block"
 						<?php if ($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_ALIGN_CODE)): ?> style="float: right" <?php endif; ?>>
                         <div class="cms-block-widget">
 							<?php echo $this->getLayout()->createBlock('cms/block', $_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->setBlockId($_product->getData(Vaimo_CmsProduct_Model_Setup::CMS_BLOCK_CODE))->toHtml(); ?>
@@ -58,7 +58,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
                     </li>
 				<?php else : ?>
 					<?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : !$_product->getAWDisableOutOfStock()? 'out-of-stock' : '') : ''; ?>
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
+                    <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
 							<?php if ($_product->getTypeId() == 'style'): ?>
                                 <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300, 200); ?>"

@@ -11,11 +11,6 @@ jQuery(document).ready(function ($) {
     $(document).vaimoPrevNextLocal();
     $(document).vaimoToggle();
 
-    $(document).on('click', '.show-mobile-filter', function() {
-        $(this).toggleClass('active');
-        $('.filter').slideToggle();
-    });
-
     $(document).on('click', '.account-login .toggle-login-container .toggle-login-form', function() {
         $('.account-login .registered-users').stop().slideToggle();
     });
@@ -85,13 +80,6 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    $(document).on('click', '.sort-by a', function() {
-        if (carbon.getCurrentGrid() == 'xs' || carbon.getCurrentGrid() == 'sm') {
-            activeToggle = 'sort-by';
-        }
-    });
-
-
     //Cart increase/decrease qty for product
     $('.cart-table .qty-control').click(function() {
         var el = $(this),
@@ -133,18 +121,6 @@ jQuery(document).ready(function ($) {
         mobileWelcomeText.text(mobileWelcomeText.text() + ' ' + sweetToothPoints.val());
     }
 
-    /* Set grid height on category page when all content has loaded */
-    $(window).on('load', function() {
-        $('.products-grid', '.category-products').setEqualHeight();
-    });
-    $(window).on('resize', function() {
-        updateEqualHeight();
-    });
-
-    var updateEqualHeight = debounce(function() {
-        $('.products-grid', '.category-products').setEqualHeight();
-    }, 200);
-
     $(document).on('quickcheckout:paymentload_after', function() {
         var $contentContainer = $('.content-container');
 
@@ -178,23 +154,3 @@ jQuery(document).ready(function ($) {
 
     $.vaimo.tooltip();
 });
-
-(function($, window, undefined) {
-    "use strict";
-    if ($.fn.ajaxProductList !== undefined) {
-        $.widget('vaimo.ajaxProductList', $.vaimo.ajaxProductList, {
-            _historyUpdateEnabled: function () {
-                return this._super.apply(this, arguments) && !this.customRender;
-            },
-            _complete: function (groupName) {
-                this._super.apply(this, arguments);
-                if (activeToggle) {
-                    $('.filter').show();
-                    $('.show-mobile-filter').addClass('active');
-                    $('[data-togglelink="' + activeToggle + '"]').addClass('active');
-                    $('[data-togglecontent="' + activeToggle + '"]').show().addClass('active');
-                }
-            }
-        });
-    }
-})(jQuery, window, undefined);

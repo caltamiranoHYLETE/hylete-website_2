@@ -33,10 +33,6 @@
 ?>
 <?php if($this->getCollection()->getSize()): ?>
     <div class="toolbar clearfix">
-        <div class="pager">
-            <?php echo $this->getPagerHtml() ?>
-        </div>
-
         <div class="sort-by right">
             <label><?php echo $this->__('sort by') ?>: </label>
             <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
