@@ -108,6 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <br/>
                         </div>
                     </div>
+                    <div id="warranty-label-area" style="display:none;">
+                        <h5 id="warranty-message"></h5>
+                        <a href="/smart-return">Go back to the Smart Return page</a>
+                    </div>
                     <div id="nonreturnable_contact" style="display:none;">
                         <form id="nonreturnable_contactForm" method="post" action="xxx.php">
                             <h2>create a support ticket</h2>
@@ -167,6 +171,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="spacer"></span>
                         <input type="radio" value="exchange" id="exchange_other_choice" name="refund-or-exchange">
                         <label id="exchangeOtherTooltip" class="choice_text">&nbsp;Exchange For Other Item</label>
+                        <span class="spacer"></span>
+                        <input type="radio" value="warranty" id="warranty_other_choice" name="refund-or-exchange">
+                        <label id="warrantyOtherTooltip" class="choice_text">&nbsp;Warranty Exchange</label>
                         <?php
                     }
                     ?>
@@ -273,7 +280,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li>Make sure that any item included in your return package is also entered here on this form.</li>
                         <li>Drop it off at your local U.S. Post Office.</li>
                         <li>After your package has been picked up and scanned by the carrier, we'll get to work on processing it for you, as quickly as possible.</li>
-                        <li>If for any reason you are not able to submit your request as outlined above, please reach out to our Brand Support Team through our LiveChat option or via email at <a href="mailto:customerservice@hylete.com">customerservice@hylete.com</a>a>. We’d be happy to help!</li>
+                        <li>If for any reason you are not able to submit your request as outlined above, please reach out to our Brand Support Team through our LiveChat option or via email at <a href="mailto:customerservice@hylete.com">customerservice@hylete.com</a>. We’d be happy to help!</li>
                     </ul>
                     <br/>
                     <p>Please remember, the items you are returning must match your submitted return authorization exactly. Should you neglect to return items from your submitted return authorization or return different/additional items as not reflected on your submitted return authorization, you may be charged a fee for any differences.</p>

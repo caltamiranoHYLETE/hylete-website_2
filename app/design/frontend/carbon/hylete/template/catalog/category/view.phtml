@@ -71,10 +71,6 @@ $_imgTablet = ($_imgTablet) ? $_imgTablet : $_img;
                     </div>
                 </div>
             </div>
-        <?php else: ?>
-        <div class="col-xs-12 col-md-9">
-            <?php echo $_name ?>
-        </div>
         <?php endif; ?>
     </header>
 </div>
@@ -87,11 +83,6 @@ $_imgTablet = ($_imgTablet) ? $_imgTablet : $_img;
     <?php echo $this->getProductListHtml() ?>
 <?php else: ?>
     <?php echo $this->getProductListHtml() ?>
-<?php endif; ?>
-<?php if ($_description): ?>
-    <div class="col-xs-12">
-        <?php echo $_description ?>
-    </div>
 <?php endif; ?>
 <?php echo $this->getChildHtml('nostoCategory2') ?>
 <?php echo $this->getChildHtml('hylete.category.cms.below.grid') ?>

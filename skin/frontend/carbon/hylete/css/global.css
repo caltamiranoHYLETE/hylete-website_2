@@ -128,6 +128,7 @@ fieldset {
     margin: 0;
     border: 0;
 }
+
 legend {
     display: block;
     width: 100%;
@@ -139,6 +140,7 @@ legend {
     border: 0;
     border-bottom: 1px solid #e5e5e5;
 }
+
 input[type="search"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -146,6 +148,7 @@ input[type="search"] {
     -webkit-appearance: none;
     border-radius: 0;
 }
+
 input[type="radio"] {
     margin: 4px 0 0;
     margin-top: 1px \9;
@@ -153,6 +156,7 @@ input[type="radio"] {
 
     line-height: normal;
 }
+
 input[type="file"] {
     display: block;
 }
@@ -182,12 +186,14 @@ select optgroup {
     font-style: inherit;
     font-family: inherit;
 }
+
 input[type="file"]:focus,
 input[type="radio"]:focus {
     outline: thin dotted #333;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     height: auto;
@@ -196,12 +202,15 @@ input[type="number"]::-webkit-inner-spin-button {
 .input-text:-moz-placeholder {
     color: #999;
 }
+
 .input-text::-moz-placeholder {
     color: #999;
 }
+
 .input-text:-ms-input-placeholder {
     color: #999;
 }
+
 .input-text::-webkit-input-placeholder {
     color: #999;
 }
@@ -223,10 +232,12 @@ textarea {
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 .input-text:focus,
-textarea:focus{
+textarea:focus {
     outline: 0;
 }
+
 .input-text[disabled],
 .input-text[readonly],
 textarea[disabled],
@@ -244,23 +255,23 @@ fieldset[disabled] .input-text {
 }
 
 label {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 input[type=checkbox] {
-	display: none;
+    display: none;
 }
 
 input[type=checkbox] + label:before {
-	content: '';
-	cursor: pointer;
-	display: inline-block;
-	height: 16px;
-	left: 0;
-	margin-right: 10px;
-	position: relative;
-	top: 4px;
-	width: 16px;
+    content: '';
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    left: 0;
+    margin-right: 10px;
+    position: relative;
+    top: 4px;
+    width: 16px;
 }
 
 
@@ -282,7 +293,7 @@ label {
 }
 
 label em {
-	color:#00809f;
+    color: #00809f;
 }
 
 .form-list label {
@@ -463,8 +474,6 @@ span.required {
 }
 
 
-
-
 /*
     Pager appear on other pages than category; such
     as account pages, therefore this is added in global.css
@@ -477,11 +486,13 @@ span.required {
     display: inline-block;
     padding-left: 0;
     margin: 20px 0;
-    border-radius:3px;
+    border-radius: 3px;
 }
+
 .pagination li {
     display: inline;
 }
+
 .pagination li a,
 .pagination li span {
     position: relative;
@@ -493,23 +504,27 @@ span.required {
     border: 1px solid #ddd;
     margin-left: -1px;
 }
+
 .pagination li:first-child a,
 .pagination li:first-child span {
     margin-left: 0;
-    border-bottom-left-radius:3px;
-    border-top-left-radius:3px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
 }
+
 .pagination li:last-child a,
 .pagination li:last-child span {
-    border-bottom-right-radius:3px;
-    border-top-right-radius:3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
 }
+
 .pagination li a:hover,
 .pagination li span:hover,
 .pagination li a:focus,
 .pagination li span:focus {
     background-color: #fff;
 }
+
 .pagination .active a,
 .pagination .active span,
 .pagination .active a:hover,
@@ -841,7 +856,7 @@ figure {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;  
+    user-select: none;
 }
 
 [data-togglecontent] {
@@ -851,15 +866,6 @@ figure {
 
 /* HYLETE Category Header Widget ***********/
 
-.category-title .hylete-widget {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid lightgray;
-    padding: 8px;
-}
-
 .category-title .hylete-widget-title {
     flex-grow: 1;
     text-align: center;
@@ -868,11 +874,6 @@ figure {
 .category-title .hylete-widget .hylete-widget-title h2 {
     font-size: 30px;
     color: #000;
-}
-
-.category-title .hylete-widget-img {
-    position: relative;
-    width: 50%;
 }
 
 .hylete-widget img {
@@ -988,7 +989,7 @@ figure {
 }
 
 .active .icon-plus:before {
-    content:"\f068"
+    content: "\f068"
 }
 
 .underline {
@@ -1103,4 +1104,41 @@ a.hm-btn-img {
 
 .text-right {
     text-align: right;
+}
+
+
+#js-blockajax-loader .blockajax-spinner {
+    display: block;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    z-index: 10000;
+    background-color: #FFF;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background-image: url(../images/loading-grey.gif);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border: 1px solid #DDD;
+    overflow: hidden;
+}
+
+#js-blockajax-loader {
+    margin: auto;
+    background: none;
+    border: none;
+}
+
+/*
+ * Row with equal height columns
+ * --------------------------------------------------
+ */
+.products-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.products-grid [class*="col-"] {
+    display: flex;
+    flex-direction: column;
 }
