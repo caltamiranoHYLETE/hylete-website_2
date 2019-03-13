@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+/** @var $this \Mage_Catalog_Block_Category_View */
+?>
+<?php
+
+/** @var $_category \Mage_Catalog_Model_Category */
+if ($_category = $this->getCurrentCategory()) : ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 category-title">
+                <h2><?php echo $this->escapeHtml($_category->getName()); ?></h2>
+            </div>
+            <?php $_description = $this->helper('catalog/output')->categoryAttribute($_category, $_category->getDescription(), 'description'); ?>
+            <?php if ($_description): ?>
+                <div class="col-xs-12 category-description">
+                    <?php echo $_description ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif ?>

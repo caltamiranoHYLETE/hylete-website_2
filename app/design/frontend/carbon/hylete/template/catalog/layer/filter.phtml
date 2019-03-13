@@ -35,27 +35,21 @@ $_hlp = Mage::helper('multioptionfilter');
 $_acode = $_hlp->getAttributeCode($this);
 ?>
 
-<ol>
+<ul class="refine-items-list">
     <?php foreach ($this->getItems() as $_item): ?>
         <?php $_checked = $_hlp->isChecked($_acode, $_item['value']); ?>
-        <li>
-            <?php echo ($_checked) ? '<strong>' : '';?>
-            
+        <li class="refine-item refine-check <?php echo ($_checked) ? 'checked':'' ?>">
             <?php if ($_item->getCount() > 0): ?>
                 <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>">
                     <?php echo $_item->getLabel() ?>
                     
                     <?php if ($this->shouldDisplayProductCount()): ?>
-                        (<?php echo $_item->getCount() ?>)
+                        <span class="refine-count">(<?php echo $_item->getCount() ?>)</span>
                     <?php endif; ?>
-                    
-                    <span class="sprite-checkbox-<?php echo ($_checked) ? 'checked' : 'unchecked';?>"></span>
                 </a>
             <?php else:?>
                 <?php echo $_item->getLabel() ?>
             <?php endif; ?>
-            
-            <?php echo ($_checked) ? '</strong>' : '';?>
         </li>
     <?php endforeach ?>
-</ol>
+</ul>

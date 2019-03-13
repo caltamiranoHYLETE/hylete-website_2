@@ -19,14 +19,17 @@ class HyleteReturn {
     var $postalCode;
     var $notes;
     var $returnItems = array();
-    var $isExchange;
+	var $isExchange;
+	var $isWarranty;
     var $isCreditMemo;
+	var $isAdmin;
 }
 
 class HyleteReturnItem {
     var $sku;
     var $qty;
     var $returnReason;
+	var $warrantyReason;
     var $replacementSku;
 }
 
@@ -56,6 +59,12 @@ function createReturn() {
             } else {
                 $return->isCreditMemo = false;
             }
+
+            if($choice == "warranty") {
+				$return->isWarranty = true;
+			} else {
+				$return->isWarranty = false;
+			}
         }
 
         if(!empty($_POST["orderId"]))
@@ -102,6 +111,10 @@ function createReturn() {
         {
             $return->notes = ""; //test_input($_POST["notes"]);
         }
+		if(!empty($_POST["isAdmin"]))
+		{
+			$return->isAdmin = test_input($_POST["isAdmin"]);
+		}
 
         $skus = [];
         foreach($_POST as $key => $value) {
@@ -131,6 +144,11 @@ function createReturn() {
             {
                 $returnItem->returnReason = test_input($_POST["rr_".$sku]);
             }
+
+			if(!empty($_POST["wr_".$sku]))
+			{
+				$returnItem->warrantyReason = test_input($_POST["wr_".$sku]);
+			}
 
             if(!empty($_POST["exsize_".$sku]))
             {

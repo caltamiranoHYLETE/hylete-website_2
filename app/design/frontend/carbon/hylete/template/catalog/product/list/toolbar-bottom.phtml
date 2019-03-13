@@ -33,17 +33,8 @@
 ?>
 <?php if($this->getCollection()->getSize()): ?>
     <div class="toolbar clearfix">
-        <div class="pager">
+        <div class="pager center">
             <?php echo $this->getPagerHtml() ?>
-        </div>
-
-        <div class="sort-by right">
-            <label><?php echo $this->__('sort by') ?>: </label>
-            <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
-                <?php if ($_key != 'position'):?>
-                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"><?php echo ($this->isOrderCurrent($_key)) ? '<strong>' : '';?><?php echo strtolower($this->__($_order)) ?><?php echo ($this->isOrderCurrent($_key)) ? '</strong>' : '';?></a>
-                <?php endif;?>
-            <?php endforeach; ?>
         </div>
     </div>
 <?php endif ?>
