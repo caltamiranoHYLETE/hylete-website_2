@@ -27,6 +27,9 @@
                     <div class="register-messages">
                         <div class="message"></div>
                     </div>
+                    <div class="login-container">
+                        <?php echo $this->getLayout()->createBlock('cms/block', 'registration_page_hyletenation_top')->setBlockId('registration_page_hyletenation_top')->toHtml() ?>
+                    </div>
                     <?php echo $this->getChildHtml('signup_form') ?>
                     <br>
                 </div>
