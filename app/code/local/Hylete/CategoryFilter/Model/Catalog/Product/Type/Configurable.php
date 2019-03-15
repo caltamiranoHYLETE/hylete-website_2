@@ -5,9 +5,7 @@
  */
 class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage_Catalog_Model_Product_Type_Configurable
 {
-    /**
-     * @var Hylete_CategoryFilter_Helper_Data|Mage_Core_Helper_Abstract
-     */
+    /** @var Hylete_CategoryFilter_Helper_Data|Mage_Core_Helper_Abstract */
     private $helper;
 
     /** @var bool */
