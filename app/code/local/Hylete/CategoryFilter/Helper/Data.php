@@ -1,13 +1,14 @@
 <?php
-
 /**
  * @author    Mediotype Development <diveinto@mediotype.com>
  * @copyright 2019 Mediotype. All Rights Reserved.
  */
 class Hylete_CategoryFilter_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /** @var string */
     private $customerGroup;
 
+    /** @var Zend_Cache_Core */
     private $cache;
 
     /**
