@@ -46,7 +46,7 @@ class Hylete_CategoryFilter_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve customer id
+     * Retrieve customer group
      *
      * @return int|string
      */
