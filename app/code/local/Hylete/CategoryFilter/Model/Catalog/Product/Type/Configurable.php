@@ -3,13 +3,19 @@
  * @author    Mediotype Development <diveinto@mediotype.com>
  * @copyright 2019 Mediotype. All Rights Reserved.
  */
+
+/**
+ * Configurable product type implementation
+ *
+ * This type builds in product attributes and existing simple products
+ */
 class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage_Catalog_Model_Product_Type_Configurable
 {
     /** @var Hylete_CategoryFilter_Helper_Data|Mage_Core_Helper_Abstract */
     private $helper;
 
     /** @var bool */
-    private $isAdmin;
+    private $isCacheable;
 
     /**
      * Retrieve subproducts identifiers
@@ -25,10 +31,9 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
                 'productid' => $product->getId(),
             ]
         );
-        if ($cacheKey !== null && !$this->isAdmin()) {
+        if ($cacheKey !== null && $this->isCacheable()) {
             $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey);
             if ($dataCached) {
-             //   Mage::log($cacheKey . '- CACHED');
                 $usedProductIds = $this->getCategoryFilterHelper()->unserialize($dataCached);
                 $this->getProduct($product)->setData($this->_usedProductIds, $usedProductIds);
             }
@@ -88,10 +93,9 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
                     'requiredAttributeIdsKey' => implode($requiredAttributeIdsKey),
                 ]
             );
-            if ($cacheKey !== null && !$this->isAdmin()) {
+            if ($cacheKey !== null && $this->isCacheable()) {
                 $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey);
                 if ($dataCached) {
-               //     Mage::log($cacheKey . '- CACHED');
                     $usedProducts = $this->getCategoryFilterHelper()->unserialize($dataCached);
                     $this->getProduct($product)->setData($this->_usedProducts, $usedProducts);
 
@@ -126,7 +130,7 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
             foreach ($collection as $item) {
                 $usedProducts[] = $item;
             }
-            if (!$this->isAdmin()) {
+            if ($this->isCacheable()) {
                 try {
                     $this->getCategoryFilterHelper()->getCache()->save(
                         $this->getCategoryFilterHelper()->serialize($usedProducts),
@@ -137,7 +141,6 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
                             Mage_Catalog_Model_Product_Type_Price::CACHE_TAG
                         ]
                     );
-                  //  Mage::log($cacheKey . '- NOT CACHED');
                 } catch (Zend_Cache_Exception $e) {
                     Mage::logException($e);
                 }
@@ -164,21 +167,24 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
     }
 
     /**
-     * Check if current store is admin
+     * Check if should cache
      *
      * @return bool
      */
-    private function isAdmin()
+    private function isCacheable()
     {
-        if ($this->isAdmin === null) {
+        if ($this->isCacheable === null) {
+            $this->isCacheable = true;
             try {
-                $this->isAdmin = Mage::app()->getStore()->isAdmin();
+                if (Mage::app()->getStore()->isAdmin()) {
+                    $this->isCacheable = false;
+                }
             } catch (Mage_Core_Model_Store_Exception $e) {
-                /** returning true avoid cache */
-                return true;
+                /** Since can't define the store, shouldn't be cached */
+                $this->isCacheable = false;
             }
         }
 
-        return $this->isAdmin;
+        return $this->isCacheable;
     }
 }

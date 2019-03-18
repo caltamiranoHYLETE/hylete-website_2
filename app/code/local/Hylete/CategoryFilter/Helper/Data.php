@@ -3,6 +3,10 @@
  * @author    Mediotype Development <diveinto@mediotype.com>
  * @copyright 2019 Mediotype. All Rights Reserved.
  */
+
+/**
+ * Helper to Category Filter
+ */
 class Hylete_CategoryFilter_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /** @var string */
@@ -16,7 +20,7 @@ class Hylete_CategoryFilter_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param $key
      * @param array $datakey
-     * @return string
+     * @return string|null
      */
     public function getCacheKey($key, array $datakey)
     {
@@ -44,7 +48,7 @@ class Hylete_CategoryFilter_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve customer id
      *
-     * @return int
+     * @return int|string
      */
     private function getCustomerGroup()
     {
