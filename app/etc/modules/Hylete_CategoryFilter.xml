@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hylete_CategoryFilter>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog/>
+
+            </depends>
+        </Hylete_CategoryFilter>
+    </modules>
+</config>
