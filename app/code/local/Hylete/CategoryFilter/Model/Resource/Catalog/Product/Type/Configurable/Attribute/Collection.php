@@ -23,39 +23,42 @@ class Hylete_CategoryFilter_Model_Resource_Catalog_Product_Type_Configurable_Att
      */
     protected function _addProductAttributes()
     {
-        foreach ($this->_items as $item) {
-            $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
-                'ADDPRODUCTATTRIBUTES',
-                [
-                    'productid' => $item->getProductId(),
-                    'attributeid' => $item->getAttributeId(),
-                ]
-            );
+        if (!$this->isCacheable()) {
+            parent::_addProductAttributes();
+        } else {
+            foreach ($this->_items as $item) {
+                $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
+                    'ADDPRODUCTATTRIBUTES',
+                    [
+                        'productid' => $item->getProductId(),
+                        'attributeid' => $item->getAttributeId(),
+                    ]
+                );
 
-            $dataCached = false;
-            if ($this->isCacheable()) {
-                $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey);
-            }
+                if ($cacheKey && $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey)) {
+                    $unserialized = $this->getCategoryFilterHelper()->unserialize($dataCached);
+                    $productAttribute = Mage::getModel('catalog/resource_eav_attribute')->setData($unserialized);
+                } else {
+                    $productAttribute = $this->getProduct()->getTypeInstance(true)
+                        ->getAttributeById($item->getAttributeId(), $this->getProduct());
 
-            if ($dataCached) {
-                $unserialized = $this->getCategoryFilterHelper()->unserialize($dataCached);
-                $productAttribute = Mage::getModel('catalog/resource_eav_attribute')->setData($unserialized);
-            } else {
-                $productAttribute = $this->getProduct()->getTypeInstance(true)
-                    ->getAttributeById($item->getAttributeId(), $this->getProduct());
-                if ($this->isCacheable()) {
-                    $this->getCategoryFilterHelper()->getCache()->save(
-                        $this->getCategoryFilterHelper()->serialize($productAttribute->getData()),
-                        $cacheKey,
-                        [
-                            Mage_Catalog_Model_Product::CACHE_TAG,
-                            Mage_Catalog_Model_Category::CACHE_TAG,
-                            Mage_Catalog_Model_Product_Type_Price::CACHE_TAG,
-                        ]
-                    );
+                    try {
+                        $this->getCategoryFilterHelper()->getCache()->save(
+                            $this->getCategoryFilterHelper()->serialize($productAttribute->getData()),
+                            $cacheKey,
+                            [
+                                Mage_Catalog_Model_Product::CACHE_TAG,
+                                Mage_Catalog_Model_Category::CACHE_TAG,
+                                Mage_Catalog_Model_Product_Type_Price::CACHE_TAG,
+                            ]
+                        );
+                    } catch (Zend_Cache_Exception $e) {
+                        Mage::logException($e);
+                    }
+
                 }
+                $item->setProductAttribute($productAttribute);
             }
-            $item->setProductAttribute($productAttribute);
         }
 
         return $this;
