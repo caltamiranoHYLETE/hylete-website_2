@@ -25,24 +25,25 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
      */
     public function getUsedProductIds($product = null)
     {
+        if (!$this->isCacheable()) {
+            return parent::getUsedProductIds($product);
+        }
         $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
             'USEDPRODUCTIDS',
             [
                 'productid' => $product->getId(),
             ]
         );
-        if ($cacheKey !== null && $this->isCacheable()) {
-            $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey);
-            if ($dataCached) {
-                $usedProductIds = $this->getCategoryFilterHelper()->unserialize($dataCached);
+        if ($cacheKey && $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey)) {
+            $usedProductIds = $this->getCategoryFilterHelper()->unserialize($dataCached);
+            $this->getProduct($product)->setData($this->_usedProductIds, $usedProductIds);
+        } else {
+            if (!$this->getProduct($product)->hasData($this->_usedProductIds)) {
+                $usedProductIds = array();
+                foreach ($this->getUsedProducts(null, $product) as $_product) {
+                    $usedProductIds[] = $_product->getId();
+                }
                 $this->getProduct($product)->setData($this->_usedProductIds, $usedProductIds);
-            }
-        }
-
-        if (!$this->getProduct($product)->hasData($this->_usedProductIds)) {
-            $usedProductIds = [];
-            foreach ($this->getUsedProducts(null, $product) as $_product) {
-                $usedProductIds[] = $_product->getId();
             }
             try {
                 $this->getCategoryFilterHelper()->getCache()->save(
@@ -51,14 +52,12 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
                     [
                         Mage_Catalog_Model_Product::CACHE_TAG,
                         Mage_Catalog_Model_Category::CACHE_TAG,
-                        Mage_Catalog_Model_Product_Type_Price::CACHE_TAG
+                        Mage_Catalog_Model_Product_Type_Price::CACHE_TAG,
                     ]
                 );
             } catch (Zend_Cache_Exception $e) {
                 Mage::logException($e);
             }
-
-            $this->getProduct($product)->setData($this->_usedProductIds, $usedProductIds);
         }
 
         return $this->getProduct($product)->getData($this->_usedProductIds);
@@ -74,64 +73,22 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
     public function getUsedProducts($requiredAttributeIds = null, $product = null)
     {
         Varien_Profiler::start('CONFIGURABLE:' . __METHOD__);
-        if (!$this->getProduct($product)->hasData($this->_usedProducts)) {
-            if ($requiredAttributeIds === null
-                && $this->getProduct($product)->getData($this->_configurableAttributes) === null) {
-                // If used products load before attributes, we will load attributes.
-                $this->getConfigurableAttributes($product);
-                // After attributes loading products loaded too.
-                Varien_Profiler::stop('CONFIGURABLE:' . __METHOD__);
-
-                return $this->getProduct($product)->getData($this->_usedProducts);
-            }
-            $requiredAttributeIdsKey = !is_array($requiredAttributeIds) ? [] : $requiredAttributeIds;
-
-            $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
-                'USEDPRODUCTS',
-                [
-                    'productid' => $product->getId(),
-                    'requiredAttributeIdsKey' => implode($requiredAttributeIdsKey),
-                ]
-            );
-            if ($cacheKey !== null && $this->isCacheable()) {
-                $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey);
-                if ($dataCached) {
+        if (!$this->isCacheable()) {
+            $usedProducts = parent::getUsedProducts($requiredAttributeIds, $product);
+        } else {
+            try {
+                $requiredAttributeIdsKey = !is_array($requiredAttributeIds) ? [] : $requiredAttributeIds;
+                $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
+                    'USEDPRODUCTS',
+                    [
+                        'productid' => $product->getId(),
+                        'requiredAttributeIdsKey' => implode($requiredAttributeIdsKey),
+                    ]
+                );
+                if ($cacheKey && $dataCached = $this->getCategoryFilterHelper()->getCache()->load($cacheKey)) {
                     $usedProducts = $this->getCategoryFilterHelper()->unserialize($dataCached);
-                    $this->getProduct($product)->setData($this->_usedProducts, $usedProducts);
-
-                    return $this->getProduct($product)->getData($this->_usedProducts);
-                }
-            }
-
-            $usedProducts = [];
-            $collection = $this->getUsedProductCollection($product)
-                ->addFilterByRequiredOptions();
-
-            // Provides a mechanism for attaching additional attributes to the children of configurable products
-            // Will primarily have affect on the configurable product view page
-            $childAttributes = Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_CONFIGURABLE_CHILD_ATTRIBUTES);
-
-            if ($childAttributes) {
-                $childAttributes = $childAttributes->asArray();
-                $childAttributes = array_keys($childAttributes);
-
-                $collection->addAttributeToSelect($childAttributes);
-            }
-
-            if (is_array($requiredAttributeIds)) {
-                foreach ($requiredAttributeIds as $attributeId) {
-                    $attribute = $this->getAttributeById($attributeId, $product);
-                    if ($attribute !== null) {
-                        $collection->addAttributeToFilter($attribute->getAttributeCode(), ['notnull' => 1]);
-                    }
-                }
-            }
-
-            foreach ($collection as $item) {
-                $usedProducts[] = $item;
-            }
-            if ($this->isCacheable()) {
-                try {
+                } else {
+                    $usedProducts = parent::getUsedProducts($requiredAttributeIds, $product);
                     $this->getCategoryFilterHelper()->getCache()->save(
                         $this->getCategoryFilterHelper()->serialize($usedProducts),
                         $cacheKey,
@@ -141,12 +98,14 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
                             Mage_Catalog_Model_Product_Type_Price::CACHE_TAG
                         ]
                     );
-                } catch (Zend_Cache_Exception $e) {
-                    Mage::logException($e);
                 }
+            } catch (Zend_Cache_Exception $e) {
+                Mage::logException($e);
+                $usedProducts = parent::getUsedProducts($requiredAttributeIds, $product);
             }
-            $this->getProduct($product)->setData($this->_usedProducts, $usedProducts);
         }
+
+        $this->getProduct($product)->setData($this->_usedProducts, $usedProducts);
         Varien_Profiler::stop('CONFIGURABLE:' . __METHOD__);
 
         return $this->getProduct($product)->getData($this->_usedProducts);
