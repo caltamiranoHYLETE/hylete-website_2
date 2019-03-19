@@ -2,16 +2,20 @@
 class Pixlee_Pixlee {
   private $apiKey;
   private $baseURL;
+  private $secretKey;
 
-  // Constructor - distillery no longer REQUIRES secretKey or userID
-  // Also, make explicit the fact that we're no longer passing the user key,
-  // but the account key
-  public function __construct($accountApiKey){
-    if( is_null( $accountApiKey )){
+  public function __construct($accountApiKey, $accountSecretKey){
+    if(is_null($accountApiKey) || empty($accountApiKey)) {
       throw new Exception("An API Key is required");
     }
+    if(is_null($accountSecretKey) || empty($accountSecretKey)) {
+      throw new Exception("An API Secret is required");
+    }
     $this->apiKey   = $accountApiKey;
-    $this->baseURL  = "http://distillery.pixlee.com/api/v2";
+    $this->secretKey = $accountSecretKey;
+    $this->baseURL  = "https://distillery.pixlee.com/api/v2";
+
+    $this->getAlbums(); // Throws an exception if the API call is not successful
   }
 
   public function getAlbums(){
@@ -40,7 +44,7 @@ class Pixlee_Pixlee {
   }
   */
 
-  public function createProduct($product_name, $sku, $product_url , $product_image, $product_id = NULL, $product_price, $aggregateStock = NULL, $variantsDict = NULL, $extraFields = NULL, $currencyCode, $update_stock_only = False){
+  public function createProduct($product) {
     Mage::log("* In createProduct");
     /*
         Converted from Rails API format to distillery API format
@@ -72,24 +76,21 @@ class Pixlee_Pixlee {
         }
     */
 
-    // I feel like this is the result of a long chain of engineers being uncertain, that
-    // a product's ID, which is inaccesible to the user, and almost certainly a number,
-    // comes back as a string from $product->getId(). I'm just going to decide to break the cycle.
-    // Let's hope I'm right.
-    $product_id = (int) $product_id;
+    $data = array(
+      'title' => $product['name'], 
+      'album_type' => 'product', 
+      'live_update' => false, 
+      'num_photo' => 0,
+      'num_inbox_photo' => 0, 
+      'product' => $product
+    );
 
-    // If 'update_stock_only' is True (which it is not by default), do not send the URL along
-    if ($update_stock_only == True) {
-        $product = array('name' => $product_name, 'sku' => $sku, 'stock' => $aggregateStock);
+    //Fix for php versions that don't support JSON_UNESCAPED_SLASHES (< php 5.4)
+    if(defined("JSON_UNESCAPED_SLASHES")){
+      $payload = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     } else {
-        $product = array('name' => $product_name, 'sku' => $sku, 'buy_now_link_url' => $product_url,
-            'product_photo' => $product_image, 'price' => $product_price, 'stock' => $aggregateStock,
-            'native_product_id' => $product_id, 'variants_json' => $variantsDict,
-            'extra_fields' => $extraFields, 'currency' => $currencyCode);
+      $payload = str_replace('\\/', '/', json_encode($data));
     }
-    $data = array('title' => $product_name, 'album_type' => 'product', 'live_update' => false, 'num_photo' => 0,
-        'num_inbox_photo' => 0, 'product' => $product);
-    $payload = $this->signedData($data);
     return $this->postToAPI( "/albums?api_key=" . $this->apiKey, $payload );
   }
 
@@ -129,7 +130,9 @@ class Pixlee_Pixlee {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/json',
-      'Content-Length: ' . strlen($payload)
+      'X-Alt-Referer: magento.pixlee.com',
+      'Content-Length: ' . strlen($payload),
+      'Signature: ' . $this->generateSignature($payload)
     )
   );
     $response   = curl_exec($ch);
@@ -138,13 +141,8 @@ class Pixlee_Pixlee {
     return $this->handleResponse($response, $ch);
   }
 
-  // The rails API takes a signature, which was a sha256 of the payload
-  // we were about to send, JSONified.
-  // There was also a check for a JSON_UNESCAPED_SLASHES constant, which would
-  // 'fix' the JSON before encoding, for older PHP versions
-  // Since distillery doesn't check such a signature, this function is now much simpler
-  private function signedData($data){
-    return json_encode($data);
+  private function generateSignature($data) {
+    return base64_encode(hash_hmac('sha1', $data,  $this->secretKey, true));
   }
 
   private function handleResponse($response, $ch){
@@ -163,7 +161,14 @@ class Pixlee_Pixlee {
     if( !$this->isBetween( $responseCode, 200, 299 ) ){
       throw new Exception("HTTP $responseCode response from API");
     }else{
-      return $theResult;
+      if (is_null($theResult)) {
+        // Some endpoints of the API return a JSON object and some return a string
+        // PHP's json_decode returns null if the argument is a string
+        // For string responses, we want to pass the string back and not null
+        return $response;
+      } else {
+        return $theResult;
+      }
     }
   }
 
