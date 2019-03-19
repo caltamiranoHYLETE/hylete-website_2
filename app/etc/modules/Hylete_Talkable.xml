@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_Talkable>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Talkable_SocialReferrals/>
+            </depends>
+        </Hylete_Talkable>
+    </modules>
+</config>

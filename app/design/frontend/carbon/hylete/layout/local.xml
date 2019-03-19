@@ -682,7 +682,7 @@
             <action method="insert">
                 <block>breadcrumbs</block>
             </action>
-
+            <block type="catalog/product_view" name="talkable-product-sharing" template="talkable/socialreferrals/product-sharing.phtml"/>
             <block type="enterprise_targetrule/catalog_product_list_related" name="catalog.product.related"
                    as="related_products"
                    template="catalog/product/list/related.phtml"/>
