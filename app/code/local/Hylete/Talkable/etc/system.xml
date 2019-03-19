@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <sections>
+        <socialreferrals translate="label" module="socialreferrals">
+            <label>Extension Options</label>
+            <tab>talkable</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+
+            <groups>
+                <general translate="label">
+                    <label>Talkable Integration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+
+                    <fields>
+                        <site_id translate="label">
+                            <label>Talkable Site ID</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </site_id>
+                    </fields>
+                </general>
+
+                <campaigns translate="label">
+                    <label>Talkable Campaigns</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+
+                    <fields>
+                        <post_purchase translate="label">
+                            <label>Post Purchase</label>
+                            <comment><![CDATA[Shown on the Checkout Success page]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </post_purchase>
+
+                        <invite translate="label">
+                            <label>Invite</label>
+                            <comment><![CDATA[Mounted at /share]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invite>
+
+                        <advocate_dashboard translate="label">
+                            <label>Advocate Dashboard</label>
+                            <comment><![CDATA[Added to the Customer Account section]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </advocate_dashboard>
+
+                        <floating_widget_popup translate="label">
+                            <label>Floating Widget Popup</label>
+                            <comment><![CDATA[Shown on every page]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </floating_widget_popup>
+                    </fields>
+                </campaigns>
+                <hylete>
+                    <label>Hylete Customizations</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>999</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <share_button_pdp translate="label">
+                            <label>Show share button on product page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </share_button_pdp>
+                    </fields>
+                </hylete>
+            </groups>
+        </socialreferrals>
+    </sections>
+</config>

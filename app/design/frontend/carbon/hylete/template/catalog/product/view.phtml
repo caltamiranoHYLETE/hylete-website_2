@@ -193,29 +193,33 @@ $_backitHelper->setProduct($_product);
 
 			<?php echo $this->getChildHtml('tabs') ?>
 
-            <div class="follow">
-				<?php
-				$websiteCode = Mage::app()->getWebsite()->getCode();
-				$websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
-				$_productUrl = $_product->getProductUrl();
-				?>
-                <a class="pinterest"
-                   target="_blank"
-                   href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
-                       ->init($_product, 'thumbnail', $_product->getFile())
-                       ->resize(500); ?>" data-pin-custom="true">
-                    <i class="fab fa-pinterest"></i>
-                </a>
-                <a class="twitter"
-                   target="_blank"
-                   href="https://twitter.com/home?status=<?php echo $_productUrl ?>">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a class="facebook" target="_blank"
-                   href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>">
-                    <i class="fab fa-facebook"></i>
-                </a>
-            </div>
+            <?php if (Mage::getStoreConfig('socialreferrals/hylete/share_button_pdp')): ?>
+                <?php echo $this->getChildHtml('talkable-product-sharing') ?>
+            <?php else : ?>
+                <?php $_productUrl = $_product->getProductUrl(); ?>
+                <div class="follow">
+                    <a class="pinterest"
+                       target="_blank"
+                       href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
+                           ->init($_product, 'thumbnail', $_product->getFile())
+                           ->resize(500); ?>" data-pin-custom="true">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                    <a class="twitter"
+                       target="_blank"
+                       href="https://twitter.com/home?status=<?php echo $_productUrl ?>">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="facebook" target="_blank"
+                       href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            <?php endif ?>
+            <?php
+            $websiteCode = Mage::app()->getWebsite()->getCode();
+            $websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
+            ?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>
         </div>

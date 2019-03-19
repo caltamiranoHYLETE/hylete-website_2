@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
 <config>
     <modules>
         <Mediotype_HyleteBase>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
         </Mediotype_HyleteBase>
     </modules>
     <global>
