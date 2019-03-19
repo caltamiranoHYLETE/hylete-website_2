@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_Pixlee>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Pixlee_Base/>
+            </depends>
+        </Hylete_Pixlee>
+    </modules>
+</config>
