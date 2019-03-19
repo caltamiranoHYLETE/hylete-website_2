@@ -1,6 +1,6 @@
 <?php
 /**
- * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @author    Mediotype Development <diveinto@mediotype.com>
  * @copyright 2018 Mediotype. All rights reserved.
  */
 
