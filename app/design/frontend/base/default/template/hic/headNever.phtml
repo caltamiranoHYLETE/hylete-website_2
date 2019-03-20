@@ -1,0 +1,45 @@
+<?php
+/**
+ * HiConversion
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * [http://opensource.org/licenses/MIT]
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category Hic
+ * @package Hic_Integration
+ * @Copyright © 2015 HiConversion, Inc. All rights reserved.
+ * @license [http://opensource.org/licenses/MIT] MIT License
+ */
+
+$helper = $this->helper('integration');
+$hic_data = $helper->hicNeverData();
+
+?>
+<?php if($helper->isEnabled()):?>
+    <?php if(isset($hic_data)):?>
+        <?php if(null!==$hic_data->getData('tr')):?>
+<script id="hiconversion_head_never" type="text/javascript">
+    var __hic = __hic || {};
+    (function(){
+        try {
+           
+            __hic.data = __hic.data || {};
+               
+            __hic.data.tr = <?php echo Zend_Json::encode($hic_data->getData('tr')); ?>;
+             
+          
+        } catch (e) {
+
+        }
+    })();
+</script>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>
