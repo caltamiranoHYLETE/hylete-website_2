@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <integration-never>
+            <block>core/template</block>
+            <name>hic.integration.tag.never</name>
+            <placeholder>HICONVERSION_NEV</placeholder>
+            <container>Hic_Integration_Model_Container_Never</container>
+            <cache_lifetime>1</cache_lifetime>
+        </integration-never>
+         <integration-page>
+            <block>core/template</block>
+            <name>hic.integration.tag.page</name>
+            <placeholder>HICONVERSION_PAGE</placeholder>
+            <container>Hic_Integration_Model_Container_Page</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </integration-page>
+        <integration-session>
+            <block>core/template</block>
+            <name>hic.integration.tag.session</name>
+            <placeholder>HICONVERSION_SES</placeholder>
+            <container>Hic_Integration_Model_Container_Session</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </integration-session>
+    </placeholders>
+</config>
