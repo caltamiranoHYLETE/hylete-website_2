@@ -25,7 +25,7 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
      */
     public function getUsedProductIds($product = null)
     {
-        if (!$this->isCacheable()) {
+        if ($product === null || !$this->isCacheable()) {
             return parent::getUsedProductIds($product);
         }
         $cacheKey = $this->getCategoryFilterHelper()->getCacheKey(
@@ -73,7 +73,7 @@ class Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable extends Mage
     public function getUsedProducts($requiredAttributeIds = null, $product = null)
     {
         Varien_Profiler::start('CONFIGURABLE:' . __METHOD__);
-        if (!$this->isCacheable()) {
+        if ($product === null || !$this->isCacheable()) {
             $usedProducts = parent::getUsedProducts($requiredAttributeIds, $product);
         } else {
             try {
