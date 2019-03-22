@@ -31,7 +31,7 @@ jQuery( document ).ready(function() {
 						jQuery('#errorMessage').html(data.message);
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
-						var jsonObj = jQuery.parseJSON('[' + data.GetReturnTrackingResult + ']');
+						var jsonObj = JSON.parse('[' + data.GetReturnTrackingResult + ']');
 
 						//console.log(jsonObj);
 

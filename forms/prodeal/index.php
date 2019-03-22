@@ -1,10 +1,10 @@
 <?php
-if($_SERVER['SERVER_NAME'] != "dev.hylete.com") {
+if($_SERVER['SERVER_NAME'] != "local.hylete.com") {
 	if($_SERVER['SERVER_PORT'] != '443') { header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); exit(); }
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="https://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>HYLETE - Pro Deal</title>
 <meta name="robots" content="noindex, nofollow">
@@ -14,9 +14,11 @@ if($_SERVER['SERVER_NAME'] != "dev.hylete.com") {
 <link rel="stylesheet" href="/forms/prodeal/css/styles.css">
 <link rel="icon" type="image/ico" href="/media/favicon.ico" />
 
-<script src="/forms/js/jquery.js"></script>
-<script src="/forms/js/jquery-ui-1.11/jquery-ui.min.js"></script>
-<script src="/forms/js/jquery.validate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
+    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script type="text/javascript" src="/forms/js/config.js"></script>
 	<script src="/forms/js/prodeal.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -13,9 +13,9 @@ jQuery(document).ready(function(){
     jQuery('#exchangeTooltip').tooltip({title: "Select exchange if all the items need an exchange for size. After your return is processed, a new order will be sent to you that same day.", placement: "right", animation: true});
     jQuery('#productTooltip').tooltip({title: "Some items cannot be exchanged for size and can only be refunded. Clearance items cannot be refunded or exchanged.", placement: "top", animation: true});
 
-    jQuery('#refundTooltip, #creditMemoTooltip, #exchangeTooltip').hover(function(){
+    jQuery('#refundTooltip, #creditMemoTooltip, #exchangeTooltip').on('mouseenter', (function(){
         jQuery('#choice1').tooltip("destroy");
-    });
+    }));
 
     if(orderId != "") {
         var requestData = { orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin };
@@ -25,7 +25,7 @@ jQuery(document).ready(function(){
             dataType: "json",
             success: function(data) {
                 //console.log(data);
-                //var jsonObj = jQuery.parseJSON('[' + data + ']');
+                //var jsonObj = JSON.parse('[' + data + ']');
                 if(data.ErrorMessage != "" && data.ErrorMessage != null) {
                     jQuery("#loadingMessage").text(data.ErrorMessage);
                     jQuery("#loadingImage").hide();
@@ -84,7 +84,7 @@ jQuery(document).ready(function(){
                         }
                     }
 
-                    jQuery('a.nonreturnable_contact').click(function() {
+                    jQuery('a.nonreturnable_contact').on("click", function() {
                         jQuery('#modal-message').hide();
                         jQuery('#print-label-area').hide();
                         jQuery('#nonreturnable_contact').show();
@@ -263,7 +263,7 @@ jQuery(document).ready(function(){
 
     });
 
-    jQuery('#refund_choice, #memo_choice').change(function() {
+    jQuery('#refund_choice, #memo_choice').on("change", function() {
 
         jQuery('#choice1').tooltip("destroy");
 
@@ -289,7 +289,7 @@ jQuery(document).ready(function(){
             if(qty > 0){
                 jQuery(this).parent().nextAll().find('.select_reason option').not(':selected').attr('disabled', false)
             }
-        })
+        });
 
         jQuery(".exchangeTooltip.tooltip").each(function(){
             jQuery(this).hide();
@@ -477,7 +477,7 @@ jQuery(document).ready(function(){
                             jQuery('#print-label-area').hide();
                             jQuery('#modal-message').html(data.message);
                         } else {
-                            var jsonObj = jQuery.parseJSON('[' + data.CreateReturnExchangeResult + ']');
+                            var jsonObj = JSON.parse('[' + data.CreateReturnExchangeResult + ']');
                             if(jsonObj[0].Success == false) {
                                 jQuery('#print-label-area').hide();
                                 jQuery('#modal-message').html("<h2>There was an error processing your return!</h2><h4>" + jsonObj[0].ErrorMessage + "</h4>");
@@ -527,7 +527,7 @@ jQuery(document).ready(function(){
         });
     });*/
 
-    jQuery("#myModal img").bind('contextmenu', function(e) {
+    jQuery("#myModal img").on('contextmenu', function(e) {
         return false;
     });
 });
