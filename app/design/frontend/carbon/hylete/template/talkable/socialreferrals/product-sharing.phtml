@@ -7,20 +7,25 @@
 ?>
 <?php
 $_helper = $this->helper('socialreferrals');
+if (empty($_helper->getSiteId())) {
+    return;
+}
+
+$_product = $this->getProduct();
+if (!$_product && !$_product->getIsSharable()) {
+    return;
+}
 ?>
-<?php if (!empty($_helper->getSiteId())) : ?>
-    <?php $_product = $this->getProduct() ?>
-    <?php if ($_product && $_product->getIsSharable()): ?>
-        <?php $_imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getImage(); ?>
-        <div id="talkable-product-sharing"></div>
-        <script>
-            window._tkbl_data = {
-                product: {
-                    sku: '<?php echo $_product->getSku() ?>',
-                    title: '<?php echo $this->escapeHtml($_product->getName()) ?>',
-                    image_url: '<a href="<?php echo $_imageUrl  ?>" rel="noopener" target="_blank"><?php echo $_imageUrl ?></a>'
-                }
-            };
-        </script>
-    <?php endif ?>
-<?php endif ?>
+<?php $_imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getImage(); ?>
+<?php $data = [
+    'product' => [
+        'sku' => $_product->getSku(),
+        'title' => $_product->getName(),
+        'image_url' => '<a href="' . $_imageUrl . '" rel="noopener" target="_blank">' . $_imageUrl . '</a>',
+    ],
+]
+?>
+<div id="talkable-product-sharing"></div>
+<script>
+    window._tkbl_data = <?php echo json_encode($data) ?>;
+</script>
