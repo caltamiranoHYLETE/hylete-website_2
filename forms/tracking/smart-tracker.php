@@ -2,7 +2,7 @@
 //if($_SERVER['SERVER_PORT'] != '443') { header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); exit(); }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="https://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>HYLETE Order Tracking</title>
 <meta name="robots" content="NOINDEX, NOFOLLOW" />
@@ -12,11 +12,11 @@
 <meta property="og:description" content="Performance Cross Training Apparel" />
 <link rel="shortcut icon" href="http://www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
 
-<link rel="stylesheet" type="text/css" href="http://www.hylete.com/media/css/5faceca00c3148479453fc6e46a2b43b.1.0.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
     <link rel="stylesheet" type="text/css" href="/forms/tracking/smart-tracker.css" media="all" />
-<script src="/forms/js/jquery.js"></script>
-<script src="/forms/js/jquery-ui-1.11/jquery-ui.min.js"></script>
-<script src="/forms/js/jquery.validate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
+    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
 <script src="/forms/js/smart-tracking.js"></script>
 
 </head>

@@ -1,6 +1,6 @@
 jQuery( document ).ready(function() {
 
-    jQuery("input[name='change-order']").change(function(){
+    jQuery("input[name='change-order']").on('change', function(){
 
         jQuery('#submit-area').hide();
 

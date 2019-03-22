@@ -33,7 +33,7 @@ jQuery( document ).ready(function() {
 							jQuery('#errorMessage').html(data.message);
 							jQuery('#errorShow').fadeIn('500');
 						} else {
-							var jsonObj = jQuery.parseJSON('[' + data.GetOrderTrackingResult + ']');
+							var jsonObj = JSON.parse('[' + data.GetOrderTrackingResult + ']');
 							jQuery('#tracking-results').empty();
 							//console.log(jsonObj[0]);
 
