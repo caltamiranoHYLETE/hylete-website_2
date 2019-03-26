@@ -1138,7 +1138,8 @@ a.hm-btn-img {
     flex-wrap: wrap;
 }
 
-.products-grid [class*="col-"] {
+.products-grid [class*="col-"],
+.products-grid.row:before {
     display: flex;
     flex-direction: column;
 }
