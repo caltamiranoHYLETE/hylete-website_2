@@ -185,6 +185,9 @@
     </admin>
     <default>
         <enterprise_support>
+            <backups>
+                <enabled>0</enabled>
+            </backups>
             <backup_items>
                 <code>
                     <class>enterprise_support/backup_item_code</class>

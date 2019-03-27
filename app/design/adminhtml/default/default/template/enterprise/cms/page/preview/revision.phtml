@@ -32,7 +32,7 @@
 <select name="revision_switcher" id="revision_switcher">
     <option value=""><?php echo $this->__('Current Modification') ?></option>
     <?php foreach ($data as $row): ?>
-        <optgroup label="<?php echo $row['label'] ?>">
+        <optgroup label="<?php echo $this->escapeHtml($row['label']) ?>">
         <?php foreach ($row['revisions'] as $item): ?>
             <option value="<?php echo $item->getId() ?>"<?php if($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Revision #%s', $item->getRevisionNumber()) ?></option>
         <?php endforeach; ?>

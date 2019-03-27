@@ -85,6 +85,14 @@
                     </enterprise_pci>
                 </observers>
             </admin_user_save_after>
+            <admin_user_authenticate_after>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>adminAuthenticate</method>
+                    </enterprise_pci>
+                </observers>
+            </admin_user_authenticate_after>
         </events>
     </global>
     <adminhtml>
@@ -96,14 +104,6 @@
             </updates>
         </layout>
         <events>
-            <admin_user_authenticate_after>
-                <observers>
-                    <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
-                        <method>adminAuthenticate</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_authenticate_after>
             <api_user_authenticated>
                 <observers>
                     <enterprise_pci>

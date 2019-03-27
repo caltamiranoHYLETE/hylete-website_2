@@ -224,7 +224,7 @@ Enterprise.Staging.Mapper.prototype = {
         var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][from][]" class="validate-select-store  staging-mapper-store-from">';
         options+= '<option value=""></option>';
         stores.each(function(store){
-            options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
+            options+= '<option value="'+store.store_id+'">'+store.name.escapeHTML()+'</option>';
         });
         options+= '</option>';
         options = Object.toHTML(options);
@@ -241,7 +241,7 @@ Enterprise.Staging.Mapper.prototype = {
         var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][to][]" class="validate-select-store staging-mapper-store-to">';
         options+= '<option value=""></option>';
         stores.each(function(store){
-            options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
+            options+= '<option value="'+store.store_id+'">'+store.name.escapeHTML()+'</option>';
         });
         options+= '</option>';
         options = Object.toHTML(options);
