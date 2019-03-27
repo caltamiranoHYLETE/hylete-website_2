@@ -319,3 +319,71 @@ patching file js/lib/jquery/jquery-1.12.1.min.map
 patching file js/merchandiser/jquery-ui-1.12.1.min.js
 
 
+2019-03-27 19:17:40 UTC | SUPEE-11086 | EE_1.14.2.4 | v1 | b4688757252c8dbb9fc34d0e2edb3d753cd7827c | Thu Mar 21 20:59:29 2019 +0000 | 769a2dcefbf499fe72121106ff79b5601d2ca72c..HEAD
+patching file app/Mage.php
+patching file app/code/core/Enterprise/Catalog/Block/Adminhtml/Redirect/Edit.php
+patching file app/code/core/Enterprise/CustomerSegment/Model/Observer.php
+patching file app/code/core/Enterprise/Staging/Helper/Store.php
+patching file app/code/core/Enterprise/Staging/Helper/Website.php
+patching file app/code/core/Mage/Admin/Model/Session.php
+patching file app/code/core/Mage/Adminhtml/Block/Api/Buttons.php
+patching file app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit.php
+patching file app/code/core/Mage/Adminhtml/Block/Customer/Group/Edit.php
+patching file app/code/core/Mage/Adminhtml/Block/Permissions/Buttons.php
+patching file app/code/core/Mage/Adminhtml/Block/System/Design/Edit.php
+patching file app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
+patching file app/code/core/Mage/Adminhtml/Controller/Action.php
+Hunk #1 succeeded at 422 (offset 7 lines).
+patching file app/code/core/Mage/Adminhtml/Helper/Data.php
+patching file app/code/core/Mage/Adminhtml/Model/Email/PathValidator.php
+patching file app/code/core/Mage/Adminhtml/Model/LayoutUpdate/Validator.php
+patching file app/code/core/Mage/Adminhtml/Model/System/Config/Backend/Gatewayurl.php
+patching file app/code/core/Mage/Adminhtml/Model/System/Config/Backend/Protected.php
+patching file app/code/core/Mage/Adminhtml/controllers/Api/RoleController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Api/UserController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/Product/Action/AttributeController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/Product/AttributeController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/Product/WidgetController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Catalog/ProductController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Cms/WysiwygController.php
+patching file app/code/core/Mage/Adminhtml/controllers/CustomerController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Permissions/RoleController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Permissions/UserController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Promo/CatalogController.php
+patching file app/code/core/Mage/Adminhtml/controllers/Promo/QuoteController.php
+patching file app/code/core/Mage/Adminhtml/controllers/System/BackupController.php
+patching file app/code/core/Mage/Adminhtml/controllers/System/DesignController.php
+patching file app/code/core/Mage/Api2/Block/Adminhtml/Roles/Buttons.php
+patching file app/code/core/Mage/Api2/controllers/Adminhtml/Api2/AttributeController.php
+patching file app/code/core/Mage/Api2/controllers/Adminhtml/Api2/RoleController.php
+patching file app/code/core/Mage/Catalog/Model/Product/Option/Type/Select.php
+patching file app/code/core/Mage/Cms/Helper/Data.php
+patching file app/code/core/Mage/Cms/etc/config.xml
+patching file app/code/core/Mage/Core/Block/Abstract.php
+Hunk #1 succeeded at 1004 (offset 1 line).
+patching file app/code/core/Mage/Core/Helper/Abstract.php
+patching file app/code/core/Mage/Core/Model/File/Validator/StreamWrapper.php
+patching file app/code/core/Mage/Core/Model/Input/Filter/MaliciousCode.php
+patching file app/code/core/Mage/Core/etc/system.xml
+patching file app/code/core/Mage/Eav/Model/Attribute/Data/File.php
+patching file app/code/core/Mage/Eav/Model/Entity/Attribute/Abstract.php
+patching file app/code/core/Mage/Oauth/controllers/Adminhtml/Oauth/ConsumerController.php
+patching file app/code/core/Mage/Rss/etc/system.xml
+patching file app/code/core/Mage/Usa/etc/system.xml
+patching file app/code/core/Mage/Widget/controllers/Adminhtml/Widget/InstanceController.php
+patching file app/design/frontend/enterprise/default/template/giftcardaccount/onepage/payment/additional.phtml
+patching file app/design/frontend/rwd/enterprise/template/giftcardaccount/onepage/payment/additional.phtml
+patching file app/etc/config.xml
+patching file app/locale/en_US/Enterprise_GiftCardAccount.csv
+patching file app/locale/en_US/Mage_Adminhtml.csv
+Hunk #1 succeeded at 104 (offset -4 lines).
+Hunk #2 succeeded at 115 (offset -4 lines).
+patching file app/locale/en_US/Mage_Core.csv
+Hunk #1 succeeded at 159 with fuzz 2 (offset -5 lines).
+Hunk #2 succeeded at 167 (offset -5 lines).
+patching file app/locale/en_US/Mage_Rss.csv
+patching file app/locale/en_US/Mage_Widget.csv
+patching file lib/Varien/Db/Adapter/Pdo/Mysql.php
+patching file lib/Varien/Filter/Template.php
+
+
