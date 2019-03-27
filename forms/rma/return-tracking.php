@@ -2,7 +2,7 @@
 //if($_SERVER['SERVER_PORT'] != '443') { header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); exit(); }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="https://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>HYLETE Returns</title>
     <meta name="robots" content="NOINDEX, NOFOLLOW" />
@@ -13,11 +13,12 @@
     <link rel="shortcut icon" href="//www.hylete.com/media/favicon/default/favicon.ico" type="image/x-icon" />
 
     <link rel="stylesheet" type="text/css" href="/forms/rma/return-tracking-css.css" media="all" />
-    <link rel="stylesheet" type="text/css" href="//www.hylete.com/media/css/5faceca00c3148479453fc6e46a2b43b.1.0.css" media="all" />
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="//jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/return-tracking.js"></script>
 
 </head>

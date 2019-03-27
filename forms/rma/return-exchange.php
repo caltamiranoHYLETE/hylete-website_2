@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html xmlns="https://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>HYLETE Returns & Exchanges</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
@@ -50,12 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
     <link rel="stylesheet" href="/forms/rma/return-exchange-css.css">
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/config.js"></script>
-    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201803"></script>
+    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201903"></script>
 
 </head>
 <body>

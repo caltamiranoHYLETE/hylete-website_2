@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hylete_CategoryFilter>
+            <version>1.0.0</version>
+        </Hylete_CategoryFilter>
+    </modules>
+    <global>
+        <helpers>
+            <categoryfilter>
+                <class>Hylete_CategoryFilter_Helper</class>
+            </categoryfilter>
+        </helpers>
+        <models>
+            <catalog>
+                <rewrite>
+                    <product_type_configurable>Hylete_CategoryFilter_Model_Catalog_Product_Type_Configurable</product_type_configurable>
+                </rewrite>
+            </catalog>
+            <catalog_resource>
+                <rewrite>
+                    <product_type_configurable_attribute_collection>Hylete_CategoryFilter_Model_Resource_Catalog_Product_Type_Configurable_Attribute_Collection</product_type_configurable_attribute_collection>
+                </rewrite>
+            </catalog_resource>
+        </models>
+    </global>
+</config>

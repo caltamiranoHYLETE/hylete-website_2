@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hic_Integration>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Hic_Integration>
+    </modules>
+</config>

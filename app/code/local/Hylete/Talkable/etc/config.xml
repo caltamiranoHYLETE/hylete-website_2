@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_Talkable>
+            <version>1.0.0</version>
+        </Hylete_Talkable>
+    </modules>
+</config>

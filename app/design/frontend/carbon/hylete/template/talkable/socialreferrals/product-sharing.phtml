@@ -1,0 +1,31 @@
+<?php
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+/** @var $this Mage_Catalog_Block_Product_View */
+?>
+<?php
+$_helper = $this->helper('socialreferrals');
+if (empty($_helper->getSiteId())) {
+    return;
+}
+
+$_product = $this->getProduct();
+if (!$_product && !$_product->getIsSharable()) {
+    return;
+}
+?>
+<?php $_imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getImage(); ?>
+<?php $data = [
+    'product' => [
+        'sku' => $_product->getSku(),
+        'title' => $_product->getName(),
+        'image_url' => $_imageUrl
+    ],
+]
+?>
+<div id="talkable-product-sharing"></div>
+<script>
+    window._tkbl_data = <?php echo json_encode($data) ?>;
+</script>
