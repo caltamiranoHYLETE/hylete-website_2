@@ -52,7 +52,7 @@ jQuery( document ).ready(function() {
 	            encode      : true,
                 timeout: 60000
 	        })
-	            .success(function(data) {
+	            .done(function(data) {
 
 					jQuery('#sectionProcessing').hide();
 
@@ -60,7 +60,7 @@ jQuery( document ).ready(function() {
 						jQuery('#errorMessage').html(data.message);
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
-                        var jsonObj = jQuery.parseJSON(data.GetReturnOrdersResult);
+                        var jsonObj = JSON.parse(data.GetReturnOrdersResult);
                         //console.log(jsonObj);
 
                         //if we only have one order found we will process it

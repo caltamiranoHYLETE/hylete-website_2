@@ -1,76 +1,76 @@
 
-// A $( document ).ready() block.
-$( document ).ready(function() {
+// A jQuery( document ).ready() block.
+jQuery( document ).ready(function() {
 
-	$("#txtFirstName").on ({
+	jQuery("#txtFirstName").on ({
 		focus: function() {
-			if($(this).val() == "first name") {
-				$(this).val("");
+			if(jQuery(this).val() == "first name") {
+				jQuery(this).val("");
 			}
 		},
 		blur: function() {
-			if($(this).val() == "") {
-				$(this).val("first name");
+			if(jQuery(this).val() == "") {
+				jQuery(this).val("first name");
 			}
 		}
 	});
 
-	$("#txtLastName").on ({
+	jQuery("#txtLastName").on ({
 		focus: function() {
-			if($(this).val() == "last name") {
-				$(this).val("");
+			if(jQuery(this).val() == "last name") {
+				jQuery(this).val("");
 			}
 		},
 		blur: function() {
-			if($(this).val() == "") {
-				$(this).val("last name");
+			if(jQuery(this).val() == "") {
+				jQuery(this).val("last name");
 			}
 		}
 	});
 
-	$("#txtEmail").on ({
+	jQuery("#txtEmail").on ({
 		focus: function() {
-			if($(this).val() == "email address") {
-				$(this).val("");
+			if(jQuery(this).val() == "email address") {
+				jQuery(this).val("");
 			}
 		},
 		blur: function() {
-			if($(this).val() == "") {
-				$(this).val("email address");
+			if(jQuery(this).val() == "") {
+				jQuery(this).val("email address");
 			}
 		}
 	});
 
-	$("#defaultPassword").on ({
+	jQuery("#defaultPassword").on ({
 		focus: function() {
-			if($(this).val() == "password") {
-				$(this).val("");
-				$(this).get(0).type='password';
+			if(jQuery(this).val() == "password") {
+				jQuery(this).val("");
+				jQuery(this).get(0).type='password';
 			}
 		},
 		blur: function() {
-			if($(this).val() == "") {
-				$(this).val("password");
+			if(jQuery(this).val() == "") {
+				jQuery(this).val("password");
 			}
 		}
 	});
 
-	$("#defaultRePassword").on ({
+	jQuery("#defaultRePassword").on ({
 		focus: function() {
-			if($(this).val() == "confirm password") {
-				$(this).val("");
-				$(this).get(0).type='password';
+			if(jQuery(this).val() == "confirm password") {
+				jQuery(this).val("");
+				jQuery(this).get(0).type='password';
 			}
 		},
 		blur: function() {
-			if($(this).val() == "") {
-				$(this).val("confirm password");
+			if(jQuery(this).val() == "") {
+				jQuery(this).val("confirm password");
 			}
 		}
 	});
 
-	$("#defaultRePassword").blur( function() {
-		$(this).validate({
+	jQuery("#defaultRePassword").on('blur', function() {
+		jQuery(this).validate({
 			rules: {
 				defaultPassword: {
 					equalTo: '#defaultRePassword'
@@ -83,7 +83,7 @@ $( document ).ready(function() {
 	});
 
 	function validateConsumerEmail(email){
-		if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+		if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))jQuery/.test(email)) {
 			return true;
 		} else {
 			return false;
@@ -91,45 +91,45 @@ $( document ).ready(function() {
 	}
 
 	// jquery extend function
-	$.extend(
+	jQuery.extend(
 		{
 			redirectPost: function(location, args)
 			{
 				var form = '';
-				$.each( args, function( key, value ) {
+				jQuery.each( args, function( key, value ) {
 					form += '<input type="hidden" name="'+key+'" value="'+value+'">';
 				});
-				$('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
+				jQuery('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
 			}
 		});
 
-	$.validator.addMethod("notEqual", function(value, element, param) {
+	jQuery.validator.addMethod("notEqual", function(value, element, param) {
 		return this.optional(element) || value != param;
 	}, "Please enter your name");
 
-	$.validator.addMethod("validTLD", function(value, element, param) {
+	jQuery.validator.addMethod("validTLD", function(value, element, param) {
 		return validateConsumerEmail(value);
 	}, "<span style='display:block;text-align:center'>Please check your email address.</span>");
 
-	$('#login-to-shop').click(function(event) {
+	jQuery('#login-to-shop').on('click', function(event) {
 
 		var data = { };
-		data['email'] = $('#txtEmail').val();
-		data['password'] = $('#defaultPassword').val();
+		data['email'] = jQuery('#txtEmail').val();
+		data['password'] = jQuery('#defaultPassword').val();
 
-		$.redirectPost("/customer/account/login/", data);
+		jQuery.redirectPost("/customer/account/login/", data);
 	});
 
-	$('#login-customer').click(function(event) {
+	jQuery('#login-customer').on('click', function(event) {
 
 		var data = { };
-		data['email'] = $('#txtEmail').val();
-		data['password'] = $('#defaultPassword').val();
+		data['email'] = jQuery('#txtEmail').val();
+		data['password'] = jQuery('#defaultPassword').val();
 
-		$.redirectPost("/customer/account/login/", data);
+		jQuery.redirectPost("/customer/account/login/", data);
 	});
 
-	$("#regForm").validate( {
+	jQuery("#regForm").validate( {
 		ignore:".ignore",
 		rules: {
 			txtFirstName: {
@@ -151,13 +151,13 @@ $( document ).ready(function() {
 		},
 		submitHandler: function(form) {
 
-			$('#sectionProcessing').show();
+			jQuery('#sectionProcessing').show();
 
-			var str = $('#regForm').serialize();
+			var str = jQuery('#regForm').serialize();
 
 			//console.log(str);
 
-			$.ajax({
+			jQuery.ajax({
 				type        : 'POST',
 				url         : '/forms/prodeal/process.php',
 				data        : str,
@@ -166,42 +166,42 @@ $( document ).ready(function() {
 			})
 				.done(function(data) {
 
-					$('#sectionProcessing').hide();
+					jQuery('#sectionProcessing').hide();
 
 					//console.log(data);
 
 					if(data.success == 'false') {
-						$('#errorMessage').html(data.message);
-						$('#my_signup').html("ACCOUNT NOT CREATED!");
-						$('#errorShow').fadeIn('500');
+						jQuery('#errorMessage').html(data.message);
+						jQuery('#my_signup').html("ACCOUNT NOT CREATED!");
+						jQuery('#errorShow').fadeIn('500');
 					} else {
-						var jsonObj = $.parseJSON('[' + data.CreateProDealMemberResult + ']');
+						var jsonObj = JSON.parse('[' + data.CreateProDealMemberResult + ']');
 
 						//console.log(jsonObj);
 
 						breakMe: {
 
 							if(jsonObj[0].HasAccount) {
-								$('#my_signup').html("ACCOUNT ALREADY CREATED");
-								$('#registerShowForm').fadeOut('500', function() {
-									$('#accountShow').fadeIn('500');
+								jQuery('#my_signup').html("ACCOUNT ALREADY CREATED");
+								jQuery('#registerShowForm').fadeOut('500', function() {
+									jQuery('#accountShow').fadeIn('500');
 								});
 								break breakMe;
 							}
 
 							if(jsonObj[0].NewAccount) {
-								$('#my_signup').html("ACCOUNT CREATED!");
-								$('#registerShowForm').fadeOut('500', function() {
-									$('#newAccountShow').fadeIn('500');
+								jQuery('#my_signup').html("ACCOUNT CREATED!");
+								jQuery('#registerShowForm').fadeOut('500', function() {
+									jQuery('#newAccountShow').fadeIn('500');
 								});
 								break breakMe;
 							}
 
 							if(jsonObj[0].ShowError) {
-								$('#errorMessage').html(jsonObj[0].ErrorMessage);
-								$('#my_signup').html("ACCOUNT NOT CREATED!");
-								$('#account-form').fadeOut('500', function() {
-									$('#errorShow').fadeIn('500');
+								jQuery('#errorMessage').html(jsonObj[0].ErrorMessage);
+								jQuery('#my_signup').html("ACCOUNT NOT CREATED!");
+								jQuery('#account-form').fadeOut('500', function() {
+									jQuery('#errorShow').fadeIn('500');
 								});
 
 								break breakMe;

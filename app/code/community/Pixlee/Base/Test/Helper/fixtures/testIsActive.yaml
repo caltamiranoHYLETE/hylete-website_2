@@ -1,2 +1,0 @@
-config:
-  stores/admin/pixlee/pixlee/account_api_key: 'api_key_exists'

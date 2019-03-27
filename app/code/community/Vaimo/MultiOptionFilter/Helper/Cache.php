@@ -49,7 +49,9 @@ class Vaimo_MultiOptionFilter_Helper_Cache extends Mage_Core_Helper_Abstract
                 if ($attributeCode == '__status__' || ($attributeCode == 'p' && $value == '1')) {
                     continue;
                 }
-
+                if (is_array($value)){
+                    $value = implode('-',$value);
+                }
                 $result[] = "$attributeCode-$value";
             }
         }
