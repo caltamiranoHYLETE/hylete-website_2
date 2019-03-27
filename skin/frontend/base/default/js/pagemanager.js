@@ -1,3 +1,3 @@
 jQuery(document).ready(function($){
-	$('a.openimageoverlay').colorbox();
+	// $('a.openimageoverlay').colorbox();
 });
