@@ -35,6 +35,17 @@ class Enterprise_Catalog_Block_Adminhtml_Redirect_Edit
     extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Setting _controller property
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->_controller = '';
+        parent::__construct();
+    }
+
+    /**
      * Retrieves url for Back button
      *
      * @return string
