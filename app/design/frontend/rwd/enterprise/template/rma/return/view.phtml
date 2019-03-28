@@ -187,7 +187,7 @@
                 <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                     <dt><?php echo $this->escapeHtml($_option['label']) ?>:</dt>
-                    <dd><?php echo $_option['value'] ?></dd>
+                    <dd><?php echo $this->escapeHtml($_option['value']); ?></dd>
                 <?php endforeach; ?>
                 </dl>
                 <?php endif; ?>
