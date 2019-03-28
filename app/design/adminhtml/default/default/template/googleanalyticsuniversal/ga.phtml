@@ -28,7 +28,11 @@
     <?php
     /** @var Enterprise_GoogleAnalyticsUniversal_Block_Ga $this */
     $accountType = Mage::getStoreConfig(Enterprise_GoogleAnalyticsUniversal_Helper_Data::XML_PATH_TYPE);
-    $gtmAccountId = Mage::getStoreConfig(Enterprise_GoogleAnalyticsUniversal_Helper_Data::XML_PATH_CONTAINER_ID);
+    $gtmAccountId = preg_replace(
+        '/[^a-zA-Z0-9-]/',
+        '',
+        Mage::getStoreConfig(Enterprise_GoogleAnalyticsUniversal_Helper_Data::XML_PATH_CONTAINER_ID)
+    );
     $gapAccountId = Mage::getStoreConfig(Enterprise_GoogleAnalyticsUniversal_Helper_Data::XML_PATH_ACCOUNT) ;
     ?>
 <?php switch ($accountType): ?>
