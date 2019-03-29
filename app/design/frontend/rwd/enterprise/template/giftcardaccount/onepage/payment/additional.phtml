@@ -27,7 +27,8 @@
 <div class="checkout-onepage-payment-additional-giftcardaccount">
 <p class="note">
     <?php $_url = Mage::getUrl('checkout/cart'); ?>
-    <?php echo Mage::helper('enterprise_giftcardaccount')->__('To add or remove gift cards, <a href="%s">click here</a>.', $_url); ?><br />
+    <?php echo Mage::helper('enterprise_giftcardaccount')->__('To add or remove gift cards,') ?>
+    <a href="<?php echo $_url ?>"><?php echo Mage::helper('enterprise_giftcardaccount')->__('click here') ?>.</a><br />
 
     <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
         <?php $amount = Mage::helper('core')->currency($this->getAppliedGiftCardAmount(), true); ?>
