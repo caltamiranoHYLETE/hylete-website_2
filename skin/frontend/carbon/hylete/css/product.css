@@ -265,7 +265,7 @@ div.fancybox-skin {
     display: inline-block;
     padding-right: 10px;
     border-right: 1px solid #000;
-    margin: 10px 10px 20px 0;
+    margin: 10px 10px 5px 0;
 }
 .yotpo-reviews__hylete .text-m {
     margin-left: 5px;
@@ -273,4 +273,14 @@ div.fancybox-skin {
 .yotpo-reviews__hylete .bottomLine .yotpo-icon {
     position: relative;
     top: -1px;
+}
+
+.add-to-cart button.button {height:50px}
+.product-options .sod_select {
+    padding: 15px 30px 7px 8px;
+    height: 50px;
+}
+
+.product-options .sod_select:after {
+    top:15px;
 }

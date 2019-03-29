@@ -37,6 +37,7 @@ $_carbonHelper = $this->helper('carbon');
 $_product = $this->getProduct();
 $_backitHelper = Mage::helper('hylete/backit');
 $_backitHelper->setProduct($_product);
+$_yotpoReviewsHelper = $this->helper('yotpo');
 ?>
 
 
@@ -62,6 +63,12 @@ $_backitHelper->setProduct($_product);
 			<?php if ($_product->hasColor()) : ?>
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
+
+            <?php if (!$_backitHelper->isPreOrderProduct() && !$_backitHelper->isBackItProduct()): ?>
+                <div class="yotpo-reviews__hylete clearfix test">
+                    <?php $_yotpoReviewsHelper->showBottomline($this, $_product); ?>
+                </div>
+            <?php endif; ?>
 
 			<?php if ($this->getChild('msrp_price')) : ?>
             <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
