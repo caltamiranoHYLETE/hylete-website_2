@@ -38,6 +38,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
      *
      * @param Enterprise_GiftRegistry_Model_Type $type
      * @return string
+     * @throws Mage_Core_Exception
      */
     public function processData($type)
     {
@@ -48,9 +49,19 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
                 $groups = array();
                 $attribute_groups = Mage::getSingleton('enterprise_giftregistry/attribute_config')
                     ->getAttributeGroups();
+                $helper = Mage::helper('enterprise_giftregistry');
                 foreach ($data as $attributes) {
                     foreach ($attributes as $attribute) {
-                        if (array_key_exists($attribute['group'], $attribute_groups)) {
+                        if (isset($attribute['options'])) {
+                            foreach ($attribute['options'] as $option) {
+                                if (!$helper->validateAttributeCode($option['code'])) {
+                                    Mage::throwException($helper->__('Failed to save gift registry.'));
+                                }
+                            }
+                        }
+                        if (array_key_exists($attribute['group'], $attribute_groups)
+                            && ($helper->validateAttributeCode($attribute['code']))
+                        ) {
                             if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
                                 $group = self::XML_REGISTRANT_NODE;
                             } else {
@@ -58,9 +69,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
                             }
                             $groups[$group][$attribute['code']] = $attribute;
                         } else {
-                            Mage::throwException(
-                                Mage::helper('enterprise_giftregistry')->__('Failed to save gift registry.')
-                            );
+                            Mage::throwException($helper->__('Failed to save gift registry.'));
                         }
                     }
                 }

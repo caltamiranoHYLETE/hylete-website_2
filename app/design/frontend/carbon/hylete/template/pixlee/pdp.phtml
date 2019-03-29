@@ -17,10 +17,10 @@ if ($product !== null && $helper->isActive()): ?>
                 apiKey: '<?php echo $helper->getAccountApiKey() ?>'
             });
             Pixlee.addCategoryWidget({
-                accountId: <?php echo $helper->getAccountId() ?>,
-                widgetId: <?php echo $helper->getProductWidgetId() ?>,
+                accountId: <?php echo $helper->getAccountId() ? $helper->getAccountId() : "''" ?>,
+                widgetId: <?php echo $helper->getProductWidgetId() ? $helper->getProductWidgetId() : "''" ?>,
                 categoryName: '<?php echo $this->escapeHtml($product->getName()) ?>',
-                fallbackAlbumId: <?php echo $helper->getAlbumIdByProductId($product->getId()) ?>,
+                fallbackAlbumId: <?php echo $helper->getAlbumIdByProductId($product->getId()) ? $helper->getAlbumIdByProductId($product->getId()) : "''" ?>,
                 fallbackThreshold: 2
             });
         };

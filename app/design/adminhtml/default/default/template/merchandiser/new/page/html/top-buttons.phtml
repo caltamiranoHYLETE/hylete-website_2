@@ -44,7 +44,7 @@
             <?php $_websiteName = Mage::app()->getWebsite($websiteId)->getName() ?>
             <?php $isSelected = $storeFrontFromSession==$websiteId?"selected":""; ?>
             <option value="<?php echo $websiteId ?>" <?php echo $isSelected; ?>>
-               <?php echo $_websiteName ?>
+               <?php echo $this->escapeHtml($_websiteName); ?>
             </option>
         <?php endforeach; ?>
     </select>
