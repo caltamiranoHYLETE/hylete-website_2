@@ -36,7 +36,7 @@
         <?php endif;?>
 
         <?php if ($this->canShowOuter() && $this->canShowFirst()):?>
-            <li><a class="first" title="<?php echo $this->escapeHtml($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getFirstNode())?></a></li>
+            <li><a class="first" title="<?php echo $this->escapeHtml($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>"><?php echo $this->escapeHtml($this->getNodeLabel($this->getFirstNode())); ?></a></li>
         <?php endif;?>
 
         <?php if ($this->canShowPreviousJump()):?>
@@ -56,7 +56,7 @@
         <?php endif;?>
 
         <?php if ($this->canShowOuter() && $this->canShowLast()):?>
-          <li><a class="last" title="<?php echo $this->escapeHtml($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getLastNode())?></a><li>
+          <li><a class="last" title="<?php echo $this->escapeHtml($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><?php echo $this->escapeHtml($this->getNodeLabel($this->getLastNode())); ?></a><li>
         <?php endif;?>
 
         <?php if ($this->canShowSequence()):?>

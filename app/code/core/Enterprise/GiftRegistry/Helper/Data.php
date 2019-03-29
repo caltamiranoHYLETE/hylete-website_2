@@ -246,4 +246,15 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return true;
     }
+
+    /**
+     * Validate attribute code value
+     *
+     * @param string $code
+     * @return boolean
+     */
+    public function validateAttributeCode($code)
+    {
+        return strcmp($code, str_replace(['<', '>', '&'], '', $code)) === 0;
+    }
 }

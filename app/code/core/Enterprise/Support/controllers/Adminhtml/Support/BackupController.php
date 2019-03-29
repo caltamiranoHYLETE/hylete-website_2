@@ -206,6 +206,7 @@ class Enterprise_Support_Adminhtml_Support_BackupController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('admin/session')->isAllowed('admin/system/tools/enterprise_support/support_backup');
+        return Mage::getSingleton('admin/session')->isAllowed('admin/system/tools/enterprise_support/support_backup')
+            && Mage::getStoreConfigFlag('enterprise_support/backups/enabled');
     }
 }
