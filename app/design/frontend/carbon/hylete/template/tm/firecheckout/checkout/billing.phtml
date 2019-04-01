@@ -256,7 +256,11 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                 <input type="checkbox" name="billing[register_account]" value="1" title="<?php echo $this->__('Create an account and earn reward points') ?>" id="billing:register_account" onclick="if(window.billing) billing.setCreateAccount(this.checked);"<?php if ($register || 'optional-checked' == $registrationMode) : ?> checked="checked"<?php endif;?> class="checkbox" />
                                 <label for="billing:register_account">
                                     <span class="fal fa-user" aria-hidden="true"></span>
-                                    <?php echo $this->__('Create an account and earn <span class="elevio-link" data-elevio-article="85055">reward points</span>') ?>
+                                    <?php
+                                        /** 1 point = $1 */
+                                        $possiblePointsEarned = floor($_address->getQuote()->getSubtotalWithDiscount());
+                                        echo $this->__('Create an account and earn <strong>%s</strong> <span class="elevio-link" data-elevio-article="85055">reward points</span>', $possiblePointsEarned)
+                                    ?>
                                 </label>
                             </li>
                         <?php else: ?>
