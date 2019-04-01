@@ -257,9 +257,14 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                 <label for="billing:register_account">
                                     <span class="fal fa-user" aria-hidden="true"></span>
                                     <?php
-                                        /** 1 point = $1 */
-                                        $possiblePointsEarned = floor($_address->getQuote()->getSubtotalWithDiscount());
-                                        echo $this->__('Create an account and earn <strong>%s</strong> <span class="elevio-link" data-elevio-article="85055">reward points</span>', $possiblePointsEarned)
+                                    /** @var $rewardsSession \TBT_Rewards_Model_Session */
+                                    $_rewardsSession = $this->helper('rewards')->getRS();
+                                    $_pointsEarnedOnCart = 0;
+                                    $_pointsEarnedOnCartBlock = $_rewardsSession->getTotalPointsEarningAsStringList();
+                                    if ($_pointsEarnedOnCartBlock instanceof \TBT_Rewards_Block_Points) {
+                                        $_pointsEarnedOnCart = (int)$_pointsEarnedOnCartBlock->toHtml();
+                                    }
+                                    echo $this->__('Create an account and earn <strong>%s</strong> <span class="elevio-link" data-elevio-article="85055">reward points</span>', $_pointsEarnedOnCart ?: '');
                                     ?>
                                 </label>
                             </li>
