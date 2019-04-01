@@ -40,7 +40,7 @@
                     <tr>
                         <td class="label"><label><?php echo Mage::helper('enterprise_staging')->__('Website') ?></label></td>
                         <td>
-                            <?php echo $website->getName() ?>
+                            <?php echo $this->escapeHtml($website->getName()); ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
