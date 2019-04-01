@@ -52,11 +52,11 @@
         </reference>
         <reference name="head">
             <action method="addJs">
-                <script>lib/jquery/jquery-1.12.0.min.js</script>
+                <script>lib/jquery/jquery-1.12.1.min.js</script>
             </action>
             <action method="addItem">
                 <type>js</type>
-                <name>merchandiser/jquery-ui-1.10.4.min.js</name>
+                <name>merchandiser/jquery-ui-1.12.1.min.js</name>
             </action>
             <action method="addItem">
                 <type>js</type>

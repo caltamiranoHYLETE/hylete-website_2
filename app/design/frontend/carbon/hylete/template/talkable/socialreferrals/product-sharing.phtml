@@ -21,7 +21,7 @@ if (!$_product && !$_product->getIsSharable()) {
     'product' => [
         'sku' => $_product->getSku(),
         'title' => $_product->getName(),
-        'image_url' => '<a href="' . $_imageUrl . '" rel="noopener" target="_blank">' . $_imageUrl . '</a>',
+        'image_url' => $_imageUrl
     ],
 ]
 ?>
