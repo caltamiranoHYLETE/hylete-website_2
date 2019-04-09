@@ -1,8 +1,13 @@
-<?php if ($this->getProduct()) { ?>
+<?php if ($_product = $this->getProduct()) : ?>
 
-<div class="yotpo bottomLine"
-	data-product-id="<?php echo $this->getProductId() ?>"
-	data-url="<?php echo $this->getProductUrl() ?>">
-</div>
-
-<?php } ?>
+    <?php
+    $_backitHelper = Mage::helper('hylete/backit');
+    $_backitHelper->setProduct($_product);
+    ?>
+    <?php if (!$_backitHelper->isPreOrderProduct() && !$_backitHelper->isBackItProduct()): ?>
+        <div class="yotpo bottomLine"
+             data-product-id="<?php echo $this->getProductId() ?>"
+             data-url="<?php echo $this->getProductUrl() ?>">
+        </div>
+    <?php endif ?>
+<?php endif ?>
