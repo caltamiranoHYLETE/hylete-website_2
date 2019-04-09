@@ -65,8 +65,11 @@ div.fancybox-skin {
 
 .product-options,
 .product-options-bottom {
-    display: inline-block;
     vertical-align: top;
+}
+
+.product-options .product-options-bottom {
+    width: 100%;
 }
 
 .product-options {
@@ -78,13 +81,14 @@ div.fancybox-skin {
     padding: 0;
 }
 
-.product-options .sod_select,
 .add-to-cart button {
-    width: 200px;
+    width: 100%;
 }
 
 .sizes {
     margin-bottom: 7px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .sizes a:nth-child(1n-1) {
