@@ -1,5 +1,13 @@
 /* Product ========================================================================== */
 
+.catalog-product-view  .sod_select {
+    width: 180px;
+    height: 50px;
+    padding-top: 15px;
+}
+.catalog-product-view  .sod_select:after {
+    top: 15px;
+}
 .catalog-product-view .breadcrumbs {
     margin-top: 10px;
 }
@@ -66,19 +74,17 @@ div.fancybox-skin {
 .product-options,
 .product-options-bottom {
     vertical-align: top;
+    margin-bottom: 10px;
 }
 
 .product-options .product-options-bottom {
     width: 100%;
 }
 
-.product-options {
-    margin-right: 16px;
-}
-
 .product-options .validation-advice {
     margin: 5px 0 0 -2px;
     padding: 0;
+    position: absolute;
 }
 
 .add-to-cart button {
@@ -86,19 +92,29 @@ div.fancybox-skin {
 }
 
 .sizes {
-    margin-bottom: 7px;
-    display: inline-block;
-    vertical-align: top;
+    vertical-align: inherit;
+    line-height: 50px;
 }
-
-.sizes a:nth-child(1n-1) {
-    margin-right: 20px;
+.catalog-product-view .sizes span {
+    font-size: 16px;
+}
+.catalog-product-view .sizes a,
+.catalog-product-view .sizes a:link,
+.catalog-product-view .sizes a:visited,
+.catalog-product-view .sizes a:hover {
+    text-decoration: none;
+    color: #666;
+}
+.catalog-product-view .product-options.bss .sizes {
+    text-align: center;
+    float: none;
 }
 
 .sizeguide,
 .getnotified {
     border: 1px #000 solid;
     margin-top: 10px;
+    margin-bottom: 10px;
     padding: 5px 20px 10px 20px;
 }
 
@@ -127,9 +143,7 @@ div.fancybox-skin {
 }
 
 .morecolors {
-    border-bottom: 1px #e5e5e5 solid;
     margin: 20px 0;
-    padding-bottom: 5px;
 }
 
 .morecolors h2 {
@@ -278,3 +292,36 @@ div.fancybox-skin {
     position: relative;
     top: -1px;
 }
+
+.catalog-product-view .MagicScroll-vertical a[data-magic-slide-id^=video]:after,
+.catalog-product-view .MagicScroll-vertical a[data-magic-slide-id^=video]:before {
+    top: 40%;
+}
+
+.catalog-product-view .MagicScroll-horizontal a[data-magic-slide-id^=video]:after,
+.catalog-product-view .MagicScroll-horizontal a[data-magic-slide-id^=video]:before {
+    top: 25%;
+}
+
+.catalog-product-view .MagicToolboxContainer {
+    margin-top: 30px;
+}
+.catalog-product-view .MagicScroll > .mcs-button-arrow {
+    opacity: 1;
+}
+
+.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-prev:hover::before,
+.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-next:hover::before,
+.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-prev:hover::before,
+.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-next:hover::before,
+.catalog-product-view .MagicScroll:hover > .mcs-button-arrow:hover:not(.mcs-disabled)::before {
+    border-color: #fff;
+}
+
+.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-prev:before,
+.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-next:before,
+.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-prev:before,
+.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-next:before {
+    border-color: #000;
+}
+

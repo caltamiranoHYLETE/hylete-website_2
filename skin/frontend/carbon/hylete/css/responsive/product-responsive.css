@@ -1,11 +1,22 @@
-
 @media (min-width: 768px) {
     .morecolors [data-togglecontent] {
         display: block !important;
         height: auto !important;
     }
 }
-
+@media (min-width: 1200px) {
+    .catalog-product-view  .sod_select {
+        width: 200px;
+    }
+    .catalog-product-view  .sizes {
+        float: right;
+    }
+}
+@media (max-width: 1199px) {
+    .catalog-product-view  .sod_select {
+        width: 100%;
+    }
+}
 
 @media (min-width: 768px) and (max-width: 991px) {
     .product-options.bss {
@@ -14,13 +25,12 @@
     .product-essential .main-product-image {
         padding: 0 15px 30px 15px;
     }
-    
+
     #giftcard-product-wrapper .product-options-bottom,
     #giftcard-product-wrapper .product-options-bottom button {
         width: 100%;
     }
 }
-
 
 /* Extra small devices */
 @media (max-width: 767px) {

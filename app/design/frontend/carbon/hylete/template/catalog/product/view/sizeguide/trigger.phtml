@@ -1,0 +1,32 @@
+<?php $_helper = Mage::helper('hylete'); ?>
+<?php $_product = Mage::registry('current_product'); ?>
+<?php $_showNotifyMe = $_helper->showNotifyMe($_product); ?>
+<?php $_sizeGuideHtml = $_helper->getSizeguideHtml($_product); ?>
+
+<div class="sizes">
+    <?php if ($_sizeGuideHtml): ?>
+        <a data-togglelink="sizeguide" data-togglegroup="productpage">
+            <i class="fal fa-2x fa-ruler"></i>
+            <span><?php echo $this->__('fit & size guide'); ?></span>
+        </a>
+    <?php endif; ?>
+
+    <?php if ($_showNotifyMe): ?>
+        <?php echo ($_product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) ? $this->__('size not available?') : $this->__('not available?') ?>
+        <a data-togglelink="getnotified" data-togglegroup="productpage"
+           class="underline"><?php echo $this->__('get notified'); ?></a>
+    <?php endif; ?>
+</div>
+
+<?php if ($_sizeGuideHtml): ?>
+    <div class="visible-xs visible-sm visible-md">
+        <div data-togglecontent="sizeguide" data-togglegroup="productpage" class="sizeguide">
+            <p>
+                <a data-togglelink="sizeguide" data-togglegroup="productpage"
+                   class="underline"><?php echo $this->__('close'); ?></a>
+                <?php echo $_product->getSizeguideText(); ?>
+            </p>
+            <?php echo $_sizeGuideHtml; ?>
+        </div>
+    </div>
+<?php endif; ?>
