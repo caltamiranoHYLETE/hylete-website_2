@@ -1,0 +1,17 @@
+<?php $_helper = Mage::helper('hylete'); ?>
+<?php $_product = Mage::registry('current_product'); ?>
+<?php $_sizeGuideHtml = $_helper->getSizeguideHtml($_product); ?>
+
+<?php if ($_sizeGuideHtml): ?>
+    <div class="hidden-xs hidden-sm hidden-md">
+        <div data-togglecontent="sizeguide" data-togglegroup="productpage" class="sizeguide">
+            <p>
+                <a data-togglelink="sizeguide" data-togglegroup="productpage"
+                   class="underline"><?php echo $this->__('close'); ?></a>
+                <?php echo $_product->getSizeguideText(); ?>
+            </p>
+            <?php echo $_sizeGuideHtml; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
