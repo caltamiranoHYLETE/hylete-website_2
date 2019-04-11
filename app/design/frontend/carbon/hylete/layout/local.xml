@@ -545,6 +545,12 @@
         <reference name="footer.before">
             <block name="footer.category" type="catalog/category_view" template="catalog/category/footer.phtml" before="-"/>
         </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/carbon-productlist.js</name>
+            </action>
+        </reference>
     </catalog_category_default>
 
     <catalog_category_layered>
