@@ -609,7 +609,8 @@
     </PRODUCT_TYPE_style>
     <catalog_product_view>
         <reference name="product.info.options.wrapper">
-            <block type="core/template" name="sizeguide" template="catalog/product/view/sizeguide.phtml"/>
+            <block type="core/template" name="sizeguide.trigger" template="catalog/product/view/sizeguide/trigger.phtml" before="product.info.options.configurable"/>
+            <block type="core/template" name="sizeguide.guide" template="catalog/product/view/sizeguide/guide.phtml"/>
         </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
@@ -729,7 +730,6 @@
             <block type="core/text_list" name="productpage.cms">
                 <label>Productpage cms</label>
             </block>
-            <block type="core/template" name="sizeguide" template="catalog/product/view/sizeguide.phtml"/>
             <action method="insert">
                 <name>social.buttons</name>
             </action>
