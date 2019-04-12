@@ -10,7 +10,6 @@ if($_SERVER['SERVER_NAME'] != "local.hylete.com") {
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="/forms/js/jquery-ui-1.11/jquery-ui.css" type="text/css" />
 <link rel="stylesheet" href="/forms/prodeal/css/styles.css">
 <link rel="icon" type="image/ico" href="/media/favicon.ico" />
 

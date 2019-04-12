@@ -78,6 +78,16 @@ class Gene_ApplePay_Block_Express_Setup extends Gene_ApplePay_Block_Express_Abst
     }
 
     /**
+     * Get the grand total for the quote
+     *
+     * @return float
+     */
+    public function getQuoteGrandTotal()
+    {
+        return number_format($this->getQuote()->getGrandTotal(), 2, '.', '');
+    }
+
+    /**
      * Registry entry to mark this block as instantiated
      *
      * @param string $html

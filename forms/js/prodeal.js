@@ -140,7 +140,6 @@ jQuery( document ).ready(function() {
 			},
 			txtEmail: {
 				required: true,
-				validTLD: "",
 				email: true
 			},
 			defaultPassword: {
