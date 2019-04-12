@@ -39,6 +39,9 @@
                                     <title>System Backups</title>
                                     <sort_order>10</sort_order>
                                     <action>adminhtml/support_backup/index</action>
+                                    <depends>
+                                        <config>enterprise_support/backups/enabled</config>
+                                    </depends>
                                 </support_backup>
                                 <support_sysreport>
                                     <title>System Reports</title>
@@ -68,6 +71,7 @@
                                                 <title>System Backups</title>
                                                 <sort_order>10</sort_order>
                                                 <action>adminhtml/support_backup/index</action>
+                                                <disabled>1</disabled>
                                             </support_backup>
                                             <support_sysreport>
                                                 <title>System Reports</title>

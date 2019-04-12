@@ -52,4 +52,15 @@ class Enterprise_Wishlist_Block_Customer_Sharing extends Mage_Wishlist_Block_Cus
     {
         return $this->getUrl('*/*/index', array('wishlist_id' => Mage::helper('wishlist')->getWishlist()->getId()));
     }
+
+    /**
+     * Prepare Layout
+     *
+     * @return Mage_Enterprise_Wishlist_Block_Customer_Sharing
+     */
+    protected function _prepareLayout()
+    {
+        $this->setChild('wishlist.sharing.form.additional.info', 'wishlist.sharing.form.additional.info');
+        return parent::_prepareLayout();
+    }
 }
