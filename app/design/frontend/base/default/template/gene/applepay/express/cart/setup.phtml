@@ -30,7 +30,7 @@
             );
 
             // Pass over the quotes grand total for the amount
-            express.setAmount('<?php echo $this->getQuoteSubtotal(); ?>');
+            express.setAmount('<?php echo $this->getQuoteGrandTotal(); ?>');
 
             // Attach our Apple Pay event onto the buttons
             express.attachToButtons($$('[data-applepay]'));
