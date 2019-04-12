@@ -249,15 +249,24 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
         return (int)  isset($_COOKIE[self::COOKIE_CATEGORY_ID]) ? $_COOKIE[self::COOKIE_CATEGORY_ID] : 0;
     }
 
-
     /**
      * Set cookie with form key for cached front
+     *
+     * The core method is overwritten to make sure the cookie is set secure if url is secure
      *
      * @param string $formKey
      */
     public static function setFormKeyCookieValue($formKey)
     {
-        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/');
+        /** @var $store Mage_Core_Model_Store */
+        $store = Mage::getModel('core/store');
+        if ($store->isAdmin()) {
+            $canUseSecureCookie  = $store->isAdminUrlSecure();
+        } else {
+            $canUseSecureCookie = $store->isFrontUrlSecure();
+        }
+
+        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/', '', $canUseSecureCookie);
     }
 
     /**
