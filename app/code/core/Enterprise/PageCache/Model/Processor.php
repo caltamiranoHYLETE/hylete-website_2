@@ -733,13 +733,7 @@ class Enterprise_PageCache_Model_Processor
          * Define request URI
          */
         if ($uri) {
-            if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
-                // IIS with Microsoft Rewrite Module
-                $uri.= $_SERVER['HTTP_X_ORIGINAL_URL'];
-            } elseif (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
-                // IIS with ISAPI_Rewrite
-                $uri.= $_SERVER['HTTP_X_REWRITE_URL'];
-            } elseif (isset($_SERVER['REQUEST_URI'])) {
+            if (isset($_SERVER['REQUEST_URI'])) {
                 $uri.= $_SERVER['REQUEST_URI'];
             } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
                 $uri.= $_SERVER['UNENCODED_URL'];

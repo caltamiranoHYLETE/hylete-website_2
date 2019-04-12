@@ -112,7 +112,9 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
             if (!preg_match('#^([0-9a-z_]+?)(_([0-9]+))?('.preg_quote($websiteCodeSuffix).')?$#i', $code, $match)) {
                 return $this->getUnusedWebsiteCode('_');
             }
-            $code = $match[1].(isset($match[3])?'_'.($match[3]+1):'_1').(isset($match[4])?$match[4]:'');
+            $code = $match[1]
+                . (isset($match[3]) ? '_' . ((int) $match[3] + 1) : '_1')
+                . (isset($match[4]) ? $match[4] : '');
             return $this->getUnusedWebsiteCode($code);
         } else {
             return $code;

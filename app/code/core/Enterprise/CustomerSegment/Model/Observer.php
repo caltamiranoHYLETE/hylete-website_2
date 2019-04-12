@@ -198,7 +198,9 @@ class Enterprise_CustomerSegment_Model_Observer
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $model->setUseCustomerSegment(count($model->getCustomerSegmentIds()) > 0);
+        $customerSegmentIds = $model->getCustomerSegmentIds();
+        $countCustomerSegmentIds = empty($customerSegmentIds) ? 0 : count($customerSegmentIds);
+        $model->setUseCustomerSegment($countCustomerSegmentIds > 0);
 
         // whether to specify customer segments - also for UI design purposes only
         $fieldset->addField('use_customer_segment', 'select', array(

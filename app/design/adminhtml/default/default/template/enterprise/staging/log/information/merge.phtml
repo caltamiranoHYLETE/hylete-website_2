@@ -37,8 +37,8 @@
                 <div class="hor-scroll">
                     <table cellspacing="0" class="form-list">
                     <tr>
-                        <td><?php echo $this->getMasterWebsiteName() ?></td>
-                        <td>&nbsp;-&gt;&nbsp;<?php echo $this->getStagingWebsiteName() ?></td>
+                        <td><?php echo $this->escapeHtml($this->getMasterWebsiteName()); ?></td>
+                        <td>&nbsp;-&gt;&nbsp;<?php echo $this->escapeHtml($this->getStagingWebsiteName()); ?></td>
                     </tr>
                     </table>
                 </div>
