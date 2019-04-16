@@ -42,6 +42,17 @@
     opacity: 1 !important;
 }
 
+.catalog-product-view .sizes a,
+.catalog-product-view .sizes a:link,
+.catalog-product-view .sizes a:visited,
+.catalog-product-view .sizes a:hover,
+.catalog-product-view .product-shop .color,
+.catalog-product-view .morecolors,
+.catalog-product-view .tabs a[data-togglelink] {
+    color: #666;
+}
+
+
 div.fancybox-skin {
     background: #fff;
     border-radius: 0;
