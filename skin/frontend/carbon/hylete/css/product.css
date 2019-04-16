@@ -336,3 +336,7 @@ div.fancybox-skin {
     border-color: #000;
 }
 
+.catalog-product-view .yotpo.bottomLine.yotpo-small {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
