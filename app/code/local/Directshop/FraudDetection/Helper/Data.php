@@ -44,7 +44,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 	
 	function queryMaxMind($params)
 	{
-		$servers = array("http://minfraud1.maxmind.com","http://minfraud2.maxmind.com");
+		$servers = array("https://minfraud.maxmind.com","https://minfraud-us-west.maxmind.com","https://minfraud-us-east.maxmind.com");
 		$return = array();
 		$error = false;
 		
@@ -68,7 +68,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 				continue;
 			}
 			
-			foreach (explode(";", $response->getRawBody()) as $keyval)
+			foreach (explode(";", $response->getBody()) as $keyval)
 			{
 				$bits = explode("=",$keyval);
 				if (count($bits) > 1)
@@ -261,7 +261,7 @@ class Directshop_FraudDetection_Helper_Data extends Mage_Core_Helper_Abstract
 		// then we get the result from the server
 		$res = $this->queryMaxMind($h);
 		
-	   //Mage::Log(utf8_encode(serialize($res)));
+	    //Mage::Log(utf8_encode(serialize($res)));
 		
 		// set the remaining queries in our table
 		if (!empty($res['queriesRemaining']))
