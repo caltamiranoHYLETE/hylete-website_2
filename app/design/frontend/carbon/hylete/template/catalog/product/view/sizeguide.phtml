@@ -1,9 +1,8 @@
-<?php $_helper = Mage::helper('hylete'); ?>
-<?php $_product = Mage::registry('current_product'); ?>
-<?php $_sizeGuideHtml = $_helper->getSizeguideHtml($_product); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_sizeGuideHtml = Mage::helper('hylete')->getSizeguideHtml($_product); ?>
 <?php if ($_sizeGuideHtml): ?>
     <div class="sizes">
-        <a data-fancybox-trigger="sizeguide" href="#fancybox-sizeguide"">
+        <a data-fancybox-trigger="sizeguide" href="#fancybox-sizeguide">
         <i class="fal fa-2x fa-ruler"></i>
         <span><?php echo $this->__('fit & size guide'); ?></span>
         </a>
