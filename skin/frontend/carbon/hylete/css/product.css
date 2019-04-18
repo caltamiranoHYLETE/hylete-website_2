@@ -129,7 +129,7 @@ div.fancybox-skin {
     padding: 5px 20px 10px 20px;
 }
 
-.sizeguide [data-togglelink],
+#fancybox-sizeguide .close-btn,
 .getnotified [data-togglelink] {
     float: right;
     margin: 0 0 20px 40px;
@@ -321,19 +321,17 @@ div.fancybox-skin {
     opacity: 1;
 }
 
-.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-prev:hover::before,
-.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-next:hover::before,
-.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-prev:hover::before,
-.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-next:hover::before,
 .catalog-product-view .MagicScroll:hover > .mcs-button-arrow:hover:not(.mcs-disabled)::before {
+    border-color: #fff;
+    color: #fff;
+}
+
+.catalog-product-view .MagicScroll .mcs-button-arrow:hover::before {
     border-color: #fff;
 }
 
-.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-prev:before,
-.catalog-product-view .MagicScroll-horizontal .mcs-button-arrow-next:before,
-.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-prev:before,
-.catalog-product-view .MagicScroll-vertical .mcs-button-arrow-next:before {
-    border-color: #000;
+.catalog-product-view .MagicScroll-vertical .mcs-item {
+    height: 105px !important;
 }
 
 .catalog-product-view .yotpo.bottomLine.yotpo-small {

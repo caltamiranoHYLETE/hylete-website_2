@@ -1,16 +1,18 @@
-<?php $_product = Mage::registry('current_product');?>
 <?php $_helper = Mage::helper('hylete'); ?>
-
+<?php $_product = $this->getProduct(); ?>
+<?php $_cmsBlocks = $_helper->getProductTabsCmsBlocks($_product) ?>
 <ul class="tabs">
-	<?php foreach ($_helper->getProductTabsCmsBlocks($_product) as $_block): ?>
-		<?php if(substr($_block->getIdentifier(), 0, 17)  == 'product_cms_video') { ?>
-        <li>
-            <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">watch video<span class="fa fa-plus"></a>
-            <div data-togglecontent="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">
-				<?php echo $_block->getContent(); ?>
-            </div>
-        </li>
-	<?php } endforeach; ?>
+	<?php foreach ($_cmsBlocks as $_block): ?>
+        <?php $_identifier = $_block->getIdentifier() ?>
+		<?php if(strpos($_identifier, 'product_cms_video') === 0) : ?>
+            <li>
+                <a data-togglelink="<?php echo $_identifier; ?>" data-togglegroup="tabs"><?php echo $this->__('watch video'); ?><span class="fa fa-plus"></a>
+                <div data-togglecontent="<?php echo $_identifier; ?>" data-togglegroup="tabs">
+                    <?php echo $_block->getContent(); ?>
+                </div>
+            </li>
+	    <?php endif; ?>
+	<?php endforeach; ?>
     <li>
         <a data-togglelink="details" data-togglegroup="tabs"><?php echo $this->__('description & details'); ?> <span class="fa fa-plus"></a>
         <div data-togglecontent="details" data-togglegroup="tabs">
@@ -19,18 +21,28 @@
         </div>
     </li>
     <li>
-        <a data-togglelink="material" data-togglegroup="tabs"><?php echo $this->__('material'); ?> <span class="fa fa-plus"></a>
-        <div data-togglecontent="material" data-togglegroup="tabs">
+        <a data-togglelink="material-care" data-togglegroup="tabs"><?php echo $this->__('material & care'); ?> <span class="fa fa-plus"></a>
+        <div data-togglecontent="material-care" data-togglegroup="tabs">
             <?php echo Icommerce_Default::getOptionValue($_product, 'material'); ?>
+            <?php foreach ($_cmsBlocks as $_block): ?>
+                <?php // all care cms block ends with _care?>
+                <?php if(strpos($_block->getIdentifier(), '_care')) : ?>
+                    <div class="block-care">
+                        <?php echo $_block->getContent(); ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
     </li>
-    <?php foreach ($_helper->getProductTabsCmsBlocks($_product) as $_block): ?>
-	    <?php if(substr($_block->getIdentifier(), 0, 17) != 'product_cms_video') { ?>
-        <li>
-            <a data-togglelink="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs"><?php echo $_block->getTitle(); ?> <span class="fa fa-plus"></a>
-            <div data-togglecontent="<?php echo $_block->getIdentifier(); ?>" data-togglegroup="tabs">
-                <?php echo $_block->getContent(); ?>
-            </div>
-        </li>
-    <?php  } endforeach; ?>
+    <?php foreach ($_cmsBlocks as $_block): ?>
+        <?php $_identifier = $_block->getIdentifier() ?>
+	    <?php if(strpos($_identifier, 'product_cms_video') === false && strpos($_identifier, '_care') === false) : ?>
+            <li>
+                <a data-togglelink="<?php echo $_identifier; ?>" data-togglegroup="tabs"><?php echo $this->escapeHtml($_block->getTitle()) ?> <span class="fa fa-plus"></a>
+                <div data-togglecontent="<?php echo $_identifier; ?>" data-togglegroup="tabs">
+                    <?php echo $_block->getContent(); ?>
+                </div>
+            </li>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </ul>
