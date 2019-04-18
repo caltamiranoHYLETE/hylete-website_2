@@ -609,8 +609,7 @@
     </PRODUCT_TYPE_style>
     <catalog_product_view>
         <reference name="product.info.options.wrapper">
-            <block type="core/template" name="sizeguide.trigger" template="catalog/product/view/sizeguide/trigger.phtml" before="product.info.options.configurable"/>
-            <block type="core/template" name="sizeguide.guide" template="catalog/product/view/sizeguide/guide.phtml"/>
+            <block type="core/template" name="sizeguide" template="catalog/product/view/sizeguide.phtml" before="product.info.options.configurable"/>
         </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
