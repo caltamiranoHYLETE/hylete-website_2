@@ -3,6 +3,10 @@
         display: block !important;
         height: auto !important;
     }
+    .catalog-product-view  div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+    .catalog-product-view  div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+        height: 600px;
+    }
 }
 @media (min-width: 1200px) {
     .catalog-product-view  .sod_select {
@@ -107,8 +111,10 @@
     .sizes a:nth-child(1n-1) {
         margin-right: 10px;
     }
-
-
+    .catalog-product-view .MagicScroll-horizontal a[data-magic-slide-id^=video]:after,
+    .catalog-product-view .MagicScroll-horizontal a[data-magic-slide-id^=video]:before {
+        top: 50%;
+    }
 }
 /* Smallest devices */
 @media (max-width: 480px) {
