@@ -1341,8 +1341,6 @@
             </action>
             <block type="core/template" template="vaimo/blog/blog-right-column.phtml" name="blog.right.column"
                    as="blog.right.column">
-                <block type="blog/posts_latest" template="vaimo/blog/popular-post.phtml" name="blog.popular.post"
-                       as="blog.popular.post"/>
                 <block type="cms/block" name="blog.instagram">
                     <action method="setBlockId">
                         <block_id>blog_instagram</block_id>
@@ -1361,8 +1359,6 @@
         <reference name="product.info">
             <block type="core/template" template="vaimo/blog/blog-right-column.phtml" name="blog.right.column"
                    as="blog.right.column">
-                <block type="blog/posts_latest" template="vaimo/blog/popular-post.phtml" name="blog.popular.post"
-                       as="blog.popular.post"/>
                 <block type="cms/block" name="blog.instagram">
                     <action method="setBlockId">
                         <block_id>blog_instagram</block_id>

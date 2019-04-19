@@ -25,6 +25,7 @@
  */
 ?>
 <?php
+/** @var Mage_Core_Block_Template $this */
 $_helperHylete = $this->helper('hylete');
 $_productCategory = $_helperHylete->getCategory();
 $_subCategories = $_productCategory->getChildrenCategories();
@@ -61,10 +62,12 @@ $_subCategories = $_productCategory->getChildrenCategories();
         <?php endif ?>
     </ul>
 </div>
+<?php if($this->getChild('blog.popular.post')): ?>
 <div class="popular-posts">
     <h2><?php echo $this->__('popular posts') ?></h2>
     <?php echo $this->getChildHtml('blog.popular.post') ?>
 </div>
+<?php endif; ?>
 
 <div class="instagram-feed">
     <h2><?php echo $_productCategory->getName() ?></h2>
