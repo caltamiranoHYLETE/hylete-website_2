@@ -10,7 +10,6 @@
 
 class MageWorx_SeoMarkup_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
     const IN_STOCK     = 'http://schema.org/InStock';
     const OUT_OF_STOCK = 'http://schema.org/OutOfStock';
     const OFFER        = 'http://schema.org/Offer';
@@ -18,6 +17,8 @@ class MageWorx_SeoMarkup_Helper_Data extends Mage_Core_Helper_Abstract
     const REVIEW       = 'http://schema.org/Review';
     const PERSON       = 'http://schema.org/Person';
     const RATING       = 'http://schema.org/Rating';
+
+    const DATE_FORMAT = 'Y-m-d';
 
     protected $_attributeValues = array();
 
@@ -203,6 +204,43 @@ class MageWorx_SeoMarkup_Helper_Data extends Mage_Core_Helper_Abstract
         return true;
     }
 
+    /**
+     * @param Mage_Catalog_Model_Product $product
+     * @return mixed|null
+     */
+    public function getPriceValidUntilValue($product)
+    {
+        if (Mage::helper('mageworx_seomarkup/config')->isUseSpecialPriceFunctionality()) {
+            $fromDate = $product->getSpecialFromDate();
+            $toDate   = $product->getSpecialToDate();
+
+            $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($product->getStore());
+            $fromTimeStamp  = strtotime($fromDate);
+            $toTimeStamp    = strtotime($toDate);
+
+            if ($toDate) {
+                // fix date YYYY-MM-DD 00:00:00 to YYYY-MM-DD 23:59:59
+                $toTimeStamp += 86399;
+            }
+
+            if (!is_empty_date($fromDate) && $storeTimeStamp < $fromTimeStamp) {
+                return date(self::DATE_FORMAT, $fromTimeStamp);
+            } elseif (!is_empty_date($toDate) && $storeTimeStamp < $toTimeStamp) {
+                return date(self::DATE_FORMAT, $toTimeStamp);
+            }
+        }
+
+        $value = Mage::helper('mageworx_seomarkup/config')->getPriceValidUntilDefaultValue();
+
+        if ($value && strtotime($value)) {
+            $value = date(self::DATE_FORMAT, strtotime($value, 0));
+
+            return is_empty_date($value) ? null : $value;
+        }
+
+        return null;
+    }
+
     public function getDescriptionValue($product)
     {
         $attributeCode = Mage::helper('mageworx_seomarkup/config')->getDescriptionAttributeCode();
@@ -299,6 +337,21 @@ class MageWorx_SeoMarkup_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             return $sku;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Mage_Catalog_Model_Product $product
+     * @return mixed|null
+     */
+    public function getProductIdValue($product)
+    {
+        $attributeCode = Mage::helper('mageworx_seomarkup/config')->getProductIdCode();
+
+        if ($attributeCode) {
+            return $this->getAttributeValueByCode($product, $attributeCode);
         }
 
         return null;
