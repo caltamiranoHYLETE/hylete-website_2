@@ -486,7 +486,12 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
       Mage::log("Pixlee: Incorrect credentials filled in configuration. Please check developers.pixlee.com/magento");
       return;
     } else {
-      $productCreated = $pixleeAPI->createProduct($product);
+        try {
+            $productCreated = $pixleeAPI->createProduct($product);
+        } catch (Exception $e) {
+            Mage::log($product);
+            Mage::logException($e);
+        }
     }
   }
 
