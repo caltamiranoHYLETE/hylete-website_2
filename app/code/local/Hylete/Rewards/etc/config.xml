@@ -17,6 +17,11 @@
                 </rewrite>
             </rewards>
         </blocks>
+        <helpers>
+            <hylete_rewards>
+                <class>Hylete_Rewards_Helper</class>
+            </hylete_rewards>
+        </helpers>
         <events>
             <core_block_abstract_to_html_before>
                 <observers>

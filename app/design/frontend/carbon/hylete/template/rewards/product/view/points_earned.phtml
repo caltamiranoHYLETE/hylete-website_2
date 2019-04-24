@@ -1,0 +1,63 @@
+<?php /** @var TBT_Rewards_Block_Product_View_Points_Earned $this */ ?>
+<?php $tooltipHtml = $this->helper('hylete_rewards')->getRewardPointsTooltipHtml() ?>
+
+<div class="distri_section js-tooltip-container">
+    <?php foreach ($this->getDistriRewards() as $reward_currency => $reward_amount): ?>
+        <?php $points_summary = $this->getPointsString($reward_amount, $reward_currency); ?>
+        <?php if ($this->doGraphicalEarning()): ?>
+            <div class="earnable" align="left">
+                <table border=0 cellspacing=0 cellpadding=0><tbody><tr>
+                        <td align="left" class="rewards-mini-icon-holder">
+                            <img src="<?php echo $this->getSkinUrl("images/rewards/add_points.png"); ?>">
+                        </td>
+                        <td align="left">
+                            <span>
+                            <?php if ($this->isBundle()): ?>
+                                <?php echo $this->__('Earn as much as <strong>%s</strong> on this product', $points_summary); ?>
+                            <?php elseif ($this->getShowEarningFrom()) : ?>
+                                <?php echo $this->__('Earn up to <strong>%s</strong> on this product', $points_summary); ?>
+                            <?php else :?>
+                                <?php echo $this->__('Earn <strong>%s</strong> on this product', $points_summary); ?>
+                            <?php endif; ?>
+                            </span>
+                            <?php if ($tooltipHtml): ?>
+                            <span class="points-info">
+                                <span class="points-info__link js-tooltip-link">
+                                <span class="fal fa-question-circle"></span>
+                            </span>
+                            <?php endif ?>
+                        </td>
+                    </tr></tbody></table>
+            </div>
+        <?php else: ?>
+            <div class="you_will_earn">
+                <span>
+                <?php if ($this->getShowEarningFrom()) : ?>
+                    <?php echo $this->__('Earn up to <strong>%s</strong> on this product', $points_summary); ?>
+                <?php else :?>
+                    <?php echo $this->__('Earn <strong>%s</strong> on this product', $points_summary); ?>
+                <?php endif; ?>
+                </span>
+                <?php if ($tooltipHtml): ?>
+                <span class="points-info">
+                    <span class="points-info__link js-tooltip-link">
+                    <span class="fal fa-question-circle"></span>
+                </span>
+                <?php endif ?>
+            </div>
+        <?php endif ?>
+
+        <?php if ($tooltipHtml): ?>
+        <div style="display:none;">
+            <div id="points-info-data"><?php echo $tooltipHtml ?></div>
+        </div>
+        <?php endif ?>
+
+        <?php /* $reward_currency is almost always '1' and $reward_amount is an integer amount of points to display. */ ?>
+        <?php $img_url = $this->getPointsImgUrl($reward_amount, $reward_currency); ?>
+        <?php $imgPath = Mage::getSingleton('rewards/currency')->load($reward_currency)->getImage(); ?>
+        <?php if (!empty($imgPath)): ?>
+            <img src="<?php echo $img_url; ?>" class="points_image points_currency_image-<?php echo $reward_currency ?>"/>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
