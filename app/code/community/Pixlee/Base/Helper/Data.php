@@ -489,8 +489,10 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
         try {
             $productCreated = $pixleeAPI->createProduct($product);
         } catch (Exception $e) {
-            Mage::log($product);
-            Mage::logException($e);
+            Mage::log('PIXLEE ERROR: Creating product - start');
+            Mage::log('PIXLEE ERROR: Product data: ' . Zend_Debug::dump($product, null, false));
+            Mage::log('PIXLEE ERROR:' . $e->__toString());
+            Mage::log('PIXLEE ERROR: Creating product - end');
         }
     }
   }
