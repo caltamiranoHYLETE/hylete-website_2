@@ -9,9 +9,9 @@ class Hylete_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_REWARD_POINTS_TOOLTIP = 'rewards/autointegration/product_view_page_product_points_tooltip';
 
     /**
-     * Return reward points tooltip content
+     * Retrieve reward points tooltip content
      *
-     * @param null|mixed $store
+     * @param null|string|int $store
      * @return string
      */
     public function getRewardPointsTooltipHtml($store = null)
@@ -21,7 +21,7 @@ class Hylete_Rewards_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
 
-        return  $this->getLayout()->createBlock('cms/block')
+        return $this->getLayout()->createBlock('cms/block')
             ->setBlockId($blockId)
             ->toHtml();
     }
