@@ -4,7 +4,7 @@
 <?php if ($_sizeGuideHtml = $_helper->getSizeguideHtml($_product)): ?>
     <div data-togglecontent="sizeguide" data-togglegroup="productpage" class="sizeguide">
         <p>
-            <a data-togglelink="sizeguide" data-togglegroup="productpage" class="underline"><?php echo $this->__('close'); ?></a>
+            <a data-togglelink="sizeguide" data-togglegroup="productpage" class="underline fancybox-close"><span><?php echo $this->__('close'); ?></span></a>
             <?php echo $_product->getSizeguideText(); ?>
         </p>
 
