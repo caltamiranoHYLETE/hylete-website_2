@@ -31,30 +31,28 @@
 
 /* @var $this Mediotype_HyletePrice_Block_Catalog_Product_View */
 
-$_catalogHelper = $this->helper('catalog/output');
-$_helper = Mage::helper('hylete');
-$_carbonHelper = $this->helper('carbon');
 $_product = $this->getProduct();
-$_backitHelper = Mage::helper('hylete/backit');
+$_catalogHelper = $this->helper('catalog/output');
+$_helper = $this->helper('hylete');
+$_carbonHelper = $this->helper('carbon');
+$_backitHelper = $this->helper('hylete/backit');
 $_backitHelper->setProduct($_product);
+$_showNotifyMe = $_helper->showNotifyMe($_product);
+$_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
 ?>
-
-
-<?php $_showNotifyMe = (!$_product->isSalable() || count($_helper->getSimples($_product, 'nonsalable')) > 0); ?>
-
 
 <div id="<?php echo $_product->getTypeId() ?>-product-wrapper">
     <div class="product-essential row">
         <div id="messages_product_view" class="clearfix"><?php echo $this->getMessagesBlock()
 				->getGroupedHtml() ?></div>
 
-        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+        <div class="col-xs-12 col-sm-8">
             <script type="text/javascript">
                 var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
             </script>
 			<?php echo $this->getChildHtml('media') ?>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5 product-shop">
+        <div class="col-xs-12 col-sm-4 product-shop">
             <div class="product-name">
                 <h1><?php echo $_catalogHelper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             </div>
@@ -63,8 +61,10 @@ $_backitHelper->setProduct($_product);
                 <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
 
+            <?php echo $this->getChildHtml('yotpo-bottomline'); ?>
+
 			<?php if ($this->getChild('msrp_price')) : ?>
-            <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
+                <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
             <?php endif; ?>
 
 			<?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
@@ -158,38 +158,24 @@ $_backitHelper->setProduct($_product);
                                value=""/>
                     </div>
 					<?php echo $this->getChildHtml('bundleSummary') ?>
-					<?php if ($_product->getTypeId() == 'configurable'): ?>
-                    <div class="price-box-configurable"><?php endif; ?>
-						<?php echo $this->getChildHtml('product_type_data') ?>
-						<?php if ($_product->getTypeId() == 'configurable'): ?></div><?php endif; ?>
+					<?php if ($_isConfigurable): ?>
+                        <div class="price-box-configurable">
+                            <?php echo $this->getChildHtml('product_type_data') ?>
+                        </div>
+                    <?php else: ?>
+                        <?php echo $this->getChildHtml('product_type_data') ?>
+					<?php endif; ?>
 					<?php echo $this->getTierPriceHtml() ?>
 					<?php echo $this->getChildHtml('extrahint') ?>
 					<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                 </form>
 			<?php endif; ?>
 
-            <p class="sizes">
-				<?php if ($_helper->getSizeguideHtml($_product)): ?>
-                    <a data-togglelink="sizeguide" data-togglegroup="productpage"
-                       class="underline"><?php echo $this->__('size guide'); ?></a>
-				<?php endif; ?>
-
-				<?php if ($_showNotifyMe): ?>
-					<?php echo ($_product->getTypeId() == 'configurable') ? $this->__('size not available?') : $this->__('not available?') ?>
-                    <a data-togglelink="getnotified" data-togglegroup="productpage"
-                       class="underline"><?php echo $this->__('get notified'); ?></a>
-				<?php endif; ?>
-            </p>
-
-			<?php echo $this->getChildHtml('sizeguide') ?>
-
 			<?php if ($_showNotifyMe): ?>
 				<?php echo $this->getChildHtml('alert_urls') ?>
 			<?php endif; ?>
 
 			<?php echo $this->getChildHtml('related_products') ?>
-
-            <div class="description"><?php echo $_product->getDescription(); ?></div>
 
 			<?php echo $this->getChildHtml('tabs') ?>
 
