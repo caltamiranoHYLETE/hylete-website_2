@@ -26,15 +26,6 @@
 <?php /* @var $this Mage_Catalog_Block_Product_View_Abstract */?>
 <?php
 $_product = $this->getProduct();
-$_backitHelper = Mage::helper('hylete/backit');
-$_backitHelper->setProduct($_product);
-$_yotpoReviewsHelper = $this->helper('yotpo');
 ?>
 
 <?php echo $this->getPriceHtml($_product) ?>
-
-<?php if (!$_backitHelper->isPreOrderProduct() && !$_backitHelper->isBackItProduct()): ?>
-    <div class="yotpo-reviews__hylete clearfix">
-        <?php $_yotpoReviewsHelper->showBottomline($this, $_product); ?>
-    </div>
-<?php endif; ?>

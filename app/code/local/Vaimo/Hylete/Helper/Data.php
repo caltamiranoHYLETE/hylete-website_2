@@ -349,4 +349,15 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $block->getCollection('all', $collectionGetAmount = 3, $collectionDescSort = true, $collectionAttributes);
     }
+
+    /**
+     * Check if notify me should be shown
+     *
+     * @param Mage_Catalog_Model_Product $_product
+     * @return bool
+     */
+    public function showNotifyMe($_product)
+    {
+        return (!$_product->isSalable() || count($this->getSimples($_product, 'nonsalable')) > 0);
+    }
 }

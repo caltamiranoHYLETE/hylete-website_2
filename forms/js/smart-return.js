@@ -123,6 +123,7 @@ jQuery( document ).ready(function() {
                                     }
 
                                     if(jsonObj[i].International == true) {
+                                        html += "<h4>International orders are not eligible for free return shipping. If you would like to make arrangements to mail your return back to us, please fill out the form at the link below so we know to expect your return package.</h4>"
                                         html += "<ul><li class='return-found'><a href=\"/international-returns.html\">Click here to fill out the return form for this shipment.</a></li></ul>";
                                         html+= "<hr></div>";
                                         continue;
@@ -293,7 +294,7 @@ function processSingle(returnObject) {
             }
 
             if(returnObject.International == true) {
-
+                html += "<h4>International orders are not eligible for free return shipping. If you would like to make arrangements to mail your return back to us, please fill out the form at the link below so we know to expect your return package.</h4>"
                 html += "<ul><li class='return-found'><a href=\"/international-returns.html\">Click here to fill out the return form for this shipment.</a></li></ul>";
                 html+= "</div>";
                 jQuery('#resultShow').html(html);
