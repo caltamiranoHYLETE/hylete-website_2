@@ -145,7 +145,6 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
 				<?php echo $this->getChildHtml('extra_buttons') ?>
 			<?php endif; ?>
 
-            <?php echo $this->getChildHtml('points'); ?>
 			<?php echo $this->getChildHtml('other'); ?>
 
 			<?php if ($_product->isSalable() && $this->hasOptions() && $_product->getOptionsContainer() == 'container1'): ?>
@@ -171,6 +170,8 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
 					<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                 </form>
 			<?php endif; ?>
+
+            <?php echo $this->getChildHtml('points'); ?>
 
 			<?php if ($_showNotifyMe): ?>
 				<?php echo $this->getChildHtml('alert_urls') ?>
