@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_PixleeAlbum>
+            <version>1.0.0</version>
+        </Hylete_PixleeAlbum>
+    </modules>
+    <global>
+        <resources>
+            <hylete_pixleealbum_setup>
+                <setup>
+                    <module>Hylete_PixleeAlbum</module>
+                </setup>
+            </hylete_pixleealbum_setup>
+        </resources>
+    </global>
+</config>
