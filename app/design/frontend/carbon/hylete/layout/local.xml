@@ -211,6 +211,14 @@
                 <type>skin_js</type>
                 <name>js/ajax-login.js</name>
             </action>
+
+            <action method="addCss">
+                <stylesheet>css/rewards.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/points-info.js</name>
+            </action>
         </reference>
 
         <reference name="top.links">
@@ -762,6 +770,10 @@
             <action method="unsetChild">
                 <name>social.modal</name>
             </action>
+        </reference>
+
+        <reference name="product.info.extrahint">
+            <remove name="rewards.integrated.product.view.points" />
         </reference>
     </catalog_product_view>
 
