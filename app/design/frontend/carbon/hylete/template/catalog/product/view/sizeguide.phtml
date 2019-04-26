@@ -1,13 +1,20 @@
-<?php $_helper = Mage::helper('hylete'); ?>
-<?php $_product = Mage::registry('current_product'); ?>
-
-<?php if ($_sizeGuideHtml = $_helper->getSizeguideHtml($_product)): ?>
-    <div data-togglecontent="sizeguide" data-togglegroup="productpage" class="sizeguide">
-        <p>
-            <a data-togglelink="sizeguide" data-togglegroup="productpage" class="underline fancybox-close"><span><?php echo $this->__('close'); ?></span></a>
-            <?php echo $_product->getSizeguideText(); ?>
-        </p>
-
-        <?php echo $_sizeGuideHtml; ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_sizeGuideHtml = Mage::helper('hylete')->getSizeguideHtml($_product); ?>
+<?php if ($_sizeGuideHtml): ?>
+    <div class="sizes">
+        <a data-fancybox-trigger="sizeguide" href="#fancybox-sizeguide">
+            <i class="fal fa-2x fa-ruler"></i>
+            <span><?php echo $this->__('fit & size guide'); ?></span>
+        </a>
+    </div>
+    <div id="fancybox-sizeguide" style="display: none;">
+        <div class="sizeguide">
+            <p>
+                -                <a class="close-btn" class="underline"><?php echo $this->__('close'); ?></a>
+                +                <a class="close-btn underline fancybox-close"><span><?php echo $this->__('close'); ?></span></a>
+				<?php echo $_product->getSizeguideText(); ?>
+            </p>
+			<?php echo $_sizeGuideHtml; ?>
+        </div>
     </div>
 <?php endif; ?>
