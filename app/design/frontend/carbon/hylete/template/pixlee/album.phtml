@@ -1,0 +1,14 @@
+<?php
+    /** @var Mage_Catalog_Block_Product_View $this */
+    $product = $this->getProduct();
+    $outputHelper = $this->helper('catalog/output');
+    $albumHtml = $product
+        ? $outputHelper->productAttribute($product, $product->getPixleeAlbum(), 'pixlee_album')
+        : '';
+?>
+
+<?php if ($albumHtml): ?>
+<div class="pixlee-album">
+    <?php echo $albumHtml ?>
+</div>
+<?php endif ?>
