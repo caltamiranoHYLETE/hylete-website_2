@@ -171,6 +171,8 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
                 </form>
 			<?php endif; ?>
 
+            <?php echo $this->getChildHtml('hylete.product.points'); ?>
+
 			<?php if ($_showNotifyMe): ?>
 				<?php echo $this->getChildHtml('alert_urls') ?>
 			<?php endif; ?>
