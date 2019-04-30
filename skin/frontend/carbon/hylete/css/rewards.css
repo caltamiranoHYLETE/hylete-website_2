@@ -4,6 +4,13 @@
 
 .distri_section {
     text-align: center;
+    color: #666;
+    font-size: 14px;
+    letter-spacing: 0;
+}
+
+.distri_section strong {
+    font-size: 16px;
 }
 
 .points-info__link {
@@ -21,14 +28,4 @@
     width: 16px;
     height: 16px;
     line-height: 14px;
-}
-
-.product-view-points .distri_section {
-    color: #666;
-    font-size: 14px;
-    letter-spacing: 0;
-}
-
-.product-view-points .distri_section strong {
-    font-size: 16px;
 }
