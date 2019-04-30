@@ -11,6 +11,10 @@ class Hylete_Rewards_Block_Catalog_Product_Points extends TBT_Rewards_Block_Prod
      */
     public function getDistriRewards()
     {
+        if (!$this->helper('hylete_rewards')->isEnabled()) {
+            return array();
+        }
+
         $product = $this->getProduct();
         $basePrice = $product->getPriceModel()->getBasePrice($product);
 
