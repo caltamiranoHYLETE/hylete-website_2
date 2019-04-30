@@ -67,6 +67,11 @@ class MageWorx_SeoMarkup_Helper_Json_Product extends MageWorx_SeoMarkup_Helper_A
             }
         }
 
+        $productIdValue = $this->_helper->getProductIdValue($this->_product);
+        if ($productIdValue) {
+            $data['productID'] = $productIdValue;
+        }
+
         $color = $this->_helper->getColorValue($this->_product);
         if ($color) {
             $data['color'] = $color;
@@ -154,6 +159,13 @@ class MageWorx_SeoMarkup_Helper_Json_Product extends MageWorx_SeoMarkup_Helper_A
         $availability = $this->_helper->getAvailability($this->_product);
         if ($availability) {
             $data['availability'] = $availability;
+        }
+
+        $data['url'] = $this->_helper->getProductCanonicalUrl($this->_product);
+
+        $priceValidUntil = $this->_helper->getPriceValidUntilValue($this->_product);
+        if ($priceValidUntil) {
+            $data['priceValidUntil'] = $priceValidUntil;
         }
 
         $condition = $this->_helper->getConditionValue($this->_product);
