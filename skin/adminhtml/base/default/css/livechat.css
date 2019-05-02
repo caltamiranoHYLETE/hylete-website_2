@@ -1,13 +1,14 @@
-#livechat { min-height: 150px; background: url(../images/logo.png) no-repeat 100% 0; }
 
+.head-adminhtml-livechat {
+    padding-left: 0px!important;
+}
 
-#livechat .p_installed_ok { margin: 15px 0px;}
-#livechat .installed_ok { padding: 0.5em; background: #e1fdc5; border: 1px solid #6ac611; margin: 15px 0px;}
+#livechat .installed_ok { padding: 0.5em; background: #e1fdc5; border: 1px solid #6ac611; }
 #livechat h3 { margin-top: 2em; font-size: 150%; }
 #livechat h3.first { margin-top: 0; }
 #livechat table { border-collapse: collapse; }
 #livechat th,
-#livechat td { padding: 5px 10px 5px 0; }
+#livechat td { padding: 5px 10px 10px 0; }
 #livechat th { text-align: right; }
 #livechat textarea { width: 600px; height: 250px; }
 
@@ -21,9 +22,173 @@
 .awesome:hover { background-color: #111; color: #fff; }
 .awesome:active { top: 1px; }
 .awesome, .awesome:visited { font-size: 13px; font-weight: bold; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
-.red.awesome, .red.awesome:visited			{ background-color: #e33100; }
-.red.awesome:hover							{ background-color: #872300; }
+.red.awesome, .red.awesome:visited            { background-color: #e33100; }
+.red.awesome:hover                            { background-color: #872300; }
 
-#livechat a {color: #999;}
 
-#livechat a.cta{color: #ea7601;}
+iframe#login-with-livechat,
+#login_form {
+    margin-left: 5px;
+    width: 214px;
+    height: 43px;
+    border: none;
+}
+
+.progress-button {
+    margin-left: 5px;
+    width: 150px;
+/*	height: 43px;*/
+    border: none;
+    color: rgb(90, 105, 118, 0.5);
+    opacity: 0.5;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 8px 24px 9px;
+    text-align: center;
+}
+
+.or-delimiter {
+    font-size: 14px;
+    margin-top: 9px;
+    margin-bottom: 2px;
+}
+
+.livechat_logo2 {
+    content: url(../images/livechat-magento1@2x.png);
+    width: 600px;
+}
+
+.livechat_screenshot {
+    content: url(../images/livechat-app.png);
+    height: auto;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 30px;
+}
+.hidden {
+    display:none;
+}
+
+
+.messages { 
+    overflow:hidden;
+    width:100%; 
+    &, ul {
+        list-style:none !important; 
+        argin:0 !important; 
+        padding:0 !important;
+    }
+    li {
+        margin:0 0 10px;
+        li {
+            margin:0 0 3px;
+        }
+    }
+}
+
+.error-msg, .success-msg,
+.note-msg, .notice-msg { 
+    border-style:solid !important; 
+    border-width:1px !important; 
+    background-position:10px 9px !important; 
+    background-repeat:no-repeat !important; 
+    min-height:24px !important; 
+    padding:8px 8px 2px 32px !important; 
+    font-size:11px !important; 
+    font-weight:bold !important;
+}
+.error-msg { 
+    border-color:#f16048; 
+    background-color:#faebe7; 
+    background-image:url(../images/i_msg-error.gif); 
+    color:#df280a;
+}
+.success-msg {
+    width:458px!important;
+    border-color:#446423; 
+    background-color:#eff5ea; 
+    background-image:url(../images/i_msg-success.gif); 
+    color:#3d6611;
+}
+.note-msg, .notice-msg { 
+    width:458px!important;
+    border-color:#fcd344; 
+    background-color:#fafaec; 
+    background-image:url(../images/i_msg-note.gif); 
+    color:#3d6611;
+}
+
+.success { color:#3d6611; font-weight:bold; }
+.error { color:#f00; font-weight:bold; }
+.notice { color:#ccc; }
+
+.reset-settings {
+    color: #cacaca;
+}
+
+.question_mark {
+    content: url(../images/question_mark.png);
+    height: 15px;
+    width: 15px;
+    margin-bottom: -3px;
+    opacity: 0.8;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext, .tooltip .tooltiptext2, .tooltip .tooltiptext3  {
+    visibility: hidden;
+    font: 11px/1.2em Arial, Helvetica, sans-serif;
+    width: 120%;
+    background-color: #fcd344;
+    line-height: 15px;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    bottom: 35px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext3  {
+    left: 15px;
+}
+
+.tooltip .tooltiptext2  {
+    left: 26px;
+}
+
+.tooltip .tooltiptext  {
+    left: 29px;
+}
+
+.tooltip .tooltiptext::after, .tooltip .tooltiptext2::after, .tooltip .tooltiptext3::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #fcd344 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext, .tooltip:hover .tooltiptext2, .tooltip:hover .tooltiptext3 {
+    visibility: visible;
+}
+
+table {
+    border-collapse: collapse;
+}

@@ -166,8 +166,26 @@ class Vaimo_GoogleAddons_Helper_Data extends Mage_Core_Helper_Abstract {
                         $itemPrice = $itemPrice-$item->getDiscountAmount();
                     }
 
+                    //we are going to get the parent sku so we can pass this to Facebook - STK
+					$parentSku = "";
+					try {
+						$child_id = Mage::getModel('catalog/product')->getIdBySku($item->getSku());
+						$parent_ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($child_id);
+						$parent_collection = Mage::getResourceModel('catalog/product_collection')
+							->addFieldToFilter('entity_id', array('in'=>$parent_ids))
+							->addAttributeToSelect('sku');
+						$parent_skus = $parent_collection->getColumnValues('sku');
+						if(!empty($parent_skus)) {
+							//we get the first one just in case there are multiple
+							$parentSku = $parent_skus[0];
+						}
+					} catch (Exception $e) {
+						//ignore
+					}
+
                     $tempItem = array(
-                        "sku" => $item->getSku(),
+						"parent_sku" => $parentSku,
+                    	"sku" => $item->getSku(),
                         "name" => $item->getName(),
                         "category" => $categoryName,
                         "price" => $itemPrice,
@@ -191,8 +209,10 @@ class Vaimo_GoogleAddons_Helper_Data extends Mage_Core_Helper_Abstract {
                 $products = & $result['transactionProducts'];
 
                 foreach ($processedItems as $boughtItem) {
-                    $data = array(
-                        'sku' => $boughtItem['sku'],
+
+                	$data = array(
+						'parent_sku' => $boughtItem['parent_sku'],
+                		'sku' => $boughtItem['sku'],
                         'name' => htmlspecialchars($boughtItem['name'], ENT_QUOTES),
                         'price' => $boughtItem['price'],
                         'quantity' => intval($boughtItem['qty']),

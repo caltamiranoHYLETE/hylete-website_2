@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
     <link rel="stylesheet" href="/forms/rma/return-exchange-css.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/forms/js/jquery.min.js"></script>
     <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-    <script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script type="text/javascript" src="/forms/js/bootstrap.min.js"></script>
+    <script src="/forms/js/jquery.validate.min.js"></script>
+    <script src="/forms/js/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/config.js"></script>
     <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201903"></script>
 

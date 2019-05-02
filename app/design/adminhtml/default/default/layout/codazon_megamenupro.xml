@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.1.0">
-	<megamenupro_adminhtml_megamenuprobackend_index>
+	<adminhtml_megamenuprobackend_index>
 		<reference name="content">
 			<block type="megamenupro/adminhtml_megamenuprobackend" name="megamenuprobackend" template="codazon_megamenupro/megamenuprobackend.phtml" />
 		</reference>
-	</megamenupro_adminhtml_megamenuprobackend_index>
-	<megamenupro_adminhtml_megamenupro_index>
+	</adminhtml_megamenuprobackend_index>
+	<adminhtml_megamenupro_index>
 		<reference name="content">
 			<block type="megamenupro/adminhtml_megamenupro" name="megamenupro" />
 		</reference>
-	</megamenupro_adminhtml_megamenupro_index>
-	<megamenupro_adminhtml_megamenupro_edit>
+	</adminhtml_megamenupro_index>
+	<adminhtml_megamenupro_edit>
 		<update handle="editor" />
 		<reference name="head">
             <action method="removeItem"><type>js</type><name>mage/adminhtml/browser.js</name></action>
@@ -37,8 +37,8 @@
 			<block type="megamenupro/adminhtml_megamenupro_edit_fields_menuItems_types" template="codazon_megamenupro/icons.phtml" name="menu_icons" />
 			<block type="megamenupro/adminhtml_megamenupro_edit_fields_menuItems_types" template="codazon_megamenupro/col_templates.phtml" name="menu_templates" />
 		</reference>
-	</megamenupro_adminhtml_megamenupro_edit>
-	<megamenupro_adminhtml_megamenupro_new>
+	</adminhtml_megamenupro_edit>
+	<adminhtml_megamenupro_new>
 		<update handle="megamenupro_adminhtml_megamenupro_edit" />
-	</megamenupro_adminhtml_megamenupro_new>
+	</adminhtml_megamenupro_new>
 </layout>
