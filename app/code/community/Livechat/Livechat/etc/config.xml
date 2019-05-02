@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Livechat_Livechat>
-            <version>2.0.2</version>
+            <version>1.0</version>
         </Livechat_Livechat>
     </modules>
     <frontend>
@@ -23,15 +23,15 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
+	<admin>
         <routers>
-			<livechat>
-				<use>admin</use>
+			<adminhtml>
 				<args>
-					<module>Livechat_Livechat</module>
-					<frontName>livechat</frontName>
+					<modules>
+						<livechat before="Mage_Adminhtml">Livechat_Livechat_Adminhtml</livechat>
+					</modules>
 				</args>
-			</livechat>
+			</adminhtml>
         </routers>
     </admin>
 	
@@ -40,7 +40,7 @@
 			<livechat module="livechat">
 				<title>LiveChat</title>
 				<sort_order>75</sort_order>
-				<action>livechat/adminhtml_livechat</action>
+				<action>adminhtml/livechat/index</action>
 			</livechat>
 		</menu>
 		<acl>
@@ -100,11 +100,8 @@
         <livechat>
             <general>
 				<license></license>
+				<login></login>
             </general>
-			<advanced>
-				<group>0</group>
-				<params></params>
-			</advanced>
         </livechat>
     </default>
 </config>

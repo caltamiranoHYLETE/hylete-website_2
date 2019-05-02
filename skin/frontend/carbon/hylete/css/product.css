@@ -135,6 +135,20 @@ div.fancybox-skin {
     margin: 0 0 20px 40px;
 }
 
+.sizeguide {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.sizeguide .fancybox-close span {
+    display: none;
+}
+
+.sizeguide .fit_guarantee_size_guide {
+    width: calc(100% - 14px);
+}
+
 .sizeguide table {
     width: 100%;
 }
