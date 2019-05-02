@@ -20,15 +20,6 @@
 
   <default>
     <reference name="head">
-       <block type="core/text" name="pixlee_events">
-          <action method="setText">
-            <text>
-               <![CDATA[
-                <script type="text/javascript" src="https://assets.pixlee.com/assets/pixlee_events.js"></script>
-              ]]>
-            </text>
-          </action>
-       </block>
        <block type="page/html" name="pixlee_events_invocation" template="pixlee/pixlee_tracking_pixel.phtml"/>
     </reference>
   </default>

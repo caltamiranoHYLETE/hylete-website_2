@@ -3,15 +3,20 @@ class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Acti
 
   public function exportAction() {
     // Load constants, helpers and categories
-    $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
+    $referrer = Mage::helper('core/http')->getHttpReferer();
+    preg_match("/section\/pixlee\/website\/(.*)\/key\//", $referrer, $matches);
+    $websiteCode = ($matches[1]);
+    $websiteId = Mage::getModel('core/website')->load($websiteCode)->getId();
+
+    $separateVariants = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/advanced/export_variants_separately');
     $helper = Mage::helper('pixlee');
-    $pixleeAPI = $helper->getNewPixlee();
+    $pixleeAPI = $helper->getNewPixlee($websiteId);
     if (!$pixleeAPI || is_null($pixleeAPI)) {
       Mage::getSingleton("adminhtml/session")->addWarning("API credentials seem to be wrong, please check and try again");
       return;
     }
     $categoriesMap = $helper->getCategoriesMap();
-    $numProducts = $helper->getTotalProductsCount();
+    $numProducts = $helper->getTotalProductsCount($websiteId);
 
     // Pagination variables
     $counter = 0;   
@@ -20,11 +25,13 @@ class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Acti
 
     // Tell distilery that the job started
     $jobId = uniqid();
-    $helper->notifyExportStatus('started', $jobId, $numProducts);
+    $helper->notifyExportStatus('started', $jobId, $numProducts, $websiteId);
 
     while ($offset < $numProducts) {
       $products = Mage::getModel('catalog/product')->getCollection();
-      $products->addAttributeToFilter('status', array('neq' => 2));   
+      $products->addAttributeToFilter('status', array('neq' => 2));
+      $products->addWebsiteFilter($websiteId);
+
       if (!$separateVariants) {
         $products->addAttributeToFilter('visibility', array('neq' => 1));
       }
@@ -33,16 +40,16 @@ class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Acti
       $offset = $offset + $limit;
 
       foreach ($products as $product) {
-        $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
+        $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI, $websiteId);
         if ($productCreated) $counter += 1;
       }
 
       unset($products);
     }
 
-    $helper->notifyExportStatus('finished', $jobId, $counter);
+    $helper->notifyExportStatus('finished', $jobId, $counter, $websiteId);
     $json = array('action' => 'success');
-    $json['pixlee_remaining_text'] = $helper->getPixleeRemainingText();
+    $json['pixlee_remaining_text'] = $helper->getPixleeRemainingText($websiteId);
     $this->getResponse()->setHeader('Content-type', 'application/json');
     $this->getResponse()->setBody(json_encode($this->utf8_converter($json)));
   }

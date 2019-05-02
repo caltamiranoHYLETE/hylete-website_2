@@ -20,7 +20,9 @@ class Pixlee_Base_Block_Adminhtml_System_Config_Form_Export extends Mage_Adminht
       'label'    => $this->helper('adminhtml')->__('Export Products to Pixlee'),
       'onclick'  => 'javascript:exportToPixlee(\''.$this->getAjaxExportUrl().'\'); return false;'
     );
-    if(Mage::helper('pixlee')->isInactive()) {
+    $websiteCode = Mage::getSingleton('adminhtml/config_data')->getWebsite();
+    $websiteId = Mage::getModel('core/website')->load($websiteCode)->getId();
+    if(Mage::helper('pixlee')->isInactive($websiteId)) {
       $buttonData['class'] = 'disabled';
     }
     $button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData($buttonData);

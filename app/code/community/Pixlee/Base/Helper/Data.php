@@ -20,13 +20,18 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     $this->_isTesting = true;
   }
 
-  public function isActive() {
+  public function isActive($websiteId = null) {
     if($this->_isTesting) {
       return true;
     }
 
-    $pixleeAccountId = Mage::getStoreConfig('pixlee/pixlee/account_id', Mage::app()->getStore());
-    $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
+    if (is_null($websiteId)) {
+      $websiteId = Mage::app()->getWebsite()->getId();
+    }
+
+    $pixleeAccountId = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_id');
+    $pixleeAccountApiKey = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_api_key');
+
     if(!empty($pixleeAccountId) && !empty($pixleeAccountApiKey)) {
       return true;
     } else {
@@ -34,14 +39,20 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     }
   }
 
-  public function isInactive() {
-    return !$this->isActive();
+  public function isInactive($websiteId = null) {
+    if (is_null($websiteId)) {
+      $websiteId = Mage::app()->getWebsite()->getId();
+    }
+    return !$this->isActive($websiteId);
   }
 
-  public function getNewPixlee() {
-    $pixleeAccountId = Mage::getStoreConfig('pixlee/pixlee/account_id', Mage::app()->getStore());
-    $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
-    $pixleeAccountSecretKey = Mage::getStoreConfig('pixlee/pixlee/account_secret_key', Mage::app()->getStore());
+  public function getNewPixlee($websiteId = null) {
+    if (is_null($websiteId)) {
+      $websiteId = Mage::app()->getWebsite()->getId();
+    }
+    $pixleeAccountId = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_id');
+    $pixleeAccountApiKey = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_api_key');
+    $pixleeAccountSecretKey = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_secret_key');
 
     try {
       $this->_pixleeAPI = new Pixlee_Pixlee($pixleeAccountApiKey, $pixleeAccountSecretKey);
@@ -58,8 +69,8 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     return $this->_pixleeProductAlbumModel;
   }
 
-  public function getPixleeRemainingText() {
-    if($this->isInactive()) {
+  public function getPixleeRemainingText($websiteId) {
+    if($this->isInactive($websiteId)) {
       return "Save your Pixlee API access information before exporting your products.";
     } else {
       return "(Re) Export your products to Pixlee.";
@@ -97,17 +108,23 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
   // If we wanted to be more robust, we could pass the argument to the _extractActualProduct
   // function, but as of 2016/03/11, getAggregateStock is only called after _extractActualProduct
   // has already been called
-  public function getAggregateStock($actualProduct) {
-
-
-    Mage::log("*** In getAggregateStock");
+  // Sum up the stock numbers of all the children products
+  // EXPECTS A 'configurable' TYPE PRODUCT!
+  // If we wanted to be more robust, we could pass the argument to the _extractActualProduct
+  // function, but as of 2016/03/11, getAggregateStock is only called after _extractActualProduct
+  // has already been called
+  public function getAggregateStock($actualProduct, $storeId = null) {
     $aggregateStock = NULL;
+    if (is_null($storeId)) {
+      $actualProduct = Mage::getModel('catalog/product')->load($actualProduct->getId());
+    } else {
+      $actualProduct = Mage::getModel('catalog/product')->setStoreId($storeId)->load($actualProduct->getId());
+    }
 
     // If after calling _extractActualProduct, there is no 'configurable' product, and only
     // a 'simple' product, we won't get anything back from
     // getModel('catalog/product_type_configurable')
     if ($actualProduct->getTypeId() == "simple") {
-      Mage::log("Product Type: Simple");
       // If the product's not keeping track of inventory, we'll error out when we try
       // to call the getQty() function on the output of getStockItem()
       if (is_null($actualProduct->getStockItem())) {
@@ -119,35 +136,26 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
       // 'grouped' type products have 'associated products,' which presumably
       // point to simple products
       if ($actualProduct->getTypeId() == "grouped") {
-        Mage::log("Product Type: Grouped");
         $childProducts = $actualProduct->getTypeInstance(true)->getAssociatedProducts($actualProduct);
       // And finally, my original assumption that all 'simple' products are
       // under the umbrella of some 'configurable' product
       } else if ($actualProduct->getTypeId() == "configurable") {
         if (!is_a($actualProduct, "Mage_Catalog_Model_Product")) {
-          Mage::log("Defaulting to empty children array, actualProduct is " . get_class($actualProduct));
           $childProducts = array();
         } else {
-          Mage::log("Product Type: Mage_Catalog_Model_Product");
           $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null,$actualProduct);
         }
       } else {
-        Mage::log("Product Type: None");
         $childProducts = array();
       }
-
-      Mage::log("Child products of length " . sizeof($childProducts));
 
       foreach ($childProducts as $child) {
         // Sometimes Magento gives a negative inventory quantity
         // I don't want that to affect the overall count
         // TODO: There is probably a good reason why it goes negative
-        Mage::log("Child Name: {$child->getName()}");
-        Mage::log("Child SKU: {$child->getSku()}");
         if (is_null($child->getStockItem())) {
           Mage::log("Child product not tracking stock, setting to NULL");
         } else {
-          Mage::log("Child Stock: {$child->getStockItem()->getQty()}");
           if (is_null($aggregateStock)) {
             $aggregateStock = 0;
           }
@@ -155,7 +163,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
         }
       }
     }
-    Mage::log("Returning aggregateStock: {$aggregateStock}");
+
     return $aggregateStock;
   }
 
@@ -240,7 +248,7 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
       $fields = array(
         'category_id' => $categoryId,
         'category_name' => $categoriesMap[$categoryId]['name'],
-        'category_url' => $categoriesMap[$categoryId]['url']
+        'category_updated_at' => time()
       );
 
       array_push($result, $fields);
@@ -340,7 +348,8 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
         'magento_sku' => $actualProduct->getSku(),
         'magento_configurable_attributes' => $configurableAttributes,
         'product_photos' => $productPhotos,
-        'categories' => $this->getCategories($actualProduct, $categoriesMap)
+        'categories' => $this->getCategories($actualProduct, $categoriesMap),
+        'ecommerce_platform' => 'magento_1'
       ));
     }
 
@@ -383,7 +392,6 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
 
       $categoryBody = array(
         'name' => substr($fullName, 0, -3), 
-        'url' => $cat->getUrl($cat),
         'parent_ids' => $realParentIds
       );
       $allCategories[$cat->getId()] = $categoryBody;
@@ -394,11 +402,12 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     return $allCategories;
   }
 
-  public function getTotalProductsCount() {
-    $separate_variants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
+  public function getTotalProductsCount($websiteId) {
+    $separateVariants = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/advanced/export_variants_separately');
     $collection = Mage::getModel('catalog/product')->getCollection();
-    $collection->addAttributeToFilter('status', array('neq' => 2));   
-    if (!$separate_variants) {
+    $collection->addAttributeToFilter('status', array('neq' => 2));
+    $collection->addWebsiteFilter($websiteId); 
+    if (!$separateVariants) {
       $collection->addAttributeToFilter('visibility', array('neq' => 1));
     }
         
@@ -406,45 +415,8 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     return $count;
   }
 
-  public function getUnexportedCount() {
-    $separate_variants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
-    $albumTable = Mage::getSingleton('core/resource')->getTableName('pixlee/product_album');
-    $collection = Mage::getModel('catalog/product')->getCollection();
-        
-    if (!$separate_variants) {
-      $collection->addAttributeToFilter('visibility', array('neq' => 1));
-    }
-
-    $collection->addAttributeToFilter('status', array('neq' => 2))
-      ->getSelect()
-      ->joinLeft(array('albums' => $albumTable), 'e.entity_id = albums.product_id')
-      ->where('albums.product_id IS NULL')
-      ->addAttributeToSelect('*');
-
-    $count = $collection->getSize();
-    return $count;
-  }
-
-  public function getUnexportedProducts() {
-    $separate_variants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
-    $albumTable = Mage::getSingleton('core/resource')->getTableName('pixlee/product_album');
-    $collection = Mage::getModel('catalog/product')->getCollection();
-        
-    if (!$separate_variants) {
-      $collection->addAttributeToFilter('visibility', array('neq' => 1));
-    }
-
-    $collection->addAttributeToFilter('status', array('neq' => 2))
-      ->getSelect()
-      ->joinLeft(array('albums' => $albumTable), 'e.entity_id = albums.product_id')
-      ->where('albums.product_id IS NULL')
-      ->addAttributeToSelect('*');
-
-    return $collection;
-  }
-
-  public function notifyExportStatus($status, $job_id, $num_products) {
-    $api_key = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
+  public function notifyExportStatus($status, $job_id, $num_products, $websiteId) {
+    $api_key = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_api_key');
     $payload = array(
       'api_key' => $api_key,
       'status' => $status,
@@ -463,93 +435,106 @@ class Pixlee_Base_Helper_Data extends Mage_Core_Helper_Abstract {
     $response = curl_exec($ch);
   }
 
-  public function updateStock($product) {
-    $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
-    $name = $product->getName();
-    $sku = $product->getSku();
+  public function getProductPhoto($product, $separateVariants) {
+    if ($separateVariants) {
+      if ($product->getImage() == "no_selection") {
+        return $this->getImage($parentProduct);
+      } else {
+        return $this->getImage($product);
+      }
+    } else {
+      return $this->getImage($product);
+    }
+  }  
 
+  public function getBuyNowLinkUrl($product, $separateVariants, $storeId = null) {
+    if ($separateVariants) {
+      $parentProduct = $this->_extractActualProduct($product);
+      if (is_null($storeId)) {
+        return $parentProduct->getProductUrl();
+      } else {
+        return $parentProduct->setStoreId($storeId)->getProductUrl();
+      }
+    } else {
+      if (is_null($storeId)) {
+        return Mage::getModel('catalog/product')->load($product->getId())->getProductUrl();
+      } else {
+        return Mage::getModel('catalog/product')->setStoreId($storeId)->load($product->getId())->getProductUrl();
+      }
+    }
+  }  
+
+  public function getStock($product, $separateVariants, $storeId = null) {
     if ($separateVariants) {
       $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product->getId())->getQty();
-      $aggregateStock = (int) $stockItem;
+      return (int) $stockItem;
     } else {
-      $aggregateStock = (int) $this->getAggregateStock($product);
-    }
+      return (int) $this->getAggregateStock($product, $storeId);
+    }    
+  }  
 
-    $product = array(
-      'name' => $name, 
-      'sku' => $sku, 
-      'stock' => $aggregateStock
-    );
-    $pixleeAPI = $this->getNewPixlee();
-
-    if (!$pixleeAPI || is_null($pixleeAPI)) {
-      Mage::log("Pixlee: Incorrect credentials filled in configuration. Please check developers.pixlee.com/magento");
-      return;
+  public function getPrice($product, $store = null) {
+    if (is_null($store)) {
+      return floatval(preg_replace('/[^\d.]/', '', $product->getPrice()));
     } else {
-      $productCreated = $pixleeAPI->createProduct($product);
+      $basePrice = Mage::getModel('catalog/product')->setStoreId($store->getId())->load($product->getId())->getPrice();
+      $storeCurrencyCode = $store->getCurrentCurrencyCode();
+      $baseCurrencyCode = $store->getBaseCurrencyCode();
+      return Mage::helper('directory')->currencyConvert($basePrice, $baseCurrencyCode, $storeCurrencyCode); // Price, From, To
     }
   }
 
-  public function exportProductToPixlee($product, $categoriesMap, $pixleeAPI) {
-    $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
-    $imagelessProducts = Mage::getStoreConfig('pixlee/advanced/export_imageless_products', Mage::app()->getStore());
-    $id = $product->getId();
-    $name = $product->getName();
-    $sku = $product->getSku();
-    $productPrice = floatval(preg_replace('/[^\d.]/', '', $product->getPrice()));
-    $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+  public function getRegionalInformation($websiteId, $product, $separateVariants) {
+    $result = array();
 
-    if ($separateVariants) {
-      $parentProduct = $this->_extractActualProduct($product);
-      $buyNowLinkUrl = $parentProduct->getProductUrl();
-      $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product->getId())->getQty();
-      $aggregateStock = (int) $stockItem;
+    $website = Mage::getModel('core/website')->load($websiteId);
+    $storeIds = $website->getStoreIds();    
+    foreach ($storeIds as $storeId) {
+      $store = Mage::app()->getStore($storeId);
+      $storeCode = $store->getCode();
+      $storeBaseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
 
-      if ($product->getImage() == "no_selection") {
-        $productPhoto = $this->getImage($parentProduct);
-      } else {
-        $productPhoto = $this->getImage($product);
-      }
-    } else {
-      $buyNowLinkUrl = $product->getProductUrl();
-      $aggregateStock = (int) $this->getAggregateStock($product);
-      $productPhoto = $this->getImage($product);
+      array_push($result, array(
+        'name' =>  Mage::getModel('catalog/product')->setStoreId($storeId)->load($product->getId())->getName(),
+        'buy_now_link_url' => $this->getBuyNowLinkUrl($product, $separateVariants, $storeId),
+        'price' => $this->getPrice($product, $store),
+        'stock' => $this->getStock($product, $separateVariants, $storeId),
+        'currency' => $store->getCurrentCurrencyCode(),
+        'description' => Mage::getModel('catalog/product')->setStoreId($storeId)->load($product->getId())->getDescription(),
+        'region_code' => $storeCode,
+        'variants_json' => $this->getVariantsDict($product)
+      ));
     }
 
+    return $result;
+  }  
+
+  public function exportProductToPixlee($product, $categoriesMap, $pixleeAPI, $websiteId) {
+    $separateVariants = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/advanced/export_variants_separately');
+    $imagelessProducts = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/advanced/export_imageless_products');
+
+    $productPhoto = $this->getProductPhoto($product, $separateVariants);
     if (!$imagelessProducts && $productPhoto == Mage::getModel('catalog/product_media_config')->getMediaUrl('')) {
       Mage::log("PIXLEE ERROR: Could not find a valid image url for {$product->getName()}, SKU: {$product->getSku()}");
       return false;
     }
-    
-    $variantsDict = $this->getVariantsDict($product);
-    $extraFields = $this->getExtraFields($product, $categoriesMap);
 
     $productBody = array(
-      'name' => $name, 
-      'sku' => $sku, 
-      'buy_now_link_url' => $buyNowLinkUrl,
-      'product_photo' => $productPhoto, 
-      'price' => $productPrice, 
-      'stock' => $aggregateStock,
-      'native_product_id' => $id, 
-      'variants_json' => $variantsDict,
-      'extra_fields' => $extraFields, 
-      'currency' => $currencyCode
+      'name' => $product->getName(),
+      'sku' => $product->getSku(),
+      'buy_now_link_url' => $this->getBuyNowLinkUrl($product, $separateVariants, null),
+      'product_photo' => $this->getProductPhoto($product, $separateVariants), 
+      'price' => $this->getPrice($product, null),
+      'stock' => $this->getStock($product, $separateVariants, null),
+      'native_product_id' => $product->getId(),
+      'variants_json' => $this->getVariantsDict($product),
+      'extra_fields' => $this->getExtraFields($product, $categoriesMap),
+      'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
+      'regional_info' => $this->getRegionalInformation($websiteId, $product, $separateVariants)
     );
 
     $productCreated = $pixleeAPI->createProduct($productBody);
-
-    unset($variantsDict);
-    unset($extraFields);
-    unset($productBody);
-
-    $albumId = 0;
-    // Distillery returns the product album on the 'create' verb
     if(isset($productCreated->id)) {
-      // Treat $response->id as the created album_id (because that's what it is)
-      $album = $this->getPixleeAlbum();
-      $album->setProductId($product->getId())->setPixleeAlbumId($productCreated->id);
-      $album->save();
       return true;
     } else {
       return false;
