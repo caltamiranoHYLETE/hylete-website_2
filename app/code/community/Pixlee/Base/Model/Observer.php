@@ -12,91 +12,17 @@ class Pixlee_Base_Model_Observer {
     $this->_urls['checkoutSuccess'] = self::ANALYTICS_BASE_URL . 'conversion';
   }
 
-  public function isNewProductCheck(Varien_Event_Observer $observer) {
-    $productID = $observer->getEvent()->getProduct()->getId();
-    $isNew = Mage::registry('pixlee_is_new_product');
-    if(!$productID && !$isNew) {
-      Mage::register('pixlee_is_new_product', true);
-    }
-  }
-
-  public function createProductTrigger(Varien_Event_Observer $observer) {
-    $helper = Mage::helper('pixlee');
-    $product = $observer->getEvent()->getProduct();
-    $categoriesMap = $helper->getCategoriesMap();
-    $pixleeAPI = $helper->getNewPixlee();
-    if (!$pixleeAPI || is_null($pixleeAPI)) {
-      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You do not have the right API credentials. Please check the plugin configuration.");
-      return;
-    }
-
-    try{
-      $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
-    } catch (Exception $e) {
-      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You may not have the right API credentials. Please check the plugin configuration.");
-      Mage::log("PIXLEE ERROR: " . $e->getMessage());
-    }
-  }
-
-  public function exportProductsTrigger(Varien_Event_Observer $observer) {
-    $helper = Mage::helper('pixlee');
-    $categoriesMap = $helper->getCategoriesMap();
-    $pixleeAPI = $helper->getNewPixlee();
-    if (!$pixleeAPI || is_null($pixleeAPI)) {
-      Mage::getSingleton("adminhtml/session")->addWarning("Pixlee - You do not have the right API credentials. Please check the plugin configuration.");
-      return;
-    }
-    
-    $products = $helper->getUnexportedProducts();
-    $products->getSelect();
-
-    try{
-      foreach($products as $product) {
-        $ids = $product->getStoreIds();
-        if(isset($ids[0])) {
-          $product->setStoreId($ids[0]);
-        }
-        $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI);
-      }
-    } catch (Exception $e) {
-      Mage::log("PIXLEE ERROR: " . $e->getMessage());
-    }
-  }
-
   // Analytics
-
   // ADD PRODUCT TO CART
   public function addToCart(Varien_Event_Observer $observer) {
     if (!$this->_checkAnalyticsEnabled())
         return;
 
     $product = $observer->getEvent()->getProduct();
+    $websiteCode = Mage::app()->getStore()->getWebsite()->getCode();
     $productData = $this->_extractProduct($product);
-    $payload = $this->_preparePayload($productData);
+    $payload = $this->_preparePayload($productData, $websiteCode);
     $this->_sendPayload('addToCart', $payload);
-  }
-
-  // REMOVE PRODUCT FROM CART
-  public function removeFromCart(Varien_Event_Observer $observer) {
-    if (!$this->_checkAnalyticsEnabled())
-        return;
-
-    $product = $observer->getEvent()->getQuoteItem();
-    $productData = $this->_extractProduct($product);
-    $payload = $this->_preparePayload($productData);
-    $this->_sendPayload('removeFromCart', $payload);
-  }
-
-  // CHECKOUT START
-  public function checkoutStart(Varien_Event_Observer $observer) {
-    if (!$this->_checkAnalyticsEnabled())
-        return;
-
-    $quote = Mage::getModel('checkout/cart')->getQuote();
-    $cartData = $this->_extractCart($quote);
-    $payload = array('cart' => $cartData);
-    $payload = $this->_preparePayload($payload);
-    $this->_sendPayload('checkoutStart', $payload);
   }
 
   // CHECKOUT SUCCESS
@@ -106,41 +32,59 @@ class Pixlee_Base_Model_Observer {
 
     $quote = new Mage_Sales_Model_Order();
     $incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+    $websiteCode = Mage::app()->getStore()->getWebsite()->getCode();
     $quote->loadByIncrementId($incrementId);
     $cartData = $this->_extractCart($quote);
-    $cartData['type'] = 'magento';
+    $cartData['cart_type'] = 'magento';
     $customerData = $this->_extractCustomer($quote);
-    $payload = array_merge(array('cart' => $cartData), $customerData);
-    $payload = $this->_preparePayload($payload);
+    $payload = array_merge($cartData, $customerData);
+    $payload = $this->_preparePayload($payload, $websiteCode);
     $this->_sendPayload('checkoutSuccess', $payload);
-
-    // Magento ticks down the stock inventory as soon as an order is created,
-    // so in addition to sending an analytics event, update the product in distillery
-    $helper = Mage::helper('pixlee');
-    foreach ($quote->getAllVisibleItems() as $item) {
-      $product = $helper->_extractActualProduct($item);
-      $helper->updateStock($product);
-    }
   }
 
-  // CANCEL ORDER
-  public function cancelOrder(Varien_Event_Observer $observer) {
-    if (!$this->_checkAnalyticsEnabled())
-        return;
-
-    // When an order is cancelled, Magento ticks the stock inventory back up
+  public function scheduledExportProducts() {
+    Mage::log("Pixlee::Exporting all products");
     $helper = Mage::helper('pixlee');
-    $order = $observer->getEvent()->getOrder();
-    foreach ($order->getAllVisibleItems() as $item) {
-      $product = $helper->_extractActualProduct($item);
-      $helper->updateStock($product);
+    $categoriesMap = $helper->getCategoriesMap();
+
+    foreach (Mage::app()->getWebsites() as $website) {
+      $websiteId = $website->getId();
+      $separateVariants = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/advanced/export_variants_separately');
+      $pixleeAPI = $helper->getNewPixlee($websiteId);
+      if (!$pixleeAPI || is_null($pixleeAPI)) {
+        continue;
+      }
+      $numProducts = $helper->getTotalProductsCount($websiteId);
+      $limit = 100;
+      $offset = 0;
+
+      while ($offset < $numProducts) {
+        $products = Mage::getModel('catalog/product')->getCollection();
+        $products->addAttributeToFilter('status', array('neq' => 2));
+        $products->addWebsiteFilter($websiteId);
+
+        if (!$separateVariants) {
+          $products->addAttributeToFilter('visibility', array('neq' => 1));
+        }
+        $products->getSelect()->limit($limit, $offset);
+        $products->addAttributeToSelect('*');
+        $offset = $offset + $limit;
+
+        foreach ($products as $product) {
+          $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI, $websiteId);
+        }
+
+        unset($products);
+      }
     }
   }
 
   // VALIDATE CREDENTIALS
   public function validateCredentials(Varien_Event_Observer $observer){
-    $pixleeAccountApiKey = Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
-    $pixleeAccountSecretKey = Mage::getStoreConfig('pixlee/pixlee/account_secret_key', Mage::app()->getStore());
+    $websiteCode = $observer->getEvent()->getData('website');
+    $websiteId = Mage::getModel('core/website')->load($websiteCode)->getId();
+    $pixleeAccountApiKey = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_api_key');
+    $pixleeAccountSecretKey = Mage::app()->getWebsite($websiteId)->getConfig('pixlee/pixlee/account_secret_key');
 
     $this->_pixleeAPI = new Pixlee_Pixlee($pixleeAccountApiKey, $pixleeAccountSecretKey);
     try{
@@ -154,8 +98,19 @@ class Pixlee_Base_Model_Observer {
   // Helper functions
 
   // Shorthand for having to check the config every time
-  protected function _checkAnalyticsEnabled(){
-    return Mage::getStoreConfig('pixlee/advanced/enable_analytics', Mage::app()->getStore());
+  protected function _checkAnalyticsEnabled() {
+    $pixleeAccountId = Mage::app()->getWebsite()->getConfig('pixlee/pixlee/account_id');
+    $pixleeAnalyticsEnabled = Mage::app()->getWebsite()->getConfig('pixlee/advanced/enable_analytics');
+
+    if (is_null($pixleeAccountId) || $pixleeAccountId == 0 || $pixleeAccountId == '') {
+      return false;
+    } else {
+      if ($pixleeAnalyticsEnabled) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   protected function _getPixleeCookie() {
@@ -173,7 +128,7 @@ class Pixlee_Base_Model_Observer {
    * Build a payload from the Pixlee provided cookie, appending extra data not
    * provided by the cookie by default (e.g. API key and User ID).
    **/
-  protected function _preparePayload($extraData = array()) {
+  protected function _preparePayload($extraData = array(), $websiteCode) {
     $helper = Mage::helper('pixlee');
 
     Mage::log("* In _preparePayload");
@@ -187,11 +142,12 @@ class Pixlee_Base_Model_Observer {
       }
       Mage::log("** Before building payload");
       // Required key/value pairs not in the payload by default.
-      $payload['API_KEY']= Mage::getStoreConfig('pixlee/pixlee/account_api_key', Mage::app()->getStore());
+      $payload['API_KEY']= Mage::app()->getWebsite()->getConfig('pixlee/pixlee/account_api_key');
       $payload['uid'] = $payload['CURRENT_PIXLEE_USER_ID'];
       Mage::log("** After building payload");
       $payload['ecommerce_platform'] = 'magento_1';
       $payload['ecommerce_platform_version'] = '2.0.0';
+      $payload['region_code'] = $websiteCode;
       $payload['version_hash'] = $this->_getVersionHash();
       return json_encode($payload);
     }
@@ -270,7 +226,7 @@ class Pixlee_Base_Model_Observer {
 
     // Here we need to know whether to pass back the parent product SKU
     // or the variant product SKU, based on 'export_variants_separately'
-    $separateVariants = Mage::getStoreConfig('pixlee/advanced/export_variants_separately', Mage::app()->getStore());
+    $separateVariants = Mage::app()->getWebsite()->getConfig('pixlee/advanced/export_variants_separately');
 
     if ($separateVariants) {
       $productData['product_id'] = (int) $product->getIdBySku($product->getSku());
@@ -284,21 +240,21 @@ class Pixlee_Base_Model_Observer {
   }
 
   protected function _extractCart($quote) {
-    $cartData = array('contents' => array());
+    $cartData = array('cart_contents' => array());
 
     if(is_a($quote, 'Mage_Sales_Model_Quote')) {
       foreach ($quote->getAllVisibleItems() as $item) {
-        $cartData['contents'][] = $this->_extractProduct($item);
+        $cartData['cart_contents'][] = $this->_extractProduct($item);
       }
-      $cartData['total'] = $cartData['total'] = Mage::helper('core')->currency($quote->getGrandTotal(), true, false);
-      $cartData['total_quantity'] = round($quote->getItemsQty());
+      $cartData['cart_total'] = Mage::helper('core')->currency($quote->getGrandTotal(), true, false);
+      $cartData['cart_total_quantity'] = round($quote->getItemsQty());
       return $cartData;
     } else if(is_a($quote, 'Mage_Sales_Model_Order')) {
       foreach ($quote->getAllVisibleItems() as $item) {
-        $cartData['contents'][] = $this->_extractProduct($item);
+        $cartData['cart_contents'][] = $this->_extractProduct($item);
       }
-      $cartData['total'] = Mage::helper('core')->currency($quote->getGrandTotal(), true, false);
-      $cartData['total_quantity'] = round($quote->getTotalQtyOrdered());
+      $cartData['cart_total'] = Mage::helper('core')->currency($quote->getGrandTotal(), true, false);
+      $cartData['cart_total_quantity'] = round($quote->getTotalQtyOrdered());
       return $cartData;
     }
 
