@@ -14,14 +14,16 @@
     </script>
     <?php $_publicId = Mage::getStoreConfig('nextopia_ajax_options/settings/public_client_id') ?>
     <?php $_productInstance = Mage::getStoreConfig('nextopia_product_page/settings/product_recommendation_instance') ?>
+    <?php $_key = $_publicId . '-' . $_productInstance; ?>
         <script type="text/javascript">
             var nxt_recs = nxt_recs || [];
             nxt_recs.push(
                 [
-                    '<?php echo $_publicId . '-' . $_productInstance ?>',
+                    '<?php echo $_key ?>',
                     'skuValue',
                     '<?php echo $_sku ?>'
                 ]
             );
+            nxt_recs.push([ '<?php echo $_key ?>', 'cache', false]);
         </script>
 <?php endif; ?>
