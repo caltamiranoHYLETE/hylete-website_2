@@ -61,7 +61,7 @@ jQuery( document ).ready(function() {
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
                         var jsonObj = JSON.parse(data.GetReturnOrdersResult);
-                        //console.log(jsonObj);
+                        console.log(jsonObj);
 
                         //if we only have one order found we will process it
                         if(jsonObj.length == 1) {
@@ -236,7 +236,7 @@ function processSingle(returnObject) {
 
             html += "<div class='return-order'><h1>" + returnObject.OrderId + "</h1>";
 
-            if (returnObject.IsGovX == true) {
+            if (returnObject.IsGovX == true && !returnObject.IsAdmin) {
 
                 html += BuildGovxHtml();
 
