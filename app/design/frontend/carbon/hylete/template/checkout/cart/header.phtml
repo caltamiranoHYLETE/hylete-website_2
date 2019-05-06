@@ -46,15 +46,16 @@ if ($_isLoggedIn) {
     $_hyleteInfoAccount['customer_group_id'] = $_customer->getGroupId();
     $_hyleteInfoAccount['customer_gender'] = $_customer->getGender();
     $_hyleteInfoAccount['customer_id'] = $_customer->getId();
-    $_hyleteInfoAccount['customer_email'] = $_customer->getEmail();
-    $_hyleteInfoAccount['customer_firstname'] = $_customer->getFirstname();
-    $_hyleteInfoAccount['customer_lastname'] = $_customer->getLastname();
+    $_hyleteInfoAccount['customer_email'] = hash('sha256', $_customer->getEmail());
+    //STK - No longer need this - Shouldn't have in datalyer
+    //$_hyleteInfoAccount['customer_firstname'] = $_customer->getFirstname();
+    //$_hyleteInfoAccount['customer_lastname'] = $_customer->getLastname();
 
     //$_hyleteInfoEcomm['ecomm_logged_in'] = 1;
     $_hyleteInfoEcomm['ecomm_group_id'] = (string)$_customer->getGroupId();
     $_hyleteInfoEcomm['ecomm_gender'] = $_customer->getGender();
     $_hyleteInfoEcomm['ecomm_customer_id'] = $_customer->getId();
-    $_hyleteInfoEcomm['ecomm_customer_email'] = $_customer->getEmail();
+    $_hyleteInfoEcomm['ecomm_customer_email'] = hash('sha256', $_customer->getEmail());
 }
 
 ?>
