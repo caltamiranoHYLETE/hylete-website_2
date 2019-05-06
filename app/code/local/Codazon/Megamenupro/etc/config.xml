@@ -50,13 +50,13 @@
 	</global>
 	<admin>
 		<routers>
-			<megamenupro>
-				<use>admin</use>
+			<adminhtml>
 				<args>
-					<module>Codazon_Megamenupro</module>
-					<frontName>admin_megamenupro</frontName>
+					<modules>
+						<megamenupro before="Mage_Adminhtml">Codazon_Megamenupro_Adminhtml</megamenupro>
+					</modules>
 				</args>
-			</megamenupro>
+			</adminhtml>
 		</routers>
 	</admin>
 	<adminhtml>
@@ -68,7 +68,7 @@
 					<megamenupro module="megamenupro">
 						<title>Manage Megamenu Pro</title>
 						<sort_order>0</sort_order>
-						<action>admin_megamenupro/adminhtml_megamenupro</action>
+						<action>adminhtml/megamenupro/index</action>
 					</megamenupro>
 					<megamenupro_settings module="megamenupro">
 						<title>Settings</title>

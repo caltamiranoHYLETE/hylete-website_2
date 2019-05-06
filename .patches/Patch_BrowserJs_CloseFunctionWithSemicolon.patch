@@ -1,0 +1,8 @@
+--- js/mage/adminhtml/browser.js	(revision 1158:4e4c2c1d193215b182e0c0087b6c127b41ac7a3b)
++++ js/mage/adminhtml/browser.js	(revision 1158+:4e4c2c1d1932+)
+@@ -392,4 +392,4 @@
+             }
+         }
+     }
+-}
++};
