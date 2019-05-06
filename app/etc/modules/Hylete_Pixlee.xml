@@ -12,6 +12,7 @@
             <codePool>local</codePool>
             <depends>
                 <Pixlee_Base/>
+                <Mage_Catalog/>
             </depends>
         </Hylete_Pixlee>
     </modules>

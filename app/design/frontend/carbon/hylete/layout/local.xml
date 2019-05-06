@@ -745,13 +745,12 @@
             </action>
             <block type="core/text_list" name="hylete.product.cms.above.upsell">
                 <label>Product CMS above upsell</label>
+                <block type="catalog/product_view" name="pixlee_album" template="pixlee/album.phtml" before="product.info.nosto-recommended-products"/>
                 <block type="cms/block" name="product.info.nosto-recommended-products">
                     <action method="setBlockId">
                         <block_id>nosto-pdp-recommended-products</block_id>
                     </action>
                 </block>
-                <block type="catalog/product_view" name="pixlee_events" template="pixlee/pdp.phtml"
-                       after="product.info.nosto-recommended-products"/>
             </block>
             <block type="cms/block" name="retail.value.tooltip">
                 <action method="setBlockId">
