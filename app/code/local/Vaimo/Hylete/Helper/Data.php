@@ -191,8 +191,8 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
      * Returns processed cms blocks collection or empty array in case when no block were assigned to product
      *
      * @param Mage_Catalog_Model_Product $product
-     *
-     * @return array|Mage_Cms_Model_Resource_Block_Collection
+     * @return array
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getProductTabsCmsBlocks($product)
     {
@@ -209,6 +209,7 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
         }, $this->_productCmsAttributes));
 
         if (!empty($cmsIds)) {
+            /** @var Mage_Cms_Model_Resource_Block_Collection $blocks */
             $blocks = Mage::getResourceModel('cms/block_collection')
                 ->addStoreFilter($storeId)
                 ->addFieldToFilter('main_table.block_id', array('in' => $cmsIds));
@@ -218,7 +219,7 @@ class Vaimo_Hylete_Helper_Data extends Mage_Core_Helper_Abstract
                 $block->setContent($html);
             }
 
-            $result = $blocks;
+            $result = $blocks->getItems();
         }
 
         return $result;
