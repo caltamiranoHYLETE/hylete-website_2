@@ -66,6 +66,8 @@ class MageWorx_SeoMarkup_Helper_Config extends Mage_Core_Helper_Abstract
     const XML_PATH_PRODUCT_METHOD                   = 'mageworx_seo/richsnippets/product_method';
     const XML_PATH_PRODUCT_META_PRICE               = 'mageworx_seo/richsnippets/add_product_meta_price';
     const XML_PATH_PRODUCT_OFFER                    = 'mageworx_seo/richsnippets/product_offer';
+    const XML_PATH_SPECIAL_PRICE_FUNCTIONALITY      = 'mageworx_seo/richsnippets/special_price_functionality';
+    const XML_PATH_PRICE_VALID_UNTIL_DEFAULT_VALUE  = 'mageworx_seo/richsnippets/price_valid_until_default_value';
     const XML_PATH_RATING_ENABLED                   = 'mageworx_seo/richsnippets/enable_rating';
     const XML_PATH_BEST_RATING                      = 'mageworx_seo/richsnippets/best_rating';
     const XML_PATH_ADD_REVIEWS                      = 'mageworx_seo/richsnippets/add_reviews';
@@ -86,6 +88,7 @@ class MageWorx_SeoMarkup_Helper_Config extends Mage_Core_Helper_Abstract
     const XML_PATH_DEPTH_CODE                       = 'mageworx_seo/richsnippets/attribute_code_depth';
     const XML_PATH_WEIGHT_ENABLED                   = 'mageworx_seo/richsnippets/enable_weight';
     const XML_PATH_WEIGHT_UNIT                      = 'mageworx_seo/richsnippets/weight_unit';
+    const XML_PATH_PRODUCT_ID_CODE                  = 'mageworx_seo/richsnippets/attribute_code_product_id';
     const XML_PATH_MANUFACTURER_ENABLED             = 'mageworx_seo/richsnippets/enable_manufacturer';
     const XML_PATH_MANUFACTURER_CODE                = 'mageworx_seo/richsnippets/attribute_code_manufacturer';
     const XML_PATH_BRAND_ENABLED                    = 'mageworx_seo/richsnippets/enable_brand';
@@ -498,6 +501,22 @@ class MageWorx_SeoMarkup_Helper_Config extends Mage_Core_Helper_Abstract
         return trim(Mage::getStoreConfig(self::XML_PATH_PRODUCT_OFFER));
     }
 
+    /**
+     * @return string
+     */
+    public function isUseSpecialPriceFunctionality()
+    {
+        return trim(Mage::getStoreConfig(self::XML_PATH_SPECIAL_PRICE_FUNCTIONALITY));
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriceValidUntilDefaultValue()
+    {
+        return trim(Mage::getStoreConfig(self::XML_PATH_PRICE_VALID_UNTIL_DEFAULT_VALUE));
+    }
+
     public function getSkuAttributeCode()
     {
         return trim(Mage::getStoreConfig(self::XML_PATH_SKU_CODE));
@@ -692,6 +711,14 @@ class MageWorx_SeoMarkup_Helper_Config extends Mage_Core_Helper_Abstract
     public function getRichsnippetWeightUnit()
     {
         return trim(Mage::getStoreConfig(self::XML_PATH_WEIGHT_UNIT));
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductIdCode()
+    {
+        return trim(Mage::getStoreConfig(self::XML_PATH_PRODUCT_ID_CODE));
     }
 
     public function getCustomProperties()

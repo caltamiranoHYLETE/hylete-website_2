@@ -211,6 +211,14 @@
                 <type>skin_js</type>
                 <name>js/ajax-login.js</name>
             </action>
+
+            <action method="addCss">
+                <stylesheet>css/rewards.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/points-info.js</name>
+            </action>
         </reference>
 
         <reference name="top.links">
@@ -750,6 +758,8 @@
                     <block_id>retail_value_tooltip</block_id>
                 </action>
             </block>
+            <block type="hylete_rewards/catalog_product_points" name="hylete.product.points"
+                   template="rewards/product/view/product_points.phtml" />
         </reference>
 
         <reference name="product.info.options.wrapper">
@@ -762,6 +772,10 @@
             <action method="unsetChild">
                 <name>social.modal</name>
             </action>
+        </reference>
+
+        <reference name="product.info.extrahint">
+            <remove name="rewards.integrated.product.view.points" />
         </reference>
     </catalog_product_view>
 
@@ -1341,8 +1355,6 @@
             </action>
             <block type="core/template" template="vaimo/blog/blog-right-column.phtml" name="blog.right.column"
                    as="blog.right.column">
-                <block type="blog/posts_latest" template="vaimo/blog/popular-post.phtml" name="blog.popular.post"
-                       as="blog.popular.post"/>
                 <block type="cms/block" name="blog.instagram">
                     <action method="setBlockId">
                         <block_id>blog_instagram</block_id>
@@ -1361,8 +1373,6 @@
         <reference name="product.info">
             <block type="core/template" template="vaimo/blog/blog-right-column.phtml" name="blog.right.column"
                    as="blog.right.column">
-                <block type="blog/posts_latest" template="vaimo/blog/popular-post.phtml" name="blog.popular.post"
-                       as="blog.popular.post"/>
                 <block type="cms/block" name="blog.instagram">
                     <action method="setBlockId">
                         <block_id>blog_instagram</block_id>

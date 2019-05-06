@@ -14,9 +14,9 @@
 
     <link rel="stylesheet" type="text/css" href="/forms/rma/20160104_css.css" media="all" />
     <link rel="stylesheet" type="text/css" href="/forms/tracking/smart-tracker.css" media="all" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/forms/js/jquery.min.js"></script>
     <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
-    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="/forms/js/jquery.validate.min.js"></script>
 <script src="/forms/js/smart-tracking.js"></script>
 
 </head>

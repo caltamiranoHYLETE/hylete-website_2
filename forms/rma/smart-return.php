@@ -12,9 +12,9 @@
 <meta property="og:description" content="Performance Cross Training Apparel" />
 <link rel="shortcut icon" href="//www.hylete.com/media/favicon/default/favicon.png" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="smart-return.css" media="all" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/forms/js/jquery.min.js"></script>
     <!--<script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>-->
-<<script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="/forms/js/jquery.validate.min.js"></script>
 <script src="/forms/js/config.js"></script>
 <script src="/forms/js/smart-return.js"></script>
 

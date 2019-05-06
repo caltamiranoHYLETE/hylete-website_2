@@ -131,3 +131,8 @@ lb,lb
 'You should upload the facebook logo in the "Website Info" section above.','You should upload the facebook logo in the "Website Info" section above.'
 "Facebook App ID","Facebook App ID"
 "You can specify a few values separated by commas.","You can specify a few values separated by commas."
+"Show Product Offer ▾","Show Product Offer ▾"
+"Use Special Price functionality for Price Valid Until","Use Special Price functionality for Price Valid Until"
+"Price Valid Until Default Value","Price Valid Until Default Value"
+"Product ID Attribute Code","Product ID Attribute Code"
+"Recommended attributes are: sku, gtin, isbn, etc.","Recommended attributes are: sku, gtin, isbn, etc."

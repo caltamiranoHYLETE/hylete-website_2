@@ -618,7 +618,7 @@
                             <show_in_store>1</show_in_store>
                         </product_method>
                         <product_offer translate="label">
-                            <label><![CDATA[Show Product Offer]]></label>
+                            <label><![CDATA[Show Product Offer ▾]]></label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>351</sort_order>
@@ -630,6 +630,36 @@
                                 <product_method>json-ld</product_method>
                             </depends>
                         </product_offer>
+                        <special_price_functionality translate="label">
+                            <label><![CDATA[Use Special Price functionality for Price Valid Until]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <frontend_model>mageworx_seoall/adminhtml_config_frontend_field</frontend_model>
+                            <sort_order>352</sort_order>
+                            <level>3</level>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <product_method>json-ld</product_method>
+                                <product_offer>1</product_offer>
+                            </depends>
+                        </special_price_functionality>
+                        <price_valid_until_default_value translate="label">
+                            <label><![CDATA[Price Valid Until Default Value]]></label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>mageworx_seoall/adminhtml_config_frontend_date</frontend_model>
+                            <validate>validate-date</validate>
+                            <sort_order>353</sort_order>
+                            <level>3</level>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <product_method>json-ld</product_method>
+                                <product_offer>1</product_offer>
+                            </depends>
+                        </price_valid_until_default_value>
                         <add_product_meta_price translate="label comment">
                             <label><![CDATA[Fix Price Format]]></label>
                             <frontend_type>select</frontend_type>
@@ -954,6 +984,18 @@
                                 <enable_weight>1</enable_weight>
                             </depends>
                         </weight_unit>
+                        <attribute_code_product_id translate="label comment">
+                            <label><![CDATA[Product ID Attribute Code]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mageworx_seomarkup/system_config_source_attributes</source_model>
+                            <frontend_model>mageworx_seoall/adminhtml_config_frontend_field</frontend_model>
+                            <sort_order>575</sort_order>
+                            <level>1</level>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Recommended attributes are: sku, gtin, isbn, etc.]]></comment>
+                        </attribute_code_product_id>
                         <enable_dimensions translate="label comment">
                             <label><![CDATA[Add Dimensions ▾]]></label>
                             <frontend_type>select</frontend_type>
