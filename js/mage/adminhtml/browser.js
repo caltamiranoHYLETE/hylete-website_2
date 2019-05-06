@@ -392,4 +392,4 @@ Mediabrowser.prototype = {
             }
         }
     }
-}
+};
