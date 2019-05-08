@@ -14,7 +14,7 @@
     </script>
     <?php $_publicId = Mage::getStoreConfig('nextopia_ajax_options/settings/public_client_id') ?>
     <?php $_productInstance = Mage::getStoreConfig('nextopia_product_page/settings/product_recommendation_instance') ?>
-    <?php $_key = $this->escapeHtml($_publicId . '-' . $_productInstance); ?>
+    <?php $_key = $this->quoteEscape($_publicId . '-' . $_productInstance, true); ?>
         <script type="text/javascript">
             var nxt_recs = nxt_recs || [];
             nxt_recs.push(
