@@ -32,6 +32,11 @@ class Mage_Log_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_LOG_ENABLED = 'system/log/enable_log';
 
     /**
+     * Allowed extensions that can be used to create a log file
+     */
+    private $_allowedFileExtensions = array('log', 'txt', 'html', 'csv');
+
+    /**
      * Return log flag enabled.
      *
      * @return boolean
@@ -39,5 +44,22 @@ class Mage_Log_Helper_Data extends Mage_Core_Helper_Abstract
     public function isLogEnabled()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_LOG_ENABLED);
+    }
+
+    /**
+     * Checking if file extensions is allowed. If passed then return true.
+     *
+     * @param $file
+     * @return bool
+     */
+    public function isLogFileExtensionValid($file)
+    {
+        $result = false;
+        $validatedFileExtension = pathinfo($file, PATHINFO_EXTENSION);
+        if ($validatedFileExtension && in_array($validatedFileExtension, $this->_allowedFileExtensions)) {
+            $result = true;
+        }
+
+        return $result;
     }
 }

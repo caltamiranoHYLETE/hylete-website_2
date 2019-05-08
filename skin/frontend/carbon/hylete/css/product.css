@@ -85,6 +85,7 @@ div.fancybox-skin {
 .product-options,
 .product-options-bottom {
     vertical-align: top;
+    margin-bottom: 10px;
 }
 
 .product-options .product-options-bottom {
@@ -92,7 +93,7 @@ div.fancybox-skin {
 }
 
 .product-options .validation-advice {
-    margin: 5px 0 0 -2px;
+    margin: 10px 0 0 0;
     padding: 0;
     position: absolute;
 }
