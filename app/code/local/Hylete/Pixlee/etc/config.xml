@@ -8,14 +8,16 @@
 <config>
     <modules>
         <Hylete_Pixlee>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </Hylete_Pixlee>
     </modules>
     <global>
-        <helpers>
-            <hylete_pixlee>
-                <class>Hylete_Pixlee_Helper</class>
-            </hylete_pixlee>
-        </helpers>
+        <resources>
+            <hylete_pixlee_setup>
+                <setup>
+                    <module>Hylete_Pixlee</module>
+                </setup>
+            </hylete_pixlee_setup>
+        </resources>
     </global>
 </config>
