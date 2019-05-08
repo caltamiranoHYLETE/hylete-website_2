@@ -25,4 +25,8 @@ function exportToPixlee(url) {
 </script>
 
 <?php echo $this->getButtonHtml() ?>
-<p class="note"><span id="pixlee_remaining"><?php echo Mage::helper('pixlee')->getPixleeRemainingText(); ?></span></p>
+<?php
+$websiteCode = Mage::getSingleton('adminhtml/config_data')->getWebsite();
+$websiteId = Mage::getModel('core/website')->load($websiteCode)->getId();
+?>
+<p class="note"><span id="pixlee_remaining"><?php echo Mage::helper('pixlee')->getPixleeRemainingText($websiteId); ?></span></p>
