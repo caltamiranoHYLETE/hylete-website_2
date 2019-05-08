@@ -2,7 +2,7 @@
 /** @var Mage_Catalog_Model_Product $_product */
 $_product = $this->getProduct();
 
-/** @var Mage_Cms_Model_Resource_Block_Collection $_cmsBlocks */
+/** @var array $_cmsBlocks */
 $_cmsBlocks = Mage::helper('hylete')->getProductTabsCmsBlocks($_product);
 
 /**
@@ -10,7 +10,7 @@ $_cmsBlocks = Mage::helper('hylete')->getProductTabsCmsBlocks($_product);
  *
  * @var Mage_Cms_Model_Block $_videosCmsBlocks
  */
-$_videosCmsBlocks = array_filter($_cmsBlocks->getItems(), static function (Mage_Cms_Model_Block $_block) {
+$_videosCmsBlocks = array_filter($_cmsBlocks, static function (Mage_Cms_Model_Block $_block) {
     return strpos($_block->getIdentifier(), 'product_cms_video') === 0;
 });
 
@@ -19,7 +19,7 @@ $_videosCmsBlocks = array_filter($_cmsBlocks->getItems(), static function (Mage_
  *
  * @var Mage_Cms_Model_Block $_careCmsBlocks
  */
-$_careCmsBlocks = array_filter($_cmsBlocks->getItems(), static function (Mage_Cms_Model_Block $_block) {
+$_careCmsBlocks = array_filter($_cmsBlocks, static function (Mage_Cms_Model_Block $_block) {
     return strpos($_block->getIdentifier(), '_care');
 });
 
@@ -28,7 +28,7 @@ $_careCmsBlocks = array_filter($_cmsBlocks->getItems(), static function (Mage_Cm
  *
  * @var Mage_Cms_Model_Block $_otherCmsBlocks
  */
-$_otherCmsBlocks = array_filter($_cmsBlocks->getItems(), static function (Mage_Cms_Model_Block $_block) {
+$_otherCmsBlocks = array_filter($_cmsBlocks, static function (Mage_Cms_Model_Block $_block) {
     $_identifier = $_block->getIdentifier();
     return strpos($_identifier, 'product_cms_video') === false && strpos($_identifier, '_care') === false;
 });
