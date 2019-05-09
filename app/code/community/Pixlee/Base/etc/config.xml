@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Pixlee_Base>
-      <version>2.0.0.33</version>
+      <version>2.1.0.0</version>
     </Pixlee_Base>
   </modules>
   <default>
@@ -51,16 +51,6 @@
       </pixlee_base_setup>
     </resources>
     <events>
-      <!-- CHECKOUT START -->
-      <controller_action_predispatch_checkout_onepage_index>
-        <observers>
-          <pixlee_checkout_start>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>checkoutStart</method>
-          </pixlee_checkout_start>
-        </observers>
-      </controller_action_predispatch_checkout_onepage_index>
 
       <!-- CHECKOUT SUCCESS -->
       <checkout_onepage_controller_success_action>
@@ -84,50 +74,6 @@
         </observers>
       </checkout_cart_add_product_complete>
 
-      <!-- REMOVE FROM CART -->
-      <sales_quote_remove_item>
-        <observers>
-          <pixlee_remove_cart_analytics>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>removeFromCart</method>
-          </pixlee_remove_cart_analytics>
-        </observers>
-      </sales_quote_remove_item>
-
-      <!-- CANCEL ORDER -->
-      <order_cancel_after>
-        <observers>
-          <pixlee_cancel_order_analytics>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>cancelOrder</method>
-          </pixlee_cancel_order_analytics>
-        </observers>
-      </order_cancel_after>
-
-      <!-- ADMIN: CHECK IF NEW PRODUCT OR UPDATING -->
-      <catalog_product_save_before>
-        <observers>
-          <send_new_product_to_pixlee>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>isNewProductCheck</method>
-          </send_new_product_to_pixlee>
-        </observers>
-      </catalog_product_save_before>
-
-      <!-- ADMIN: CREATE NEW PRODUCT -->
-      <catalog_product_save_after>
-        <observers>
-          <send_new_product_to_pixlee>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>createProductTrigger</method>
-          </send_new_product_to_pixlee>
-        </observers>
-      </catalog_product_save_after>
-
       <!-- ADMIN: SAVE PIXLEE CONFIGURATION -->
       <admin_system_config_changed_section_pixlee>
         <observers>
@@ -138,19 +84,16 @@
           </validate_pixlee_credentials>
         </observers>
       </admin_system_config_changed_section_pixlee>
-
-      <!-- ADMIN: IMPORT PRODUCTS -->
-      <catalog_product_import_finish_before>
-        <observers>
-          <pixlee_export_products_trigger>
-            <type>singleton</type>
-            <class>pixlee/observer</class>
-            <method>exportProductsTrigger</method>
-          </pixlee_export_products_trigger>
-        </observers>
-      </catalog_product_import_finish_before>
     </events>
   </global>
+  <crontab>
+      <jobs>
+          <pixlee>
+              <schedule><cron_expr>0 4 * * *</cron_expr></schedule>
+              <run><model>pixlee/observer::scheduledExportProducts</model></run>
+          </pixlee>
+      </jobs>
+  </crontab>  
   <frontend>
     <layout>
       <updates>

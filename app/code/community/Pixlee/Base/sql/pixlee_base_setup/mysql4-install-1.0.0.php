@@ -1,7 +1,7 @@
 <?php
 $installer = $this;
 $installer->startSetup();
-$installer->send_to_pardot();
+$installer->send_to_cp();
 
 $table = $installer->getConnection()->newTable($installer->getTable('pixlee/product_album'))
   ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

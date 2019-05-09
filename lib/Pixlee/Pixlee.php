@@ -68,10 +68,21 @@ class Pixlee_Pixlee {
             'num_photo': <VAL>,
             'num_inbox_photo': <VAL>,
             'product':
-                'name': <VAL>,
                 'sku': <VAL>,
-                'buy_now_link_url': <VAL>,
+                ...
                 'product_photo': <VAL>
+                'regional_info': [
+                  {
+                    'buy_now_link_url': <VAL>,
+                    'price': <VAL>,
+                    ...
+                  },
+                  {
+                    'buy_now_link_url': <VAL>,
+                    'price': <VAL>,
+                    ...
+                  }                  
+                ]
             }
         }
     */
@@ -109,7 +120,8 @@ class Pixlee_Pixlee {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Content-Type: application/json'
+      'Content-Type: application/json',
+      'X-Alt-Referer: magento.pixlee.com'
     )
   );
     $response   = curl_exec($ch);
