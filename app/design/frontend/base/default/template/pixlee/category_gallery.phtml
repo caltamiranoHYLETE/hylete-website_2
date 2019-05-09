@@ -1,12 +1,12 @@
 <?php
 $helper = Mage::helper('pixlee');
 $nativeCategoryId = $this->category_id;
-if($helper->isActive() && !empty($nativeCategoryId)):
-  $pixleeCategoryWidgetId = $this->getCategoryWidgetId();
-  $pixleeAccountApiKey = $this->getAccountApiKey();
+$pixleeCategoryWidgetId = $this->getCategoryWidgetId();
+$pixleeAccountApiKey = $this->getAccountApiKey();
+if($helper->isActive() && !empty($nativeCategoryId) && isset($pixleeAccountApiKey) && isset($pixleeCategoryWidgetId)):
 ?>
 <div id="pixlee_container"></div>
-		<div id="pixlee_widget_master_container"></div>
+<div id="pixlee_widget_master_container"></div>
 <script id="pixlee_script">
 
 	window.PixleeAsyncInit = function() {
@@ -22,6 +22,10 @@ if($helper->isActive() && !empty($nativeCategoryId)):
 </script>
 <script src="https://assets.pixlee.com/assets/pixlee_widget_1_0_0.js"></script>
 
+<?php elseif(empty($pixleeAccountApiKey)): ?>
+	<!-- Pixlee not installed for the website Skipping CDP widget. -->	
+<?php elseif(empty($pixleeCategoryWidgetId)): ?>
+	<!-- Please enter a category widget ID in the admin panel to display Pixlee CDP galleries. -->	
 <?php elseif(empty($nativeCategoryId)): ?>
   <!-- Could not display the Pixlee gallery. No product SKU found. Try explicitly setting one with the "setProductSku" function after creating the block. -->
 <?php else: ?>

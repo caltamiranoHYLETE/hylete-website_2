@@ -1,8 +1,8 @@
 <?php
 
 class Pixlee_Base_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup {
-	public function send_to_pardot() {
-		Mage::log("Beginning to send lead to Pardot");
+	public function send_to_cp() {
+		Mage::log("Beginning to send lead to CP");
 		$store_name = Mage::app()->getStore()->getName();
 		$from_email = Mage::getStoreConfig('trans_email/ident_general/email'); //fetch sender email Admin
 		$from_name = Mage::getStoreConfig('trans_email/ident_general/name'); //fetch sender name Admin
