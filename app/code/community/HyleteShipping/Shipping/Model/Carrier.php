@@ -178,6 +178,7 @@ class HyleteShipping_Shipping_Model_Carrier
 			$client->setUri($this->getConfigData('api_url'));
 			$client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
 			$client->setHeaders('Content-type','application/json');
+			$client->setHeaders('APIKey','1b33800d-ce0e-4a52-89a6-5ba5751d4328');
 
 			$json = Mage::helper('core')->jsonEncode($r);
 			$client->setParameterPost('data', $json);
