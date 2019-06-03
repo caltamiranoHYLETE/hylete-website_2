@@ -81,9 +81,6 @@ div.follow a:hover {
     justify-content: space-between;
     width: 100%;
 }
-.catalog-product-view div.follow a {
-    float: left;
-}
 
 .catalog-product-view div.follow a,
 #footer div.follow a {
