@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Development <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_Firecheckout>
+            <version>1.0.0</version>
+        </Hylete_Firecheckout>
+    </modules>
+    <frontend>
+        <routers>
+            <firecheckout>
+                <args>
+                    <modules>
+                        <hylete_firecheckout before="TM_FireCheckout">Hylete_Firecheckout_controllers</hylete_firecheckout>
+                    </modules>
+                </args>
+            </firecheckout>
+        </routers>
+    </frontend>
+</config>
