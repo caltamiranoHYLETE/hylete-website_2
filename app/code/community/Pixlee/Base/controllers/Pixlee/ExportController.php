@@ -40,8 +40,12 @@ class Pixlee_Base_Pixlee_ExportController extends Mage_Adminhtml_Controller_Acti
       $offset = $offset + $limit;
 
       foreach ($products as $product) {
-        $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI, $websiteId);
-        if ($productCreated) $counter += 1;
+        try {
+          $productCreated = $helper->exportProductToPixlee($product, $categoriesMap, $pixleeAPI, $websiteId);
+          if ($productCreated) $counter += 1;
+        } catch (Exception $e) {
+          Mage::log('Failed to export product');
+        }
       }
 
       unset($products);
