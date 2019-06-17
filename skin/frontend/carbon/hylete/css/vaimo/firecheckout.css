@@ -281,34 +281,7 @@
     height: auto !important;
 }
 
-.firecheckout-set button.btn-checkout,
-.firecheckout-set button.btn-primary,
-.firecheckout-window button.button {
-    background-color: #34baf3;
-}
 
-.firecheckout-set button.btn-checkout:hover,
-.firecheckout-set button.btn-checkout:focus,
-.firecheckout-set button.btn-primary:hover,
-.firecheckout-set button.btn-primary:focus,
-.firecheckout-window button.button:hover,
-.firecheckout-window button.button:focus {
-    background-color: #029bdc;
-}
-
-.firecheckout-set #review-buttons-container, #billing-register-button {
-    width: 100%;
-}
-
-.firecheckout-set button.btn-checkout, #billing-register-button {
-    width: 100%;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size: 22px;
-}
-.firecheckout-set button.button-disabled {
-    background-color: #888;
-}
 
 /* Mobile */
 @media (max-width: 800px) {
