@@ -266,7 +266,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
             $canUseSecureCookie = $store->isFrontUrlSecure();
         }
 
-        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/', '', $canUseSecureCookie);
+        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/', '', $canUseSecureCookie, true);
     }
 
     /**
