@@ -12,7 +12,10 @@ class Mediotype_HyletePrice_Model_Total_Discountedsubtotal extends Mage_Sales_Mo
      */
     public function getLabel()
     {
-        return Mage::helper('mediotype_hyleteprice')->__('Discounted Subtotal');
+        if ($this->_getAddress()->getBaseDiscountAmount()) {
+            return Mage::helper('mediotype_hyleteprice')->__('Discounted Subtotal');
+        }
+        return Mage::helper('mediotype_hyleteprice')->__('Subtotal');
     }
 
     /**
