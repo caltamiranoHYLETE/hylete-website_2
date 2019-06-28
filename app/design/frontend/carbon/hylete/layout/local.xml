@@ -576,9 +576,6 @@
                 </action>
             </block>
         </reference>
-        <reference name="breadcrumbs.container">
-            <remove name="category.title"/>
-        </reference>
 
         <reference name="category.products">
             <action method="insert">
@@ -593,6 +590,7 @@
             <block type="core/text_list" name="hylete.category.cms.below.grid">
                 <label>Category CMS below product grid</label>
             </block>
+            <block type="catalog/category_view" name="category.title" template="catalog/category/title.phtml"/>
         </reference>
         <reference name="content">
             <action method="unsetChild">
