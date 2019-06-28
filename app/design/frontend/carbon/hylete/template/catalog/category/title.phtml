@@ -11,3 +11,49 @@
        title="<?php echo $this->quoteEscape($this->__('Subscribe to RSS Feed')) ?>"
        class="rss-feed"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
 <?php endif ?>
+<?php
+/**
+* Category header template
+*
+* @var $this Mage_Catalog_Block_Category_View
+*/
+$_catalogHelper = $this->helper('catalog/output');
+$_helper = Mage::helper('hylete');
+$_category = $this->getCurrentCategory();
+$_imageBaseUrl = Mage::getBaseUrl('media') . 'catalog/category/';
+
+$_img = $_category->getImage();
+$_imgTablet = $_category->getImageTablet();
+$_imgMobile = $_category->getImageMobile();
+$_itemTitle = $this->escapeHtml($_img);
+$_inverted = $_category->getInvert() ? 'inverted' : '';
+$_alignText = 'align-' . $_helper->getCategoryAttributeLabel('align_text', $_category->getAlignText());
+$_textPlacement = 'placement-' . $_helper->getCategoryAttributeLabel('text_placement', $_category->getTextPlacement());
+
+$_imgMobile = $_imgMobile ?: $_img;
+$_imgTablet = $_imgTablet ?: $_img;
+
+?>
+
+<div class="category-top <?php echo $this->getHiddenClasses()?:'hidden-md hidden-lg' ?>">
+    <header class="category-title">
+        <?php if ($_img): ?>
+            <div class="hylete-widget fullwidth <?php echo $_alignText; ?> <?php echo $_textPlacement; ?> <?php echo $_inverted; ?>">
+                <div class="hylete-widget-img">
+                    <div class="image-placeholder">
+                        <picture>
+                            <source srcset="<?php echo $_imageBaseUrl . $_imgMobile; ?>" media="(max-width: 768px)">
+                            <source srcset="<?php echo $_imageBaseUrl . $_imgTablet ?>" media="(max-width: 992px)">
+                            <img srcset="<?php echo $_imageBaseUrl . $_img; ?>" alt="<?php echo $_itemTitle; ?>">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($shortDescription = $_category->getShortDescription()) : ?>
+            <div class="category-short-description">
+                <?php echo $shortDescription ?>
+            </div>
+        <?php endif ?>
+    </header>
+</div>
