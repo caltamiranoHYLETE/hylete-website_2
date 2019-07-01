@@ -328,9 +328,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
         $appliedRuleIds = array();
         $this->_stopFurtherRules = false;
-        // NAVARR: Grab the "discount amount" set on the address prior to processing.  We'll be modifying it
-        $addressDiscountAmount = $address->getDiscountAmount();
-        // NAVARR: END CHANGES
         foreach ($this->_getRules() as $rule) {
 
             /* @var $rule Mage_SalesRule_Model_Rule */
@@ -539,10 +536,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             }
             // MYLES: END CHANGES
 
-            // NAVARR: Update the address base discount amount to support the discounted subtotal custom rule attribute
-            $address->setDiscountAmount($address->getDiscountAmount() - $discountAmount);
-            // NAVARR: END CHANGES
-
             $item->setDiscountAmount($discountAmount);
             $item->setBaseDiscountAmount($baseDiscountAmount);
 
@@ -559,9 +552,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 break;
             }
         }
-        // NAVARR: Reset the address's discount amount to before the rules were processed
-        $address->setDiscountAmount($addressDiscountAmount);
-        // NAVARR: END CHANGES
 
         $item->setAppliedRuleIds(join(',', $appliedRuleIds));
         $address->setAppliedRuleIds($this->mergeIds($address->getAppliedRuleIds(), $appliedRuleIds));
