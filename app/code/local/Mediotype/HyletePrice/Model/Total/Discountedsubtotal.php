@@ -12,7 +12,10 @@ class Mediotype_HyletePrice_Model_Total_Discountedsubtotal extends Mage_Sales_Mo
      */
     public function getLabel()
     {
-        return Mage::helper('mediotype_hyleteprice')->__('Discounted Subtotal');
+        if ($this->_getAddress()->getBaseDiscountAmount()) {
+            return Mage::helper('mediotype_hyleteprice')->__('Discounted Subtotal');
+        }
+        return Mage::helper('mediotype_hyleteprice')->__('Subtotal');
     }
 
     /**
@@ -36,6 +39,7 @@ class Mediotype_HyletePrice_Model_Total_Discountedsubtotal extends Mage_Sales_Mo
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         if (($address->getAddressType() == 'billing')) {
+            $this->_setAddress($address);
             $amount = $address->getQuote()->getSubtotalWithDiscount();
             if ($amount != 0) {
                 $address->addTotal(array(
