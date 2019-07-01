@@ -13,7 +13,7 @@
                 </span>
             <?php else: ?>
                 <?php $_pointSummary = Mage::getSingleton('rewards/session')->getCustomer()->getPointsSummary(); ?>
-                <div class="points-to-spend"><?php echo $this->__('You have %s ', $_pointSummary); ?></div>
+                <div class="points-to-spend"><?php echo $this->__('You have %s ', $_pointSummary); ?> <span class="fal fa-question-circle points_question" data-elevio-article="70915"></span></div>
                 <?php if ($this->showPointsSlider()): ?>
                     <!-- Cart Slider -->
                     <?php if ($this->customerHasUsablePoints() && $this->getMaxSpendablePoints() != 0): ?>
