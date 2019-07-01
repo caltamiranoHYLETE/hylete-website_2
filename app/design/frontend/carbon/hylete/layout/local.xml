@@ -1332,6 +1332,11 @@
             </action>
         </reference>
     </PRODUCT_TYPE_style>
+    <PRODUCT_TYPE_simple>
+        <reference name="product.info.extrahint">
+            <block type="catalog/product_view" name="sizeguide" template="catalog/product/view/sizeguide.phtml" after="-"/>
+        </reference>
+    </PRODUCT_TYPE_simple>
 
     <blog_view_list>
         <update handle="infinite_product_blog"/>
