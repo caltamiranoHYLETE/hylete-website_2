@@ -28,54 +28,14 @@
 /**
  * Category view template
  *
- * @see Mage_Catalog_Block_Category_View
+ * @var Mage_Catalog_Block_Category_View $this
  */
 ?>
-<?php
-$_catalogHelper = $this->helper('catalog/output');
-$_helper = Mage::helper('hylete');
-$_category = $this->getCurrentCategory();
-$_imageBaseUrl = Mage::getBaseUrl('media') . 'catalog/category/';
-
-$_img = $_category->getImage();
-$_imgTablet = $_category->getImageTablet();
-$_imgMobile = $_category->getImageMobile();
-$_itemTitle = $this->escapeHtml($_img);
-$_inverted = ($_category->getInvert()) ? 'inverted' : '';
-$_alignText = 'align-' . $_helper->getCategoryAttributeLabel('align_text', $_category->getAlignText());
-$_textPlacement = 'placement-' . $_helper->getCategoryAttributeLabel('text_placement', $_category->getTextPlacement());
-
-$_imgMobile = ($_imgMobile) ? $_imgMobile : $_img;
-$_imgTablet = ($_imgTablet) ? $_imgTablet : $_img;
-?>
-
-<div class="category-top">
+<?php $this->getChild('category.title')->setData('hidden_classes', 'hidden-xs hidden-sm') ?>
+<div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <header class="category-title">
-        <?php if ($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-            <a href="<?php echo $this->getRssLink() ?>"
-               class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-        <?php endif; ?>
-        <?php if ($_img): ?>
-            <div class="hylete-widget fullwidth <?php echo $_alignText; ?> <?php echo $_textPlacement; ?> <?php echo $_inverted; ?>">
-                <div class="hylete-widget-img">
-                    <div class="image-placeholder">
-                        <picture>
-                            <source srcset="<?php echo $_imageBaseUrl . $_imgMobile; ?>" media="(max-width: 768px)">
-                            <source srcset="<?php echo $_imageBaseUrl . $_imgTablet ?>" media="(max-width: 992px)">
-                            <img srcset="<?php echo $_imageBaseUrl . $_img; ?>" alt="<?php echo $_itemTitle; ?>">
-                        </picture>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
-        <?php if ($shortDescription = $_category->getShortDescription()) : ?>
-            <div class="category-short-description">
-                <?php echo $shortDescription ?>
-            </div>
-        <?php endif ?>
-    </header>
 </div>
+<?php echo $this->getChildHtml('category.title'); ?>
 <?php echo $this->getChildHtml('hylete.category.cms.above.grid') ?>
 <?php echo $this->getChildHtml('nostoCategory1') ?>
 <?php if ($this->isContentMode()): ?>
