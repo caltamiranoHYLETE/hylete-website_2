@@ -253,6 +253,26 @@ body._has-modal-custom .modal-custom-overlay {
     left: calc(100% - 480px);
 }
 
+.mcs-ajaxRegisterForm input[type="radio"] {
+    -webkit-appearance: none;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 50%;
+    outline: 0;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+    cursor: pointer;
+    top: 2px;
+}
+
+.mcs-ajaxRegisterForm input[type="radio"]:checked {
+    box-shadow: 0 0 0 4px #000 inset;
+}
+
 /**---------------forgetpassword form popup--------------**/
 .mcs-forgetpassword-form .modal-inner-wrap {
     min-width: 310px;

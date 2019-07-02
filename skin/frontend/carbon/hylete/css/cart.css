@@ -479,6 +479,38 @@ cart-login:after {
     position: relative;
 }
 
+.firecheckout-set input[type="checkbox"], .firecheckout-set input[type="radio"] {
+    transition: none !important;
+    -webkit-transition: none !important;
+    border-radius: 0 !important;
+}
+
+.firecheckout-set input[type="checkbox"]::after, .firecheckout-set input[type="radio"]::after {
+    transition: none !important;
+    -webkit-transition: none !important;
+    transform: none !important;
+}
+
+#firecheckout-form .firecheckout-set input[type="checkbox"], #firecheckout-form .firecheckout-set input[type="radio"] {
+    box-shadow: 0 0 0 0 #000 inset !important;
+    border-radius: 0 !important;
+    border-color: #000;
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+
+#firecheckout-form .firecheckout-set input[type="radio"] {
+    border-radius: 50% !important;
+}
+
+#firecheckout-form .firecheckout-set input[type="checkbox"]:checked, #firecheckout-form .firecheckout-set input[type="radio"]:checked {
+    box-shadow: 0 0 0 10px #000 inset !important;
+}
+
+#firecheckout-form .firecheckout-set input[type="checkbox"]:checked:focus, #firecheckout-form .firecheckout-set input[type="radio"]:checked:focus {
+    box-shadow: 0 0 0 10px #000 inset !important;
+}
+
 .cart-collaterals .discounts {
     padding-top: 22px;
 }
@@ -550,15 +582,12 @@ cart-login:after {
     padding: 0;
     background: none;
     box-shadow: 0 0 0 0 #aaa inset !important;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+    border: 1px solid #000;
     outline: 0;
-    width: 18px !important;
-    height: 18px;
-    min-width: 18px;
-    min-height: 18px;
+    width: 16px !important;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
     cursor: pointer;
     float: left;
     top: 0;
@@ -569,34 +598,24 @@ cart-login:after {
 .open-promo::after,
 .open-giftcard::after {
     content: ' ';
-    background-image: url(../images/checkmark.png);
-    background-size: 12px 10px;
+    background-image: url(../images/sprite.png);
     background-repeat: no-repeat;
-    background-position: 50% 50%;
-    -webkit-transition: all 0.2s ease-in-out 0.1s;
-    transition: all 0.2s ease-in-out 0.1s;
-    transform: scale(0.2);
+    background-position: -97px -1px;
     opacity: 0;
     display: block;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    margin-left: -9px;
-    margin-top: -9px;
+    width: 16px;
+    height: 16px;
 }
 
 .open-promo:checked,
 .open-giftcard:checked {
-    box-shadow: 0 0 0 10px #888 inset !important;
     border: none;
 }
 
 .open-promo:checked::after,
 .open-giftcard:checked::after {
     opacity: 1;
-    transform: scale(1);
 }
 
 .amrules-amount {
