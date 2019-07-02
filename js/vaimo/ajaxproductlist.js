@@ -9,7 +9,8 @@
             eventSelectors: {
                 anchors: {
                     '.block-layered-nav a': true,
-                    '.category-products .toolbar a': true
+                    '.category-products .toolbar a': true,
+                    '.vaimo-cms .sort_buttons a': true
                 },
                 selects: {
                     '.category-products .toolbar select': true
