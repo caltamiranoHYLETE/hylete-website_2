@@ -12,7 +12,7 @@ class Mediotype_HyletePrice_Model_Total_Discountedsubtotal extends Mage_Sales_Mo
      */
     public function getLabel()
     {
-        if ($this->_getAddress()->getBaseDiscountAmount()) {
+        if ($this->isDiscountApplied()) {
             return Mage::helper('mediotype_hyleteprice')->__('Discounted Subtotal');
         }
         return Mage::helper('mediotype_hyleteprice')->__('Subtotal');
@@ -51,5 +51,19 @@ class Mediotype_HyletePrice_Model_Total_Discountedsubtotal extends Mage_Sales_Mo
         }
 
         return $this;
+    }
+
+    /**
+     * Check if any discount is applied
+     *
+     * @return bool
+     */
+    private function isDiscountApplied()
+    {
+        $quote = $this->_getAddress()->getQuote();
+        $subtotal = $quote->getBaseSubtotal();
+        $subtotalWithDiscount = $quote->getBaseSubtotalWithDiscount();
+
+        return $subtotal > $subtotalWithDiscount;
     }
 }
