@@ -42,3 +42,8 @@ div.price-box p {
     margin-bottom: 0;
     margin-top: 0;
 }
+
+.price-diff .ctxUnderline,
+.you_will_earn .ctxUnderline {
+    border-bottom: initial;
+}
