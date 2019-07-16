@@ -1323,7 +1323,7 @@ abstract class BaseFacebook
       unset($_COOKIE[$cookie_name]);
       if (!headers_sent()) {
         $base_domain = $this->getBaseDomain();
-        setcookie($cookie_name, '', 1, '/', '.'.$base_domain);
+        setcookie($cookie_name, '', 1, '/', '.'.$base_domain, true, true);
       } else {
         // @codeCoverageIgnoreStart
         self::errorLog(
