@@ -205,7 +205,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
         $cookieIds = array_unique($cookieIds);
         $cookieIds = array_slice($cookieIds, 0, $countLimit);
         $cookieIds = implode(',', $cookieIds);
-        setcookie(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
+        setcookie(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/', '', true);
     }
 
     /**
@@ -215,7 +215,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      */
     public static function setCategoryCookieValue($value)
     {
-        setcookie(self::COOKIE_CATEGORY_PROCESSOR, $value, 0, '/');
+        setcookie(self::COOKIE_CATEGORY_PROCESSOR, $value, 0, '/', '', true, true);
     }
 
     /**
@@ -236,7 +236,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      */
     public static function setCategoryViewedCookieValue($id)
     {
-        setcookie(self::COOKIE_CATEGORY_ID, $id, 0, '/');
+        setcookie(self::COOKIE_CATEGORY_ID, $id, 0, '/', '', true, true);
     }
 
     /**
