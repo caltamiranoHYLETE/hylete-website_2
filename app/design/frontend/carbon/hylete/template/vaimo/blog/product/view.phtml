@@ -73,9 +73,9 @@ $imageWidth = 770;
                 <aside class="blog-comments--disqus" id="comments">
                     <div class="blog-disqus" id="disqus_thread"></div>
                     <script type="text/javascript">
-                        var disqus_shortname = '<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>';
-                        var disqus_identifier = '<?php echo $_helperBlog->getDisqusUsernameConfig(); ?>_disqus_<?php echo $_product->getID(); ?>';
-                        var disqus_title = '<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>';
+                        var disqus_shortname = '<?php echo $this->jsQuoteEscape($_helperBlog->getDisqusUsernameConfig()) ?>';
+                        var disqus_identifier = '<?php echo $this->jsQuoteEscape($_helperBlog->getDisqusUsernameConfig() . '_disqus_' . $_product->getID()) ?>';
+                        var disqus_title = '<?php echo $this->jsQuoteEscape($_helper->productAttribute($_product, $_product->getName(), 'name')) ?>';
                         var disqus_url = '<?php echo $_product->getProductUrl() ?>';
 
                         (function() {
