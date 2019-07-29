@@ -29,6 +29,7 @@ $_helper = $this->helper('catalog/output');
 $_product = $this->getProduct();
 $currentUrl = $this->helper('core/url')
         ->getCurrentUrl();
+/** @var Vaimo_Blog_Helper_Data $_helperBlog */
 $_helperBlog = $this->helper('blog');
 $_helperHylete = $this->helper('hylete');
 $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
@@ -64,6 +65,28 @@ $imageWidth = 770;
                     <?php echo $content; ?>
                 </p>
             </div>
+            <?php if ($_helperBlog->getCommentsConfig() === 'facebook'): ?>
+                <aside class="blog-comments--fb" id="comments">
+                    <div class="fb-comments" data-href="<?php echo $_product->getProductUrl() ?>" data-width="100%" data-num-posts="10"></div>
+                </aside>
+            <?php elseif ($_helperBlog->getCommentsConfig() === 'disqus'): ?>
+                <aside class="blog-comments--disqus" id="comments">
+                    <div class="blog-disqus" id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = '<?php echo $this->jsQuoteEscape($_helperBlog->getDisqusUsernameConfig()) ?>';
+                        var disqus_identifier = '<?php echo $this->jsQuoteEscape($_helperBlog->getDisqusUsernameConfig() . '_disqus_' . $_product->getID()) ?>';
+                        var disqus_title = '<?php echo $this->jsQuoteEscape($_helper->productAttribute($_product, $_product->getName(), 'name')) ?>';
+                        var disqus_url = '<?php echo $_product->getProductUrl() ?>';
+
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                </aside>
+            <?php endif; ?>
         </article>
 
         <?php echo $this->getChildHtml('blog_related_products'); ?>
