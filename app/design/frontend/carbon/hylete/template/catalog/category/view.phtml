@@ -31,7 +31,11 @@
  * @var Mage_Catalog_Block_Category_View $this
  */
 ?>
-<?php $this->getChild('category.title')->setData('hidden_classes', 'hidden-xs hidden-sm') ?>
+<?php
+if ($title = $this->getChild('category.title')) {
+    $title->setData('hidden_classes', 'hidden-xs hidden-sm');
+}
+?>
 <div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 </div>
