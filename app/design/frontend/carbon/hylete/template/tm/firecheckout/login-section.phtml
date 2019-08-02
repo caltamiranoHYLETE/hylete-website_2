@@ -1,42 +1,14 @@
 <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
-    <?php
-    $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin');
-    $_rewardsSession = $this->helper('rewards')->getRS();
-    $_pointsEarnedOnCart = 0;
-    $_pointsEarnedOnCartBlock = $_rewardsSession->getTotalPointsEarningAsStringList();
-    if ($_pointsEarnedOnCartBlock instanceof \TBT_Rewards_Block_Points) {
-        $_pointsEarnedOnCart = (int)$_pointsEarnedOnCartBlock->toHtml();
-    }
-    $pointsEarnedHtml = <<<HTML
-Enjoy free shipping <small>(contiguous US)</small> and earn %s <span class="elevio-link" data-elevio-article="%s">
-HYLETE POINTS</span> on this order when you log in or create your HYLETE account. You may also continue as a guest.
-HTML;
-    ?>
+    <?php $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin'); ?>
     <div class="firecheckout-section firecheckout-login-section">
-        <div class="block-title">
-            <span><?php echo $this->__('Log in, Create an Account, or Continue as a Guest') ?></span>
-        </div>
+        <div class="block-title"><span><?php echo $this->__('Guest Checkout or Log in') ?></span></div>
         <div class="block-content">
-            <?php
-            $filter = Mage::getModel('cms/template_filter');
-            $filter->setVariables(['reward_points' => $_pointsEarnedOnCart]);
-
-            $html = $filter->filter($this->getChildHtml('login_section_before'));
-            if ($html) : ?>
-                <div class="login-section-static login-section-before">
-                    <?php echo $html; ?>
-                </div>
-            <?php endif; ?>
             <div class="login-section-actions">
                 <?php if ($_ajaxLoginHelper->isEnabled()): ?>
                     <a onclick="AjaxLogin.openLogin();"
                        class="button button-login login-section-action">
                         <span class="fal fa-user"></span>
                         <?php echo $this->__('Log in') ?>
-                    </a>
-                    <a onclick="AjaxLogin.openRegistration();" class="button button-register login-section-action">
-                        <span class="fal fa-user"></span>
-                        <?php echo $this->__('Create an Account') ?>
                     </a>
                 <?php else: ?>
                     <a href="<?php echo $this->getUrl('customer/account/login') ?>"
@@ -50,17 +22,11 @@ HTML;
                         <i class="fab fa-facebook-f"></i><?php echo $this->__('FACEBOOK LOGIN'); ?>
                     </a>
                 <?php endif; ?>
-                <span class="login-section-action">
-                    <?php echo $this->__('or continue as a guest'); ?>
-                </span>
             </div>
-            <?php
-            $filter = Mage::getModel('cms/template_filter');
-            $filter->setVariables(['reward_points' => $_pointsEarnedOnCart]);
 
-            $html = $filter->filter($this->getChildHtml('login_section_after'));
+            <?php $html = $this->getChildHtml('login_section_after');
             if ($html) : ?>
-                <div class="login-section-static login-section-after">
+                <div class="login-section-static">
                     <?php echo $html; ?>
                 </div>
             <?php endif; ?>
