@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<config>
+    <tabs>
+        <hylete_notifications translate="label" module="hylete_notifications">
+            <label>HYLETE</label>
+            <sort_order>1</sort_order>
+        </hylete_notifications>
+    </tabs>
+    <sections>
+        <hylete_notifications_settings translate="label" module="hylete_notifications">
+            <label>Webhook Notifications</label>
+            <tab>hylete_notifications</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <hylete_settings translate="label">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <new_order_url translate="label">
+                            <label>New Order Placed Webhook URL</label>
+                            <comment>Enter the webhook URL that will be called when a new order is placed.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </new_order_url>
+                    </fields>
+                    <fields>
+                        <new_account_url translate="label">
+                            <label>New Account Created Webhook URL</label>
+                            <comment>Enter the webhook URL that will be called when a customer creates an account.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </new_account_url>
+                    </fields>
+                </hylete_settings>
+            </groups>
+        </hylete_notifications_settings>
+    </sections>
+</config>

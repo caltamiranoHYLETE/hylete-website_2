@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hylete_Notifications>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Klaviyo_Reclaim />
+            </depends>
+            <version>1.0.0</version>
+        </Hylete_Notifications>
+    </modules>
+</config>
