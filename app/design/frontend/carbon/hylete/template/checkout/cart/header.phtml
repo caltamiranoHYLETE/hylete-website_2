@@ -47,8 +47,9 @@ if ($_isLoggedIn) {
     $_hyleteInfoAccount['customer_gender'] = $_customer->getGender();
     $_hyleteInfoAccount['customer_id'] = $_customer->getId();
     if(!is_null($_customer->getEmail())) {
-		$_hyleteInfoAccount['customer_email'] = hash('sha256', $_customer->getEmail());
-    }
+		$_hyleteInfoAccount['customer_email'] = $_customer->getEmail();
+		$_hyleteInfoAccount['customer_email_hashed'] = hash('sha256', $_customer->getEmail());
+	}
 
     $_hyleteInfoAccount['customer_firstname'] = $_customer->getFirstname();
     $_hyleteInfoAccount['customer_lastname'] = $_customer->getLastname();
@@ -58,7 +59,12 @@ if ($_isLoggedIn) {
     $_hyleteInfoEcomm['ecomm_gender'] = $_customer->getGender();
     $_hyleteInfoEcomm['ecomm_customer_id'] = $_customer->getId();
 	if(!is_null($_customer->getEmail())) {
-		$_hyleteInfoAccount['ecomm_customer_email'] = hash('sha256', $_customer->getEmail());
+		$_hyleteInfoEcomm['ecomm_customer_email'] = $_customer->getEmail();
+		$_hyleteInfoEcomm['ecomm_customer_email_hashed'] = hash('sha256', $_customer->getEmail());
+	}
+
+	if(!is_null($_pointSummaryBlock)) {
+		$_hyleteInfoEcomm['reward_points'] = $_pointSummaryBlock;
 	}
 }
 
