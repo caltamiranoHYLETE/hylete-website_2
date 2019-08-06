@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="notifications">
+            <block type="cryozonic_stripeexpress/adminhtml_notifications" name="cryozonic_stripeexpress_notifications" template="cryozonic_stripeexpress/adminhtml/notifications.phtml"/>
+        </reference>
+    </default>
+</layout>
