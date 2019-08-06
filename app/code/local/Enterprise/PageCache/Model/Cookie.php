@@ -115,7 +115,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
         $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
     ) {
         $value = md5($this->_getSalt() . $value);
-        return $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
+        return $this->set($name, $value, $period, $path, $domain, true, true);
     }
 
     /**
@@ -266,7 +266,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
             $canUseSecureCookie = $store->isFrontUrlSecure();
         }
 
-        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/', '', $canUseSecureCookie, true);
+        setcookie(self::COOKIE_FORM_KEY, $formKey, 0, '/', '', true, true);
     }
 
     /**
