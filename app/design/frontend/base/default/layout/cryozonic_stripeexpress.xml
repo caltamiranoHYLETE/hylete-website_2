@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <!--CSS and JS Files-->
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>cryozonic_stripeexpress/css/cryozonic_stripeexpress.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>cryozonic_stripeexpress/js/cryozonic_stripeexpress.js</name></action>
+        </reference>
+    </default>
+
+    <checkout_cart_index>
+        <reference name="checkout.cart.top_methods">
+            <block type="cryozonic_stripeexpress/button" name="checkout.cart.methods.stripeexpress.top" before="-">
+                <action method="setTemplate" ifconfig="payment/cryozonic_stripeexpress/cart_button">
+                    <template>cryozonic_stripeexpress/cart_button.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+
+    <catalog_product_view>
+        <reference name="product.info.addtocart">
+            <block type="cryozonic_stripeexpress/button" name="cryozonic.stripeexpress.button" before="-">
+                <action method="setTemplate" ifconfig="payment/cryozonic_stripeexpress/product_button">
+                    <template>cryozonic_stripeexpress/product_button.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

@@ -1,0 +1,73 @@
+### Version 1.4.0, Released 2019-07-19
+
+- `MAJOR`: Upgrades for compatibility with Stripe Payments v3.6.0 - Switch to Payment Methods API & use of new manual Payment Intent confirmation at the server side
+- Fix: Some module configuration settings would not have any effect
+
+### Version 1.3.0, Released 2019-05-01
+
+- New software license effective 1st May 2019
+
+### Version 1.2.1 - Released 2019-04-03
+
+- Card declined messages would not display correctly
+
+### Version 1.2.0 - Released 2019-03-15
+
+- Adjustments to work with the new Payment Intents API of Stripe Payments v2.3.0
+- Improvements at UX with loading spinner timing and card declined messages
+
+### Version 1.1.2 - Released 2018-11-15
+
+- Fixed Apple Pay paysheet issue affecting v1.1.0 and v1.1.1.
+
+### Version 1.1.0 - Released 2018-11-09
+
+- Added support for grouped products
+- Improved dynamic paysheet updates
+- Better server-side error handling
+
+### Version 1.0.7 - Released 2018-10-05
+
+- Fix region detection problem for billing address
+
+### Version 1.0.6 - Released 2018-10-01
+
+- Fixed bug with converting the state/region to a region ID
+
+### Version 1.0.5 - Released 2018-09-19
+
+- Disable the button for subscriptions, which are not supported yet
+
+### Version 1.0.4 - Released 2018-09-19
+
+- Fixed Apple Pay displayItems and order amounts displaying as dashes
+
+### Version 1.0.3 - Released 2018-09-10
+
+- The billing address is now collected from the card token only, no fallbacks to the shipping address
+- Billing and shipping addresses are now saved in the address book
+- Fixed bug where the shipping details would be requested for virtual products
+- Fixed shipping address not requested when a mixed products are in the cart and buying a virtual product
+- Do not show an alert if the page validation fails
+- Removed duplicate event dispatcher (checkout_cart_product_add_after), which was crashing other configured observers
+- Added custom event dispatcher (cryozonic_stripeexpress_before_add_to_cart), so that the module can be customized in the observers
+
+### Version 1.0.2 - Released 2018-09-06
+
+- Added Qty x Price / RowTotal in the order's line items
+- Adjusted the shipping method name so that both the carrier title and the rate title are displayed
+- Fixed multi-currency wrong amounts issues for both the shipping price and the product price
+
+### Version 1.0.1 - Released 2018-09-04
+
+- The shipping method name is now displayed in full in the payment sheet
+- Better error handling and display when clicking the button and validating the add to cart form
+- Better error handling and display when a payment fails, the paysheet now closes before the error is displayed
+- Fixed cart totals reseting when the payment is canceled and restarted
+- Order placing Magento events are now fired
+
+### Version 1.0.0 - Released 2018-08-12
+
+Initial release:
+- Supports Apple Pay, Android Pay, Google Pay and Microsoft Pay at the product pages and at the shopping cart page.
+- Supports customization of the button colors and text from the admin configuration page
