@@ -232,7 +232,7 @@ class Mage_Core_Model_Cookie
 			$httponly = $this->getHttponly();
 		}
 
-		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+		setcookie($name, $value, $expire, $path, $domain, true, true);
 
 		return $this;
 	}
