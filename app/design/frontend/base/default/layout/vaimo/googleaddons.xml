@@ -30,7 +30,7 @@
             <block type="googleaddons/ua" name="google-universal-analytics" template="vaimo/googleaddons/universal-analytics.phtml"/>
         </reference>
    
-        <reference name="after_body_start">
+        <reference name="head">
             <block type="core/template" name="google-tag-manager" template="vaimo/googleaddons/tag-manager.phtml"/>
         </reference>
    
