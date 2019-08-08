@@ -33,6 +33,10 @@
         <reference name="head">
             <block type="core/template" name="google-tag-manager" template="vaimo/googleaddons/tag-manager.phtml"/>
         </reference>
+
+        <reference name="after_body_start">
+            <block type="core/template" name="google-tag-manager-noscript" template="vaimo/googleaddons/tag-manager-noscript.phtml"/>
+        </reference>
    
         <reference name="before_body_end" after="precisdigital-success">
             <block type="googleaddons/trackingScripts" name="dynamic-remarketing" template="vaimo/trackingscripts/dynamic-remarketing.phtml" />
