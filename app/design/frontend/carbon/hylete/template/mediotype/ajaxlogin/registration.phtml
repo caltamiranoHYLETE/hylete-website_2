@@ -6,6 +6,17 @@
  */
 
 -->
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'registration' })
+            .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaRegistrationResponse');
+                console.log(recaptchaResponse)
+                recaptchaResponse.value = token;
+            });
+    });
+</script>
+
 <form class="form create account form-create-account"
       action="<?php echo $this->getUrl('ajaxlogin/ajax/create'); ?>"
       method="post" id="mcs-form-register" enctype="multipart/form-data" autocomplete="off"
@@ -13,6 +24,7 @@
     <?php echo $this->getBlockHtml('formkey'); ?>
 
     <fieldset class="fieldset create info">
+        <input type="hidden" value="" name="recaptcha_response" id="recaptchaRegistrationResponse">
         <input type="hidden" name="customer_group_id"
                value="<?php echo $this->getCustomerGroupId(); ?>"/>
         <input type="hidden" name="success_url" value="">

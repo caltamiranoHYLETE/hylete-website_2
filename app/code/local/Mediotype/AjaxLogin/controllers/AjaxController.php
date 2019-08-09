@@ -150,6 +150,21 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         }
         $result = array('success' => false);
 
+        //verify the reCaptcha response
+		$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+		$recaptcha_secret = '6LfKHLIUAAAAAK2lSpS5BJ0_lwlCgMPdl0_LZ1TL';
+		$recaptcha_response = $this->getRequest()->getParam('recaptcha_response');
+
+		$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+		$recaptcha = json_decode($recaptcha);
+		if($recaptcha->success == true){
+			if ($recaptcha->score <= 0.4) {
+				$result = array('success' => false);
+			}
+		} else {
+			//Going to let errors go through at this time
+		}
+
         $customer = $this->_getCustomer();
 
         try {
