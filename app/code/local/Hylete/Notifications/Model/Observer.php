@@ -16,6 +16,9 @@ class Hylete_Notifications_Model_Observer
 
 				$r = new stdClass();
 				$r->Email = $customer->getEmail();
+				$r->Gender = $customer->getGender();
+				$r->FirstName = $customer->getFirstname();
+				$r->LastName = $customer->getLastname();
 				$r->RefererUrl = $_SERVER['HTTP_REFERER'];
 				$r->AccountFormUrl = $controller->getRequest()->getRequestString();
 

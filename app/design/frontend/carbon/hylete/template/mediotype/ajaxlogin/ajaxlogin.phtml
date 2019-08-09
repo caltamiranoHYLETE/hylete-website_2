@@ -6,6 +6,18 @@
  */
 
 -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'login' })
+            .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaLoginResponse');
+                console.log(recaptchaResponse)
+                recaptchaResponse.value = token;
+            });
+    });
+</script>
+
 <div class="modals-wrapper">
     <aside role="dialog" class="modal-slide mcs-register-form-slide _inner-scroll"
            aria-labelledby="modal-title-0" aria-describedby="modal-content-0" data-role="modal" data-type="slide"
@@ -127,6 +139,7 @@
                             <form class="form form-login"
                                   action="<?php echo $this->getUrl('ajaxlogin/ajax/login'); ?>"
                                   method="post" id="mcs-form-login" novalidate="novalidate">
+                                <input type="hidden" value="" name="recaptcha_response" id="recaptchaLoginResponse">
                                 <?php echo $this->getBlockHtml('formkey')?>
 
                                 <div class="login-container">
