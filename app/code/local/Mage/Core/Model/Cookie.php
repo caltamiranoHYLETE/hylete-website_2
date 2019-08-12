@@ -170,7 +170,7 @@ class Mage_Core_Model_Cookie
 	{
 		$httponly = Mage::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
 		if (is_null($httponly)) {
-			return null;
+			return true;
 		}
 		return (bool)$httponly;
 	}
@@ -198,7 +198,7 @@ class Mage_Core_Model_Cookie
 	 * @param bool $httponly
 	 * @return Mage_Core_Model_Cookie
 	 */
-	public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
+	public function set($name, $value, $period = null, $path = null, $domain = null, $secure = true, $httponly = true)
 	{
 		/**
 		 * Check headers sent
@@ -247,7 +247,7 @@ class Mage_Core_Model_Cookie
 	 * @param int|bool $secure
 	 * @return Mage_Core_Model_Cookie
 	 */
-	public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
+	public function renew($name, $period = null, $path = null, $domain = null, $secure = true, $httponly = true)
 	{
 		if (($period === null) && !$this->getLifetime()) {
 			return $this;
@@ -280,7 +280,7 @@ class Mage_Core_Model_Cookie
 	 * @param int|bool $httponly
 	 * @return Mage_Core_Model_Cookie
 	 */
-	public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
+	public function delete($name, $path = null, $domain = null, $secure = true, $httponly = true)
 	{
 		/**
 		 * Check headers sent
