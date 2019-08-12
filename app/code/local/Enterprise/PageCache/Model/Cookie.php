@@ -112,7 +112,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      * @return Mage_Core_Model_Cookie
      */
     public function setObscure(
-        $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
+        $name, $value, $period = null, $path = null, $domain = null, $secure = true, $httponly = true
     ) {
         $value = md5($this->_getSalt() . $value);
         return $this->set($name, $value, $period, $path, $domain, true, true);
