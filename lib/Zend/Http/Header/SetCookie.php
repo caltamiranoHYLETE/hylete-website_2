@@ -101,12 +101,12 @@ class Zend_Http_Header_SetCookie
      *
      * @var boolean
      */
-    protected $secure = null;
+    protected $secure = true;
 
     /**
      * @var true
      */
-    protected $httponly = null;
+    protected $httponly = true;
 
     /**
      * Generate a new Cookie object from a cookie string
@@ -181,7 +181,7 @@ class Zend_Http_Header_SetCookie
      * @param int $version
      * @return SetCookie
      */
-    public function __construct($name = null, $value = null, $expires = null, $path = null, $domain = null, $secure = false, $httponly = false, $maxAge = null, $version = null)
+    public function __construct($name = null, $value = null, $expires = null, $path = null, $domain = null, $secure = true, $httponly = true, $maxAge = null, $version = null)
     {
         $this->type = 'Cookie';
 
