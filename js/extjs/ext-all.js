@@ -537,10 +537,10 @@ return cookies;},setCookie:function(name,value){document.cookie="ys-"+name+"="+t
 ((this.expires==null)?"":("; expires="+this.expires.toGMTString()))+
 ((this.path==null)?"":("; path="+this.path))+
 ((this.domain==null)?"":("; domain="+this.domain))+
-((this.secure==true)?"; secure":"");},clearCookie:function(name){document.cookie="ys-"+name+"=null; expires=Thu, 01-Jan-70 00:00:01 GMT"+
+((this.secure==true)?"; secure":"true");},clearCookie:function(name){document.cookie="ys-"+name+"=null; expires=Thu, 01-Jan-70 00:00:01 GMT"+
 ((this.path==null)?"":("; path="+this.path))+
 ((this.domain==null)?"":("; domain="+this.domain))+
-((this.secure==true)?"; secure":"");}});
+((this.secure==true)?"; secure":"true");}});
 
 (function(){var Event=Ext.EventManager;var Dom=Ext.lib.Dom;Ext.dd.DragDrop=function(id,sGroup,config){if(id){this.init(id,sGroup,config);}};Ext.dd.DragDrop.prototype={id:null,config:null,dragElId:null,handleElId:null,invalidHandleTypes:null,invalidHandleIds:null,invalidHandleClasses:null,startPageX:0,startPageY:0,groups:null,locked:false,lock:function(){this.locked=true;},unlock:function(){this.locked=false;},isTarget:true,padding:null,_domRef:null,__ygDragDrop:true,constrainX:false,constrainY:false,minX:0,maxX:0,minY:0,maxY:0,maintainOffset:false,xTicks:null,yTicks:null,primaryButtonOnly:true,available:false,hasOuterHandles:false,b4StartDrag:function(x,y){},startDrag:function(x,y){},b4Drag:function(e){},onDrag:function(e){},onDragEnter:function(e,id){},b4DragOver:function(e){},onDragOver:function(e,id){},b4DragOut:function(e){},onDragOut:function(e,id){},b4DragDrop:function(e){},onDragDrop:function(e,id){},onInvalidDrop:function(e){},b4EndDrag:function(e){},endDrag:function(e){},b4MouseDown:function(e){},onMouseDown:function(e){},onMouseUp:function(e){},onAvailable:function(){},defaultPadding:{left:0,right:0,top:0,bottom:0},constrainTo:function(constrainTo,pad,inContent){if(typeof pad=="number"){pad={left:pad,right:pad,top:pad,bottom:pad};}
 pad=pad||this.defaultPadding;var b=Ext.get(this.getEl()).getBox();var ce=Ext.get(constrainTo);var s=ce.getScroll();var c,cd=ce.dom;if(cd==document.body){c={x:s.left,y:s.top,width:Ext.lib.Dom.getViewWidth(),height:Ext.lib.Dom.getViewHeight()};}else{xy=ce.getXY();c={x:xy[0]+s.left,y:xy[1]+s.top,width:cd.clientWidth,height:cd.clientHeight};}
