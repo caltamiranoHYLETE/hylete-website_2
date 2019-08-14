@@ -387,3 +387,10 @@ patching file lib/Varien/Db/Adapter/Pdo/Mysql.php
 patching file lib/Varien/Filter/Template.php
 
 
+2019-08-14 13:24:04 UTC | SUPEE-9652 | EE_1.14.3.1 | v1 | 4038f0785d828794083f53f10c01aaa6af403523 | Tue Jan 24 15:03:12 2017 +0200 | 9586981e6ca8b255014b242d50b68b88525b0754..4038f0785d828794083f53f10c01aaa6af403523
+Patch previously applied but not logged to applied.patches.list
+
+
+2019-08-14 13:25:29 UTC | SUPEE-10266-1.14.2.0 | EE_1.14.2.0 | v1 | 4fc362292b37afda1b5c94cef19c2ae85b21d803 | Tue Sep 5 18:05:37 2017 +0300 | 8a17d46f55189d9f223728aa7e6bbd2d2c329395..HEAD
+Patch previously applied but not logged to applied.patches.list
+
