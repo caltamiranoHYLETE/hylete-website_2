@@ -42,136 +42,136 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
 ?>
 
 <div id="<?php echo $_product->getTypeId() ?>-product-wrapper">
-    <div class="product-essential row">
-        <div id="messages_product_view" class="clearfix"><?php echo $this->getMessagesBlock()
+	<div class="product-essential row">
+		<div id="messages_product_view" class="clearfix"><?php echo $this->getMessagesBlock()
 				->getGroupedHtml() ?></div>
 
-        <div class="col-xs-12 col-sm-8">
-            <script type="text/javascript">
+		<div class="col-xs-12 col-sm-8">
+			<script type="text/javascript">
                 var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
-            </script>
+			</script>
 			<?php echo $this->getChildHtml('media') ?>
-        </div>
-        <div class="col-xs-12 col-sm-4 product-shop">
-            <div class="product-name">
-                <h1><?php echo $_catalogHelper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-            </div>
+		</div>
+		<div class="col-xs-12 col-sm-4 product-shop">
+			<div class="product-name">
+				<h1><?php echo $_catalogHelper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+			</div>
 
 			<?php if ($_product->hasColor()) : ?>
-                <p class="color"><?php echo $_product->getAttributeText('color') ?></p>
+				<p class="color"><?php echo $_product->getAttributeText('color') ?></p>
 			<?php endif; ?>
 
-            <?php echo $this->getChildHtml('yotpo-bottomline'); ?>
+			<?php echo $this->getChildHtml('yotpo-bottomline'); ?>
 
 			<?php if ($this->getChild('msrp_price')) : ?>
-                <?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
-            <?php endif; ?>
+				<?php echo $this->getChild('msrp_price')->setProduct($_product)->toHtml(); ?>
+			<?php endif; ?>
 
 			<?php if ($_product->getTypeId() !== Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD): ?>
 				<?php if ($_product->isSaleable()) : ?>
-                <?php echo $this->getPriceHtml($_product, true); ?>
+					<?php echo $this->getPriceHtml($_product, true); ?>
 				<?php else : ?>
-                    <?php if(!$_product->getAWDisableOutOfStock()): ?>
-                        <p class="status-message">
-                            <?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
-                        </p>
-                    <?php else: ?>
-                        <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
-                    <?php endif; ?>
+					<?php if(!$_product->getAWDisableOutOfStock()): ?>
+						<p class="status-message">
+							<?php echo ($_product->getComingSoon()) ? $this->__('coming soon') : $this->__('sold out'); ?>
+						</p>
+					<?php else: ?>
+						<div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+					<?php endif; ?>
 				<?php endif; ?>
 			<?php endif; ?>
 
-            <?php echo $this->getChildHtml('multipack_offer'); ?>
+			<?php echo $this->getChildHtml('multipack_offer'); ?>
 
 			<?php if ($_backitHelper->isPreOrderProduct()): ?>
-                <div class="pre-order">
-                    <div class="progress-wrap progress">
-                        <div class="progress-bar progress"></div>
-                    </div>
-                    <div class="details">
+				<div class="pre-order">
+					<div class="progress-wrap progress">
+						<div class="progress-bar progress"></div>
+					</div>
+					<div class="details">
                         <span class="ship-date">
                             <?php echo $this->__('est. ship date: '); ?>
 							<?php echo $_backitHelper->getShipDateText(); ?>
                         </span>
-                    </div>
-                </div>
+					</div>
+				</div>
 			<?php endif; ?>
 
 			<?php if ($_backitHelper->isBackItProduct()): ?>
 				<?php $_backitPercentage = $_backitHelper->getBackingPercentage(); ?>
-                <div class="back-it">
-                    <div class="progress-wrap progress"
-                         data-progress-percent="<?php echo $_backitPercentage; ?>">
-                        <div class="progress-bar progress"></div>
-                    </div>
-                    <div class="details">
+				<div class="back-it">
+					<div class="progress-wrap progress"
+						 data-progress-percent="<?php echo $_backitPercentage; ?>">
+						<div class="progress-bar progress"></div>
+					</div>
+					<div class="details">
                         <span class="progress-percentage">
                             <?php echo $_backitPercentage . '%' . $this->__(' to goal'); ?>
                         </span>
-                        <span class="expire-date">
+						<span class="expire-date">
                             <?php echo $_backitHelper->getBackItTimeLeft() . $this->__(' days left'); ?>
                         </span>
-                    </div>
-                </div>
+					</div>
+				</div>
 			<?php endif; ?>
 
 			<?php if (!$this->hasOptions()): ?>
-                <div class="add-to-box">
+				<div class="add-to-box">
 					<?php if ($_product->isSalable()): ?>
-                        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
-                              id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+						<form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+							  id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 							<?php echo $this->getBlockHtml('formkey'); ?>
-                            <div class="no-display">
-                                <input type="hidden" name="product"
-                                       value="<?php echo $_product->getId() ?>"/>
-                                <input type="hidden" name="related_product"
-                                       id="related-products-field" value=""/>
-                            </div>
+							<div class="no-display">
+								<input type="hidden" name="product"
+									   value="<?php echo $_product->getId() ?>"/>
+								<input type="hidden" name="related_product"
+									   id="related-products-field" value=""/>
+							</div>
 							<?php echo $this->getChildHtml('bundleSummary') ?>
 							<?php if ($_product->getTypeId() == 'configurable'): ?>
-                            <div class="price-box-configurable"><?php endif; ?>
-                                <?php if(!$_product->getAWDisableOutOfStock()): ?>
-                                    <?php echo $this->getChildHtml('product_type_data') ?>
-                                <?php else: ?>
-                                    <div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
-                                <?php endif; ?>
+							<div class="price-box-configurable"><?php endif; ?>
+								<?php if(!$_product->getAWDisableOutOfStock()): ?>
+									<?php echo $this->getChildHtml('product_type_data') ?>
+								<?php else: ?>
+									<div class="aw-cat-perm-notify"><?php echo Mage::getStoreConfig('catalogpermissions/general/product_notice'); ?></div>
+								<?php endif; ?>
 								<?php if ($_product->getTypeId() == 'configurable'): ?></div><?php endif; ?>
 							<?php echo $this->getTierPriceHtml() ?>
 							<?php echo $this->getChildHtml('extrahint') ?>
 							<?php echo $this->getChildHtml('addtocart') ?>
-                        </form>
+						</form>
 					<?php endif; ?>
-                </div>
+				</div>
 				<?php echo $this->getChildHtml('extra_buttons') ?>
 			<?php endif; ?>
 
 			<?php echo $this->getChildHtml('other'); ?>
 
 			<?php if ($_product->isSalable() && $this->hasOptions() && $_product->getOptionsContainer() == 'container1'): ?>
-                <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
-                      id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+				<form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
+					  id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 					<?php echo $this->getBlockHtml('formkey'); ?>
-                    <div class="no-display">
-                        <input type="hidden" name="product"
-                               value="<?php echo $_product->getId() ?>"/>
-                        <input type="hidden" name="related_product" id="related-products-field"
-                               value=""/>
-                    </div>
+					<div class="no-display">
+						<input type="hidden" name="product"
+							   value="<?php echo $_product->getId() ?>"/>
+						<input type="hidden" name="related_product" id="related-products-field"
+							   value=""/>
+					</div>
 					<?php echo $this->getChildHtml('bundleSummary') ?>
 					<?php if ($_isConfigurable): ?>
-                        <div class="price-box-configurable">
-                            <?php echo $this->getChildHtml('product_type_data') ?>
-                        </div>
-                    <?php else: ?>
-                        <?php echo $this->getChildHtml('product_type_data') ?>
+						<div class="price-box-configurable">
+							<?php echo $this->getChildHtml('product_type_data') ?>
+						</div>
+					<?php else: ?>
+						<?php echo $this->getChildHtml('product_type_data') ?>
 					<?php endif; ?>
 					<?php echo $this->getTierPriceHtml() ?>
 					<?php echo $this->getChildHtml('extrahint') ?>
 					<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
-                </form>
+				</form>
 			<?php endif; ?>
 
-            <?php echo $this->getChildHtml('hylete.product.points'); ?>
+			<?php echo $this->getChildHtml('hylete.product.points'); ?>
 
 			<?php if ($_showNotifyMe): ?>
 				<?php echo $this->getChildHtml('alert_urls') ?>
@@ -181,51 +181,51 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
 
 			<?php echo $this->getChildHtml('tabs') ?>
 
-            <?php if (Mage::getStoreConfig('socialreferrals/hylete/share_button_pdp')): ?>
-                <?php echo $this->getChildHtml('talkable-product-sharing') ?>
-            <?php else : ?>
-                <?php $_productUrl = $_product->getProductUrl(); ?>
-                <div class="follow">
-                    <a class="pinterest"
-                       target="_blank"
-                       href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
-                           ->init($_product, 'thumbnail', $_product->getFile())
-                           ->resize(500); ?>" data-pin-custom="true">
-                        <i class="fab fa-pinterest"></i>
-                    </a>
-                    <a class="twitter"
-                       target="_blank"
-                       href="https://twitter.com/home?status=<?php echo $_productUrl ?>">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="facebook" target="_blank"
-                       href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                </div>
-            <?php endif ?>
-            <?php
-            $websiteCode = Mage::app()->getWebsite()->getCode();
-            $websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
-            ?>
+			<?php if (Mage::getStoreConfig('socialreferrals/hylete/share_button_pdp')): ?>
+				<?php echo $this->getChildHtml('talkable-product-sharing') ?>
+			<?php else : ?>
+				<?php $_productUrl = $_product->getProductUrl(); ?>
+				<div class="follow">
+					<a class="pinterest"
+					   target="_blank"
+					   href="https://pinterest.com/pin/create/button/?url=<?php echo $_productUrl ?>&media=<?php echo $this->helper('catalog/image')
+						   ->init($_product, 'thumbnail', $_product->getFile())
+						   ->resize(500); ?>" data-pin-custom="true">
+						<i class="fab fa-pinterest"></i>
+					</a>
+					<a class="twitter"
+					   target="_blank"
+					   href="https://twitter.com/home?status=<?php echo $_productUrl ?>">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a class="facebook" target="_blank"
+					   href="https://www.facebook.com/sharer.php?u=<?php echo $_productUrl ?>&t=<?php echo $this->escapeHtml($_product->getName()); ?>">
+						<i class="fab fa-facebook"></i>
+					</a>
+				</div>
+			<?php endif ?>
+			<?php
+			$websiteCode = Mage::app()->getWebsite()->getCode();
+			$websiteCheck = ($websiteCode == 'base' || $websiteCode == 'uk');
+			?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.buttons') : '' ?>
 			<?php echo ($websiteCheck) ? $this->getChildHtml('social.modal') : '' ?>
-        </div>
-    </div>
+		</div>
+	</div>
 
-    <div class="product-collateral clearfix">
+	<div class="product-collateral clearfix">
 		<?php echo $this->getChildHtml('hylete.product.cms.above.upsell') ?>
 		<?php echo $this->getChildHtml('upsell_products') ?>
 		<?php echo $this->getChildHtml('product_additional_data') ?>
-    </div>
+	</div>
 
-    <div class="hiding">
-        <div class="productpage-cms-textlist">
+	<div class="hiding">
+		<div class="productpage-cms-textlist">
 			<?php echo $this->getChildHtml('productpage.cms'); ?>
-        </div>
-    </div>
+		</div>
+	</div>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
         //<![CDATA[
         var productAddToCartForm = new VarienForm('product_addtocart_form');
         productAddToCartForm.submit = function (button, url) {
@@ -278,5 +278,5 @@ $_isConfigurable = $_product->getTypeId() === Mage_Catalog_Model_Product_Type::T
         Enterprise.Bundle.initialize();
 		<?php endif; ?>
         //]]>
-    </script>
+	</script>
 </div>

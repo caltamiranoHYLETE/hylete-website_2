@@ -37,12 +37,12 @@ Mage.Cookies.set = function(name, value){
      var expires = (argc > 2) ? argv[2] : Mage.Cookies.expires;
      var path = (argc > 3) ? argv[3] : Mage.Cookies.path;
      var domain = (argc > 4) ? argv[4] : Mage.Cookies.domain;
-     var secure = (argc > 5) ? argv[5] : Mage.Cookies.secure;
+     var secure = true; //(argc > 5) ? argv[5] : Mage.Cookies.secure;
      document.cookie = name + "=" + escape (value) +
        ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
        ((path == null) ? "" : ("; path=" + path)) +
        ((domain == null) ? "" : ("; domain=" + domain)) +
-       ((secure == true) ? "; secure" : "");
+       ((secure == true) ? "; secure" : "true");
 };
 
 Mage.Cookies.get = function(name){

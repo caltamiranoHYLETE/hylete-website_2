@@ -341,7 +341,7 @@ Window.prototype = {
   // Stores position/size in a cookie, by default named with window id
   setCookie: function(name, expires, path, domain, secure) {
     name = name || this.element.id;
-    this.cookie = [name, expires, path, domain, secure];
+    this.cookie = [name, expires, path, domain, true];
     
     // Get cookie
     var value = WindowUtilities.getCookie(name)
@@ -1820,7 +1820,7 @@ var WindowUtilities = {
       ((parameters[1]) ? "; expires=" + parameters[1].toGMTString() : "") +
       ((parameters[2]) ? "; path=" + parameters[2] : "") +
       ((parameters[3]) ? "; domain=" + parameters[3] : "") +
-      ((parameters[4]) ? "; secure" : "");
+      ((parameters[4]) ? "; secure" : "true");
   },
 
   getCookie: function(name) {
