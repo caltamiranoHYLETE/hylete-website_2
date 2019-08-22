@@ -92,6 +92,19 @@ div.fancybox-skin {
     width: 100%;
 }
 
+.product-options-bottom .paypal-logo .paypal-or {
+    display: block;
+    margin-bottom: 10px;
+}
+.product-options-bottom .add-to-cart button.apple-pay-button-with-text {
+    background: black;
+    color:white;
+    width: initial;
+}
+.product-options-bottom .add-to-cart {
+    text-align: center;
+}
+
 .product-options .validation-advice {
     margin: 10px 0 0 0;
     padding: 0;

@@ -765,3 +765,10 @@ img.idme-cart-mini {
 .cart .promo .input-box {
     margin-bottom: 10px;
 }
+
+.cart .totals button.apple-pay-button-with-text {
+    margin-bottom: 15px;
+}
+.cart .checkout-types {
+    text-align: center;
+}

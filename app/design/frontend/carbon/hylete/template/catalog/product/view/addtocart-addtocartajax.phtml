@@ -59,5 +59,6 @@ if ($_backitHelper->isBackItProduct($_product)) {
             echo Icommerce_Layout::getBlockHtml("core/template", "addtocartajax/checkoutbutton.phtml");
         }
         ?>
+        <?php echo  $this->getChildHtml() ?>
     </fieldset>
 <?php endif; ?>
