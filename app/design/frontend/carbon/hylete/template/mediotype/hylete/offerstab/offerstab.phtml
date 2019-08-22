@@ -119,9 +119,7 @@
         if (typeof dataLayer!='undefined') {
             //We are calling method push() of object dataLayer only if object exists to avoid js error in frontend
             //The structure of this object was required by Praxis media
-            $jQ('#headingOne').one("click", function () {
-                dataLayer.push(<?php echo Mage::helper('core')->jsonEncode($ecommerce); ?>);
-            });
+            dataLayer.push(<?php echo Mage::helper('core')->jsonEncode($ecommerce); ?>);
         }
 
         function clickBanner(id, name, creative, position) {
