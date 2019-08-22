@@ -38,7 +38,6 @@
         });
     })
 </script>
-
 <?php if (!empty($this->_offers) && $this->shouldShowOnPage()): ?>
     <div id="greyMask"
          style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width:100%; height:100%; background: #000; opacity: .25; z-index:1025;">
@@ -70,13 +69,25 @@
                                         ->toHtml(); ?>
                                 </div>
                             <?php endif; ?>
-
+                            <?php
+                                $position = 1;
+                                $promotions = array();
+                            ?>
                             <!-- Owl Carousel -->
                             <div id="offerstab" class="owl-carousel owl-theme" style="max-width:1170px; margin:0 auto;">
 								<?php foreach ($this->_offers as $_offer): ?>
+
+                                    <?php $dataLayer = array("id"=>$_offer->getOfferId(),
+                                        "name" => addslashes($_offer->getTitle()),
+                                        "creative" => $_offer->getLandingPageUrl(),
+                                        "position" => $position);
+
+									    array_push($promotions, $dataLayer);
+                                    ?>
+
                                     <div class="item btm_tab_ctn">
 										<?php if ($_offer->getLandingPageUrl()): ?>
-                                        <a href="<?php echo $_offer->getLandingPageUrl(); ?>">
+                                        <a onclick="clickBanner('<?php echo $_offer->getOfferId(); ?>', '<?php echo addslashes($_offer->getTitle()); ?>','<?php echo $_offer->getLandingPageUrl(); ?>','<?php echo $position; ?>')" href="<?php $_offer->getLandingPageUrl(); ?>">
 											<?php endif; ?>
 
 											<?php echo $this->getLayout()
@@ -85,11 +96,15 @@
 												->toHtml(); ?>
 
 											<?php if ($_offer->getLandingPageUrl()): ?>
+                                            <?php $position++; ?>
                                         </a>
 									<?php endif; ?>
                                     </div>
 								<?php endforeach; ?>
                             </div>
+							<?php
+							$ecommerce["event"] = "promotionView";
+                            $ecommerce['ecommerce']['promoView']['promotions'] = $promotions; ?>
                             <!-- End Owl Carousel-->
                         </div>
                     </div>
@@ -97,5 +112,31 @@
             </div>
         </div>
     </div>
+<?php endif; ?>
+
+<?php if (!empty($ecommerce)): ?>
+    <script>
+        if (typeof dataLayer!='undefined') {
+            //We are calling method push() of object dataLayer only if object exists to avoid js error in frontend
+            //The structure of this object was required by Praxis media
+            dataLayer.push(<?php echo Mage::helper('core')->jsonEncode($ecommerce); ?>);
+        }
+
+        function clickBanner(id, name, creative, position) {
+            dataLayer.push({
+                'event': 'promotionClick',
+                'ecommerce': {
+                    'promoClick': {
+                        'promotions': [{
+                            'id': id,
+                            'name': name,
+                            'creative': creative,
+                            'position': position
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
 <?php endif; ?>
 
