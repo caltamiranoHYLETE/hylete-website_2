@@ -1402,6 +1402,11 @@
         <reference name="checkout.cart.methods">
             <!-- fix HYL-498 - double "proceed to checkout" button on cart-page -->
             <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.fire</name></action>
+            <block type="cryozonic_stripeexpress/button" name="checkout.cart.methods.stripeexpress.top" after="-">
+                <action method="setTemplate" ifconfig="payment/cryozonic_stripeexpress/cart_button">
+                    <template>cryozonic_stripeexpress/cart_button.phtml</template>
+                </action>
+            </block>
         </reference>
     </rewards_cart_redeem_changepointsspending>
 
