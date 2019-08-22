@@ -87,7 +87,7 @@
 
                                     <div class="item btm_tab_ctn">
 										<?php if ($_offer->getLandingPageUrl()): ?>
-                                        <a onclick="clickBanner('<?php echo $_offer->getOfferId(); ?>', '<?php echo addslashes($_offer->getTitle()); ?>','<?php echo $_offer->getLandingPageUrl(); ?>','<?php echo $position; ?>')" href="<?php $_offer->getLandingPageUrl(); ?>">
+                                        <a onclick="clickBanner('<?php echo $_offer->getOfferId(); ?>', '<?php echo addslashes($_offer->getTitle()); ?>','<?php echo $_offer->getLandingPageUrl(); ?>','<?php echo $position; ?>')" href="<?php echo $_offer->getLandingPageUrl(); ?>">
 											<?php endif; ?>
 
 											<?php echo $this->getLayout()
