@@ -181,7 +181,8 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                 $result['success'] = true;
             } else {
                 $result['error'] = $errors;
-                $this->_addSessionError($errors);
+                //I think is not in the inherited class and throws an error
+                //$this->_addSessionError($errors);
             }
         } catch (Mage_Core_Exception $e) {
             $session->setCustomerFormData($this->getRequest()->getPost());
