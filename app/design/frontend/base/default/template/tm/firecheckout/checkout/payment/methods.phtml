@@ -51,6 +51,7 @@ $billsafe = false;
 
 <?php foreach ($this->getMethods() as $_method): $_code = $_method->getCode() ?>
     <?php if ('billsafe' == $_code) $billsafe = true; ?>
+    <?php if ($_code=='cryozonic_stripe') continue; // hide stripe (apple pay customization) ?>
     <?php if ($_code=='customercredit' && ($isPartial == -2 || $isPartial == -3)) continue; // hide customer credit
     ?>
     <dt>
