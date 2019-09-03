@@ -46,6 +46,11 @@
             <action method="addJs">
                 <script>scriptaculous/slider.js</script>
             </action>
+
+            <action method="addJs">
+                <script>hylete/banners.js</script>
+            </action>
+
             <!-- Remove css/js related to Bootstrap 2.3 -->
             <action method="removeItem">
                 <type>skin_css</type>

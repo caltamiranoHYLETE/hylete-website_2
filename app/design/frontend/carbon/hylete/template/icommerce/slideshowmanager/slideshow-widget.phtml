@@ -32,7 +32,9 @@ $_slideshowHtmlId = 'myCarousel_' . $this->getSlideshowId() . '_' . md5(time() +
 $_carouselSelector = '#' . $_slideshowHtmlId;
 $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
 ?>
-
+<?php
+$position = 1;
+?>
 
 <div id="<?php echo $_slideshowHtmlId ?>" class="carousel slide">
     <div class="carousel-inner">
@@ -53,7 +55,7 @@ $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
             ?>
             <figure class="item hylete-widget <?php echo $_size;?> <?php echo $_inverted;?> <?php echo $_textPlacement;?> <?php echo $_alignText;?> <?php echo ($_index == 0) ? 'active' : '';?>" <?php if ($_sbHelper->getPause()): ?> data-pause="hover"<?php endif; ?>>
                 <?php if (!empty($_item['link'])): ?>
-                    <a href="<?php echo $_templateProcessor->filter($_item['link']) ?>"<?php if ($_item['link_target'] == '_blank'): ?> target="_blank"<?php endif ?>>
+                    <a onclick="clickBanner('<?php echo "home_".$position; ?>', '<?php echo addslashes($_itemTitle); ?>','<?php echo $_img; ?>','<?php echo $position; ?>')" href="<?php echo $_templateProcessor->filter($_item['link']) ?>"<?php if ($_item['link_target'] == '_blank'): ?> target="_blank"<?php endif ?>>
                 <?php endif ?>
                         <picture>
                             <source srcset="<?php echo $_imgMobile; ?>" media="(max-width: 768px)">
@@ -97,6 +99,7 @@ $_templateProcessor = $this->helper('cms')->getPageTemplateProcessor();
                 }
                 ?>
             </figure>
+			<?php $position++; ?>
         <?php endforeach; ?>
     </div>
     
