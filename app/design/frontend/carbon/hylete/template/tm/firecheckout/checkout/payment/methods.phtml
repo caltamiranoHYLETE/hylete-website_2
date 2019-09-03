@@ -35,6 +35,8 @@ $billsafe = false;
 </dl>
 <?php endif; ?>
 
+<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_top')->toHtml(); ?>
+
 <dl class="sp-methods">
     <?php if ($awPoints && $this->pointsSectionAvailable()): ?>
     <dt>
@@ -49,6 +51,7 @@ $billsafe = false;
 
 <?php foreach ($this->getMethods() as $_method): $_code = $_method->getCode() ?>
     <?php if ('billsafe' == $_code) $billsafe = true; ?>
+    <?php if ($_code=='cryozonic_stripe') continue; // hide stripe (apple pay customization) ?>
     <?php if ($_code=='customercredit' && ($isPartial == -2 || $isPartial == -3)) continue; // hide customer credit
     ?>
     <dt>
@@ -89,6 +92,8 @@ $billsafe = false;
     <?php endif; ?>
 <?php endforeach; ?>
 </dl>
+
+<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_bottom')->toHtml(); ?>
 
 <?php if ($fmeFieldsmanager) : ?>
 <dl>
