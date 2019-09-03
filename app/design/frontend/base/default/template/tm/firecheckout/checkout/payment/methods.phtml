@@ -35,6 +35,8 @@ $billsafe = false;
 </dl>
 <?php endif; ?>
 
+<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_top')->toHtml(); ?>
+
 <dl class="sp-methods">
     <?php if ($awPoints && $this->pointsSectionAvailable()): ?>
     <dt>
@@ -85,6 +87,8 @@ $billsafe = false;
     <?php endif; ?>
 <?php endforeach; ?>
 </dl>
+
+<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_bottom')->toHtml(); ?>
 
 <?php if ($fmeFieldsmanager) : ?>
 <dl>
