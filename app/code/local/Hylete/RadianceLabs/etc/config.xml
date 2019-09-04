@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Mediotype Developement <diveinto@mediotype.com>
+ * @copyright 2019 Mediotype. All rights reserved.
+ */
+-->
+<config>
+    <modules>
+        <Hylete_RadianceLabs>
+            <version>1.0.0</version>
+        </Hylete_RadianceLabs>
+    </modules>
+    <frontend>
+        <routers>
+            <cartjson>
+                <use>standard</use>
+                <args>
+                    <module>Hylete_RadianceLabs</module>
+                    <frontName>cartjson</frontName>
+                </args>
+            </cartjson>
+        </routers>
+    </frontend>
+    <global>
+        <resources>
+            <hylete_radiancelabs_setup>
+                <setup>
+                    <module>Hylete_RadianceLabs</module>
+                </setup>
+            </hylete_radiancelabs_setup>
+        </resources>
+    </global>
+</config>
