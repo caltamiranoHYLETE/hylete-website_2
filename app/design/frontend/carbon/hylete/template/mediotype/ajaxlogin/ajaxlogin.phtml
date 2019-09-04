@@ -12,7 +12,6 @@
         grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'login' })
             .then(function (token) {
                 var recaptchaResponse = document.getElementById('recaptchaLoginResponse');
-                console.log(recaptchaResponse)
                 recaptchaResponse.value = token;
             });
     });
