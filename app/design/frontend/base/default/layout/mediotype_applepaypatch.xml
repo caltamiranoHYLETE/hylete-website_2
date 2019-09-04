@@ -25,5 +25,12 @@
                 <template>mediotype_applepaypatch/express/cart/setup.phtml</template>
             </action>
         </reference>
+        <reference name="methods">
+            <block type="cryozonic_stripeexpress/button" name="checkout.cart.methods.stripeexpress.top" before="-">
+                <action method="setTemplate" ifconfig="payment/cryozonic_stripeexpress/cart_button">
+                    <template>cryozonic_stripeexpress/cart_button.phtml</template>
+                </action>
+            </block>
+        </reference>
     </checkout_cart_index>
 </layout>
