@@ -632,6 +632,7 @@ var cryozonic = {
                 prButton.mount('#payment-request-button');
                 $('payment_form_cryozonic_stripe').addClassName('payment-request-api-supported');
                 $('co-payment-form').addClassName('payment-request-api-supported');
+                $('firecheckout-form').addClassName('payment-request-api-supported');
                 cryozonic.initResetButton();
             }
         });
@@ -1041,6 +1042,9 @@ var setApplePayToken = function(token)
     if (!cryozonic.isApplePayInsideForm() && $('co-payment-form'))
         $('co-payment-form').addClassName('apple-pay-success');
 
+    if (!cryozonic.isApplePayInsideForm() && $('firecheckout-form'))
+        $('firecheckout-form').addClassName('apple-pay-success');
+
     $('apple-pay-result-brand').className = "type " + token.card.brand;
     cryozonic.applePaySuccess = true;
     cryozonic.applePayToken = token;
@@ -1065,8 +1069,10 @@ var resetApplePayToken = function()
 
     $('payment_form_cryozonic_stripe').removeClassName('apple-pay-success');
 
-    if (!cryozonic.isApplePayInsideForm())
+    if (!cryozonic.isApplePayInsideForm()) {
         $('co-payment-form').removeClassName('apple-pay-success');
+        $('firecheckout-form').removeClassName('apple-pay-success');
+    }
 
     if ($('apple-pay-result-brand'))
     {
@@ -1193,6 +1199,7 @@ function setStripeToken(token)
         input.setAttribute("value", token);
         input.disabled = false; // Gets disabled when the user navigates back to shipping method
         var form = document.getElementById('payment_form_cryozonic_stripe');
+        if (!form) form = document.getElementById('firecheckout-form');
         if (!form) form = document.getElementById('co-payment-form');
         if (!form) form = document.getElementById('order-billing_method_form');
         if (!form) form = document.getElementById('onestepcheckout-form');
@@ -1351,7 +1358,7 @@ var initOSCModules = function()
             if (typeof $j == 'undefined') // IWD 4.0.4
                 $j = $j_opc; // IWD 4.0.8
 
-            var form = $j('#co-payment-form').serializeArray();
+            var form = $j('#firecheckout-form').serializeArray();
             IWD.OPC.Checkout.xhr = $j.post(IWD.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',form, IWD.OPC.preparePaymentResponse,'json');
         };
 
