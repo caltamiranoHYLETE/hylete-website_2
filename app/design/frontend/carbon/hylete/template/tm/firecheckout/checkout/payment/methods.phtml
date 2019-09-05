@@ -23,6 +23,10 @@ if ($customerCredit) {
 }
 
 $billsafe = false;
+
+$applePayTop = $this->getLayout()->createBlock('cryozonic_stripe/applePay_top')->toHtml();
+$applePayBottom = $this->getLayout()->createBlock('cryozonic_stripe/applePay_bottom')->toHtml();
+$stripeJs = $this->getLayout()->createBlock('cryozonic_stripe/form_stripeJs')->toHtml();
 ?>
 
 <?php if (!$methods = $this->getMethods()) : ?>
@@ -35,7 +39,13 @@ $billsafe = false;
 </dl>
 <?php endif; ?>
 
-<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_top')->toHtml(); ?>
+<?php
+if ($applePayTop || $applePayBottom) {
+    echo $stripeJs;
+}
+?>
+
+<?php /* Apple Pay Customization */ echo $applePayTop; ?>
 
 <dl class="sp-methods">
     <?php if ($awPoints && $this->pointsSectionAvailable()): ?>
@@ -93,7 +103,7 @@ $billsafe = false;
 <?php endforeach; ?>
 </dl>
 
-<?php /* Apple Pay Customization */ echo $this->getLayout()->createBlock('cryozonic_stripe/applePay_bottom')->toHtml(); ?>
+<?php /* Apple Pay Customization */ echo $applePayBottom; ?>
 
 <?php if ($fmeFieldsmanager) : ?>
 <dl>
