@@ -117,6 +117,7 @@ ul#payment_form_cryozonic_stripe.stripe-new li.stripe-new {
 
 /* Apple Pay */
 #co-payment-form #cryozonic-apple-pay-section #apple-pay-button,
+#firecheckout-form #cryozonic-apple-pay-section #apple-pay-button,
 ul#payment_form_cryozonic_stripe li#apple-pay-section #apple-pay-button {
     background-color: black;
     background-image: -webkit-named-image(apple-pay-logo-white);
@@ -129,6 +130,7 @@ ul#payment_form_cryozonic_stripe li#apple-pay-section #apple-pay-button {
     border-radius: 10px;
 }
 #co-payment-form #cryozonic-apple-pay-section,
+#firecheckout-form #cryozonic-apple-pay-section,
 ul#payment_form_cryozonic_stripe li#apple-pay-section {
     display: none;
     text-align: center;
@@ -136,14 +138,17 @@ ul#payment_form_cryozonic_stripe li#apple-pay-section {
     margin-bottom: 20px;
 }
 #co-payment-form.payment-request-api-supported #cryozonic-apple-pay-section,
+#firecheckout-form.payment-request-api-supported #cryozonic-apple-pay-section,
 ul#payment_form_cryozonic_stripe.payment-request-api-supported li#apple-pay-section {
     display: block;
 }
 #co-payment-form.payment-request-api-supported #cryozonic-apple-pay-section #apple-pay-button,
+#firecheckout-form.payment-request-api-supported #cryozonic-apple-pay-section #apple-pay-button,
 ul#payment_form_cryozonic_stripe.payment-request-api-supported li#apple-pay-section #apple-pay-button {
     display: none;
 }
 #co-payment-form #cryozonic-apple-pay-section label,
+#firecheckout-form #cryozonic-apple-pay-section label,
 ul#payment_form_cryozonic_stripe li#apple-pay-section label {
     font-weight: bold;
     margin: 10px 0;
@@ -159,11 +164,13 @@ ul#payment_form_cryozonic_stripe li#apple-pay-section label {
 
 /* Authorized Apple Pay Result */
 #co-payment-form #cryozonic-apple-pay-result label,
+#firecheckout-form #cryozonic-apple-pay-result label,
 .form-list #apple-pay-result label {
     display: inline-block;
     float: none;
 }
 #co-payment-form #cryozonic-apple-pay-result,
+#firecheckout-form #cryozonic-apple-pay-result,
 ul#payment_form_cryozonic_stripe li#apple-pay-result {
     text-align: center;
     font-size: 1.1em;
@@ -175,10 +182,12 @@ ul#payment_form_cryozonic_stripe li#apple-pay-result {
     margin: 5px 0;
 }
 #co-payment-form.apple-pay-success #cryozonic-apple-pay-result,
+#firecheckout-form.apple-pay-success #cryozonic-apple-pay-result,
 ul#payment_form_cryozonic_stripe.apple-pay-success li#apple-pay-result {
     display: block;
 }
 #co-payment-form.payment-request-api-supported.apple-pay-success #cryozonic-apple-pay-section,
+#firecheckout-form.payment-request-api-supported.apple-pay-success #cryozonic-apple-pay-section,
 ul#payment_form_cryozonic_stripe.payment-request-api-supported.apple-pay-success li#apple-pay-section {
     display: none;
 }
