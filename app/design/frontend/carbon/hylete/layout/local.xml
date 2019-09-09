@@ -984,10 +984,10 @@
 
         <reference name="firecheckout">
             <block type="core/template" name="section.customer.login" template="tm/firecheckout/login-section.phtml">
-                <block type="core/text_list" name="section.customer.login.before" as="login_section_before" translate="label">
-                    <label>Login Section Before</label>
+                <block type="core/text_list" name="section.customer.login.after" as="login_section_after" translate="label">
+                    <label>Login Section After</label>
 
-                    <block type="cms/block" name="above.login">
+                    <block type="cms/block" name="below.login">
                         <action method="setBlockId">
                             <block_id>fire-checkout-login-copy</block_id>
                         </action>
