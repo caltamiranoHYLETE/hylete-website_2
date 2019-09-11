@@ -34,7 +34,15 @@
 
 $_registerAllowed = (!Mage::getStoreConfig('general/restriction/is_active') || Mage::getStoreConfig('general/restriction/mode') == 2);
 ?>
-
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'login' })
+            .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaStaticLoginResponse');
+                recaptchaResponse.value = token;
+            });
+    });
+</script>
 <div class="account-login">
     <div class="page-title">
         <?php if ($_registerAllowed):?>
@@ -45,6 +53,7 @@ $_registerAllowed = (!Mage::getStoreConfig('general/restriction/is_active') || M
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" class="row">
+        <input type="hidden" value="" name="recaptcha_response" id="recaptchaStaticLoginResponse">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <div class="col-md-6 col-xs-12 registered-users">
             <h2 class="hidden-xs hidden-sm"><?php echo $this->__('Registered Customers') ?></h2>
