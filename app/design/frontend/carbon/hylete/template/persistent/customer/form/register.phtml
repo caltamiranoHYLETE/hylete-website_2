@@ -32,6 +32,15 @@
  */
 /** @var $this Mage_Customer_Block_Form_Register */
 ?>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'registration' })
+            .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaStaticRegistrationResponse');
+                recaptchaResponse.value = token;
+            });
+    });
+</script>
 <div class="account-create">
     <div class="page-title">
         <h1><?php echo $this->__('Create an Account') ?></h1>
@@ -43,6 +52,7 @@
     <?php else: ?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate" class="row">
         <div class="col-md-6">
+            <input type="hidden" value="" name="recaptcha_response" id="recaptchaStaticRegistrationResponse">
             <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
             <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
             <input name="form_key" type="hidden"
