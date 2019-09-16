@@ -6,7 +6,7 @@
     $params = $this->getButtonConfig();
     $params['buttonId'] = uuid('payment-request-', 26);
     ?>
-    <div id="<?php echo $params['buttonId'] ?>">&nbsp;</div>
+    <div id="<?php echo $params['buttonId'] ?>" class="stripeexpress-payment-button">&nbsp;</div>
     <script type="text/javascript">
         //<![CDATA[
         var MAGENTO_BASE_URL = '<?php echo $this->jsQuoteEscape(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)); ?>';
@@ -18,7 +18,7 @@
         });
         //]]>
     </script>
-    <li class="bml-checkout-type">
+    <li class="bml-checkout-type stripeexpress-or-line">
         <p class="stripexpress-logo paypal-logo" style="display: none;">
             <span class="paypal-or"><?php echo $this->__('-OR-'); ?></span>
         </p>
