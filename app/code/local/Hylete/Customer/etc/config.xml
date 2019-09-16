@@ -5,6 +5,18 @@
             <version>0.0.1</version>
         </Hylete_Customer>
     </modules>
+    <global>
+        <models>
+            <customermodule>
+                <class>Hylete_Customer_Model</class>
+            </customermodule>
+            <customer>
+                <rewrite>
+                    <customer>Hylete_Customer_Model_Customer</customer>
+                </rewrite>
+            </customer>
+        </models>
+    </global>
     <frontend>
         <routers>
             <customer>
