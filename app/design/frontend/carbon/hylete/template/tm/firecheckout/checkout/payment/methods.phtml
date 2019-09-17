@@ -61,10 +61,9 @@ if ($applePayTop || $applePayBottom) {
 
 <?php foreach ($this->getMethods() as $_method): $_code = $_method->getCode() ?>
     <?php if ('billsafe' == $_code) $billsafe = true; ?>
-    <?php if ($_code=='cryozonic_stripe') continue; // hide stripe (apple pay customization) ?>
     <?php if ($_code=='customercredit' && ($isPartial == -2 || $isPartial == -3)) continue; // hide customer credit
     ?>
-    <dt>
+    <dt <?php echo $_code=='cryozonic_stripe' ? 'style="display:none;"' : null ?>>
     <?php if (sizeof($this->getMethods()) > 1): ?>
         <?php if ($_code=='customercredit' && $isPartial==1): ?>
             <input id="p_method_<?php echo $_code ?>" value="1" type="checkbox" name="payment[use_internal_credit]" title="<?php echo $this->htmlEscape($_method->getTitle()) ?>" class="checkbox" onclick="payment.switchMethod('<?php echo $_code ?>');" <?php if ($isCheckedCustomercredit) { ?>checked="checked"<?php } ?> />
@@ -96,7 +95,7 @@ if ($applePayTop || $applePayBottom) {
         <?php endif; ?>
     </dt>
     <?php if ($html = $this->getPaymentMethodFormHtml($_method)): ?>
-    <dd>
+    <dd <?php echo $_code=='cryozonic_stripe' ? 'style="display:none;"' : null ?>>
         <?php echo $html; ?>
     </dd>
     <?php endif; ?>
