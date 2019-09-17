@@ -595,7 +595,7 @@ var cryozonic = {
         brandIconElement.classList.add('pf');
         brandIconElement.classList.add(pfClass);
     },
-    initPaymentRequestButton: function()
+    initPaymentRequestButton: function(buttonId)
     {
         if (!cryozonic.isApplePayEnabled())
             return;
@@ -605,6 +605,16 @@ var cryozonic = {
 
         if (cryozonic.hasNoCountryCode())
             return;
+
+        jQuery('#payment-method').on('click', 'input[type=radio][id^=p_method][id!=p_method_cryozonic_stripe]', function() {
+            resetApplePayToken();
+        });
+        jQuery('#payment-method-reset').on('click', function () {
+            resetApplePayToken();
+        });
+
+        if (typeof buttonId === 'undefined')
+            buttonId = 'payment-request-button';
 
         var paymentRequest;
         try
@@ -626,10 +636,10 @@ var cryozonic = {
         {
             if (result)
             {
-                if (!document.getElementById('payment-request-button'))
+                if (!document.getElementById(buttonId))
                     return;
 
-                prButton.mount('#payment-request-button');
+                prButton.mount('#' + buttonId);
                 $('payment_form_cryozonic_stripe').addClassName('payment-request-api-supported');
                 $('co-payment-form').addClassName('payment-request-api-supported');
                 $('firecheckout-form').addClassName('payment-request-api-supported');
@@ -1052,7 +1062,10 @@ var setApplePayToken = function(token)
 
     // Ensure that a payment method is selected if Apple Pay is used outside the payment form
     var el = document.getElementById("p_method_cryozonic_stripe");
-    if (el) el.checked = true;
+    if (el) {
+        el.checked = true;
+        jQuery(el).closest('dl').find('dd ul').css({display:'none'});
+    }
 };
 
 var resetApplePayToken = function()
@@ -1068,6 +1081,11 @@ var resetApplePayToken = function()
         $('new_card').addClassName('validate-one-required-by-name');
 
     $('payment_form_cryozonic_stripe').removeClassName('apple-pay-success');
+
+    var el = document.getElementById('p_method_cryozonic_stripe');
+    if (el) {
+        el.checked = false;
+    }
 
     if (!cryozonic.isApplePayInsideForm()) {
         $('co-payment-form').removeClassName('apple-pay-success');
