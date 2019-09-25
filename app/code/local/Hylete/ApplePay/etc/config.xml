@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Hylete_ApplePay>
+            <version>0.1.0</version>
+        </Hylete_ApplePay>
+    </modules>
+    <global>
+        <helpers>
+            <cryozonic_stripeexpress>
+                <rewrite>
+                    <data>Hylete_ApplePay_Helper_Data</data>
+                </rewrite>
+            </cryozonic_stripeexpress>
+        </helpers>
+    </global>
+</config>

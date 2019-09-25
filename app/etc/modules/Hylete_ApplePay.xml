@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Hylete_ApplePay>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Cryozonic_StripeExpress/>
+            </depends>
+        </Hylete_ApplePay>
+    </modules>
+</config>
