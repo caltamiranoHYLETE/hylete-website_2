@@ -226,6 +226,11 @@ class OnePica_AvaTax_Helper_Calculation
         ) {
             /** @var Mage_Catalog_Model_Product[] $children */
             $children = $item->getChildren();
+
+            foreach($children as $child) {
+				return $child->getProductId();
+			}
+
             if (isset($children[0]) && $children[0]->getProductId()) {
                 return $children[0]->getProductId();
             }

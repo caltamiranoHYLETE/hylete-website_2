@@ -18,9 +18,10 @@
 /**
  * Class OnePica_AvaTax_Model_Service_Avatax
  *
- * @property OnePica_AvaTax_Model_Service_Avatax_Invoice  _invoiceResource
- * @property OnePica_AvaTax_Model_Service_Avatax_Estimate _estimateResource
- * @property OnePica_AvaTax_Model_Service_Avatax_Ping     _pingResource
+ * @property OnePica_AvaTax_Model_Service_Avatax_Invoice   _invoiceResource
+ * @property OnePica_AvaTax_Model_Service_Avatax_Estimate  _estimateResource
+ * @property OnePica_AvaTax_Model_Service_Avatax_Ping      _pingResource
+ * @property \OnePica_AvaTax_Model_Service_Avatax_BagItems _bagItemsResource
  * @property OnePica_AvaTax_Model_Service_Avatax_Address
  *
  * @category   OnePica
@@ -95,6 +96,22 @@ class OnePica_AvaTax_Model_Service_Avatax
         }
 
         return $this->_pingResource;
+    }
+    /**
+     * Get ping resource
+     *
+     * @return \OnePica_AvaTax_Model_Service_Avatax_BagItems
+     */
+    protected function _getBagItemsResource()
+    {
+        if (null === $this->_bagItemsResource) {
+            $this->_bagItemsResource = Mage::getModel(
+                'avatax/service_avatax_bagItems',
+                array('service_config' => $this->getServiceConfig())
+            );
+        }
+
+        return $this->_bagItemsResource;
     }
 
     /**
@@ -200,6 +217,17 @@ class OnePica_AvaTax_Model_Service_Avatax
     public function ping($storeId)
     {
         return $this->_getPingResource()->ping($storeId);
+    }
+
+    /**
+     * Tries to ping AvaTax service with provided credentials
+     *
+     * @param int $storeId
+     * @return array|\Varien_Object
+     */
+    public function getAllParameterBagItems($storeId = null)
+    {
+        return $this->_getBagItemsResource()->getAllParameterBagItems($storeId);
     }
 
     /**
