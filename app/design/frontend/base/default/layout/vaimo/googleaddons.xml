@@ -26,6 +26,10 @@
 -->
 <layout version="0.1.0">
     <default>
+        <reference name="head" after="transactionevent-success">
+            <block type="googleaddons/trackingScripts" name="dynamic-remarketing" template="vaimo/trackingscripts/dynamic-remarketing.phtml" />
+        </reference>
+
         <reference name="head">
             <block type="googleaddons/ua" name="google-universal-analytics" template="vaimo/googleaddons/universal-analytics.phtml"/>
         </reference>
@@ -37,24 +41,21 @@
         <reference name="after_body_start">
             <block type="core/template" name="google-tag-manager-noscript" template="vaimo/googleaddons/tag-manager-noscript.phtml"/>
         </reference>
-   
-        <reference name="before_body_end" after="precisdigital-success">
-            <block type="googleaddons/trackingScripts" name="dynamic-remarketing" template="vaimo/trackingscripts/dynamic-remarketing.phtml" />
-        </reference>
+
     </default>
 
     <!-- Push order data to GTM -->
     <checkout_onepage_success>
-        <reference name="before_body_end">
+        <reference name="head">
             <!--  deprecated since version 0.1.18, will be changed to transactionevent-success and vaimo/trackingscripts/transactionevent_success.phtml after 2015-04-03 -->
-            <block type="googleaddons/trackingScripts" name="precisdigital-success" template="vaimo/trackingscripts/precisdigital_success.phtml" />
+            <block type="googleaddons/trackingScripts" name="transactionevent-success" template="vaimo/trackingscripts/transactionevent_success.phtml" />
         </reference>
     </checkout_onepage_success>
 
     <checkout_klarna_success>
-        <reference name="before_body_end">
+        <reference name="head">
             <!--  deprecated since version 0.1.18, will be changed to transactionevent-success and vaimo/trackingscripts/transactionevent_success.phtml after 2015-04-03 -->
-            <block type="googleaddons/trackingScripts" name="precisdigital-success" template="vaimo/trackingscripts/precisdigital_success.phtml" />
+            <block type="googleaddons/trackingScripts" name="transactionevent-success" template="vaimo/trackingscripts/transactionevent_success.phtml" />
         </reference>
     </checkout_klarna_success>
 </layout>

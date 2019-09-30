@@ -44,7 +44,10 @@ $_dataLayerData = array(
 );
 ?>
 <script>
-(function ($) {
+
+    window.dataLayer = window.dataLayer || [];
+
+    (function ($) {
     dataLayerEcommData = <?php echo Zend_Json::encode($_dataLayerData) ?>;
     // var pageType = <?php echo Zend_Json::encode($_pageType) ?>;
     if (typeof hyleteInfo !== 'undefined') {
