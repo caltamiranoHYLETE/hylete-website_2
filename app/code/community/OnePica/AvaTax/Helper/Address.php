@@ -74,15 +74,15 @@ class OnePica_AvaTax_Helper_Address extends Mage_Core_Helper_Abstract
                     $addresses = $quote->getAllShippingAddresses();
                     foreach ($addresses as $address) {
                         $customerAddressOriginal = Mage::getModel('customer/address')
-                            ->load($address->getCustomerAddressId());
+                                                       ->load($address->getCustomerAddressId());
 
                         $quote->getAddressById($address->getId())
-                            ->setStreet($customerAddressOriginal->getStreet())
-                            ->setCity($customerAddressOriginal->getCity())
-                            ->setRegionId($customerAddressOriginal->getRegionId())
-                            ->setPostcode($customerAddressOriginal->getPostcode())
-                            ->setCountryId($customerAddressOriginal->getCountryId())
-                            ->save();
+                              ->setStreet($customerAddressOriginal->getStreet())
+                              ->setCity($customerAddressOriginal->getCity())
+                              ->setRegionId($customerAddressOriginal->getRegionId())
+                              ->setPostcode($customerAddressOriginal->getPostcode())
+                              ->setCountryId($customerAddressOriginal->getCountryId())
+                              ->save();
                     }
                     break;
                 default:
@@ -126,9 +126,9 @@ class OnePica_AvaTax_Helper_Address extends Mage_Core_Helper_Abstract
      * Determines if the address should be filtered
      *
      * @param Mage_Sales_Model_Quote_Address|Mage_Sales_Model_Order_Address $address
-     * @param int                            $storeId
-     * @param int                            $filterMode
-     * @param bool                           $isAddressValidation
+     * @param int                                                           $storeId
+     * @param int                                                           $filterMode
+     * @param bool                                                          $isAddressValidation
      *
      * @return bool
      */
@@ -292,8 +292,8 @@ class OnePica_AvaTax_Helper_Address extends Mage_Core_Helper_Abstract
     {
         return explode(
             ',', Mage::app()
-            ->getWebsite($websiteId)
-            ->getConfig(OnePica_AvaTax_Helper_Config::XML_PATH_TO_TAX_AVATAX_TAXABLE_COUNTRY)
+                     ->getWebsite($websiteId)
+                     ->getConfig(OnePica_AvaTax_Helper_Config::XML_PATH_TO_TAX_AVATAX_TAXABLE_COUNTRY)
         );
     }
 
@@ -398,15 +398,13 @@ class OnePica_AvaTax_Helper_Address extends Mage_Core_Helper_Abstract
     public function getDisableNormalizationCheckbox($flag = null)
     {
         $checked = $flag ? "checked='checked'" : '';
-
     }
-
 
     /**
      * Retrieve url of skins file
      *
      * @param   string $file path to file in skin
-     * @param   array $params
+     * @param   array  $params
      * @return  string
      */
     public function getSkinUrl($file = null, array $params = array())

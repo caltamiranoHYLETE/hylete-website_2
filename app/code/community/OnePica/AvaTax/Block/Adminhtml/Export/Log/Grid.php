@@ -46,7 +46,7 @@ class OnePica_AvaTax_Block_Adminhtml_Export_Log_Grid extends OnePica_AvaTax_Bloc
     protected function _prepareColumns()
     {
         if (!Mage::helper('avatax/config')->getConfigAdvancedLog()) {
-            return $this->_addColumns(
+            $result = $this->_addColumns(
                 array(
                     'log_id'     => 'number',
                     'store_id'   => 'number',
@@ -55,42 +55,46 @@ class OnePica_AvaTax_Block_Adminhtml_Export_Log_Grid extends OnePica_AvaTax_Bloc
                     'created_at' => 'datetime',
                 )
             );
+        } else {
+            $result = $this->_addColumns(
+                array(
+                    'log_id'                   => 'number',
+                    'store_id'                 => 'number',
+                    'level'                    => Mage::getModel('avatax_records/log')->getLevelOptions(),
+                    'type'                     => $this->_getLogTypeModel()->getLogTypes(),
+                    'quote_id'                 => 'varchar',
+                    'quote_address_id'         => 'varchar',
+                    'order_increment_id'       => 'varchar',
+                    'invoice_increment_id'     => 'varchar',
+                    'credit_memo_increment_id' => 'varchar',
+                    'created_at'               => 'datetime',
+                ),
+                array(
+                    'quote_id'                 => array('filter_index' => 'main_table.quote_id'),
+                    'quote_address_id'         => array('filter_index' => 'main_table.quote_address_id'),
+                    'order_increment_id'       => array(
+                        'header'       => Mage::helper('avatax')->__('Order #'),
+                        'filter_index' => 'order.increment_id',
+                        'filter'   => false,
+                        'sortable' => false
+                    ),
+                    'invoice_increment_id'     => array(
+                        'header'   => Mage::helper('avatax')->__('Invoice #'),
+                        'filter'   => false,
+                        'sortable' => false
+                    ),
+                    'credit_memo_increment_id' => array(
+                        'header'   => Mage::helper('avatax')->__('Credit Memo #'),
+                        'filter'   => false,
+                        'sortable' => false
+                    ),
+                )
+            );
         }
 
-        return $this->_addColumns(
-            array(
-                'log_id'                   => 'number',
-                'store_id'                 => 'number',
-                'level'                    => Mage::getModel('avatax_records/log')->getLevelOptions(),
-                'type'                     => $this->_getLogTypeModel()->getLogTypes(),
-                'quote_id'                 => 'varchar',
-                'quote_address_id'         => 'varchar',
-                'order_increment_id'       => 'varchar',
-                'invoice_increment_id'     => 'varchar',
-                'credit_memo_increment_id' => 'varchar',
-                'created_at'               => 'datetime',
-            ),
-            array(
-                'quote_id'                 => array('filter_index' => 'main_table.quote_id'),
-                'quote_address_id'         => array('filter_index' => 'main_table.quote_address_id'),
-                'order_increment_id'       => array(
-                    'header'       => Mage::helper('avatax')->__('Order #'),
-                    'filter_index' => 'order.increment_id',
-                    'filter'   => false,
-                    'sortable' => false
-                ),
-                'invoice_increment_id'     => array(
-                    'header'   => Mage::helper('avatax')->__('Invoice #'),
-                    'filter'   => false,
-                    'sortable' => false
-                ),
-                'credit_memo_increment_id' => array(
-                    'header'   => Mage::helper('avatax')->__('Credit Memo #'),
-                    'filter'   => false,
-                    'sortable' => false
-                ),
-            )
-        );
+        Mage::dispatchEvent('avatax_admin_log_grid_prepare_columns_after', array('grid' => $this));
+
+        return $result;
     }
 
     /**
