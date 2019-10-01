@@ -29,7 +29,10 @@
     line-height: 22px;
 }
 
-.login-section-static {
+.login-section-static.login-section-before {
+    margin: 0 0 1% 0;
+}
+.login-section-static.login-section-after {
     padding-top: 10px;
     margin-top: 10px;
     border-top: 1px solid #000;
@@ -307,9 +310,10 @@
         float: left;
         width: 49%;
         margin: 0;
+        margin-top: 1%;
     }
 
-    .login-section-action:first-child {
+    .login-section-action:nth-child(odd) {
         margin-right: 2%;
     }
 }
