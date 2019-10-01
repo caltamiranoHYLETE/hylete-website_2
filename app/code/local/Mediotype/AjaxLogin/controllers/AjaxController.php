@@ -38,7 +38,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
 			$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 			$recaptcha = json_decode($recaptcha);
 			if($recaptcha->success == true){
-				if ($recaptcha->score <= 0.4) {
+				if ($recaptcha->score <= 0.2) {
 					$result = array('success' => false);
 					$result['error'] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
 				} else {
@@ -175,7 +175,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
 		$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 		$recaptcha = json_decode($recaptcha);
 		if($recaptcha->success == true){
-			if ($recaptcha->score <= 0.4) {
+			if ($recaptcha->score <= 0.2) {
 				$result = array('success' => false);
 			}
 		} else {
