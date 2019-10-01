@@ -61,7 +61,7 @@ class Hylete_Customer_AccountController extends Mage_Customer_AccountController
 			$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 			$recaptcha = json_decode($recaptcha);
 			if($recaptcha->success == true){
-				if ($recaptcha->score <= 0.4) {
+				if ($recaptcha->score <= 0.2) {
 					$session->addError($this->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.'));
 				} else{
 					if (!empty($login['username']) && !empty($login['password'])) {
@@ -92,7 +92,33 @@ class Hylete_Customer_AccountController extends Mage_Customer_AccountController
 					}
 				}
 			} else {
-				$session->addError($this->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.'));
+				//$session->addError($this->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.'));
+				if (!empty($login['username']) && !empty($login['password'])) {
+					try {
+						$session->login($login['username'], $login['password']);
+						if ($session->getCustomer()->getIsJustConfirmed()) {
+							$this->_welcomeCustomer($session->getCustomer(), true);
+						}
+					} catch (Mage_Core_Exception $e) {
+						switch ($e->getCode()) {
+							case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+								$value = $this->_getHelper('customer')->getEmailConfirmationUrl($login['username']);
+								$message = $this->_getHelper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', $value);
+								break;
+							case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+								$message = $e->getMessage();
+								break;
+							default:
+								$message = $e->getMessage();
+						}
+						$session->addError($message);
+						$session->setUsername($login['username']);
+					} catch (Exception $e) {
+						// Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
+					}
+				} else {
+					$session->addError($this->__('Login and password are required.'));
+				}
 			}
         }
 
@@ -144,7 +170,7 @@ class Hylete_Customer_AccountController extends Mage_Customer_AccountController
 		$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 		$recaptcha = json_decode($recaptcha);
 		if($recaptcha->success == true){
-			if ($recaptcha->score <= 0.4) {
+			if ($recaptcha->score <= 0.2) {
 				$errors[] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
 			}
 		} else {
