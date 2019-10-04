@@ -336,10 +336,10 @@ var stripeExpress = {
 
             request = form.serialize();
 
-            $('payment-request-button').addClassName('disabled');
+            prButton._parent.addClassName('disabled');
 
             stripeExpress.addToCart(request, shippingMethod, function (err, result) {
-                $('payment-request-button').removeClassName('disabled');
+                prButton._parent.removeClassName('disabled');
                 if (err) {
                     stripeExpress.showError(err);
                     return;
@@ -431,10 +431,10 @@ var stripeExpress = {
         cryozonic.PRAPIEvent = result;
         cryozonic.closePaysheet('success');
 
-        $('payment-request-button').addClassName('disabled');
+        paymentRequestButton._parent.addClassName('disabled');
         stripeExpress.setBillingAddress(result.paymentMethod.billing_details, function(err, response)
         {
-            $('payment-request-button').removeClassName('disabled');
+            paymentRequestButton._parent.removeClassName('disabled');
             if (err) {
                 stripeExpress.showError(err);
                 return;
@@ -456,10 +456,10 @@ var stripeExpress = {
 
     onPaymentPlaced: function(result, paymentRequestButton)
     {
-        $('payment-request-button').addClassName('disabled');
+        paymentRequestButton._parent.addClassName('disabled');
         stripeExpress.placeOrder(result, function (err, response, result)
         {
-            $('payment-request-button').removeClassName('disabled');
+            paymentRequestButton._parent.removeClassName('disabled');
             cryozonic.closePaysheet('success');
             if (err)
                 stripeExpress.showError(err);
