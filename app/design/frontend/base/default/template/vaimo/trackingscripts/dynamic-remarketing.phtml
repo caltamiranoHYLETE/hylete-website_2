@@ -28,32 +28,36 @@
 /** @var Vaimo_Hylete_Block_TrackingScripts $this */
 $_pageType = $this->getDynamicRemarketingPageType();
 $_accumulatedProductData = $this->getDynamicRemarketingProductData($_pageType);
-$_accumulatedCustomerData = $this->getDynamicRemarketingCustomerData();
 
 $_dataLayerData = array(
-    'ecomm_prodid' => $_accumulatedProductData['product_skus_array'],
-    'ecomm_product_gender' => isset($_accumulatedProductData['product_gender']) ? $_accumulatedProductData['product_gender'] : '',
-    'ecomm_totalvalue' => $_accumulatedProductData['total_price'],
-    'ecomm_pagetype' => $_pageType,
-
-    'ecomm_group_id'  => $_accumulatedCustomerData['customer_group_id'],
-    'ecomm_logged_in' => $_accumulatedCustomerData['customer_logged_in'],
-    'ecomm_gender' => $_accumulatedCustomerData['customer_gender'],
-    'ecomm_customer_id' => $_accumulatedCustomerData['customer_id'],
-    'ecomm_customer_email' => $_accumulatedCustomerData['customer_email'],
+	'ecomm_prodid' => $_accumulatedProductData['product_skus_array'],
+	'ecomm_product_gender' => isset($_accumulatedProductData['product_gender']) ? $_accumulatedProductData['product_gender'] : '',
+	'ecomm_totalvalue' => $_accumulatedProductData['total_price'],
+	'ecomm_pagetype' => $_pageType,
 );
+
 ?>
 <script>
-(function ($) {
-    dataLayerEcommData = <?php echo Zend_Json::encode($_dataLayerData) ?>;
-    // var pageType = <?php echo Zend_Json::encode($_pageType) ?>;
-    if (typeof hyleteInfo !== 'undefined') {
-        if (hyleteInfo.ecomm) {
-            dataLayerEcommData = $.extend({}, dataLayerEcommData, hyleteInfo.ecomm);
+    (function ($) {
+        dataLayerEcommData = <?php echo Zend_Json::encode($_dataLayerData) ?>;
+
+        if (typeof hyleteInfo !== 'undefined') {
+            if (hyleteInfo.ecomm) {
+                dataLayerEcommData = $.extend({}, dataLayerEcommData, hyleteInfo.ecomm);
+            }
+
+            if (hyleteInfo.account) {
+                dataLayerEcommData = $.extend({}, dataLayerEcommData, hyleteInfo.account);
+            }
+
+            if (hyleteInfo.cart) {
+                dataLayerEcommData = $.extend({}, dataLayerEcommData, hyleteInfo.cart);
+            }
         }
-    }
-    if (typeof dataLayer != "undefined") {
-        dataLayer.push(dataLayerEcommData);
-    }
-})(jQuery);
+        if (typeof dataLayer != "undefined") {
+            dataLayer.push(dataLayerEcommData);
+        }
+
+    })(jQuery);
+
 </script>
