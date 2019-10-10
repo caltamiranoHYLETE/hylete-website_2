@@ -474,11 +474,7 @@ var stripeExpress = {
     initCartWidget: function (paymentRequest, params, prButton) {
         var shippingAddress = [],
             shippingMethod = null;
-        window.teststripe = {
-            'paymentRequest': paymentRequest,
-            'params': params,
-            'prButton': prButton
-        };
+
         stripeExpress.paymentRequest.on('shippingaddresschange', function(ev) {
             shippingAddress = ev.shippingAddress;
             stripeExpress.estimateShippingCart(shippingAddress, function (err, shippingOptions) {
