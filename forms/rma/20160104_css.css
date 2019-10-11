@@ -359,7 +359,7 @@ select {
 
 select option {
     display: block !important;
-    font-family: 'Open Sans' !important;
+    font-family: 'Roboto' !important;
     padding: 5px 10px;
 }
 
@@ -2185,7 +2185,7 @@ ul#nav .level1.menu-nested-parent > a span {
     font-weight: bold;
     font-size: 12px;
     margin: -5px 0 10px 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .refer-a-friend strong{
@@ -9504,29 +9504,6 @@ only screen and (min-device-pixel-ratio: 1.5){
     z-index: 1;
 }
 
-@import url(//fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
-
-@font-face {
-    font-family: 'Eurostile';
-    src: url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosti.eot');
-    src: url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosti.eot?#iefix') format('embedded-opentype'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosti.woff') format('woff'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosti.ttf') format('truetype'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosti.svg') format('svg');
-}
-
-@font-face{
-    font-family: 'EurostileExtended';
-    src: url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosmnext.eot?#iefix');
-    src: url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosmnext.eot?#iefix') format('eot'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosmnext.woff') format('woff'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosmnext.ttf') format('truetype'),
-    url('//www.hylete.com/skin/frontend/carbon/hylete/fonts/eurosmnext.svg#903952a9-66c5-4768-a9d2-6bad23ff69b2') format('svg');
-}
-
-
-
-
 /* font-family, weight, letter-spacing
 ------------------------------- */
 #nav a,
@@ -9554,7 +9531,7 @@ label,
 .one-page-checkout th,
 .points-amount,
 .checkout-onepage-index .continue-shopping {
-    font-family: 'Eurostile';
+    font-family: 'Roboto';
     font-weight: normal;
     letter-spacing: 0.05em;
 }
@@ -9570,14 +9547,14 @@ label,
 input,
 .dashboard,
 .price {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: normal;
     letter-spacing: 0.05em;
 }
 
 .hylete-widget h1,
 .hylete-widget h2 {
-    font-family: 'EurostileExtended';
+    font-family: 'Roboto';
     font-weight: normal;
     letter-spacing: 0.05em;
 }
@@ -10739,7 +10716,7 @@ td.hidden-inline-block-lg {
 }
 @media (max-width: 991px) {
     #nav a {
-        font-family: 'Eurostile';
+        font-family: 'Roboto';
         font-weight: normal;
     }
 
@@ -10754,7 +10731,6 @@ td.hidden-inline-block-lg {
         line-height: 20px;
     }
 }
-
 
 @media (max-width: 767px) {
     .hylete-widget.fullwidth .description h1,
@@ -11347,4 +11323,3 @@ div.checkoutcontainer div.rewards_referral_information .input-text {
 #rewards_referral_share_modal .content {
     padding: 10px;
 }
-
