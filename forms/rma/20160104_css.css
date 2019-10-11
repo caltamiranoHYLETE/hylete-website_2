@@ -6183,9 +6183,7 @@ div.chechout-purchase-share {
         margin: 0 10px;
     }
 }
-@-ms-viewport {
-    width: device-width;
-}
+
 @media screen and (max-width: 400px) {
     @-ms-viewport {
         width: 320px;
@@ -9750,7 +9748,6 @@ input[type=checkbox] + label:before,
 }
 
 @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
-only screen and (-moz-min-device-pixel-ratio: 1.5),
 only screen and (-o-min-device-pixel-ratio: 3/2),
 only screen and (min-device-pixel-ratio: 1.5) {
     div[class^=sprite-],
@@ -10869,7 +10866,7 @@ td.hidden-inline-block-lg {
     background: #fff;
     display: inline-block;
     margin: 20px;
-    overflow: hidde;
+    overflow: hide;
     padding: 20px 29px;
     position: absolute;
     right: 0;
