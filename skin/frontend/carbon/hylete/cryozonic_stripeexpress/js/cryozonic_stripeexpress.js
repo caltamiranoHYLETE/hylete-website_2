@@ -262,10 +262,7 @@ var stripeExpress = {
                 $$('.stripexpress-logo').invoke('hide');
             }
         });
-
-        stripeExpress.prButton.on('ready', function () {
             callback(stripeExpress.paymentRequest, params, stripeExpress.prButton);
-        });
     },
 
     /**
