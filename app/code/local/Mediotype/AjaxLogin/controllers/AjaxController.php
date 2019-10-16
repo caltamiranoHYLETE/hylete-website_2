@@ -204,6 +204,8 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
 
 		$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 		$recaptcha = json_decode($recaptcha);
+
+		/* We are going to turn this off for a bit
 		if($recaptcha->success == true){
 			if ($recaptcha->score <= 0.2) {
 				$result = array('success' => false);
@@ -211,6 +213,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
 		} else {
 			//Going to let errors go through at this time
 		}
+		*/
 
         $customer = $this->_getCustomer();
 
