@@ -5,12 +5,15 @@
     <?php foreach ($this->getDistriRewards() as $reward_currency => $reward_amount): ?>
         <?php $points_summary = $this->getPointsString($reward_amount, $reward_currency); ?>
 
+        <div id="point_summary_points" style="display:none;"><?php echo $points_summary; ?></div>
         <div class="you_will_earn">
             <span>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('points_summary')->toHtml() ?>
+
             <?php if ($this->getShowEarningFrom()) : ?>
-                <?php echo $this->__('Earn <strong>%s</strong> + Free Shipping & Returns', $points_summary); ?>
+                <?php //echo $this->__('Earn <strong>%s</strong> + Free Shipping & Returns', $points_summary); ?>
             <?php else :?>
-                <?php echo $this->__('Earn <strong>%s</strong> + Free Shipping & Returns', $points_summary); ?>
+                <?php //echo $this->__('Earn <strong>%s</strong> + Free Shipping & Returns', $points_summary); ?>
             <?php endif; ?>
             </span>
             <?php if ($tooltipHtml): ?>
