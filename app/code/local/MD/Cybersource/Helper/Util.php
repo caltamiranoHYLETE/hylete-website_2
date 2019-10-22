@@ -27,7 +27,7 @@
     class MD_Cybersource_Helper_Util extends Mage_Core_Helper_Abstract
     {
         public function checkValid($observer){
-            $event = $observer->getEvent()->getName();
+            /*$event = $observer->getEvent()->getName();
             $errorMsg = $this->checkModuleActivation();
             if(!Mage::app()->getStore()->isAdmin()){
 
@@ -68,12 +68,12 @@
                         $message->addError($msg);
                     }
                 } 
-            }
+            }*/
         }
 
         public function checkModuleActivation(){
             $messages = array();
-            $serial = Mage::getStoreConfig("md_cybersource/license/serial_key");
+            /*$serial = Mage::getStoreConfig("md_cybersource/license/serial_key");
             $activation = Mage::getStoreConfig("md_cybersource/license/activation_key");
             if($_SERVER["SERVER_NAME"] != "localhost" && $_SERVER['SERVER_ADDR'] != "127.0.0.1"){
                 if($serial == ''){
@@ -89,7 +89,7 @@
                 if(count($isValidActivation)){
                     $messages[] = $isValidActivation[0];
                 } 
-            }
+            }*/
 
             return $messages;
 
@@ -100,14 +100,14 @@
             $domain = str_replace(array("www.","http://","https://"),'',$_SERVER["SERVER_NAME"]);
             $hash = $serial.''.$domain;
             $message = array();
-            if(md5($hash) != $activation){
+            /*if(md5($hash) != $activation){
                 $devPart = strchr($domain,'.',true);
                 $origPart = str_replace($devPart.".",'',$domain);
                 $hash2 = $serial.''.$origPart;
                 if(md5($hash2) != $activation){
                     $message[] = "Activation key invalid of 'Cybersource Payment Tokenization' extension for this url.";
                 }
-            }
+            }*/
 
             return $message;
         }
