@@ -47,7 +47,7 @@
  *
  * @author      Sweet Tooth Team (http://www.sweettoothrewards.com)
  */
-class TBT_Rewards_Model_Sales_Order extends Globale_Order_Model_Rewrite_Sales_Order
+class TBT_Rewards_Model_Sales_Order extends Mage_Sales_Model_Order
 {
     protected $points_earned = null;
     protected $points_spent  = null;
