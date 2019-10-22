@@ -28,5 +28,15 @@
                 <sallowspecific>1</sallowspecific>
             </hyleteshipping_shipping>
         </carriers>
+        <payment>
+            <globale>
+                <active>1</active>
+                <model>hyleteshipping_shipping/payment</model>
+                <order_status>pending</order_status>
+                <title>International Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </globale>
+        </payment>
     </default>
 </config>
