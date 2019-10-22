@@ -299,7 +299,7 @@ class Icommerce_AddToCartAjax_IndexController extends Mage_Core_Controller_Front
                         }
                     }
                     if (empty($msg)) {
-                        $msg[] = $this->__('It was not possible to add the product to the shopping cart.');
+                        $msg[] = $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.');
                     }
                     if(Mage::helper('addtocartajax')->showRelatedProducts() && $params['buyRelated'] == 'true') {
                         $result['errorRelated'] = array(
@@ -388,13 +388,13 @@ class Icommerce_AddToCartAjax_IndexController extends Mage_Core_Controller_Front
 							if(!$stockItem->checkQty($requestedQty)){
 								if(Mage::helper('addtocartajax')->showRelatedProducts() && $params['buyRelated'] == 'true') {
 					                $result['errorRelated'] = array(
-					                    'message' => $this->__('It was not possible to add the desired quantity to shopping cart.')
+					                    'message' => $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.')
 					                );
 					                break;
 				                }
 				                else{
 									$result['error'] = array(
-										'message' => $this->__('It was not possible to add the desired quantity to shopping cart.')
+										'message' => $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.')
 									);
 									break;
 								}
@@ -404,7 +404,7 @@ class Icommerce_AddToCartAjax_IndexController extends Mage_Core_Controller_Front
 				}
 			}else{
                 $result['error'] = array(
-                    'message' => $this->__('It was not possible to add the desired quantity to shopping cart.')
+                    'message' => $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.')
                 );
             }
 			// End of qty check
@@ -704,7 +704,7 @@ class Icommerce_AddToCartAjax_IndexController extends Mage_Core_Controller_Front
         } catch (Mage_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
 				$result['error'] = array(
-					'message' => $this->__('It was not possible to add the desired quantity to shopping cart.')
+					'message' => $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.')
 				);
             } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 Mage::getSingleton('catalog/session')->addNotice($e->getMessage());

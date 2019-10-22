@@ -155,7 +155,7 @@ class Icommerce_Style_CartController extends Icommerce_AddToCartAjax_IndexContro
 
 							if($qtyInStock < $params['qty']){
 								$result['error'] = array(
-									'message' => $this->__('It was not possible to add the desired quantity to shopping cart.')
+									'message' => $this->__('Unfortunately, the size selected is not currently in stock. We apologize for the inconvenience.')
 								);
 								break;
 							}
