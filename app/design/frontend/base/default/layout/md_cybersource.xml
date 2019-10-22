@@ -2,7 +2,7 @@
 <layout>
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="md_cybersource" ifconfig="payment/md_cybersource/active" ><name>md_cybersource_saved_cards</name><path>md_cybersource/cards/list/</path><label>Credit Cards</label></action>
+            <action method="addLink" translate="label" module="md_cybersource" ifconfig="payment/md_cybersource/active" ><name>md_cybersource_saved_cards</name><path>md_cybersource/cards/list/</path><label>Cybersource(My Saved Card)</label></action>
         </reference>
         <reference name="head">
             <action method="addItem">
