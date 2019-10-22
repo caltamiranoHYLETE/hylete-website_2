@@ -61,7 +61,7 @@ class OnePica_AvaTax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDocumentationUrl()
     {
-        return 'http://www.onepica.com/magento-extensions/avatax/';
+        return 'https://astoundcommerce.com/magento-extensions/avatax/';
     }
 
     /**
@@ -241,5 +241,43 @@ class OnePica_AvaTax_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $ver = Mage::getVersionInfo();
         return $ver['minor'] < 10;
+    }
+
+    /**
+     * Get Magento Version
+     *
+     * @param bool $asString
+     * @return array|string
+     */
+    public function getMagentoVersion($asString = true)
+    {
+        $vers = Mage::getVersionInfo();
+        foreach ($vers as $key => $value) {
+            $vers[$key] = !empty($value) ? $value : '0';
+        }
+
+        return $asString ? join('.', $vers) : $vers;
+    }
+
+    /**
+     * Get Template Based on Magento Version (backward compatibility)
+     *
+     * @param $templateFileName
+     * @param null $ver
+     * @return null|string|string[]
+     */
+    public function getTemplateForMagentoVersion($templateFileName, $ver = null)
+    {
+        $result = $templateFileName;
+
+        $ver = (!isset($ver)) ? $this->getMagentoVersion() : $ver;
+        $isEnterprise = version_compare($ver, '1.10.0.0.0.0') > -1;
+        if ($isEnterprise) {
+            if (version_compare($ver, '1.13.0.2.0.0') < 1) {
+                $result = preg_replace('/[.]phtml$/', '-11302.phtml', $result);
+            }
+        }
+
+        return $result;
     }
 }

@@ -47,6 +47,13 @@ abstract class OnePica_AvaTax_Model_Service_Abstract extends Varien_Object
     protected $_pingResource;
 
     /**
+     * Bag Items Resource
+     *
+     * @var mixed
+     */
+    protected $_bagItemsResource;
+
+    /**
      * Address validator resource
      *
      * @var mixed

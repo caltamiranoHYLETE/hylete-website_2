@@ -25,6 +25,20 @@
 class OnePica_AvaTax_Model_Records_Mysql4_Log_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
+     * Name prefix of events that are dispatched by model
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'avatax_model_records_mysql4_log_collection';
+
+    /**
+     * Name of event parameter
+     *
+     * @var string
+     */
+    protected $_eventObject = 'collection';
+
+    /**
      * @var bool
      */
     protected $_relatedInformationAdded;
