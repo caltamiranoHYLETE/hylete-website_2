@@ -590,9 +590,14 @@ abstract class OnePica_AvaTax_Model_Service_Avatax_Abstract extends OnePica_AvaT
      */
     protected function _getTaxClassCodeByProduct($product)
     {
-        $taxClass = $this->_getTaxClassCollection()->getItemById($product->getTaxClassId());
-
-        return $taxClass ? $taxClass->getOpAvataxCode() : '';
+		//Added by STK because $product was coming in null and throwing an error
+		if(!is_null ($product) ){
+			$taxClass = $this->_getTaxClassCollection()->getItemById($product->getTaxClassId());
+			return $taxClass ? $taxClass->getOpAvataxCode() : '';
+		} else{
+			$taxClass = $this->_getTaxClassCollection()->getItemById('2');
+			return $taxClass ? $taxClass->getOpAvataxCode() : '';
+		}
     }
 
     /**
