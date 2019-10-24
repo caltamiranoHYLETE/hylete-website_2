@@ -38,10 +38,10 @@
             console.warn('Afterpay: window.Prototype or window.Element is not defined, cannot render installments amount');
             return;
         }
-        if (!Product) {
-            console.warn('Afterpay: window.Product is not defined, cannot render installments amount');
-            return;
-        }
+        //if (!Product) {
+        //    console.warn('Afterpay: window.Product is not defined, cannot render installments amount');
+        //    return;
+        //}
         if (!this.config instanceof Object) {
             console.warn('Afterpay: Afterpay.Installments.config is not set, cannot render installments amount');
             return;
