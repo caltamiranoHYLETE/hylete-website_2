@@ -24,15 +24,22 @@
  */
 class OnePica_AvaTax_Model_Observer_SalesQuoteCollectTotalsBefore extends OnePica_AvaTax_Model_Observer_Abstract
 {
-	/**
-	 * Sets the collectTotals tax node based on the extensions enabled/disabled status
-	 *
-	 * @param Varien_Event_Observer $observer
-	 * @return $this
-	 */
-	public function execute(Varien_Event_Observer $observer)
+    /**
+     * Sets the collectTotals tax node based on the extensions enabled/disabled status
+     *
+     * @param Varien_Event_Observer $observer
+     * @return $this
+     */
+    public function execute(Varien_Event_Observer $observer)
+    {
+        $storeId = $observer->getEvent()->getQuote()->getStoreId();
+        Mage::getSingleton('avatax/tax_avaTaxEnabler')->initTaxCollector($storeId);
+        return $this;
+    }
+
+	public function addressChange(Varien_Event_Observer $observer)
 	{
-		$storeId = $observer->getEvent()->getQuote()->getStoreId();
+		$storeId = "1"; //$observer->getEvent()->getQuote()->getStoreId();
 		Mage::getSingleton('avatax/tax_avaTaxEnabler')->initTaxCollector($storeId);
 		return $this;
 	}

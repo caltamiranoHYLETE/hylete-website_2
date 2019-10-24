@@ -1,0 +1,44 @@
+<?php
+/**
+ * OnePica_AvaTax
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0), a
+ * copy of which is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   OnePica
+ * @package    OnePica_AvaTax
+ * @author     OnePica Codemaster <codemaster@onepica.com>
+ * @copyright  Copyright (c) 2009 One Pica, Inc.
+ * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+/* @var $this OnePica_AvaTax_Block_Adminhtml_Catalog_Product_Edit_Tab_LandedCost_HsCode */
+?>
+<?php $_htmlClass = $this->getElement()->getClass() ?>
+<?php $_htmlName = $this->getElement()->getName() ?>
+<?php $_readonly = $this->getElement()->getReadonly() ?>
+<?php $_helper = Mage::helper('avatax') ?>
+
+<tr>
+    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
+
+    <td class="grid value">
+        <select id="avatax_lc_hs_code" name="<?php echo $_htmlName ?>" class="select">
+            <option value=""><?php echo $this->__('Select one...') ?></option>
+            <?php foreach ($this->getHsCodes() as $hsCode) { ?>
+                <option value="<?php echo $hsCode->getHsCode() ?>" <?php
+                echo $this->getElement()->getValue() === $hsCode->getHsCode() ? 'selected="selected"' : '';
+                ?>>[<?php echo $hsCode->getHsCode() ?>] <?php echo $hsCode->getDescription() ?></option>
+            <?php }; ?>
+        </select>
+    </td>
+    <td class="scope-label"><span class="nobr"><?php echo $this->getScopeLabel() ?></span></td>
+</tr>
+
+<script type="application/javascript">
+    jQuery(function ($) {
+        $('#avatax_lc_hs_code').selectize();
+    });
+</script>
