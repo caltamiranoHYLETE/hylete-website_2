@@ -68,9 +68,12 @@ if (!file_exists($mageFilename)) {
     exit;
 }
 
-if (file_exists($maintenanceFile)) {
-    include_once dirname(__FILE__) . '/forms/maintenance.php';
-    exit;
+$ip = $_SERVER['REMOTE_ADDR'];
+$allowed_ips = array('98.186.225.197');
+
+if (file_exists($maintenanceFile) && !in_array ($ip, $allowed_ips)) {
+	include_once dirname(__FILE__) . '/forms/maintenance.php';
+	exit;
 }
 
 require MAGENTO_ROOT . '/app/bootstrap.php';
