@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Bestworlds_KlaviyoExtend>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Klaviyo_Reclaim />
+            </depends>
+        </Bestworlds_KlaviyoExtend>
+    </modules>
+</config>
