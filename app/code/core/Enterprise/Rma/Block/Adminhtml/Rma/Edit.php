@@ -173,7 +173,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
      */
     public function getCloseUrl()
     {
-        return $this->getUrl('*/*/close', array(
+        return $this->getUrlSecure('*/*/close', array(
             'entity_id' => $this->getRma()->getId()
         ));
     }
