@@ -76,12 +76,34 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
 
     /**
      * Action after delete
-     * Need to delete all backup tables also
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Core_Model_Resource_Db_Abstract
+     */
+    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    {
+        return parent::_afterDelete($object);
+    }
+
+    /**
+     * Action get backup tables
+     *
+     * @param $stagingTablePrefix
+     * @return Enterprise_Staging_Model_Resource_Helper_Mysql4
+     */
+    public function getBackupTables($stagingTablePrefix)
+    {
+        return Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
+    }
+
+    /**
+     * Action delete staging backup
+     * Need to delete all backup tables without transaction
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Enterprise_Staging_Model_Resource_Staging_Action
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    public function deleteStagingBackup(Mage_Core_Model_Abstract $object)
     {
         if ($object->getIsDeleteTables() === true) {
             $stagingTablePrefix = $object->getStagingTablePrefix();
@@ -95,16 +117,5 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
 
         }
         return $this;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param unknown_type $stagingTablePrefix
-     * @return unknown
-     */
-    public function getBackupTables($stagingTablePrefix)
-    {
-        return Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
     }
 }
