@@ -245,6 +245,18 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFailedItems($all = true)
     {
+        return $this->getFailedItemsCustom($all);
+    }
+
+    /**
+     * Get add by SKU failed items with or without Form Key in 'Add to Cart' URLs
+     *
+     * @param bool $all whether sku-failed items should be retrieved
+     * @param bool $addFormKey
+     * @return array
+     */
+    public function getFailedItemsCustom($all = true, $addFormKey = true)
+    {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
             $failedItems = Mage::getSingleton('enterprise_checkout/cart')->getFailedItems();
             $collection = Mage::getResourceSingleton('enterprise_checkout/product_collection')
@@ -311,7 +323,13 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                                     Mage::helper('tax')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(Mage::helper('checkout/cart')->getAddUrl($itemProduct));
+                            if ($addFormKey) {
+                                $itemProduct->setAddToCartUrl(Mage::helper('checkout/cart')->getAddUrl($itemProduct));
+                            } else {
+                                $itemProduct->setAddToCartUrl(
+                                    Mage::helper('checkout/cart')->getAddUrlCustom($itemProduct, false)
+                                );
+                            }
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }
