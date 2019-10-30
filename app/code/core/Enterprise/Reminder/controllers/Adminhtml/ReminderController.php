@@ -180,6 +180,9 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                     $this->_redirect('*/*/edit', array('id' => $model->getId()));
                     return;
                 }
+                if (Mage::helper('adminhtml')->hasTags($data['rule'], array('attribute'), false)) {
+                    Mage::throwException(Mage::helper('catalogrule')->__('Wrong rule specified'));
+                }
 
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
