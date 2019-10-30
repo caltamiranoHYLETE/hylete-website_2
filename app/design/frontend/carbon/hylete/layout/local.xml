@@ -971,7 +971,6 @@
     <checkout_cart_index>
         <reference name="afterpay_onetouch">
             <action method="setTemplate"><template>afterpay/checkout/onetouch-alt.phtml</template></action>
-            <block type="afterpay/onetouch" name="afterpay_onetouch" before="checkout.cart.methods.multishipping" />
         </reference>
     </checkout_cart_index>
 
