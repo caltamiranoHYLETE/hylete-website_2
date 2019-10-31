@@ -1,0 +1,7 @@
+<?php
+$region_specific_text = (Mage::app()->getStore()->getCurrentCurrencyCode() == 'AUD') ? 'fortnightly' : ((Mage::app()->getStore()->getCurrentCurrencyCode() == 'NZD') ? 'fortnightly' : 'bi-weekly');
+?>
+<div class="afterpay-installments afterpay-cart">Or 4 installments of <strong><?php echo $this->__($this->getInstalmentAmount()) ?></strong> 
+with <img src="<?php echo $this->getSkinUrl('afterpay/images/ap-logo-152x31.png') ?>" style="width: 76px;vertical-align: middle;display: inline;
+"></img><a href="#afterpay-what-is-modal" class="afterpay-what-is-modal-trigger">   <i class="fal fa-question-circle"></i> </a>
+</div>

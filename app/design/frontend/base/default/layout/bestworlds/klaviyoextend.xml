@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_logged_out>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>bestworlds/klaviyoextend/js/observer.js</name>
+            </action>
+        </reference>
+        <reference name="after_body_start">
+            <block type="klaviyoextend/template" name="klaviyoextend" as="klaviyoextend" template="bestworlds/klaviyoextend/klaviyoextend.phtml" />
+        </reference>
+    </customer_logged_out>
+</layout>

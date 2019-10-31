@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <klaviyoextend translate="title" module="klaviyoextend">
+                                        <title>BestWorlds Klaviyo Extend</title>
+                                    </klaviyoextend>
+                                </children>
+                            </config>
+                            <klaviyoextend_adminsetting translate="title" module="klaviyoextend">
+                                <title>BestWorlds Klaviyo Extend</title>
+                            </klaviyoextend_adminsetting>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
