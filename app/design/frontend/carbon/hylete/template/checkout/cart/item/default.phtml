@@ -28,9 +28,16 @@ $_item = $this->getItem();
 $_product = $_item->getProduct();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+$_params = $this->escapeHtml(json_encode(array('form_key' => $this->getFormKey())));
+$_deleteUrl = $this->getDeleteUrlCustom(false);
 ?>
 <tr>
-    <td class="a-center remove"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo $this->__('remove item')?>" class="btn-remove"><span class="sprite-remove"></span><span class="sr-only"><?php echo $this->__('remove this item') ?></span></a></td>
+    <td class="a-center remove">
+        <a href="#"
+           title="<?php echo Mage::helper('core')->quoteEscape($this->__('remove item')) ?>"
+           class="btn-remove"
+           onclick="customFormSubmit('<?php echo $_deleteUrl ?>', '<?php echo $_params ?>', 'post')">
+            <span class="sprite-remove"></span><span class="sr-only"><?php echo $this->__('remove this item') ?></span></a></td>
     <td class="hidden-xs"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(53, 77); ?>" width="53" height="77" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td class="product-info">
         <div class="product-name<?php if ($_options = $this->getOptionList()):?> has-options<?php endif; ?>">

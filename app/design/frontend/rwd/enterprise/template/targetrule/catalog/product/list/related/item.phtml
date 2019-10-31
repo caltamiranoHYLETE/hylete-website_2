@@ -38,7 +38,17 @@ if ($_item):
             <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
             <?php echo $this->getPriceHtml($_item, true, '-related') ?>
             <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <p><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                <?php $_params = $this->escapeHtml(json_encode(array('form_key' => $this->getFormKey()))); ?>
+                <?php $_wishlistUrl = $this->getAddToWishlistUrlCustom($_item, false); ?>
+                <p>
+                    <a href="#"
+                       data-url="<?php echo $_wishlistUrl ?>"
+                       data-params="<?php echo $_params ?>"
+                       class="link-wishlist"
+                       onclick="customFormSubmit('<?php echo $_wishlistUrl ?>', '<?php echo $_params ?>', 'post')">
+                        <?php echo $this->__('Add to Wishlist') ?>
+                    </a>
+                </p>
             <?php endif; ?>
         </div>
     </div>
