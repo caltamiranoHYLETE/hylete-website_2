@@ -50,5 +50,15 @@ $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
                title="<?php echo $this->quoteEscape($this->__('Qty')) ?>"
                class="input-text qty disabled" maxlength="12" disabled="disabled" />
     </td>
-    <td class="a-center last"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo $this->quoteEscape($this->__('Remove item')) ?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove item')?></a></td>
+    <td class="a-center last">
+        <a href="#"
+           title="<?php echo $this->quoteEscape($this->__('Remove item')) ?>"
+           class="btn-remove btn-remove2"
+           onclick="customFormSubmit(
+                   '<?php echo $this->getDeleteUrlCustom(false) ?>',
+                   '<?php echo $this->escapeHtml(json_encode(array('form_key' => $this->getFormKey()))) ?>',
+                   'post')" >
+            <?php echo $this->__('Remove item')?>
+        </a>
+    </td>
 </tr>
