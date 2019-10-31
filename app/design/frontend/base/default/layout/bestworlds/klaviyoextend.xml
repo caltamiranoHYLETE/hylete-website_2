@@ -2,7 +2,7 @@
 <layout version="0.1.0">
     <customer_logged_out>
         <reference name="head">
-            <action method="addItem">
+            <action method="addItem" ifconfig="klaviyoextend/basic/enable">
                 <type>skin_js</type>
                 <name>bestworlds/klaviyoextend/js/observer.js</name>
             </action>
