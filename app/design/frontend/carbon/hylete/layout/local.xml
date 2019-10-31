@@ -969,8 +969,9 @@
     </checkout_onepage_index__old_quickcheckout>
 
     <checkout_cart_index>
-        <reference name="afterpay_onetouch">
-            <action method="setTemplate"><template>afterpay/checkout/onetouch-alt.phtml</template></action>
+        <reference name="checkout.cart.methods">
+            <remove name="afterpay_onetouch"/>
+            <block type="afterpay/onetouch" before="checkout.cart.methods" name="onetouch-alt" template="afterpay/checkout/onetouch-alt.phtml" />
         </reference>
     </checkout_cart_index>
 
