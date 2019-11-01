@@ -180,6 +180,9 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                     $this->_redirect('*/*/edit', array('id' => $model->getId()));
                     return;
                 }
+                if (Mage::helper('adminhtml')->hasTags($data['rule'], array('attribute'), false)) {
+                    Mage::throwException(Mage::helper('catalogrule')->__('Wrong rule specified'));
+                }
 
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
@@ -261,6 +264,17 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
             $block = $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_customers');
             $this->getResponse()->setBody($block->toHtml());
         }
+    }
+
+    /**
+     * Controller predispatch method
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    public function preDispatch()
+    {
+        $this->_setForcedFormKeyActions('delete');
+        return parent::preDispatch();
     }
 
     /**

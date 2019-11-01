@@ -255,4 +255,16 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Action delete
+     * Need to delete all backup tables also without transaction
+     *
+     * @return Enterprise_Staging_Model_Resource_Staging_Action
+     */
+    public function delete()
+    {
+        parent::delete();
+        return Mage::getResourceModel('enterprise_staging/staging_action')->deleteStagingBackup($this);
+    }
 }

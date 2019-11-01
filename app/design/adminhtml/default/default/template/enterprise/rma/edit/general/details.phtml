@@ -44,7 +44,11 @@ $customerLink = $this->getCustomerLink();
                 </tr>
                 <tr>
                     <td class="label"><label><?php echo Mage::helper('enterprise_rma')->__('Order ID') ?></label></td>
-                    <td class="value"><a href="<?php echo $this->getOrderLink() ?>"><?php echo Mage::helper('enterprise_rma')->__('#') . $this->getOrderIncrementId() ?></a></td>
+                    <td class="value">
+                        <a href="<?php echo $this->getOrderLink() ?>">
+                            <?php echo Mage::helper('enterprise_rma')->__('#') . $this->escapeHtml($this->getOrderIncrementId()) ?>
+                        </a>
+                    </td>
                 </tr>
                 <tr>
                     <td class="label"><label><?php echo Mage::helper('enterprise_rma')->__('Customer Name') ?></label></td>

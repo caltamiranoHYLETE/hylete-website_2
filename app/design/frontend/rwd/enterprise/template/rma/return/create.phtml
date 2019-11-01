@@ -338,7 +338,16 @@
             <div class="field">
                 <label for="rma_comment"><?php echo $this->__('Comments') ?></label>
                 <div class="input-box">
-                    <textarea id="rma_comment" style="height:6em;" cols="5" rows="3" name="rma_comment" class="input-text"><?php if ($_data): ?><?php echo $_data->getRmaComment(); ?><?php endif; ?></textarea>
+                    <textarea id="rma_comment"
+                              style="height:6em;"
+                              cols="5"
+                              rows="3"
+                              name="rma_comment"
+                              class="input-text">
+                        <?php if ($_data): ?>
+                            <?php echo Mage::helper('core')->escapeHtml($_data->getRmaComment()); ?>
+                        <?php endif; ?>
+                    </textarea>
                 </div>
             </div>
         </li>
