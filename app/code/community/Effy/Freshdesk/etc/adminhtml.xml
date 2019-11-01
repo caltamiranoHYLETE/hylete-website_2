@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Effy_Freshdesk extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Freshdesk
+ * @package        Effy_Freshdesk
+ * @copyright      Copyright (c) 2018
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <menu>
+        <freshdesk translate="title" module="freshdesk">
+            <title>Freshdesk</title>
+            <sort_order>71</sort_order>
+            <children>
+                <ticket translate="title" module="freshdesk">
+                    <title>Tickets</title>
+                    <action>adminhtml/freshdesk/ticket</action>
+                    <sort_order>10</sort_order>
+                </ticket>
+                <token translate="title" module="freshdesk">
+                    <title>Freshdesk App's API Token</title>
+                    <action>adminhtml/freshdesk/token</action>
+                    <sort_order>10</sort_order>
+                </token>
+                <portal translate="title" module="freshdesk">
+                    <title>Go to Freshdesk</title>
+                    <action>adminhtml/freshdesk/portal</action>
+                    <sort_order>20</sort_order>
+                </portal>
+                <config translate="title" module="freshdesk">
+                    <title>Settings</title>
+                    <action>adminhtml/system_config/edit/section/freshdesk</action>
+                    <sort_order>1000</sort_order>
+                </config>
+            </children>
+        </freshdesk>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <freshdesk>
+                        <title>Freshdesk</title>
+                        <sort_order>10</sort_order>
+                        <children>
+                            <ticket translate="title" module="freshdesk">
+                                <title>Tickets</title>
+                                <action>adminhtml/freshdesk/ticket</action>
+                                <sort_order>10</sort_order>
+                            </ticket>
+                            <token translate="title" module="freshdesk">
+                                <title>Freshdesk App's API Token</title>
+                                <action>adminhtml/freshdesk/token</action>
+                                <sort_order>10</sort_order>
+                            </token>
+                            <portal translate="title" module="freshdesk">
+                                <title>Go to Freshdesk</title>
+                                <action>adminhtml/freshdesk/portal</action>
+                                <sort_order>20</sort_order>
+                            </portal>
+                            <config translate="title" module="freshdesk">
+                                <title>Settings</title>
+                                <action>adminhtml/system_config/edit/section/freshdesk</action>
+                                <sort_order>1000</sort_order>
+                            </config>
+                        </children>
+                    </freshdesk>
+
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <freshdesk translate="title" module="freshdesk">
+                                        <title>Freshdesk</title>
+                                        <sort_order>100</sort_order>
+                                    </freshdesk>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

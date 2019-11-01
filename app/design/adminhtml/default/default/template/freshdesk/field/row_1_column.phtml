@@ -1,0 +1,26 @@
+<?php
+/**
+ * Effy Freshdesk extension
+ *
+ * @category    Effy_Freshdesk
+ * @package     Effy_Freshdesk
+ * @copyright   Copyright (c) 2014 Effy. (http://www.effy.com)
+ * @license     http://www.effy.com/disclaimer.html
+ */
+
+/**
+ * @see  Effy_Freshdesk_Block_Field_Row
+ *
+ * @var Effy_Freshdesk_Block_Field_Row $this
+ */
+
+?>
+<tr>
+    <td colspan="2" class="value">
+        <?php echo $this->getInputFieldHtml(); ?>
+        <label for="<?php echo $this->getFieldId(); ?>">
+            <?php echo $this->getFieldLabel(); ?>
+            <?php if ($this->isRequired()): ?> <span class="required">*</span><?php endif; ?>
+        </label>
+    </td>
+</tr>
