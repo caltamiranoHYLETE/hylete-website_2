@@ -83,7 +83,13 @@ class Enterprise_Logging_Model_Config
                 }
             }
             else {
-                $this->_systemConfigValues = unserialize($this->_systemConfigValues);
+                try {
+                    $this->_systemConfigValues = Mage::helper('core/unserializeArray')
+                        ->unserialize($this->_systemConfigValues);
+                } catch (Exception $e) {
+                    $this->_systemConfigValues = array();
+                    Mage::logException($e);
+                }
             }
         }
         return $this->_systemConfigValues;

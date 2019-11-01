@@ -532,7 +532,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                             $idField = $person->getIdFieldName();
                             if (!empty($registrant[$idField])) {
                                 $person->load($registrant[$idField]);
-                                if (!$person->getId()) {
+                                if (!$person->getId() || $person->getEntityId() != $model->getEntityId()) {
                                     Mage::throwException(
                                         Mage::helper('enterprise_giftregistry')->__('Incorrect recipient data.')
                                     );

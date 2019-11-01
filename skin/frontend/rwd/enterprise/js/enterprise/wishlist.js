@@ -295,9 +295,17 @@ Event.observe(document, 'dom:loaded', function() {
         }
 
         $$('.link-wishlist').each(function(link) {
-            var url = link.href;
-            var onclick = link.onclick || function() {
-                setLocation(this.href);
+            if (typeof link.dataset.url === 'undefined') {
+                var url = link.href;
+                var onclick = link.onclick || function() {
+                    setLocation(this.href);
+                };
+            } else {
+                var url = link.dataset.url;
+                var params = link.dataset.params;
+                var onclick = function() {
+                    customFormSubmit(this.href, params, 'post');
+                };
             }
 
             var wishlistSplitButton = new Enterprise.Widget.SplitButton(link.innerHTML, Translator.translate('Add to Wishlist'), 'light clickable wishlist-selector');
