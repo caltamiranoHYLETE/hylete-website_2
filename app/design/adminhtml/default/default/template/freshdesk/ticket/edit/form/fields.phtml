@@ -1,0 +1,26 @@
+<?php
+/**
+ * Effy Freshdesk extension
+ *
+ * @category    Effy_Freshdesk
+ * @package     Effy_Freshdesk
+ * @copyright   Copyright (c) 2014 Effy. (http://www.effy.com)
+ * @license     http://www.effy.com/disclaimer.html
+ */
+?>
+
+<?php
+/**
+ * @see  Effy_Freshdesk_Block_Adminhtml_Ticket_Edit_Form_Fields
+ *
+ * @var Effy_Freshdesk_Block_Adminhtml_Ticket_Edit_Form_Fields $this
+ * @var Effy_Freshdesk_Model_Field                             $field
+ */
+
+$_fields = $this->getFields();
+?>
+<table cellspacing="0" class="form-list">
+    <?php foreach ($_fields as $field) : ?>    	
+        <?php echo $this->getFieldHtml($field); ?>
+    <?php endforeach; ?>
+</table>

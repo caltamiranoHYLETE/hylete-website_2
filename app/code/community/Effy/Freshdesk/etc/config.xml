@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Effy_Freshdesk extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Freshdesk
+ * @package        Effy_Freshdesk
+ * @copyright      Copyright (c) 2018
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <default>
+        <effy_freshdesk>
+            <cache>
+                <expiry_lifetime>21600</expiry_lifetime>
+            </cache>
+        </effy_freshdesk>
+    </default>
+    <modules>
+        <Effy_Freshdesk>
+            <version>1.0.0</version>
+        </Effy_Freshdesk>
+    </modules>
+    <global>
+        <resources>
+            <effy_freshdesk_setup>
+                <setup>
+                    <module>Effy_Freshdesk</module>
+                    <class>Effy_Freshdesk_Model_Resource_Setup</class>
+                </setup>
+            </effy_freshdesk_setup>
+        </resources>
+        <blocks>
+            <effy_freshdesk>
+                <class>Effy_Freshdesk_Block</class>
+            </effy_freshdesk>
+            <adminhtml>
+                <rewrite>
+                    <customer_edit_tab_view_accordion>Effy_Freshdesk_Block_Adminhtml_Customer_Edit_Tab_View_Tickets</customer_edit_tab_view_accordion>
+                </rewrite>
+            </adminhtml> 
+        </blocks>
+        <helpers>
+            <freshdesk>
+                <class>Effy_Freshdesk_Helper</class>
+            </freshdesk>
+        </helpers>
+        <models>
+            <effy_freshdesk>
+                <class>Effy_Freshdesk_Model</class>
+                <resourceModel>effy_freshdesk_resource</resourceModel>
+            </effy_freshdesk>
+            <effy_freshdesk_resource>
+                <class>Effy_Freshdesk_Model_Resource</class>
+                <entities>
+                    <token>
+                        <table>effy_freshdesk_token</table>
+                    </token>
+                    <ticket>
+                        <table>effy_freshdesk_ticket</table>
+                    </ticket>
+                    <token_store>
+                        <table>effy_freshdesk_token_store</table>
+                    </token_store>
+                    <ticket_store>
+                        <table>effy_freshdesk_ticket_store</table>
+                    </ticket_store>
+                </entities>
+            </effy_freshdesk_resource>
+        </models>
+        <cache>
+            <types>
+                <freshdesk>
+                    <label>Freshdesk</label>
+                    <description>Freshdesk tickets, ticket fields, user tickets and etc</description>
+                    <tags>FRESHDESK</tags>
+                </freshdesk>
+            </types>
+        </cache>
+        <events>
+            <admin_system_config_changed_section_freshdesk>
+                <observers>
+                    <freshdesk>
+                        <type>singleton</type>
+                        <class>effy_freshdesk/observer</class>
+                        <method>processSavedConfig</method>
+                    </freshdesk>
+                </observers>
+            </admin_system_config_changed_section_freshdesk>
+            <controller_action_postdispatch_contacts_index_post>
+                <observers>
+                    <effy_freshdesk_controller_action_postdispatch_contacts_index_post>
+                        <type>singleton</type>
+                        <class>effy_freshdesk/observer</class>
+                        <method>processControllerActionPostdispatchContacts</method>
+                    </effy_freshdesk_controller_action_postdispatch_contacts_index_post>
+                </observers>
+            </controller_action_postdispatch_contacts_index_post>
+
+        </events>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <effy_freshdesk>
+                    <file>effy_freshdesk.xml</file>
+                </effy_freshdesk>
+            </updates>
+        </layout>                
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Effy_Freshdesk before="Mage_Adminhtml">Effy_Freshdesk_Adminhtml</Effy_Freshdesk>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <routers>
+            <freshdesk>
+                <use>standard</use>
+                <args>
+                    <module>Effy_Freshdesk</module>
+                    <frontName>freshdesk</frontName>
+                </args>
+            </freshdesk>
+        </routers>
+    </frontend>
+</config>

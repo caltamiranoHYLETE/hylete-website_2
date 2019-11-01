@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Effy Freshdesk extension
+ *
+ * @category    Effy_Freshdesk
+ * @package     Effy_Freshdesk
+ * @copyright   Copyright (c) 2013 Effy. (http://www.effy.com)
+ * @license     http://www.effy.com/disclaimer.html
+ */
+-->
+<config>
+    <modules>
+        <Effy_Freshdesk>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends />
+        </Effy_Freshdesk>
+    </modules>
+</config>

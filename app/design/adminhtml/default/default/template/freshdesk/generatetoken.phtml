@@ -1,0 +1,60 @@
+<div class="middle" id="anchor-content">
+    <div id="page:main-container">
+        <div id="messages"></div>
+        <div class="content-header">
+            <h3 class="icon-head head-system-account">Freshdesk</h3>                
+        </div>
+        <div class="entry-edit">
+            <form id="edit_form">                
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-edit-form fieldset-legend">API Token</h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset " id="base_fieldset">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label for="token">API Token</label></td>
+                                    <td class="value">
+                                        <input id="token" name="token" value="<?php echo $this->getToken()?>" title="API Token" type="text" class=" input-text disabled" style="width:500px;" disabled>            
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td>
+                                        <button style="" onclick="generateToken()" class="scalable" type="button" id="fd-regenerate">
+                                            <span><?php echo $this->__('Regenerate Token'); ?></span>
+                                        </button>      
+                                    </td>
+                                </tr>    
+                                <tr>
+                                    <td>
+                                        <ul class="messages">
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">    
+    function generateToken() {
+        new Ajax.Request('<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/freshdesk/regenerate') ?>', {
+            method:     'get',
+            onSuccess: function(transport) {              
+                token = transport.responseJSON.token;
+                document.getElementById('token').value = token;
+                node = document.getElementsByClassName('messages')[0];
+                node.appendChild('<li class="success-msg">Auth token has been regenerated.</li></ul>');
+            },
+            onFailure: function(transport) {
+               console.log('Error');
+               console.log(transport);
+            }
+        });
+    }
+</script>

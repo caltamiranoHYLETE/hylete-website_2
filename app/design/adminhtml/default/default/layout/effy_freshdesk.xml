@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Effy_Freshdesk extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Freshdesk
+ * @package        Effy_Freshdesk
+ * @copyright      Copyright (c) 2018
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout version="0.1.0">
+    <adminhtml_freshdesk_token>
+        <reference name="content">
+            <block type="adminhtml/template"  name="freshdeskBlock" template="freshdesk/generatetoken.phtml"/>
+        </reference>
+    </adminhtml_freshdesk_token>    
+    <default>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_js</type>
+				<name>freshdesk/js/freshdesk.js</name>
+			</action>
+		</reference>
+	</default>
+
+	<adminhtml_freshdesk_ticket>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>freshdesk/css/freshdesk.css</stylesheet>
+			</action>
+		</reference>
+	</adminhtml_freshdesk_ticket>
+
+	<adminhtml_freshdesk_ticket_create>
+		<update handle="editor" />
+		<update handle="adminhtml_freshdesk_ticket" />
+	</adminhtml_freshdesk_ticket_create>
+
+	<adminhtml_customer_edit>
+		<update handle="adminhtml_freshdesk_ticket_create" />
+		<reference name="accordion">
+			<block type="effy_freshdesk/adminhtml_customer_edit_tab_view_tickets" name="freshdesk_customer_tickets" />
+		</reference>
+	</adminhtml_customer_edit>
+
+	<adminhtml_system_config_edit>
+		<update handle="adminhtml_freshdesk_ticket_create" />
+	</adminhtml_system_config_edit>
+</layout>

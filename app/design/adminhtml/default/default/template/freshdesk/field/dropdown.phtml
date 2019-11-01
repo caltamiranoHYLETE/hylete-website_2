@@ -1,0 +1,22 @@
+<?php
+/**
+ * Effy Freshdesk extension
+ *
+ * @category    Effy_Freshdesk
+ * @package     Effy_Freshdesk
+ * @copyright   Copyright (c) 2014 Effy. (http://www.effy.com)
+ * @license     http://www.effy.com/disclaimer.html
+ */
+
+/**
+ * @see Effy_Freshdesk_Block_Field_Dropdown
+ *
+ * @var Effy_Freshdesk_Block_Field_Dropdown $this
+ */
+?>
+<select id="<?php echo $this->getFieldId(); ?>" name="<?php echo $this->getFieldName(); ?>"
+        class="<?php echo $this->getFieldClass(); ?>">
+    <?php foreach ($this->getOptions() as $option) : ?>
+        <option value="<?php echo $option['value']; ?>"><?php echo $option['label']; ?></option>
+    <?php endforeach; ?>
+</select>

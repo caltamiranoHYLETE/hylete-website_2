@@ -1,0 +1,39 @@
+<?php
+/**
+ * Effy Freshdesk extension
+ *
+ * @category    Effy_Freshdesk
+ * @package     Effy_Freshdesk
+ * @copyright   Copyright (c) 2014 Effy. (http://www.effy.com)
+ * @license     http://www.effy.com/disclaimer.html
+ */
+?>
+
+<?php
+/**
+ * @see  Effy_Freshdesk_Block_Adminhtml_Ticket_Edit_Form
+ *
+ * @var Effy_Freshdesk_Block_Adminhtml_Ticket_Edit_Form $this
+ * @var Effy_Freshdesk_Model_Field                      $field
+ */
+
+$_fields = $this->getFields();
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->getLabel(); ?></h4>
+    </div>
+
+    <div class="fieldset fieldset-wide" id="freshdesk_ticket_edit_fields">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="form-list" style="width: 50%">
+                <?php $counter=0;foreach ($_fields as $field) : ?>
+                    <?php echo $this->getFieldHtml($field); ?>
+                    <?php if ($counter ++ == 7) {
+                        break;
+                    } ?>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>
