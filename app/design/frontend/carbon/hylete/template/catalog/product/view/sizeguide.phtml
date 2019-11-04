@@ -3,17 +3,17 @@
 <?php if ($_sizeGuideHtml): ?>
     <div class="sizes">
         <a data-fancybox-trigger="sizeguide" href="#fancybox-sizeguide">
-        <i class="fal fa-2x fa-ruler"></i>
-        <span><?php echo $this->__('fit & size guide'); ?></span>
+            <i class="fal fa-2x fa-ruler"></i>
+            <span><?php echo $this->__('fit & size guide'); ?></span>
         </a>
     </div>
     <div id="fancybox-sizeguide" style="display: none;">
         <div class="sizeguide">
             <p>
                 <a class="close-btn underline fancybox-close"><span><?php echo $this->__('close'); ?></span></a>
-                <?php echo $_product->getSizeguideText(); ?>
+				<?php echo $_product->getSizeguideText(); ?>
             </p>
-            <?php echo $_sizeGuideHtml; ?>
+			<?php echo $_sizeGuideHtml; ?>
         </div>
     </div>
 <?php endif; ?>
