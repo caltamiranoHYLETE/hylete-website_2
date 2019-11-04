@@ -484,7 +484,7 @@ jQuery(document).ready(function(){
                             } else{
 
                                 //if it is a warranty, we display a different popup
-                                console.log(jsonObj[0])
+                                //console.log(jsonObj[0])
                                 if(jsonObj[0].IsWarranty) {
                                     jQuery('#modal-message').html("<h4>Your warranty replacement has been submitted successfully!</h4>");
                                     jQuery('#warranty-label-area').show();
