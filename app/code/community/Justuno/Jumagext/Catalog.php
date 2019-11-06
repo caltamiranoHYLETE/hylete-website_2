@@ -17,7 +17,6 @@ final class Justuno_Jumagext_Catalog {
 	 */
 	static function p() {
 		R::authorize();
-		$req = Mage::app()->getRequest(); /** @var Mage_Core_Controller_Request_Http $req */
 		$pc = new PC; /** @var PC $pc */
 		$pc->addAttributeToSelect('*');
 		/**
@@ -112,8 +111,7 @@ final class Justuno_Jumagext_Catalog {
 				 * We need these sent back starting at OptionType1, OptionType2»:
 				 * https://github.com/justuno-com/m1/issues/14
 				 */
-				foreach (array_values($opts) as $id => $code) {
-					$id++;
+				foreach (array_values($opts) as $id => $code) {$id++; /** @var int $id */ /** @var string $code */
 					$r["OptionType$id"] = $code;
 				}
 			}

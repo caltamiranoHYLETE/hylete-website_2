@@ -1,7 +1,22 @@
 jQuery(function() {
-    if (!Mage.Cookies.get('bw_klaviyoextend_off')) {
+    if (getUrlParameter('kl_id')) {
         var interval = setInterval(fireKlaviyoCall,500);
     }
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    }
+
     function fireKlaviyoCall(){
         if (jQuery('#klaviyoExtendAction').length && jQuery.isFunction(_learnq.identify)) {
             clearInterval(interval);
@@ -13,15 +28,15 @@ jQuery(function() {
                     data: {'isAjax':1,'email':klaviyoData.$email},
                     success: function(data) {
                         console.log('Email from klaviyo was saved!');
-                        Mage.Cookies.set('bw_klaviyoextend_off', true);
                     },
                     error:function(data) {
                         console.log('Error saving email from Klaviyo');
                     }
                 });
-            } else {
-                Mage.Cookies.set('bw_klaviyoextend_off', true);
             }
         }
     }
 });
+
+
+
