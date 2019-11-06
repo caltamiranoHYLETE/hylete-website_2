@@ -24,7 +24,7 @@ $_json = Mage::helper('googleaddons')->getTransactionEventJSON();
         json = <?php echo $_json; ?>;
         var productsIds;
         if(json.transactionProducts.length==1){
-            console.log("fb_product_id: " + json.transactionProducts[0].parent_sku);
+            //console.log("fb_product_id: " + json.transactionProducts[0].parent_sku);
             productsIds=json.transactionProducts[0].parent_sku;
         }else{
             productsIds="[";
@@ -33,12 +33,12 @@ $_json = Mage::helper('googleaddons')->getTransactionEventJSON();
                 productsIds+="'"+json.transactionProducts[i].parent_sku+"',";
             }
             productsIds=productsIds.substr(0,productsIds.length-1)+"]";
-            console.log("fb_product_id: " + productsIds);
+            //console.log("fb_product_id: " + productsIds);
         }
 
-        console.log("fb_tran_id: " + json.transactionId);
-        console.log("fb_tran_total: " + json.transactionTotal);
-        console.log("fb_tran_currency: " + json.transactionCurrency);
+        //console.log("fb_tran_id: " + json.transactionId);
+        //console.log("fb_tran_total: " + json.transactionTotal);
+        //console.log("fb_tran_currency: " + json.transactionCurrency);
 
         var objPurchase={
             product_catalog_id: 633438867150935,
@@ -48,7 +48,7 @@ $_json = Mage::helper('googleaddons')->getTransactionEventJSON();
             currency: json.transactionCurrency,
             order_id: json.transactionId
         };
-        console.log("purchase fbk");
+        //console.log("purchase fbk");
         fbq('track', 'Purchase', objPurchase);
         /*//});
 	  },10);*/

@@ -172,18 +172,21 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     {
         $resource = $this->_getResource();
         /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
+        $label = Mage::helper('core')->escapeHtml($this->getLabel());
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
-                Mage::throwException(
-                    Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is the last public version for its page.', $this->getLabel())
-                );
+                Mage::throwException(Mage::helper('enterprise_cms')->__(
+                    'Version "%s" could not be removed because it is the last public version for its page.',
+                    $label
+                ));
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $this->getLabel())
-            );
+            Mage::throwException(Mage::helper('enterprise_cms')->__(
+                'Version "%s" could not be removed because its revision has been published.',
+                $label
+            ));
         }
 
         return parent::_beforeDelete();

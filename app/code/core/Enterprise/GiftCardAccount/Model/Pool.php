@@ -123,8 +123,9 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
         $charset = str_split((string) Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
 
         $code = '';
+        $charsetSize = count($charset);
         for ($i=0; $i<$length; $i++) {
-            $char = $charset[array_rand($charset)];
+            $char = $charset[random_int(0, $charsetSize - 1)];
             if ($split > 0 && ($i%$split) == 0 && $i != 0) {
                 $char = "{$splitChar}{$char}";
             }

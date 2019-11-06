@@ -36,6 +36,6 @@ $customerLink = $this->getCustomerLink();
         <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('enterprise_rma')->__('Return Address') ?></h4>
     </div>
     <fieldset>
-        <address><?php echo $this->getReturnAddress() ?></address>
+        <address><?php echo $this->maliciousCodeFilter($this->getReturnAddress()) ?></address>
     </fieldset>
 </div>

@@ -105,7 +105,12 @@ $entityValues = $this->getEntityValues();
                             <?php endif; ?>
                             <?php if ($product->isSaleable()): ?>
                                 <?php if ($isVisibleProduct): ?>
-                                <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <button type="button"
+                                        title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>"
+                                        onclick="addWItemToCartCustom(<?php echo $item->getId(); ?>, false)"
+                                        class="button btn-cart">
+                                    <span><span><?php echo $this->__('Add to Cart') ?></span></span>
+                                </button>
                                 <?php endif ?>
                             <?php else: ?>
                                 <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
@@ -180,7 +185,16 @@ $entityValues = $this->getEntityValues();
     }
 
     function addWItemToCart(itemId) {
-        var url = '<?php echo $this->getItemAddToCartUrl('%item%') ?>';
+        addWItemToCartCustom(itemId, true)
+    }
+
+    function addWItemToCartCustom(itemId, sendGet) {
+        var url = '';
+        if (sendGet) {
+            url = '<?php echo $this->getItemAddToCartUrl('%item%') ?>';
+        } else {
+            url = '<?php echo $this->getItemAddToCartUrlCustom('%item%', false) ?>';
+        }
         url = url.gsub('%item%', itemId);
         var form = $('wishlist-view-form');
         if (form) {
@@ -190,7 +204,11 @@ $entityValues = $this->getEntityValues();
                 url += separator + input.name + '=' + encodeURIComponent(input.value);
             }
         }
-        setLocation(url);
+        if (sendGet) {
+            setLocation(url);
+        } else {
+            customFormSubmit(url, '<?php echo $this->escapeHtml(json_encode(array("form_key" => $this->getFormKey()))) ?>', 'post');
+        }
     }
 
     function addAllWItemsToCart() {
