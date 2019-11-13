@@ -112,6 +112,7 @@ function createPartner() {
         $client = new nusoap_client($config['baseUrl'], 'WSDL');
     	$client->timeout = 200;
     	$client->response_timeout = 600;
+		$client->setHeaders("<AuthHeader xmlns=\"http://tempuri.org/\"><UserName>".$config['username']."</UserName><Password>".$config['token']."</Password></AuthHeader>");
     	
     	$error = $client->getError();
     	if ($error) {

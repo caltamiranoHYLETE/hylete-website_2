@@ -1,7 +1,4 @@
 <?php
-
-
-
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 function test_input($data) {
@@ -11,7 +8,7 @@ function test_input($data) {
   return $data;
 }
 
-function GetOrderTracking() {
+function runCancelOrder() {
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$orderId = "";
@@ -32,28 +29,19 @@ function GetOrderTracking() {
 			}
     	}
 
-		/* Set your parameters for the request */
-		$params = array(
-				"orderId" => $orderId
-		);
-
+    	/* Set your parameters for the request */
+    	$params = array(
+    		"orderId" => $orderId
+    	);
+    
     	require '../lib/nusoap/nusoap.php';
-        $config = include('../config.php');
-    	$client = new nusoap_client($config['baseUrl'], 'WSDL');
+		$config = include('../config.php');
+		$client = new nusoap_client($config['baseUrl'], 'WSDL');
     	$client->timeout = 200;
     	$client->response_timeout = 600;
 		$client->setHeaders("<AuthHeader xmlns=\"http://tempuri.org/\"><UserName>".$config['username']."</UserName><Password>".$config['token']."</Password></AuthHeader>");
-    	
-    	$error = $client->getError();
-    	if ($error) {
-    	    $data = array();
-            $data['success'] = false;
-            $data['message'] = $error;
-            
-            echo json_encode($data);
-    	}
-    	
-    	$jsonReturn = $client->call('GetOrderTracking', array($params), '', '', false, true);
+
+    	$jsonReturn = $client->call('CancelOrder', array($params), '', '', false, true);
     	
     	$error = $client->getError();
     	if ($error) {
@@ -71,7 +59,7 @@ function GetOrderTracking() {
 
 
 try {
-	GetOrderTracking();
+	runCancelOrder();
 } catch(Exception $e) {
 	
 	$data = array();

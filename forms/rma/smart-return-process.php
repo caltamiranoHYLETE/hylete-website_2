@@ -72,6 +72,7 @@ function getOrderLocation() {
         $client = new nusoap_client($config['baseUrl'], 'WSDL');
         $client->timeout = 10000;
         $client->response_timeout = 10000;
+		$client->setHeaders("<AuthHeader xmlns=\"http://tempuri.org/\"><UserName>".$config['username']."</UserName><Password>".$config['token']."</Password></AuthHeader>");
 
         $error = $client->getError();
         if ($error) {
@@ -108,7 +109,7 @@ try {
     $data['success'] = false;
     $data['message'] = $e->getMessage();
 
-    echo json_encode($jsonReturn);
+    echo json_encode($data);
 }
 
 

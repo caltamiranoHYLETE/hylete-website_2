@@ -8,49 +8,52 @@ function test_input($data) {
   return $data;
 }
 
-function getReturnTracking() {
+function checkAccount() {
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$orderId = "";
-    	if(!empty($_POST["orderId"])) 
-    	{
-    	  $orderId = test_input($_POST["orderId"]);
+		if(!empty($_POST["orderId"]))
+		{
+			$orderId = test_input($_POST["orderId"]);
+		}
 
-			//if this is an amazon order we can add dashes
-			//11386976547125015 == 113-8697654-7125015
-			if(strlen($orderId) == 17) {
-				$str = substr($orderId,0,3);
-				$str = $str."-";
-				$str = $str.substr($orderId,3,7);
-				$str = $str."-";
-				$str = $str.substr($orderId,10,7);
+		$email = "";
+		if(!empty($_POST["email"]))
+		{
+			$email = test_input($_POST["email"]);
+		}
 
-				$orderId = $str;
-			}
-    	}
+		$comments = "";
+		if(!empty($_POST["comments"]))
+		{
+			$comments = test_input($_POST["comments"]);
+		}
 
-		/* Set your parameters for the request */
-		$params = array(
-				"orderId" => $orderId
-		);
+		$firstName = "";
+		if(!empty($_POST["firstName"]))
+		{
+			$firstName = test_input($_POST["firstName"]);
+		}
+
+		$lastName = "";
+		if(!empty($_POST["lastName"]))
+		{
+			$lastName = test_input($_POST["lastName"]);
+		}
+
+    	/* Set your parameters for the request */
+    	$params = array(
+    		"orderId" => $orderId, "email" => $email, "comments"=>$comments, "firstName"=>$firstName, "lastName"=>$lastName
+    	);
 
     	require '../lib/nusoap/nusoap.php';
-        $config = include('../config.php');
-        $client = new nusoap_client($config['baseUrl'], 'WSDL');
+		$config = include('../config.php');
+		$client = new nusoap_client($config['baseUrl'], 'WSDL');
     	$client->timeout = 200;
     	$client->response_timeout = 600;
 		$client->setHeaders("<AuthHeader xmlns=\"http://tempuri.org/\"><UserName>".$config['username']."</UserName><Password>".$config['token']."</Password></AuthHeader>");
-    	
-    	$error = $client->getError();
-    	if ($error) {
-    	    $data = array();
-            $data['success'] = false;
-            $data['message'] = $error;
-            
-            echo json_encode($data);
-    	}
-    	
-    	$jsonReturn = $client->call('GetReturnTracking', array($params), '', '', false, true);
+
+    	$jsonReturn = $client->call('QueueReturnSupportEmail', array($params), '', '', false, true);
     	
     	$error = $client->getError();
     	if ($error) {
@@ -68,7 +71,7 @@ function getReturnTracking() {
 
 
 try {
-	getReturnTracking();
+	checkAccount();
 } catch(Exception $e) {
 	
 	$data = array();

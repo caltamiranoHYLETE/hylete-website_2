@@ -68,10 +68,14 @@ $( document ).ready(function() {
 	//"https://pbhservice.hylete.com/hyletePBHService.asmx/CheckAccountInfo?" + $.param(requestData)
 	function getAccountInfo() {
 		var requestData = { email: $("#txtEmail").val() };
-		$.ajax({ url: "proxy.php",
-			data: {requrl: "https://pbhservice.hylete.com/hyletePBHService.asmx/CheckAccountInfo?" + $.param(requestData) },
-	        dataType: "json",
-	        success: function(data) {
+		jQuery.ajax({
+			type        : 'POST',
+			url         : '/forms/rma/account-info-process.php',
+			data        : requestData ,
+			dataType    : 'json',
+			encode      : true,
+			timeout: 60000,
+			success:function(data) {
 	            if(data.CustomerId == "0") {
 	            	$('#sectionProcessing').hide();
 	            	$("#email_not_found").show();
