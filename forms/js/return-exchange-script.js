@@ -19,10 +19,13 @@ jQuery(document).ready(function(){
 
     if(orderId != "") {
         var requestData = { orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin };
-        jQuery.ajax({ url: "../lib/proxy.php",
-            data: {requrl: urlBase + "GetReturnProductTable?" + jQuery.param(requestData) },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+        jQuery.ajax({
+            type        : 'POST',
+            url         : '/forms/rma/smart-return-process.php',
+            data        : requestData,
+            dataType    : 'json',
+            encode      : true,
+            timeout: 60000,
             success: function(data) {
                 //console.log(data);
                 //var jsonObj = JSON.parse('[' + data + ']');
@@ -136,12 +139,13 @@ jQuery(document).ready(function(){
             var requestData = { orderId: orderId, email: email, comments: comments, firstName: firstName, lastName: lastName };
 
             jQuery.ajax({
-                url: "../lib/proxy.php",
-                data: {requrl: urlBase + "QueueReturnSupportEmail?" + jQuery.param(requestData)},
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    //if we don't have any errors, we will show the customer a return label
+                type        : 'POST',
+                url         : '/forms/rma/support-email-process.php',
+                data        : requestData ,
+                dataType    : 'json',
+                encode      : true,
+                timeout: 60000,
+                success: function(data) {
                     //console.log(data);
                     if (data.success == 'false') {
                         jQuery('#nonreturnable_contactForm').html("<h1>Message Failed!</h1><p>There was a problem creating your ticket. An message has been sent to technical support to resolve the issue.</p>");
@@ -454,8 +458,6 @@ jQuery(document).ready(function(){
                 }
 
             }
-
-
 
             if(canSubmit) {
                 var dataString  = jQuery("#productForm, #addressForm, #choiceForm").serialize();

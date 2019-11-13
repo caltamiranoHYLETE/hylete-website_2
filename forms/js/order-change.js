@@ -40,11 +40,13 @@ jQuery( document ).ready(function() {
 
                     var orderId = jQuery('#orderId').val();
                     var requestData = { orderId: orderId };
-                    jQuery.ajax({ url: "/forms/lib/proxy.php",
-                        data: {requrl: urlBase + "CancelOrder?" + jQuery.param(requestData) },
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        cache: false,
+                    jQuery.ajax({
+                        type        : 'POST',
+                        url         : '/forms/rma/order-cancel-process.php',
+                        data        : requestData ,
+                        dataType    : 'json',
+                        encode      : true,
+                        timeout: 60000,
                         success: function(data) {
                             //console.log(data);
 
@@ -76,11 +78,13 @@ jQuery( document ).ready(function() {
                     var orderId = jQuery('#orderId').val();
                     var message = jQuery('#comments').val();
                     var requestData = { orderId: orderId, message: message};
-                    jQuery.ajax({ url: "/forms/lib/proxy.php",
-                        data: {requrl: urlBase + "HoldOrder?" + jQuery.param(requestData) },
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        cache: false,
+                    jQuery.ajax({
+                        type        : 'POST',
+                        url         : '/forms/rma/order-hold-process.php',
+                        data        : requestData ,
+                        dataType    : 'json',
+                        encode      : true,
+                        timeout: 60000,
                         success: function(data) {
                             //console.log(data);
 
@@ -122,11 +126,13 @@ jQuery( document ).ready(function() {
 
             var requestData = { orderId: orderId, email: email };
 
-            jQuery.ajax({ url: "/forms/lib/proxy.php",
-                data: {requrl: urlBase + "GetOrderChangeData?" + jQuery.param(requestData) },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                cache: false,
+            jQuery.ajax({
+                type        : 'POST',
+                url         : '/forms/rma/order-change-process.php',
+                data        : requestData ,
+                dataType    : 'json',
+                encode      : true,
+                timeout: 60000,
                 success: function(data) {
                     //console.log(data);
 
