@@ -63,9 +63,7 @@ $( document ).ready(function() {
 		    }
 	    }
 	});
-	
-	
-	//"https://pbhservice.hylete.com/hyletePBHService.asmx/CheckAccountInfo?" + $.param(requestData)
+
 	function getAccountInfo() {
 		var requestData = { email: $("#txtEmail").val() };
 		jQuery.ajax({
