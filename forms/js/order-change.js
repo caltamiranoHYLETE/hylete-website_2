@@ -49,14 +49,14 @@ jQuery( document ).ready(function() {
                         timeout: 60000,
                         success: function(data) {
                             //console.log(data);
-
+                            var jsonObj = JSON.parse('[' + data.CancelOrderResult + ']');
                             jQuery('#sectionProcessing').hide();
 
                             var html = "";
-                            if(data.Success) {
+                            if(jsonObj[0].Success) {
                                 html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             }
-                            else if(data.Success === "true") {
+                            else if(jsonObj[0].Success === "true") {
                                 html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             } else {
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
@@ -87,13 +87,13 @@ jQuery( document ).ready(function() {
                         timeout: 60000,
                         success: function(data) {
                             //console.log(data);
-
+                            var jsonObj = JSON.parse('[' + data.HoldOrderResult + ']');
                             jQuery('#sectionProcessing').hide();
 
                             var html = "";
-                            if(data.Success) {
+                            if(jsonObj[0].Success) {
                                 html = "<ul><li class='can-return'>Your order has been put on hold and customer service will contact you soon about your request.</li></ul>";
-                            } else if(data.Success === "true") {
+                            } else if(jsonObj[0].Success === "true") {
                                 html = "<ul><li class='can-return'>Your order has been put on hold and customer service will contact you soon about your request.</li></ul>";
                             } else{
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
@@ -135,12 +135,12 @@ jQuery( document ).ready(function() {
                 timeout: 60000,
                 success: function(data) {
                     //console.log(data);
-
+                    var jsonObj = JSON.parse('[' + data.GetOrderChangeDataResult + ']');
                     jQuery('#sectionProcessing').hide();
 
                     var html = "";
 
-                    if(data.Error !== null && data.Error !== "") {
+                    if(jsonObj[0].Error !== null && jsonObj[0].Error !== "") {
                         html += "<ul><li class='passed-date'>The email you have entered does not match the order number entered. Please try again.</li></ul>";
 
                         jQuery('#resultShow').html(html).fadeIn('500');
@@ -148,9 +148,9 @@ jQuery( document ).ready(function() {
                         return;
                     }
 
-                    if (data.OrderFound === true) {
+                    if (jsonObj[0].OrderFound === true) {
 
-                        if (data.CanReturn === true) {
+                        if (jsonObj[0].CanReturn === true) {
                             html += "<ul><li class='can-return'>We found your order! Please select from the options below to make your change. Please note: this is time sensitive as we try and process orders as fast as we can. </li></ul>";
 
                             jQuery('#changeForm').fadeIn('500');

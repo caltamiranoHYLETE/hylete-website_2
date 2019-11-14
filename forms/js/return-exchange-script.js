@@ -21,7 +21,7 @@ jQuery(document).ready(function(){
         var requestData = { orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin };
         jQuery.ajax({
             type        : 'POST',
-            url         : '/forms/rma/smart-return-process.php',
+            url         : '/forms/rma/return_table_process.php',
             data        : requestData,
             dataType    : 'json',
             encode      : true,
@@ -29,20 +29,22 @@ jQuery(document).ready(function(){
             success: function(data) {
                 //console.log(data);
                 //var jsonObj = JSON.parse('[' + data + ']');
-                if(data.ErrorMessage != "" && data.ErrorMessage != null) {
-                    jQuery("#loadingMessage").text(data.ErrorMessage);
+                var jsonObj = JSON.parse('[' + data.GetReturnProductTableResult + ']');
+                //console.log(jsonObj[0].Table);
+                if(jsonObj[0].ErrorMessage != "" && jsonObj[0].ErrorMessage != null) {
+                    jQuery("#loadingMessage").text(jsonObj[0].ErrorMessage);
                     jQuery("#loadingImage").hide();
                 } else{
-                    jQuery("#product_table_area").html(data.Table);
-                    jQuery("#firstName").val(data.FirstName);
-                    jQuery("#lastName").val(data.LastName);
-                    jQuery("#email").val(data.Email);
-                    jQuery("#nonreturnable_email").val(data.Email);
-                    jQuery("#address1").val(data.Address1);
-                    jQuery("#address2").val(data.Address2);
-                    jQuery("#city").val(data.City);
-                    jQuery("#state").val(data.State);
-                    jQuery("#postalCode").val(data.PostalCode);
+                    jQuery("#product_table_area").html(jsonObj[0].Table);
+                    jQuery("#firstName").val(jsonObj[0].FirstName);
+                    jQuery("#lastName").val(jsonObj[0].LastName);
+                    jQuery("#email").val(jsonObj[0].Email);
+                    jQuery("#nonreturnable_email").val(jsonObj[0].Email);
+                    jQuery("#address1").val(jsonObj[0].Address1);
+                    jQuery("#address2").val(jsonObj[0].Address2);
+                    jQuery("#city").val(jsonObj[0].City);
+                    jQuery("#state").val(jsonObj[0].State);
+                    jQuery("#postalCode").val(jsonObj[0].PostalCode);
 
                     //Amazon, GOVX and BodyBuilding get a simple refund
                     if(jQuery("#simpleRefund").val() == "true") {
@@ -147,7 +149,8 @@ jQuery(document).ready(function(){
                 timeout: 60000,
                 success: function(data) {
                     //console.log(data);
-                    if (data.success == 'false') {
+                    var jsonObj = JSON.parse('[' + data.QueueReturnSupportEmailResult + ']');
+                    if (jsonObj[0].success == 'false') {
                         jQuery('#nonreturnable_contactForm').html("<h1>Message Failed!</h1><p>There was a problem creating your ticket. An message has been sent to technical support to resolve the issue.</p>");
                     } else {
                         jQuery('#nonreturnable_contactForm').html("<h1>Message Sent!</h1><p>We appreciate your patience while our brand reps work on responding to you as soon as possible. Thanks for your support.</p>");
