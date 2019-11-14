@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="/forms/js/jquery.validate.min.js"></script>
     <script src="/forms/js/additional-methods.min.js"></script>
     <script type="text/javascript" src="/forms/js/config.js"></script>
-    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201903"></script>
+    <script type="text/javascript" src="/forms/js/return-exchange-script.js?date=201911"></script>
 
 </head>
 <body>
