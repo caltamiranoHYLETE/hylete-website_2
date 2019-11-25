@@ -238,6 +238,17 @@ class Vaimo_GoogleAddons_Helper_Data extends Mage_Core_Helper_Abstract {
             }
         }
 
+
+        ini_set("xdebug.var_display_max_children", -1);
+        ini_set("xdebug.var_display_max_data", -1);
+        ini_set("xdebug.var_display_max_depth", -1);
+        var_dump(Mage::helper('core')->jsonEncode($result));
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        die;
         return Mage::helper('core')->jsonEncode($result);
     }
 }

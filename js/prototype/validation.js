@@ -531,10 +531,10 @@ Validation.addAllThese([
     ['validate-emailSender', 'Please use only visible characters and spaces.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[\S ]+$/.test(v)
                     }],
-    ['validate-password', 'Please enter more characters or clean leading or trailing spaces.', function(v, elm) {
+    ['validate-password', 'Please enter more characters or clean leading or trailing spaces', function(v, elm) {
                 var pass=v.strip(); /*strip leading and trailing spaces*/
                 var reMin = new RegExp(/^min-pass-length-[0-9]+$/);
-                var minLength = 7;
+                var minLength = 3;
                 $w(elm.className).each(function(name, index) {
                     if (name.match(reMin)) {
                         minLength = name.split('-')[3];
@@ -673,7 +673,7 @@ Validation.addAllThese([
     ['validate-state', 'Please select State/Province.', function(v) {
                 return (v!=0 || v == '');
             }],
-    ['validate-new-password', 'Please enter more characters or clean leading or trailing spaces.', function(v, elm) {
+    ['validate-new-password', 'Please enter more characters or clean leading or trailing spaces. 2', function(v, elm) {
                 if (!Validation.get('validate-password').test(v, elm)) return false;
                 if (Validation.get('IsEmpty').test(v) && v != '') return false;
                 return true;
