@@ -1,89 +1,95 @@
 <?php
-    $_address = $this->getAddress();
-    $_prefix  = 'billing';
+$_address = $this->getAddress();
+$_prefix  = 'billing';
+if(null == $_address->getTelephone()){
+    $telephone = false;
 
-    $fields = array(
-        'name'  => array(),
-        'email' => array(
-            'class'  => 'input-text validate-email',
-            'type'   => 'email',
-            'label'  => 'Email Address',
-            'status' => $this->isCustomerLoggedIn() ? 'hidden' : 'required'
-        ),
-        'company' => array(
-            'class' => 'input-text',
-            'label' => 'Company'
-        ),
-        'fax' => array(
-            'class' => 'input-text',
-            'type'  => 'tel',
-            'label' => 'Fax'
-        ),
-        'telephone' => array(
-            'class' => 'input-text',
-            'type'  => 'tel',
-            'label' => 'Telephone'
-        ),
-        'city' => array(
-            'class' => 'input-text',
-            'label' => 'City'
-        ),
-        'postcode' => array(
-            'class' => 'input-text validate-zip-international',
-            'label' => 'Zip/Postal Code'
-        ),
-        'street1' => array(
-            'class' => 'input-text',
-            'label' => 'Address',
-            'title' => 'Street Address',
-            'name'  => $_prefix . '[street][]',
-            'value' => $_address->getStreet(1)
-        ),
-        'country_id' => array(
-            'label' => 'Country',
-            'required_to_render' => 1
-        ),
-        'region' => array(
-            'label' => 'State/Province',
-            'required_to_render' => 1
-        )
+}else{
+    $telephone = $_address->getTelephone();
+}
+
+$fields = array(
+    'name'  => array(),
+    'email' => array(
+        'class'  => 'input-text validate-email',
+        'type'   => 'email',
+        'label'  => 'Email Address',
+        'status' => $this->isCustomerLoggedIn() ? 'hidden' : 'required'
+    ),
+    'company' => array(
+        'class' => 'input-text',
+        'label' => 'Company'
+    ),
+    'fax' => array(
+        'class' => 'input-text',
+        'type'  => 'tel',
+        'label' => 'Fax'
+    ),
+    'telephone' => array(
+        'class' => 'input-text',
+        'type'  => 'tel',
+        'label' => 'Telephone'
+    ),
+    'city' => array(
+        'class' => 'input-text',
+        'label' => 'City'
+    ),
+    'postcode' => array(
+        'class' => 'input-text validate-zip-international',
+        'label' => 'Zip/Postal Code'
+    ),
+    'street1' => array(
+        'class' => 'input-text',
+        'label' => 'Address',
+        'title' => 'Street Address',
+        'name'  => $_prefix . '[street][]',
+        'value' => $_address->getStreet(1)
+    ),
+    'country_id' => array(
+        'label' => 'Country',
+        'required_to_render' => 1
+    ),
+    'region' => array(
+        'label' => 'State/Province',
+        'required_to_render' => 1
+    )
+);
+
+if (!$this->isCustomerLoggedIn()) {
+    $_layout = $this->getLayout();
+    $_dob    = $_layout->createBlock('customer/widget_dob');
+    $_gender = $_layout->createBlock('customer/widget_gender');
+    $_taxvat = $_layout->createBlock('customer/widget_taxvat');
+    $widgets = array(
+        'dob'    => $_dob,
+        'gender' => $_gender,
+        'taxvat' => $_taxvat
     );
-
-    if (!$this->isCustomerLoggedIn()) {
-        $_layout = $this->getLayout();
-        $_dob    = $_layout->createBlock('customer/widget_dob');
-        $_gender = $_layout->createBlock('customer/widget_gender');
-        $_taxvat = $_layout->createBlock('customer/widget_taxvat');
-        $widgets = array(
-            'dob'    => $_dob,
-            'gender' => $_gender,
-            'taxvat' => $_taxvat
-        );
-        foreach ($widgets as $fieldId => $widget) {
-            if (!$widget->isEnabled()) {
-                continue;
-            }
-            $fields[$fieldId] = array('status' => 'optional'); // managed by magento's js
+    foreach ($widgets as $fieldId => $widget) {
+        if (!$widget->isEnabled()) {
+            continue;
         }
+        $fields[$fieldId] = array('status' => 'optional'); // managed by magento's js
     }
+}
 
-    $addressHelper = Mage::helper('customer/address');
-    if (method_exists($addressHelper, 'isVatAttributeVisible')
-        && $addressHelper->isVatAttributeVisible()) {
+$addressHelper = Mage::helper('customer/address');
+if (method_exists($addressHelper, 'isVatAttributeVisible')
+    && $addressHelper->isVatAttributeVisible()) {
 
-        $fields['vat_id'] = array(
-            'status' => 'optional',
-            'class'  => 'input-text ' . $addressHelper->getAttributeValidationClass('vat_id'),
-            'label'  => 'VAT Number'
-        );
+    $fields['vat_id'] = array(
+        'status' => 'optional',
+        'class'  => 'input-text ' . $addressHelper->getAttributeValidationClass('vat_id'),
+        'label'  => 'VAT Number'
+    );
+}
+
+if ($this->getIsTigPostNLPostcodeCheckEnabled()) {
+    $unset = array('city', 'postcode', 'street1', 'country_id');
+    foreach ($unset as $key) {
+        unset($fields[$key]);
     }
-
-    if ($this->getIsTigPostNLPostcodeCheckEnabled()) {
-        $unset = array('city', 'postcode', 'street1', 'country_id');
-        foreach ($unset as $key) {
-            unset($fields[$key]);
-        }
-    }
+}
 ?>
 
 <?php
@@ -101,30 +107,30 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
     <?php endif; ?>
     <div class="block-content">
         <ul class="form-list">
-        <?php if ($this->customerHasAddresses()): ?>
-            <li class="wide address-select-item">
-                <label for="billing-address-select"><?php echo $this->helper('checkout')->__('Select a billing address from your address book or enter a new address.') ?></label>
-                <div class="input-box">
-                    <?php echo $this->helper('hylete/checkout')->getAddressesHtmlSelect($this, 'billing') ?>
-                </div>
-            </li>
-            <?php if ($fmeFieldsmanager) :
-                echo $fmeFieldsmanager->getfieldshtml(1);
-                echo $fmeFieldsmanager->getfieldshtml(2);
-                echo $fmeFieldsmanager->getfieldshtml(3);
-            endif; ?>
-        <?php endif; ?>
-        <li id="billing-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?>>
-            <fieldset>
-                <input type="hidden" name="billing[address_id]" value="<?php echo $_address->getId() ?>" id="billing:address_id" />
-                <ul>
-                    <?php if (!$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(1); endif; ?>
-                    <?php foreach (Mage::helper('firecheckout/address')->getRows($fields) as $row) : ?>
-                        <?php
+            <?php if ($this->customerHasAddresses()): ?>
+                <li class="wide address-select-item">
+                    <label for="billing-address-select"><?php echo $this->helper('checkout')->__('Select a billing address from your address book or enter a new address.') ?></label>
+                    <div class="input-box">
+                        <?php echo $this->helper('hylete/checkout')->getAddressesHtmlSelect($this, 'billing') ?>
+                    </div>
+                </li>
+                <?php if ($fmeFieldsmanager) :
+                    echo $fmeFieldsmanager->getfieldshtml(1);
+                    echo $fmeFieldsmanager->getfieldshtml(2);
+                    echo $fmeFieldsmanager->getfieldshtml(3);
+                endif; ?>
+            <?php endif; ?>
+            <li id="billing-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?>>
+                <fieldset>
+                    <input type="hidden" name="billing[address_id]" value="<?php echo $_address->getId() ?>" id="billing:address_id" />
+                    <ul>
+                        <?php if (!$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(1); endif; ?>
+                        <?php foreach (Mage::helper('firecheckout/address')->getRows($fields) as $row) : ?>
+                            <?php
                             $_isMulticolumn = $row->getIsMulticolumn();
                             $className = $_isMulticolumn ? 'fields' : 'wide';
                             $style = $row->getIsVisible() ? '' : ' style="display: none;"';
-                        ?>
+                            ?>
                         <li class="<?php echo $className ?>"<?php echo $style ?>>
                             <?php foreach ($row->getFields() as $field => $config) : ?>
                                 <?php $required = ('required' === $config['status']); ?>
@@ -139,8 +145,8 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                 <?php endif ?>
 
                                 <?php if ($_isMulticolumn) : ?>
-                                    <div class="field">
-                                <?php endif ?>
+                                <div class="field">
+                            <?php endif ?>
 
                                 <?php if ('dob' === $field): ?>
                                     <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat($_prefix . ':%s')->setFieldNameFormat($_prefix . '[%s]')->toHtml() ?>
@@ -150,51 +156,51 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                     <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())->setFieldIdFormat($_prefix . ':%s')->setFieldNameFormat($_prefix . '[%s]')->toHtml() ?>
                                 <?php else : ?>
                                     <label for="<?php echo $_prefix ?>:<?php echo $field ?>"
-                                        class="<?php echo $required ? 'required' : '' ?>"
-                                        ><?php if ($required): ?><em>*</em><?php endif; ?><?php echo $this->__($config['label']) ?></label>
+                                           class="<?php echo $required ? 'required' : '' ?>"
+                                    ><?php if ($required): ?><em>*</em><?php endif; ?><?php echo $this->__($config['label']) ?></label>
                                     <div class="input-box">
                                         <?php if ('country_id' === $field) : ?>
                                             <?php echo $this->getCountryHtmlSelect($_prefix) ?>
                                         <?php elseif ('region' === $field): ?>
                                             <select id="<?php echo $_prefix ?>:region_id" name="<?php echo $_prefix ?>[region_id]"
-                                                title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
-                                                class="validate-select<?php echo $required ? ' required-entry' : '' ?>" style="display:none;"
+                                                    title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
+                                                    class="validate-select<?php echo $required ? ' required-entry' : '' ?>" style="display:none;"
                                             >
                                                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                                             </select>
                                             <script type="text/javascript">
-                                            //<![CDATA[
+                                                //<![CDATA[
                                                 $('<?php echo $_prefix ?>:region_id').setAttribute('defaultValue',  "<?php echo $_address->getRegionId() ?>");
-                                            //]]>
+                                                //]]>
                                             </script>
-                                            <input type="text" id="<?php echo $_prefix ?>:region" name="<?php echo $_prefix ?>[region]"
-                                                value="<?php echo $this->escapeHtml($_address->getRegion()) ?>"
-                                                title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
-                                                class="input-text<?php echo $required ? ' required-entry' : '' ?>" style="display:none;"
-                                            />
+                                        <input type="text" id="<?php echo $_prefix ?>:region" name="<?php echo $_prefix ?>[region]"
+                                               value="<?php echo $this->escapeHtml($_address->getRegion()) ?>"
+                                               title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
+                                               class="input-text<?php echo $required ? ' required-entry' : '' ?>" style="display:none;"
+                                        />
                                         <?php else: ?>
-                                            <?php
-                                                if (isset($config['value'])):
-                                                    $value = $config['value'];
-                                                else:
-                                                    $method = 'get' . ucfirst($field);
-                                                    $value = $_address->{$method}();
-                                                endif;
-                                            ?>
-                                            <input type="<?php echo (empty($config['type']) ? 'text' : $config['type']) ?>"
-                                                name="<?php echo (empty($config['name']) ? $_prefix . '[' . $field . ']' : $config['name']) ?>"
-                                                id="<?php echo $_prefix ?>:<?php echo $field ?>"
-                                                value="<?php echo $this->escapeHtml($value) ?>"
-                                                title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
-                                                class="<?php echo $config['class'] ?><?php echo $required ? ' required-entry' : '' ?>"
-                                            />
+                                        <?php
+                                        if (isset($config['value'])):
+                                            $value = $config['value'];
+                                        else:
+                                            $method = 'get' . ucfirst($field);
+                                            $value = $_address->{$method}();
+                                        endif;
+                                        ?>
+                                        <input type="<?php echo (empty($config['type']) ? 'text' : $config['type']) ?>"
+                                               name="<?php echo (empty($config['name']) ? $_prefix . '[' . $field . ']' : $config['name']) ?>"
+                                               id="<?php echo $_prefix ?>:<?php echo $field ?>"
+                                               value="<?php echo $this->escapeHtml($value) ?>"
+                                               title="<?php echo (empty($config['title']) ? $this->__($config['label']) : $this->__($config['title'])) ?>"
+                                               class="<?php echo $config['class'] ?><?php echo $required ? ' required-entry' : '' ?>"
+                                        />
                                         <?php endif ?>
                                     </div>
                                 <?php endif ?>
 
-                                 <?php if ($_isMulticolumn) : ?>
-                                    </div>
-                                <?php endif ?>
+                                <?php if ($_isMulticolumn) : ?>
+                                </div>
+                            <?php endif ?>
 
                                 <?php if ('hidden' === $config['status']) : ?>
                                     </div>
@@ -204,100 +210,164 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                     <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
                                         </li>
                                         <li class="wide">
-                                            <div class="input-box">
-                                                <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="<?php echo $_prefix ?>[street][]" id="<?php echo $_prefix ?>:street<?php echo $_i?>" value="<?php echo $this->escapeHtml($_address->getStreet($_i)) ?>" class="input-text" autocomplete="off" />
-                                            </div>
+                                        <div class="input-box">
+                                            <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="<?php echo $_prefix ?>[street][]" id="<?php echo $_prefix ?>:street<?php echo $_i?>" value="<?php echo $this->escapeHtml($_address->getStreet($_i)) ?>" class="input-text" autocomplete="off" />
+                                        </div>
                                     <?php endfor ?>
                                 <?php endif; ?>
 
                             <?php endforeach ?>
-                        </li>
+                            </li>
 
-                        <?php if (array_key_exists('street1', $row->getFields())
-                            && !$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(2); endif; ?>
+                            <?php if (array_key_exists('street1', $row->getFields())
+                                && !$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(2); endif; ?>
 
-                        <?php if ($this->getIsTigPostNLPostcodeCheckEnabled()
+                            <?php if ($this->getIsTigPostNLPostcodeCheckEnabled()
                                 && $this->getChild('postnl_billing_postcodecheck')
                                 && (array_key_exists('email', $row->getFields())
                                     || ($this->isCustomerLoggedIn() && array_key_exists('name', $row->getFields())))
-                                ) : ?>
+                            ) : ?>
 
-                            <?php echo $this->getChild('postnl_billing_postcodecheck')
-                                ->setAddressType('billing')
-                                ->setAddress($this->getAddress())
-                                ->setCountryHtmlSelect($this->getCountryHtmlSelect('billing'))
-                                ->toHtml(); ?>
-                        <?php endif ?>
-                    <?php endforeach; ?>
+                                <?php echo $this->getChild('postnl_billing_postcodecheck')
+                                    ->setAddressType('billing')
+                                    ->setAddress($this->getAddress())
+                                    ->setCountryHtmlSelect($this->getCountryHtmlSelect('billing'))
+                                    ->toHtml(); ?>
+                            <?php endif ?>
+                        <?php endforeach; ?>
 
-                    <?php if (!$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(3); endif; ?>
+                        <?php if (!$this->customerHasAddresses() && $fmeFieldsmanager): echo $fmeFieldsmanager->getfieldshtml(3); endif; ?>
 
-                    <?php $addressAttributes = $this->getChild('customer_form_' . $_prefix . '_address_user_defined_attributes');?>
-                    <?php if ($addressAttributes): ?>
-                        <?php $addressAttributes->setEntity($_address)->setEntityType('customer_address');?>
-                        <?php $addressAttributes->setFieldIdFormat($_prefix . ':%1$s')->setFieldNameFormat($_prefix . '[%1$s]');?>
-                        <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
-                    <?php endif;?>
+                        <?php $addressAttributes = $this->getChild('customer_form_' . $_prefix . '_address_user_defined_attributes');?>
+                        <?php if ($addressAttributes): ?>
+                            <?php $addressAttributes->setEntity($_address)->setEntityType('customer_address');?>
+                            <?php $addressAttributes->setFieldIdFormat($_prefix . ':%1$s')->setFieldNameFormat($_prefix . '[%1$s]');?>
+                            <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
+                        <?php endif;?>
 
-                    <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
-                    <?php if ($customerAttributes): ?>
-                        <?php $customerAttributes->setEntityModelClass('customer/customer')->setFieldIdFormat($_prefix . ':%1$s');?>
-                        <?php $customerAttributes->setFieldNameFormat($_prefix . '[%1$s]')->setShowContainer(false);?>
-                        <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
-                    <?php endif;?>
+                        <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
+                        <?php if ($customerAttributes): ?>
+                            <?php $customerAttributes->setEntityModelClass('customer/customer')->setFieldIdFormat($_prefix . ':%1$s');?>
+                            <?php $customerAttributes->setFieldNameFormat($_prefix . '[%1$s]')->setShowContainer(false);?>
+                            <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
+                        <?php endif;?>
 
-                    <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
-                        <li class="control">
-                            <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($_address->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
-                        </li>
-                    <?php else:?>
-                        <li class="no-display"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
-                    <?php endif; ?>
-                    <?php echo $this->getChildHtml('form.additional.info'); ?>
-                </ul>
-            </fieldset>
-        </li>
-        <?php /* Extensions placeholder */ ?>
-        <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
-        <?php if (Mage::helper('firecheckout')->canShowNewsletter()) : ?>
-            <li class="newsletter control">
-                <input type="checkbox" id="newsletter-signup" name="newsletter" value="1"<?php if (Mage::getStoreConfig('firecheckout/general/newsletter_checkbox_state')) : ?> checked="checked"<?php endif; ?> title="<?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>" class="checkbox" />
-                <label for="newsletter-signup">
+                        <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
+                            <li class="control">
+                                <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($_address->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
+                            </li>
+                        <?php else:?>
+                            <li class="no-display"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
+                        <?php endif; ?>
+                        <?php echo $this->getChildHtml('form.additional.info'); ?>
+                    </ul>
+                </fieldset>
+            </li>
+            <?php /* Extensions placeholder */ ?>
+            <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
+            <?php if (Mage::helper('firecheckout')->canShowNewsletter()) : ?>
+                <li class="newsletter control">
+                    <input type="checkbox" id="newsletter-signup" name="newsletter" value="1"<?php if (Mage::getStoreConfig('firecheckout/general/newsletter_checkbox_state')) : ?> checked="checked"<?php endif; ?> title="<?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>" class="checkbox" />
+                    <label for="newsletter-signup">
+                        <i class="fal fa-envelope"></i>
+                        <?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>
+                    </label>
+                </li>
+            <?php endif; ?>
+            <li class="radiance-phone-optin control">
+                <input type="checkbox" id="phone-signup" name="phone-opt-in" value="1" title="Opt-In" class="checkbox" />
+                <label for="phone-signup">
                     <i class="fal fa-envelope"></i>
-                    <?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>
+                    <?php echo Mage::helper('newsletter')->__('Sign up for our text message program') ?>
                 </label>
             </li>
-        <?php endif; ?>
-        <?php $additional = $this->getChildHtml('billing.additional.container');
-        if (!empty($additional)) : ?>
-            <li class="billing-additional">
-                <?php echo $additional; ?>
-            </li>
-        <?php endif; ?>
-        <?php if ($this->canShip() && Mage::getStoreConfig('firecheckout/general/shipping_address')): ?>
-            <li class="control radio-use-for-shipping">
-                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping() && !Mage::getSingleton('core/session')->getPickupatstore()) {?> checked="checked"<?php }?> title="<?php echo Mage::helper('core')->quoteEscape($this->__('Ship to this address')) ?>" onclick="shipping.setSameAsBilling(true)" class="radio" /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label></li>
-            <li class="control">
-                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo Mage::helper('core')->quoteEscape($this->__('Ship to different address')) ?>" onclick="shipping.setSameAsBilling(false)" class="radio" /><label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
-            </li>
-            <?php if (Mage::helper('core')->isModuleOutputEnabled('Wyomind_Pickupatstore')) : ?>
-                <?php $pos = Mage::app()->getLayout()->createBlock('pointofsale/pointofsale'); ?>
-                <?php if (Mage::getStoreConfig('carriers/pickupatstore/active') && count($pos->getPointofsale())): ?>
-                    <li class="control">
-                        <input type="radio" name="billing[use_for_shipping]" id="billing:pickup_at_store" value="2"<?php if (Mage::getSingleton('core/session')->getPickupatstore()) { ?> checked="checked"<?php } ?> title="<?php echo (Mage::getStoreConfig('carriers/pickupatstore/title')); ?>" onclick="shipping.setSameAsBilling(true, true)" class="radio" /><label for="billing:pickup_at_store"><?php echo (Mage::getStoreConfig('carriers/pickupatstore/title')); ?></label>
-                    </li>
+            <?php $additional = $this->getChildHtml('billing.additional.container');
+            if (!empty($additional)) : ?>
+                <li class="billing-additional">
+                    <?php echo $additional; ?>
+                </li>
+            <?php endif; ?>
+            <?php if ($this->canShip() && Mage::getStoreConfig('firecheckout/general/shipping_address')): ?>
+                <li class="control radio-use-for-shipping">
+                    <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping() && !Mage::getSingleton('core/session')->getPickupatstore()) {?> checked="checked"<?php }?> title="<?php echo Mage::helper('core')->quoteEscape($this->__('Ship to this address')) ?>" onclick="shipping.setSameAsBilling(true)" class="radio" /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label></li>
+                <li class="control">
+                    <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo Mage::helper('core')->quoteEscape($this->__('Ship to different address')) ?>" onclick="shipping.setSameAsBilling(false)" class="radio" /><label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
+                </li>
+                <?php if (Mage::helper('core')->isModuleOutputEnabled('Wyomind_Pickupatstore')) : ?>
+                    <?php $pos = Mage::app()->getLayout()->createBlock('pointofsale/pointofsale'); ?>
+                    <?php if (Mage::getStoreConfig('carriers/pickupatstore/active') && count($pos->getPointofsale())): ?>
+                        <li class="control">
+                            <input type="radio" name="billing[use_for_shipping]" id="billing:pickup_at_store" value="2"<?php if (Mage::getSingleton('core/session')->getPickupatstore()) { ?> checked="checked"<?php } ?> title="<?php echo (Mage::getStoreConfig('carriers/pickupatstore/title')); ?>" onclick="shipping.setSameAsBilling(true, true)" class="radio" /><label for="billing:pickup_at_store"><?php echo (Mage::getStoreConfig('carriers/pickupatstore/title')); ?></label>
+                        </li>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php endif; ?>
         </ul>
-    <?php if (!$this->canShip() || !Mage::getStoreConfig('firecheckout/general/shipping_address')): ?>
-        <input type="hidden" name="billing[use_for_shipping]" value="1" />
-    <?php endif ?>
-    <script type="text/javascript">
-    //<![CDATA[
-        var billing = new Billing();
-        var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
-    //]]>
-    </script>
+        <?php if (!$this->canShip() || !Mage::getStoreConfig('firecheckout/general/shipping_address')): ?>
+            <input type="hidden" name="billing[use_for_shipping]" value="1" />
+        <?php endif ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            var billing = new Billing();
+            var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+            //]]>
+        </script>
+        <script type="text/javascript">
+
+            //<![CDATA[
+            jQuery("#phone-signup").click(function() {
+                <?php if($telephone): ?>
+                if (jQuery("#phone-signup").is(":checked")){ // box is checked
+                    createCookie('radiance-phone-opt-in', '<?= $telephone ?>',1);
+                }else{
+                    eraseCookie('radiance-phone-opt-in');
+                }
+                <?php else:?>
+
+                if( jQuery('input[id=":telephone"]').val().length === 0 ) {
+                    jQuery('input[id=":telephone"]').attr("placeholder", "Please enter your telephone number in order to subscribe");
+                    jQuery('input[id=":telephone"]').focus();
+                }
+            }else{
+                var telphone = jQuery('input[id=":telephone"]').val();
+                if (jQuery("#phone-signup").is(":checked")){ // box is checked
+                    createCookie('radiance-phone-opt-in',telphone,1);
+                    // alert(readCookie("radiance-phone-opt-in"));
+                }
+
+                <?php endif; ?>
+            });
+
+            function createCookie(name, value, days) {
+                var expires;
+
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                } else {
+                    expires = "";
+                }
+                document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+            }
+            function readCookie(name) {
+                var nameEQ = encodeURIComponent(name) + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ')
+                        c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0)
+                        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+                }
+                return false;
+            }
+            function eraseCookie(name) {
+                createCookie(name, "", -1);
+            }
+
+            //]]>
+        </script>
+
     </div>
 </div>
