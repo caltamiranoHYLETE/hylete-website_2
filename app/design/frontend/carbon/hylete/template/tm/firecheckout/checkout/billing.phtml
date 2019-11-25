@@ -1,6 +1,12 @@
 <?php
     $_address = $this->getAddress();
     $_prefix  = 'billing';
+    if(null == $_address->getTelephone()){
+        $telephone = false;
+
+    }else{
+        $telephone = $_address->getTelephone();
+    }
 
     $fields = array(
         'name'  => array(),
@@ -268,6 +274,13 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 </label>
             </li>
         <?php endif; ?>
+            <li class="radiance-phone-optin control">
+                <input type="checkbox" id="phone-signup" name="phone-opt-in" value="1" title="Opt-In" class="checkbox" />
+                <label for="phone-signup">
+                    <i class="fal fa-envelope"></i>
+                    <?php echo Mage::helper('newsletter')->__('Sign up for our text message program') ?>
+                </label>
+            </li>
         <?php $additional = $this->getChildHtml('billing.additional.container');
         if (!empty($additional)) : ?>
             <li class="billing-additional">
@@ -299,5 +312,62 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
         var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
     //]]>
     </script>
+        <script type="text/javascript">
+
+            //<![CDATA[
+            jQuery("#phone-signup").click(function() {
+                <?php if($telephone): ?>
+                if (jQuery("#phone-signup").is(":checked")){ // box is checked
+                    createCookie('radiance-phone-opt-in', '<?= $telephone ?>',1);
+                }else{
+                    eraseCookie('radiance-phone-opt-in');
+                }
+                <?php else:?>
+
+                if( jQuery('input[id=":telephone"]').val().length === 0 ) {
+                    jQuery('input[id=":telephone"]').attr("placeholder", "Please enter your telephone number in order to subscribe");
+                    jQuery('input[id=":telephone"]').focus();
+                    }
+                }else{
+                var telphone = jQuery('input[id=":telephone"]').val();
+                if (jQuery("#phone-signup").is(":checked")){ // box is checked
+                    createCookie('radiance-phone-opt-in',telphone,1);
+                    // alert(readCookie("radiance-phone-opt-in"));
+                }
+
+                <?php endif; ?>
+            });
+
+            function createCookie(name, value, days) {
+                var expires;
+
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                } else {
+                    expires = "";
+                }
+                document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+            }
+            function readCookie(name) {
+                var nameEQ = encodeURIComponent(name) + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ')
+                        c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0)
+                        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+                }
+                return false;
+            }
+            function eraseCookie(name) {
+                createCookie(name, "", -1);
+            }
+
+            //]]>
+        </script>
+
     </div>
 </div>
