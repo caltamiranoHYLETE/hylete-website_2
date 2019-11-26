@@ -1,3 +1,10 @@
+<style>
+    .placeholder-color::placeholder{
+        color:red !Important;
+        opacity: .3;
+    }
+</style>
+
 <?php
 $_address = $this->getAddress();
 $_prefix  = 'billing';
@@ -278,7 +285,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 <input type="checkbox" id="phone-signup" name="phone-opt-in" value="1" title="Opt-In" class="checkbox" />
                 <label for="phone-signup">
                     <i class="fal fa-envelope"></i>
-                    <?php echo Mage::helper('newsletter')->__('Sign up for our text message program') ?>
+                    <?php echo Mage::helper('newsletter')->__('Sign up for our text messages') ?>
                 </label>
             </li>
             <?php $additional = $this->getChildHtml('billing.additional.container');
@@ -325,7 +332,9 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 <?php else:?>
                 if (jQuery("#phone-signup").is(":checked")) {
                     if( jQuery('input[id="billing:telephone"]').val().length === 0 ) {
-                        jQuery('input[id="billing:telephone"]').attr("placeholder", "Please enter your telephone number in order to subscribe");
+                        jQuery('#phone-signup').prop('checked', false);
+                        jQuery('input[id="billing:telephone"]').attr("placeholder", "Mobile number required for text opt-in");
+                        jQuery('input[id="billing:telephone"]').addClass('placeholder-color');
                         jQuery('input[id="billing:telephone"]').focus();
                     }else {
                         let telephone = jQuery('input[id="billing:telephone"]').val();
