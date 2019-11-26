@@ -317,22 +317,23 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
             //<![CDATA[
             jQuery("#phone-signup").click(function() {
                 <?php if($telephone): ?>
-                if (jQuery("#phone-signup").is(":checked")){ // box is checked
+                if (jQuery("#phone-signup").is(":checked")){
                     createCookie('radiance-phone-opt-in', '<?= $telephone ?>',1);
                 }else{
                     eraseCookie('radiance-phone-opt-in');
                 }
                 <?php else:?>
-
-                if( jQuery('input[id=":telephone"]').val().length === 0 ) {
-                    jQuery('input[id=":telephone"]').attr("placeholder", "Please enter your telephone number in order to subscribe");
-                    jQuery('input[id=":telephone"]').focus();
-                }
-            }else{
-                var telphone = jQuery('input[id=":telephone"]').val();
-                if (jQuery("#phone-signup").is(":checked")){ // box is checked
-                    createCookie('radiance-phone-opt-in',telphone,1);
-                    // alert(readCookie("radiance-phone-opt-in"));
+                if (jQuery("#phone-signup").is(":checked")) {
+                    if( jQuery('input[id="billing:telephone"]').val().length === 0 ) {
+                        jQuery('input[id="billing:telephone"]').attr("placeholder", "Please enter your telephone number in order to subscribe");
+                        jQuery('input[id="billing:telephone"]').focus();
+                    }else {
+                        let telephone = jQuery('input[id="billing:telephone"]').val();
+                        createCookie('radiance-phone-opt-in', telephone, 1);
+                        // alert(readCookie("radiance-phone-opt-in"));
+                    }
+                }else{
+                    jQuery('input[id="billing:telephone"]').attr("placeholder", "Telephone*");
                 }
 
                 <?php endif; ?>

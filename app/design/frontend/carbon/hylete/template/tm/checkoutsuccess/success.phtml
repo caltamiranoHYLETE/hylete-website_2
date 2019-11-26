@@ -38,7 +38,7 @@ endif;
 
     //<![CDATA[
     jQuery(window).load(function() {
-        var phoneNumber = readCookie("radiance-phone-opt-in");
+        let phoneNumber = readCookie("radiance-phone-opt-in");
         if(phoneNumber){
             RadianceLabs.linkSMS({opt_in_location:"checkout_page",opt_in_location_segment:"segName",command:"OptInDiscount",phone:phoneNumber});
         }
