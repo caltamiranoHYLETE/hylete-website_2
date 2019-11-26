@@ -1,0 +1,62 @@
+<?php
+echo $this->getMessagesBlock()->getGroupedHtml();
+?>
+<?php
+$board = json_decode(Mage::getStoreConfig('checkoutsuccess/mockup/board'));
+if (!is_null($board)) :
+    foreach ($board as $containerName => $children) {
+        $sectionHtml[$containerName] = '';
+        foreach ($children as $child) {
+            if ($child) {
+                $sectionHtml[$containerName] .=
+                    '<div class="checkoutsuccess-block-wrapper">'
+                    . $this->getChildHtml($child)
+                    . '</div>';
+            }
+        }
+    }
+    ?>
+    <div class="tm-checkoutsuccess-top">
+        <?php echo $sectionHtml['top'];?>
+    </div>
+    <div class="tm-checkoutsuccess-middle">
+        <div class="tm-checkoutsuccess-middleleft">
+            <?php echo $sectionHtml['middleleft'];?>
+        </div>
+        <div class="tm-checkoutsuccess-middleright">
+            <?php echo $sectionHtml['middleright'];?>
+        </div>
+    </div>
+    <div class="tm-checkoutsuccess-bottom">
+        <?php echo $sectionHtml['bottom'];?>
+    </div>
+<?php
+endif;
+?>
+<?php echo $this->getChildHtml('checkoutsuccess.bottom.html');?>
+<script>
+
+    //<![CDATA[
+    jQuery(window).load(function() {
+        let phoneNumber = readCookie("radiance-phone-opt-in");
+        if(phoneNumber){
+            RadianceLabs.linkSMS({opt_in_location:"checkout_page",opt_in_location_segment:"segName",command:"OptInDiscount",phone:phoneNumber});
+        }
+    });
+
+
+    function readCookie(name) {
+        var nameEQ = encodeURIComponent(name) + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ')
+                c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0)
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+        return false;
+    }
+
+    //]]>
+</script>
