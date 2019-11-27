@@ -1,5 +1,12 @@
 <?php
 /** @var $this Cryozonic_StripeExpress_Block_Button */
+
+// Workaround to ensure that only the top Apple Pay button is rendered:
+
+if ($this->hasData('applepay_rendered') && $this->getData('applepay_rendered')) {
+    return;
+}
+$this->setData('applepay_rendered', true);
 ?>
 
 <?php if ($this->isEnabled('cart_button')):
