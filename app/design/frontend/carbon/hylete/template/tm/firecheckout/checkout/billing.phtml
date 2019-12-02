@@ -1,6 +1,12 @@
 <?php
     $_address = $this->getAddress();
     $_prefix  = 'billing';
+    if(null == $_address->getTelephone()){
+        $telephone = false;
+
+    }else{
+        $telephone = $_address->getTelephone();
+    }
 
     $fields = array(
         'name'  => array(),
@@ -92,7 +98,12 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
     $fmeFieldsmanager = $this->getLayout()->createBlock('fieldsmanager/checkout_billing');
 }
 ?>
-
+<style>
+    .placeholder-color::placeholder{
+        color:red !Important;
+        opacity: .3;
+    }
+</style>
 <div id="billing-address">
     <?php if (!$this->canShip() || !Mage::getStoreConfig('firecheckout/general/shipping_address')): ?>
         <div class="block-title"><span><?php echo $this->helper('checkout')->__('Address'); ?></span></div>
@@ -246,6 +257,59 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                         <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
                     <?php endif;?>
 
+                    <?php if (!$this->isCustomerLoggedIn()) : ?>
+                        <?php
+                            $registrationMode = Mage::getStoreConfig('firecheckout/general/registration_mode');
+                            $register = $this->getRegisterAccount();
+                            $isAllowedGuest = Mage::helper('firecheckout')->isAllowedGuestCheckout();
+                        if ($isAllowedGuest || $register) : ?>
+                            <li class="control control-create-account-later">
+                                <input type="checkbox" name="billing[register_account]" value="1" title="<?php echo $this->__('Create an account and earn reward points') ?>" id="billing:register_account" onclick="if(window.billing) billing.setCreateAccount(this.checked);"<?php if ($register || 'optional-checked' == $registrationMode) : ?> checked="checked"<?php endif;?> class="checkbox" />
+                                <label for="billing:register_account">
+                                    <span class="fal fa-user" aria-hidden="true"></span>
+                                    <?php
+                                    /** @var $rewardsSession \TBT_Rewards_Model_Session */
+                                    $_rewardsSession = $this->helper('rewards')->getRS();
+                                    $_pointsEarnedOnCart = 0;
+                                    $_pointsEarnedOnCartBlock = $_rewardsSession->getTotalPointsEarningAsStringList();
+                                    if ($_pointsEarnedOnCartBlock instanceof \TBT_Rewards_Block_Points) {
+                                        $_pointsEarnedOnCart = (int)$_pointsEarnedOnCartBlock->toHtml();
+                                    }
+                                    echo $this->__('Create an account and earn <strong>%s</strong> <span class="elevio-link" data-elevio-article="85055">reward points</span>', $_pointsEarnedOnCart ?: '');
+                                    ?>
+                                </label>
+                            </li>
+                        <?php else: ?>
+                            <li class="no-display">
+                                <input type="hidden" name="billing[register_account]" value="1"/>
+                            </li>
+                        <?php endif ?>
+                        <?php if ('hidden' !== $registrationMode || $register) : ?>
+                            <?php
+                                $cssClass = 'fields';
+                                if ('hidden' == $registrationMode) {
+                                    $cssClass .= ' hidden-registration';
+                                }
+                                if (('optional' == $registrationMode && !$register) || 'hidden' == $registrationMode) {
+                                    $cssClass .= ' fc-pw-hidden';
+                                }
+                            ?>
+                            <li class="<?php echo $cssClass ?>" id="register-customer-password">
+                                <div class="field">
+                                    <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                    <div class="input-box">
+                                        <input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                                    <div class="input-box">
+                                        <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text required-entry validate-cpassword" />
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    <?php endif; ?>
                     <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                         <li class="control">
                             <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($_address->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
@@ -268,6 +332,13 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 </label>
             </li>
         <?php endif; ?>
+            <li class="radiance-phone-optin control">
+                <input type="checkbox" id="phone-signup" name="phone-opt-in" value="1" title="Opt-In" class="checkbox" />
+                <label for="phone-signup">
+                    <i class="fal fa-envelope"></i>
+                    <?php echo Mage::helper('newsletter')->__('Sign up for our text messages') ?>
+                </label>
+            </li>
         <?php $additional = $this->getChildHtml('billing.additional.container');
         if (!empty($additional)) : ?>
             <li class="billing-additional">
@@ -299,5 +370,64 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
         var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
     //]]>
     </script>
+        <script type="text/javascript">
+
+            //<![CDATA[
+            jQuery("#phone-signup").click(function() {
+                <?php if($telephone): ?>
+                if (jQuery("#phone-signup").is(":checked")){
+                    createCookie('radiance-phone-opt-in', '<?= $telephone ?>',1);
+                }else{
+                    eraseCookie('radiance-phone-opt-in');
+                }
+                <?php else:?>
+                if (jQuery("#phone-signup").is(":checked")) {
+                    if( jQuery('input[id="billing:telephone"]').val().length === 0 ) {
+                        jQuery('#phone-signup').prop('checked', false);
+                        jQuery('input[id="billing:telephone"]').attr("placeholder", "Mobile number required for text opt-in");
+                        jQuery('input[id="billing:telephone"]').addClass('placeholder-color');
+                        jQuery('input[id="billing:telephone"]').focus();
+                    }else {
+                        let telephone = jQuery('input[id="billing:telephone"]').val();
+                        createCookie('radiance-phone-opt-in', telephone, 1);
+                        // alert(readCookie("radiance-phone-opt-in"));
+                    }
+                }else{
+                    jQuery('input[id="billing:telephone"]').attr("placeholder", "Telephone*");
+                }
+
+                <?php endif; ?>
+            });
+
+            function createCookie(name, value, days) {
+                var expires;
+
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                } else {
+                    expires = "";
+                }
+                document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+            }
+            function readCookie(name) {
+                var nameEQ = encodeURIComponent(name) + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ')
+                        c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0)
+                        return decodeURIComponent(c.substring(nameEQ.length, c.length));
+                }
+                return false;
+            }
+            function eraseCookie(name) {
+                createCookie(name, "", -1);
+            }
+
+            //]]>
+        </script>
     </div>
 </div>
