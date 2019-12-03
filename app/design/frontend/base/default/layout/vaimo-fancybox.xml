@@ -28,18 +28,13 @@
     <default>
         <reference name="head">
             <!-- Image gallery plugin -->
-            <action method="addJs"><script>jquery/jquery.fancybox.pack.js</script></action>
-
-            <!-- FancyBox Helpers -->
-            <action method="addJs" ifconfig="fancybox/helpers/media/enabled"><script>jquery/helpers/jquery.fancybox-media.js</script></action>
-            <action method="addJs" ifconfig="fancybox/helpers/buttons/enabled"><script>jquery/helpers/jquery.fancybox-buttons.js</script></action>
-            <action method="addCss" ifconfig="fancybox/helpers/buttons/enabled"><stylesheet>css/jquery.fancybox-buttons.css</stylesheet></action>
-            <action method="addJs" ifconfig="fancybox/helpers/thumbs/enabled"><script>jquery/helpers/jquery.fancybox-thumbs.js</script></action>
-            <action method="addCss" ifconfig="fancybox/helpers/thumbs/enabled"><stylesheet>css/jquery.fancybox-thumbs.css</stylesheet></action>
+            <action method="addJs"><script>jquery/fancybox3/jquery.fancybox.js</script></action>
 
             <!-- Trigger -->
             <action method="addItem"><type>skin_js</type><name>js/vaimo-fancybox.js</name></action>
             <action method="addCss"><stylesheet>css/vaimo-fancybox.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/fancybox3/jquery.fancybox.css</stylesheet></action>
+
         </reference>
     </default>
 </layout>
