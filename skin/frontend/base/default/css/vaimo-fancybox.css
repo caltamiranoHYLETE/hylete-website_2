@@ -6,3 +6,9 @@
 .fancybox-bg{
 	background:#000000 !important;
 }
+.fancybox-content{
+	padding:20px !Important;
+}
+.sizeguide{
+	padding:0 !Important;
+}
