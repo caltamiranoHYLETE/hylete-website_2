@@ -14,6 +14,22 @@
             <div class="error_message" style="display:none;"></div>
         </div>
     </form>
+    <form id="footer-phone-signup" class="" action="javascript:mobilePhoneOptIn(document.getElementById('radiance-footer-phone-optin').value);"  novalidate="novalidate">
+        <div class="radiance_field_group klaviyo_field_group">
+            <label for="radiance-footer-phone-optin"><?php //echo $this->__('get the latest') ?></label>
+            <span><input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="" name="phone" class="input-text required-entry validate-phoneLax" id="radiance-footer-phone-optin"
+                     placeholder="<?php echo $this->__('Enter Your Mobile Number') ?>"/></span>
+            <button type="submit" class="button klaviyo_submit_button" title="<?php echo $this->__('Join') ?>">
+            <?php echo $this->__('Join') ?>
+           </button>
+        </div>
+        <div class="radiance_messages klaviyo_messages">
+            <div class="success_message" style="display:none;">
+                <span><?php echo $this->__('Thanks for subscribing!') ?></span><br/>
+                <span><?php echo $this->__('Check your phone for a confirmation message.') ?></span>
+            </div>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
     KlaviyoSubscribe.attachToForms('#email_signup1', {
@@ -23,6 +39,25 @@
         }
     });
     //<![CDATA[
-        var newsletterSubscriberFormemail_signup = new VarienForm('email_signup1');
+    var newsletterSubscriberFormemail_signup = new VarienForm('email_signup1');
     //]]>
 </script>
+<script type="text/javascript">
+    //<![CDATA[
+    var  phoneSubscribe_signup = new VarienForm('footer-phone-signup');
+    //]]>
+
+
+
+    function mobilePhoneOptIn(phoneOptin) {
+
+        RadianceLabs.linkSMS({opt_in_location:"website_footer",command:"OptInDiscount",phone:phoneOptin});
+
+        jQuery(".radiance_messages > .success_message").fadeIn(1000);
+
+    }
+
+
+</script>
+
+
