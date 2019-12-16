@@ -1,0 +1,133 @@
+<?php
+    /** @var $this Cybersource_Cybersource_Block_SOPWebMobile_Form_Payform */
+    $_code = $this->getMethodCode();
+    $displayClass = 'display:none';
+    $isLoggedIn = Mage::getSingleton('customer/session')->getCustomerId();
+    $customerTokens = $this->getCustomerTokens();
+    $useBlock = $this->useBlockContent();
+    $blockId = $this->getContentBlockId();
+
+    $cybersourceCgiUrl = $this->getCybersourceUrl();
+?>
+
+<form id="co-cybersourcesop-form" name="co-cybersourcesop-form" action="<?php echo $cybersourceCgiUrl;?>" method="post">
+    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    <dl class="sp-methods">
+        <dt class="a-center"><?php echo $this->__('Credit Card Information') ?></dt>
+        <dd>
+            <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+            <ul class="form-list cs-form-list" id="payment_form_<?php echo $_code ?>" style="display:block">
+                <?php if ($useBlock && $blockId): ?>
+                    <li>
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockId)->toHtml(); ?>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <h2><?php echo Mage::helper('cybersourcesop')->__('Cybersource Secure Acceptance') ?></h2>
+                    </li>
+                    <li>
+                        <h4><?php echo Mage::helper('cybersourcesop')->__('You will be redirected to our secure payment page when you place an order.') ?></h4>
+                    </li>
+                <?php endif; ?>
+                <li class="form-alt">
+                    <label for="payment_method" id="payment[payment_method]">Select Your Payment Type:</label>
+                    <select name="payment[cc_type]"
+                            onchange="if (this.value == 'token') { $('tokenList').setStyle({'display' : 'block'}); $('cybersourcesop_cc_save_div').setStyle({'display' : 'none'});} else { $('tokenList').setStyle({'display' : 'none'}); $('cybersourcesop_cc_save_div').setStyle({'display' : 'block'}); } "
+                            id="tokenSelect">
+                        <option value="card">Use a New Credit Card</option>
+                        <?php if ($customerTokens): ?>
+                            <option value="token">Use a Saved Credit Card.</option>
+                        <?php endif; ?>
+                    </select>
+                </li>
+                <li class="form-alt">
+                    <!-- Tokenised Card Radio buttons - Start -->
+                    <div class="tokenList" id="tokenList" style="display: none">
+                        <?php if ($customerTokens): ?>
+                            <label for="<?php echo $_code ?>_token_id"
+                                   id="cardSelection"><em>*</em><?php echo $this->__('Select a Saved Card') ?></label>
+                            <div class="customerTokensOuter">
+                                <?php $i = 0; //counter for javascript elements ?>
+                                <?php foreach ($customerTokens as $_tokenId => $_token): ?>
+                                    <div class="customerTokensInner input-box">
+                                        <input type="radio"
+                                               onchange="enableCvnInput(<?php echo $i; ?>);"
+                                               data-index="<?php echo $i; ?>"
+                                               value="<?php echo $_token['token_id'] ?>"
+                                               name="payment[payment_token]"
+                                               id="cyber-payment-token<?php echo $i ?>"
+                                               class="validate-cyber cyber-payment-token"/>
+
+                                        <span id="<?php echo $this->getCardClass($_token['cc_type']); ?>"></span>
+                                        <span class="card-info">xxxx-<?php echo substr($_token['cc_number'], strlen($_token['cc_number']) - 4) . ' (exp: ' .$this->formatExpirationDate($_token['cc_expiration']) . ')' ?>
+                                            <input type="text"
+                                                   value=""
+                                                   title="<?php echo $this->__('Card Verification Number') ?>"
+                                                   id="cyber-payment-token-cvn<?php echo $i ?>"
+                                                   name="payment[cc_cid]"
+                                                   class="input-text cvv validate-cybercvn cyber-payment-token-cvn"
+                                                   data-index="<?php echo $i; ?>"
+                                                   style="width:50px;"
+                                                   disabled />
+
+                                            <a href="#" class="cybersource-cvv-whatisthis">  <?php echo $this->__('What is this?'); ?></a>
+                                        </span>
+                                        <?php $i++; ?>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <!-- Tokenised Card Radio Buttons - End -->
+                </li>
+                <?php if ($this->isTokenisationEnabled() && $isLoggedIn):
+                    $displayClass = 'block';
+                    ?>
+                    <li id="<?php echo $_code ?>_cc_save_div" style="<?php echo $displayClass ?>" class="new_cc">
+                        <label for="<?php echo $_code ?>_cc_save"
+                               class=""><?php echo $this->__('Save Your New Card?') ?></label>
+                        <input type="checkbox" title="<?php echo $this->__('Save New Card?') ?>" id="cc_save"
+                               name="payment[cc_save]" value="0"
+                               onclick="if (this.checked) { this.value = 1; } else { this.value = 0;}"/>
+                    </li>
+                <?php endif; ?>
+            </ul>
+            </ul>
+        </dd>
+    </dl>
+</form>
+
+<div class="tool-tip" id="cs-sop-tool-tip" style="display:none;">
+    <div class="btn-close"><a href="#" id="cs-sop-tool-tip-close" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close')) ?>"><?php echo $this->__('Close') ?></a></div>
+    <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Card Verification Number Visual Reference')) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Card Verification Number Visual Reference')) ?>" /></div>
+</div>
+<?php //echo $this->getChildHtml() ?>
+<script type="text/javascript">
+    $$('.cybersource-cvv-whatisthis').each(function (element) {
+        Event.observe(element, 'click', toggleCsCvvToolTip);
+    });
+
+    function toggleCsCvvToolTip(event) {
+        if ($('cs-sop-tool-tip')) {
+            $('cs-sop-tool-tip').setStyle({
+                top: (Event.pointerY(event) - 560) + 'px'
+            });
+            $('cs-sop-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+
+    if ($('cs-sop-tool-tip-close')) {
+        Event.observe($('cs-sop-tool-tip-close'), 'click', toggleCsCvvToolTip);
+    }
+
+    new Validation('co-cybersourcesop-form');
+    new cybersourceSopPost(
+        'co-cybersourcesop-form',
+        '<?php echo $_code ?>',
+        '<?php echo $this->getUrl('cybersource/sopwm/loadSignedFields', array('_secure' => $this->getRequest()->isSecure())) ?>',
+        true,
+        <?php echo (int) $this->helper('cybersourcesop')->isPaEnabled() ?>,
+        '<?php echo $this->getUrl('cybersource/sopwm/initPayerAuth') ?>'
+    );
+</script>

@@ -1,0 +1,70 @@
+<?php
+/**
+ * @see Cybersource_VisaCheckout_Block_Visacheckout
+ */
+?>
+<?php $visaSettings = $this->getVisaSettings();?>
+<?php echo $this->getBlockHtml('formkey') ?>
+<script type="text/javascript">
+    Payment.prototype.switchMethod = function(method) {
+        if (method === 'cybersourcevisacheckout') {
+            initCsVisaCheckout();
+        }
+        if (this.currentMethod && $('payment_form_' + this.currentMethod)) {
+            this.changeVisible(this.currentMethod, true);
+            $('payment_form_' + this.currentMethod).fire('payment-method:switched-off', {
+                method_code: this.currentMethod
+            });
+        }
+        if ($('payment_form_' + method)) {
+            this.changeVisible(method, false);
+            $('payment_form_' + method).fire('payment-method:switched', {
+                method_code: method
+            });
+        } else {
+            //Event fix for payment methods without form like "Check / Money order"
+            document.body.fire('payment-method:switched', {
+                method_code: method
+            });
+        }
+        if (method == 'free' && quoteBaseGrandTotal > 0.0001 &&
+            !(($('use_reward_points') && $('use_reward_points').checked) || ($('use_customer_balance') && $('use_customer_balance').checked))
+        ) {
+            if ($('p_method_' + method)) {
+                $('p_method_' + method).checked = false;
+                if ($('dt_method_' + method)) {
+                    $('dt_method_' + method).hide();
+                }
+                if ($('dd_method_' + method)) {
+                    $('dd_method_' + method).hide();
+                }
+            }
+            method == '';
+        }
+        if (method) {
+            this.lastUsedMethod = method;
+        }
+        this.currentMethod = method;
+    };
+
+    function initCsVisaCheckout() {
+        V.init({
+            apikey: "<?php echo $visaSettings['apiKey'];?>",
+            settings: {
+                locale	 : "<?php echo $visaSettings['locale'];?>",
+                countryCode: "<?php echo $visaSettings['countryCode'];?>",
+                displayName: "<?php echo $visaSettings['displayName'];?>",
+                review: {
+                    buttonAction: "<?php echo $visaSettings['buttonAction'];?>"
+                },
+                dataLevel     : "<?php echo $visaSettings['dataLevel'];?>"
+            },
+            paymentRequest: {
+                currencyCode : "<?php echo $visaSettings['currencyCode'];?>",
+                subtotal     : <?php echo $visaSettings['subtotal'];?>
+            }
+        });
+        payloadSuccessHandle.csdataserviceUrl = "<?php echo $visaSettings['dataServiceUrl'] ?>";
+    }
+</script>
+<script type="text/javascript" src="<?php echo $visaSettings['sdkUrl'] ?>"></script>

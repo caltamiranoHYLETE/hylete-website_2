@@ -1,0 +1,23 @@
+<?php
+/** @var $this Cybersource_ApplePay_Block_Form_Applepay */
+?>
+<ul class="form-list" id="<?php echo $this->escapeHtml($this->getFormId()); ?>" style="display: none;">
+    <li id="<?php echo $this->escapeHtml($this->getPaymentDivId()); ?>">
+        <div
+                id="<?php echo $this->escapeHtml($this->getTemplateId()); ?>"
+                style="display: none;"
+                data-component-configuration="<?php echo $this->escapeHtml(json_encode($this->getConfigurationArray())); ?>"
+                >
+            <button onclick="return false"
+                    style="
+                        -webkit-appearance: -apple-pay-button;
+                        -apple-pay-button-type: <?php echo $this->escapeHtml($this->getButtonType()); ?>;
+                        -apple-pay-button-style: <?php echo $this->escapeHtml($this->getButtonStyle()); ?>;
+                    "
+                    class="<?php echo $this->escapeHtml($this->getButtonClass()); ?>"
+                    >
+            </button>
+        </div>
+        <input type="hidden" name="payment[token]" id="<?php echo $this->escapeHtml($this->getPaymentTokenId()); ?>">
+    </li>
+</ul>

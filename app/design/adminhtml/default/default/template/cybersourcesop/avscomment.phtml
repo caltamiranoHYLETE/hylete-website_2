@@ -1,0 +1,24 @@
+<?php
+/**
+ * © 2016 CyberSource Corporation. All rights reserved. CyberSource Corporation (including its subsidiaries,
+ * “CyberSource”) furnishes this code under the applicable agreement between the reader of this document
+ * (“You”) and CyberSource (“Agreement”). You may use this code only in accordance with the terms of the
+ * Agreement. The copyrighted code is licensed to You for use only in strict accordance with the Agreement.
+ * You should read the Agreement carefully before using the code.
+ */
+?>
+<div>
+    <a id="avs-link-show" href="javascript:void(0)" onclick="$('avs-comment').show(); $('avs-link-show').hide(); $('avs-link-hide').show();">Show Details</a>
+    <a style="display:none;" id="avs-link-hide" href="javascript:void(0)" onclick="$('avs-comment').hide(); $('avs-link-hide').hide(); $('avs-link-show').show();">Hide Details</a>
+    <div id="avs-comment" style="display:none;">
+        <ul>
+            <li><b><?php echo $this->__('A');?></b>: <?php echo $this->__('Street address matches, but 5-digit and 9-digit postal code do not match.');?></li>
+            <li><b><?php echo $this->__('B');?></b>: <?php echo $this->__('Street address matches, but postal code not verified. Returned only for non U.S.-issued Visa cards.');?></li>
+            <li><b><?php echo $this->__('C');?></b>: <?php echo $this->__('Street address and postal code do not match. Returned only for non U.S.-issued Visa cards.');?></li>
+            <li><b><?php echo $this->__('D');?></b>: <?php echo $this->__('Street address and postal code match. Returned only for non U.S.-issued Visa cards.');?></li>
+            <p>
+                <?php echo $this->__('A detailed description of the above codes and others can be found here:');?>
+                <a target="_blank" rel="noopener" id="avs-link" href="http://www.cybersource.com/developers/other_resources/quick_references/avs_results/">AVS Documentation</a>
+            </p>
+        </ul>
+    </div>

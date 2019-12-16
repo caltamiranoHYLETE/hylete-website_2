@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <reference name="checkout.onepage.shipping_method">
+            <action method="setTemplate">
+                <template>cybersourcecore/avs.phtml</template>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="cybersource_core/form_fingerprint" name="cybersource_fingerprint" template="cybersourcecore/fingerprint.phtml"/>
+        </reference>
+    </checkout_onepage_index>
+</layout>

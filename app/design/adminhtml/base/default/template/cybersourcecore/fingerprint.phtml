@@ -1,0 +1,19 @@
+<?php
+
+/** @var $this Cybersource_Cybersource_Block_Core_Form_Fingerprint */
+if ($this->isFingerprintEnabled()) {
+    $sessionId = $this->getSessionId();
+    $merchantId = $this->getMerchantId();
+    $orgId = $this->getOrgId();
+    $url = $this->getFingerprintUrl();
+?>
+    <div class="fingerprint-content">
+        <p style="background:url('<?php echo $url; ?>clear.png?org_id=<?php echo $orgId ?>&amp;session_id=<?php echo $merchantId.$sessionId ?>&amp;m=1')"></p>
+        <img src="<?php echo $url; ?>clear.png?org_id=<?php echo $orgId ?>&amp;session_id=<?php echo $merchantId.$sessionId ?>&amp;m=2" alt="">
+        <object type="application/x-shockwave-flash" data="<?php echo $url; ?>fp.swf?org_id=<?php echo $orgId ?>&amp;session_id=<?php echo $merchantId.$sessionId ?>" width="1" height="1" id="thm_fp">
+            <param name="movie" value="<?php echo $url; ?>fp.swf?org_id=<?php echo $orgId ?>&amp;session_id=<?php echo $merchantId.$sessionId ?>" />
+            <div></div>
+        </object>
+        <script type="text/javascript" src="<?php echo $url; ?>check.js?org_id=<?php echo $orgId ?>&amp;session_id=<?php echo $merchantId.$sessionId ?>" ></script>
+    </div>
+<?php } ?>

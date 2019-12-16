@@ -1,0 +1,1893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <payment>
+            <groups>
+                <!-- Core -->
+                <cybersourcecore translate="label" module="cybersource_cybersource">
+                    <label>Cybersource General Settings</label>
+                    <frontend_class>complex</frontend_class>
+                    <sort_order>600</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <cybersourcecore_notice translate="label">
+                            <frontend_model>cybersource_core/adminhtml_system_config_fieldset_hint</frontend_model>
+                            <help_link>https://www.cybersource.com/support/</help_link>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cybersourcecore_notice>
+
+                        <!-- Basic Configuration -->
+                        <cybersourcecore_general_heading type="group" translate="label">
+                            <label>Basic Configuration</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>100</sort_order>
+                            <fields>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/cybersourcecore/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>210</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                </merchant_id>
+                                <test translate="label">
+                                    <label>Test Mode</label>
+                                    <config_path>payment/cybersourcecore/test</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>250</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[If set to "Yes" requests will be made to the test CyberSource area.]]></comment>
+                                </test>
+                            </fields>
+                        </cybersourcecore_general_heading>
+
+                        <!-- SOAP Credentials -->
+                        <cybersourcecore_soap_heading type="group" translate="label">
+                            <label>SOAP Web Service</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>100</sort_order>
+                            <fields>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/cybersourcecore/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>220</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                </soapkey>
+                                <wsdl_test_url>
+                                    <label>WSDL Test Url</label>
+                                    <config_path>payment/cybersourcecore/wsdl_test_url</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>230</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </wsdl_test_url>
+                                <wsdl_live_url>
+                                    <label>WSDL Live Url</label>
+                                    <config_path>payment/cybersourcecore/wsdl_live_url</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>240</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </wsdl_live_url>
+                            </fields>
+                        </cybersourcecore_soap_heading>
+
+                        <!-- Decision Manager -->
+                        <cybersourcecore_dm_heading type="group" translate="label">
+                            <label>Decision Manager and Merchant Defined Data</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>700</sort_order>
+                            <fields>
+                                <dm_enabled>
+                                    <label>Enabled</label>
+                                    <config_path>payment/cybersourcecore/dm_enabled</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>701</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Enable to make use of Decision Manager]]></comment>
+                                </dm_enabled>
+                                <review_message translate="label">
+                                    <label>Review Message</label>
+                                    <config_path>payment/cybersourcecore/review_message</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>704</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[This message is displayed to the customer when their order is placed under Decision Manager review.]]></comment>
+                                </review_message>
+                                <mdd_enabled>
+                                    <label>Merchant Fields Enabled</label>
+                                    <config_path>payment/cybersourcecore/mdd_enabled</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>705</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Enable to make use of Merchant Defined Fields]]></comment>
+                                </mdd_enabled>
+                                <mdd_fields translate="label">
+                                    <label>Merchant Fields</label>
+                                    <config_path>payment/cybersourcecore/mdd_fields</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <frontend_model>cybersource_core/adminhtml_system_config_field_mdd</frontend_model>
+                                    <backend_model>cybersource_core/source_merchantfield_array</backend_model>
+                                    <sort_order>706</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <can_be_empty>1</can_be_empty>
+                                </mdd_fields>
+                            </fields>
+                        </cybersourcecore_dm_heading>
+
+                        <!-- Device Fingerprint -->
+                        <cybersourcecore_fingerprint_heading type="group" translate="label">
+                            <label>Device Fingerprint</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>800</sort_order>
+                            <fields>
+                                <device_fingerprint_enabled>
+                                    <label>Enable Device Fingerprinting</label>
+                                    <config_path>payment/cybersourcecore/device_fingerprint_enabled</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>801</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Enable Device Fingerprinting.]]></comment>
+                                    <tooltip>
+                                        <![CDATA[ Decision Manager must be enabled for device Fingerprinting to work. ]]></tooltip>
+                                </device_fingerprint_enabled>
+                                <device_fingerprint_org_id>
+                                    <label>Device Fingerprint Organisation ID</label>
+                                    <config_path>payment/cybersourcecore/device_fingerprint_org_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>802</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment>
+                                        <![CDATA[This is the Organisation ID provided to you by Cybersource for Device Fingerprinting.]]></comment>
+                                </device_fingerprint_org_id>
+                                <device_fingerprint_url>
+                                    <label>Device Fingerprint URL</label>
+                                    <config_path>payment/cybersourcecore/device_fingerprint_url</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>803</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[This is the Device Fingerprint URL to be used. This can be either a Live or Test URL]]></comment>
+                                </device_fingerprint_url>
+                            </fields>
+                        </cybersourcecore_fingerprint_heading>
+
+                        <!-- On-Demand Report -->
+                        <cybersourcecore_report_heading type="group" translate="label">
+                            <label>Order Update and Reporting</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>1000</sort_order>
+                            <fields>
+                                <report_enabled>
+                                    <label>Enabled</label>
+                                    <config_path>payment/cybersourcecore/report_enabled</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Enable to make use of On-Demand Report to update orders]]></comment>
+                                </report_enabled>
+                                <report_username translate="label">
+                                    <label>Username</label>
+                                    <config_path>payment/cybersourcecore/report_username</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>120</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[This is the username dedicated to download reports, specifically with the report downloader permission set.]]></comment>
+                                    <depends>
+                                        <report_enabled>1</report_enabled>
+                                    </depends>
+                                </report_username>
+                                <report_password translate="label">
+                                    <label>Password</label>
+                                    <config_path>payment/cybersourcecore/report_password</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>130</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[This is the password associated with the Report Downloader user.]]></comment>
+                                    <depends>
+                                        <report_enabled>1</report_enabled>
+                                    </depends>
+                                </report_password>
+                                <report_log translate="label">
+                                    <label>Enable Processing Log</label>
+                                    <config_path>payment/cybersourcecore/report_log</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>140</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <report_enabled>1</report_enabled>
+                                    </depends>
+                                </report_log>
+                            </fields>
+                        </cybersourcecore_report_heading>
+
+                        <!-- Address Verification -->
+                        <cybersourcecore_avs_heading type="group" translate="label comment">
+                            <label>Shipping Address Verification Service</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>1100</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enable Address verification</label>
+                                    <config_path>payment/cybersourcecore/avs_active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>20</sort_order>
+                                </active>
+                                <force_normal translate="label">
+                                    <label>Address force normalization</label>
+                                    <config_path>payment/cybersourcecore/avs_force_normal</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>30</sort_order>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </force_normal>
+                                <debug translate="label">
+                                    <label>Debug</label>
+                                    <config_path>payment/cybersourcecore/avs_debug</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>40</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </debug>
+                            </fields>
+                        </cybersourcecore_avs_heading>
+                    </fields>
+                </cybersourcecore>
+
+                <!-- SopWebMobile -->
+                <cybersourcesop translate="label"  module="cybersource_cybersource">
+                    <label>Cybersource Secure Acceptance</label>
+                    <frontend_class>complex</frontend_class>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <!--Basic SA Settings-->
+                        <cybersourcesop_basicsetup_heading type="group" translate="label">
+                            <label>Basic Configuration</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>100</sort_order>
+                            <fields>
+                                <usesoap translate="label">
+                                    <label>Authorize via SOAP</label>
+                                    <config_path>payment/cybersourcesop/usesoap</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA["Yes" (recommended): the card is tokenized via CyberSource and then authorization is requested separately via SOAP service.
+                                    "No" (legacy processing strategy): authorization is performed at the moment of posting card data to CyberSource.]]></comment>
+                                </usesoap>
+                                <default_currency>
+                                    <label>Currency send to Cybersource</label>
+                                    <config_path>payment/cybersourcesop/default_currency</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_currency</source_model>
+                                    <sort_order>107</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[The currency the customer will be billed in, in Cybersource.]]></comment>
+                                </default_currency>
+                                <debug translate="label">
+                                    <label>Debug</label>
+                                    <config_path>payment/cybersourcesop/debug</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>130</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </debug>
+                            </fields>
+                        </cybersourcesop_basicsetup_heading>
+
+                        <!-- SOP Merchant Settings -->
+                        <cybersourcesop_sop_heading type="group" translate="label">
+                            <label>Silent Order Post (SOP)</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>300</sort_order>
+                            <fields>
+                                <profile_id translate="label">
+                                    <label>Profile Id</label>
+                                    <config_path>payment/cybersourcesop/profile_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>301</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[The id of the profile to use, must be created in your cybersource account area as well.]]></comment>
+                                </profile_id>
+                                <merchant_access_key translate="label">
+                                    <label>Merchant Access Key</label>
+                                    <config_path>payment/cybersourcesop/merchant_access_key</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>302</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your merchant access key generated in your cybersource account area.]]></comment>
+                                </merchant_access_key>
+                                <secret_key translate="label">
+                                    <label>Secret Key</label>
+                                    <config_path>payment/cybersourcesop/secret_key</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>304</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your secret key generated in your cybersource account area.]]></comment>
+                                </secret_key>
+                            </fields>
+                        </cybersourcesop_sop_heading>
+
+                        <!-- Web / Mobile Merchant Settings -->
+                        <cybersourcesop_mobile_heading type="group" translate="label">
+                            <label>Web / Mobile (WM)</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>400</sort_order>
+                            <fields>
+                                <mobile_enabled>
+                                    <label>Enable WM</label>
+                                    <config_path>payment/cybersourcesop/mobile_enabled</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>401</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Enable to use Cybersource Web / Mobile Integration.]]></comment>
+                                </mobile_enabled>
+                                <mobile_profile_id>
+                                    <label>Mobile Profile Id</label>
+                                    <config_path>payment/cybersourcesop/mobile_profile_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>402</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[The id of the profile to use, must be created in your cybersource account area as well.]]></comment>
+                                </mobile_profile_id>
+                                <mobile_merchant_access_key>
+                                    <label>Mobile Merchant Access Key</label>
+                                    <config_path>payment/cybersourcesop/mobile_merchant_access_key</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>403</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your merchant access key generated in your cybersource account area.]]></comment>
+                                </mobile_merchant_access_key>
+                                <mobile_merchant_secret_key>
+                                    <label>Mobile Secret Key</label>
+                                    <config_path>payment/cybersourcesop/mobile_merchant_secret_key</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>404</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Your secret key generated in your cybersource account area.]]></comment>
+                                </mobile_merchant_secret_key>
+                                <use_block_content>
+                                    <label>Use Static Block content for Web-Mobile Payment Description</label>
+                                    <config_path>payment/cybersourcesop/use_block_content</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>405</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[If set to yes the Web-Mobile Payment Description Static Block content will be displayed on the checkout page.]]></comment>
+                                </use_block_content>
+                                <block_content_id>
+                                    <label>Web-Mobile Payment Description Static Block</label>
+                                    <config_path>payment/cybersourcesop/block_content_id</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cms/resource_block_collection</source_model>
+                                    <sort_order>406</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Static block content that will be displayed on checkout page.]]></comment>
+                                    <depends>
+                                        <use_block_content>1</use_block_content>
+                                    </depends>
+                                </block_content_id>
+                                <cybersource_locale>
+                                    <label>Locale</label>
+                                    <config_path>payment/cybersourcesop/cybersource_locale</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_locale</source_model>
+                                    <sort_order>407</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Translation to use for transactions.]]></comment>
+                                </cybersource_locale>
+                            </fields>
+                        </cybersourcesop_mobile_heading>
+
+                        <!-- Credit Card Settings -->
+                        <cybersourcesop_cc_heading type="group" translate="label">
+                            <label>Card Settings</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <sort_order>500</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/cybersourcesop/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>10</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/cybersourcesop/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>20</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </title>
+                                <cctypes translate="label">
+                                    <label>Credit Card Types</label>
+                                    <config_path>payment/cybersourcesop/cctypes</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>cybersourcesop/source_cctype</source_model>
+                                    <sort_order>30</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <can_be_empty>1</can_be_empty>
+                                </cctypes>
+                                <order_status translate="label">
+                                    <label>New Order Status</label>
+                                    <config_path>payment/cybersourcesop/order_status</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                                    <sort_order>50</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Select the processing status for orders placed with Cybersource.]]></comment>
+                                    <tooltip><![CDATA[Create your custom Processing State status in System Configuration - Order Statuses.]]></tooltip>
+                                </order_status>
+                                <payment_action translate="label">
+                                    <label>Payment Action</label>
+                                    <config_path>payment/cybersourcesop/payment_action</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_paymentAction</source_model>
+                                    <sort_order>60</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                </payment_action>
+                                <mobile_payment_action translate="label">
+                                    <label>Payment Action for Web / Mobile</label>
+                                    <config_path>payment/cybersourcesop/mobile_payment_action</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_paymentAction</source_model>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                </mobile_payment_action>
+                                <forceavs translate="label">
+                                    <label>Action for AVS Failure</label>
+                                    <config_path>payment/cybersourcesop/forceavs</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_cardchecks</source_model>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[How to handle an order with AVS failure]]></comment>
+                                </forceavs>
+                                <forceavs_codes translate="label">
+                                    <label>The AVS Codes To Accept</label>
+                                    <config_path>payment/cybersourcesop/forceavs_codes</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>90</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment>
+                                        <model>cybersourcesop/adminhtml_system_avscomment</model>
+                                    </comment>
+                                </forceavs_codes>
+                                <forcecvn translate="label">
+                                    <label>Action for CVN Failure</label>
+                                    <config_path>payment/cybersourcesop/forcecvn</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_cardchecks</source_model>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[How to handle an order with CVN failure, only applicable if Request Card CVN Code set to yes.]]></comment>
+                                </forcecvn>
+                                <forcecvn_codes translate="label">
+                                    <label>The CVN Codes To Accept</label>
+                                    <config_path>payment/cybersourcesop/forcecvn_codes</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>110</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment>
+                                        <model>cybersourcesop/adminhtml_system_cvncomment</model>
+                                    </comment>
+                                </forcecvn_codes>
+                                <useccv translate="label">
+                                    <label>Request Card CVN Code</label>
+                                    <config_path>payment/cybersourcesop/useccv</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>120</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <comment><![CDATA[Ask the customer and validate the credit card CVN code.]]></comment>
+                                </useccv>
+
+                                <!-- 3DS Settings -->
+                                <cybersource_cc_3ds_heading type="group" translate="label">
+                                    <label>3D Secure 2.0</label>
+                                    <frontend_type>text</frontend_type>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <frontend_class>cs-general-config</frontend_class>
+                                    <sort_order>500</sort_order>
+                                    <comment><![CDATA[
+<div id='threedsWarning' style='display: none; margin-left: -5px;'>"Authorize via SOAP" is disabled. 3D Secure is available for token payments only.</div>
+<script type="text/javascript">
+    document.observe("dom:loaded", function() {
+        if ($('payment_cybersourcesop_basicsetup_heading_usesoap').value == '0') {
+            $('threedsWarning').show();
+        }
+        Event.observe('payment_cybersourcesop_basicsetup_heading_usesoap', 'change', function() {
+            if (this.value == '0') {
+                $('threedsWarning').show();
+            } else {
+                $('threedsWarning').hide();
+            }
+        });
+    });
+</script>]]>
+                                    </comment>
+                                    <fields>
+                                        <active translate="label">
+                                            <label>Enabled</label>
+                                            <config_path>payment/cybersource3ds/active</config_path>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                        </active>
+                                        <org_unit_id translate="label">
+                                            <label>Org Unit ID</label>
+                                            <config_path>payment/cybersource3ds/org_unit_id</config_path>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>20</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                        </org_unit_id>
+                                        <api_id translate="label">
+                                            <label>API ID</label>
+                                            <config_path>payment/cybersource3ds/api_id</config_path>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>30</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                        </api_id>
+                                        <api_key translate="label">
+                                            <label>API Key</label>
+                                            <config_path>payment/cybersource3ds/api_key</config_path>
+                                            <frontend_type>password</frontend_type>
+                                            <sort_order>40</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                        </api_key>
+                                    </fields>
+                                </cybersource_cc_3ds_heading>
+
+                                <!-- Tokenization -->
+                                <cybersourcesop_token_heading type="group" translate="label">
+                                    <label>Tokenization</label>
+                                    <frontend_type>text</frontend_type>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <frontend_class>cs-general-config</frontend_class>
+                                    <sort_order>600</sort_order>
+                                    <fields>
+                                        <enable_tokenization translate="label">
+                                            <label>Enable</label>
+                                            <config_path>payment/cybersourcesop/enable_tokenisation</config_path>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>601</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment><![CDATA[Enable Credit Card Tokenization for customers]]></comment>
+                                        </enable_tokenization>
+                                    </fields>
+                                </cybersourcesop_token_heading>
+
+                            </fields>
+                        </cybersourcesop_cc_heading>
+
+                        <!-- ECheck Settings -->
+                        <cybersourcesop_echeck_heading type="group" translate="label">
+                            <label>ECheck Settings</label>
+                            <sort_order>550</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>cs-general-config</frontend_class>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/cybersourceecheck/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>2</sort_order>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/cybersourceecheck/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>1</sort_order>
+                                </title>
+                                <reject_event_type translate="label">
+                                    <config_path>payment/cybersourcesop/echeck_reject_event_type</config_path>
+                                    <label>Reject Event Type</label>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>cybersourcesop/source_echeckEvent</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>4</sort_order>
+                                </reject_event_type>
+                                <accept_event_type translate="label">
+                                    <label>Accept Event Type</label>
+                                    <config_path>payment/cybersourcesop/echeck_accept_event_type</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>cybersourcesop/source_echeckEvent</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>5</sort_order>
+                                </accept_event_type>
+                                <test_event_type translate="label">
+                                    <label>Test Event Type</label>
+                                    <config_path>payment/cybersourcesop/echeck_test_event_type</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>cybersourcesop/source_echeckEvent</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>6</sort_order>
+                                </test_event_type>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/cybersourceecheck/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries
+                                    </source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>15</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/cybersourceecheck/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>16</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/cybersourceecheck/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>19</sort_order>
+                                </sort_order>
+                            </fields>
+                        </cybersourcesop_echeck_heading>
+
+                    </fields>
+                </cybersourcesop>
+
+                <!-- Paypal -->
+                <cybersourcepaypal translate="label" module="cybersource_cybersource">
+                    <label>Cybersource PayPal Express</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <request_shipping_address>
+                            <label>Send Shipping Address To CyberSource</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcepaypal/source_addressDetails</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </request_shipping_address>
+                        <request_bill_address>
+                            <label>Send Billing Address To CyberSource</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcepaypal/source_addressDetails</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </request_bill_address>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcepaypal/source_paymentAction</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </payment_action>
+                        <instructions translate="label">
+                            <label>Instructions</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <config_path>payment/csbtgeneral/debug</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
+                    </fields>
+                </cybersourcepaypal>
+
+                <!-- VisaCheckout -->
+                <cybersourcevisacheckout translate="label" module="cybersource_cybersource">
+                    <label>CyberSource Visa Checkout</label>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <frontend_class>cs-general-config</frontend_class>
+                    <sort_order>5000</sort_order>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <config_path>payment/cybersourcevisacheckout/title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry</validate>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <config_path>payment/cybersourcevisacheckout/payment_action</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcevisacheckout/source_paymentAction</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </payment_action>
+                        <default_currency>
+                            <label>Currency send to Cybersource</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourcevisacheckout/source_currency</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The currency the customer will be billed in, in Cybersource.]]></comment>
+                        </default_currency>
+                        <visacheckoutapikey translate="label">
+                            <label>Visa Checkout API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your Visa Checkout API generated in your account area.]]></comment>
+                        </visacheckoutapikey>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <config_path>payment/cybersourcevisacheckout/debug</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
+                    </fields>
+                </cybersourcevisacheckout>
+
+                <!--BankTransfer -->
+                <csbt translate="label" module="cybersource_cybersource">
+                    <label>CyberSource Bank Transfer</label>
+                    <frontend_class>complex</frontend_class>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <csbtgeneral type="group" translate="label">
+                            <label>General Settings</label>
+                            <sort_order>1000</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <fields>
+                                <test translate="label">
+                                    <label>Test Mode</label>
+                                    <config_path>payment/csbtgeneral/test</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment>
+                                        <![CDATA[If set to yes requests will be made to the test cybersource area.]]>
+                                    </comment>
+                                </test>
+                                <debug translate="label">
+                                    <label>Debug</label>
+                                    <config_path>payment/csbtgeneral/debug</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>200</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </debug>
+                            </fields>
+                        </csbtgeneral>
+                        <csbtideal type="group" translate="label">
+                            <label>iDEAL</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>1001</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/csbtideal/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>60</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/csbtideal/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>required-entry</validate>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </title>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/csbtideal/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </merchant_id>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/csbtideal/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>90</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </soapkey>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/csbtideal/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>110</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/csbtideal/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>120</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/csbtideal/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>150</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </sort_order>
+                            </fields>
+                        </csbtideal>
+                        <csbtsofort type="group" translate="label">
+                            <label>Sofort</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>1002</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/csbtsofort/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/csbtsofort/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>required-entry</validate>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </title>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/csbtsofort/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>90</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </merchant_id>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/csbtsofort/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </soapkey>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/csbtsofort/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>110</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/csbtsofort/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>120</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/csbtsofort/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>150</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </sort_order>
+                            </fields>
+                        </csbtsofort>
+                        <csbtbancontact type="group" translate="label">
+                            <label>Bancontact</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>1003</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/csbtbancontact/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/csbtbancontact/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>required-entry</validate>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </title>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/csbtbancontact/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>90</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </merchant_id>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/csbtbancontact/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>100</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </soapkey>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/csbtbancontact/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>110</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/csbtbancontact/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>120</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/csbtbancontact/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>150</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </sort_order>
+                            </fields>
+                        </csbtbancontact>
+                        <csbtgiropay type="group" translate="label">
+                            <label>giropay</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>1004</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/csbtgiropay/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>60</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/csbtgiropay/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>required-entry</validate>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </title>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/csbtgiropay/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </merchant_id>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/csbtgiropay/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>90</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </soapkey>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/csbtgiropay/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>110</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/csbtgiropay/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>120</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/csbtgiropay/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>150</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </sort_order>
+                            </fields>
+                        </csbtgiropay>
+                        <csbteps type="group" translate="label">
+                            <label>EPS</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>1005</sort_order>
+                            <fields>
+                                <active translate="label">
+                                    <label>Enabled</label>
+                                    <config_path>payment/csbteps/active</config_path>
+                                    <frontend_type>select</frontend_type>
+                                    <source_model>adminhtml/system_config_source_yesno</source_model>
+                                    <sort_order>50</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                </active>
+                                <title translate="label">
+                                    <label>Title</label>
+                                    <config_path>payment/csbteps/title</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <validate>required-entry</validate>
+                                    <sort_order>60</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </title>
+                                <merchant_id translate="label">
+                                    <label>Merchant Id</label>
+                                    <config_path>payment/csbteps/merchant_id</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>70</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your merchant id.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </merchant_id>
+                                <soapkey translate="label">
+                                    <label>Soap Key</label>
+                                    <config_path>payment/csbteps/soapkey</config_path>
+                                    <frontend_type>password</frontend_type>
+                                    <sort_order>80</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <comment><![CDATA[Your soap key generated in your account area.]]></comment>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </soapkey>
+                                <allowspecific translate="label">
+                                    <label>Payment from applicable countries</label>
+                                    <config_path>payment/csbteps/allowspecific</config_path>
+                                    <frontend_type>allowspecific</frontend_type>
+                                    <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>90</sort_order>
+                                </allowspecific>
+                                <specificcountry translate="label">
+                                    <label>Payment from Specific countries</label>
+                                    <config_path>payment/csbteps/specificcountry</config_path>
+                                    <frontend_type>multiselect</frontend_type>
+                                    <source_model>adminhtml/system_config_source_country</source_model>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <sort_order>100</sort_order>
+                                    <depends>
+                                        <allowspecific>1</allowspecific>
+                                    </depends>
+                                </specificcountry>
+                                <sort_order translate="label">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/csbteps/sort_order</config_path>
+                                    <frontend_type>text</frontend_type>
+                                    <sort_order>150</sort_order>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>0</show_in_store>
+                                    <depends>
+                                        <active>1</active>
+                                    </depends>
+                                </sort_order>
+                            </fields>
+                        </csbteps>
+                    </fields>
+                </csbt>
+
+                <!-- ApplePay -->
+                <cybersourceapplepay translate="label" module="cybersource_cybersource">
+                    <label>CyberSource Apple Pay</label>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <frontend_class>cs-general-config</frontend_class>
+                    <sort_order>6000</sort_order>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <config_path>payment/cybersourceapplepay/title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <config_path>payment/cybersourceapplepay/payment_action</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paygate/authorizenet_source_paymentAction</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </payment_action>
+                        <merchant_id translate="label">
+                            <label>Merchant Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Your Apple merchant id.]]></comment>
+                        </merchant_id>
+                        <certificate>
+                            <label>Apple Pay Certificate Filename</label>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[This is the location of the certificate file provided by Apple, relative to the /etc directory.
+                            For example, if the file's name is server.pem, this value should be server.pem, and the file should reside
+                            as <server root>/etc/server.pem.  This file should contain both a certificate and a private key.]]></comment>
+                        </certificate>
+                        <domain_name>
+                            <label>Website Domain Name</label>
+                            <backend_model>cybersourceapplepay/backend_domain</backend_model>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The local domain name for this website.]]></comment>
+                        </domain_name>
+                        <store_name>
+                            <label>Store Name</label>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The name of the store to display on the Apple Pay card]]></comment>
+                        </store_name>
+                        <supported_networks translate="label">
+                            <label>Credit Card Types</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>cybersourceapplepay/source_supportedNetworks</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </supported_networks>
+                        <capabilities translate="label">
+                            <label>Additional Merchant Capabilities</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>cybersourceapplepay/source_capabilities</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>This setting provides allows the merchant to specify which capabilities they support.  'supports3DS'
+                                is a required capability for using Apple Pay and cannot be configured.</comment>
+                            <can_be_empty>1</can_be_empty>
+                        </capabilities>
+                        <button_type translate="label">
+                            <label>Button Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourceapplepay/source_type</source_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </button_type>
+                        <button_style translate="label">
+                            <label>Button Style</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersourceapplepay/source_style</source_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </button_style>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </cybersourceapplepay>
+
+            </groups>
+        </payment>
+        <customer>
+            <groups>
+                <atp>
+                    <label>Account Transfer Protection</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <comment>Enabling this functionality also requires enabling the core Cybersource device
+                                fingerprinting functionality</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enabled>
+                        <use_internal_block translate="label">
+                            <label>Use Internal Rejection Mechanism</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <comment>You may disable this if you intend to customize the rejection workflow.  Leave enabled
+                                if you are not doing this or you are unsure.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_internal_block>
+                        <action_on_error translate="label">
+                            <label>Action on Error</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>cybersource_atp/source_actions</source_model>
+                            <sort_order>40</sort_order>
+                            <comment>Specify the default action if an error occurs.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </action_on_error>
+                        <title translate="label">
+                            <label>Rejection Message Title</label>
+                            <sort_order>20</sort_order>
+                            <comment>Customize the title for the message on the rejection page.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+                        <message translate="label">
+                            <label>Rejection Message</label>
+                            <sort_order>30</sort_order>
+                            <comment>Customize the rejection message.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </message>
+                    </fields>
+                </atp>
+            </groups>
+        </customer>
+        <dev>
+            <groups>
+                <cybersourceapplepay>
+                    <label>Cybersource Apple Pay</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <allow_simulator translate="label">
+                            <label>Allow Simulator</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <comment>Allows you to make payments using the Apple Simulator.  Note, however, that this
+                                method does not make an API call back to Cybersource.  It will log data as if the
+                                API was called, but since payment data is not provided in the simulator it will not
+                                make the final call.  In addition, this setting is only honored if
+                                "Payment Methods / Cybersource Secure Acceptance (Sop) / Test mode" is turned on.
+                            </comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow_simulator>
+                    </fields>
+                </cybersourceapplepay>
+            </groups>
+        </dev>
+        <tax>
+            <groups>
+                <cybersource_taxservices>
+                    <label>Cybersource Tax Services</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enabled>
+                        <nexus_regions translate="label">
+                            <frontend_type>multiselect</frontend_type>
+                            <label>Nexus Regions</label>
+                            <sort_order>20</sort_order>
+                            <source_model>cybersource_taxservices/source_allRegion</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </nexus_regions>
+                        <tax_countries translate="label">
+                            <frontend_type>multiselect</frontend_type>
+                            <label>Customer countries to calculate Tax on</label>
+                            <sort_order>30</sort_order>
+                            <source_model>cybersource_taxservices/source_allCountry</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </tax_countries>
+                        <ship_from_city translate="label">
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Ship From City</label>
+                        </ship_from_city>
+                        <ship_from_postcode translate="label">
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Ship From Postcode</label>
+                        </ship_from_postcode>
+                        <ship_from_country translate="label">
+                            <sort_order>60</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>cybersource_taxservices/source_taxCountry</source_model>
+                            <label>Ship From Country</label>
+                        </ship_from_country>
+
+                        <ship_from_region translate="label">
+                            <sort_order>70</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>cybersource_taxservices/source_allRegion</source_model>
+                            <label>Ship From Region</label>
+                        </ship_from_region>
+
+                        <acceptance_city translate="label">
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>cybersource_taxservices/source_allRegion</source_model>
+                            <label>Acceptance City</label>
+                        </acceptance_city>
+
+                        <acceptance_postcode translate="label">
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Acceptance Postcode</label>
+                        </acceptance_postcode>
+
+                        <acceptance_country translate="label">
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <frontend_type>select</frontend_type>
+                            <label>Acceptance Country</label>
+                            <source_model>cybersource_taxservices/source_taxCountry</source_model>
+                        </acceptance_country>
+
+                        <acceptance_region translate="label">
+                            <sort_order>110</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Acceptance Region</label>
+                            <source_model>cybersource_taxservices/source_allRegion</source_model>
+                            <depends><enabled>1</enabled></depends>
+                        </acceptance_region>
+
+                        <origin_city translate="label">
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Origin City</label>
+                        </origin_city>
+
+                        <origin_postcode translate="label">
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Origin Postcode</label>
+                        </origin_postcode>
+
+                        <origin_country translate="label">
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <frontend_type>select</frontend_type>
+                            <label>Origin Country</label>
+                            <source_model>cybersource_taxservices/source_taxCountry</source_model>
+                        </origin_country>
+
+                        <origin_region translate="label">
+                            <sort_order>130</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Origin Region</label>
+                            <source_model>cybersource_taxservices/source_allRegion</source_model>
+                        </origin_region>
+                        <tax_shipping_enabled translate="label">
+                            <sort_order>150</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Tax Shipping</label>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </tax_shipping_enabled>
+                        <tax_shipping_sku translate="label">
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Taxable Shipping SKU</label>
+                            <depends><tax_shipping_enabled>1</tax_shipping_enabled></depends>
+                        </tax_shipping_sku>
+                        <tax_shipping_code translate="label">
+                            <sort_order>170</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Taxable Shipping Product Code</label>
+                            <comment>To set the product code you need to go to the menu item "Sales / Tax / Product Tax
+                                Classes" and create or modify a tax class with your Cybersource product code for
+                                shipping items.  Next, match "Tax Class forS Shipping" under the "Tax Classes" menu on
+                                this page.</comment>
+                            <source_model>cybersource_taxservices/source_shippingCodes</source_model>
+                            <depends><tax_shipping_enabled>1</tax_shipping_enabled></depends>
+                        </tax_shipping_code>
+
+                        <merchant_vat translate="label">
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <label>Merchant VAT</label>
+                        </merchant_vat>
+
+                    </fields>
+                </cybersource_taxservices>
+            </groups>
+        </tax>
+    </sections>
+</config>

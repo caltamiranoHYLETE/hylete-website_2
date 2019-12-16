@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addJs"><script>cybersourcesop/cybersourcesop.js</script></action>
+            <action method="addJs"><script>cybersourcesop/cybersourcesop_post.js</script></action>
+            <action method="addCss"><stylesheet>css/cybersourcesop/sprites.css</stylesheet></action>
+        </reference>
+    </checkout_onepage_index>
+    
+    <!--Inject SOP Payment Form in Checkout review section. PB-->
+    <checkout_onepage_review>
+        <reference name="checkout.onepage.review.info.items.after">
+            <block type="cybersourcesop/form_payform" name="payment.form.cybersourcesop" />
+        </reference>
+    </checkout_onepage_review>    
+    <!-- token link on customer account dashboard -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="customer">
+                <name>tokens</name>
+                <path>cybersource/sopwm/token</path>
+                <label>Saved Credit Cards</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <!-- token page on customer account dashboard -->
+    <cybersource_sopwm_token translate="label">
+        <label>Customer My Account Cybersource Saved Cards</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cybersourcesop/token" name="cybersource_customer_token_list" template="cybersourcesop/token_list.phtml"/>
+        </reference>
+    </cybersource_sopwm_token>
+
+    <cybersource_sopwm_initpayerauth>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <reference name="after_body_start">
+            <block type="cybersourcesop/songbirdJs" name="cybersource_songbird" template="cybersourcesop/songbird.phtml" />
+        </reference>
+    </cybersource_sopwm_initpayerauth>
+</layout>

@@ -1,0 +1,247 @@
+<?php
+/** 
+ * CyberSource Address Verification 
+ */
+?>
+<form id="co-shipping-method-form" action="">
+<?php echo $this->getBlockHtml('formkey'); ?>
+    <div id="checkout-shipping-method-load">
+       <!-- Content loaded dynamically -->
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");                
+        <?php if (Mage::helper('cybersource_core')->getAvsActive()):?>
+            //@TODO: Overwrite Save Function of ShippingMethod class and create new  class Cybersourceaddress. PB. Date: sep 26,2017
+            var Cybersourceaddress = Class.create();
+            Cybersourceaddress_isValid = false;
+            Cybersourceaddress.prototype = {
+            initialize: function(form, addressUrl, saveUrl, methodsUrl, loadingwaitsection) {
+            this.form = form;
+            this.cybersourceaddressUrl = addressUrl;
+            this.saveUrl = saveUrl;
+            },
+            avs_loadWaiting : 'shipping-method',
+            nextStepcallBackfunc: null,
+            nextStepcallBack: function() {
+            var me = this;
+            me.nextStepcallBackfunc();
+            },
+            validateCyberSourceAddress: function(callback) {
+            var me = this;
+            me.nextStepcallBackfunc = callback;
+            container = $('shipping-method-please-wait' + '-buttons-container');
+            Element.show(me.avs_loadWaiting + '-please-wait');
+            var isSuccess = false;
+            new Ajax.Request(
+                this.cybersourceaddressUrl, {
+                    method: 'POST',
+                    onComplete: function() {
+                    },
+                    onSuccess: function(transport) {
+                        Element.hide(me.avs_loadWaiting + '-please-wait');
+                        var data = transport.responseText.evalJSON();
+                        //Invalid Address. Do Not allow for Next Step
+                        if(!data.isValid){
+                            var divMessage = document.getElementById("addressverification-message-"+me.avs_loadWaiting);
+                            Cybersourceaddress_isValid = false;
+                            me.goToNext(false);
+                            divMessage.innerHTML = '<div class="validation-advice">'+data.message+'</div>';
+                            return;
+
+                        }
+
+                        //strict mode
+                        if (data.needCheck && data.needForce) {
+                            if (data.isValid) {
+                                if (data.needUpdate) {
+                                    me.addressVerificationPopup(data.message, data.normalizationData,true);
+                                }else{
+                                     Cybersourceaddress_isValid = true;
+                                     me.goToNext(true);
+                                }
+                            } else {
+                                me.addressVerificationPopup(data.message, false,true);
+                            }
+                        } else if (data.needCheck && !data.needForce) {
+                            if (data.isValid) {
+                                if (data.needUpdate) {
+
+                                    me.addressVerificationPopup(data.message, data.normalizationData);
+                                } else {
+                                    Cybersourceaddress_isValid = true;
+                                    me.goToNext(true);
+                                }
+                            } else {
+                                me.addressVerificationPopup(data.message, false, false);
+                            }
+                        } else if (!data.needCheck) {
+                            Cybersourceaddress_isValid = true;
+                            me.goToNext(true);
+                        }
+                    },
+                    onFailure: function() {
+                        isSuccess = false;
+                    },
+                    parameters: Form.serialize(this.form)
+                }
+             );
+
+           },
+            goToNext: function(isSuccess) {
+            var me = this;
+                if (isSuccess) {
+                   Cybersourceaddress_isValid = true;
+                   me.nextStepcallBack();
+                }
+            },
+            addressVerificationPopup: function(message, data,strict_ForceUpdate=false) {
+            var me = this;
+            var divMessage = document.getElementById("addressverification-message-"+me.avs_loadWaiting);
+            divMessage.innerHTML = '';
+            var confyesno = confirm(message);
+            if(strict_ForceUpdate && confyesno) {
+                    me.normalizeAddress(data);
+            } else if(!strict_ForceUpdate && confyesno) {
+                    me.normalizeAddress(data);
+             } else if(!strict_ForceUpdate) {
+                    me.goToNext(true);
+            } else if(!strict_ForceUpdate && typeof data==="boolean" && data==true ){
+                me.goToNext(true);
+            }else if(strict_ForceUpdate && typeof data==="object"){
+                divMessage.innerHTML = '<div class="validation-advice">'+'<?php echo $this->__("Please update your order shipping address with the address verification system suggested address.")?>'+'</div>';
+                return;
+
+            }
+
+          },
+            normalizeAddress: function(data) {
+                var me = this;
+                var arrElements = Form.getElements('co-shipping-form');
+                var isUpdateRequire = false;
+                for (var elemIndex in arrElements) {
+                    if (arrElements.hasOwnProperty(elemIndex)) {
+                        if (arrElements[elemIndex].id) {
+                            var fieldId = arrElements[elemIndex].id.replace(/^shipping:/, '');
+                            if (typeof data[fieldId] !== 'undefined') {
+                                document.getElementById(arrElements[elemIndex].id).value = data[fieldId];
+                                isUpdateRequire = true;
+                            }
+                            if (fieldId == 'street1' && typeof data['street[0]'] !== 'undefined') {
+                                document.getElementById(arrElements[elemIndex].id).value = data['street[0]'];
+                                isUpdateRequire = true;
+                            }
+                            if (fieldId == 'street2' && typeof data['street[1]'] !== 'undefined') {
+                                document.getElementById(arrElements[elemIndex].id).value = data['street[1]'];
+                                isUpdateRequire = true;
+                            }
+                        }
+                    }
+                }
+                //Shiiping save
+                if (isUpdateRequire) {
+                    me.Shippingsave();
+                }
+            },
+            Shippingsave: function() {
+            var me = this;
+            avs_loadWaiting = 'shipping-method';
+            Element.show(avs_loadWaiting + '-please-wait');
+            var validator = new Validation(this.form);
+            checkout.setLoadWaiting('shipping');
+            var formserializedata = Form.serialize('co-shipping-form');
+            formserializedata = formserializedata.replace(/^shipping_address_id/, '');
+            new Ajax.Request(
+                shipping.saveUrl, {
+                    method: 'POST',
+                    onComplete: function() {},
+                    onSuccess: function() {
+                        Element.hide(avs_loadWaiting + '-please-wait');
+                        me.goToNext(true);
+                    },
+                    onFailure: function() {},
+                    parameters: formserializedata
+                }
+            );
+
+        },
+    };
+
+        shippingMethod.save = function() {
+            if (checkout.loadWaiting != false) return;
+            if (this.validate()) {
+            var parent = this;
+            var shipmethodsavfunc = function() {
+                if (Cybersourceaddress_isValid) {
+                    checkout.setLoadWaiting('shipping-method');
+                    var formserializedata = Form.serialize(parent.form);
+                    if (formserializedata.indexOf('form_key')) {
+                        var formsseckey = 'form_key=' + '<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>';
+                    }
+                    new Ajax.Request(
+                         parent.saveUrl + "?" + formsseckey, {
+                               method: 'POST',
+                               onComplete: parent.onComplete,
+                               onSuccess: parent.onSave,
+                               onFailure: checkout.ajaxFailure.bind(checkout),
+                               parameters: formserializedata
+                               }
+                              );
+                         }
+                  }
+               ValidateCybersourceAddr(shipmethodsavfunc);
+               }
+        }
+
+        Checkout.prototype.gotoSection = function (section, reloadProgressBlock) {
+            if(section === 'shipping_method'){
+              var divMessage = document.getElementById("addressverification-message-shipping-method");
+                divMessage.innerHTML = '';
+             }
+            // Adds class so that the page can be styled to only show the "Checkout Method" step
+            if ((this.currentStep == 'login' || this.currentStep == 'billing') && section == 'billing') {
+                $j('body').addClass('opc-has-progressed-from-login');
+            }
+
+            if (reloadProgressBlock) {
+                this.reloadProgressBlock(this.currentStep);
+            }
+            this.currentStep = section;
+            var sectionElement = $('opc-' + section);
+            sectionElement.addClassName('allow');
+            this.accordion.openSection('opc-' + section);
+
+            // Scroll viewport to top of checkout steps for smaller viewports
+            if (Modernizr.mq('(max-width: ' + bp.xsmall + 'px)')) {
+                $j('html,body').animate({scrollTop: $j('#checkoutSteps').offset().top}, 800);
+            }
+
+            if (!reloadProgressBlock) {
+                this.resetPreviousSteps();
+            }
+        };
+
+           // Cybersource Address validation
+           var CyberSourceAddressvalidator = new Cybersourceaddress('co-shipping-form', "<?php echo $this->getUrl('cybersource/avs') ?>", 'shipping-method');
+           function ValidateCybersourceAddr(callback) {
+               CyberSourceAddressvalidator.validateCyberSourceAddress(callback);
+           }
+        <?php endif;?>
+    //]]>
+    </script>    
+    <div id="onepage-checkout-shipping-method-additional-load">
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+    <div id="addressverification-message-shipping-method">
+        
+    </div>
+    
+    <div class="buttons-set" id="shipping-method-buttons-container">
+        <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="button" class="button" onclick="shippingMethod.save();"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span id="shipping-method-please-wait" class="please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Loading next step...')) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Loading next step...')) ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        </span>
+    </div>
+    <?php echo $this->getBlockHtml('formkey') ?>
+</form>
