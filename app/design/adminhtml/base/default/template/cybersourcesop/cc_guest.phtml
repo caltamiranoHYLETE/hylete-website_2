@@ -1,0 +1,186 @@
+<?php
+    /** @var $this Cybersource_Cybersource_Block_SOPWebMobile_Form_Payform */
+    $_code = $this->getMethodCode();
+    $cybersourceCgiUrl =  $this->getCybersourceUrl();
+?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    //extend the validator class to allow for multiple cards with same regex
+    Validation.addAllThese([
+        ['validate-cc-type', 'Credit card number does not match credit card type.', function(v, elm) {
+        // remove credit card number delimiters such as "-" and space
+        elm.value = removeDelimiters(elm.value);
+        v = removeDelimiters(v);
+
+        var ccTypeContainer = $(elm.id.substr(0, elm.id.indexOf('_cc_number')) + '_cc_type');
+        if (!ccTypeContainer) {
+            return true;
+        }
+
+        var ccType = ccTypeContainer.value;
+        if (typeof Validation.creditCartTypes.get(ccType) == 'undefined') {
+            return false;
+        }
+
+        // Other card type or switch or solo card
+        if (Validation.creditCartTypes.get(ccType)[0]==false) {
+            return true;
+        }
+
+        // Matched credit card type
+        var ccMatchedType = '';
+        var match = false;
+        Validation.creditCartTypes.each(function (pair) {
+            if (pair.value[0] && v.match(pair.value[0])) {
+                ccMatchedType = pair.key;
+                //if it matches any of the expressions that are assigned to this card type
+                if (ccMatchedType == ccType) {
+                    match = true;
+                }
+            }
+        });
+
+        if (ccTypeContainer.hasClassName('validation-failed') && Validation.isOnChange) {
+            Validation.validate(ccTypeContainer);
+        }
+
+        return match;
+    }],
+        ['validate-month', 'This is a required field.', function(v, elm) {
+            elm.value = removeDelimiters(elm.value);
+            return elm.value != "00";
+        }]
+    ]);
+
+    //amended java script validation for the cybersource credit card types
+    Validation.creditCartTypes = $H({
+        <?php echo $this->getCardsRegex(); ?>
+    });
+    //]]>
+</script>
+<form id="co-cybersourcesop-form" name="co-cybersourcesop-form" action="<?php echo $cybersourceCgiUrl; ?>" method="post">
+    <dl class="sp-methods">
+        <dt class="a-center"><?php echo $this->__('Credit Card Information') ?></dt>
+        <dd>
+            <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+            <ul class="form-list cs-form-list" id="payment_form_<?php echo $_code ?>">
+                <li id="<?php echo $_code ?>_cc_type_select_div">
+                    <label for="<?php echo $_code ?>_cc_type"
+                           class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+                    <div class="input-box">
+                        <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]"
+                                class="required-entry validate-cc-type-select" onchange="removeTokenChoice();">
+                            <option value=""><?php echo $this->__('--Please Select--') ?></option>
+                            <?php $_ccType = $this->getInfoData('cc_type') ?>
+                            <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
+                                <option value="<?php echo Cybersource_Cybersource_Model_SOPWebMobile_Source_Consts::getCyberCCs($_typeCode) ?>"<?php if ($_typeCode == $_ccType): ?> selected="selected"<?php endif ?>><?php echo Cybersource_Cybersource_Model_SOPWebMobile_Source_Consts::getCCname($_typeCode) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </li>
+                <li id="<?php echo $_code ?>_cc_type_cc_number_div">
+                    <label for="<?php echo $_code ?>_cc_number"
+                           class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]"
+                               onblur="removeTokenChoice();" title="<?php echo $this->__('Credit Card Number') ?>"
+                               class="input-text validate-cc-number validate-cc-type" value=""/>
+                    </div>
+                </li>
+                <li id="<?php echo $_code ?>_cc_type_exp_div" class="new_cc">
+                    <label for="<?php echo $_code ?>_expiration"
+                           class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+                    <div class="input-box">
+                        <div class="v-fix">
+                            <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]"
+                                    class="month validate-cc-exp required-entry validate-month"
+                                    onblur="removeTokenChoice();">
+                                <?php $_ccExpMonth = $this->getInfoData('cc_exp_month') ?>
+                                <?php foreach ($this->getCcMonths() as $k => $v): ?>
+                                    <option value="<?php echo sprintf("%02s", $k); ?>"<?php if ($k == $_ccExpMonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="v-fix">
+                            <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
+                            <select id="<?php echo $_code ?>_expiration_yr" name="payment[cc_exp_year]"
+                                    class="year required-entry">
+                                <?php foreach ($this->getCcYears() as $k => $v): ?>
+                                    <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <?php echo $this->getChildHtml() ?>
+                <?php if ($this->hasVerification()): ?>
+                    <li id="<?php echo $_code ?>_cc_type_cvv_div" class="new_cc">
+                        <label for="<?php echo $_code ?>_cc_cid"
+                               class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+                        <div class="input-box">
+                            <div class="v-fix">
+                                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>"
+                                       class="input-text cvv required-entry validate-cc-cvn"
+                                       id="<?php echo $_code ?>_cc_cid2" name="payment[cc_cid]" value="" new="1"/>
+                            </div>
+                            <a href="#" class="cybersource-cvv-whatisthis"><?php echo $this->__('What is this?') ?></a>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <!-- User Save Option for Tokenisation - Start -->
+                <?php if ($this->isTokenisationEnabled() && $this->isRegistering()): ?>
+                    <li id="<?php echo $_code ?>_cc_save_div" style="" class="new_cc">
+                        <label for="<?php echo $_code ?>_cc_save" class=""><?php echo $this->__('Save Card?') ?></label>
+                        <div class="input-box">
+                            <div class="v-fix">
+                                <input type="checkbox" title="<?php echo $this->__('Save Card?') ?>" id="cc_save"
+                                       name="payment[cc_save]" value="0"
+                                       onclick="if (this.checked) { this.value = 1; } else { this.value = 0;}"/>
+                            </div>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <!-- User Save Option for Tokenisation - End -->
+            </ul>
+        </dd>
+    </dl>
+</form>
+<div class="tool-tip" id="cs-sop-tool-tip" style="display:none;">
+    <div class="btn-close"><a href="#" id="cs-sop-tool-tip-close"
+                              title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close')) ?>"><?php echo $this->__('Close') ?></a>
+    </div>
+    <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>"
+                                       alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Card Verification Number Visual Reference')) ?>"
+                                       title="<?php echo Mage::helper('core')->quoteEscape($this->__('Card Verification Number Visual Reference')) ?>"/>
+    </div>
+</div>
+<script type="text/javascript">
+    $$('.cybersource-cvv-whatisthis').each(function (element) {
+        Event.observe(element, 'click', toggleCsCvvToolTip);
+    });
+
+    function toggleCsCvvToolTip(event) {
+        if ($('cs-sop-tool-tip')) {
+            $('cs-sop-tool-tip').setStyle({
+                top: (Event.pointerY(event) - 560) + 'px'
+            });
+            $('cs-sop-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+
+    if ($('cs-sop-tool-tip-close')) {
+        Event.observe($('cs-sop-tool-tip-close'), 'click', toggleCsCvvToolTip);
+    }
+
+    new Validation('co-cybersourcesop-form');
+    new cybersourceSopPost(
+        'co-cybersourcesop-form',
+        '<?php echo $_code ?>',
+        '<?php echo $this->getUrl('cybersource/sopwm/loadSignedFields', array('_secure' => $this->getRequest()->isSecure())) ?>',
+        false,
+        <?php echo (int) $this->helper('cybersourcesop')->isPaEnabled() ?>,
+        '<?php echo $this->getUrl('cybersource/sopwm/initPayerAuth') ?>'
+    );
+</script>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <reference name="head">
+            <block type="core/text" name="epsbankselectionwidgetjs">
+                <action method="setText" ifconfig="payment/csbteps/active"><text><![CDATA[<script src="https://bankauswahl.giropay.de/eps/widget/v1/epswidget.min.js"></script>]]></text></action>
+            </block>
+            <block type="core/text" name="epsbankselectionwidgetcss">
+                <action method="setText" ifconfig="payment/csbteps/active"><text><![CDATA[<link href="https://bankauswahl.giropay.de/eps/widget/v1/style.css" rel="stylesheet" type="text/css" id="epsstyles">]]></text></action>
+            </block>
+        </reference>
+    </checkout_onepage_index>
+</layout> 

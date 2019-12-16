@@ -1,0 +1,109 @@
+<?php
+    /** @var $this Cybersource_Cybersource_Block_SOPWebMobile_SongbirdJs */
+    $songbirdJsUrl = $this->getSongbirdJsUrl();
+    $isDebugMode = (int) $this->getIsDebugMode();
+
+    $jwt = $this->getJwt();
+    $ccaContinueDetails = $this->getCcaContinueDetails();
+?>
+
+<style>
+    .wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin-right: -50%;
+        text-align: center;
+    }
+    p { color: #ccc; font-size: 18px; }
+    .lds-ring {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+    .lds-ring div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 51px;
+        height: 51px;
+        margin: 6px;
+        border: 6px solid #fff;
+        border-radius: 50%;
+        animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #ccc transparent transparent transparent;
+    }
+    .lds-ring div:nth-child(1) { animation-delay: -0.45s; }
+    .lds-ring div:nth-child(2) { animation-delay: -0.3s; }
+    .lds-ring div:nth-child(3) { animation-delay: -0.15s; }
+    @keyframes lds-ring {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="wrap"><div class="lds-ring"><div></div><div></div><div></div><div></div></div><p>Please wait</p></div>
+
+<script type="text/javascript" src="<?= $songbirdJsUrl ?>"></script>
+<script type="text/javascript">
+    document.observe("dom:loaded", function() {
+        Cardinal.configure({
+            logging: {
+                level: <?= $isDebugMode ?> ? "verbose" : 'off'
+            }
+        });
+
+        Cardinal.on('payments.setupComplete', cardinalSetupCompleteHandler);
+        Cardinal.on('payments.validated', cardinalPaymentValidatedHandler);
+
+        Cardinal.setup('init', { jwt: '<?= $jwt ?>' });
+    });
+
+    function cardinalSetupCompleteHandler(data) {
+        new Ajax.Request('<?= $this->getPaUrl() ?>', {
+            method: 'POST',
+            parameters: { paStep: 'pa_enroll' },
+            onSuccess: function(transport) {
+                response = eval('(' + transport.responseText + ')');
+                if (! response.success) {
+                    alert(response.message);
+                }
+
+                if (response.redirect) {
+                    setLocation(response.redirect);
+                    return;
+                }
+
+                Cardinal.continue('cca', response.data.cca, response.data.order);
+            },
+            onFailure: function() {
+                alert('Server error. Please try again.');
+            }
+        });
+    }
+
+    function cardinalPaymentValidatedHandler (data, jwt) {
+        if (data.ErrorNumber !== 0) {
+            alert('PA validation failed. Error number: ' + data.ErrorNumber);
+        }
+
+        new Ajax.Request('<?= $this->getPaUrl() ?>', {
+            method: 'POST',
+            parameters: { paStep: 'pa_validate', jwt: jwt },
+            onSuccess: function(transport) {
+                response = eval('(' + transport.responseText + ')');
+                if (! response.success) {
+                    alert(response.message);
+                }
+                if (response.redirect) {
+                    setLocation(response.redirect);
+                }
+            },
+            onFailure: function() {
+                alert('Server error. Please try again.');
+            }
+        });
+    }
+</script>

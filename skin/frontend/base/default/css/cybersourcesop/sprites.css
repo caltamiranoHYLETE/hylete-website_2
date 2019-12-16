@@ -1,0 +1,55 @@
+#visa, #amex, #mastercard, #maestro{
+	background: url(sprites.png) no-repeat;
+    float:left;
+}
+
+#visa{
+	background-position: 0 0;
+	width: 56px;
+	height: 37px;
+}
+
+#amex{
+	background-position: 0 -50px ;
+	width: 55px;
+	height: 34px;
+}
+
+#mastercard{
+	background-position: 0 -100px ;
+	width: 57px;
+	height: 35px;
+}
+
+#maestro{
+	background-position: 0 -150px ;
+	width: 55px;
+	height: 34px;
+}
+.customerTokens {
+    width:60%;
+}
+.customerTokensInner {
+    width:100%;
+    padding-left:167px;
+}
+#token {
+    float: left;
+    margin-top:13px;
+    margin-right:12px;
+}
+.tokenText {
+    float:left;
+    padding-left: 5px;
+    padding-top: 9px;
+}
+.opc .form-alt .customerTokensInner.input-box{
+    width: 534px;
+}
+.sp-methods .form-list label[for="cybersourcesop_cc_save"] + .input-box{
+    padding-left: 168px;width: 18px;
+}
+.sp-methods .form-list label[for="cybersourcesop_cc_save"] {
+    margin: 3px;
+    display: inline-block;
+}

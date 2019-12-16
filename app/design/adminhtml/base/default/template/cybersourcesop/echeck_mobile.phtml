@@ -1,0 +1,35 @@
+<?php
+    /** @var $this Cybersource_Cybersource_Block_SOPWebMobile_Form_Payform */
+    $_code = $this->getMethodCode();
+    $cybersourceCgiUrl = $this->getCybersourceEcheckUrl();
+    $useBlock = $this->useBlockContent();
+    $blockId = $this->getContentBlockId();
+?>
+
+<form id="co-cybersourcesop-echeck-form" action="<?php echo $cybersourceCgiUrl; ?>" method="post">
+    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+    <ul class="form-list cs-form-list" id="payment_form_<?php echo $_code ?>" style="display:block">
+        <?php if ($useBlock && $blockId): ?>
+            <li>
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockId)->toHtml(); ?>
+            </li>
+        <?php else: ?>
+            <li>
+                <h2><?php echo Mage::helper('cybersourcesop')->__('Cybersource Secure Acceptance') ?></h2>
+            </li>
+            <li>
+                <h4><?php echo Mage::helper('cybersourcesop')->__('You will be redirected to our secure payment page when you place an order.') ?></h4>
+            </li>
+        <?php endif; ?>
+    </ul>
+</form>
+
+<script type="text/javascript">
+    new Validation('co-cybersourcesop-echeck-form');
+    new cybersourceSopPost(
+        'co-cybersourcesop-echeck-form',
+        '<?php echo $_code ?>',
+        '<?php echo $this->getUrl('cybersource/sopwm/loadSignedFields', array('_secure' => $this->getRequest()->isSecure())) ?>',
+        true
+    );
+</script>

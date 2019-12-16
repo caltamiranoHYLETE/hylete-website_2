@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Cybersource_Cybersource>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Cybersource_Cybersource>
+    </modules>
+</config>

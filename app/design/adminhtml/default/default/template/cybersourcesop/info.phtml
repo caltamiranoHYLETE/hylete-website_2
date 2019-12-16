@@ -1,0 +1,24 @@
+<?php
+    ‚/** @var $this Cybersource_Cybersource_Block_SOPWebMobile_Form_Pay */
+?>
+
+<ul id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
+    <li>
+        <?php if ($tokens = $this->getCustomerTokens()): ?>
+            <div class="input-box">
+                <label for="<?php echo $this->getMethodCode() ?>_token_list"><?php echo Mage::helper('payment')->__('Saved Cards') ?> <span class="required">*</span></label><br/>
+                <select id="<?php echo $this->getMethodCode() ?>_token_list" name="payment[cs_token]" class="required-entry">
+                    <option value="">Select Saved Card</option>
+                    <?php foreach ($tokens as $token): ?>
+                        <?php $tokenId = $token['token_id']; ?>
+                        <?php $tokenLast4 = substr($token['cc_number'], -4); ?>
+                        <?php $tokenExpDate = $token['cc_expiration']; ?>
+                        <option value="<?php echo $tokenId ?>">XXXX-<?php echo $tokenLast4 ?> (<?php echo $tokenExpDate ?>)</option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        <?php else: ?>
+            <span>No Saved Cards</span>
+        <?php endif; ?>
+    </li>
+</ul>

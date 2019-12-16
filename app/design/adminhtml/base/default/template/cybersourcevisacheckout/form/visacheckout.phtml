@@ -1,0 +1,19 @@
+<?php
+/**
+ * @see Cybersource_VisaCheckout_Block_Form_Visacheckout
+ */
+?>
+<ul class="form-list checkout-agreements" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+<input type="hidden" name="payment[cybersource_vc_order_id]"   id="vorderid" value="" />
+    <li>
+        <div style="clear:both;padding-top:20px;padding-bottom:20px;">
+            <img alt="Visa Checkout" class="v-button" role="button" src="https://sandbox.secure.checkout.visa.com/wallet-services-web/xo/button.png"/>
+            <div id='loading_image_visacheckout' style='display:none'>
+                <?php echo $this->__('Please wait...'); ?>
+            </div>
+        </div>
+    </li> 
+ </ul>
+
+ 
+

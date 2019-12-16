@@ -1,0 +1,113 @@
+<?php
+/** @var $this Cybersource_Cybersource_Block_SOPWebMobile_Token */
+?>
+<script type="text/javascript">
+    Validation.add('validate-cc-type', 'Credit card number does not match credit card type.', function(v) {
+        // remove credit card number delimiters such as "-" and space
+        v         = removeDelimiters(v);
+        var ccTypeContainer = $('cc-type-number');
+        if (!ccTypeContainer) {
+            return true;
+        }
+        var ccType = ccTypeContainer.value;
+        if (typeof Validation.creditCardTypes.get(ccType) == 'undefined') {
+            return false;
+        }
+        if(Validation.creditCardTypes.get(ccType).length<1){
+            return false;
+        }
+        // Other card type or switch or solo card
+        if (Validation.creditCardTypes.get(ccType)[0]==false) {
+            return true;
+        }
+
+        // Matched credit card type
+        var ccMatchedType = '';
+        var myreturn = false;
+        Validation.creditCardTypes.each(function (pair) {
+            if (pair.value[0] && v.match(pair.value[0])) {
+                ccMatchedType = pair.key;
+                //if it matches any of the expressions that are assigned to this card type
+                if (ccMatchedType == ccType) {
+                    myreturn = true;
+                }
+            }
+        });
+
+        if (ccTypeContainer.hasClassName('validation-failed') && Validation.isOnChange) {
+            Validation.validate(ccTypeContainer);
+        }
+        return myreturn;
+    });
+    //amended java script validation for the cybersource credit card types
+    Validation.creditCardTypes = $H({
+        <?php echo $this->getLayout()->getBlockSingleton('cybersourcesop/form_pay')->getCardsRegex();?>
+   });
+    //]]>
+</script>
+<?php $tokenEnabled=$this->isTokenisationEnabled();
+      $ccBlock = $this->getLayout()->getBlockSingleton('cybersourcesop/form_pay');
+?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Saved Cards') ?></h1>
+</div>
+<?php if ($this->getCollection() && $this->count()): ?>
+    <form  id="tokenForm" action="<?php echo $this->getSaveDefaultUrl() ?>">
+    <?php echo $this->getBlockHtml('formkey'); ?>
+        <table class="data-table" id="my-apps-table">
+            <col />
+            <col width="100" align="right" />
+            <col width="110" align="right" />
+            <thead>
+            <tr>
+                <th><?php echo $this->__('Card Number') ?></th>
+                <th><?php echo $this->__('Expiry Date') ?></th>
+                <th><?php echo $this->__('Type') ?></th>
+                <?php if($tokenEnabled): ?>
+                    <th align="right"><?php echo $this->__('Action') ?></th>
+                <?php endif;?>
+                <th>Set as Default</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php /** @var $item Cybersource_Cybersource_Model_SOPWebMobile_Token */?>
+            <?php foreach ($this->getCollection() as $item) :?>
+                <tr>
+                    <td><span class="app-name"><?php echo $this->escapeHtml($item->getCcNumber()); ?></span></td>
+                    <td><?php echo $this->escapeHtml($item->getCcExpiration()); ?></td>
+                    <td><em><?php echo $this->escapeHtml($this->getCcType($item->getCcType())) ?></em></td>
+                    <?php if($tokenEnabled): ?>
+                        <td>
+                            <a href="<?php echo $this->getDeleteLink($item)?>" class="nobr" onclick="return confirm('<?php echo $this->__('Are you sure you want to delete this card?') ?>')"><?php echo $this->__('Delete') ?></a>
+                        </td>
+                    <?php endif;?>
+                    <td><input type="checkbox" id="is_default" onclick="deselectCheckboxes(this);" name="checkbox[<?php echo $item->getId() ?>]" /><?php echo ((int)$item->getIsDefault()?$this->__(' Default'):'') ?> <input type="hidden" value="<?php echo $item->getTokenId() ?>" name="token[<?php echo $item->getId() ?>]"/></td>
+
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="add-to-cart">
+            <div class="row">
+                <button class="button btn-add"><span>Save Default Card</span></button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        //<![CDATA[
+        decorateTable('my-apps-table');
+        function deselectCheckboxes(elm) {
+            var checkboxes = $$("#is_default");
+            checkboxes.each(function(box){
+                if (box.checked) {
+                    box.checked = 0;
+                }
+            });
+            elm.checked=1;
+        }
+        //]]>
+    </script>
+<?php else: ?>
+    <p><?php echo $this->__('You have no saved cards.'); ?></p>
+<?php endif; ?>

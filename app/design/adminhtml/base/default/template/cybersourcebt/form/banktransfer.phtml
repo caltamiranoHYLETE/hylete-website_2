@@ -1,0 +1,44 @@
+<?php
+/** @var $this Cybersource_Cybersource_Block_BankTransfer_Form_Banktransfer */
+$instructions = $this->getInstructions();
+?>
+<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+    <li>
+        <div class="<?php echo $this->getMethodCode() ?>-payment-form">
+
+            <?php if ($instructions): ?>
+                <?php echo nl2br($this->getInstructions()) ?>
+            <?php endif; ?>
+
+            <?php if ($this->getMethodCode() == Cybersource_Cybersource_Model_BankTransfer_Payment_Ideal::CODE): ?>
+                <label for="<?php echo $this->getMethodCode() ?>_bank_id" class="required"><em>*</em><?php echo $this->__('Bank Name') ?></label>
+                <select name="payment[cybersource_bt_bank_id]" id="<?php echo $this->getMethodCode() ?>_bank_id">
+                    <?php if ($bankOptions = $this->getIdealBankOptions()): ?>
+                        <?php foreach ($bankOptions as $bank): ?>
+                            <?php echo '<option value="' . $bank->id . '">' . $bank->name . '</option>' ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php echo '<option value="">' . $this->__('No Banks Found.') . '</option>' ?>
+                    <?php endif; ?>
+                </select>
+            <?php endif; ?>
+
+            <?php if ($this->getMethodCode() == Cybersource_Cybersource_Model_BankTransfer_Payment_Eps::CODE): ?>
+                <label for="eps_swift_input" class="required"><em>*</em><?php echo $this->__('BIC') ?></label>
+                <div class="input-box">
+                    <input type="text" title="<?php echo $this->__('BIC') ?>"
+                           id="eps_swift_input" name="payment[cybersource_bt_swift]"
+                           value="" autocomplete="off"
+                           class="input-text required-entry" />
+                </div>
+
+                <script type="text/javascript">
+                    jQuery(document).ready(function() {
+                        jQuery('#eps_swift_input').eps_widget({'return': 'bic'});
+                    });
+                </script>
+            <?php endif; ?>
+
+        </div>
+    </li>
+</ul>

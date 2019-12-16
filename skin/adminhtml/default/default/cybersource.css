@@ -1,0 +1,12 @@
+/* CyberSource */
+.cybersourcelogo{padding-bottom:5px;border:1px solid #0088CE !important; background:#B9E4F9 !important}
+.cs-basic-config > .config-heading .heading strong{display:block;min-width:220px;min-height:30px;padding-left:60px; padding-bottom:7px; background:url(images/cybersource/cs-2.png) no-repeat 0; }
+.cs-general-config > .config-heading .heading strong{ padding-left:60px; padding-bottom:7px; background:url(images/cybersource/logo-cybersource.png) no-repeat 0 1px; }
+.cs-settings-notice {padding-bottom: 1em;max-width: 660px;}
+.cs-settings-notice .important-label {color:red;}
+.cs-settings-notice ul.options-list {list-style:disc;padding:0 2em;}
+.cybersource-payment-notice {
+    padding-top:15px;
+    padding-bottom:15px;
+    font-weight: bold;
+}

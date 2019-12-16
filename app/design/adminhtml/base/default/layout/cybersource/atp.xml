@@ -1,0 +1,21 @@
+<layout>
+    <customer_account_login>
+        <update handle="cybersource_atp_fingerprint"/>
+    </customer_account_login>
+    <customer_account_create>
+        <update handle="cybersource_atp_fingerprint"/>
+    </customer_account_create>
+    <customer_account>
+        <update handle="cybersource_atp_fingerprint"/>
+    </customer_account>
+    <cybersource_atp_fingerprint>
+        <reference name="before_body_end">
+            <block type="cybersource_core/form_fingerprint" name="cybersource_fingerprint" template="cybersourcecore/fingerprint.phtml"/>
+        </reference>
+    </cybersource_atp_fingerprint>
+    <cybersource_atp_reject_index>
+        <reference name="content">
+            <block type="cybersource_atp/reject" name="cybersource_atp_reject" template="cybersourceatp/reject.phtml"/>
+        </reference>
+    </cybersource_atp_reject_index>
+</layout>

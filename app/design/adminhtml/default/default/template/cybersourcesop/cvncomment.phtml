@@ -1,0 +1,24 @@
+<?php
+/**
+ * © 2016 CyberSource Corporation. All rights reserved. CyberSource Corporation (including its subsidiaries,
+ * “CyberSource”) furnishes this code under the applicable agreement between the reader of this document
+ * (“You”) and CyberSource (“Agreement”). You may use this code only in accordance with the terms of the
+ * Agreement. The copyrighted code is licensed to You for use only in strict accordance with the Agreement.
+ * You should read the Agreement carefully before using the code.
+ */
+?>
+<div>
+    <a id="cvn-link-show" href="javascript:void(0)" onclick="$('cvn-comment').show(); $('cvn-link-show').hide(); $('cvn-link-hide').show();">Show Details</a>
+    <a style="display:none;" id="cvn-link-hide" href="javascript:void(0)" onclick="$('cvn-comment').hide(); $('cvn-link-hide').hide(); $('cvn-link-show').show();">Hide Details</a>
+    <div id="cvn-comment" style="display:none;">
+        <ul>
+            <li><b><?php echo $this->__('D');?></b>: <?php echo $this->__('Transaction determined suspicious by issuing bank.');?></li>
+            <li><b><?php echo $this->__('B');?></b>: <?php echo $this->__('Card verification number failed processor\'s data validation check.');?></li>
+            <li><b><?php echo $this->__('M');?></b>: <?php echo $this->__('Card verification number matched.');?></li>
+            <li><b><?php echo $this->__('N');?></b>: <?php echo $this->__('Card verification number not matched.');?></li>
+            <p>
+                <?php echo $this->__('A detailed description of the above codes and others can be found here');?>:
+                <a target="_blank" rel="noopener" id="cvn-link" href="https://www.cybersource.com/developers/other_resources/quick_references/cvn_results/">CVN Documentation</a>
+            </p>
+        </ul>
+    </div>

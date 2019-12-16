@@ -1,0 +1,9 @@
+
+<div class="cybersourcelogo">
+	<img style="display:inline;padding:15px;" width="160" src="<?php echo Mage::getDesign()->getSkinBaseUrl(array('_area'=>'adminhtml'));?>images/cybersource/cs-2.png" alt="cybersource" title="CyberSource" />
+</div>
+ 
+<?php if ($this->getHelpLink()): ?>
+<div class="cybersource-payment-notice">		     
+    <?php echo Mage::helper('cybersource_core')->__('Trouble in setting up CyberSource Payment? Click <a href="%s" target="_blank" rel="noopener">here</a> for support.', $this->getHelpLink()); ?>
+<?php endif; ?>
