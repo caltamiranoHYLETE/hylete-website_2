@@ -1,6 +1,15 @@
 /**
  * Created by Skennerly on 12/23/2015.
  */
+function objectifyForm(formArray) {//serialize data function
+
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++){
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
+
 jQuery(document).ready(function(){
 
     var orderId = jQuery("#orderId").val();
@@ -17,45 +26,52 @@ jQuery(document).ready(function(){
         jQuery('#choice1').tooltip("destroy");
     }));
 
-    if(orderId != "") {
-        var requestData = { orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin };
+    if(orderId !== "") {
+        var requestData = {orderId: orderId, ignoreClearance: ignoreClearance, isAdmin: isAdmin};
         jQuery.ajax({
-            type        : 'POST',
-            url         : '/forms/rma/return_table_process.php',
-            data        : requestData,
-            dataType    : 'json',
-            encode      : true,
+            method: 'POST',
+            url: restBase + 'returns/shipment-details',
+            beforeSend: function (request) {
+                request.setRequestHeader("APIKey", ApiKey);
+            },
+            data: JSON.stringify(requestData),
+            dataType: 'json',
+            contentType: "application/json",
+            encode: true,
             timeout: 60000,
-            success: function(data) {
-                //console.log(data);
-                //var jsonObj = JSON.parse('[' + data + ']');
-                var jsonObj = JSON.parse('[' + data.GetReturnProductTableResult + ']');
-                //console.log(jsonObj[0].Table);
-                if(jsonObj[0].ErrorMessage != "" && jsonObj[0].ErrorMessage != null) {
-                    jQuery("#loadingMessage").text(jsonObj[0].ErrorMessage);
+        })
+            .done(function (data) {
+                var jsonObj = JSON.parse(data);
+
+                if (jsonObj.ErrorMessage !== "" && jsonObj.ErrorMessage !== null) {
+                    jQuery("#loadingMessage").text(jsonObj.ErrorMessage);
                     jQuery("#loadingImage").hide();
-                } else{
-                    jQuery("#product_table_area").html(jsonObj[0].Table);
-                    jQuery("#firstName").val(jsonObj[0].FirstName);
-                    jQuery("#lastName").val(jsonObj[0].LastName);
-                    jQuery("#email").val(jsonObj[0].Email);
-                    jQuery("#nonreturnable_email").val(jsonObj[0].Email);
-                    jQuery("#address1").val(jsonObj[0].Address1);
-                    jQuery("#address2").val(jsonObj[0].Address2);
-                    jQuery("#city").val(jsonObj[0].City);
-                    jQuery("#state").val(jsonObj[0].State);
-                    jQuery("#postalCode").val(jsonObj[0].PostalCode);
+                } else {
+                    jQuery("#product_table_area").html(jsonObj.Table);
+                    jQuery("#firstName").val(jsonObj.FirstName);
+                    jQuery("#lastName").val(jsonObj.LastName);
+                    jQuery("#email").val(jsonObj.Email);
+                    jQuery("#nonreturnable_email").val(jsonObj.Email);
+                    jQuery("#address1").val(jsonObj.Address1);
+                    jQuery("#address2").val(jsonObj.Address2);
+                    jQuery("#city").val(jsonObj.City);
+                    jQuery("#state").val(jsonObj.State);
+                    jQuery("#postalCode").val(jsonObj.PostalCode);
 
                     //Amazon, GOVX and BodyBuilding get a simple refund
-                    if(jQuery("#simpleRefund").val() == "true") {
-                        jQuery("#creditMemoTooltip").css("display","none");
-                        jQuery("#memo_choice").css("display","none");
+                    if (jQuery("#simpleRefund").val() == "true") {
+                        jQuery("#creditMemoTooltip").css("display", "none");
+                        jQuery("#memo_choice").css("display", "none");
                         jQuery("#refundTooltip").html("&nbsp;Refund");
                         jQuery("#refund_choice").prev('span.spacer').remove();
                         jQuery("#refund_choice").prop('checked', true);
-                        jQuery('#refundTooltip').tooltip("destroy").tooltip({title: "Select refund if you are returning products for a refund to your original payment method (credit card, PayPal, etc). If your purchase was not at HYLETE.com, you may have to wait additional time for the 3rd party to process your refund.", placement: "right", animation: true});
-                    } else{
-                        if(jQuery("#exchangeOnly").val() == "true") {
+                        jQuery('#refundTooltip').tooltip("destroy").tooltip({
+                            title: "Select refund if you are returning products for a refund to your original payment method (credit card, PayPal, etc). If your purchase was not at HYLETE.com, you may have to wait additional time for the 3rd party to process your refund.",
+                            placement: "right",
+                            animation: true
+                        });
+                    } else {
+                        if (jQuery("#exchangeOnly").val() == "true") {
                             jQuery("#memo_choice").prop('disabled', true);
                             jQuery("#refund_choice").prop('disabled', true);
                             jQuery("#exchange_choice").prop('checked', true);
@@ -71,13 +87,17 @@ jQuery(document).ready(function(){
                                 animation: true
                             });
                         } else {
-                            if(jQuery("#creditMemoUsed").val() == "true" || jQuery("#giftCardUsed").val() == "true") {
+                            if (jQuery("#creditMemoUsed").val() == "true" || jQuery("#giftCardUsed").val() == "true") {
                                 jQuery("#refund_choice").prop('disabled', true);
                                 jQuery("#memo_choice").prop('checked', true);
-                                jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({title: "Cash refund is not available for your order. Please select refund for store credit or exchange instead.", placement: "top", animation: true});
+                                jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
+                                    title: "Cash refund is not available for your order. Please select refund for store credit or exchange instead.",
+                                    placement: "top",
+                                    animation: true
+                                });
                             }
 
-                            if(jQuery("#sixMonthCashRefund").val() == "true") {
+                            if (jQuery("#sixMonthCashRefund").val() == "true") {
                                 jQuery("#refund_choice").prop('disabled', true);
                                 jQuery("#memo_choice").prop('checked', true);
                                 jQuery("#refundTooltip").removeClass("choice_text").addClass("choice_text_disabled").tooltip("destroy").tooltip({
@@ -89,7 +109,7 @@ jQuery(document).ready(function(){
                         }
                     }
 
-                    jQuery('a.nonreturnable_contact').on("click", function() {
+                    jQuery('a.nonreturnable_contact').on("click", function () {
                         jQuery('#modal-message').hide();
                         jQuery('#print-label-area').hide();
                         jQuery('#nonreturnable_contact').show();
@@ -99,24 +119,36 @@ jQuery(document).ready(function(){
                         jQuery("#myModal").modal();
                     });
 
-                    jQuery('.select_exchange:disabled').wrap(function() {
+                    jQuery('.select_exchange:disabled').wrap(function () {
                         return '<div class="exchangeTooltip" />';
                     });
 
-                    jQuery('.exchangeTooltip').tooltip({title: "If you want to exchange for size, select the \"exchange for size\" option above.", placement: "left", animation: true});
-                    jQuery('span.plus:first').tooltip({title: "Click the + button to add items to your return.", placement: "left", animation: true});
+                    jQuery('.exchangeTooltip').tooltip({
+                        title: "If you want to exchange for size, select the \"exchange for size\" option above.",
+                        placement: "left",
+                        animation: true
+                    });
+                    jQuery('span.plus:first').tooltip({
+                        title: "Click the + button to add items to your return.",
+                        placement: "left",
+                        animation: true
+                    });
 
-                    jQuery('#choice1').tooltip({title: "Start by selecting which type of return you would like.", placement:"right", animation:true});
+                    jQuery('#choice1').tooltip({
+                        title: "Start by selecting which type of return you would like.",
+                        placement: "right",
+                        animation: true
+                    });
 
-                    jQuery("#loading_area").fadeOut(600, function() {
+                    jQuery("#loading_area").fadeOut(600, function () {
                         jQuery("#content_area").fadeIn();
                     });
 
                     setTimeout(showReturnTooltip, 2000);
                     setTimeout(showPlusTooltip, 3000);
                 }
-            }
-        });
+
+            });
     }
 
     var showPlusTooltip = function() {
@@ -141,16 +173,20 @@ jQuery(document).ready(function(){
             var requestData = { orderId: orderId, email: email, comments: comments, firstName: firstName, lastName: lastName };
 
             jQuery.ajax({
-                type        : 'POST',
-                url         : '/forms/rma/support-email-process.php',
-                data        : requestData ,
+                method      : 'POST',
+                url         : restBase + 'returns/support',
+                beforeSend: function(request) {
+                    request.setRequestHeader("APIKey", ApiKey);
+                },
+                data        : JSON.stringify(requestData),
                 dataType    : 'json',
+                contentType: "application/json",
                 encode      : true,
                 timeout: 60000,
                 success: function(data) {
                     //console.log(data);
-                    var jsonObj = JSON.parse('[' + data.QueueReturnSupportEmailResult + ']');
-                    if (jsonObj[0].success == 'false') {
+                    var jsonObj = JSON.parse(data);
+                    if (jsonObj.Success == 'false') {
                         jQuery('#nonreturnable_contactForm').html("<h1>Message Failed!</h1><p>There was a problem creating your ticket. An message has been sent to technical support to resolve the issue.</p>");
                     } else {
                         jQuery('#nonreturnable_contactForm').html("<h1>Message Sent!</h1><p>We appreciate your patience while our brand reps work on responding to you as soon as possible. Thanks for your support.</p>");
@@ -364,6 +400,7 @@ jQuery(document).ready(function(){
         }
     });
 
+    //The main save function
     jQuery("#addressForm").validate({
         ignore: "",
         rules: {
@@ -463,17 +500,21 @@ jQuery(document).ready(function(){
             }
 
             if(canSubmit) {
-                var dataString  = jQuery("#productForm, #addressForm, #choiceForm").serialize();
-
-                //console.log(dataString);
+                var requestData = objectifyForm(jQuery("#productForm, #addressForm, #choiceForm").serializeArray());
+                //console.log(requestData);
                 jQuery("#myModal").modal();
 
                 jQuery.ajax({
-                        type        : 'POST',
-                        url         : '/forms/rma/return-exchange-process.php',
-                        data        : dataString ,
-                        dataType    : 'json',
-                        encode      : true
+                    method      : 'POST',
+                    url         : restBase + 'returns/process-return',
+                    beforeSend: function(request) {
+                        request.setRequestHeader("APIKey", ApiKey);
+                    },
+                    data        : JSON.stringify(requestData),
+                    dataType    : 'json',
+                    contentType: "application/json",
+                    encode      : true,
+                    timeout: 10000,
                     })
                     .done(function(data) {
                         //if we don't have any errors, we will show the customer a return label
@@ -482,24 +523,24 @@ jQuery(document).ready(function(){
                             jQuery('#print-label-area').hide();
                             jQuery('#modal-message').html(data.message);
                         } else {
-                            var jsonObj = JSON.parse('[' + data.CreateReturnExchangeResult + ']');
-                            if(jsonObj[0].Success == false) {
+                            var jsonObj = JSON.parse(data);
+                            if(jsonObj.Success == false) {
                                 jQuery('#print-label-area').hide();
-                                jQuery('#modal-message').html("<h2>There was an error processing your return!</h2><h4>" + jsonObj[0].ErrorMessage + "</h4>");
+                                jQuery('#modal-message').html("<h2>There was an error processing your return!</h2><h4>" + jsonObj.ErrorMessage + "</h4>");
                             } else{
 
                                 //if it is a warranty, we display a different popup
                                 //console.log(jsonObj[0])
-                                if(jsonObj[0].IsWarranty) {
+                                if(jsonObj.IsWarranty) {
                                     jQuery('#modal-message').html("<h4>Your warranty replacement has been submitted successfully!</h4>");
                                     jQuery('#warranty-label-area').show();
-                                    jQuery("#warranty-message").text(jsonObj[0].OrderId + " has been created in NetSuite");
+                                    jQuery("#warranty-message").text(jsonObj.OrderId + " has been created in NetSuite");
                                 } else {
                                     jQuery('#modal-message').html("<h4>Your return has been submitted successfully!</h4>");
                                     jQuery('#print-label-area').show();
-                                    jQuery("a.text-link").prop("href", jsonObj[0].LabelUrl);
-                                    jQuery("a.img-link").prop("href",jsonObj[0].LabelUrl);
-                                    jQuery("#email-link").text("An email with your label and more information has been sent to " + jsonObj[0].Email);
+                                    jQuery("a.text-link").prop("href", jsonObj.LabelUrl);
+                                    jQuery("a.img-link").prop("href",jsonObj.LabelUrl);
+                                    jQuery("#email-link").text("An email with your label and more information has been sent to " + jsonObj.Email);
                                 }
                             }
                         }
@@ -509,28 +550,6 @@ jQuery(document).ready(function(){
             }
         }
     })
-
-    /*jQuery('#email-link').click( function() {
-        jQuery(".email-loader").show();
-
-        //https://pbhservice.hylete.com
-        var requestData = { email: $("#email").val() , labelUrl: jQuery("a.text-link").prop("href"), customerName: jQuery("#firstName").val() + " " + jQuery("#lastName").val() };
-        $.ajax({ url: "../lib/proxy.php",
-            data: {requrl: "https://pbhservice.hylete.com/hyletePBHService.asmx/SendLabelEmail?" + $.param(requestData) },
-            //data: {requrl: "http://localhost:60601/hyletePBHService.asmx/SendLabelEmail?" + $.param(requestData) },
-            dataType: "json",
-            success: function(data) {
-                if(data.ErrorMessage == "") {
-                    jQuery(".email-loader").hide();
-                    jQuery(".email-sent").show();
-                } else {
-                    jQuery(".email-notice").text(data.ErrorMessage);
-                    jQuery(".email-loader").hide();
-                    jQuery(".email-sent").show();
-                }
-            }
-        });
-    });*/
 
     jQuery("#myModal img").on('contextmenu', function(e) {
         return false;

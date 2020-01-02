@@ -14,16 +14,18 @@ jQuery( document ).ready(function() {
 			jQuery('#sectionProcessing').show();
 
 			var orderId = jQuery('#orderId').val();
-			var str = jQuery('#smartTrackingForm').serialize();
-
-			//console.log(str);
-
+			var requestData = { orderId: orderId };
 			jQuery.ajax({
-						type        : 'POST',
-						url         : '/forms/tracking/smart-tracking-process.php',
-						data        : str,
-						dataType    : 'json',
-						encode      : true
+					method      : 'POST',
+					url         : restBase + 'tracking/order',
+					beforeSend: function(request) {
+						request.setRequestHeader("APIKey", ApiKey);
+					},
+					data        : JSON.stringify(requestData),
+					dataType    : 'json',
+					contentType: "application/json",
+					encode      : true,
+					timeout: 10000,
 					})
 					.done(function(data) {
 
@@ -33,20 +35,20 @@ jQuery( document ).ready(function() {
 							jQuery('#errorMessage').html(data.message);
 							jQuery('#errorShow').fadeIn('500');
 						} else {
-							var jsonObj = JSON.parse('[' + data.GetOrderTrackingResult + ']');
+							var jsonObj = JSON.parse(data);
 							jQuery('#tracking-results').empty();
-							//console.log(jsonObj[0]);
+							//console.log(jsonObj);
 
 							var shipment = "shipment";
-							if(jsonObj[0].length > 1) {
+							if(jsonObj.length > 1) {
 								shipment = "shipments";
 							}
-							var found = "<h2>We found " + jsonObj[0].length + " matching " + shipment + "</h2>"
+							var found = "<h2>We found " + jsonObj.length + " matching " + shipment + "</h2>"
 
 							jQuery('#tracking-results').append(found);
 
-							for (var i = 0; i < jsonObj[0].length; i++) {
-								var foundObj = jsonObj[0][i];
+							for (var i = 0; i < jsonObj.length; i++) {
+								var foundObj = jsonObj[i];
 
 								//console.log(foundObj);
 
