@@ -72,7 +72,7 @@ try {
 	$data['success'] = false;
     $data['message'] = $e->getMessage();
 
-    echo json_encode($jsonReturn);
+    echo json_encode($data);
 }
 
 

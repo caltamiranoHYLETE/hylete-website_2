@@ -17,7 +17,7 @@ jQuery( document ).ready(function() {
             cache: false,
             success: function (data) {
                 console.log(data);
-                if (data.errorMessage != "" && data.ErrorMessage != null) {
+                if (data.ErrorMessage != "" && data.ErrorMessage != null) {
                     jQuery("#wb-errorMessage").text(data.ErrorMessage).show();
                 } else {
                     jQuery.each(data, function() {

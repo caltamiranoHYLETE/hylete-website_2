@@ -21,6 +21,15 @@ function displayItems(jsonObj) {
     return html;
 }
 
+function objectifyForm(formArray) {//serialize data function
+
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++){
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
+
 jQuery( document ).ready(function() {
 
     jQuery("#returnForm").validate( {
@@ -40,37 +49,36 @@ jQuery( document ).ready(function() {
 			jQuery('#sectionProcessing').show();
             jQuery('#resultShow').empty().hide();
 
-			var orderId = jQuery('#orderId').val();
-			var str = jQuery('#returnForm').serialize();
-            var html = "";
-
+            var requestData = objectifyForm(jQuery('#returnForm').serializeArray());
+            //console.log(requestData);
 	        jQuery.ajax({
-	            type        : 'POST',
-	            url         : '/forms/rma/smart-return-process.php',
-	            data        : str,
-	            dataType    : 'json',
-	            encode      : true,
-                timeout: 60000
+                method      : 'POST',
+                url         : restBase + 'returns/orders',
+                beforeSend: function(request) {
+                    request.setRequestHeader("APIKey", ApiKey);
+                },
+                data        : JSON.stringify(requestData),
+                dataType    : 'json',
+                contentType: "application/json",
+                encode      : true,
+                timeout: 10000,
 	        })
 	            .done(function(data) {
 
 					jQuery('#sectionProcessing').hide();
-
+                    var html = "";
 					if(data.success == 'false') {
 						jQuery('#errorMessage').html(data.message);
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
-                        var jsonObj = JSON.parse(data.GetReturnOrdersResult);
-                        console.log(jsonObj);
-
+                        var jsonObj = JSON.parse(data);
                         //if we only have one order found we will process it
                         if(jsonObj.length == 1) {
                             //console.log(JSON.stringify(jsonObj[0], null, 4));
                             processSingle(jsonObj[0]);
                         } else if (jsonObj.length == 0) {
                             html += "<h2>No order was found matching that order number. Please try again.</h2>";
-                        } else{
-
+                        } else {
                             html += "<h2>We found multiple shipments for this order number. Please review each shipment for the product(s) you need to return.</h2>";
                             //We are going to loop through the returned orders
                             for (var i in jsonObj) {
@@ -160,11 +168,23 @@ jQuery( document ).ready(function() {
                                         var message = "Click here to start a return for this shipment.";
                                         if(jsonObj[i].ReturnFound == true) {
                                             message = "If you need to place another return or edit the return for this shipment, click here."
+                                            if(jsonObj[i].NoItemsToReturn == true) {
+                                                var message = "All items on this shipment are on an existing return. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you need to make changes.";
+                                                html += "<ul><li class='return-found'><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</li></ul>";
+
+                                                html += displayItems(jsonObj[i]);
+                                                html+= "</div>";
+                                            } else{
+                                                var message = "If you need to place another return for this shipment, click here.";
+                                                html += "<ul><li class='can-return'><a id=\"newReturn_" + i +"\" href=\"javascript:document.form_" + i + ".submit();\"><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</a></li></ul>";
+
+                                                html += displayItems(jsonObj[i]);
+                                                html+= "</div>";
+                                            }
+                                        } else{
+                                            html += "<ul><li class='can-return'><a id=\"newReturn_" + i +"\" href=\"javascript:document.form_" + i + ".submit();\"><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</a></li></ul>";
+                                            html += displayItems(jsonObj[i]);
                                         }
-
-                                        html += "<ul><li class='can-return'><a id=\"newReturn_" + i +"\" href=\"javascript:document.form_" + i + ".submit();\"><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</a></li></ul>";
-
-                                        html += displayItems(jsonObj[i]);
                                     }
 
                                     html+= "<hr></div>";
@@ -338,11 +358,20 @@ function processSingle(returnObject) {
                 html += return_form;
 
                 if(returnObject.ReturnFound == true) {
-                    var message = "If you need to place another return or edit the return for this shipment, click here.";
-                    html += "<ul><li class='can-return'><a id=\"newReturn\" href=\"javascript:document.return_form.submit();\"><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</a></li></ul>";
 
-                    html += displayItems(returnObject);
-                    html+= "</div>";
+                    if(returnObject.NoItemsToReturn == true) {
+                        var message = "All items on this shipment are on an existing return. Please contact us at <a href='mailto:customerservice@HYLETE.com'>customerservice@HYLETE.com</a> if you need to make changes.";
+                        html += "<ul><li class='return-found'><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</li></ul>";
+
+                        html += displayItems(returnObject);
+                        html+= "</div>";
+                    } else{
+                        var message = "If you need to place another return for this shipment, click here.";
+                        html += "<ul><li class='can-return'><a id=\"newReturn\" href=\"javascript:document.return_form.submit();\"><img width=\"28\" height=\"28\" src=\"/forms/rma/img/package_return.png\">" + message + "</a></li></ul>";
+
+                        html += displayItems(returnObject);
+                        html+= "</div>";
+                    }
 
                     jQuery('#resultShow').html(html);
                     jQuery('#resultShow').fadeIn('500');
