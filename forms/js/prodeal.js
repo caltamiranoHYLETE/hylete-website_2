@@ -1,5 +1,13 @@
 
-// A jQuery( document ).ready() block.
+function objectifyForm(formArray) {//serialize data function
+
+	var returnArray = {};
+	for (var i = 0; i < formArray.length; i++){
+		returnArray[formArray[i]['name']] = formArray[i]['value'];
+	}
+	return returnArray;
+}
+
 jQuery( document ).ready(function() {
 
 	jQuery("#txtFirstName").on ({
@@ -151,17 +159,19 @@ jQuery( document ).ready(function() {
 		submitHandler: function(form) {
 
 			jQuery('#sectionProcessing').show();
-
-			var str = jQuery('#regForm').serialize();
-
-			//console.log(str);
-
+			var requestData = objectifyForm(jQuery('#regForm').serializeArray());
+			//console.log(requestData);
 			jQuery.ajax({
-				type        : 'POST',
-				url         : '/forms/prodeal/process.php',
-				data        : str,
+				method      : 'POST',
+				url         : restBase + 'prodeal/create',
+				beforeSend: function(request) {
+					request.setRequestHeader("APIKey", ApiKey);
+				},
+				data        : JSON.stringify(requestData),
 				dataType    : 'json',
-				encode      : true
+				contentType: "application/json",
+				encode      : true,
+				timeout: 10000,
 			})
 				.done(function(data) {
 
@@ -174,13 +184,13 @@ jQuery( document ).ready(function() {
 						jQuery('#my_signup').html("ACCOUNT NOT CREATED!");
 						jQuery('#errorShow').fadeIn('500');
 					} else {
-						var jsonObj = JSON.parse('[' + data.CreateProDealMemberResult + ']');
+						var jsonObj = JSON.parse(data);
 
 						//console.log(jsonObj);
 
 						breakMe: {
 
-							if(jsonObj[0].HasAccount) {
+							if(jsonObj.HasAccount) {
 								jQuery('#my_signup').html("ACCOUNT ALREADY CREATED");
 								jQuery('#registerShowForm').fadeOut('500', function() {
 									jQuery('#accountShow').fadeIn('500');
@@ -188,7 +198,7 @@ jQuery( document ).ready(function() {
 								break breakMe;
 							}
 
-							if(jsonObj[0].NewAccount) {
+							if(jsonObj.NewAccount) {
 								jQuery('#my_signup').html("ACCOUNT CREATED!");
 								jQuery('#registerShowForm').fadeOut('500', function() {
 									jQuery('#newAccountShow').fadeIn('500');
@@ -196,8 +206,8 @@ jQuery( document ).ready(function() {
 								break breakMe;
 							}
 
-							if(jsonObj[0].ShowError) {
-								jQuery('#errorMessage').html(jsonObj[0].ErrorMessage);
+							if(jsonObj.ShowError) {
+								jQuery('#errorMessage').html(jsonObj.ErrorMessage);
 								jQuery('#my_signup').html("ACCOUNT NOT CREATED!");
 								jQuery('#account-form').fadeOut('500', function() {
 									jQuery('#errorShow').fadeIn('500');
