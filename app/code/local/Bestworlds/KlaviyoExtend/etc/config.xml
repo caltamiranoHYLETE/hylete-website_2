@@ -59,6 +59,51 @@
                     </bw_abandonedcart_sales_quote_add_item>
                 </observers>
             </checkout_cart_save_after>
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <bw_cart_add_product_complete>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>checkoutCartAddProductComplete</method>
+                    </bw_cart_add_product_complete>
+                </observers>
+            </checkout_cart_add_product_complete>
+            <checkout_cart_update_items_after>
+                <observers>
+                    <bw_cart_update_items_after>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>checkoutCartUpdateItemsAfter</method>
+                    </bw_cart_update_items_after>
+                </observers>
+            </checkout_cart_update_items_after>
+            <controller_action_postdispatch_checkout_cart_updatePost>
+                <observers>
+                    <bw_cart_updatePost>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>postdispatchCheckoutCartUpdatePost</method>
+                    </bw_cart_updatePost>
+                </observers>
+            </controller_action_postdispatch_checkout_cart_updatePost>
+            <controller_action_postdispatch_checkout_cart_delete>
+                <observers>
+                    <bw_cart_delete>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>postdispatchAddtoCartAjaxIndexRemove</method>
+                    </bw_cart_delete>
+                </observers>
+            </controller_action_postdispatch_checkout_cart_delete>
+            <controller_action_postdispatch_addtocartajax_index_remove>
+                <observers>
+                    <bw_addtocartajax_index_remove>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>postdispatchAddtoCartAjaxIndexRemove</method>
+                    </bw_addtocartajax_index_remove>
+                </observers>
+            </controller_action_postdispatch_addtocartajax_index_remove>
         </events>
     </frontend>
 </config>
