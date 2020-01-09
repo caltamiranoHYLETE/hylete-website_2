@@ -61,6 +61,7 @@ class Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi extends Kl
     function cartUpdate($quote)
     {
         if (!$quote->getCustomerEmail()) return $this;
+        $quote->setTotalsCollectedFlag(false)->collectTotals();
         $params = array();
         $cartLifetime = $this->quote_lifetime * 86400;
         $cartExpiration = date("Y-m-d", strtotime($quote->getUpdatedAt()) + $cartLifetime);
@@ -70,7 +71,7 @@ class Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi extends Kl
         $params['cart_url'] = Mage::getUrl('checkout/cart');
         $params['$email'] = $quote->getCustomerEmail();
         $params['external_customer_id'] = (int)$quote->getCustomerId();
-        $params['cart_value'] = $quote->getBaseGrandTotal();
+        $params['cart_value'] = $quote->getBaseSubtotal();
         $params['klaviyo_updated'] = date('Y-m-d\TH:i:s\Z');
         $params['product_ids_and_quantities'] = $this->getQuoteItemsString($quote);
         $json_response = $this->callServer('PUT', $quote->getId(), $params);
