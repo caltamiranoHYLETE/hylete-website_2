@@ -9,6 +9,16 @@ class Bestworlds_KlaviyoExtend_Model_Observer
         return self::COOKIE_NAME;
     }
 
+    public function getPrivateApiKey()
+    {
+        return Mage::getStoreConfig('klaviyoextend/basic/sc_custom_object_api_key');
+    }
+
+    public function getKlaviyoCartApi()
+    {
+        return Mage::getSingleton('klaviyoextend/customObject_Cart_KlaviyoCartApi', array('api_key' => $this->getPrivateApiKey())); //new Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi($private_api_key);
+    }
+
     public function checkoutCartSaveAfter(Varien_Event_Observer $observer)
     {
         $cookie = Mage::getModel('core/cookie')->get(self::COOKIE_NAME);
@@ -24,5 +34,49 @@ class Bestworlds_KlaviyoExtend_Model_Observer
                 $klaviyoModel->sendKlaviyoTrack($quote);
             }
         }
+    }
+
+    protected function updateKlaviyoCart($quote)
+    {
+        if (!Mage::getStoreConfigFlag('klaviyoextend/basic/enable') && !Mage::getStoreConfigFlag('klaviyoextend/basic/send_cart_custom_object')) {
+            return $this;
+        }
+        $this->getKlaviyoCartApi()->cartUpdate($quote);
+    }
+
+    protected function deleteKlaviyoCart($quote)
+    {
+        if (!Mage::getStoreConfigFlag('klaviyoextend/basic/enable') && !Mage::getStoreConfigFlag('klaviyoextend/basic/send_cart_custom_object')) {
+            return $this;
+        }
+        $this->getKlaviyoCartApi()->cartDelete($quote);
+    }
+
+    public function checkoutCartAddProductComplete(Varien_Event_Observer $observer)
+    {
+        $cart = Mage::getSingleton('checkout/cart');
+        $this->updateKlaviyoCart($cart->getQuote());
+    }
+
+    public function checkoutCartUpdateItemsAfter(Varien_Event_Observer $observer)
+    {
+        $cart = $observer->getEvent()->getCart();
+        $this->updateKlaviyoCart($cart->getQuote());
+    }
+
+    public function postdispatchCheckoutCartUpdatePost(Varien_Event_Observer $observer)
+    {
+        $controllerAction = $observer->getEvent()->getControllerAction();
+        $updateAction = (string)$controllerAction->getRequest()->getParam('update_cart_action');
+        if ($updateAction == 'empty_cart') {
+            $cart = Mage::getSingleton('checkout/cart');
+            $this->updateKlaviyoCart($cart->getQuote());
+        }
+    }
+
+    public function postdispatchAddtoCartAjaxIndexRemove(Varien_Event_Observer $observer)
+    {
+        $cart = Mage::getSingleton('checkout/cart');
+        $this->updateKlaviyoCart($cart->getQuote());
     }
 }
