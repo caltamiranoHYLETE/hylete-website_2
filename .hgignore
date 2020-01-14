@@ -13,3 +13,5 @@ syntax: glob
 media/
 var/
 .idea/
+**/.DS_Store
+
