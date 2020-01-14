@@ -1,6 +1,6 @@
 
 /media/
-/app/etc/local.xml
+app/etc/local.xml
 /.idea/
 /forms/
 /var/
@@ -14,4 +14,4 @@ media/
 var/
 .idea/
 **/.DS_Store
-
+app/code/local/Mage/Core/Model/Session/Abstract/Varien.php
