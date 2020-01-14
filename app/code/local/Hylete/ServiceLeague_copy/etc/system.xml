@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+	  <tabs>
+		<govx translate="label" module="serviceleague">
+            <label>GovX</label>
+            <sort_order>0</sort_order>
+        </govx>
+	  </tabs>
+	  <sections>
+		<govx_connector  translate="label" module="serviceleague">
+		<label>Gov X Connector</label>
+		<tab>govx</tab>
+		<frontend_type>text</frontend_type>
+		<sort_order>0</sort_order>
+		<show_in_default>1</show_in_default>
+		<show_in_website>1</show_in_website>
+		<show_in_store>1</show_in_store>
+					<groups>
+				      <govx_connector_1 translate="label"> 
+					  <label>Gov X Connector</label>
+					  <frontend_type>text</frontend_type>
+					  <sort_order>0</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>1</show_in_store>
+				       <fields>
+                          <govx_link translate="label">
+                            <label>Gov X Connector link</label>
+							<frontend_type>textarea</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>Get Link from Gov X Partner Admin Portal</comment>
+                          </govx_link>
+					   </fields>
+					   </govx_connector_1>
+					</groups>
+		</govx_connector>
+	  </sections>
+</config>
