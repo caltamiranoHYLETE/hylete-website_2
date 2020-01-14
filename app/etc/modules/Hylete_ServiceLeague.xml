@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Hylete_ServiceLeague>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>0.1.0</version>
+    </Hylete_ServiceLeague>
+  </modules>
+</config>

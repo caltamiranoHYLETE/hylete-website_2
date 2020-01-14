@@ -1,0 +1,30 @@
+<style>
+    .govx-customer-group-changed{
+
+
+    }
+    .govx-customer-group-changed .message{
+        position : fixed;
+        padding : 20px;
+        color : white;
+        top :50%;
+        width : 100%;
+        background-color : green;
+
+    }
+</style>
+<div>
+    <div class="govx-customer-group-changed">
+        <p class="message"></p>
+    </div>
+</div>
+<script>
+    window.opener.location.href = "/customer/account";
+    window.setTimeout( closeWindow, 5000 ); // 5 seconds
+    function closeWindow(){
+        var daddy = window.self;
+        daddy.opener = window.self;
+        daddy.close();
+
+    }
+</script>
