@@ -1,11 +1,4 @@
-<!--
 
-/**
- * @author    Mediotype Development <diveinto@mediotype.com>
- * @copyright 2018 Mediotype. All Rights Reserved.
- */
-
--->
 <?php
 
 $userData = $this->getResponse();
@@ -23,7 +16,7 @@ $userData = $this->getResponse();
 
 
 <form class="form create account form-create-account"
-      action = "http://a04c2063.ngrok.io/govx-auth/index/create"
+      action = "/govx-auth/index/create"
       method="post" id="mcs-form-register-service-league" enctype="multipart/form-data" autocomplete="off"
       novalidate="novalidate">
     <?php echo $this->getBlockHtml('formkey'); ?>
