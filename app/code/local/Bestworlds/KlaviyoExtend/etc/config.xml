@@ -104,6 +104,15 @@
                     </bw_addtocartajax_index_remove>
                 </observers>
             </controller_action_postdispatch_addtocartajax_index_remove>
+            <sales_order_place_after>
+                <observers>
+                    <bw_sales_order_place_after>
+                        <type>singleton</type>
+                        <class>klaviyoextend/observer</class>
+                        <method>orderPlaceAfter</method>
+                    </bw_sales_order_place_after>
+                </observers>
+            </sales_order_place_after>
         </events>
     </frontend>
 </config>
