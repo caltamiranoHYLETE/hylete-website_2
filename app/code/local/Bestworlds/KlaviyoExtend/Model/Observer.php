@@ -79,4 +79,12 @@ class Bestworlds_KlaviyoExtend_Model_Observer
         $cart = Mage::getSingleton('checkout/cart');
         $this->updateKlaviyoCart($cart->getQuote());
     }
+
+    public function orderPlaceAfter(Varien_Event_Observer $observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        $quoteId = $order->getQuoteId();
+        $quote = Mage::getModel('sales/quote')->load($quoteId);
+        $this->deleteKlaviyoCart($quote);
+    }
 }
