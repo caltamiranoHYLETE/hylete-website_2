@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
+  <default>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>css/ajaxlogin.css</stylesheet>
+      </action>
+    </reference>
+  </default>
   <serviceleague_index_code>
     <reference name="root">
       <action method="setTemplate"><template>page/empty.phtml</template></action>

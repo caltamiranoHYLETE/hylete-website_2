@@ -6,12 +6,19 @@
             $this->getMessagesBlock()->getMessageCollection()->clear();
         ?>
         <div class="giftcard">
+            <div id="giftcard_balance_lookup"></div>
+            <span id="gc-please-wait" class="please-wait" style="display:none;">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+            </span>
             <label for="giftcard_code b-discount__subtitle"><?php echo $this->__('enter a gift card code if you have one') ?></label>
             <div class="input-box">
                 <div class="input-field-wrapper">
                     <input class="input-text b-discount__input" id="giftcard_code" name="giftcard_code" value="" />
                 </div>
                 &nbsp; <button class="button b-discount__button" id="giftcard-add" type="button" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
+                <p>or</p>
+                <a class="check-gc-status" onclick="checkGiftCardStatus();" value="<?php echo Mage::helper('core')->quoteEscape($this->__('check balance')) ?>"><?php echo $this->__('check balance') ?></a>
+
             </div>
             <script type="text/javascript">
             //<![CDATA[
@@ -28,6 +35,26 @@
                 });
             });
             //]]>
+            </script>
+            <script type="text/javascript">
+                //<![CDATA[
+                var giftcardForm = new VarienForm('giftcard-form');
+                function checkGiftCardStatus()
+                {
+                    if (giftcardForm.validator && !giftcardForm.validator.validate()) {
+                        return false;
+                    }
+                    new Ajax.Updater(
+                        'giftcard_balance_lookup',
+                        '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
+                        {
+                            onCreate: function() { $('gc-please-wait').show(); },
+                            onComplete: function() { $('gc-please-wait').hide(); },
+                            parameters : {giftcard_code : $('giftcard_code').value}
+                        }
+                    );
+                }
+                //]]>
             </script>
         </div>
     </div>
