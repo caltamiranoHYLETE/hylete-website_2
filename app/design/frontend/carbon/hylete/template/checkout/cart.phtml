@@ -200,20 +200,25 @@ $_hyletePriceHelper = $this->helper("mediotype_hyleteprice");
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 coupons-wrapper">
                                         <?php echo $this->getChildHtml('coupon') ?>
-                                        <div class="promo giftcard-wrapper">
-                                            <!-- Display Only For Specific Store Views -->
-                                            <?php
-                                            if($_customerGroupId==0 OR $_customerGroupId==1)
-                                            {
-                                                echo $this->getChildHtml('checkout.cart.extra');
-                                            }
-                                            ?>
-                                        </div>
-                                        <div class="promo giftcard-wrapper">
-                                            <input type="checkbox" id="open-giftcard" class="open-giftcard stay-checked"/>
-                                            <label for="open-giftcard"><?php echo $this->__('Pay with a gift card') ?> </label>
-                                            <div class="discount-giftcard giftcard-content">
-                                                <?php echo $this->getChildHtml('giftcards') //For Enterprise ?>
+                                        <div class="promo clearfix govx-wrapper">
+                                            <input type="checkbox" id="open-govx" class="open-govx"/>
+                                            <label for="open-govx"><?php echo $this->__('Military First Responder Discount') ?> </label>
+                                            <div class="govx-button-cart-page" style="display:none;">
+                                                <script src="https://auth.govx.com/public/govx-popup-registration.js"></script>
+                                                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('govx-cart-auth-link')->toHtml(); ?>
+                                                <script>
+                                                    jQuery(document).on('click', '.govx-popup-registration-link', function(e) {
+                                                        e && e.preventDefault();
+                                                        window.govx.showGovXTickets(this.href);
+                                                    });
+                                                    jQuery("#open-govx").change(function() {
+                                                        if(this.checked) {
+                                                            jQuery('.govx-button-cart-page').show();
+                                                        }else{
+                                                            jQuery('.govx-button-cart-page').hide();
+                                                        }
+                                                    });
+                                                </script>
                                             </div>
                                         </div>
                                     </div>

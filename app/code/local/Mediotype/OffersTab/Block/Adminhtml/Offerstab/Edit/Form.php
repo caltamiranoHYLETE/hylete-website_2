@@ -32,6 +32,7 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
             'id' => 'edit_form',
             'action' => $this->getUrl('*/*/save', ['id' => $id]),
             'method' => 'post',
+            'enctype' => 'multipart/form-data'
         ]);
 
 		$helper = Mage::helper('mediotype_offerstab');
@@ -47,15 +48,13 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
 			'class' => 'required-entry',
 			'required' => true
 		));
-
-		$fieldset->addField('static_block_id', 'select', array(
-			'name' => 'static_block_id',
-			'label' => $helper->__('Static Block ID'),
-			'value' => '',
-			'class' => 'required-entry',
-			'required' => true,
-            'options' => $staticBlockOptionsSelect
-		));
+//Remove select field from offers form
+//		$fieldset->addField('static_block_id', 'select', array(
+//			'name' => 'static_block_id',
+//			'label' => $helper->__('Static Block ID'),
+//			'value' => '',
+//            'options' => $staticBlockOptionsSelect
+//		));
 
 		$fieldset->addField('customer_group_ids', 'multiselect', array(
 			'name' => 'customer_group_ids',
@@ -93,6 +92,20 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
             'value' => ''
         ));
 
+        $fieldset->addField('description', 'textarea', array(
+            'name' => 'description',
+            'label' => $helper->__('Description'),
+            'value' => ''
+        ));
+
+        $fieldset->addField('image', 'image', array(
+
+            'label'     => $helper->__('Upload Image'),
+            'required'  => false,
+            'name'      => 'image',
+
+        ));
+
 		$fieldset->addField('status', 'select', array(
 			'name' => 'status',
 			'label' => $helper->__('Status'),
@@ -104,6 +117,18 @@ class Mediotype_OffersTab_Block_Adminhtml_Offerstab_Edit_Form extends Mage_Admin
                 '0' => Mage::helper('catalogrule')->__('Inactive'),
             ),
 		));
+
+        $fieldset->addField('feed_status', 'select', array(
+            'name' => 'feed_status',
+            'label' => $helper->__('Add To Feed'),
+            'value' => '',
+            'class' => 'required-entry',
+            'required' => true,
+            'options' => array(
+                '1' => Mage::helper('catalogrule')->__('Yes'),
+                '0' => Mage::helper('catalogrule')->__('No'),
+            ),
+        ));
 
         $form->setValues($model->getData());
         $form->setUseContainer(true);

@@ -2,8 +2,30 @@
 <?php
 
 $userData = $this->getResponse();
+$customerExist = Mage::getSingleton('core/session')->getCustomerExist();
+
 
 ?>
+<style>
+    .modal-slide{
+    display: block !important;
+    outline: none !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    min-width: 0 !important;
+    position: unset !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    width: auto !important;
+    opacity: unset !important;
+    z-index: 19000 !important;
+    box-shadow: none !important;
+    }
+</style>
 <script>
     grecaptcha.ready(function () {
         grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'registration' })
@@ -14,100 +36,347 @@ $userData = $this->getResponse();
     });
 </script>
 
+<?php if($customerExist) : ?>
+<div class="modal-slide">
+    <div class="govx-login">
+        <form class="form form-login"
+              action="/govx-auth/index/login"
+              method="post" id="mcs-form-login-service-league" novalidate="novalidate">
+            <input type="hidden" value="" name="recaptcha_response" id="recaptchaLoginResponse">
+            <?php echo $this->getBlockHtml('formkey')?>
 
-<form class="form create account form-create-account"
-      action = "/govx-auth/index/create"
-      method="post" id="mcs-form-register-service-league" enctype="multipart/form-data" autocomplete="off"
-      novalidate="novalidate">
-    <?php echo $this->getBlockHtml('formkey'); ?>
-
-    <fieldset class="fieldset create info">
-        <input type="hidden" value="" name="recaptcha_response" id="recaptchaRegistrationResponse">
-        <input type="hidden" name="customer_group_id"
-               value="<?php echo $this->getCustomerGroupId(); ?>"/>
-        <input type="hidden" name="success_url" value="">
-        <input type="hidden" name="error_url"
-               value="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>">
-        <input name="form_key" type="hidden"
-               value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
-
-        <h2 class="legend"><?php echo $this->__('Your Name') ?></h2>
-        <ul>
-            <div class="customer-name">
-                <div class="field control name-firstname">
-                    <label for="firstname" class="required">First Name            <span class="required">*</span></label>
-                    <div class="input-box">
-                        <input type="text" id="firstname" name="firstname" value="<?php echo $this->escapeHtml($userData['firstName']) ?>" title="First Name" maxlength="255" class="input-text required-entry">
+            <fieldset class="fieldset login" data-hasrequired="* Required Fields">
+                <div class="field email control required">
+                    <label class="label" for="email">
+                        <span><?php echo $this->__('Email') ?></span><span class="required">*</span></label>
+                    <div class="control">
+                        <input name="username" value="<?php echo $this->escapeHtml($userData['email']) ?>" autocomplete="off" id="email" type="email"
+                               class="input-text input-text required-entry validate-email" title="Email">
                     </div>
                 </div>
-                <div class="field control name-lastname">
-                    <label for="lastname" class="required">Last Name<span class="required">*</span></label>
-                    <div class="input-box">
-                        <input type="text" id="lastname" name="lastname" value="<?php  echo $this->escapeHtml($userData['lastName']) ?>" title="Last Name" maxlength="255" class="input-text required-entry">
+                <div class="field control password required">
+                    <label for="pass" class="label">
+                        <span><?php echo $this->__('Password') ?></span><span class="required">*</span>
+                    </label>
+                    <div class="control">
+                        <input name="password" type="password" autocomplete="off"
+                               class="input-text input-text required-entry validate-password"
+                               id="pass" title="Password">
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="primary">
+                                <button type="submit" class="action login primary" name="govx-login-submit" id="govx-login-submit">
+                                    <span><?php echo $this->__('Log in') ?></span>
+                                </button>
+                            </div>
+                            <p><?php echo $this->__('or') ?></p>
+                            <div class="links">
+                                <?php if (Mage::getStoreConfig('sociallogin/facebook/activate')):?>
+                                    <a onclick="return facebookPopup();" class="facebook-login"><i class="fab fa-facebook-f"></i><?php echo $this->__('FACEBOOK LOGIN');?></a>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="secondary"><a class="action reset-password-btn remind"
+                                                      onclick="forgotPassword()" ><span>
+                                                    <?php echo $this->__('Forgot Your Password?') ?></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="govx-forgot-password" style="display:none;">
+        <form class="form password forget mcs-forget-password-form-success-hide"
+           action="/govx-auth/index/forgotpassword"
+           method="post" id="mcs-form-forget-reset-service-league" novalidate="novalidate">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <fieldset class="fieldset" data-hasrequired="* Required Fields">
+                <div class="field note"><?php echo $this->__('Please enter your email address below to receive a password reset
+                                    link.') ?>
+                </div>
+                <div class="field email required">
+                    <label for="email_addressforget"
+                           class="label"><span><?php echo $this->__('Email') ?></span><span class="required">*</span></label>
+                    <div class="control">
+                        <input type="email" name="email" alt="email" id="email_addressforget"
+                               class="input-text  validate-email required-entry"
+                               value="<?php echo $this->escapeHtml($userData['email']) ?>"
+                               aria-required="true">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="primary">
+                            <button type="submit" class="action submit primary">
+                                <span><?php echo $this->__('Reset My Password') ?></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="secondary">
+                            <a class="action back"
+                               onclick="toLogin()"><?php echo $this->__('Go back') ?></a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <li>
-                <label for="gender">Gender</label>
-                <div class="input-box gender">
-                    <p><input type="radio" value="1" name="gender" title="Gender" id="gender[1]">
-                        <label for="gender[1]">Male</label></p>
-                    <p><input type="radio" value="2" name="gender" title="Gender" id="gender[2]">
-                        <label for="gender[2]">Female</label></p>
-                </div>
-            </li>
-        </ul>
-        <h2 class="legend section"><?php echo $this->__('Account Info') ?></h2>
-        <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
-                    class="required">*</span></label>
-        <input type="email" name="email" id="email_address"
-               value="<?php echo $this->escapeHtml($userData['email']) ?>"
-               title="<?php echo $this->__('Email Address') ?>"
-               class="span4 input-text validate-email required-entry"/>
-
-        <label for="password" class="required"><?php echo $this->__('Password'); ?> <span
-                    class="required">*</span></label>
-        <input type="password" id="password" name="password"
-               class="input-text required-entry validate-password"/>
-
-        <label for="confirmation" class="required"><?php echo $this->__('Confirm Password'); ?>
-            <span
-                    class="required">*</span></label>
-        <input type="password" id="confirmation" name="confirmation"
-               class="input-text required-entry validate-cpassword"/>
-        <?php if ($this->isNewsletterEnabled()): ?>
-            <input type="hidden" name="is_subscribed" value="1"/>
-        <?php endif ?>
-        <?php echo $this->getChildHtml('rewards_referral'); ?>
-
-    </fieldset>
-    <br>
-    <div class="actions-toolbar">
-        <div class="primary">
-            <button type="submit" class="action submit primary" title="Create Account">
-                <span><?php echo $this->__('Create Account') ?></span></button>
+        </form>
+        <div data-role="loader" class="loading-mask" id="mcs-custom-loader-service-league" style="display: none;">
+            <div class="loader">
+                <img src="<?php echo $this->getSkinUrl('images/mediotype/loader-1.gif') ?>" alt="Loading...">
+            </div>
+            <div>
+                <p class="message"></p>
+            </div>
         </div>
     </div>
-</form>
-<div data-role="loader" class="loading-mask" id="mcs-custom-loader-service-league" style="display: none;">
-    <div class="loader">
-        <img src="<?php echo $this->getSkinUrl('images/mediotype/loader-1.gif') ?>" alt="Loading...">
-    </div>
-    <div>
-        <p class="message"></p>
-    </div>
 </div>
-<div class="mcs-register-form-notif">
+    <script type="text/javascript">
+        var loginForm = new VarienForm('mcs-form-login-service-league', true);
+    </script>
+    <script>
+        jQuery("#mcs-form-login-service-league").submit(function(event){
+            var pathname = window.opener.location.pathname;
+
+            event.preventDefault(); //prevent default action
+            jQuery("#mcs-custom-loader-service-league").show();
+
+            var post_url = jQuery(this).attr("action"); //get form action url
+
+            var request_method = jQuery(this).attr("method"); //get form GET/POST method
+            var form_data = jQuery(this).serialize(); //Encode form elements for submission
+
+            jQuery.ajax({
+                url : post_url,
+                type: request_method,
+                data : form_data
+            }).done(function(response){ //
+                response = data = jQuery.parseJSON(response);
+
+                console.log(response);
+                jQuery("#mcs-custom-loader-service-league .loader").hide();
+                if(response.error){
+                    jQuery("#mcs-custom-loader-service-league .message").html(response.error);
+                    jQuery("#mcs-custom-loader-service-league .message").show();
+                    jQuery("#mcs-custom-loader-service-league .message").css("padding","20px");
+                    jQuery("#mcs-custom-loader-service-league .message").css("position","fixed");
+                    jQuery("#mcs-custom-loader-service-league .message").css("color","white");
+                    jQuery("#mcs-custom-loader-service-league .message").css("top","70%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("width","100%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("background-color","red");
+                    setTimeout(
+                        function()
+                        {
+                            jQuery("#mcs-custom-loader-service-league .message").hide();
+                            jQuery("#mcs-custom-loader-service-league").hide();
+                        }, 3000);
+                }else{
+                    jQuery("#mcs-custom-loader-service-league .message").html(response.message);
+                    jQuery("#mcs-custom-loader-service-league .message").css("padding","20px");
+                    jQuery("#mcs-custom-loader-service-league .message").css("position","fixed");
+                    jQuery("#mcs-custom-loader-service-league .message").css("color","white");
+                    jQuery("#mcs-custom-loader-service-league .message").css("top","70%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("width","100%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("background-color","green");
+
+                    if(pathname == '/checkout/cart/'){
+                        window.opener.location.href = "/checkout/cart/";
+
+                    }else{
+                        window.opener.location.href = "/customer/account";
+                    }
+                    setTimeout(
+                        function()
+                        {
+                            closeWindow()
+                        },
+                        3000 );
+                }
+
+            });
+        });
+
+        jQuery("#mcs-form-forget-reset-service-league").submit(function(event){
+
+            event.preventDefault(); //prevent default action
+            jQuery("#mcs-custom-loader-service-league").show();
+
+            var post_url = jQuery(this).attr("action"); //get form action url
+
+            var request_method = jQuery(this).attr("method"); //get form GET/POST method
+            var form_data = jQuery(this).serialize(); //Encode form elements for submission
+
+            jQuery.ajax({
+                url : post_url,
+                type: request_method,
+                data : form_data
+            }).done(function(response){ //
+                response = data = jQuery.parseJSON(response);
+
+                console.log(response);
+                jQuery("#mcs-custom-loader-service-league .loader").hide();
+                if(response.error){
+                    jQuery("#mcs-custom-loader-service-league .message").html(response.error);
+                    jQuery("#mcs-custom-loader-service-league .message").show();
+                    jQuery("#mcs-custom-loader-service-league .message").css("padding","20px");
+                    jQuery("#mcs-custom-loader-service-league .message").css("position","fixed");
+                    jQuery("#mcs-custom-loader-service-league .message").css("color","white");
+                    jQuery("#mcs-custom-loader-service-league .message").css("top","70%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("width","100%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("background-color","red");
+                    setTimeout(
+                        function()
+                        {
+                            jQuery("#mcs-custom-loader-service-league .message").hide();
+                            jQuery("#mcs-custom-loader-service-league").hide();
+                        }, 3000);
+                }else{
+                    jQuery("#mcs-custom-loader-service-league .message").html(response.message);
+                    jQuery("#mcs-custom-loader-service-league .message").css("padding","20px");
+                    jQuery("#mcs-custom-loader-service-league .message").css("position","fixed");
+                    jQuery("#mcs-custom-loader-service-league .message").css("color","white");
+                    jQuery("#mcs-custom-loader-service-league .message").css("top","70%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("width","100%");
+                    jQuery("#mcs-custom-loader-service-league .message").css("background-color","green");
+
+                    setTimeout(
+                        function()
+                        {
+                            closeWindow()
+                        },
+                        3000 );
+                }
+
+            });
+        });
+
+        function closeWindow(){
+            var daddy = window.self;
+            daddy.opener = window.self;
+            daddy.close();
+
+        }
+        function forgotPassword(){
+            jQuery(".govx-login").hide();
+            jQuery(".govx-forgot-password").show();
+        }
+        function toLogin(){
+            jQuery(".govx-login").show();
+            jQuery(".govx-forgot-password").hide();
+        }
+    </script>
+<?php else: ?>
+<div class="modal-slide">
+    <form class="form create account form-create-account"
+          action = "/govx-auth/index/serviceLeagueCreate"
+          method="post" id="mcs-form-register-service-league" enctype="multipart/form-data" autocomplete="off"
+          novalidate="novalidate">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+
+        <fieldset class="fieldset create info">
+            <input type="hidden" value="" name="recaptcha_response" id="recaptchaRegistrationResponse">
+            <input type="hidden" name="customer_group_id"
+                   value="<?php echo $this->getCustomerGroupId(); ?>"/>
+            <input type="hidden" name="success_url" value="">
+            <input type="hidden" name="error_url"
+                   value="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>">
+            <input name="form_key" type="hidden"
+                   value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
+
+            <h2 class="legend"><?php echo $this->__('Your Name') ?></h2>
+            <ul>
+                <div class="customer-name">
+                    <div class="field control name-firstname">
+                        <label for="firstname" class="required">First Name            <span class="required">*</span></label>
+                        <div class="input-box">
+                            <input type="text" id="firstname" name="firstname" value="<?php echo $this->escapeHtml($userData['firstName']) ?>" title="First Name" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                    <div class="field control name-lastname">
+                        <label for="lastname" class="required">Last Name<span class="required">*</span></label>
+                        <div class="input-box">
+                            <input type="text" id="lastname" name="lastname" value="<?php  echo $this->escapeHtml($userData['lastName']) ?>" title="Last Name" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                </div>
+
+                <li>
+                    <label for="gender">Gender</label>
+                    <div class="input-box gender">
+                        <p><input type="radio" value="1" name="gender" title="Gender" id="gender[1]">
+                            <label for="gender[1]">Male</label></p>
+                        <p><input type="radio" value="2" name="gender" title="Gender" id="gender[2]">
+                            <label for="gender[2]">Female</label></p>
+                    </div>
+                </li>
+            </ul>
+            <h2 class="legend section"><?php echo $this->__('Account Info') ?></h2>
+            <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
+                        class="required">*</span></label>
+            <input type="email" name="email" id="email_address"
+                   value="<?php echo $this->escapeHtml($userData['email']) ?>"
+                   title="<?php echo $this->__('Email Address') ?>"
+                   class="span4 input-text validate-email required-entry"/>
+
+            <label for="password" class="required"><?php echo $this->__('Password'); ?> <span
+                        class="required">*</span></label>
+            <input type="password" id="password" name="password"
+                   class="input-text required-entry validate-password"/>
+
+            <label for="confirmation" class="required"><?php echo $this->__('Confirm Password'); ?>
+                <span
+                        class="required">*</span></label>
+            <input type="password" id="confirmation" name="confirmation"
+                   class="input-text required-entry validate-cpassword"/>
+            <?php if ($this->isNewsletterEnabled()): ?>
+                <input type="hidden" name="is_subscribed" value="1"/>
+            <?php endif ?>
+            <?php echo $this->getChildHtml('rewards_referral'); ?>
+
+        </fieldset>
+        <br>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary" title="Create Account">
+                    <span><?php echo $this->__('Create Account') ?></span></button>
+            </div>
+        </div>
+    </form>
+    <div data-role="loader" class="loading-mask" id="mcs-custom-loader-service-league" style="display: none;">
+        <div class="loader">
+            <img src="<?php echo $this->getSkinUrl('images/mediotype/loader-1.gif') ?>" alt="Loading...">
+        </div>
+        <div>
+            <p class="message"></p>
+        </div>
+    </div>
+    <div class="mcs-register-form-notif">
+</div>
 </div>
 <script type="text/javascript">
     var registrationForm = new VarienForm('mcs-form-register-service-league', true);
 </script>
 <script>
     jQuery("#mcs-form-register-service-league").submit(function(event){
+        var pathname = window.opener.location.pathname;
+
         event.preventDefault(); //prevent default action
         jQuery("#mcs-custom-loader-service-league").show();
-        var post_url = jQuery(this).attr("action"); //get form action url
+
+
+        if(pathname == '/checkout/cart/'){
+            post_url = '/govx-auth/index/serviceLeagueCartCreate'
+        }else{
+            var post_url = jQuery(this).attr("action"); //get form action url
+        }
+
         var request_method = jQuery(this).attr("method"); //get form GET/POST method
         var form_data = jQuery(this).serialize(); //Encode form elements for submission
 
@@ -127,7 +396,7 @@ $userData = $this->getResponse();
             jQuery("#mcs-custom-loader-service-league .message").css("background-color","green");
 
             window.opener.location.href = "/customer/account";
-            window.setTimeout( closeWindow, 5000 ); // 5 seconds
+            window.setTimeout( closeWindow, 3000 ); // 5 seconds
 
         });
     });
@@ -138,3 +407,4 @@ $userData = $this->getResponse();
 
     }
 </script>
+<?php endif; ?>

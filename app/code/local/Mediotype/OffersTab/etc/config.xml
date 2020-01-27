@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mediotype_OffersTab>
-            <version>0.0.8</version>
+            <version>0.0.9</version>
         </Mediotype_OffersTab>
     </modules>
 
@@ -79,6 +79,16 @@
                 </connection>
             </mediotype_offerstab_read>
         </resources>
+        <events>
+            <mediotype_offers_tab_save_after>
+                <observers>
+                    <mediotype_offerstab>
+                        <class>Mediotype_OffersTab_Model_OfferSaveAfterObserver</class>
+                        <method>offerSaveAfter</method>
+                    </mediotype_offerstab>
+                </observers>
+            </mediotype_offers_tab_save_after>
+        </events>
     </global>
 
     <frontend>
