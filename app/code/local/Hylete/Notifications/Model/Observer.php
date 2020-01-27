@@ -8,7 +8,7 @@ class Hylete_Notifications_Model_Observer
 		$controller = $event->getAccountController();
 		$webhookUrl = Mage::getStoreConfig('hylete_notifications_settings/hylete_settings/new_account_url');
 
-		if(!empty($webhookUrl)) {
+		if(true) {
 
 			if ($controller) {
 
@@ -19,6 +19,7 @@ class Hylete_Notifications_Model_Observer
 				$r->Gender = $customer->getGender();
 				$r->FirstName = $customer->getFirstname();
 				$r->LastName = $customer->getLastname();
+				$r->GroupId = $customer->getGroupId();
 				$r->RefererUrl = $_SERVER['HTTP_REFERER'];
 				$r->AccountFormUrl = $controller->getRequest()->getRequestString();
 
