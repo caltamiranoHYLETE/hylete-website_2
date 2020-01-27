@@ -67,9 +67,35 @@ class Mediotype_OffersTab_Adminhtml_OfferstabController extends Mage_Adminhtml_C
             if ($id) {
                 $model->load($id);
             }
+
+            if(isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
+
+                try {
+
+                    $uploader = new Varien_File_Uploader('image');
+
+                    $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png')); // or pdf or anything
+
+                    $uploader->setAllowRenameFiles(false);
+
+                    $uploader->setFilesDispersion(false);
+
+                    $path = Mage::getBaseDir('media') . '/offerstab/' ;
+                    $uploader->save($path, $_FILES['image']['name']);
+                    $postData['image'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) ."offerstab/". $_FILES['image']['name'];
+                }catch(Exception $e) {
+
+
+
+                }
+            }else{
+                unset($postData['image']);
+            }
+
             $model->addData($postData);
             try {
                 $model->save();
+                Mage::dispatchEvent('mediotype_offers_tab_save_after', array('mediotype_offerstab_offer' => $model)  );
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('mediotype_offerstab')->__('Successfully saved.')
                 );
