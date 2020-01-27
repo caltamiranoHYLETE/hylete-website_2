@@ -12,16 +12,18 @@ jQuery( document ).ready(function() {
 			jQuery('#sectionProcessing').show();
 
 			var orderId = jQuery('#orderId').val();
-			var str = jQuery('#returnTrackingForm').serialize();
-	        
-	        //console.log(str);
-
+			var requestData = { orderId: orderId };
 	        jQuery.ajax({
-	            type        : 'POST',
-	            url         : '/forms/rma/return-tracking-process.php',
-	            data        : str,
-	            dataType    : 'json',
-	            encode      : true
+				method      : 'POST',
+				url         : restBase + 'tracking/return',
+				beforeSend: function(request) {
+					request.setRequestHeader("APIKey", ApiKey);
+				},
+				data        : JSON.stringify(requestData),
+				dataType    : 'json',
+				contentType: "application/json",
+				encode      : true,
+				timeout: 10000,
 	        })
 	            .done(function(data) {
 					
@@ -31,35 +33,38 @@ jQuery( document ).ready(function() {
 						jQuery('#errorMessage').html(data.message);
 	                	jQuery('#errorShow').fadeIn('500');
 					} else {
-						var jsonObj = JSON.parse('[' + data.GetReturnTrackingResult + ']');
+						var jsonObj = JSON.parse(data);
+						console.log(jsonObj);
 
-						//console.log(jsonObj);
+						var html = "";
+						var orderFound = false;
+						var returnAvailable = false;
+						for (var i = 0; i < jsonObj.length; i++) {
+							var returnData = jsonObj[i];
 
-						if(jsonObj[0].Errors != "") {
-							jQuery('#notFound').fadeOut('500', function () {
-								jQuery('#errorMessage').html(jsonObj[0].Errors);
-								jQuery('#errorShow').fadeIn('500');
-							});
-						} else
-						{
-							breakme: if(jsonObj[0].OrderFound) {
+							orderFound = true;
 
-								if(jsonObj[0].NotAvailable) {
-									jQuery('#newgistics').hide();
-									jQuery('#saddleCreek').hide();
-									jQuery('#notAvailable').fadeIn('500');
-								} else {
-									jQuery('#tracking-results').html(jsonObj[0].ReturnHtml);
-									//window.location = "http://tracking.smartlabel.com/?trackingvalue=" + jsonObj[0].Tracking;
-								}
-
-							} else{
-								jQuery('#newgistics').hide();
-								jQuery('#saddleCreek').hide();
-								jQuery('#notFound').fadeIn('500');
+							html += returnData.ReturnHtml
+							//console.log(html);
+							if(!returnData.NotAvailable) {
+								returnAvailable = true;
 							}
 						}
 
+						if(orderFound) {
+							if(!returnAvailable) {
+								jQuery('#newgistics').hide();
+								jQuery('#saddleCreek').hide();
+								jQuery('#notAvailable').fadeIn('500');
+							} else {
+								jQuery('#tracking-results').html(html);
+							}
+
+						} else{
+							jQuery('#newgistics').hide();
+							jQuery('#saddleCreek').hide();
+							jQuery('#notFound').fadeIn('500');
+						}
 					}
 	            });
 			}

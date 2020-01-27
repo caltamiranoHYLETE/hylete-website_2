@@ -1,6 +1,6 @@
 
 /media/
-/app/etc/local.xml
+app/etc/local.xml
 /.idea/
 /forms/
 /var/
@@ -13,3 +13,7 @@ syntax: glob
 media/
 var/
 .idea/
+**/.DS_Store
+app/code/local/Mage/Core/Model/Session/Abstract/Varien.php
+/app/code/local/Mage/Core/Model/Session/Abstract/Varien.php
+/app/etc/local.xml

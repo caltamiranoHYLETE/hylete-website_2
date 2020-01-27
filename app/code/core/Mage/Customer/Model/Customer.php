@@ -860,6 +860,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 			if (strpos($this->getEmail(), '@qq.com') !== false) {
 				$errors[] = Mage::helper('customer')->__('Invalid email address "%s".', $this->getEmail());
 			}
+
+			if (strpos($this->getEmail(), '@239.com') !== false) {
+				$errors[] = Mage::helper('customer')->__('Invalid email address "%s".', $this->getEmail());
+			}
 		}
 
         $password = $this->getPassword();

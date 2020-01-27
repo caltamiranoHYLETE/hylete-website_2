@@ -38,25 +38,29 @@ jQuery( document ).ready(function() {
                     jQuery('#resultShow').hide();
                     jQuery('#sectionProcessing').show();
 
-                    var orderId = jQuery('#orderId').val();
+                    var orderId = jQuery('#order-change-orderId').val();
                     var requestData = { orderId: orderId };
                     jQuery.ajax({
-                        type        : 'POST',
-                        url         : '/forms/rma/order-cancel-process.php',
-                        data        : requestData ,
+                        method        : 'POST',
+                        url         : restBase + 'change-request/cancel-order',
+                        beforeSend: function(request) {
+                            request.setRequestHeader("APIKey", ApiKey);
+                        },
+                        data        : JSON.stringify(requestData),
                         dataType    : 'json',
+                        contentType: "application/json",
                         encode      : true,
-                        timeout: 60000,
+                        timeout: 10000,
                         success: function(data) {
                             //console.log(data);
-                            var jsonObj = JSON.parse('[' + data.CancelOrderResult + ']');
+                            var jsonObj = JSON.parse(data);
                             jQuery('#sectionProcessing').hide();
 
                             var html = "";
-                            if(jsonObj[0].Success) {
+                            if(jsonObj.Success) {
                                 html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             }
-                            else if(jsonObj[0].Success === "true") {
+                            else if(jsonObj.Success === "true") {
                                 html = "<ul><li class='can-return'>Your order has been canceled. Please Note: There may be a delay in refunding your purchase.</li></ul>";
                             } else {
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
@@ -75,25 +79,29 @@ jQuery( document ).ready(function() {
                     jQuery('#resultShow').hide();
                     jQuery('#sectionProcessing').show();
 
-                    var orderId = jQuery('#orderId').val();
+                    var orderId = jQuery('#order-change-orderId').val();
                     var message = jQuery('#comments').val();
                     var requestData = { orderId: orderId, message: message};
                     jQuery.ajax({
-                        type        : 'POST',
-                        url         : '/forms/rma/order-hold-process.php',
-                        data        : requestData ,
+                        method        : 'POST',
+                        url         : restBase + 'change-request/hold-order',
+                        beforeSend: function(request) {
+                            request.setRequestHeader("APIKey", ApiKey);
+                        },
+                        data        : JSON.stringify(requestData),
                         dataType    : 'json',
+                        contentType: "application/json",
                         encode      : true,
-                        timeout: 60000,
+                        timeout: 10000,
                         success: function(data) {
                             //console.log(data);
-                            var jsonObj = JSON.parse('[' + data.HoldOrderResult + ']');
+                            var jsonObj = JSON.parse(data);
                             jQuery('#sectionProcessing').hide();
 
                             var html = "";
-                            if(jsonObj[0].Success) {
+                            if(jsonObj.Success) {
                                 html = "<ul><li class='can-return'>Your order has been put on hold and customer service will contact you soon about your request.</li></ul>";
-                            } else if(jsonObj[0].Success === "true") {
+                            } else if(jsonObj.Success === "true") {
                                 html = "<ul><li class='can-return'>Your order has been put on hold and customer service will contact you soon about your request.</li></ul>";
                             } else{
                                 html = "<ul><li class='passed-date'>There was problem processing your request. The message has been sent to customer support to resolve the issue.</li></ul>";
@@ -121,26 +129,29 @@ jQuery( document ).ready(function() {
 			jQuery('#sectionProcessing').show();
             jQuery('#resultShow').empty().hide();
 
-			var orderId = jQuery('#orderId').val();
-            var email = jQuery('#email').val();
-
+			var orderId = jQuery('#order-change-orderId').val();
+            var email = jQuery('#order-change-email').val();
             var requestData = { orderId: orderId, email: email };
 
             jQuery.ajax({
-                type        : 'POST',
-                url         : '/forms/rma/order-change-process.php',
-                data        : requestData ,
+                method        : 'POST',
+                url         : restBase + 'change-request/order',
+                beforeSend: function(request) {
+                    request.setRequestHeader("APIKey", ApiKey);
+                },
+                data        : JSON.stringify(requestData),
                 dataType    : 'json',
+                contentType: "application/json",
                 encode      : true,
-                timeout: 60000,
+                timeout: 10000,
                 success: function(data) {
                     //console.log(data);
-                    var jsonObj = JSON.parse('[' + data.GetOrderChangeDataResult + ']');
+                    var jsonObj = JSON.parse(data);
                     jQuery('#sectionProcessing').hide();
 
                     var html = "";
 
-                    if(jsonObj[0].Error !== null && jsonObj[0].Error !== "") {
+                    if(jsonObj.Error !== null && jsonObj.Error !== "") {
                         html += "<ul><li class='passed-date'>The email you have entered does not match the order number entered. Please try again.</li></ul>";
 
                         jQuery('#resultShow').html(html).fadeIn('500');
@@ -148,9 +159,9 @@ jQuery( document ).ready(function() {
                         return;
                     }
 
-                    if (jsonObj[0].OrderFound === true) {
+                    if (jsonObj.OrderFound === true) {
 
-                        if (jsonObj[0].CanReturn === true) {
+                        if (jsonObj.CanReturn === true) {
                             html += "<ul><li class='can-return'>We found your order! Please select from the options below to make your change. Please note: this is time sensitive as we try and process orders as fast as we can. </li></ul>";
 
                             jQuery('#changeForm').fadeIn('500');
