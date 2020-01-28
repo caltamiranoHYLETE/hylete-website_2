@@ -1,0 +1,88 @@
+<?php
+// 2020-01-15 This block is never cached:
+// https://github.com/justuno-com/m1/blob/1.4.4/app/design/frontend/base/default/layout/justuno/m1.xml#L5-L20
+use Justuno_M1_Lib as L;
+use Justuno_M1_Settings as S;
+use Mage_Catalog_Model_Product as P;
+use Mage_Checkout_Model_Session as SCheckout;
+use Mage_Core_Model_App as App;
+use Mage_Customer_Model_Session as SCustomer;
+use Mage_Sales_Model_Order as O;
+use Mage_Sales_Model_Quote as Q;
+$app = Mage::app(); /** @var App $app */
+// 2020-01-15 «How to get Magento customer ID» https://stackoverflow.com/a/17236128
+$sCustomer = Mage::getSingleton('customer/session'); /** @var SCustomer $sCustomer */
+// 2020-01-15 «Get product stock quantity in magento» https://magento.stackexchange.com/a/209505
+list($pid, $qty) = ($p = Mage::registry('current_product')) /** @var P|null $p */
+	? [(int)$p->getId(), (int)$p->getStockItem()->getQty()] : [null, null]
+; /** @var int|null $pid */  /** @var int|null $qty */
+$sCheckout = Mage::getSingleton('checkout/session'); /** @var SCheckout $sCheckout */
+/** @var bool $isCheckoutSuccess */ /** @var Q|O $oq */ /** @var int|null $oid */
+if (!($isCheckoutSuccess = in_array('checkout_onepage_success', $app->getLayout()->getUpdate()->getHandles()))) {
+	list($oid, $oq) = [null, $sCheckout->getQuote()];
+}
+else {
+	$oid = (int)$sCheckout->getLastOrderId();
+	$oq = Mage::getModel('sales/order')->load($oid);
+}
+$d = [
+	'ajaxCartURL' => $this->getUrl('jumagext/index/getcart')
+	,'ajaxURL' => S::ajaxUrl()
+	,'mageKeys' => [
+		'CustomerID' => (int)$sCustomer->getId()
+		,'PageID' => $app->getFrontController()->getAction()->getFullActionName()
+		,'ProductID' => $pid
+		,'StockQty' => $qty
+	]
+	,'merchantID' => S::id()
+	,'oq' => [
+		'currency' => $app->getStore()->getCurrentCurrencyCode()
+		,'shipping' => $oq->getShippingAmount()
+		,'subtotal' => $oq->getSubtotal()
+		,'tax' => $oq->getTaxAmount()
+		,'total' => $oq->getGrandTotal()
+	]
+	,'orderID' => $oid
+]; /** @var array(string => mixed) $d */
+?><script>
+	/**
+	 * 2020-01-16
+	 * @type {{
+	 *		ajaxCartURL: string
+	 *		,ajaxURL: ?string
+	 *		,mageKeys: object
+	 *		,merchantID: string
+	 *		,oq: object
+	 *		,orderID: number=
+	 * }}
+	 */
+	var d = <?= L::ejs($d) ?>;
+	// 2020-01-15 «Validating a GUID in JavaScript» https://stackoverflow.com/a/24573236
+	if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(d.merchantID)) {
+		console.log('JU_ERROR: Justuno Account ID (ACCID) Was Not Set Correctly...');
+	}
+	else {
+		window.ju_num = d.merchantID;
+		if (d.ajaxURL) {
+			window.ju_MageAJAX = d.ajaxURL;
+		}
+		window.ju_ajaxCartURL = d.ajaxCartURL;
+		window.ju_MageKeys = d.mageKeys;
+		if (d.orderID) {
+			window.ju_order_id = d.orderID;
+		}
+		window[d.orderID ? 'ju_order_obj' : 'ju_cart_obj'] = d.oq;
+		// 2020-01-24 "Replace `cdn.justuno.com` with `cdn.jst.ai`": https://github.com/justuno-com/m1/issues/39
+		window.asset_host = '//cdn.jst.ai/';
+		(function (i, s, o, g, r, a, m) {
+			i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments);
+			};
+			a = s.createElement(o);
+			m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m);
+		})(window, document, 'script', asset_host + 'vck-m1.js', 'juapp');
+	}
+</script>
