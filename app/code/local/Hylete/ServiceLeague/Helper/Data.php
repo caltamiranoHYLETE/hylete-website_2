@@ -3,6 +3,13 @@ class Hylete_ServiceLeague_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
 
+    protected $_baseUrl;
+
+    public function __construct()
+    {
+        $this->_baseUrl = urlencode(Mage::getBaseUrl());
+    }
+
     public function saveResponse($response){
 
         $serviceLeagueResource = Mage::getModel('serviceleague/verifier');
@@ -31,7 +38,7 @@ class Hylete_ServiceLeague_Helper_Data extends Mage_Core_Helper_Abstract
         Mage::log($code, null, 'govx-auth.log');
 
         $curl = curl_init();
-
+        $redirectUri = $this->_baseUrl. "govx-auth/index/code";
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://auth.govx.com/oauth/token",
             CURLOPT_RETURNTRANSFER => true,
@@ -41,7 +48,7 @@ class Hylete_ServiceLeague_Helper_Data extends Mage_Core_Helper_Abstract
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "client_secret=puZ8gMukdNjPnxBQwOEDFOOA3FJeKyePYBAPCCyz4sw%3D&redirect_uri=http%3A//0d3ac667.ngrok.io/govx-auth/index/code&grant_type=authorization_code&code=$code&client_id=c3071849-15db-e911-80e9-14187735bc96",
+            CURLOPT_POSTFIELDS => "client_secret=puZ8gMukdNjPnxBQwOEDFOOA3FJeKyePYBAPCCyz4sw%3D&redirect_uri=$redirectUri&grant_type=authorization_code&code=$code&client_id=c3071849-15db-e911-80e9-14187735bc96",
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/x-www-form-urlencoded"
             ),
@@ -61,6 +68,9 @@ class Hylete_ServiceLeague_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::log($response, null, 'govx-auth.log');
             $response = json_decode($response, true);
             $token = $response['access_token'];
+            if($token == null){
+                return false;
+            }
             $userData = $this->getUserData($token);
             return $userData;
         }
