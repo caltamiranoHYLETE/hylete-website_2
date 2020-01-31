@@ -30,7 +30,7 @@ class Hylete_ServiceLeague_IndexController extends Mage_Core_Controller_Front_Ac
                     $customerExist = Mage::helper('serviceleague')->checkIfCustomerExist($response);
                     Mage::getSingleton('core/session')->setCustomerExist($customerExist);
                     if ($customerExist == true) {
-                        Mage::getSingleton('core/session')->addSuccess('You have been added to our Service League log in to get discounts');
+                        Mage::getSingleton('core/session')->addSuccess('Thank you for joining the Service League! Log in to view team pricing.');
 
                     }
                     $this->loadLayout();
