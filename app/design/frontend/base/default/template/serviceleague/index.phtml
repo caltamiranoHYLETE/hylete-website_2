@@ -329,6 +329,7 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
                         class="required">*</span></label>
             <input type="password" id="password" name="password"
                    class="input-text required-entry validate-password"/>
+            <span class="password-min" style="color:red"></span>
 
             <label for="confirmation" class="required"><?php echo $this->__('Confirm Password'); ?>
                 <span
@@ -368,6 +369,13 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
         var pathname = window.opener.location.pathname;
 
         event.preventDefault(); //prevent default action
+        if(jQuery("#password").val().length < 7){
+            jQuery(".password-min").text("The minimum password length is 7");
+            return;
+        }else{
+            jQuery(".password-min").hide();
+        }
+
         jQuery("#mcs-custom-loader-service-league").show();
 
 
@@ -386,17 +394,33 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
             data : form_data
         }).done(function(response){ //
             response = data = jQuery.parseJSON(response);
-            jQuery("#mcs-custom-loader-service-league .loader").hide();
-            jQuery("#mcs-custom-loader-service-league .message").html(response.message);
-            jQuery("#mcs-custom-loader-service-league .message").css("padding","20px");
-            jQuery("#mcs-custom-loader-service-league .message").css("position","fixed");
-            jQuery("#mcs-custom-loader-service-league .message").css("color","white");
-            jQuery("#mcs-custom-loader-service-league .message").css("top","50%");
-            jQuery("#mcs-custom-loader-service-league .message").css("width","100%");
-            jQuery("#mcs-custom-loader-service-league .message").css("background-color","green");
+            console.log(response);
+            console.log(response.error);
 
-            window.opener.location.href = "/customer/account";
-            window.setTimeout( closeWindow, 3000 ); // 5 seconds
+            if(response.success) {
+                jQuery("#mcs-custom-loader-service-league .loader").hide();
+                jQuery("#mcs-custom-loader-service-league .message").html(response.message);
+                jQuery("#mcs-custom-loader-service-league .message").css("padding", "20px");
+                jQuery("#mcs-custom-loader-service-league .message").css("position", "fixed");
+                jQuery("#mcs-custom-loader-service-league .message").css("color", "white");
+                jQuery("#mcs-custom-loader-service-league .message").css("top", "50%");
+                jQuery("#mcs-custom-loader-service-league .message").css("width", "100%");
+                jQuery("#mcs-custom-loader-service-league .message").css("background-color", "green");
+
+                window.opener.location.href = "/customer/account";
+                window.setTimeout(closeWindow, 3000);
+            }else{
+                jQuery(".loading-mask").hide();
+                jQuery("#mcs-custom-loader-service-league .loader").hide();
+                jQuery("#mcs-custom-loader-service-league .message").html(response.error);
+                jQuery("#mcs-custom-loader-service-league .message").css("padding", "20px");
+                jQuery("#mcs-custom-loader-service-league .message").css("position", "fixed");
+                jQuery("#mcs-custom-loader-service-league .message").css("color", "white");
+                jQuery("#mcs-custom-loader-service-league .message").css("top", "50%");
+                jQuery("#mcs-custom-loader-service-league .message").css("width", "100%");
+                jQuery("#mcs-custom-loader-service-league .message").css("background-color", "red");
+                // window.setTimeout(jQuery("#mcs-custom-loader-service-league .message").hide(), 2000);
+            }
 
         });
     });
