@@ -120,6 +120,12 @@ class Pixlee_Base_Model_Observer {
         // as json_decode prefers.
         return json_decode($cookie, true);
       }
+    } else if (isset($_COOKIE['pixlee_analytics_cookie_legacy'])) {
+      if($cookie = $_COOKIE['pixlee_analytics_cookie_legacy']) {
+        // Return the decoded cookie as an associative array, not a PHP object
+        // as json_decode prefers.
+        return json_decode($cookie, true);
+      }
     }
     return false;
   }
