@@ -40,6 +40,15 @@
             </li>
         </ul>
         <h2 class="legend section"><?php echo $this->__('Account Info') ?></h2>
+        <input type="checkbox" id="radiance-lab-create-account-optin-check" name="radiance-lab-create-account-optin-check" value="">
+        <label for="radiance-lab-create-account-optin-check"> Sign Me Up</label>
+        <div class="radiance-create-account-optin" style="display: none">
+            <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Mobile Phone Optin') ?> </label>
+            <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
+                   value=""
+                   title="<?php echo $this->__('Optin For Text Notifications') ?>"
+                   class="span4 input-text "/>
+        </div>
         <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
                     class="required">*</span></label>
         <input type="email" name="email" id="email_address"

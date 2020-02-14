@@ -249,7 +249,7 @@ body._has-modal-custom .modal-custom-overlay {
     margin-bottom: 10px;
 }
 
-.mcs-register-form-slide {
+.mcs-register-form-slide, .mcs-nasm-register-form-slide  {
     left: calc(100% - 480px);
 }
 
@@ -381,6 +381,10 @@ body._has-modal-custom .modal-custom-overlay {
     animation-timing-function: cubic-bezier(.55, 0, .1, 1);
     -webkit-animation-duration: .5s;
     animation-duration: .5s
+}
+.register-messages{
+    position:absolute;
+    bottom: 0;
 }
 
 /*close*/
