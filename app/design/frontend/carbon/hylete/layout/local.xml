@@ -282,6 +282,15 @@
                         <value>1</value>
                     </action>
                 </block>
+                <block type="hylete/widgets_signup_extended" name="nasm_signup_form"
+                       template="mediotype/ajaxlogin/nasm_registration.phtml">
+                    <!-- populate widget by options -->
+                    <action method="setData">
+                        <name>customer_group_id</name>
+                        <value>17</value>
+                    </action>
+                </block>
+
             </block>
             <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>
             <block type="hylete/header_welcome" template="page/html/header/customer-name.phtml" name="header.welcome" />

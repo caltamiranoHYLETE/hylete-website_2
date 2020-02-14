@@ -188,7 +188,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             }
         }
         $session = Mage::getSingleton('customer/session');
-        if ($session->isLoggedIn()) {
+        if (false) {
             return;
         }
         $session->setEscapeMessages(true); // prevent XSS injection in user input
@@ -234,9 +234,21 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         } catch (Mage_Core_Exception $e) {
             $session->setCustomerFormData($this->getRequest()->getPost());
             if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
-                $url = Mage::getUrl('customer/account/forgotpassword');
-                $result['error'] = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a onclick="AjaxLogin.toResetPassword()">click here</a> to get your password and access your account.', $url);
-                $session->setEscapeMessages(false);
+                if($this->getRequest()->getPost('create-account-source') == 'nasm'){
+                    $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
+                    if($setNasmAccount){
+                        $url = Mage::getUrl('customer/account/login');
+                        $result['message'] = $this->__('There is already an account with this email address. You have been successfully added to the nasm group, <a onclick="AjaxLogin.toLogin()()">click here</a> To log in', $url);
+                        $result['success'] = true;
+                        $session->setEscapeMessages(false);
+                    }else{
+                        $result['error'] = $this->__($setNasmAccount);
+                    }
+                }else{
+                    $url = Mage::getUrl('customer/account/forgotpassword');
+                    $result['error'] = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a onclick="AjaxLogin.toResetPassword()">click here</a> to get your password and access your account.', $url);
+                    $session->setEscapeMessages(false);
+                }
             } else {
                 $message = $e->getMessage();
                 $result['error'] = $message;
@@ -403,6 +415,34 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             $validated = parent::_validateFormKey();
         }
         return $validated;
+    }
+
+    public function nasmAction()
+    {
+            $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
+            if ($setNasmAccount) {
+                $url = Mage::getUrl('customer/account/login');
+                $result['message'] = $this->__('There is already an account with this email address. You have been successfully added to the nasm group, <a onclick="AjaxLogin.toLogin()()">click here</a> To log in', $url);
+                $result['success'] = true;
+            } else {
+                $result['error'] = $this->__($setNasmAccount);
+            }
+            $this->getResponse()->setHeader('Access-Control-Expose-Headers', 'x-json')->setBody(Mage::helper('core')->jsonEncode($result));
+
+    }
+    protected function setNasmCustomerAccount($email)
+    {
+        try {
+            $customer = Mage::getModel("customer/customer");
+            $customer->setWebsiteId(Mage::app()->getWebsite()->getId());
+            $customer->loadByEmail($email);
+            $customer->setGroupId(17);
+            $customer->save();
+            return true;
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+
     }
 }
 
