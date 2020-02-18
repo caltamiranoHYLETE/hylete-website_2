@@ -129,13 +129,45 @@ class Hylete_ServiceLeague_Helper_Data extends Mage_Core_Helper_Abstract
         $customer->loadByEmail($customerData['userProfile']['email']);
         if ($customer->getId()) {
             Mage::log("checkIfCustomerExist = yes", null, 'govx-auth.log');
+            $oldCustomerGroupId = $customer->getGroupId();
             $customer->setGroupId(9);
             $customer->save();
+            $this->sendToAccountCreatedEvent($oldCustomerGroupId,$customer);
             return true;
         }
         Mage::log("checkIfCustomerExist = no", null, 'govx-auth.log');
         return false;
 
+    }
+    public function sendToAccountCreatedEvent($oldCustomerGroup,$customer) {
+
+        $webhookUrl = Mage::getStoreConfig('hylete_notifications_settings/hylete_settings/new_account_url');
+
+
+
+        $r = new stdClass();
+        $r->Email = $customer->getEmail();
+        $r->Gender = $customer->getGender();
+        $r->FirstName = $customer->getFirstname();
+        $r->LastName = $customer->getLastname();
+        $r->GroupId = $customer->getGroupId();
+        $r->RefererUrl = $_SERVER['HTTP_REFERER'];
+        $r->LegacyCustomerGroup = $oldCustomerGroup;
+//        $r->AccountFormUrl = $controller->getRequest()->getRequestString();
+        try {
+            $client = new Zend_Http_Client();
+            $client->setUri($webhookUrl);
+            $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
+            $client->setHeaders('Content-type','application/json');
+            $client->setHeaders('APIKey','1b33800d-ce0e-4a52-89a6-5ba5751d4328');
+            $json = Mage::helper('core')->jsonEncode($r);
+            $client->setParameterPost('data', $json);
+            //response will be asynchronous and always return 200
+            $client->request(Zend_Http_Client::POST);
+        } catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            Mage::log($e->getMessage(), null, 'hylete-notifications.log', true);
+        }
     }
 
 }
