@@ -20,8 +20,14 @@
           method="post" id="mcs-form-register-nasm" enctype="multipart/form-data" autocomplete="off"
           novalidate="novalidate">
 
-            <input type="checkbox" id="radiance-lab-create-account-optin-check-nasm" name="radiance-lab-create-account-optin-check-nasm" value="">
-            <label for="radiance-lab-create-account-optin-check-nasm"> Sign Me Up</label>
+
+        <input type="hidden" name="email" id="email_address"
+               value="<?php echo Mage::getSingleton('customer/session')->getCustomer()->getEmail(); ?>"
+               title="<?php echo $this->__('Email Address') ?>"
+               class="span4 input-text validate-email"/>
+
+        <input type="checkbox" id="radiance-lab-create-account-optin-check-nasm" name="radiance-lab-create-account-optin-check-nasm" value="">
+        <label for="radiance-lab-create-account-optin-check-nasm"> Sign Me Up</label>
         <div class="radiance-create-account-optin" style="display: none">
             <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Mobile Phone Optin') ?> </label>
             <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
@@ -29,16 +35,10 @@
                    title="<?php echo $this->__('Optin For Text Notifications') ?>"
                    class="span4 input-text "/>
         </div>
-        <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
-                    class="required">*</span></label>
-        <input type="email" name="email" id="email_address"
-               value="<?php echo $this->escapeHtml($this->getFormData()->getEmail()) ?>"
-               title="<?php echo $this->__('Email Address') ?>"
-               class="span4 input-text validate-email required-entry"/>
         <div class="actions-toolbar">
             <div class="primary">
                 <button type="submit" class="action submit primary" title="Create Account">
-                    <span><?php echo $this->__('Create Account') ?></span></button>
+                    <span><?php echo $this->__('Join Nasm Group') ?></span></button>
             </div>
         </div>
     </form>
@@ -68,15 +68,6 @@
                 </li>
             </ul>
             <h2 class="legend section"><?php echo $this->__('Account Info') ?></h2>
-            <input type="checkbox" id="radiance-lab-create-account-optin-check-nasm" name="radiance-lab-create-account-optin-check-nasm" value="">
-            <label for="radiance-lab-create-account-optin-check-nasm"> Sign Me Up</label>
-            <div class="radiance-create-account-optin" style="display: none">
-                <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Mobile Phone Optin') ?> </label>
-                <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
-                       value=""
-                       title="<?php echo $this->__('Optin For Text Notifications') ?>"
-                       class="span4 input-text "/>
-            </div>
             <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
                     class="required">*</span></label>
             <input type="email" name="email" id="email_address"
@@ -94,6 +85,16 @@
                     class="required">*</span></label>
             <input type="password" id="confirmation" name="confirmation"
                    class="input-text required-entry validate-cpassword"/>
+            <input type="checkbox" id="radiance-lab-create-account-optin-check-nasm" name="radiance-lab-create-account-optin-check-nasm" value="">
+            <label for="radiance-lab-create-account-optin-check-nasm"> Sign Me Up</label>
+            <div class="radiance-create-account-optin" style="display: none">
+                <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Mobile Phone Optin') ?> </label>
+                <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
+                       value=""
+                       title="<?php echo $this->__('Optin For Text Notifications') ?>"
+                       class="span4 input-text "/>
+            </div>
+
             <?php if ($this->isNewsletterEnabled()): ?>
                 <input type="hidden" name="is_subscribed" value="1"/>
             <?php endif ?>

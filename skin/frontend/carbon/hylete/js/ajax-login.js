@@ -59,7 +59,9 @@ AjaxLogin.prototype = {
         }
     },
     _redianceLabOptin: function (phoneNumber) {
-        RadianceLabs.linkSMS({opt_in_location:"nasm-create-accoun",command:"OptInDiscount",phone:phoneNumber});
+        if(phoneNumber){
+            RadianceLabs.linkSMS({opt_in_location:"nasm-create-accoun",command:"OptInDiscount",phone:phoneNumber});
+        }
     },
 
     _toggleBodyClass: function () {
@@ -184,7 +186,7 @@ AjaxLogin.prototype = {
             Event.stop(e);
             if (registrationForm.validator.validate()) {
                 self._toggleLoader();
-                let radianceLabPhoneNumber = $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']);
+                let radianceLabPhoneNumber = $F($('mcs-form-register')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']);
                 new Ajax.Request($('mcs-form-register').action, {
                     method: "post",
                     parameters: $('mcs-form-register').serialize(),
@@ -245,7 +247,7 @@ AjaxLogin.prototype = {
                             setTimeout(function () {
                                 self._redianceLabOptin(radianceLabPhoneNumber);
                                 if (response.redirect) {
-                                    window.location.reload();
+                                    window.location.href = "/?WelcomeToNasm";
                                 } else {
                                     self._closeAll();
                                 }
