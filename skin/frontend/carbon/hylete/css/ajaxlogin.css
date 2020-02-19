@@ -382,11 +382,6 @@ body._has-modal-custom .modal-custom-overlay {
     -webkit-animation-duration: .5s;
     animation-duration: .5s
 }
-.register-messages{
-    position:absolute;
-    bottom: 0;
-}
-
 /*close*/
 @-webkit-keyframes _1af2r {
     0% {
