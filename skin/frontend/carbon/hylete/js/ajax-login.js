@@ -110,6 +110,7 @@ AjaxLogin.prototype = {
                 message: response.error
             }));
         }
+        jQuery(".modal-content").animate({ scrollTop: 0 }, 1500);
         setTimeout(function () {
             section.down('.message').update();
         }, 16000, section);
