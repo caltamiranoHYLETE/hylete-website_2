@@ -11,7 +11,7 @@ class Bestworlds_KlaviyoExtend_Model_Observer
 
     public function getPrivateApiKey()
     {
-        return Mage::getStoreConfig('klaviyoextend/basic/sc_custom_object_api_key');
+        return Mage::getStoreConfig('reclaim/general/private_api_key');
     }
 
     public function getKlaviyoCartApi()
