@@ -240,9 +240,10 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                     if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
                         $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
                         if ($setNasmAccount) {
-                            $result['message'] = $this->__('There is already an account with this email address. You have been successfully added to the nasm group, <a onclick="AjaxLogin.toLogin()()">click here</a> To log in');
+                            $result['message'] = $this->__("We've found an existing account associated with your email address. Great news, you've been upgraded to NASM Trainer status. <a onclick='AjaxLogin.toLogin()()'>click here</a> and view your account perks!");
+
                             $result['success'] = true;
-                            $result['redirect'] = true;
+                            $result['redirect'] = false;
                             $session->setEscapeMessages(false);
                         } else {
                             $result['error'] = $this->__($setNasmAccount);
