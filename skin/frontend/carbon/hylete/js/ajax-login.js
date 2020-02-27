@@ -58,9 +58,14 @@ AjaxLogin.prototype = {
             this.config.loader.hide();
         }
     },
-    _redianceLabOptin: function (phoneNumber) {
+    _redianceLabOptinNasm: function (phoneNumber) {
         if(phoneNumber){
-            RadianceLabs.linkSMS({opt_in_location:"nasm-create-accoun",command:"OptInDiscount",phone:phoneNumber});
+            RadianceLabs.linkSMS({opt_in_location:"nasm_create_account",command:"OptInDiscount",phone:phoneNumber});
+        }
+    },
+    _redianceLabOptinEveryDayAthlete: function (phoneNumber) {
+        if(phoneNumber){
+            RadianceLabs.linkSMS({opt_in_location:"everyday_athlete_create_account",command:"OptInDiscount",phone:phoneNumber});
         }
     },
 
@@ -187,7 +192,7 @@ AjaxLogin.prototype = {
             Event.stop(e);
             if (registrationForm.validator.validate()) {
                 self._toggleLoader();
-                let radianceLabPhoneNumber = $F($('mcs-form-register')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']);
+                let radianceLabPhoneNumber = $F($('mcs-form-register')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register')['radiance-lab-create-account-optin']);
                 new Ajax.Request($('mcs-form-register').action, {
                     method: "post",
                     parameters: $('mcs-form-register').serialize(),
@@ -207,7 +212,7 @@ AjaxLogin.prototype = {
                         if (response.error) {
                             self.config.registrationForm.show();
                         } else {
-                            self._redianceLabOptin(radianceLabPhoneNumber);
+                            self._redianceLabOptinEveryDayAthlete(radianceLabPhoneNumber);
                             setTimeout(function () {
                                 if (response.redirect) {
                                     window.location.reload();
@@ -246,10 +251,13 @@ AjaxLogin.prototype = {
                             self.config.registrationFormNasm.show();
                         } else {
                             setTimeout(function () {
-                                self._redianceLabOptin(radianceLabPhoneNumber);
+                                self._redianceLabOptinNasm(radianceLabPhoneNumber);
                                 if (response.redirect) {
                                     window.location.href = "/?WelcomeToNasm";
-                                } else {
+                                } else if(response.redirect == false) {
+                                //   redirect will return false only when user is not logged in, but has an account and is upgraded to the nasm group
+                                    self.toLogin();
+                                }else{
                                     self._closeAll();
                                 }
                             }, 4000);
