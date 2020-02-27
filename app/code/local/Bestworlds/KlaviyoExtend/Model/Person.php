@@ -108,6 +108,6 @@ class Bestworlds_KlaviyoExtend_Model_Person extends Klaviyo_Reclaim_Model_Klaviy
         if (is_array($data)) {
             $data = serialize($data);
         }
-        //file_put_contents('var/log/klaviyo_person.log', date('Y-m-d H:i:s').": ".$data."\n", FILE_APPEND);
+        file_put_contents('var/log/klaviyo_person.log', date('Y-m-d H:i:s').": ".$data."\n", FILE_APPEND);
     }
 }

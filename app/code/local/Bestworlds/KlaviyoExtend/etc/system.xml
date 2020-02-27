@@ -46,16 +46,6 @@
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[]]></comment>
                         </send_cart_custom_object>
-                        <sc_custom_object_api_key translate="label">
-                            <label>Klaviyo API Key</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment><![CDATA[]]></comment>
-                            <depends><send_cart_custom_object>1</send_cart_custom_object></depends>
-                        </sc_custom_object_api_key>
                         <sc_custom_object_use_sku translate="label">
                             <label>Use Item SKU instead of Item ID</label>
                             <frontend_type>select</frontend_type>

@@ -73,6 +73,7 @@ class Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi extends Kl
             $params['cart_expiration'] = date("Y-m-d",strtotime("-1 days"));
         }
         $params['cart_id'] = $quote->getId();
+        $params['Cart'] = $quote->getId();
         $params['$id'] = $quote->getId();
         $params['cart_url'] = Mage::getUrl('checkout/cart');
         $params['$email'] = $quote->getCustomerEmail();
@@ -193,6 +194,6 @@ class Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi extends Kl
         if (is_array($data)) {
             $data = serialize($data);
         }
-        //file_put_contents('var/log/klaviyo_person.log', date('Y-m-d H:i:s').": ".$data."\n", FILE_APPEND);
+        file_put_contents('var/log/klaviyo_person.log', date('Y-m-d H:i:s').": ".$data."\n", FILE_APPEND);
     }
 }
