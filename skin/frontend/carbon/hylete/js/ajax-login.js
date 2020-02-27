@@ -18,8 +18,15 @@ AjaxLogin.prototype = {
             loginSection: $$('.mcs-login-form-slide')[0],
             loginForm: $('mcs-form-login'),
             logOutSection: $$('.mcs-logout-slide')[0],
+            nasmRegisterCheckbox: $('nasm-register-checkbox'),
+            radianceRegisterCheckboxNasm: $('radiance-lab-create-account-optin-check-nasm'),
+            radianceRegisterCheckbox: $('radiance-lab-create-account-optin-check'),
             registrationForm: $('mcs-form-register'),
+            registrationFormNasm: $('mcs-form-register-nasm'),
+            registrationFormNasmWrapper: $$('.mcs-form-register-nasm-wrapper'),
+            radianceCreateAccountOptin: $$('.radiance-create-account-optin'),
             registrationSection: $$('.mcs-register-form-slide')[0],
+            registrationNasmSection: $$('.mcs-nasm-register-form-slide')[0],
             sectionActiveClass: 'show',
             sectionCloseClass: 'close',
             loader: $$('.loading-mask')[0],
@@ -49,6 +56,11 @@ AjaxLogin.prototype = {
             this.config.loader.show();
         } else {
             this.config.loader.hide();
+        }
+    },
+    _redianceLabOptin: function (phoneNumber) {
+        if(phoneNumber){
+            RadianceLabs.linkSMS({opt_in_location:"nasm-create-accoun",command:"OptInDiscount",phone:phoneNumber});
         }
     },
 
@@ -98,14 +110,43 @@ AjaxLogin.prototype = {
                 message: response.error
             }));
         }
+        jQuery(".modal-content").animate({ scrollTop: 0 }, 1500);
         setTimeout(function () {
             section.down('.message').update();
-        }, 6000, section);
+        }, 16000, section);
 
     },
 
     _addEventListeners: function () {
         var self = this;
+
+
+        this.config.nasmRegisterCheckbox.observe('click', function(e) {
+            var checked = this.checked;
+            if (checked){
+                jQuery('.nasm-register-checkbox-wrapper').fadeOut();
+                jQuery(self.config.registrationFormNasmWrapper).fadeIn();
+            }else{
+                jQuery(self.config.registrationFormNasmWrapper).fadeOut();
+            }
+        });
+
+        this.config.radianceRegisterCheckbox.observe('click', function(e) {
+            var checked = this.checked;
+            if (checked){
+                jQuery(self.config.radianceCreateAccountOptin).fadeIn();
+            }else{
+                jQuery(self.config.radianceCreateAccountOptin).fadeOut();
+            }
+        });
+        this.config.radianceRegisterCheckboxNasm.observe('click', function(e) {
+            var checked = this.checked;
+            if (checked){
+                jQuery(self.config.radianceCreateAccountOptin).fadeIn();
+            }else{
+                jQuery(self.config.radianceCreateAccountOptin).fadeOut();
+            }
+        });
 
         this.config.loginForm && this.config.loginForm.observe('submit', function (e) {
             e.preventDefault();
@@ -146,6 +187,7 @@ AjaxLogin.prototype = {
             Event.stop(e);
             if (registrationForm.validator.validate()) {
                 self._toggleLoader();
+                let radianceLabPhoneNumber = $F($('mcs-form-register')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']);
                 new Ajax.Request($('mcs-form-register').action, {
                     method: "post",
                     parameters: $('mcs-form-register').serialize(),
@@ -165,9 +207,48 @@ AjaxLogin.prototype = {
                         if (response.error) {
                             self.config.registrationForm.show();
                         } else {
+                            self._redianceLabOptin(radianceLabPhoneNumber);
                             setTimeout(function () {
                                 if (response.redirect) {
                                     window.location.reload();
+                                } else {
+                                    self._closeAll();
+                                }
+                            }, 4000);
+                        }
+                    }
+                });
+            }
+        });
+
+        this.config.registrationFormNasm && this.config.registrationFormNasm.observe('submit', function (e) {
+            e.preventDefault();
+            Event.stop(e);
+            if (registrationFormNasm.validator.validate()) {
+                self._toggleLoader();
+                let radianceLabPhoneNumber = $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-nasm')['radiance-lab-create-account-optin']);
+                new Ajax.Request($('mcs-form-register-nasm').action, {
+                    method: "post",
+                    parameters: $('mcs-form-register-nasm').serialize(),
+                    onSuccess: function (transport) {
+                        self._toggleLoader();
+                        self.config.registrationFormNasm.reset();
+                        self.config.registrationFormNasm.hide();
+                        var response;
+
+                        if (transport.responseJSON) {
+                            response = transport.responseJSON;
+                        } else {
+                            response = transport.responseText.evalJSON();
+                        }
+                        self._notification(response, self.config.registrationNasmSection);
+                        if (response.error) {
+                            self.config.registrationFormNasm.show();
+                        } else {
+                            setTimeout(function () {
+                                self._redianceLabOptin(radianceLabPhoneNumber);
+                                if (response.redirect) {
+                                    window.location.href = "/?WelcomeToNasm";
                                 } else {
                                     self._closeAll();
                                 }
@@ -248,7 +329,7 @@ AjaxLogin.prototype = {
         this._hideHelpWidgetCloseIfActive();
         this._closeAll(true);
         this.config.loginForm.show();
-        this.config.registrationSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
+        this.config.registrationNasmSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
         this.config.loginSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
@@ -258,6 +339,13 @@ AjaxLogin.prototype = {
         this.config.registrationForm.show();
         this.config.loginSection.removeClassName(this.config.sectionActiveClass).addClassName(this.config.sectionCloseClass);
         this.config.registrationSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
+    },
+
+    openNasmRegistration: function () {
+        this._hideHelpWidgetCloseIfActive();
+        this._toggleBodyClass();
+        this.config.registrationFormNasm.show();
+        this.config.registrationNasmSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     toResetPassword() {
