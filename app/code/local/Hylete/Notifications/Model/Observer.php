@@ -8,13 +8,14 @@ class Hylete_Notifications_Model_Observer
 		$controller = $event->getAccountController();
 		$webhookUrl = Mage::getStoreConfig('hylete_notifications_settings/hylete_settings/new_account_url');
 
-		if(true) {
+		if(!empty($webhookUrl)) {
 
 			if ($controller) {
 
 				$customer = $event->getCustomer();
 
 				$r = new stdClass();
+                Mage::log("in sendToAccountCreatedEvent " . $customer->getEmail(), null, 'hylete-klayiyo-accountcreate-event.log', true);
 				$r->Email = $customer->getEmail();
 				$r->Gender = $customer->getGender();
 				$r->FirstName = $customer->getFirstname();
@@ -22,8 +23,10 @@ class Hylete_Notifications_Model_Observer
 				$r->GroupId = $customer->getGroupId();
 				$r->RefererUrl = $_SERVER['HTTP_REFERER'];
 				$r->AccountFormUrl = $controller->getRequest()->getRequestString();
+                Mage::log(print_r($r,true) .  $customer->getGroupId(), null, 'hylete-klayiyo-accountcreate-event.log', true);
 
-				try {
+
+                try {
 					$client = new Zend_Http_Client();
 					$client->setUri($webhookUrl);
 					$client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
