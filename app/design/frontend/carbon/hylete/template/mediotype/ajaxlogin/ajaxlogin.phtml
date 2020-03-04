@@ -248,7 +248,7 @@
         <div class="modal-inner-wrap" data-role="focusable-scope">
             <header class="modal-header">
                 <div class="header-wrap">
-                    <div class="title"><?php echo $this->__('Create Account') ?></div>
+                    <div class="title"><?php echo $this->__('Create Nasm Account') ?></div>
                 </div>
                 <a class="action-close"><svg viewBox="0 0 60 60">
                         <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
@@ -261,8 +261,14 @@
                     <div class="register-messages">
                         <div class="message"></div>
                     </div>
-                    <div class="login-container">
-                        <?php echo $this->getLayout()->createBlock('cms/block', 'registration_page_hyletenation_top')->setBlockId('registration_page_hyletenation_top')->toHtml() ?>
+                    <div class="login-container"
+                        <p class="login_registration"><strong>Create your HYLETE trainer account: </strong></p>
+                        <ul class="login_registration" style="list-style-type: square;">
+                            <li>40% Off Retail on all HYLETE Orders</li>
+                            <li>Free Shipping &amp; Returns <span class="font-size:11px">(Contiguous U.S.)</span></li>
+                            <li>Earn <span class="_elevio_underline ctxUnderline" data-elevio-article="85098" data-elevio-unique-id="4" onclick="myFunction()">HYLETE Points</span></li>
+                            <li>Access Exclusive Offers</li>
+                        </ul>
                     </div>
                     <?php echo $this->getChildHtml('nasm_signup_form') ?>
                     <br>
