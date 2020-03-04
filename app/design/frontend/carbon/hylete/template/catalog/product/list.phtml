@@ -59,7 +59,7 @@ $_backitHelper              = Mage::helper('hylete/backit');
                     </li>
                 <?php else : ?>
                     <?php $_status = (!$_product->isSaleable()) ? (($_product->getComingSoon()) ? 'coming-soon' : 'out-of-stock') : ''; ?>
-                    <li class="col-lg-4 col-md-4 col-sm-6 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
+                    <li id="<?php echo 'item'.$_product->getId().'id' ?>" class="col-lg-4 col-md-4 col-sm-6 col-xs-6 item <?php echo $_status; ?> <?php echo $_product->getTypeId(); ?>">
                         <a href="<?php echo $_product->getProductUrl(); ?>">
                             <?php if ($_product->getTypeId() == 'style'): ?>
                                 <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(290, 290); ?>"
