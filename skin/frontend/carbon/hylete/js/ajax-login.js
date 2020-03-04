@@ -58,17 +58,16 @@ AjaxLogin.prototype = {
             this.config.loader.hide();
         }
     },
-    _redianceLabOptinNasm: function (phoneNumber) {
+    _radianceLabOptinNasm: function (phoneNumber) {
         if(phoneNumber){
             RadianceLabs.linkSMS({opt_in_location:"nasm_create_account",command:"OptInDiscount",phone:phoneNumber});
         }
     },
-    _redianceLabOptinEveryDayAthlete: function (phoneNumber) {
+    _radianceLabOptinEveryDayAthlete: function (phoneNumber) {
         if(phoneNumber){
             RadianceLabs.linkSMS({opt_in_location:"everyday_athlete_create_account",command:"OptInDiscount",phone:phoneNumber});
         }
     },
-
     _toggleBodyClass: function () {
         if (!this.config.body.hasClassName(this.config.bodyModalClass)) {
             this.config.body.addClassName(this.config.bodyModalClass);
@@ -79,9 +78,9 @@ AjaxLogin.prototype = {
     },
 
     _hideHelpWidgetCloseIfActive: function () {
-      if (this.config.helpWidget && this.config.helpWidget.down('div') && this.config.helpWidget.down('div').hasClassName('_h8fiz')) {
-          this.config.helpWidget.down('div').removeClassName('_h8fiz').addClassName('_11l9b');
-      }
+        if (this.config.helpWidget && this.config.helpWidget.down('div') && this.config.helpWidget.down('div').hasClassName('_h8fiz')) {
+            this.config.helpWidget.down('div').removeClassName('_h8fiz').addClassName('_11l9b');
+        }
     },
 
     closeAllModal: function () {
@@ -212,7 +211,7 @@ AjaxLogin.prototype = {
                         if (response.error) {
                             self.config.registrationForm.show();
                         } else {
-                            self._redianceLabOptinEveryDayAthlete(radianceLabPhoneNumber);
+                            self._radianceLabOptinEveryDayAthlete(radianceLabPhoneNumber);
                             setTimeout(function () {
                                 if (response.redirect) {
                                     window.location.reload();
@@ -237,7 +236,7 @@ AjaxLogin.prototype = {
                     parameters: $('mcs-form-register-nasm').serialize(),
                     onSuccess: function (transport) {
                         self._toggleLoader();
-                        self.config.registrationFormNasm.reset();
+                        // self.config.registrationFormNasm.reset();
                         self.config.registrationFormNasm.hide();
                         var response;
 
@@ -251,11 +250,12 @@ AjaxLogin.prototype = {
                             self.config.registrationFormNasm.show();
                         } else {
                             setTimeout(function () {
-                                self._redianceLabOptinNasm(radianceLabPhoneNumber);
+                                self._radianceLabOptinNasm(radianceLabPhoneNumber);
                                 if (response.redirect) {
-                                    window.location.href = "/?WelcomeToNasm";
+                                    window.location.href = "/?nasmaccount";
                                 } else if(response.redirect == false) {
-                                //   redirect will return false only when user is not logged in, but has an account and is upgraded to the nasm group
+                                    //   redirect will return false only when user is not logged in, but has an account and is upgraded to the nasm group
+                                    self._notification(response, self.config.loginSection);
                                     self.toLogin();
                                 }else{
                                     self._closeAll();
