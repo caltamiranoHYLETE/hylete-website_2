@@ -31,78 +31,78 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             $login['username'] = $this->getRequest()->getPost('username');
             $login['password'] = $this->getRequest()->getPost('password');
 
-			//verify the reCaptcha response
-			$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-			$recaptcha_secret = '6LfKHLIUAAAAAK2lSpS5BJ0_lwlCgMPdl0_LZ1TL';
-			$recaptcha_response = $this->getRequest()->getParam('recaptcha_response');
+            //verify the reCaptcha response
+            $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+            $recaptcha_secret = '6LfKHLIUAAAAAK2lSpS5BJ0_lwlCgMPdl0_LZ1TL';
+            $recaptcha_response = $this->getRequest()->getParam('recaptcha_response');
 
-			$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-			$recaptcha = json_decode($recaptcha);
+            $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+            $recaptcha = json_decode($recaptcha);
 
-			if (!empty($login['username']) && !empty($login['password'])) {
-				try {
-					$session->login($login['username'], $login['password']);
-					$result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true));
-					$result['success'] = true;
-					$result['message'] = Mage::helper('customer')->__('Successfully logged in');
-				} catch (Mage_Core_Exception $e) {
-					switch ($e->getCode()) {
-						case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-							$message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', Mage::helper('customer')->getEmailConfirmationUrl($login['username']));
-							break;
-						case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-							$message = $e->getMessage();
-							break;
-						default:
-							$message = $e->getMessage();
-					}
-					$result['error'] = $message;
-					$session->setUsername($login['username']);
-				} catch (Exception $e) {
-					// Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
-				}
-			} else {
-				$result['error'] = Mage::helper('customer')->__('Login and password are required.');
-			}
+            if (!empty($login['username']) && !empty($login['password'])) {
+                try {
+                    $session->login($login['username'], $login['password']);
+                    $result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true));
+                    $result['success'] = true;
+                    $result['message'] = Mage::helper('customer')->__('Successfully logged in');
+                } catch (Mage_Core_Exception $e) {
+                    switch ($e->getCode()) {
+                        case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+                            $message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', Mage::helper('customer')->getEmailConfirmationUrl($login['username']));
+                            break;
+                        case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+                            $message = $e->getMessage();
+                            break;
+                        default:
+                            $message = $e->getMessage();
+                    }
+                    $result['error'] = $message;
+                    $session->setUsername($login['username']);
+                } catch (Exception $e) {
+                    // Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
+                }
+            } else {
+                $result['error'] = Mage::helper('customer')->__('Login and password are required.');
+            }
 
-			/* Will be turing this on again soon
-			if($recaptcha->success == true){
-				if ($recaptcha->score <= 0.2) {
-					$result = array('success' => false);
-					$result['error'] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
-				} else {
-					if (!empty($login['username']) && !empty($login['password'])) {
-						try {
-							$session->login($login['username'], $login['password']);
-							$result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true));
-							$result['success'] = true;
-							$result['message'] = Mage::helper('customer')->__('Successfully logged in');
-						} catch (Mage_Core_Exception $e) {
-							switch ($e->getCode()) {
-								case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-									$message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', Mage::helper('customer')->getEmailConfirmationUrl($login['username']));
-									break;
-								case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-									$message = $e->getMessage();
-									break;
-								default:
-									$message = $e->getMessage();
-							}
-							$result['error'] = $message;
-							$session->setUsername($login['username']);
-						} catch (Exception $e) {
-							// Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
-						}
-					} else {
-						$result['error'] = Mage::helper('customer')->__('Login and password are required.');
-					}
-				}
-			} else {
-				//$result = array('success' => false);
-				//$result['error'] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
-			}
+            /* Will be turing this on again soon
+            if($recaptcha->success == true){
+                if ($recaptcha->score <= 0.2) {
+                    $result = array('success' => false);
+                    $result['error'] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
+                } else {
+                    if (!empty($login['username']) && !empty($login['password'])) {
+                        try {
+                            $session->login($login['username'], $login['password']);
+                            $result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true));
+                            $result['success'] = true;
+                            $result['message'] = Mage::helper('customer')->__('Successfully logged in');
+                        } catch (Mage_Core_Exception $e) {
+                            switch ($e->getCode()) {
+                                case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+                                    $message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', Mage::helper('customer')->getEmailConfirmationUrl($login['username']));
+                                    break;
+                                case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+                                    $message = $e->getMessage();
+                                    break;
+                                default:
+                                    $message = $e->getMessage();
+                            }
+                            $result['error'] = $message;
+                            $session->setUsername($login['username']);
+                        } catch (Exception $e) {
+                            // Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
+                        }
+                    } else {
+                        $result['error'] = Mage::helper('customer')->__('Login and password are required.');
+                    }
+                }
+            } else {
+                //$result = array('success' => false);
+                //$result['error'] = Mage::helper('customer')->__('Sorry, your login and password did not pass the reCAPTCHA test. Please try again.');
+            }
 
-			*/
+            */
         }
 
         $this->getResponse()->setHeader('Access-Control-Expose-Headers', 'x-json')->setBody(Mage::helper('core')->jsonEncode($result));
@@ -125,7 +125,11 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         /**
          * Initialize customer group id
          */
-        $customer->getGroupId();
+        if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
+            $customer->setGroupId('17');
+        }else{
+            $customer->getGroupId();
+        }
 
         return $customer;
     }
@@ -199,20 +203,20 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         $result = array('success' => false);
 
         //verify the reCaptcha response
-		$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-		$recaptcha_secret = '6LfKHLIUAAAAAK2lSpS5BJ0_lwlCgMPdl0_LZ1TL';
-		$recaptcha_response = $this->getRequest()->getParam('recaptcha_response');
+        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+        $recaptcha_secret = '6LfKHLIUAAAAAK2lSpS5BJ0_lwlCgMPdl0_LZ1TL';
+        $recaptcha_response = $this->getRequest()->getParam('recaptcha_response');
 
-		$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-		$recaptcha = json_decode($recaptcha);
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+        $recaptcha = json_decode($recaptcha);
 
-		if($recaptcha->success == true){
-			if ($recaptcha->score <= 0.2) {
-				$result = array('success' => false);
-			}
-		} else {
-			//Going to let errors go through at this time
-		}
+        if($recaptcha->success == true){
+            if ($recaptcha->score <= 0.2) {
+                $result = array('success' => false);
+            }
+        } else {
+            //Going to let errors go through at this time
+        }
         $customer = $this->_getCustomer();
 
         try {
@@ -240,9 +244,10 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                     if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
                         $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
                         if ($setNasmAccount) {
-                            $result['message'] = $this->__('There is already an account with this email address. You have been successfully added to the nasm group, <a onclick="AjaxLogin.toLogin()()">click here</a> To log in');
+                            $result['message'] = $this->__("We've found an existing account associated with your email address. Great news, you've been upgraded to NASM Trainer status. Log In and view your account perks!");
+
                             $result['success'] = true;
-                            $result['redirect'] = true;
+                            $result['redirect'] = false;
                             $session->setEscapeMessages(false);
                         } else {
                             $result['error'] = $this->__($setNasmAccount);
@@ -436,9 +441,9 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                 $result['error'] = $this->__($setNasmAccount);
             }
         }else{
-            $result['error'] = $this->__('Our Records shows that you have an investor account. Being an investor offers the best deals. Please log in to enjoy your account');
+            $result['error'] = $this->__('Our Records shows that you have an investor account. Being an investor offers the best deals.');
         }
-            $this->getResponse()->setHeader('Access-Control-Expose-Headers', 'x-json')->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setHeader('Access-Control-Expose-Headers', 'x-json')->setBody(Mage::helper('core')->jsonEncode($result));
 
     }
     protected function setNasmCustomerAccount($email)
