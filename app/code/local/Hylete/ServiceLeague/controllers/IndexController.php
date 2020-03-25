@@ -154,7 +154,7 @@ class Hylete_ServiceLeague_IndexController extends Mage_Core_Controller_Front_Ac
                 $customer->save();
                 Mage::dispatchEvent('customer_register_success', array('account_controller' => $this, 'customer' => $customer));
                 $result['message'] = $this->__('Registration has been completed.', $this->_successProcessRegistration($customer));
-                $result['redirect'] = Mage::getUrl('/');
+                $result['redirect'] = Mage::getUrl('/?serviceleagueaccount');
                 $result['success'] = true;
             } else {
                 $result['error'] = $errors;
@@ -217,7 +217,7 @@ class Hylete_ServiceLeague_IndexController extends Mage_Core_Controller_Front_Ac
                 $customer->save();
                 Mage::dispatchEvent('customer_register_success', array('account_controller' => $this, 'customer' => $customer));
                 $result['message'] = $this->__('Registration has been completed.', $this->_successProcessRegistration($customer));
-                $result['redirect'] = Mage::getUrl('/');
+                $result['redirect'] = Mage::getUrl('/?serviceleagueaccount');
                 $result['success'] = true;
             } else {
                 $result['error'] = $errors;
@@ -404,7 +404,7 @@ class Hylete_ServiceLeague_IndexController extends Mage_Core_Controller_Front_Ac
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
                     $session->login($login['username'], $login['password']);
-                    $result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true));
+                    $result['redirect'] = $this->_getRefererUrl() ? $this->_getRefererUrl() : Mage::getUrl('customer/account', array('_secure' => true))."?serviceleagueaccount";
                     $result['success'] = true;
                     $result['message'] = Mage::helper('customer')->__('Successfully logged in');
                 } catch (Mage_Core_Exception $e) {

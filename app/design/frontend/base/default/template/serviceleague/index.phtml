@@ -193,7 +193,7 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
                         window.opener.location.href = "/checkout/cart/";
 
                     }else{
-                        window.opener.location.href = "/customer/account";
+                        window.opener.location.href = "/customer/account?serviceleagueaccount";
                     }
                     setTimeout(
                         function()
@@ -415,7 +415,7 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
                 jQuery("#mcs-custom-loader-service-league .message").css("width", "100%");
                 jQuery("#mcs-custom-loader-service-league .message").css("background-color", "green");
 
-                window.opener.location.href = "/customer/account";
+                window.opener.location.href = "/customer/account?serviceleagueaccount";
                 window.setTimeout(closeWindow, 3000);
             }else{
                 jQuery(".loading-mask").hide();
