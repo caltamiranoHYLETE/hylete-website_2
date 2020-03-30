@@ -72,10 +72,12 @@ class Bestworlds_KlaviyoExtend_Model_CustomObject_Cart_KlaviyoCartApi extends Kl
             //Yesterday value, to avoid sending email notifications from Klaviyo about empty carts
             $params['cart_expiration'] = date("Y-m-d",strtotime("-1 days"));
         }
+        $klaviyoCheckout = Mage::helper('klaviyo_reclaim')->getCheckout($quote->getId());
+        $checkoutUrl = $quote->getStore()->getUrl('reclaim/index/view', array('_query' => array('id' =>  $klaviyoCheckout->getId())));
         $params['cart_id'] = $quote->getId();
         $params['Cart'] = $quote->getId();
         $params['$id'] = $quote->getId();
-        $params['cart_url'] = Mage::getUrl('checkout/cart');
+        $params['cart_url'] = $checkoutUrl;
         $params['$email'] = $quote->getCustomerEmail();
         $params['external_customer_id'] = (int)$quote->getCustomerId();
         $params['cart_value'] = $quote->getBaseSubtotal();

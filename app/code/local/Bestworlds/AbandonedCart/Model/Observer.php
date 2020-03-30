@@ -137,6 +137,13 @@ class Bestworlds_AbandonedCart_Model_Observer
             }
 
             $tracker->track('Link2Cart Prompt', $customer_properties, $properties, $quote_last_updated);
+
+            if (Mage::getStoreConfigFlag('klaviyoextend/basic/enable') && Mage::getStoreConfigFlag('klaviyoextend/basic/send_cart_custom_object')) {
+                if ($quote->getId()) {
+                    $observer = Mage::getModel('klaviyoextend/observer');
+                    $observer->getKlaviyoCartApi()->cartUpdate($quote);
+                }
+            }
         }
     }
 
