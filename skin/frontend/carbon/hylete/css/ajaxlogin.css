@@ -249,7 +249,7 @@ body._has-modal-custom .modal-custom-overlay {
     margin-bottom: 10px;
 }
 
-.mcs-register-form-slide, .mcs-nasm-register-form-slide  {
+.mcs-register-form-slide, .mcs-nasm-register-form-slide, .mcs-rubicon-register-form-slide  {
     left: calc(100% - 480px);
 }
 

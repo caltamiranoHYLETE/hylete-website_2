@@ -19,14 +19,19 @@ AjaxLogin.prototype = {
             loginForm: $('mcs-form-login'),
             logOutSection: $$('.mcs-logout-slide')[0],
             nasmRegisterCheckbox: $('nasm-register-checkbox'),
+            rubiconRegisterCheckbox: $('rubicon-register-checkbox'),
             radianceRegisterCheckboxNasm: $('radiance-lab-create-account-optin-check-nasm'),
+            radianceRegisterCheckboxRubicon: $('radiance-lab-create-account-optin-check-rubicon'),
             radianceRegisterCheckbox: $('radiance-lab-create-account-optin-check'),
             registrationForm: $('mcs-form-register'),
             registrationFormNasm: $('mcs-form-register-nasm'),
+            registrationFormRubicon: $('mcs-form-register-rubicon'),
             registrationFormNasmWrapper: $$('.mcs-form-register-nasm-wrapper'),
+            registrationFormRubiconWrapper: $$('.mcs-form-register-rubicon-wrapper'),
             radianceCreateAccountOptin: $$('.radiance-create-account-optin'),
             registrationSection: $$('.mcs-register-form-slide')[0],
             registrationNasmSection: $$('.mcs-nasm-register-form-slide')[0],
+            registrationRubiconSection: $$('.mcs-rubicon-register-form-slide')[0],
             sectionActiveClass: 'show',
             sectionCloseClass: 'close',
             loader: $$('.loading-mask')[0],
@@ -61,6 +66,11 @@ AjaxLogin.prototype = {
     _radianceLabOptinNasm: function (phoneNumber) {
         if(phoneNumber){
             RadianceLabs.linkSMS({opt_in_location:"nasm_create_account",command:"OptInDiscount",phone:phoneNumber});
+        }
+    },
+    _radianceLabOptinRubicon: function (phoneNumber) {
+        if(phoneNumber){
+            RadianceLabs.linkSMS({opt_in_location:"rubicon_create_account",command:"OptInDiscount",phone:phoneNumber});
         }
     },
     _radianceLabOptinEveryDayAthlete: function (phoneNumber) {
@@ -134,6 +144,15 @@ AjaxLogin.prototype = {
                 jQuery(self.config.registrationFormNasmWrapper).fadeOut();
             }
         });
+        this.config.rubiconRegisterCheckbox.observe('click', function(e) {
+            var checked = this.checked;
+            if (checked){
+                jQuery('.rubicon-register-checkbox-wrapper').fadeOut();
+                jQuery(self.config.registrationFormRubiconWrapper).fadeIn();
+            }else{
+                jQuery(self.config.registrationFormRubiconWrapper).fadeOut();
+            }
+        });
 
         this.config.radianceRegisterCheckbox.observe('click', function(e) {
             var checked = this.checked;
@@ -144,6 +163,14 @@ AjaxLogin.prototype = {
             }
         });
         this.config.radianceRegisterCheckboxNasm.observe('click', function(e) {
+            var checked = this.checked;
+            if (checked){
+                jQuery(self.config.radianceCreateAccountOptin).fadeIn();
+            }else{
+                jQuery(self.config.radianceCreateAccountOptin).fadeOut();
+            }
+        });
+        this.config.radianceRegisterCheckboxRubicon.observe('click', function(e) {
             var checked = this.checked;
             if (checked){
                 jQuery(self.config.radianceCreateAccountOptin).fadeIn();
@@ -266,6 +293,47 @@ AjaxLogin.prototype = {
                 });
             }
         });
+        this.config.registrationFormRubicon && this.config.registrationFormRubicon.observe('submit', function (e) {
+            e.preventDefault();
+            Event.stop(e);
+            if (registrationFormRubicon.validator.validate()) {
+                self._toggleLoader();
+                let radianceLabPhoneNumber = $F($('mcs-form-register-rubicon')['radiance-lab-create-account-optin']) == '' ? false : $F($('mcs-form-register-rubicon')['radiance-lab-create-account-optin']);
+                new Ajax.Request($('mcs-form-register-rubicon').action, {
+                    method: "post",
+                    parameters: $('mcs-form-register-rubicon').serialize(),
+                    onSuccess: function (transport) {
+                        self._toggleLoader();
+                        // self.config.registrationFormRubicon.reset();
+                        self.config.registrationFormRubicon.hide();
+                        var response;
+
+                        if (transport.responseJSON) {
+                            response = transport.responseJSON;
+                        } else {
+                            response = transport.responseText.evalJSON();
+                        }
+                        self._notification(response, self.config.registrationRubiconSection);
+                        if (response.error) {
+                            self.config.registrationFormRubicon.show();
+                        } else {
+                            setTimeout(function () {
+                                self._radianceLabOptinRubicon(radianceLabPhoneNumber);
+                                if (response.redirect) {
+                                    window.location.href = "/?rubiconaccount";
+                                } else if(response.redirect == false) {
+                                    //   redirect will return false only when user is not logged in, but has an account and is upgraded to the nasm group
+                                    self._notification(response, self.config.loginSection);
+                                    self.toLogin();
+                                }else{
+                                    self._closeAll();
+                                }
+                            }, 4000);
+                        }
+                    }
+                });
+            }
+        });
 
         this.config.forgetPasswordForm && this.config.forgetPasswordForm.observe('submit', function (e) {
             e.preventDefault();
@@ -354,6 +422,12 @@ AjaxLogin.prototype = {
         this._toggleBodyClass();
         this.config.registrationFormNasm.show();
         this.config.registrationNasmSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
+    },
+    openRubiconRegistration: function () {
+        this._hideHelpWidgetCloseIfActive();
+        this._toggleBodyClass();
+        this.config.registrationFormRubicon.show();
+        this.config.registrationRubiconSection.removeClassName(this.config.sectionCloseClass).addClassName(this.config.sectionActiveClass);
     },
 
     toResetPassword() {
