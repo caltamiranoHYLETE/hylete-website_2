@@ -127,8 +127,10 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
          */
         if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
             $customer->setGroupId('17');
+        }elseif($this->getRequest()->getPost('create-account-source') == 'rubicon') {
+            $customer->setGroupId('9');
         }else{
-            $customer->getGroupId();
+                $customer->getGroupId();
         }
 
         return $customer;
@@ -252,7 +254,18 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
                         } else {
                             $result['error'] = $this->__($setNasmAccount);
                         }
-                    } else {
+                    }elseif($this->getRequest()->getPost('create-account-source') == 'rubicon'){
+                        $setRubiconAccount = $this->setRubiconCustomerAccount($this->getRequest()->getPost('email'));
+                        if ($setRubiconAccount) {
+                            $result['message'] = $this->__("We've found an existing account associated with your email address. Great news, you've been upgraded to Team Rubicon status. Log In and view your account perks!");
+
+                            $result['success'] = true;
+                            $result['redirect'] = false;
+                            $session->setEscapeMessages(false);
+                        } else {
+                            $result['error'] = $this->__($setRubiconAccount);
+                        }
+                    } else{
                         $url = Mage::getUrl('customer/account/forgotpassword');
                         $result['error'] = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a onclick="AjaxLogin.toResetPassword()">click here</a> to get your password and access your account.', $url);
                         $session->setEscapeMessages(false);
@@ -453,6 +466,24 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             $OldCustomerGroup = $customer->getGroupId();
             if($this->isCustomerAnInvestor($OldCustomerGroup) == false) {
                 $customer->setGroupId(17);
+                $customer->save();
+                Mage::helper('serviceleague')->sendToAccountCreatedEvent($OldCustomerGroup, $customer);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+
+    }
+    protected function setRubiconCustomerAccount($email)
+    {
+        try {
+            $customer = $this->customerModel;
+            $OldCustomerGroup = $customer->getGroupId();
+            if($this->isCustomerAnInvestor($OldCustomerGroup) == false) {
+                $customer->setGroupId(9);
                 $customer->save();
                 Mage::helper('serviceleague')->sendToAccountCreatedEvent($OldCustomerGroup, $customer);
                 return true;

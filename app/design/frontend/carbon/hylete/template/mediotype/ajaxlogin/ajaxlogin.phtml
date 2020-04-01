@@ -277,6 +277,42 @@
         </div>
         <div data-role="focusable-end" tabindex="0"></div>
     </aside>
+    <aside role="dialog" class="modal-slide mcs-rubicon-register-form-slide _inner-scroll"
+           aria-labelledby="modal-title-4" aria-describedby="modal-content-4" data-role="modal" data-type="slide"
+           tabindex="0">
+        <div data-role="focusable-start" tabindex="0"></div>
+        <div class="modal-inner-wrap" data-role="focusable-scope">
+            <header class="modal-header">
+                <div class="header-wrap">
+                    <div class="title"><?php echo $this->__('Create Team Rubicon Account') ?></div>
+                </div>
+                <a class="action-close"><svg viewBox="0 0 60 60">
+                        <path d="M35.7,30L58.8,6.8C59.6,6.1,60,5.1,60,4c0-2.2-1.8-4-4-4c-1.1,0-2.1,0.4-2.8,1.2L30,24.3
+        L6.8,1.2C6.1,0.4,5.1,0,4,0C1.8,0,0,1.8,0,4c0,1.1,0.4,2.1,1.2,2.8L24.3,30L1.2,53.2C0.4,53.9,0,54.9,0,56c0,2.2,1.8,4,4,4
+        c1.1,0,2.1-0.4,2.8-1.2L30,35.7l23.2,23.2c0.7,0.7,1.7,1.2,2.8,1.2c2.2,0,4-1.8,4-4c0-1.1-0.4-2.1-1.2-2.8L35.7,30z"></path>
+                    </svg></a>
+            </header>
+            <div id="modal-content-4" class="modal-content" data-role="content">
+                <div id="mcs-ajaxRegisterForm" class="mcs-ajaxRegisterForm">
+                    <div class="register-messages">
+                        <div class="message"></div>
+                    </div>
+                    <div class="login-container"
+                        <p class="login_registration"><strong>Create your HYLETE Team Rubicon account: </strong></p>
+                        <ul class="login_registration" style="list-style-type: square;">
+                            <li>40% Off Retail on all HYLETE Orders</li>
+                            <li>Free Shipping &amp; Returns <span class="font-size:11px">(Contiguous U.S.)</span></li>
+                            <li>Earn <span class="_elevio_underline ctxUnderline" data-elevio-article="85098" data-elevio-unique-id="4" onclick="myFunction()">HYLETE Points</span></li>
+                            <li>Access Exclusive Offers</li>
+                        </ul>
+                    </div>
+                    <?php echo $this->getChildHtml('rubicon_signup_form') ?>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div data-role="focusable-end" tabindex="0"></div>
+    </aside>
 
     <div data-role="loader" class="loading-mask" id="mcs-custom-loader" style="display: none;">
         <div class="loader">
@@ -288,6 +324,7 @@
         var loginForm = new VarienForm('mcs-form-login', true),
             registrationForm = new VarienForm('mcs-form-register', true),
             registrationFormNasm = new VarienForm('mcs-form-register-nasm', true),
+            registrationFormRubicon = new VarienForm('mcs-form-register-rubicon', true),
             forgetForm = new VarienForm('mcs-form-forget-reset', true);
 
         // fix custom select

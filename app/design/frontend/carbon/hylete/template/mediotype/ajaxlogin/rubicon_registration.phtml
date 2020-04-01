@@ -1,0 +1,113 @@
+
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LfKHLIUAAAAACn-USCuObJmm5F3cPJCxsHwdeSN', { action: 'registration' })
+            .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaRegistrationResponse');
+                recaptchaResponse.value = token;
+            });
+    });
+</script>
+<div class="rubicon-register-checkbox-wrapper">
+    <input type="checkbox" id="rubicon-register-checkbox" name="rubicon-register-checkbox" value="rubicon-agree-for-further-verification">
+    <label for="rubicon-register-checkbox"> Click here, to verify that you have a Team Rubicon ID and are willing to provide it, if requested. </label>
+</div>
+
+<div class="mcs-form-register-rubicon-wrapper" style="display: none" >
+    <?php if( (Mage::getSingleton('customer/session')->isLoggedIn()) ) : ?>
+        <form class="form create account form-create-account"
+              action="<?php echo $this->getUrl('ajaxlogin/ajax/rubicon'); ?>"
+              method="post" id="mcs-form-register-rubicon" enctype="multipart/form-data" autocomplete="off"
+              novalidate="novalidate">
+
+
+            <input type="hidden" name="email" id="email_address"
+                   value="<?php echo Mage::getSingleton('customer/session')->getCustomer()->getEmail(); ?>"
+                   title="<?php echo $this->__('Email Address') ?>"
+                   class="span4 input-text validate-email"/>
+
+            <input type="checkbox" id="radiance-lab-create-account-optin-check-rubicon" name="radiance-lab-create-account-optin-check-rubicon" value="">
+            <label for="radiance-lab-create-account-optin-check-rubicon">Opt-in For Text Alerts</label>
+            <div class="radiance-create-account-optin" style="display: none">
+                <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Enter Your Mobile Number') ?> </label>
+                <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
+                       value=""
+                       title="<?php echo $this->__('Enter Your Mobile Number') ?>"
+                       class="span4 input-text "/>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action submit primary" title="Create Account">
+                        <span><?php echo $this->__('Join Rubicon Team') ?></span></button>
+                </div>
+            </div>
+        </form>
+    <?php else : ?>
+        <form class="form create account form-create-account"
+              action="<?php echo $this->getUrl('ajaxlogin/ajax/create'); ?>"
+              method="post" id="mcs-form-register-rubicon" enctype="multipart/form-data" autocomplete="off"
+              novalidate="novalidate">
+            <?php echo $this->getBlockHtml('formkey'); ?>
+
+            <fieldset class="fieldset create info">
+                <input type="hidden" value="" name="recaptcha_response" id="recaptchaRegistrationResponse">
+                <input type="hidden" name="customer_group_id"
+                       value="<?php echo $this->getCustomerGroupId(); ?>"/>
+                <input type="hidden" name="success_url" value="">
+                <input type="hidden" name="create-account-source" value="rubicon">
+                <input type="hidden" name="error_url"
+                       value="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>">
+                <input name="form_key" type="hidden"
+                       value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
+
+                <h2 class="legend"><?php echo $this->__('Your Name') ?></h2>
+                <ul>
+                    <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+
+                    <li><?php echo $this->getLayout()->createBlock('customer/widget_gender')->setObject($this->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+                    </li>
+                </ul>
+                <h2 class="legend section"><?php echo $this->__('Account Info') ?></h2>
+                <label for="email_address" class="required"><?php echo $this->__('Email Address') ?> <span
+                            class="required">*</span></label>
+                <input type="email" name="email" id="email_address"
+                       value="<?php echo $this->escapeHtml($this->getFormData()->getEmail()) ?>"
+                       title="<?php echo $this->__('Email Address') ?>"
+                       class="span4 input-text validate-email required-entry"/>
+
+                <label for="password" class="required"><?php echo $this->__('Password'); ?> <span
+                            class="required">*</span></label>
+                <input type="password" id="rubicon-password" name="password"
+                       class="input-text required-entry validate-password"/>
+
+                <label for="confirmation" class="required"><?php echo $this->__('Confirm Password'); ?>
+                    <span
+                            class="required">*</span></label>
+                <input type="password" id="rubicon-confirmation" name="confirmation"
+                       class="input-text required-entry "/>
+                <input type="checkbox" id="radiance-lab-create-account-optin-check-rubicon" name="radiance-lab-create-account-optin-check-rubicon" value="">
+                <label for="radiance-lab-create-account-optin-check-rubicon">Opt-in For Text Alerts</label>
+                <div class="radiance-create-account-optin" style="display: none">
+                    <label for="radiance-lab-create-account-optin" class=""><?php echo $this->__('Enter Your Mobile Number') ?> </label>
+                    <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
+                           value=""
+                           title="<?php echo $this->__('Enter Your Mobile Number') ?>"
+                           class="span4 input-text "/>
+                </div>
+
+                <?php if ($this->isNewsletterEnabled()): ?>
+                    <input type="hidden" name="is_subscribed" value="1"/>
+                <?php endif ?>
+                <?php echo $this->getChildHtml('rewards_referral'); ?>
+
+            </fieldset>
+            <br>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action submit primary" title="Create Account">
+                        <span><?php echo $this->__('Create Account') ?></span></button>
+                </div>
+            </div>
+        </form>
+    <?php endif ?>
+</div>
