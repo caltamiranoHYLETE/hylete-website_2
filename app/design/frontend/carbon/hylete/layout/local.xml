@@ -290,6 +290,14 @@
                         <value>17</value>
                     </action>
                 </block>
+                <block type="hylete/widgets_signup_extended" name="rubicon_signup_form"
+                       template="mediotype/ajaxlogin/rubicon_registration.phtml">
+                    <!-- populate widget by options -->
+                    <action method="setData">
+                        <name>customer_group_id</name>
+                        <value>9</value>
+                    </action>
+                </block>
 
             </block>
             <block type="core/template" template="page/html/header/phone-menu.phtml" name="phone.menu" as="phoneMenu"/>

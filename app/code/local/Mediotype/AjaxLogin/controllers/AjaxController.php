@@ -10,6 +10,7 @@
  */
 class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Action
 {
+    private $customerModel;
     /**
      * Customer log in action
      */
@@ -124,7 +125,13 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         /**
          * Initialize customer group id
          */
-        $customer->getGroupId();
+        if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
+            $customer->setGroupId('17');
+        }elseif($this->getRequest()->getPost('create-account-source') == 'rubicon') {
+            $customer->setGroupId('9');
+        }else{
+                $customer->getGroupId();
+        }
 
         return $customer;
     }
@@ -188,7 +195,7 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
             }
         }
         $session = Mage::getSingleton('customer/session');
-        if ($session->isLoggedIn()) {
+        if (false) {
             return;
         }
         $session->setEscapeMessages(true); // prevent XSS injection in user input
@@ -234,9 +241,39 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         } catch (Mage_Core_Exception $e) {
             $session->setCustomerFormData($this->getRequest()->getPost());
             if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
-                $url = Mage::getUrl('customer/account/forgotpassword');
-                $result['error'] = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a onclick="AjaxLogin.toResetPassword()">click here</a> to get your password and access your account.', $url);
-                $session->setEscapeMessages(false);
+                // IF CUSTOMER EXIST AND IS FROM THE NASM FORM MOVE CUSTOMER TO NASM GROUP
+                if(!$this->isCustomerAnInvestor($this->getRequest()->getPost('email'))){
+                    if ($this->getRequest()->getPost('create-account-source') == 'nasm') {
+                        $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
+                        if ($setNasmAccount) {
+                            $result['message'] = $this->__("We've found an existing account associated with your email address. Great news, you've been upgraded to NASM Trainer status. Log In and view your account perks!");
+
+                            $result['success'] = true;
+                            $result['redirect'] = false;
+                            $session->setEscapeMessages(false);
+                        } else {
+                            $result['error'] = $this->__($setNasmAccount);
+                        }
+                    }elseif($this->getRequest()->getPost('create-account-source') == 'rubicon'){
+                        $setRubiconAccount = $this->setRubiconCustomerAccount($this->getRequest()->getPost('email'));
+                        if ($setRubiconAccount) {
+                            $result['message'] = $this->__("We've found an existing account associated with your email address. Great news, you've been upgraded to Team Rubicon status. Log In and view your account perks!");
+
+                            $result['success'] = true;
+                            $result['redirect'] = false;
+                            $session->setEscapeMessages(false);
+                        } else {
+                            $result['error'] = $this->__($setRubiconAccount);
+                        }
+                    } else{
+                        $url = Mage::getUrl('customer/account/forgotpassword');
+                        $result['error'] = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a onclick="AjaxLogin.toResetPassword()">click here</a> to get your password and access your account.', $url);
+                        $session->setEscapeMessages(false);
+                    }
+                }else{
+                    $result['error'] = $this->__('Our Records shows that you have an investor account. Being an investor offers the best deals. Please log in to enjoy your account');
+                    $session->setEscapeMessages(false);
+                }
             } else {
                 $message = $e->getMessage();
                 $result['error'] = $message;
@@ -404,4 +441,72 @@ class Mediotype_AjaxLogin_AjaxController extends Mage_Core_Controller_Front_Acti
         }
         return $validated;
     }
+
+    public function nasmAction()
+    {
+        if(!$this->isCustomerAnInvestor($this->getRequest()->getPost('email'))) {
+            $setNasmAccount = $this->setNasmCustomerAccount($this->getRequest()->getPost('email'));
+            if ($setNasmAccount) {
+                $result['message'] = $this->__('You have been added to the nasm group, you are now being redirected to our home page!');
+                $result['success'] = true;
+                $result['redirect'] = true;
+            } else {
+                $result['error'] = $this->__($setNasmAccount);
+            }
+        }else{
+            $result['error'] = $this->__('Our Records shows that you have an investor account. Being an investor offers the best deals.');
+        }
+        $this->getResponse()->setHeader('Access-Control-Expose-Headers', 'x-json')->setBody(Mage::helper('core')->jsonEncode($result));
+
+    }
+    protected function setNasmCustomerAccount($email)
+    {
+        try {
+            $customer = $this->customerModel;
+            $OldCustomerGroup = $customer->getGroupId();
+            if($this->isCustomerAnInvestor($OldCustomerGroup) == false) {
+                $customer->setGroupId(17);
+                $customer->save();
+                Mage::helper('serviceleague')->sendToAccountCreatedEvent($OldCustomerGroup, $customer);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+
+    }
+    protected function setRubiconCustomerAccount($email)
+    {
+        try {
+            $customer = $this->customerModel;
+            $OldCustomerGroup = $customer->getGroupId();
+            if($this->isCustomerAnInvestor($OldCustomerGroup) == false) {
+                $customer->setGroupId(9);
+                $customer->save();
+                Mage::helper('serviceleague')->sendToAccountCreatedEvent($OldCustomerGroup, $customer);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+
+    }
+    public  function isCustomerAnInvestor($email){
+        $this->customerModel = Mage::getModel("customer/customer");
+        $this->customerModel->setWebsiteId(Mage::app()->getWebsite()->getId());
+        $customer = $this->customerModel->loadByEmail($email);
+
+        $investorCustomerGroupId = 37;
+
+        if($investorCustomerGroupId == $customer->getGroupId()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
+
