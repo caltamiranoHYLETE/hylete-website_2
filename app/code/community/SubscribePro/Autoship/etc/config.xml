@@ -1,0 +1,437 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+-->
+<config>
+    <modules>
+        <SubscribePro_Autoship>
+            <version>1.4.1.0</version>
+        </SubscribePro_Autoship>
+    </modules>
+    <global>
+        <helpers>
+            <autoship>
+                <class>SubscribePro_Autoship_Helper</class>
+            </autoship>
+
+            <!-- Helper rewrites -->
+            <payment>
+                <rewrite>
+                    <data>SubscribePro_Autoship_Helper_Payment</data>
+                </rewrite>
+            </payment>
+        </helpers>
+        <blocks>
+            <autoship>
+                <class>SubscribePro_Autoship_Block</class>
+            </autoship>
+
+            <!-- Block rewrites -->
+            <catalog>
+                <rewrite>
+                    <product_view>SubscribePro_Autoship_Block_Product_View</product_view>
+                </rewrite>
+            </catalog>
+            <checkout>
+                <rewrite>
+                    <onepage_payment_methods>SubscribePro_Autoship_Block_Checkout_Onepage_Payment_Methods</onepage_payment_methods>
+                </rewrite>
+            </checkout>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_create_billing_method_form>SubscribePro_Autoship_Block_Adminhtml_Sales_Order_Create_Billing_Method_Form</sales_order_create_billing_method_form>
+                    <customer_edit_tab_account>SubscribePro_Autoship_Block_Adminhtml_Customer_Edit_Tab_Account</customer_edit_tab_account>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <autoship>
+                <class>SubscribePro_Autoship_Model</class>
+            </autoship>
+
+            <!-- Model rewrites -->
+            <checkout>
+                <rewrite>
+                    <cart_product_api>SubscribePro_Autoship_Model_Checkout_Cart_Product_Api</cart_product_api>
+                </rewrite>
+                <rewrite>
+                    <cart_api>SubscribePro_Autoship_Model_Checkout_Cart_Api</cart_api>
+                </rewrite>
+            </checkout>
+            <sales>
+                <rewrite>
+                    <quote_address>SubscribePro_Autoship_Model_Quote_Address</quote_address>
+                    <quote_item>SubscribePro_Autoship_Model_Sales_Quote_Item</quote_item>
+                </rewrite>
+            </sales>
+            <salesrule>
+                <rewrite>
+                    <validator>SubscribePro_Autoship_Model_SalesRule_Validator</validator>
+                    <rule_condition_product>SubscribePro_Autoship_Model_SalesRule_Rule_Condition_Product</rule_condition_product>
+                </rewrite>
+            </salesrule>
+            <paypal>
+                <rewrite>
+                    <express>SubscribePro_Autoship_Model_Paypal_Express</express>
+                </rewrite>
+            </paypal>
+            <!-- EE Model Rewrites -->
+            <enterprise_giftcardaccount>
+                <rewrite>
+                    <observer>SubscribePro_Autoship_Model_Enterprise_GiftCardAccount_Observer</observer>
+                </rewrite>
+            </enterprise_giftcardaccount>
+            <enterprise_reward>
+                <rewrite>
+                    <observer>SubscribePro_Autoship_Model_Enterprise_Reward_Observer</observer>
+                </rewrite>
+            </enterprise_reward>
+        </models>
+
+        <!-- Setup -->
+        <resources>
+            <subscribe_pro_autoship_setup>
+                <setup>
+                    <module>SubscribePro_Autoship</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                    <connection>
+                        <use>core_setup</use>
+                    </connection>
+                </setup>
+            </subscribe_pro_autoship_setup>
+        </resources>
+
+        <!-- Cache Types -->
+        <cache>
+            <types>
+                <subscribe_pro_config>
+                    <label>Subscribe Pro Configuration</label>
+                    <description>API credentials and configuration settings from the Subscribe Pro platform.</description>
+                    <tags>SP_CONFIG</tags>
+                </subscribe_pro_config>
+                <subscribe_pro_products>
+                    <label>Subscribe Pro Product Data</label>
+                    <description>Product subscription attributes from the Subscribe Pro platform.  For example, intervals, subscription discount, etc.</description>
+                    <tags>SP_PRODUCTS</tags>
+                </subscribe_pro_products>
+            </types>
+        </cache>
+
+        <!-- Events -->
+        <events>
+            <catalog_product_save_commit_after>
+                <observers>
+                    <subscription_product_save_commit_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onProductSaveCommitAfter</method>
+                    </subscription_product_save_commit_after>
+                </observers>
+            </catalog_product_save_commit_after>
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <subscription_checkout_cart_add_product_complete>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCheckoutCartAddProductComplete</method>
+                    </subscription_checkout_cart_add_product_complete>
+                </observers>
+            </checkout_cart_add_product_complete>
+            <checkout_cart_update_items_after>
+                <observers>
+                    <subscription_checkout_cart_update_items_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCheckoutCartUpdateItemsAfter</method>
+                    </subscription_checkout_cart_update_items_after>
+                </observers>
+            </checkout_cart_update_items_after>
+            <sales_convert_order_item_to_quote_item>
+                <observers>
+                    <subscription_sales_convert_order_item_to_quote_item>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onSalesConvertOrderItemToQuoteItem</method>
+                    </subscription_sales_convert_order_item_to_quote_item>
+                </observers>
+            </sales_convert_order_item_to_quote_item>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <subscription_sales_convert_quote_item_to_order_item>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onSalesConvertQuoteItemToOrderItem</method>
+                    </subscription_sales_convert_quote_item_to_order_item>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+            <sales_convert_order_to_quote>
+                <observers>
+                    <subscription_sales_convert_order_to_quote>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onSalesConvertOrderToQuote</method>
+                    </subscription_sales_convert_order_to_quote>
+                </observers>
+            </sales_convert_order_to_quote>
+            <checkout_submit_all_after>
+                <observers>
+                    <subscription_checkout_submit_all_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCheckoutSubmitAllAfter</method>
+                    </subscription_checkout_submit_all_after>
+                </observers>
+            </checkout_submit_all_after>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <subscription_checkout_onepage_controller_success_action>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCheckoutOnepageControllerSuccessAction</method>
+                    </subscription_checkout_onepage_controller_success_action>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <checkout_allow_guest>
+                <observers>
+                    <checkout_allow_guest>
+                        <class>autoship/observer</class>
+                        <method>isAllowedGuestCheckout</method>
+                    </checkout_allow_guest>
+                </observers>
+            </checkout_allow_guest>
+            <customer_save_after>
+                <observers>
+                    <subscription_customer_save_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCustomerSave</method>
+                    </subscription_customer_save_after>
+                </observers>
+            </customer_save_after>
+            <!-- Handle this event because its the very first one Magento fires. -->
+            <resource_get_tablename>
+                <observers>
+                    <!-- Add Subscribe Pro's autoloader for namespaced classes in the lib folder -->
+                    <namespace_module>
+                        <class>autoship/observer</class>
+                        <method>addAutoloader</method>
+                    </namespace_module>
+                </observers>
+            </resource_get_tablename>
+        </events>
+
+    </global>
+
+    <!-- Frontend events -->
+    <frontend>
+        <events>
+            <customer_address_save_before>
+                <observers>
+                    <subscription_customer_address_save_before>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCustomerAddressSaveBefore</method>
+                    </subscription_customer_address_save_before>
+                </observers>
+            </customer_address_save_before>
+            <customer_address_save_commit_after>
+                <observers>
+                    <subscription_customer_address_save_commit_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCustomerAddressSaveCommitAfter</method>
+                    </subscription_customer_address_save_commit_after>
+                </observers>
+            </customer_address_save_commit_after>
+            <customer_address_delete_commit_after>
+                <observers>
+                    <subscription_customer_address_delete_commit_after>
+                        <type>singleton</type>
+                        <class>autoship/observer</class>
+                        <method>onCustomerAddressDeleteCommitAfter</method>
+                    </subscription_customer_address_delete_commit_after>
+                </observers>
+            </customer_address_delete_commit_after>
+        </events>
+    </frontend>
+
+    <!-- Frontend layout XML updates and routers -->
+    <frontend>
+        <secure_url>
+            <autoship>/subscriptions</autoship>
+            <!-- Make cart page secure to support Apple Pay -->
+            <checkout_cart>/checkout/cart</checkout_cart>
+            <checkout>/checkout/cart</checkout>
+        </secure_url>
+        <routers>
+            <autoship>
+                <use>standard</use>
+                <args>
+                    <module>SubscribePro_Autoship</module>
+                    <frontName>subscriptions</frontName>
+                </args>
+            </autoship>
+        </routers>
+        <layout>
+            <updates>
+                <autoship module="SubscribePro_Autoship">
+                    <file>autoship.xml</file>
+                </autoship>
+            </updates>
+        </layout>
+    </frontend>
+    <!-- Frontend layout XML updates -->
+
+    <!-- Admin panel routers -->
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <SubscribePro_Autoship before="Mage_Adminhtml">SubscribePro_Autoship_Adminhtml</SubscribePro_Autoship>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <!-- Admin panel html changes -->
+    <adminhtml>
+        <layout>
+            <updates>
+                <autoship>
+                    <file>autoship.xml</file>
+                </autoship>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <!-- Admin events -->
+    <adminhtml>
+        <events>
+            <adminhtml_widget_container_html_before>
+                <observers>
+                    <autoship_adminhtml_widget_container_html_before>
+                        <class>autoship/adminhtml_observer</class>
+                        <type>singleton</type>
+                        <method>adminhtmlWidgetContainerHtmlBefore</method>
+                    </autoship_adminhtml_widget_container_html_before>
+                </observers>
+            </adminhtml_widget_container_html_before>
+            <adminhtml_sales_order_create_process_data>
+                <observers>
+                    <subscription_adminhtml_sales_order_create_process_data>
+                        <type>singleton</type>
+                        <class>autoship/adminhtml_observer</class>
+                        <method>onAdminhtmlSalesOrderCreateProcessData</method>
+                    </subscription_adminhtml_sales_order_create_process_data>
+                </observers>
+            </adminhtml_sales_order_create_process_data>
+        </events>
+    </adminhtml>
+
+    <!-- Default configuration settings -->
+    <default>
+        <autoship_general>
+            <general>
+                <enabled>0</enabled>
+            </general>
+            <platform_api>
+                <platform_host>api.subscribepro.com</platform_host>
+                <log_level>6</log_level>
+                <log_request>0</log_request>
+            </platform_api>
+            <advanced>
+                <api_request_timeout>7</api_request_timeout>
+                <payments_api_request_timeout>90</payments_api_request_timeout>
+                <cache_lifetime>300</cache_lifetime>
+            </advanced>
+            <!-- These config settings are intended to be overridden with installation-specific values in
+                 app/etc/local.xml file -->
+            <developer>
+                <!-- allow_custom_options - default = 0 = false -->
+                <allow_custom_options>0</allow_custom_options>
+                <!-- 'https' or 'http' -->
+                <api_protocol>https</api_protocol>
+            </developer>
+        </autoship_general>
+        <autoship_subscription>
+            <discount>
+                <!-- Default to combine subscription discount with other discounts -->
+                <cartrule_combine_type>4</cartrule_combine_type>
+            </discount>
+            <hosted_features>
+                <use_hosted_my_subscriptions>0</use_hosted_my_subscriptions>
+                <use_add_to_order>0</use_add_to_order>
+                <use_hosted_address_book>0</use_hosted_address_book>
+                <hosted_widgets_js_include>https://hosted.subscribepro.com/</hosted_widgets_js_include>
+            </hosted_features>
+        </autoship_subscription>
+        <payment>
+            <subscribe_pro>
+                <active>0</active>
+                <active_non_subscription>0</active_non_subscription>
+                <model>autoship/payment_method_cc</model>
+                <title>Enter a New Credit Card</title>
+                <allowspecific>0</allowspecific>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <payment_action>authorize_capture</payment_action>
+                <reauthorize_partial_capture>0</reauthorize_partial_capture>
+                <multiple_capture_support>0</multiple_capture_support>
+                <order_status>processing</order_status>
+                <currency>USD</currency>
+                <allow_guest_checkout>1</allow_guest_checkout>
+            </subscribe_pro>
+            <subscribe_pro_echeck>
+                <active>0</active>
+                <active_non_subscription>0</active_non_subscription>
+                <model>autoship/payment_method_echeck</model>
+                <title>Enter a New Bank Account</title>
+                <order_status>processing</order_status>
+                <currency>USD</currency>
+            </subscribe_pro_echeck>
+            <subscribe_pro_applepay>
+                <active>0</active>
+                <active_non_subscription>0</active_non_subscription>
+                <model>autoship/payment_method_applepay</model>
+                <title>Apple Pay</title>
+                <allowspecific>0</allowspecific>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <payment_action>authorize_capture</payment_action>
+                <order_status>processing</order_status>
+                <currency>USD</currency>
+                <allow_guest_checkout>1</allow_guest_checkout>
+            </subscribe_pro_applepay>
+        </payment>
+        <carriers>
+            <subscribepro>
+                <active>1</active>
+                <model>autoship/shipping_carrier</model>
+                <title>Recurring Order Shipping</title>
+                <standard_title>Standard Shipping</standard_title>
+                <default_standard_shipping_price>5.0</default_standard_shipping_price>
+                <enable_free_shipping>0</enable_free_shipping>
+                <free_title>Free Shipping</free_title>
+                <free_shipping_minimum_order_total>100.0</free_shipping_minimum_order_total>
+                <free_shipping_minimum_order_total_international>200.0</free_shipping_minimum_order_total_international>
+                <enable_international_shipping>0</enable_international_shipping>
+                <international_title>International Shipping</international_title>
+                <default_international_shipping_price>15.0</default_international_shipping_price>
+            </subscribepro>
+        </carriers>
+    </default>
+
+</config>

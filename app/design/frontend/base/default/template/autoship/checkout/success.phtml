@@ -1,0 +1,29 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php if(Mage::getStoreConfig('autoship_general/general/enabled') == '1'): ?>
+<?php $createdSubscriptionIds = $this->getCreatedSubscriptionIds(); ?>
+<?php if ($this->getFailedSubscriptionCount()): ?>
+    <?php // Output error message ?>
+    <p><?php echo $this->__("Failed to create some of your product subscriptions! Please contact support for assistance.") ?></p>
+<?php endif; ?>
+<?php if (is_array($createdSubscriptionIds) && count($createdSubscriptionIds)): ?>
+    <p><?php echo $this->__('You will receive a separate email confirmation for your product subscription(s). Click here to <a
+            href="%s">manage your product subscriptions</a>.', $this->getUrl('autoship/mysubscriptions')) ?>
+    </p>
+<?php endif; ?>
+<?php endif; ?>

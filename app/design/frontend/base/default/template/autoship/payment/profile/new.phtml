@@ -1,0 +1,124 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile */
+$paymentProfile = $this->getPaymentProfile();
+$billingAddress = $paymentProfile->getBillingAddress();
+?>
+
+<div class="page-title">
+    <h1><?php echo $this->getTitle(); ?></h1>
+</div>
+
+<!-- Credit Card Form -->
+<form id="edit_form" class="subscribepro-cc-form" accept-charset="UTF-8" action="<?php echo $this->getSaveNewUrl() ?>" method="POST">
+    <!-- Hidden fields that hold fields for the Magento form -->
+    <input id="token" name="token" type="hidden" value="" />
+    <input id="cc_exp_month" name="credit_card[month]" type="hidden" value="" />
+    <input id="cc_exp_year" name="credit_card[year]" type="hidden" value="" />
+    <input id="cc_card_type" name="credit_card[card_type]" type="hidden" value="" />
+    <input id="cc_card_number" name="credit_card[number]" type="hidden" value="" />
+    <input name="environment_key" type="hidden" value="<?php echo $this->getEnvironmentKey() ?>" />
+    <input name="utf8" type="hidden" value="✓" />
+
+    <!-- Empty error container -->
+    <p id="error" class="error"></p>
+
+    <!-- Credit Card Fields -->
+    <div class="fieldset">
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field name-firstname">
+                    <label for="bill_to_firstname" class="required"><em>*</em><?php echo $this->__("First Name") ?></label>
+
+                    <div class="input-box">
+                        <input type="text" id="bill_to_firstname" name="credit_card[first_name]"
+                               value="<?php echo $this->escapeHtml($billingAddress->getFirstName()) ?>" title="First Name"
+                               maxlength="255" class="input-text required-entry"/>
+                    </div>
+                </div>
+                <div class="field name-lastname">
+                    <label for="bill_to_lastname" class="required"><em>*</em><?php echo $this->__("Last Name") ?></label>
+
+                    <div class="input-box">
+                        <input type="text" id="bill_to_lastname" name="credit_card[last_name]"
+                               value="<?php echo $this->escapeHtml($billingAddress->getLastName()) ?>" title="Last Name"
+                               maxlength="255" class="input-text required-entry"/>
+                    </div>
+                </div>
+            </li>
+            <li class="input-row">
+                <label for="spreedly-number" class="required"><em>*</em><?php echo $this->__("Card Number") ?></label>
+                <div class="spreedly-number-container spreedly-input">
+                </div>
+            </li>
+            <li class="input-row">
+                <label for="cc_expiry" class="required"><em>*</em><?php echo $this->__("Expiry Date") ?></label>
+                <div class="field name-expiry-date">
+                    <input type="text" id="cc_expiry" name="credit_card[expiry]"
+                           title="Name On Card"
+                           maxlength="255" class="input-text required-entry"
+                    />
+                </div>
+            </li>
+            <li class="input-row">
+                <label for="spreedly-cvv" class="required"><em>*</em><?php echo $this->__("CVV") ?></label>
+                <div class="spreedly-cvv-container spreedly-input">
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="buttons-set form-buttons">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>">
+                <small>&#171;</small>
+                <?php echo $this->__("Back") ?></a></p>
+        <button type="submit" class="button" title="Save">
+            <span><span><?php echo $this->__("Save Credit Card") ?></span></span>
+        </button>
+    </div>
+</form>
+
+<!-- Initialization of the SubscribeProCC Object -->
+<script>
+    SubscribeProCC.init("<?php echo $this->getEnvironmentKey() ?>", {
+        error: "#error",
+        token: "#token",
+        firstName: "#bill_to_firstname",
+        lastName: "#bill_to_lastname",
+        cardType: "#cc_card_type",
+        numberContainer: ".spreedly-number-container",
+        cvvContainer: ".spreedly-cvv-container",
+        expiryDate: "#cc_expiry",
+        expiryMonth: "#cc_exp_month",
+        expiryYear: "#cc_exp_year",
+        hiddenCCNum: "#cc_card_number",
+        numberInputStyle: "width: 100%; font-size: 15px;",
+        cvvInputStyle: "width: 100%; font-size: 15px;",
+        validateNames: true
+    });
+
+    jQuery("#edit_form").submit(function(event) {
+       if (!SubscribeProCC.alreadyTokenized()) {
+           event.preventDefault();
+           SubscribeProCC.tokenize(function(){
+               jQuery("#edit_form").submit()
+           });
+       }
+    });
+</script>

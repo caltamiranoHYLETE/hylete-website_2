@@ -1,0 +1,55 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php if(Mage::getStoreConfig('autoship_general/general/enabled') == '1' && Mage::getStoreConfig('autoship_subscription/hosted_features/use_hosted_address_book') == '1'): ?>
+
+<!-- <div> to hold Subscribe Pro content -->
+<div id="sp-hosted-address-book">
+</div>
+
+<!-- Load the Subscribe Pro widget script -->
+<script src="<?php echo $this->getWidgetScriptUrl() ?>"></script>
+
+<!-- Pass configuration and init the Subscribe Pro widget -->
+<script type="text/javascript">
+    //<![CDATA[
+    // Setup config for My Subscriptions Widget
+    var widgetConfig = {
+        widgetElementId: 'sp-hosted-address-book',
+        apiBaseUrl: '<?php echo $this->getApiBaseUrl() ?>',
+        apiAccessToken: '<?php echo $this->getApiAccessToken() ?>',
+        spreedlyEnvironmentKey: '<?php echo $this->getSpreedlyEnvironmentKey() ?>',
+        customerId: '<?php echo $this->getSubscribeProCustomerId() ?>'
+    };
+    // Call init
+    subscribepro.widgets.init('address-book-assist', widgetConfig);
+    var addressBookWidget = subscribepro.widgets.get('address-book-assist');
+
+    // Call events
+    <?php foreach ($this->getCreatedAddresses() as $addressDetails): ?>
+    addressBookWidget.onAddressCreated(<?php echo json_encode($addressDetails, JSON_PRETTY_PRINT) ?>);
+    <?php endforeach; ?>
+    <?php foreach ($this->getUpdatedAddresses() as $addressDetails): ?>
+    addressBookWidget.onAddressUpdated(<?php echo json_encode($addressDetails, JSON_PRETTY_PRINT) ?>);
+    <?php endforeach; ?>
+    <?php foreach ($this->getDeletedAddresses() as $addressDetails): ?>
+    addressBookWidget.onAddressDeleted(<?php echo json_encode($addressDetails, JSON_PRETTY_PRINT) ?>);
+    <?php endforeach; ?>
+    //]]>
+</script>
+
+<?php endif; ?>

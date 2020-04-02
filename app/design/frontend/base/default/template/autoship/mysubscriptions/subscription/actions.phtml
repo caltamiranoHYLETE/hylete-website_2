@@ -1,0 +1,130 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var \SubscribePro\Service\Subscription\SubscriptionInterface $subscription */
+$subscription = $this->getSubscription();
+/** @var Mage_Catalog_Model_Product $product */
+$product = $this->getMagentoProduct();
+?>
+<div class="subscription-actions">
+    <div>
+    <?php if ($subscription->getStatus() == 'Active'): ?>
+        <p><a href="<?php echo $this->getUrl('autoship/mysubscriptions/skip/id/' . $subscription->getId(),
+                array('_secure' => true)) ?>" class="adjust skip"><?php echo $this->__('Skip Next Delivery') ?></a></p>
+        <p><a href="<?php echo $this->getUrl('autoship/mysubscriptions/pause/id/' . $subscription->getId(),
+                array('_secure' => true)) ?>" class="adjust pause"><?php echo $this->__('Pause Subscription') ?></a></p>
+        <p><a href="<?php echo $this->getUrl('autoship/mysubscriptions/cancel/id/' . $subscription->getId(),
+                array('_secure' => true)) ?>" class="adjust cancel"><?php echo $this->__('Cancel Subscription') ?></a></p>
+        <!--<p><a href="<?php echo $product->getProductUrl() ?>"><?php echo $this->__("Need more immediately?") ?></a></p>-->
+
+        <p>&nbsp;</p>
+    <?php elseif ($subscription->getStatus() == 'Failed' || $subscription->getStatus() == 'Retry'): ?>
+        <p><a href="<?php echo $this->getUrl('autoship/mysubscriptions/restart/id/' . $subscription->getId(),
+                array('_secure' => true)) ?>" class="adjust restart"><?php echo $this->__('Reactivate Subscription') ?></a></p>
+        <p>&nbsp;</p>
+    <?php elseif ($subscription->getStatus() == 'Paused'): ?>
+        <p><a href="<?php echo $this->getUrl('autoship/mysubscriptions/restart/id/' . $subscription->getId(),
+                array('_secure' => true)) ?>" class="adjust restart"><?php echo $this->__('Restart Subscription') ?></a></p>
+        <p>&nbsp;</p>
+    <?php else: ?>
+    <?php endif; ?>
+    <p><a href="<?php echo $subscription->getId() ?>-more-details-div"
+          class="link more details"><?php echo $this->__("More Details...") ?></a></p>
+    </div>
+</div>
+<div class="adjust skip-delivery" style="display:none;">
+    <div class="block-title">
+        <h2><?php echo $this->__("Skip Delivery?") ?></h2>
+    </div>
+    <div class="block-content">
+        <p>Skipping delivery on <?php echo $this->getNextOrderDateText() ?>.</p>
+
+        <div class="buttons-set">
+            <button type="button" title="<?php echo $this->__('Okay') ?>" href="<?php echo Mage::getUrl('autoship/mysubscriptions/skip',
+                array(
+                    'id' => $subscription->getId(),
+                    '_secure' => true,
+                )) ?>" class="button skip_yes"><span><span><?php echo $this->__('Okay') ?></span></span></button>
+            <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button no">
+                <span><span><?php echo $this->__('Cancel') ?></span></span></button>
+        </div>
+    </div>
+</div>
+<div class="adjust cancel" style="display:none;">
+    <div class="block-title">
+        <h2><?php echo $this->__("Cancel Subscription?") ?></h2>
+    </div>
+    <div class="block-content">
+        <p><?php echo $this->__("Are you sure you want to cancel your subscription?") ?></p>
+
+        <div class="buttons-set">
+            <button type="button" title="<?php echo $this->__('Yes') ?>"
+                    href="<?php echo Mage::getUrl('autoship/mysubscriptions/cancel', array(
+                        'id' => $subscription->getId(),
+                        '_secure' => true
+                    )) ?>" class="button cancel_yes"><span><span><?php echo $this->__('Yes') ?></span></span></button>
+            <button type="button" title="<?php echo $this->__('No') ?>" class="button no">
+                <span><span><?php echo $this->__('No') ?></span></span></button>
+        </div>
+    </div>
+</div>
+<div class="adjust pause" style="display:none;">
+    <div class="block-title">
+        <h2><?php echo $this->__("Pause Subscription?") ?></h2>
+    </div>
+    <div class="block-content">
+        <p><?php echo $this->__("Are you sure you want to pause your subscription?") ?></p>
+
+        <div class="buttons-set">
+            <button type="button" title="<?php echo $this->__('Yes') ?>"
+                    href="<?php echo Mage::getUrl('autoship/mysubscriptions/pause', array(
+                        'id' => $subscription->getId(),
+                        '_secure' => true
+                    )) ?>" class="button pause_yes"><span><span><?php echo $this->__('Yes') ?></span></span></button>
+            <button type="button" title="<?php echo $this->__('No') ?>" class="button no">
+                <span><span><?php echo $this->__('No') ?></span></span></button>
+        </div>
+    </div>
+</div>
+<div class="adjust restart" style="display:none;">
+    <div class="block-title">
+        <?php if ($subscription->getStatus() == 'Failed' || $subscription->getStatus() == 'Retry'): ?>
+            <h2><?php echo $this->__("Reactivate Subscription?") ?></h2>
+        <?php else: ?>
+            <h2><?php echo $this->__("Restart Subscription?") ?></h2>
+        <?php endif; ?>
+    </div>
+    <div class="block-content">
+        <?php if ($subscription->getStatus() == 'Failed' || $subscription->getStatus() == 'Retry'): ?>
+            <p><?php echo $this->__("Are you sure you want to reactivate your subscription?") ?></p>
+            <p><?php echo $this->__("A new order will attempted within 1 business day.") ?></p>
+        <?php else: ?>
+            <p><?php echo $this->__("Are you sure you want to restart your subscription?") ?></p>
+        <?php endif; ?>
+
+        <div class="buttons-set">
+            <button type="button" title="<?php echo $this->__('Yes') ?>"
+                    href="<?php echo Mage::getUrl('autoship/mysubscriptions/restart', array(
+                        'id' => $subscription->getId(),
+                        '_secure' => true
+                    )) ?>" class="button restart_yes"><span><span><?php echo $this->__('Yes') ?></span></span></button>
+            <button type="button" title="<?php echo $this->__('No') ?>" class="button no">
+                <span><span><?php echo $this->__('No') ?></span></span></button>
+        </div>
+    </div>
+</div>

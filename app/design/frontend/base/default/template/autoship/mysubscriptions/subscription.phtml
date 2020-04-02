@@ -1,0 +1,35 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var \SubscribePro\Service\Subscription\SubscriptionInterface $subscription */
+$subscription = $this->getSubscription();
+?>
+<ul class="messages">
+    <?php foreach ($this->getMessages() as $message): ?>
+    <?php echo $message; ?>
+    <?php endforeach; ?>
+</ul>
+<?php echo $this->createChildSubscriptionBlock(null, 'autoship/mysubscriptions/subscription/subscription_info.phtml')->toHtml() ?>
+<?php echo $this->createChildSubscriptionBlock(null, 'autoship/mysubscriptions/subscription/product_info.phtml')->toHtml() ?>
+<?php echo $this->createChildSubscriptionBlock(null, 'autoship/mysubscriptions/subscription/actions.phtml')->toHtml() ?>
+<div class="clearer"></div>
+<div class="subscription-more-details" <?php if (count($this->getMessages()) == 0): ?>style="display:none;"<?php endif; ?> id="<?php echo $subscription->getId() ?>-more-details-div">
+    <?php echo $this->createChildSubscriptionBlock(null, 'autoship/mysubscriptions/subscription/shipping_address.phtml')->toHtml() ?>
+    <?php echo $this->createChildSubscriptionBlock(null, 'autoship/mysubscriptions/subscription/payment.phtml')->toHtml() ?>
+</div>
+<div class="clearer"></div>

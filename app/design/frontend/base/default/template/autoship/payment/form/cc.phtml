@@ -1,0 +1,79 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php $_code = $this->getMethodCode() ?>
+<?php $_billingAddress = $this->getBillingAddress() ?>
+
+<ul class="form-list subscribepro-cc-form" id="payment_form_<?php echo $_code ?>" style="display:none;">
+
+    <input type="hidden" id="<?php echo $_code ?>_payment_token" name="payment[payment_token]" title="<?php echo $this->__('Payment Token') ?>" value="" />
+    <input type="hidden" id="<?php echo $_code ?>_is_new_card" name="payment[is_new_card]" title="<?php echo $this->__('Is New Card') ?>" value="1" />
+    <input type="hidden" id="<?php echo $_code ?>_firstname" name="payment[firstname]" title="<?php echo $this->__('firstname') ?>" value="<?php echo $_billingAddress->getData('firstname') ?>" />
+    <input type="hidden" id="<?php echo $_code ?>_lastname" name="payment[lastname]" title="<?php echo $this->__('lastname') ?>" value="<?php echo $_billingAddress->getData('lastname') ?>" />
+    <input id="<?php echo $_code ?>_cc_number" type="hidden" name="payment[cc_number]" value="" />
+    <input id="<?php echo $_code ?>_cc_exp_month" name="payment[cc_exp_month]" type="hidden" value="" />
+    <input id="<?php echo $_code ?>_cc_exp_year" name="payment[cc_exp_year]" type="hidden" value="" />
+    <input id="<?php echo $_code ?>_cc_card_type" name="payment[cc_card_type]" type="hidden" value="" />
+    <?php if ($this->getSaveCardMode() == 'save'): ?>
+        <input type="hidden" id="<?php echo $_code ?>_save_card" name="payment[save_card]" title="<?php echo $this->__('Save Card') ?>" value="1" />
+    <?php elseif ($this->getSaveCardMode() == 'no_save'): ?>
+        <input type="hidden" id="<?php echo $_code ?>_save_card" name="payment[save_card]" title="<?php echo $this->__('Save Card') ?>" value="0" />
+    <?php endif; ?>
+
+    <!-- Empty error container -->
+    <li>
+        <p id="<?php echo $_code ?>_error" class="error"></p>
+    </li>
+
+    <li>
+        <div class="input-box">
+            <label for="spreedly_number_container" class="required"><em>*</em><?php echo Mage::helper('payment')->__('Credit Card Number') ?></label><br/>
+            <div id="spreedly_number_container"></div>
+        </div>
+    </li>
+
+    <li>
+        <div class="input-box">
+            <label for="<?php echo $_code ?>_cc_expiry" class="required"><em>*</em><?php echo Mage::helper('payment')->__('Expiry Date') ?></label><br/>
+            <input type="text" id="<?php echo $_code ?>_cc_expiry" title="Expiry Date" maxlength="255" />
+        </div>
+    </li>
+
+    <?php echo $this->getChildHtml() ?>
+
+    <li>
+        <div class="input-box">
+            <label for="spreedly_cvv_container" class="required"><em>*</em><?php echo Mage::helper('payment')->__('CVV') ?></label><br/>
+            <div id="spreedly_cvv_container"></div>
+        </div>
+    </li>
+
+    <?php if($this->getSaveCardMode() == 'use_checkbox'): ?>
+        <li id="<?php echo $_code ?>_cc_save_card_div">
+            <label for="<?php echo $_code ?>_save_card" class="required"><em>*</em><?php echo $this->__('Save My Card') ?></label>
+            <div class="input-box">
+                <div class="v-fix">
+                    <input type='hidden' value='0' name='payment[save_card]'/>
+                    <input type="checkbox" title="<?php echo $this->__('Save Card') ?>" class="checkbox"
+                           id="<?php echo $_code ?>_save_card" name="payment[save_card]"
+                           value="1" <?php if($this->getAdditionalInfo('save_card')): ?>checked<?php endif; ?> />
+                </div>
+            </div>
+        </li>
+    <?php endif; ?>
+
+</ul>

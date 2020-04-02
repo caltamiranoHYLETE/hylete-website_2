@@ -1,0 +1,71 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php if(Mage::getStoreConfig('autoship_general/general/enabled') == '1'): ?>
+<?php if($this->isProductAutoshipEligible()): ?>
+<?php if($this->isTrialProduct() || $this->getSubscriptionOptionMode() == 'subscription_only'): // Subscription Only Mode or Trial Product - Only Subscription Option Allowed ?>
+<div class="subscription-product product-options">
+<ul class="options-list">
+	<li>
+		<input type="hidden" onclick="" class="radio" id="delivery-option-subscribe" name="delivery-option" value="subscribe" checked="checked"/>
+        <p><span class="product-price"><?php echo $this->getDiscountText() ?></span></p>
+        <label for="delivery-interval">Delivery every:
+            <select onchange="" id="delivery-interval" name="delivery-interval" class="">
+                <?php foreach($this->getIntervals() as $interval): ?>
+                    <option value="<?php echo $interval ?>" <?php if($interval == $this->getDefaultInterval()): ?> selected="selected"<?php endif; ?>><?php echo $interval ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+    <div class="clearer"></div>
+	</li>
+</ul>
+</div>
+<?php else: // Standard mode - subscription or one-time purchase allowed ?>
+<div class="subscription-product product-options">
+<ul class="options-list">
+	<li>
+		<input type="radio" onclick="" class="radio validate-one-required-by-name change-container-classname" id="delivery-option-one-time" name="delivery-option" value="one-time-delivery"
+            <?php if ($this->getDefaultSubscriptionOption() == 'onetime_purchase'): ?> checked="checked"<?php endif; ?>
+        />
+		<span class="label">
+			<label for="delivery-option-one-time">One Time Delivery&nbsp;&mdash;&nbsp;
+			    <span class="price-notice"><?php echo $this->getOneTimePurchasePrice(true) ?></span>
+			</label>
+		</span>
+	</li>
+	<li>
+		<input type="radio" onclick="" class="radio validate-one-required-by-name change-container-classname" id="delivery-option-subscribe" name="delivery-option" value="subscribe"
+            <?php if ($this->getDefaultSubscriptionOption() != 'onetime_purchase'): ?> checked="checked"<?php endif; ?>
+		/>
+		<span class="label">
+			<label for="delivery-option-subscribe">Regular Delivery&nbsp;&mdash;&nbsp;
+			    <span class="price-notice"><?php echo $this->getDiscountText() ?></span>
+			</label>
+		</span>
+		<label for="delivery-interval">Delivery every:
+            <select onchange="" id="delivery-interval" name="delivery-interval" class="">
+            	<?php foreach($this->getIntervals() as $interval): ?>
+            	<option value="<?php echo $interval ?>" <?php if($interval == $this->getDefaultInterval()): ?> selected="selected"<?php endif; ?>><?php echo $interval ?></option>
+            	<?php endforeach; ?>
+            </select>
+        </label>
+	</li>
+</ul>
+</div>
+<?php endif; ?>
+<?php endif; ?>
+<?php endif; ?>

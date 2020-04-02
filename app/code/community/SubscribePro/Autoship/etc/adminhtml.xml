@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <autoship_general translate="title" module="autoship">
+                                        <title>General Section</title>
+                                        <sort_order>100</sort_order>
+                                    </autoship_general>
+                                    <autoship_subscription translate="title" module="autoship">
+                                        <title>Subscriptions Section</title>
+                                        <sort_order>200</sort_order>
+                                    </autoship_subscription>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <customer>
+                        <children>
+                            <paymentprofiles translate="title" module="autoship">
+                                <title>Credit Cards (Subscribe Pro Vault)</title>
+                                <sort_order>1000</sort_order>
+                            </paymentprofiles>
+                        </children>
+                    </customer>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

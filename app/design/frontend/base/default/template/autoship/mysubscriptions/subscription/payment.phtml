@@ -1,0 +1,91 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+use \SubscribePro\Service\PaymentProfile\PaymentProfileInterface;
+
+/** @var \SubscribePro\Service\Subscription\SubscriptionInterface $subscription */
+$subscription = $this->getSubscription();
+/** @var PaymentProfileInterface $paymentProfile */
+$paymentProfile = $subscription->getPaymentProfile();
+$hasPaymentProfile = $subscription->getPaymentProfile() instanceof PaymentProfileInterface && strlen($subscription->getPaymentProfileId());
+$hasPaymentMethodCode = strlen($subscription->getPaymentMethodCode());
+$paymentProfileIsCard = $hasPaymentProfile && $subscription->getPaymentProfile()->getPaymentMethodType() == PaymentProfileInterface::TYPE_CREDIT_CARD;
+?>
+<div class="block subscription-payment">
+    <p><strong>Payment Information:</strong></p>
+    <?php if ($hasPaymentProfile): ?>
+        <p><?php echo $paymentProfile->getCustomerFacingName() ?> <a class="adjust"
+                                                                     href=""><?php echo $this->__("(Change)") ?></a></p>
+
+        <?php if ($paymentProfileIsCard): ?>
+            <p>
+                <form action="<?php echo Mage::getUrl('autoship/mysubscriptions/change', array('_secure' => true)) ?>">
+                <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                <input type="hidden" name="subscription_id" id="subscription_id_<?php echo $subscription->getId() ?>"
+                       value="<?php echo $subscription->getId() ?>"/>
+                    <?php echo $this->__('Expiration Date') ?>
+                    <select id="cc_exp_month_<?php echo $subscription->getId() ?>" class="cc_exp_month" name="cc_exp_month">
+                        <?php $_ccExpMonth = $paymentProfile->getCreditcardMonth() ?>
+                        <?php foreach ($this->getCcMonths() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpMonth
+                            ): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <select id="cc_exp_year_<?php echo $subscription->getId() ?>" class="cc_exp_year" name="cc_exp_year">
+                        <?php $_ccExpYear = $paymentProfile->getCreditcardYear() ?>
+                        <?php foreach ($this->getCcYears() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpYear
+                            ): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </form>
+            </p>
+        <?php endif; ?>
+
+        <p>
+            <a href="<?php echo $this->getNewCardUrl() ?>">Add a new credit card</a>
+            <?php if ($this->isBankAccountFeatureEnabled()): ?>
+                | <a href="<?php echo $this->getNewBankAccountUrl() ?>">Add a new bank account</a>
+            <?php endif; ?>
+        </p>
+    <?php elseif ($hasPaymentMethodCode): ?>
+        <p><?php
+            echo $this->__($this->getPaymentMethodTitle());
+            ?></p>
+    <?php else: ?>
+        <p><?php
+            echo $this->__('Haven\'t saved a credit card yet? <a href="%s">Add one now</a>.', $this->getNewCardUrl());
+            ?></p>
+    <?php endif; ?>
+
+    <div class="adjust" style="display:none;">
+        <div class="block-title">
+            <h2><?php echo $this->__("Change Payment Method") ?></h2>
+        </div>
+        <div class="block-content">
+            <?php
+            // Output payment form
+            echo $this
+                ->createChildSubscriptionBlock(
+                    'autoship/mysubscriptions_subscription_form_payment',
+                    'autoship/mysubscriptions/subscription/form/payment.phtml')
+                ->toHtml();
+            ?>
+        </div>
+    </div>
+</div>
