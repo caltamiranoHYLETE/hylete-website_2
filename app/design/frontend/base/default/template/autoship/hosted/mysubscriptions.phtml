@@ -1,0 +1,42 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<div class="page-title">
+    <h1><?php echo $this->__("My Product Subscriptions") ?></h1>
+</div>
+
+<div id="mysubscriptions">
+</div>
+
+<!-- Load the Subscribe Pro widget script -->
+<script src="<?php echo $this->getWidgetScriptUrl() ?>"></script>
+
+<!-- Pass configuration and init the Subscribe Pro widget -->
+<script type="text/javascript">
+    //<![CDATA[
+    // Setup config for My Subscriptions Widget
+    var widgetConfig = {
+        widgetElementId: 'mysubscriptions',
+        apiBaseUrl: '<?php echo $this->getApiBaseUrl() ?>',
+        apiAccessToken: '<?php echo $this->getApiAccessToken() ?>',
+        spreedlyEnvironmentKey: '<?php echo $this->getSpreedlyEnvironmentKey() ?>',
+        customerId: '<?php echo $this->getSubscribeProCustomerId() ?>'
+    };
+    // Call init
+    subscribepro.widgets.init('my-subscriptions', widgetConfig);
+    //]]>
+</script>

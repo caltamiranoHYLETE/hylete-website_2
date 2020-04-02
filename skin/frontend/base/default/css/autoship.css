@@ -1,0 +1,268 @@
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+
+
+/* My Subscriptions page */
+
+#mysubscriptions .clearer {clear:both;}
+
+.subscription-block:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+.subscription-block { margin-top: 18px; border-bottom: 1px solid #cfcfcf; padding-bottom: 18px; overflow: auto;}
+.subscription-block p, .subscription-block h2 { padding-bottom: 6px; }
+
+.subscription-info { float: left; width: 30%; padding-right: 10px; }
+.subscription-product { float: left; width: 48%; padding-right: 10px; }
+.subscription-actions { float: left; width: 22%; }
+.subscription-more-details { padding-top: 10px; }
+.subscription-shipping-address { float: left; padding-right: 40px; }
+.subscription-billing-address { float: left; padding-right: 40px; }
+.subscription-payment { float: left; padding-right: 40px; }
+
+@media only screen and (max-width: 480px) {
+	.subscription-info,.subscription-product,.subscription-actions {
+		float:none;
+		width:100%;
+		padding: 10px;
+		background:#eee;
+		overflow:auto;
+	}
+}
+
+.subscription-info .next-order-date { font-size: 20px; }
+.subscription-info .status { font-size: 20px; }
+.subscription-actions .status { font-size: 20px; }
+
+.subscription-product .product-image { float: left; margin-right: 12px; border: 1px solid #cfcfcf; padding: 6px; background: #ffffff; }
+.subscription-product .product-name a { color: #3399cc; text-decoration: none; }
+.subscription-product .product-original-price { font-size: 11px; color: #989696; text-decoration: line-through; }
+.subscription-product .product-price { font-size: 14px; color: #3399cc; font-weight: bold; }
+
+.subscription-actions .button { padding-bottom: 6px; white-space: normal; }
+.subscription-actions .button span span { width: 116px; }
+
+.subscription-block .input-box input.delivery_date { margin: 2px 0 12px -6px; border: none; padding: 0; background: none; font-size: 22px; font-weight: bold; text-align: center; width: 134px; }
+.subscription-block .input-box .ui-datepicker-trigger { margin: 5px 0 1px 6px; cursor: pointer; display: inline;}
+
+.subscription-block .adjust .buttons-set button.button { float: none; margin-left: 0; }
+
+.subscription-info select + select { margin-left: 0 !important; }
+.subscription-info p { line-height: 2em; }
+.subscription-blocks .error { color: black; font-weight: normal; border-left: 5px solid #df280a; padding: 10px; background: #faebe7; }
+.subscription-blocks .success-msg { color: black; font-weight: normal; border-left: 5px solid #11b400; padding: 10px; background: #eff5ea; }
+
+
+/* Subscription Product page */
+.subscription-product.product-options { padding:0; border:none; margin: 0 0 15px;}
+.subscription-product .price-notice {color: #3399cc;}
+.subscription-product.product-options ul.options-list label {width:auto;}
+.subscription-product .options-list li { padding-bottom: 10px; }
+.subscription-product .options-list .radio { font-size: 14px !important; }
+.subscription-product .options-list .radio, .subscription-product .options-list .radio-text { float: left; margin-right: 9px; }
+.subscription-product .options-list .price { font-weight: bold; }
+.subscription-product .options-list p { margin: 2px; }
+
+
+/* Subscription Lightbox */
+#modal_overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url(../images/autoship/white_trans.png);
+	z-index: 900;
+	display: none;
+}
+
+.subscription-blocks div.adjust {
+	position: absolute;
+	z-index: 999;
+	display: none;
+	border: 1px solid #d9d9d9;
+	-webkit-box-shadow: 0 5px 20px 0 #e6e6e6;
+	box-shadow: 0 5px 20px 0 #e6e6e6;
+	background: #ffffff url(../images/autoship/bkg_block.gif) repeat-x center bottom;
+}
+@media only screen and (min-width: 771px) {
+    .subscription-blocks div.adjust {
+	    left: 33% !important;
+    }
+}
+.subscription-blocks .adjust .block-title {
+	padding: 5px 12px;
+	border-bottom: 1px solid #d9d9d9;
+	background: url(../images/autoship/bkg_thead.gif) repeat-x;
+}
+.subscription-blocks .adjust .block-title h2 {
+	text-transform: uppercase;
+	font-size: 11px;
+	padding-bottom: 0;
+}
+.subscription-blocks .adjust .block-content { padding: 20px; }
+
+.subscription-blocks .adjust .next-order-date { font-size: 22px; }
+
+.subscription-blocks .change .form-list select { width: 300px; }
+.subscription-blocks .adjust .form-list input.input-text, .subscription-lightbox-background .adjust .form-list textarea {  }
+.subscription-blocks .adjust .buttons-set { padding: 0 15px 0 0 }
+.subscription-blocks .adjust .form-list .input-box {  }
+.subscription-blocks .adjust p.required { width: auto; }
+
+.subscription-blocks .adjust .messages { margin-top: 0; }
+.subscription-blocks .adjust label { font-size: 12px; font-weight: bold; }
+.subscription-blocks .adjust dt { padding-bottom: 6px; }
+
+.subscription-blocks .adjust .new-cc-form-list label { width: 160px; }
+.subscription-blocks .adjust .new-cc-form-list select { width: auto; margin-right: 4px; }
+.subscription-blocks .adjust .new-cc-form-list input.input-text, .subscription-lightbox-background .adjust .new-cc-form-list textarea { width: auto; }
+.subscription-blocks .adjust .new-cc-form-list .input-box { float: left; }
+
+
+/* Cart page */
+
+.cart .subscription-product { width: auto; padding-top: 4px; }
+.cart .subscription-product .options-list { padding-top: 2px; }
+.cart .subscription-product .options-list li { padding-bottom: 6px; }
+.cart .subscription-product .options-list .radio, .cart .subscription-product .options-list .radio-text { line-height: 18px; }
+.cart .subscription-product .options-list .radio { cursor: pointer; }
+.cart .subscription-product .options-list p { margin: 0; }
+.cart .subscription-product .options-list label { background-color: transparent; }
+.cart .subscription-product .options-list { background-color: #f4f4f4; }
+
+
+/* Front-end credit card iframe styles */
+
+.spreedly-input {
+	position: relative;
+	width: 365px;
+	max-width: 100%;
+	border-radius: 2px;
+	border: 1px solid silver;
+	background: #FFFFFF;
+	height:32px;
+	padding:5px;
+}
+
+.spreedly-input iframe {
+	height: 19px;
+}
+
+.subscribepro-cc-form input[type="text"].input-error,
+.subscribepro-cc-form .spreedly-input.input-error {
+	border-color:red;
+}
+
+.spreedly-input.spreedly-number-container .card-image {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	height: 26px;
+	width: 41px;
+	border-radius: 2px;
+	background-image: none;
+	background-position: 0 0;
+	background-size: 41px 26px;
+	pointer-events: none;
+	box-sizing: border-box;
+	border: none;
+}
+
+/*
+ * Frontend Apple Pay Button Styles
+ */
+
+/* Styles Provided by Apple */
+@supports (-webkit-appearance: -apple-pay-button) {
+	.apple-pay-button-with-text {
+		display: inline-block;
+		-webkit-appearance: -apple-pay-button;
+		-apple-pay-button-type: buy;
+	}
+
+	.apple-pay-button-with-text > * {
+		display: none;
+	}
+
+	.apple-pay-button-black-with-text {
+		-apple-pay-button-style: black;
+	}
+	.apple-pay-button-white-with-text {
+		-apple-pay-button-style: white;
+	}
+	.apple-pay-button-white-with-line-with-text {
+		-apple-pay-button-style: white-outline;
+	}
+}
+@supports not (-webkit-appearance: -apple-pay-button) {
+	.apple-pay-button-with-text {
+		--apple-pay-scale: 1; /* (height / 32) */
+		display: inline-flex;
+		justify-content: center;
+		font-size: 12px;
+		border-radius: 5px;
+		padding: 0px;
+		box-sizing: border-box;
+		min-width: 200px;
+		min-height: 32px;
+		max-height: 64px;
+	}
+	.apple-pay-button-black-with-text {
+		background-color: black;
+		color: white;
+	}
+	.apple-pay-button-white-with-text {
+		background-color: white;
+		color: black;
+	}
+	.apple-pay-button-white-with-line-with-text {
+		background-color: white;
+		color: black;
+		border: .5px solid black;
+	}
+	.apple-pay-button-with-text.apple-pay-button-black-with-text > .apple-pay-logo {
+		background-image: -webkit-named-image(apple-pay-logo-white);
+		background-color: black;
+	}
+	.apple-pay-button-with-text.apple-pay-button-white-with-text > .apple-pay-logo {
+		background-image: -webkit-named-image(apple-pay-logo-black);
+		background-color: white;
+	}
+	.apple-pay-button-with-text.apple-pay-button-white-with-line-with-text > .apple-pay-logo {
+		background-image: -webkit-named-image(apple-pay-logo-black);
+		background-color: white;
+	}
+	.apple-pay-button-with-text > .apple-pay-text {
+		font-family: -apple-system;
+		font-size: calc(1em * var(--apple-pay-scale));
+		font-weight: 300;
+		align-self: center;
+		margin-right: calc(2px * var(--apple-pay-scale));
+	}
+	.apple-pay-button-with-text > .apple-pay-logo {
+		width: calc(35px * var(--scale));
+		height: 100%;
+		background-size: 100% 60%;
+		background-repeat: no-repeat;
+		background-position: 0 50%;
+		margin-left: calc(2px * var(--apple-pay-scale));
+		border: none;
+	}
+}
+
+/* Magento specific Apple Pay Styles */
+.apple-pay-button, .apple-pay-button-with-text {
+	height: 33px;
+}

@@ -1,0 +1,235 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+use \SubscribePro\Service\Address\AddressInterface;
+
+/** @var \SubscribePro\Service\Subscription\SubscriptionInterface $subscription */
+$subscription = $this->getSubscription();
+/** @var array $addresses */
+$addresses = $this->getCustomerAddresses();
+/** @var AddressInterface $selectedAddress */
+$selectedAddress = $this->getShippingAddress();
+$countries = $this->getCountryOptions();
+?>
+
+<form id="shipping-form-<?php echo $subscription->getId() ?>" class="shipping-form"
+      action="<?php echo Mage::getUrl('autoship/mysubscriptions/change', array('_secure' => true)) ?>">
+
+    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+
+    <input type="hidden" name="subscription_id" id="subscription_id_<?php echo $subscription->getId() ?>"
+           value="<?php echo $subscription->getId() ?>"/>
+
+    <fieldset>
+        <dl>
+            <?php /** @var AddressInterface $address */ ?>
+            <?php foreach ($addresses as $address): ?>
+                <dt>
+                    <?php
+                    $isSelected = $address->getId() == $selectedAddress->getId();
+                    ?>
+                    <input
+                        id="address_id_<?php echo $address->getId() ?>_subscription_<?php echo $subscription->getId() ?>"
+                        name="shipping_address_id"
+                        value="<?php echo $address->getId() ?>"
+                        type="radio"
+                        title="<?php echo $address->getId() ?>"
+                        class="radio"
+                        data-new-address-form="new-address-form-<?php echo $subscription->getId() ?>"
+                        <?php if ($isSelected): ?>checked="checked"<?php endif; ?>
+                    />
+                    <label for="address_id_<?php echo $address->getId() ?>">
+                        <?php echo $this->escapeHtml($this->formatAddress($address)) ?>
+                    </label>
+                </dt>
+                <dd>
+                </dd>
+            <?php endforeach; ?>
+            <dt>
+                <input
+                    id="address_id_new_subscription_<?php echo $subscription->getId() ?>"
+                    name="shipping_address_id"
+                    value="new"
+                    type="radio"
+                    title="New Address"
+                    class="radio"
+                    data-new-address-form="new-address-form-<?php echo $subscription->getId() ?>"
+                />
+                <label for="address_id_new">
+                    <?php echo $this->__("Enter a New Address") ?>
+                </label>
+            </dt>
+            <dd id="new-address-form-<?php echo $subscription->getId() ?>" style="display: none;">
+                <ul>
+                    <li class="fields">
+                        <div class="field">
+                            <label
+                                for="<?php echo $subscription->getId() ?>:new_shipping_address:firstname"
+                                class="required"><em>*</em><?php echo $this->__('First Name') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" id="<?php echo $subscription->getId() ?>:new_shipping_address:first_name"
+                                       name="new_shipping_address[first_name]" title="<?php echo $this->__('First Name') ?>"
+                                       class="input-text"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label
+                                for="<?php echo $subscription->getId() ?>:new_shipping_address:last_name"
+                                class="required"><em>*</em><?php echo $this->__('Last Name') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" id="<?php echo $subscription->getId() ?>:new_shipping_address:last_name"
+                                       name="new_shipping_address[last_name]" title="<?php echo $this->__('Last Name') ?>"
+                                       class="input-text"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label
+                                for="<?php echo $subscription->getId() ?>:new_shipping_address:company"><?php echo $this->__('Company') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" id="<?php echo $subscription->getId() ?>:new_shipping_address:company"
+                                       name="new_shipping_address[company]" title="<?php echo $this->__('Company') ?>"
+                                       class="input-text"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="wide">
+                        <label for="<?php echo $subscription->getId() ?>:new_shipping_address:street1"
+                               class="required"><em>*</em><?php echo $this->__('Address') ?></label>
+
+                        <div class="input-box">
+                            <input type="text" title="<?php echo $this->__('Street Address') ?>"
+                                   name="new_shipping_address[street1]"
+                                   id="<?php echo $subscription->getId() ?>:new_shipping_address:street1"
+                                   class="input-text"/>
+                        </div>
+                    </li>
+                    <li class="wide">
+                        <div class="input-box">
+                            <input type="text" title="<?php echo $this->__('Street Address Line 2') ?>"
+                                   name="new_shipping_address[street2]"
+                                   id="<?php echo $subscription->getId() ?>:new_shipping_address:street2"
+                                   class="input-text"/>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="<?php echo $subscription->getId() ?>:new_shipping_address:city"
+                                   class="required"><em>*</em><?php echo $this->__('City') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('City') ?>" name="new_shipping_address[city]"
+                                       class="input-text"
+                                       id="<?php echo $subscription->getId() ?>:new_shipping_address:city"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="<?php echo $subscription->getId() ?>:new_shipping_address:region_id"
+                                   class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+
+                            <div class="input-box">
+                                <select id="<?php echo $subscription->getId() ?>:new_shipping_address:region_id"
+                                        name="new_shipping_address[region_id]" title="<?php echo $this->__('State/Province') ?>"
+                                        class="validate-select" style="display:none;">
+                                    <option
+                                        value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                                </select>
+                                <input type="text" id="<?php echo $subscription->getId() ?>:new_shipping_address:region"
+                                       name="new_shipping_address[region]" title="<?php echo $this->__('State/Province') ?>"
+                                       class="input-text"
+                                       style="display:none;"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="<?php echo $subscription->getId() ?>:new_shipping_address:postcode"
+                                   class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>"
+                                       name="new_shipping_address[postcode]"
+                                       id="<?php echo $subscription->getId() ?>:new_shipping_address:postcode"
+                                       class="input-text validate-zip-international"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="<?php echo $subscription->getId() ?>:new_shipping_address:country"
+                                   class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+
+                            <div class="input-box">
+                                <select id="<?php echo $subscription->getId() ?>:new_shipping_address:country"
+                                        class="" name="new_shipping_address[country]" title="Country">
+                                    <?php foreach ($countries as $country) : ?>
+                                        <option
+                                            value="<?php echo $country['value']; ?>"> <?php echo $country['label']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <div class="field">
+                            <label for="<?php echo $subscription->getId() ?>:new_shipping_address:phone"
+                                   class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+
+                            <div class="input-box">
+                                <input type="text" name="new_shipping_address[phone]"
+                                       title="<?php echo $this->__('Telephone') ?>"
+                                       class="input-text"
+                                       id="<?php echo $subscription->getId() ?>:new_shipping_address:phone"/>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            </dd>
+        </dl>
+    </fieldset>
+
+
+    <div class="buttons-set" id="shipping-buttons-container-<?php echo $subscription->getId() ?>">
+        <button type="submit" title="<?php echo $this->__('Continue') ?>" class="button">
+            <span><span><?php echo $this->__('Continue') ?></span></span></button>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function () {
+        var shippingForm<?php echo $subscription->getId() ?> = new VarienForm('shipping-form-<?php echo $subscription->getId() ?>');
+        var shippingAddressRegionUpdater<?php echo $subscription->getId() ?> = new RegionUpdater(
+            '<?php echo $subscription->getId() ?>:new_shipping_address:country',
+            '<?php echo $subscription->getId() ?>:new_shipping_address:region',
+            '<?php echo $subscription->getId() ?>:new_shipping_address:region_id',
+            regionsJson,
+            undefined,
+            '<?php echo $subscription->getId() ?>:new_shipping_address:postcode'
+        );
+    });
+    //]]>
+</script>

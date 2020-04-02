@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+-->
+<layout version="0.1.0">
+
+    <!-- My Product Subscriptions page -->
+    <autoship_mysubscriptions_index>
+        <label>My Product Subscriptions</label>
+        <update handle="customer_account" />
+
+        <reference name="head">
+            <action method="setTitle" translate="title" module="autoship"><title>My Product Subscriptions</title></action>
+        </reference>
+
+        <reference name="customer_account_navigation">
+            <action method="setActive"><path>autoship/mysubscriptions/</path></action>
+        </reference>
+    </autoship_mysubscriptions_index>
+
+    <autoship_mysubscriptions_index_native>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/autoship.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/ui/jquery.ui.core.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/ui/jquery.ui.datepicker.min.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>js/autoship/jquery/ui/theme/jquery-ui.css</name></action>
+
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/mysubscription.js</name></action>
+
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
+
+        <reference name="my.account.wrapper">
+            <block type="autoship/mysubscriptions" name="mysubscriptions" template="autoship/mysubscriptions.phtml" />
+        </reference>
+    </autoship_mysubscriptions_index_native>
+
+    <autoship_mysubscriptions_index_hosted>
+        <reference name="my.account.wrapper">
+            <block type="autoship/hosted_mysubscriptions" name="mysubscriptions" template="autoship/hosted/mysubscriptions.phtml" />
+        </reference>
+    </autoship_mysubscriptions_index_hosted>
+
+	<!-- Customer dashboard link -->
+	<customer_account>
+		<reference name="customer_account_navigation">
+			<action method="addLink" translate="label" module="autoship" ifconfig="autoship_general/general/enabled">
+                <name>mysubscriptions</name>
+                <path>autoship/mysubscriptions/</path>
+                <label>My Product Subscriptions</label>
+            </action>
+		</reference>
+	</customer_account>
+
+    <!-- Customer address book -->
+    <customer_address_index translate="label">
+        <block type="autoship/hosted_addressbook" name="hosted_addressbook" template="autoship/hosted/addressbook.phtml"/>
+
+        <reference name="my.account.wrapper">
+            <action method="append" ifconfig="autoship_subscription/hosted_features/use_hosted_address_book"><block>hosted_addressbook</block></action>
+        </reference>
+    </customer_address_index>
+
+    <!-- Product view -->
+    <catalog_product_view>
+	    <reference name="head">
+			<action method="addCss"><stylesheet>css/autoship.css</stylesheet></action>
+		</reference>
+
+    	<!-- Create subscribe and autoship block in product info area -->
+        <reference name="product.info">
+        	<block type="autoship/product_subscribe" name="product.info.subscribe" as="product.info.subscribe" template="autoship/product/subscribe.phtml"/>
+		</reference>
+
+    	<!-- Insert block into correct location in product info with insert method -->
+		<reference name="product.info.options.wrapper.bottom">
+			<action method="insert"><block>product.info.subscribe</block><siblingName>product.info.addtocart</siblingName></action>
+		</reference>
+
+    	<!-- Replace addtocart.phtml template with ours -->
+		<reference name="product.info.addtocart">
+			<action method="setTemplate"><template>autoship/product/view/addtocart.phtml</template></action>
+		</reference>
+
+    </catalog_product_view>
+
+    <!-- Add subscription features to cart page -->
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/autoship.css</stylesheet></action>
+        </reference>
+        <reference name="additional.product.info">
+            <block type="autoship/cart_product_subscription" name="autoship.product.subscription" template="autoship/cart/product/subscription.phtml"/>
+        </reference>
+    </checkout_cart_index>
+
+    <!-- Add message about subscriptions to checkout success page -->
+    <checkout_onepage_success translate="label">
+        <reference name="checkout.success">
+            <block type="core/template" name="checkout.success.subscriptions" template="autoship/checkout/success.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+
+    <!-- Payment Profile customer dashboard links -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="autoship" ifconfig="payment/subscribe_pro/active">
+                <name>mycreditcards</name>
+                <path>subscriptions/mycreditcards/</path>
+                <label>My Credit Cards</label>
+            </action>
+            <action method="addLink" translate="label" module="autoship" ifconfig="payment/subscribe_pro_echeck/active">
+                <name>mybankaccounts</name>
+                <path>subscriptions/mybankaccounts/</path>
+                <label>My Bank Accounts</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <!-- Payment Profile grid-->
+    <autoship_mycreditcards_index>
+        <label>Payment Profiles</label>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>subscriptions/mycreditcards/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="autoship/payment_profile_grid" name="payment_profile_index"
+                   template="autoship/payment/profile/grid.phtml"/>
+        </reference>
+    </autoship_mycreditcards_index>
+
+    <!-- Edit Payment Profile -->
+    <autoship_mycreditcards_edit>
+        <label>Edit Payment Profile</label>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>subscriptions/mycreditcards/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="autoship/payment_profile_edit" name="payment_profile_edit"
+                   template="autoship/payment/profile/edit.phtml">
+            </block>
+        </reference>
+    </autoship_mycreditcards_edit>
+
+    <!-- New Payment Profile -->
+    <autoship_mycreditcards_new>
+        <label>New Payment Profile</label>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/autoship.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
+            <block type="core/template" name="iframe.scripts" template="autoship/payment/profile/iframescripts.phtml" after="-"/>
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>subscriptions/mycreditcards/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="autoship/payment_profile_edit" name="payment_profile_edit"
+                   template="autoship/payment/profile/new.phtml">
+            </block>
+        </reference>
+    </autoship_mycreditcards_new>
+
+    <!-- eCheck Payment Profile grid-->
+    <autoship_mybankaccounts_index>
+        <label>My Saved Bank Accounts</label>
+        <update handle="customer_account" />
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>subscriptions/mybankaccounts/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="autoship/echeck_profile_grid" name="echeck_profile_index" template="autoship/echeck/profile/grid.phtml" />
+        </reference>
+    </autoship_mybankaccounts_index>
+
+    <!-- New eCheck Payment Profile -->
+    <autoship_mybankaccounts_new>
+        <label>New Payment Profile</label>
+        <update handle="customer_account" />
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>subscriptions/mybankaccounts/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="autoship/echeck_profile_new" name="echeck_profile_new" template="autoship/echeck/profile/new.phtml" />
+        </reference>
+    </autoship_mybankaccounts_new>
+
+    <!-- Include credit card iframe assets in one page checkout -->
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/autoship.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="autoship/checkout_iframescripts" name="iframe.scripts" template="autoship/checkout/iframescripts.phtml" after="-"/>
+        </reference>
+    </checkout_onepage_index>
+
+    <!-- EE Only, ensure the gift card function is not hiding subscribe pro -->
+    <checkout_onepage_paymentmethod>
+        <reference name="giftcardaccount_scripts">
+            <action method="setTemplate"><template>autoship/giftcardaccount/onepage/payment/scripts.phtml</template></action>
+        </reference>
+    </checkout_onepage_paymentmethod>
+
+    <!-- Apple Pay checkout through the cart page -->
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/autoship/applepay.js</name></action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="autoship/applepay_scripts" name="checkout.cart.applepay.scripts" template="autoship/applepay/scripts.phtml" />
+        </reference>
+        <reference name="checkout.cart.top_methods">
+            <block type="core/template" name="checkout.cart.methods.onepage.top.applepay" template="autoship/applepay/button.phtml" before="-" />
+        </reference>
+        <reference name="checkout.cart.methods">
+            <block type="core/template" name="checkout.cart.methods.onepage.bottom.applepay" template="autoship/applepay/button.phtml" after="checkout.cart.methods.onepage.bottom" />
+        </reference>
+    </checkout_cart_index>
+
+</layout>

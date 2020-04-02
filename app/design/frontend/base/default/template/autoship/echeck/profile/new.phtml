@@ -1,0 +1,84 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile */
+$paymentProfile = $this->getPaymentProfile();
+$countries = Mage::getResourceModel('directory/country_collection')->loadByStore()->toOptionArray();
+?>
+
+<div class="page-title">
+	<h1><?php echo $this->getTitle(); ?></h1>
+</div>
+
+
+<form id="edit_form" accept-charset="UTF-8" action="<?php echo $this->getSaveUrl() ?>" method="POST">
+    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    <input type="hidden" id="apply_to_subscription_id" name="payment_profile[apply_to_subscription_id]" value="<?php echo $this->getApplyToSubscriptionId() ?>"/>
+	<div class="fieldset">
+		<h2 class="legend"><?php echo $this->__("Payment Information") ?></h2>
+		<ul class="form-list">
+            <li class="wide">
+                <div class="">
+                    <label for="bank_routing_number" class="required"><em>*</em><?php echo $this->__("Routing Number") ?></label>
+
+                    <div class="input-box">
+                        <input type="text" id="account_number" name="payment_profile[bank_routing_number]"
+                               class="input-text" />
+                    </div>
+                </div>
+            </li>
+            <li class="wide">
+                <div class="">
+                    <label for="account_number" class="required"><em>*</em><?php echo $this->__("Account Number") ?></label>
+
+                    <div class="input-box">
+                        <input type="text" id="bank_account_number" name="payment_profile[bank_account_number]"
+                               class="input-text" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="bank_account_type" ><?php echo $this->__('Account Type') ?></label>
+                <div class="input-box">
+                    <select id="bank_account_type" name="payment_profile[bank_account_type]">
+                        <option value="checking"><?php echo $this->__('Checking') ?></option>
+                        <option value="savings"><?php echo $this->__('Savings') ?></option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="bank_account_holder_type"><?php echo $this->__('Account Holder Type') ?></label>
+                <div class="input-box">
+                    <select id="bank_account_holder_type" name="payment_profile[bank_account_holder_type]">
+                        <option value="personal"><?php echo $this->__('Personal') ?></option>
+                        <option value="business"><?php echo $this->__('Business') ?></option>
+                    </select>
+                </div>
+            </li>
+		</ul>
+	</div>
+
+	<div class="buttons-set form-buttons">
+		<p class="back-link"><a href="<?php echo $this->getBackUrl() ?>">
+				<small>&#171;</small>
+				<?php echo $this->__("Back") ?></a></p>
+        <button type="submit" class="button" title="Save">
+            <span><span><?php echo $this->__("Save Bank Account") ?></span></span>
+        </button>
+	</div>
+</form>

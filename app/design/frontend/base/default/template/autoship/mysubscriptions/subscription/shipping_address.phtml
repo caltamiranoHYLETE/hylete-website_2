@@ -1,0 +1,65 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var \SubscribePro\Service\Subscription\SubscriptionInterface $subscription */
+$subscription = $this->getSubscription();
+$shippingAddress = $subscription->getShippingAddress();
+?>
+<?php if ($subscription->getRequiresShipping()): ?>
+<div class="block subscription-shipping-address">
+    <p><strong><?php echo $this->__("Delivery address:") ?></strong> <a class="adjust" href=""><?php echo $this->__("(Change)") ?></a></p>
+    <address>
+        <?php echo $shippingAddress->getFirstName() ?> <?php echo $shippingAddress->getLastName() ?><br/>
+        <?php if (strlen($shippingAddress->getCompany())): ?>
+            <?php echo $shippingAddress->getCompany() ?><br/>
+        <?php endif; ?>
+        <?php if (strlen($shippingAddress->getStreet1())): ?>
+            <?php echo $shippingAddress->getStreet1() ?><br/>
+        <?php endif; ?>
+        <?php if (strlen($shippingAddress->getStreet2())): ?>
+            <?php echo $shippingAddress->getStreet2() ?><br/>
+        <?php endif; ?>
+        <?php if (strlen($shippingAddress->getCity())): ?>
+            <?php echo $shippingAddress->getCity() ?>,
+        <?php endif; ?>
+        <?php if (strlen($shippingAddress->getRegion())): ?>
+            <?php echo $shippingAddress->getRegion() ?>
+        <?php endif; ?>
+        <?php echo $shippingAddress->getPostcode() ?><br/>
+    </address>
+
+    <input type="text" id="shipping_address_id" name="shipping_address_id" value="<?php echo $shippingAddress->getId() ?>"
+           class="input-text" style="display:none;"/>
+
+    <div class="adjust" style="display: none;">
+        <div class="block-title">
+            <h2><?php echo $this->__("Change Shipping Address") ?></h2>
+        </div>
+        <div class="block-content">
+            <?php
+            // Output shipping address form
+            echo $this
+                ->createChildSubscriptionBlock(
+                    'autoship/mysubscriptions_subscription_form_shipping',
+                    'autoship/mysubscriptions/subscription/form/shipping.phtml')
+                ->toHtml();
+            ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

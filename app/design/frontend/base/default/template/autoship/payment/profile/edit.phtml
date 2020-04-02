@@ -1,0 +1,100 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php
+/** @var SubscribePro\Service\PaymentProfile\PaymentProfileInterface $paymentProfile */
+$paymentProfile = $this->getPaymentProfile();
+$countries = Mage::getResourceModel('directory/country_collection')->loadByStore()->toOptionArray();
+?>
+
+<div class="page-title">
+    <h1><?php echo $this->getTitle(); ?></h1>
+</div>
+
+<form id="edit_form" accept-charset="UTF-8" action="<?php echo $this->getSaveUrl() ?>" method="POST">
+    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    <input name="payment_profile_id" type="hidden" value="<?php echo $paymentProfile->getId() ?>" />
+
+<div class="fieldset">
+    <h2 class="legend"><?php echo $this->__("Payment Information") ?></h2>
+    <ul class="form-list">
+        <li>
+            <label for="card_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+            <div class="input-box">
+                <select id="card_type" name="card_type" disabled="disabled" style="background-color: rgb(235, 235, 228);">
+                    <option value=""><?php echo $this->__('--Please Select--') ?></option>
+                    <?php $_ccType = $paymentProfile->getCreditcardType(); ?>
+                    <?php foreach ($this->getCcAvailableTypesSubscribeProFormat() as $_typeCode => $_typeName): ?>
+                        <option value="<?php echo $_typeCode ?>"<?php if ($_typeCode == $_ccType
+                        ): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+        </li>
+        <li class="wide">
+            <div class="">
+                <label for="card_number" class="required"><em>*</em><?php echo $this->__("Card Number") ?></label>
+
+                <div class="input-box">
+                    <input type="text" id="card_number" name="credit_card[number]"  disabled="disabled"
+                           value="<?php echo $this->escapeHtml('XXXX' . $paymentProfile->getCreditcardLastDigits()) ?>"
+                           class="input-text" style="background-color: rgb(235, 235, 228);"/>
+                </div>
+            </div>
+        </li>
+        <li class="fields">
+            <div class="field name-firstname">
+                <label for="cc_exp_month" class="required"><em>*</em><?php echo $this->__('Expiration Month') ?></label>
+
+                <div class="input-box">
+                    <select id="cc_exp_month" name="creditcard_month" class="validate-month required-entry">
+                        <?php $_ccExpMonth = $paymentProfile->getCreditcardMonth() ?>
+                        <?php foreach ($this->getCcMonths() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpMonth
+                            ): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="field name-lastname">
+                <label for="cc_exp_year" class="required"><em>*</em><?php echo $this->__('Expiration Year') ?></label>
+
+                <div class="input-box">
+                    <?php $_ccExpYear = $paymentProfile->getCreditcardYear() ?>
+                    <select id="cc_exp_year" name="creditcard_year" class="year required-entry validate-year">
+                        <?php foreach ($this->getCcYears() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpYear
+                            ): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="buttons-set form-buttons">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>">
+            <small>&#171;</small>
+<?php echo $this->__("Back") ?></a></p>
+    <?php if (!strlen($paymentProfile->getThirdPartyPaymentToken())): ?>
+    <button type="submit" class="button" title="Save">
+        <span><span><?php echo $this->__("Save Credit Card") ?></span></span>
+    </button>
+    <?php endif; ?>
+</div>
+</form>

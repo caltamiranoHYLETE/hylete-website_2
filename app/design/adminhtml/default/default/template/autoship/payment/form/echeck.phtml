@@ -1,0 +1,53 @@
+<?php
+/**
+ * Subscribe Pro - Subscriptions Management Extension
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to commercial source code license of SUBSCRIBE PRO INC.
+ *
+ * @category  SubscribePro
+ * @package   SubscribePro_Autoship
+ * @author    Subscribe Pro Support <support@subscribepro.com>
+ * @copyright 2009-2020 SUBSCRIBE PRO INC. All Rights Reserved.
+ * @license   http://www.subscribepro.com/terms-of-service/ Subscribe Pro Terms of Service
+ * @link      http://www.subscribepro.com/
+ *
+ */
+?>
+<?php $_code=$this->getMethodCode() ?>
+<ul id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <input type="hidden" id="<?php echo $_code ?>_is_new_echeck" name="payment[is_new_echeck]"
+           title="<?php echo $this->__('Is New eCheck') ?>" value="1"/>
+    <li>
+        <label for="<?php echo $_code ?>_bank_routing_number"><?php echo $this->__('Routing Number') ?><span class="required"><em>*</em></span></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_bank_routing_number" name="payment[bank_routing_number]" title="<?php echo $this->__('Routing Number') ?>" class="input-text required-entry" value="" style="width:200px;" />
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_code ?>_bank_account_number"><?php echo $this->__('Account Number') ?><span class="required"><em>*</em></span></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_bank_account_number" name="payment[bank_account_number]" title="<?php echo $this->__('Account Number') ?>" class="input-text required-entry" value="" style="width:200px;" />
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_code ?>_bank_account_type"><?php echo $this->__('Account Type') ?><span class="required"><em>*</em></span></label>
+        <div class="input-box">
+            <select id="<?php echo $_code ?>_bank_account_type" name="payment[bank_account_type]" class="required-entry">
+                <option value="checking"><?php echo $this->__('Checking') ?></option>
+                <option value="savings"><?php echo $this->__('Savings') ?></option>
+            </select>
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_code ?>_bank_account_holder_type"><?php echo $this->__('Account Holder Type') ?><span class="required"><em>*</em></span></label>
+        <div class="input-box">
+            <select id="<?php echo $_code ?>_bank_account_holder_type" name="payment[bank_account_holder_type]" class="required-entry">
+                <option value="personal"><?php echo $this->__('Personal') ?></option>
+                <option value="business"><?php echo $this->__('Business') ?></option>
+            </select>
+        </div>
+    </li>
+</ul>
+
