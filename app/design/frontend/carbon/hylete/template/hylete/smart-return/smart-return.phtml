@@ -1,17 +1,21 @@
 <?php
 
-    if($_SERVER['REMOTE_ADDR'] != "98.186.225.197") {
-       //we throw a small javascript password protection up.
-        ?>
-        <script type="text/javascript">
-            var password = 'Whitehorse7'
-            var retVal = prompt("HYLETE Administrators Only. Enter your password: ", "");
-            if(retVal !== password)
-            {
-                location.assign('');
-            }
-        </script>
-        <?php
-	}
+$allowed = array("99.50.204.234", "98.186.225.197");
+
+if (!in_array($_SERVER['REMOTE_ADDR'], $allowed)) {
+
+	//we throw a small javascript password protection up.
+	?>
+    <script type="text/javascript">
+        var password = 'Whitehorse7'
+        var retVal = prompt("HYLETE Administrators Only. Enter your password: ", "");
+        if(retVal !== password)
+        {
+            location.assign('');
+        }
+    </script>
+	<?php
+}
 
 ?>
+}    
