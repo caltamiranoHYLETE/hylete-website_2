@@ -17,14 +17,15 @@
 ?>
 <?php $_code = $this->getMethodCode() ?>
 <?php $_billingAddress = $this->getBillingAddress() ?>
-
+<div>
+    <?php   echo $this->getLayout()->createBlock('cms/block')->setBlockId('sp-payment-method-note')->toHtml(); ?>
+</div>
 <ul class="form-list subscribepro-cc-form" id="payment_form_<?php echo $_code ?>" style="display:none;">
-
     <input type="hidden" id="<?php echo $_code ?>_payment_token" name="payment[payment_token]" title="<?php echo $this->__('Payment Token') ?>" value="" />
     <input type="hidden" id="<?php echo $_code ?>_is_new_card" name="payment[is_new_card]" title="<?php echo $this->__('Is New Card') ?>" value="1" />
     <input type="hidden" id="<?php echo $_code ?>_firstname" name="payment[firstname]" title="<?php echo $this->__('firstname') ?>" value="<?php echo $_billingAddress->getData('firstname') ?>" />
     <input type="hidden" id="<?php echo $_code ?>_lastname" name="payment[lastname]" title="<?php echo $this->__('lastname') ?>" value="<?php echo $_billingAddress->getData('lastname') ?>" />
-    <input id="<?php echo $_code ?>_cc_number" type="hidden" name="payment[cc_number]" value="" />
+    <input id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" type="hidden" value="" style="visibility: hidden" />
     <input id="<?php echo $_code ?>_cc_exp_month" name="payment[cc_exp_month]" type="hidden" value="" />
     <input id="<?php echo $_code ?>_cc_exp_year" name="payment[cc_exp_year]" type="hidden" value="" />
     <input id="<?php echo $_code ?>_cc_card_type" name="payment[cc_card_type]" type="hidden" value="" />

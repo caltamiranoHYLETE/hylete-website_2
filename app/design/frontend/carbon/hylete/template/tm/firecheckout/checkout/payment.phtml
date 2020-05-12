@@ -45,10 +45,11 @@
     </script>
 
     <?php
-        $j2tRewardPoints = $this->getLayout()->getBlock('checkout_cart_coupon_normal');
+        $spProduct = Mage::helper('autoship/quote')->hasProductsToCreateNewSubscription();
+        $j2tRewardPoints = ($spProduct == true ? false : $this->getLayout()->getBlock('checkout_cart_coupon_normal'));
         $coupon = trim($this->getChildHtml('coupon'));
         $canShowCouponForm = Mage::getStoreConfigFlag('firecheckout/general/discount'); // Inline check to reverse effects of Amasty_Coupons block rewrite
-        $giftcard = trim($this->getChildHtml('giftcard'));
+        $giftcard = ($spProduct == true ? false : trim($this->getChildHtml('giftcard')));
 
         $checkboxState = Mage::getStoreConfig('firecheckout/general/discount_checkbox_state');
     ?>

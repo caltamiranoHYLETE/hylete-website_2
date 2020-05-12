@@ -219,7 +219,16 @@ abstract class Mage_Api2_Model_Resource
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
                     $this->_errorIfMethodNotExist('_create');
+                    $password = isset($requestData['password']) ? $requestData['password'] : "";
                     $filteredData = $this->getFilter()->in($requestData);
+                    Mage::log(__FILE__.__LINE__, null, 'api-customer-create.log', true);
+                    Mage::log(print_r($filteredData,1), null, 'api-customer-create.log', true);
+                    if (empty($filteredData)) {
+                        $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+                    }
+                    if ($password) {
+                        $filteredData['password'] = $password;
+                        }
                     if (empty($filteredData)) {
                         $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
                     }

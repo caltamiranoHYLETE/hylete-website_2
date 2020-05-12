@@ -722,6 +722,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function forgotPasswordPostAction()
     {
         $email = (string) $this->getRequest()->getPost('email');
+        $appForm = (string) $this->getRequest()->getPost('app-forgotpassword-form');
         if ($email) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);

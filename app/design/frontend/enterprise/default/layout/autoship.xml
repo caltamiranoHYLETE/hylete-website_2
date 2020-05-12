@@ -171,7 +171,7 @@
         <update handle="customer_account"/>
         <reference name="head">
             <action method="addItem"><type>skin_css</type><name>css/autoship.css</name></action>
-            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+<!--            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>-->
             <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
             <block type="core/template" name="iframe.scripts" template="autoship/payment/profile/iframescripts.phtml" after="-"/>
         </reference>
@@ -219,13 +219,23 @@
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem"><type>skin_css</type><name>css/autoship.css</name></action>
-            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+<!--            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>-->
             <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
         </reference>
         <reference name="content">
             <block type="autoship/checkout_iframescripts" name="iframe.scripts" template="autoship/checkout/iframescripts.phtml" after="-"/>
         </reference>
     </checkout_onepage_index>
+    <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/autoship.css</name></action>
+<!--            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>-->
+            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="autoship/checkout_iframescripts" name="iframe.scripts" template="autoship/checkout/iframescripts.phtml" after="-"/>
+        </reference>
+    </firecheckout_index_index>
 
     <!-- EE Only, ensure the gift card function is not hiding subscribe pro -->
     <checkout_onepage_paymentmethod>
@@ -237,7 +247,7 @@
     <!-- Apple Pay checkout through the cart page -->
     <checkout_cart_index>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>
+<!--            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name></action>-->
             <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name></action>
             <action method="addItem"><type>skin_js</type><name>js/autoship/applepay.js</name></action>
         </reference>

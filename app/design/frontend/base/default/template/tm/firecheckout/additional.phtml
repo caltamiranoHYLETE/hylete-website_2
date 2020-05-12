@@ -1,5 +1,6 @@
 <?php
     $salesrep = Mage::getStoreConfig('salesrep/setup/enabled') && Mage::getStoreConfig('salesrep/step_setup/step_enabled');
+    $spProducts = Mage::helper('autoship/quote')->hasProductsToCreateNewSubscription();
     $showAttachment = false;
 ?>
 
@@ -7,7 +8,7 @@
     <?php $customer = Mage::getSingleton('customer/session')->getCustomer(); ?>
     <?php $customerCanUploadAttachment = Mage::helper('redpandaplus_orderattachments')->customerCanUploadAttachment($customer); ?>
     <?php $canAddAttachments = Mage::helper('redpandaplus_orderattachments')->getCanAddAttachments(); ?>
-    <?php if ($customerCanUploadAttachment && $canAddAttachments): ?>
+    <?php if ($customerCanUploadAttachment && $canAddAttachments ): ?>
         <?php $showAttachment = true; ?>
     <?php endif; ?>
 <?php endif; ?>
@@ -17,7 +18,9 @@
     <div id="checkout-additional" class="firecheckout-section">
         <div class="block-title"><span><?php echo $this->__('Additional Information') ?></span></div>
         <div class="block-content">
+            <?php if(!$spProducts) : ?>
             <?php echo $html ?>
+            <?php endif; ?>
 
             <?php if ($showAttachment) : ?>
                 <a href="javascript:void(0)" class="upload-attachment-link"><?php echo $this->__('Upload Attachments') ?></a>

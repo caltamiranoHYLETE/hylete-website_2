@@ -34,8 +34,11 @@ class Vaimo_AppApi_Model_Customer extends Vaimo_AppApi_Model_Abstract
 
         if ($details) {
             $email = $collection->getEmail();
+            $groupId = $collection->getGroupId();
             $defaultBillingId = $collection->getDefaultBilling();
             $defaultShippingId = $collection->getDefaultShipping();
+
+            $details[$customerId]['group_id'] = $groupId;
 
             $detailLevelExtended = ($detailLevel == Vaimo_AppApi_Helper_Data::APP_API_DETAIL_LEVEL_DEFAULT || $detailLevel == Vaimo_AppApi_Helper_Data::APP_API_DETAIL_LEVEL_FULL ? true : false);
 
@@ -48,6 +51,7 @@ class Vaimo_AppApi_Model_Customer extends Vaimo_AppApi_Model_Abstract
             if ($defaultShippingId && $detailLevelExtended) {
                 $details[$customerId]['default_shipping'] = $this->_getAddress($defaultShippingId)->toArray();
             }
+
         }
 
         return $details;

@@ -22,7 +22,7 @@
     <adminhtml_sales_order_create_index>
         <reference name="head">
             <action method="addItem"><type>skin_css</type><name>css/autoship.css</name><group>autoship</group></action>
-            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name><group>autoship</group></action>
+<!--            <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/jquery-1.10.1.min.js</name><group>autoship</group></action>-->
             <action method="addItem"><type>skin_js</type><name>js/autoship/jquery/noconflict.js</name><group>autoship</group></action>
         </reference>
         <reference name="js">

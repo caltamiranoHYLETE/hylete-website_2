@@ -1017,6 +1017,15 @@
                         </action>
                     </block>
                 </block>
+                <block type="core/text_list" name="section.customer.login.before" as="login_section_before-sp-product" translate="label">
+                    <label>Login Section Before</label>
+
+                    <block type="cms/block" name="above.login">
+                        <action method="setBlockId">
+                            <block_id>fire-checkout-login-copy-sp-product</block_id>
+                        </action>
+                    </block>
+                </block>
             </block>
         </reference>
 

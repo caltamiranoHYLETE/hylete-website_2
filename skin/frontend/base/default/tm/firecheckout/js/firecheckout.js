@@ -1393,7 +1393,9 @@ Payment.prototype = {
                 method = '';
             }
         }
-
+        if (method === 'subscribe_pro') {
+            paymentSwitchMethod(method);
+        }
         var elementTypes = ['input', 'select', 'textarea'];
 
         if (hideOldForm && this.currentMethod && $('payment_form_'+this.currentMethod + '_preencrypt')) {
