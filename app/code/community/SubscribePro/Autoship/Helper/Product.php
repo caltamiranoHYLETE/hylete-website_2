@@ -28,6 +28,7 @@ class SubscribePro_Autoship_Helper_Product extends Mage_Core_Helper_Abstract
      */
     public function isAvailableForSubscription($product, $store = null, $verifyApiConnection = true)
     {
+        Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
         // Lookup current store if not passed in
         if ($store == null) {
             $store = Mage::app()->getStore();

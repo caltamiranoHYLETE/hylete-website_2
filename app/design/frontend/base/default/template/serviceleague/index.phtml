@@ -332,6 +332,17 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
                    value="<?php echo $this->escapeHtml($userData['email']) ?>"
                    title="<?php echo $this->__('Email Address') ?>"
                    class="span4 input-text validate-email required-entry"/>
+            <div class="radiance-create-account-optin" >
+                <input type="checkbox" name="optin-checkbox-radiance" id="optin-checkbox-radiance" >
+                <label for="optin-checkbox-radiance">Sign Up For Text - Including Shipping Updates</label>
+                <input type="text" name="radiance-lab-create-account-optin" id="radiance-lab-create-account-optin"
+                       value=""
+                       placeholder="Enter Your Mobile Number"
+                       title="<?php echo $this->__('Enter Your Mobile Number') ?>"
+                       class="span4 input-text "
+                       style="display:none"
+                />
+            </div>
 
             <label for="password" class="required"><?php echo $this->__('Password'); ?> <span
                         class="required">*</span></label>
@@ -372,7 +383,7 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
 <script type="text/javascript">
     var registrationForm = new VarienForm('mcs-form-register-service-league', true);
 </script>
-<script>
+    <script type="text/javascript">
     jQuery("#mcs-form-register-service-league").submit(function(event){
         var pathname = window.opener.location.pathname;
 
@@ -406,6 +417,10 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
             console.log(response.error);
 
             if(response.success) {
+                if(jQuery('#radiance-lab-create-account-optin').val()){
+                    console.log('radiance-lab-create-account-optin');
+                    serviceLeagueOptin(jQuery('#radiance-lab-create-account-optin').val());
+                }
                 jQuery("#mcs-custom-loader-service-league .loader").hide();
                 jQuery("#mcs-custom-loader-service-league .message").html(response.message);
                 jQuery("#mcs-custom-loader-service-league .message").css("padding", "20px");
@@ -438,5 +453,18 @@ $customerExist = Mage::getSingleton('core/session')->getCustomerExist();
         daddy.close();
 
     }
+    function serviceLeagueOptin(phoneNumber){
+        console.log("optin service league text ");
+        console.log(phoneNumber);
+        RadianceLabs.linkSMS({opt_in_location:"service_league_create_account",command:"OptInDiscount",phone:phoneNumber});
+    }
+
 </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery('#optin-checkbox-radiance').click(function(){
+                jQuery('#radiance-lab-create-account-optin').toggle();
+            });
+        });
+    </script>
 <?php endif; ?>

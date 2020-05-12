@@ -557,13 +557,14 @@
         }
 
         public function _postRequest($request,$type=null){
+            return;
             $debug = array();
             $client= new MD_Cybersource_Model_Api_Soapclient();  // md for ws security we have to override soap  because we have to add username token in soap request         
             try{
                 $response = $client->runTransaction($request);
             }catch(SoapFault $sf){
                 Mage::log("Cybersource SOAP Request Error  : => $sf", null, 'MD_Cybersource_SOAPError.log', true);                                                
-                Mage::throwException(Mage::helper('md_cybersource')->__('Soap request error due to invalid configuration.'));
+                Mage::throwException(Mage::helper('md_cybersource')->__('local Soap request error due to invalid configuration.'));
             }catch(Exception $e){
                 $message=$e->getMessage();
                 Mage::log("Cybersource Exception Error Due to  : => $message", null, 'MD_Cybersource_Error.log', true);                                                

@@ -155,6 +155,7 @@ class SubscribePro_Autoship_Model_Observer
      */
     public function onCheckoutCartAddProductComplete(Varien_Event_Observer $observer)
     {
+        Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
         SubscribePro_Autoship::log('SubscribePro_Autoship_Model_Observer::onCheckoutCartAddProductComplete', Zend_Log::INFO);
 
         // Get store for config checks
@@ -332,6 +333,7 @@ class SubscribePro_Autoship_Model_Observer
     {
         SubscribePro_Autoship::log('SubscribePro_Autoship_Model_Observer::isAllowedGuestCheckout', Zend_Log::INFO);
 
+        Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
         // Get data from $observer
         /** @var Mage_Sales_Model_Quote $quote */
         $quote  = $observer->getData('event')->getQuote();
@@ -340,6 +342,7 @@ class SubscribePro_Autoship_Model_Observer
 
         // Check config to see if extension functionality is enabled
         if (Mage::getStoreConfig('autoship_general/general/enabled', $quote->getStore()) != '1') {
+            Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
             return $this;
         }
 
@@ -347,7 +350,9 @@ class SubscribePro_Autoship_Model_Observer
         /** @var SubscribePro_Autoship_Helper_Quote $quoteHelper */
         $quoteHelper = Mage::helper('autoship/quote');
         // Check if quote has any subscriptions in it
+        Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
         if($quoteHelper->hasProductsToCreateNewSubscription($quote)) {
+            Mage::log(__DIR__. " ".__LINE__, null, 'sp-checkout.log', true);
             // Quote has subscriptions, disable guest checkout
             $result->setData('is_allowed', false);
         }

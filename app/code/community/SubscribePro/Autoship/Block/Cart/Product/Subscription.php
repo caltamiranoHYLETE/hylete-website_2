@@ -91,6 +91,7 @@ class SubscribePro_Autoship_Block_Cart_Product_Subscription extends Mage_Core_Bl
     {
         $platformProduct = $this->getPlatformProduct();
 
+        return true;
         return ($platformProduct->getSubscriptionOptionMode());
     }
 

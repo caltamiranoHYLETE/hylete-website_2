@@ -41,10 +41,16 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
      */
     protected function _create(array $data)
     {
+        Mage::log(__FILE__.__LINE__, null, 'api-customer-create.log', true);
+        Mage::log(print_r($data,1), null, 'api-customer-create.log', true);
         /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
         $validator = Mage::getResourceModel('api2/validator_eav', array('resource' => $this));
 
+        $password = $data['password'];
         $data = $validator->filter($data);
+        $data['password'] = $password;
+        Mage::log(__FILE__.__LINE__, null, 'api-customer-create.log', true);
+        Mage::log(print_r($data,1), null, 'api-customer-create.log', true);
         if (!$validator->isValidData($data)) {
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -55,7 +61,7 @@ abstract class Mage_Customer_Model_Api2_Customer_Rest extends Mage_Customer_Mode
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('customer/customer');
         $customer->setData($data);
-
+        
         try {
             $customer->save();
         } catch (Mage_Core_Exception $e) {

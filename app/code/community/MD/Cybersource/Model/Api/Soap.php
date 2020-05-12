@@ -563,7 +563,7 @@
                 $response = $client->runTransaction($request);
             }catch(SoapFault $sf){
                 Mage::log("Cybersource SOAP Request Error  : => $sf", null, 'MD_Cybersource_SOAPError.log', true);                                                
-                Mage::throwException(Mage::helper('md_cybersource')->__('Soap request error due to invalid configuration.'));
+                Mage::throwException(Mage::helper('md_cybersource')->__('community Soap request error due to invalid configuration.'));
             }catch(Exception $e){
                 $message=$e->getMessage();
                 Mage::log("Cybersource Exception Error Due to  : => $message", null, 'MD_Cybersource_Error.log', true);                                                

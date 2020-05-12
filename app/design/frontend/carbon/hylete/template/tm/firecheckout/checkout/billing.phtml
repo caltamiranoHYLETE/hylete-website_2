@@ -1,4 +1,5 @@
 <?php
+    $spProducts = Mage::helper('autoship/quote')->hasProductsToCreateNewSubscription();
     $_address = $this->getAddress();
     $_prefix  = 'billing';
     if(null == $_address->getTelephone()){
@@ -284,6 +285,9 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                 <input type="hidden" name="billing[register_account]" value="1"/>
                             </li>
                         <?php endif ?>
+                    <?php if($spProducts) :?>
+                    <?php   echo $this->getLayout()->createBlock('cms/block')->setBlockId('sp-create-account-note')->toHtml();?>
+                    <?php endif;?>
                         <?php if ('hidden' !== $registrationMode || $register) : ?>
                             <?php
                                 $cssClass = 'fields';
@@ -304,7 +308,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                                 <div class="field">
                                     <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
                                     <div class="input-box">
-                                        <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text required-entry validate-cpassword" />
+                                        <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password-hylete" class="input-text required-entry" />
                                     </div>
                                 </div>
                             </li>
@@ -328,7 +332,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 <input type="checkbox" id="newsletter-signup" name="newsletter" value="1"<?php if (Mage::getStoreConfig('firecheckout/general/newsletter_checkbox_state')) : ?> checked="checked"<?php endif; ?> title="<?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>" class="checkbox" />
                 <label for="newsletter-signup">
                     <i class="fal fa-envelope"></i>
-                    <?php echo Mage::helper('newsletter')->__('Sign up for our newsletter') ?>
+                    <?php echo Mage::helper('newsletter')->__('Sign Up For Email Newsletter') ?>
                 </label>
             </li>
         <?php endif; ?>
@@ -336,7 +340,7 @@ if (Mage::helper('core')->isModuleOutputEnabled('FME_Fieldsmanager')) {
                 <input type="checkbox" id="phone-signup" name="phone-opt-in" value="1" title="Opt-In" class="checkbox" />
                 <label for="phone-signup">
                     <i class="fal fa-envelope"></i>
-                    <?php echo Mage::helper('newsletter')->__('Sign up for our text messages') ?>
+                    <?php echo Mage::helper('newsletter')->__('Sign Up For Text - Including Shipping Updates') ?>
                 </label>
             </li>
         <?php $additional = $this->getChildHtml('billing.additional.container');

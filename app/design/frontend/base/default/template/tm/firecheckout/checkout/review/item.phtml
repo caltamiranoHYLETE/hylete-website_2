@@ -26,7 +26,12 @@
 ?>
 <?php
     $_item = $this->getItem();
-    $_nameAsLink = Mage::getStoreConfig('firecheckout/shopping_cart/name_as_link');
+    $spProduct = $_item->getOrigData('create_new_subscription_at_checkout');
+    if($spProduct == 1){
+        $_nameAsLink = false;
+    }else{
+        $_nameAsLink = Mage::getStoreConfig('firecheckout/shopping_cart/name_as_link');
+    }
 ?>
 <tr>
     <td>
@@ -195,7 +200,7 @@
     <?php endif; ?>
     <td class="a-center">
     <?php if (Mage::getStoreConfigFlag('firecheckout/shopping_cart/editable')) : ?>
-        <div class="qty-wrapper">
+        <div class="qty-wrapper" <?php echo ($spProduct == '1') ? 'style= display:none;' : ''?>>
             <input type="hidden" value="<?php echo (int)$_item->getProduct()->getStockItem()->getQtyIncrements() ?>" disabled="disabled" class="qty-increment"/>
             <input type="hidden" value="<?php echo $_item->getQty() ?>" name="cart_safe[<?php echo $_item->getId(); ?>][qty]"/>
             <input type="text" value="<?php echo $_item->getQty() ?>" name="cart[<?php echo $_item->getId(); ?>][qty]" title="<?php echo $this->__('Qty') ?>" class="input-text qty"/>

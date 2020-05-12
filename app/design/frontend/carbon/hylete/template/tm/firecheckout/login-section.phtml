@@ -1,5 +1,6 @@
 <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
     <?php
+    $spProducts = Mage::helper('autoship/quote')->hasProductsToCreateNewSubscription();
     $_ajaxLoginHelper = Mage::helper('mediotyoe_ajaxlogin');
     $_rewardsSession = $this->helper('rewards')->getRS();
     $_pointsEarnedOnCart = 0;
@@ -14,14 +15,22 @@ HTML;
     ?>
     <div class="firecheckout-section firecheckout-login-section">
         <div class="block-title">
+            <?php if($spProducts):?>
             <span><?php echo $this->__('Log in, Create an Account, or Continue as a Guest') ?></span>
+            <?php else:?>
+            <span><?php echo $this->__('Log in, or Create an Account') ?></span>
+            <?php endif;?>
         </div>
         <div class="block-content">
             <?php
             $filter = Mage::getModel('cms/template_filter');
             $filter->setVariables(['reward_points' => $_pointsEarnedOnCart]);
 
+            if(!$spProducts){
             $html = $filter->filter($this->getChildHtml('login_section_before'));
+            }else{
+                $html = $filter->filter($this->getChildHtml('login_section_before-sp-product'));
+            }
             if ($html) : ?>
                 <div class="login-section-static login-section-before">
                     <?php echo $html; ?>
@@ -51,7 +60,9 @@ HTML;
                     </a>
                 <?php endif; ?>
                 <span class="login-section-action">
+                    <?php if (!$spProducts) :?>
                     <?php echo $this->__('or continue as a guest'); ?>
+                    <?php endif;?>
                 </span>
             </div>
             <?php

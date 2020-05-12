@@ -29,6 +29,7 @@
 ?>
 <?php
 $_item = $this->getItem();
+$spProduct = $_item->getOrigData('create_new_subscription_at_checkout');
 $_product = $_item->getProduct();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
@@ -236,9 +237,9 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
     <?php endif; ?>
 
     <td class="a-center qty-controls hidden-xs">
-        <span class="qty-control qty-minus">-</span>
-        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" pattern="[0-9]*" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" onkeydown="if (event.keyCode == 13) {return false;}" />
-        <span class="qty-control qty-plus">+</span>
+        <span class="qty-control qty-minus" <?php echo ($spProduct == '1') ? 'style= display:none;' : ''?>>-</span>
+        <input <?php echo ($spProduct == '1') ? 'style= display:none;' : ''?> name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" pattern="[0-9]*" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" onkeydown="if (event.keyCode == 13) {return false;}" />
+        <span class="qty-control qty-plus" <?php echo ($spProduct == '1') ? 'style= display:none;' : ''?>>+</span>
 
         <?php if (($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
             <p class="visible-xs">
